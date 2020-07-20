@@ -600,6 +600,17 @@ var helpDescsEnUS = map[string]string{
 	"ping--synopsis": "Queues a ping to be sent to each connected peer.\n" +
 		"Ping times are provided by getpeerinfo via the pingtime and pingwait fields.",
 
+	// Echo help.
+	"echo--synopsis": "Output the same as the input",
+	"echo--result0":  "The same as what you put in",
+	"echo-a":         "anything",
+	"echo-b":         "anything",
+	"echo-c":         "anything",
+	"echo-d":         "anything",
+	"echo-e":         "anything",
+	"echo-f":         "anything",
+	"echo-g":         "anything",
+
 	// SearchRawTransactionsCmd help.
 	"searchrawtransactions--synopsis": "Returns raw data for transactions involving the passed address.\n" +
 		"Returned transactions are pulled from both the database, and transactions currently in the mempool.\n" +

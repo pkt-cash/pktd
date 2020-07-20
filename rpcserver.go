@@ -159,6 +159,7 @@ var rpcHandlersBeforeInit = map[string]commandHandler{
 	"help":                   handleHelp,
 	"node":                   handleNode,
 	"ping":                   handlePing,
+	"echo":                   handleEcho,
 	"searchrawtransactions":  handleSearchRawTransactions,
 	"sendrawtransaction":     handleSendRawTransaction,
 	"setgenerate":            handleSetGenerate,
@@ -3155,6 +3156,33 @@ func handlePing(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (inter
 	s.cfg.ConnMgr.BroadcastMessage(wire.NewMsgPing(nonce))
 
 	return nil, nil
+}
+
+func handleEcho(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, er.R) {
+	c := cmd.(*btcjson.EchoCmd)
+	var out []string
+	if c.A != nil {
+		out = append(out, *c.A)
+	}
+	if c.B != nil {
+		out = append(out, *c.B)
+	}
+	if c.C != nil {
+		out = append(out, *c.C)
+	}
+	if c.D != nil {
+		out = append(out, *c.D)
+	}
+	if c.E != nil {
+		out = append(out, *c.E)
+	}
+	if c.F != nil {
+		out = append(out, *c.F)
+	}
+	if c.G != nil {
+		out = append(out, *c.G)
+	}
+	return out, nil
 }
 
 // retrievedTx represents a transaction that was either loaded from the
