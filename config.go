@@ -6,7 +6,10 @@
 package main
 
 import (
+	"encoding/hex"
 	"fmt"
+	"io/ioutil"
+	"math/rand"
 	"net"
 	"os"
 	"path/filepath"
@@ -29,7 +32,6 @@ import (
 	_ "github.com/pkt-cash/pktd/database/ffldb"
 	"github.com/pkt-cash/pktd/mempool"
 	"github.com/pkt-cash/pktd/peer"
-	"github.com/pkt-cash/pktd/pktconfig"
 	"github.com/pkt-cash/pktd/pktconfig/version"
 )
 
@@ -475,18 +477,10 @@ func loadConfig() (*config, []string, er.R) {
 	}
 
 	// Load additional config from file.
-	var configFileError er.R
+	configNotFound := false
 	parser := newConfigParser(&cfg, &serviceOpts, flags.Default)
 	if !(preCfg.RegressionTest || preCfg.SimNet) || preCfg.ConfigFile !=
 		defaultConfigFile {
-
-		if _, err := os.Stat(preCfg.ConfigFile); os.IsNotExist(err) {
-			err := pktconfig.CreateDefaultConfigFile(preCfg.ConfigFile, pktconfig.PktdSampleConfig)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error creating a "+
-					"default config file: %v\n", err)
-			}
-		}
 
 		errr := flags.NewIniParser(parser).ParseFile(preCfg.ConfigFile)
 		if errr != nil {
@@ -496,7 +490,7 @@ func loadConfig() (*config, []string, er.R) {
 				fmt.Fprintln(os.Stderr, usageMessage)
 				return nil, nil, er.E(errr)
 			}
-			configFileError = er.E(errr)
+			configNotFound = true
 		}
 	}
 
@@ -739,6 +733,25 @@ func loadConfig() (*config, []string, er.R) {
 		fmt.Fprintln(os.Stderr, err)
 		fmt.Fprintln(os.Stderr, usageMessage)
 		return nil, nil, err
+	}
+
+	if cfg.RPCUser == "" || cfg.RPCPass == "" {
+		pktdLog.Infof("Creating a .cookie file")
+		cookiePath := filepath.Join(defaultHomeDir, ".cookie")
+		var buf [32]byte
+		if _, errr := rand.Read(buf[:]); errr != nil {
+			err := er.E(errr)
+			err.AddMessage("Unable to get random numbers")
+			return nil, nil, err
+		}
+		cfg.RPCUser = "__PKT_COOKIE__"
+		cfg.RPCPass = hex.EncodeToString(buf[:])
+		cookie := cfg.RPCUser + ":" + cfg.RPCPass
+		if errr := ioutil.WriteFile(cookiePath, []byte(cookie), 0600); errr != nil {
+			err := er.E(errr)
+			err.AddMessage("Could not write cookie")
+			return nil, nil, err
+		}
 	}
 
 	// The RPC server is disabled if no username or password is provided.
@@ -1117,8 +1130,8 @@ func loadConfig() (*config, []string, er.R) {
 	// Warn about missing config file only after all other configuration is
 	// done.  This prevents the warning on help messages and invalid
 	// options.  Note this should go directly before the return.
-	if configFileError != nil {
-		pktdLog.Warnf("%v", configFileError)
+	if configNotFound && preCfg.ConfigFile != defaultConfigFile {
+		pktdLog.Warnf("Could not find config file [%s]", preCfg.ConfigFile)
 	}
 
 	return &cfg, remainingArgs, nil
