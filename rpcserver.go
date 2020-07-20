@@ -1316,6 +1316,7 @@ func handleGetBlockChainInfo(s *rpcServer, cmd interface{}, closeChan <-chan str
 		Headers:              chainSnapshot.Height,
 		BestBlockHash:        chainSnapshot.Hash.String(),
 		VerificationProgress: progress,
+		InitialBlockDownload: !chain.IsCurrent(),
 		Difficulty:           getDifficultyRatio(chainSnapshot.Bits, params),
 		MedianTime:           chainSnapshot.MedianTime.Unix(),
 		Pruned:               false,

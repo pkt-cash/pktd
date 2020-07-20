@@ -204,6 +204,7 @@ var helpDescsEnUS = map[string]string{
 	"getblockchaininforesult-blocks":                "The number of blocks in the best known chain",
 	"getblockchaininforesult-headers":               "The number of headers that we've gathered for in the best known chain",
 	"getblockchaininforesult-bestblockhash":         "The block hash for the latest block in the main chain",
+	"getblockchaininforesult-initialblockdownload":  "Are we syncing the chain",
 	"getblockchaininforesult-difficulty":            "The current chain difficulty",
 	"getblockchaininforesult-mediantime":            "The median time from the PoV of the best block in the chain",
 	"getblockchaininforesult-verificationprogress":  "An estimate for how much of the best chain we've verified",
