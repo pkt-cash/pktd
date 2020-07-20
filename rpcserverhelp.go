@@ -809,6 +809,7 @@ var rpcResultTypes = map[string][]interface{}{
 	"node":                   nil,
 	"help":                   {(*string)(nil), (*string)(nil)},
 	"ping":                   nil,
+	"echo":                   {(*[]string)(nil)},
 	"searchrawtransactions":  {(*string)(nil), (*[]btcjson.TxRawResult)(nil)},
 	"sendrawtransaction":     {(*string)(nil)},
 	"setgenerate":            nil,
