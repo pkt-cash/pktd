@@ -40,7 +40,7 @@ func newHTTPClient(cfg *config) (*http.Client, er.R) {
 
 	// Configure TLS if needed.
 	var tlsConfig *tls.Config
-	if !cfg.NoTLS && cfg.RPCCert != "" {
+	if cfg.TLS && cfg.RPCCert != "" {
 		pem, err := ioutil.ReadFile(cfg.RPCCert)
 		if err != nil {
 			return nil, er.E(err)
@@ -72,7 +72,7 @@ func newHTTPClient(cfg *config) (*http.Client, er.R) {
 func sendPostRequest(marshalledJSON []byte, cfg *config) (*btcjson.Response, er.R) {
 	// Generate a request to the configured RPC server.
 	protocol := "http"
-	if !cfg.NoTLS {
+	if cfg.TLS {
 		protocol = "https"
 	}
 	url := protocol + "://" + cfg.RPCServer

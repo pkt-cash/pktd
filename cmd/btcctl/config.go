@@ -102,6 +102,7 @@ type config struct {
 	RPCServer     string `short:"s" long:"rpcserver" description:"RPC server to connect to"`
 	RPCCert       string `short:"c" long:"rpccert" description:"RPC server certificate chain for validation"`
 	NoTLS         bool   `long:"notls" description:"Disable TLS"`
+	TLS           bool   `long:"tls" description:"Enable TLS - default false except for wallet"`
 	Proxy         string `long:"proxy" description:"Connect via SOCKS5 proxy (eg. 127.0.0.1:9050)"`
 	ProxyUser     string `long:"proxyuser" description:"Username for proxy server"`
 	ProxyPass     string `long:"proxypass" default-mask:"-" description:"Password for proxy server"`
@@ -289,6 +290,10 @@ func loadConfig() (*config, []string, er.R) {
 		err := fmt.Errorf(str, "loadConfig")
 		fmt.Fprintln(os.Stderr, err)
 		return nil, nil, er.E(err)
+	}
+
+	if cfg.Wallet && !cfg.NoTLS {
+		cfg.TLS = true
 	}
 
 	// Override the RPC certificate if the --wallet flag was specified and

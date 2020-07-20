@@ -314,7 +314,7 @@ func rpcClientConnectLoop(legacyRPCServer *legacyrpc.Server, loader *wallet.Load
 func readCAFile() []byte {
 	// Read certificate file if TLS is not disabled.
 	var certs []byte
-	if !cfg.DisableClientTLS {
+	if cfg.ClientTLS {
 		var errr error
 		certs, errr = ioutil.ReadFile(cfg.CAFile.Value)
 		if errr != nil {
@@ -323,8 +323,6 @@ func readCAFile() []byte {
 			// with nil certs and without the client connection.
 			certs = nil
 		}
-	} else {
-		log.Info("Chain server RPC TLS is disabled")
 	}
 
 	return certs
@@ -337,7 +335,7 @@ func readCAFile() []byte {
 func startChainRPC(certs []byte) (*chain.RPCClient, er.R) {
 	log.Infof("Attempting RPC client connection to %v", cfg.RPCConnect)
 	rpcc, err := chain.NewRPCClient(activeNet.Params, cfg.RPCConnect,
-		cfg.BtcdUsername, cfg.BtcdPassword, certs, cfg.DisableClientTLS, 0)
+		cfg.BtcdUsername, cfg.BtcdPassword, certs, !cfg.ClientTLS, 0)
 	if err != nil {
 		return nil, err
 	}
