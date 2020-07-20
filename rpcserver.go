@@ -1473,7 +1473,7 @@ func handleGetBlockHash(s *rpcServer, cmd interface{}, closeChan <-chan struct{}
 	hash, err := s.cfg.Chain.BlockHashByHeight(int32(c.Index))
 	if err != nil {
 		return nil, btcjson.NewRPCError(
-			btcjson.ErrRPCOutOfRange,
+			btcjson.ErrBlockHeightOutOfRange,
 			"Block number out of range",
 			nil,
 		)
