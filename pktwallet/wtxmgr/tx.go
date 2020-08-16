@@ -279,6 +279,13 @@ func (s *Store) updateMinedBalance(ns walletdb.ReadWriteBucket, rec *TxRecord,
 	if it.err != nil {
 		return it.err
 	}
+	for _, input := range rec.MsgTx.TxIn {
+		prevOut := input.PreviousOutPoint
+		k := canonicalOutPoint(&prevOut.Hash, prevOut.Index)
+		if err := deleteRawUnminedInput(ns, k, rec.Hash); err != nil {
+			return err
+		}
+	}
 
 	// Update the balance if it has changed.
 	if newMinedBalance != minedBalance {
