@@ -1083,7 +1083,7 @@ func (sm *SyncManager) handleInvMsg(imsg *invMsg) {
 
 	// Ignore invs from peers that aren't the sync if we are not current.
 	// Helps prevent fetching a mass of orphans.
-	if peer != sm.syncPeer && !sm.current() {
+	if !sm.current() && peer != sm.syncPeer {
 		return
 	}
 
@@ -1314,16 +1314,9 @@ out:
 			case processBlockMsg:
 				_, isOrphan, err := sm.chain.ProcessBlock(
 					msg.block, msg.flags)
-				if err != nil {
-					msg.reply <- processBlockResponse{
-						isOrphan: false,
-						err:      err,
-					}
-				}
-
 				msg.reply <- processBlockResponse{
 					isOrphan: isOrphan,
-					err:      nil,
+					err:      err,
 				}
 
 			case isCurrentMsg:
@@ -1545,7 +1538,7 @@ func (sm *SyncManager) SyncPeerID() int32 {
 // ProcessBlock makes use of ProcessBlock on an internal instance of a block
 // chain.
 func (sm *SyncManager) ProcessBlock(block *btcutil.Block, flags blockchain.BehaviorFlags) (bool, er.R) {
-	reply := make(chan processBlockResponse, 1)
+	reply := make(chan processBlockResponse)
 	sm.msgChan <- processBlockMsg{block: block, flags: flags, reply: reply}
 	response := <-reply
 	return response.isOrphan, response.err
