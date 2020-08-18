@@ -1,6 +1,6 @@
 // Copyright (c) 2013-2018 The btcsuite developers
 // Copyright (c) 2015-2018 The Decred developers
-// Copyright (c) 2019 Caleb James DeLisle
+// Copyright (c) 2019-2020 Caleb James DeLisle
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
 
@@ -27,7 +27,7 @@ import (
 const (
 	// maxOrphanBlocks is the maximum number of orphan blocks that can be
 	// queued.
-	maxOrphanBlocks = 100
+	maxOrphanBlocks = 500
 )
 
 // BlockLocator is used to help locate a specific block.  The algorithm for
