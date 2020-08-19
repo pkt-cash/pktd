@@ -127,7 +127,7 @@ func walletMain() er.R {
 	}
 
 	dbDir := networkDir(cfg.AppDataDir.Value, activeNet.Params)
-	loader := wallet.NewLoader(activeNet.Params, dbDir, cfg.Wallet, 250)
+	loader := wallet.NewLoader(activeNet.Params, dbDir, cfg.Wallet, 250) // XXX wtf this
 
 	// Create and start HTTP server to serve wallet client connections.
 	// This will be updated with the wallet and chain server RPC client
@@ -166,6 +166,12 @@ func walletMain() er.R {
 	// before exiting.  Interrupt handlers run in LIFO order, so the wallet
 	// (which should be closed last) is added first.
 	addInterruptHandler(func() {
+		// When panicing, do not cleanly unload the wallet (by closing
+		// the db).  If a panic occured inside a bolt transaction, the
+		// db mutex is still held and this causes a deadlock.
+		if r := recover(); r != nil {
+			panic(r)
+		}
 		err := loader.UnloadWallet()
 		if err != nil && !wallet.ErrNotLoaded.Is(err) {
 			log.Errorf("Failed to close wallet: %v", err)
