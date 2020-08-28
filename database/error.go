@@ -53,6 +53,11 @@ var (
 	// the database was attempted against a read-only transaction.
 	ErrTxNotWritable = Err.Code("ErrTxNotWritable")
 
+	// ErrAvailableDiskSpace indicates that the user is running out of
+	// disk space.  The database preventively decided to not allow the
+	// transaction to prevent causing hard-to-detect problems.
+	ErrAvailableDiskSpace = Err.Code("ErrAvailableDiskSpace")
+
 	// **************************************
 	// Errors related to metadata operations.
 	// **************************************
@@ -113,3 +118,4 @@ var (
 func makeError(c *er.ErrorCode, desc string, err er.R) er.R {
 	return c.New(desc, err)
 }
+

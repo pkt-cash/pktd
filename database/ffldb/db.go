@@ -42,6 +42,13 @@ const (
 )
 
 var (
+	// bytesMiB is the number of bytes in a mebibyte.
+	bytesMiB = 1024 * 1024
+
+	// minAvailableSpaceUpdate is the minimum space available (in bytes) to
+	// allow a write transaction.  The value is 50 MiB. //XXX make configurable
+	minAvailableSpaceUpdate = 50 * bytesMiB
+
 	// byteOrder is the preferred byte order used through the database and
 	// block files.  Sometimes big endian will be used to allow ordered byte
 	// sortable integer values.
@@ -1752,6 +1759,7 @@ func (tx *transaction) Rollback() er.R {
 // the database.DB interface.  All database access is performed through
 // transactions which are obtained through the specific Namespace.
 type db struct {
+
 	writeLock sync.Mutex   // Limit to one write transaction at a time.
 	closeLock sync.RWMutex // Make database close block while txns active.
 	closed    bool         // Is the database closed?
@@ -1777,6 +1785,22 @@ func (db *db) Type() string {
 // which is used by the managed transaction code while the database method
 // returns the interface.
 func (db *db) begin(writable bool) (*transaction, er.R) {
+	    // Make sure there is enough available disk space so we can inform the
+    // user of the problem instead of causing a db failure.
+    if writable {
+        freeSpace, err := getAvailableDiskSpace()
+        if err != nil {
+        str := "failed to determine available disk space"
+            return nil, makeDbErr(database.ErrDriverSpecific, str, nil)
+        }
+        if freeSpace < uint64(minAvailableSpaceUpdate) {
+            errMsg := fmt.Sprintf("available disk space too low: "+
+                "%.1f MiB", float64(freeSpace)/float64(bytesMiB))
+            return nil, makeDbErr(database.ErrAvailableDiskSpace,
+                errMsg, nil)
+        }
+    }
+
 	// Whenever a new writable transaction is started, grab the write lock
 	// to ensure only a single write transaction can be active at the same
 	// time.  This lock will not be released until the transaction is
