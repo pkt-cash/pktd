@@ -31,6 +31,7 @@ var (
 	ErrRPCDatabase            = Err.CodeWithNumber("ErrRPCDatabase", -20)
 	ErrRPCDeserialization     = Err.CodeWithNumber("ErrRPCDeserialization", -22)
 	ErrRPCVerify              = Err.CodeWithNumber("ErrRPCVerify", -25)
+	ErrRPCInWarmup            = Err.CodeWithNumber("RPCErrorCode", -28)
 )
 
 // Peer-to-peer client errors.
