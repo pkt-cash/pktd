@@ -12,7 +12,7 @@ import (
 )
 
 // getAvailableDiskSpace returns the number of bytes of available disk space.
-func getAvailableDiskSpace() (uint64, error) {
+func getAvailableDiskSpace(path string) (uint64, error) {
 	var stat syscall.Statfs_t
 
 	wd, err := os.Getwd()

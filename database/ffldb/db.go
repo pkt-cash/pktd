@@ -1788,7 +1788,7 @@ func (db *db) begin(writable bool) (*transaction, er.R) {
 	    // Make sure there is enough available disk space so we can inform the
     // user of the problem instead of causing a db failure.
     if writable {
-        freeSpace, err := getAvailableDiskSpace()
+        freeSpace, err := getAvailableDiskSpace(db.store.basePath)
         if err != nil {
         str := "failed to determine available disk space"
             return nil, makeDbErr(database.ErrDriverSpecific, str, nil)
