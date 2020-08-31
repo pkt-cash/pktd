@@ -55,7 +55,7 @@ const (
 
 	// pingInterval is the interval of time to wait in between sending ping
 	// messages.
-	pingInterval = 2 * time.Minute
+	pingInterval = 1 * time.Minute
 
 	// negotiateTimeout is the duration of inactivity before we timeout a
 	// peer that hasn't completed the initial version negotiation.
