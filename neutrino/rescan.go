@@ -1178,7 +1178,7 @@ txOutLoop:
 
 // Rescan is an object that represents a long-running rescan/notification
 // client with updateable filters. It's meant to be close to a drop-in
-// replacement for the btcd rescan and notification functionality used in
+// replacement for the pktd rescan and notification functionality used in
 // wallets. It only contains information about whether a goroutine is running.
 type Rescan struct {
 	started uint32

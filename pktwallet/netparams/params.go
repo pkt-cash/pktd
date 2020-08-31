@@ -14,16 +14,16 @@ type Params struct {
 	RPCServerPort string
 }
 
-// MainNetParams contains parameters specific running btcwallet and
-// btcd on the main network (wire.MainNet).
+// MainNetParams contains parameters specific running pktwallet and
+// pktd on the BTC main network (wire.MainNet).
 var MainNetParams = Params{
 	Params:        &chaincfg.MainNetParams,
 	RPCClientPort: "8334",
 	RPCServerPort: "8332",
 }
 
-// TestNet3Params contains parameters specific running btcwallet and
-// btcd on the test network (version 3) (wire.TestNet3).
+// TestNet3Params contains parameters specific running pktwallet and
+// pktdd on the BTC test network (version 3) (wire.TestNet3).
 var TestNet3Params = Params{
 	Params:        &chaincfg.TestNet3Params,
 	RPCClientPort: "18334",
@@ -38,16 +38,16 @@ var SimNetParams = Params{
 	RPCServerPort: "18554",
 }
 
-// PktTestNetParams contains parameters specific running btcwallet and
-// btcd on the pkt.cash test network (wire.PktTestNet).
+// PktTestNetParams contains parameters specific running pktwallet and
+// pktd on the pkt.cash test network (wire.PktTestNet).
 var PktTestNetParams = Params{
 	Params:        &chaincfg.PktTestNetParams,
 	RPCClientPort: "64513",
 	RPCServerPort: "64511",
 }
 
-// PktMainNetParams contains parameters specific running btcwallet and
-// btcd on the pkt.cash main network (wire.PktMainNet).
+// PktMainNetParams contains parameters specific running pktwallet and
+// pktd on the pkt.cash main network (wire.PktMainNet).
 var PktMainNetParams = Params{
 	Params:        &chaincfg.PktMainNetParams,
 	RPCClientPort: "64765",

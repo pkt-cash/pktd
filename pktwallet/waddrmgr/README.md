@@ -1,16 +1,8 @@
 waddrmgr
 ========
 
-[![Build Status](https://travis-ci.org/btcsuite/btcwallet.png?branch=master)]
-(https://travis-ci.org/btcsuite/btcwallet)
-
 Package waddrmgr provides a secure hierarchical deterministic wallet address
 manager.
-
-A suite of tests is provided to ensure proper functionality.  See
-`test_coverage.txt` for the gocov coverage report.  Alternatively, if you are
-running a POSIX OS, you can run the `cov_report.sh` script for a real-time
-report.  Package waddrmgr is licensed under the liberal ISC license.
 
 ## Feature Overview
 
@@ -39,24 +31,7 @@ report.  Package waddrmgr is licensed under the liberal ISC license.
   - Address synchronization capabilities
 - Comprehensive test coverage
 
-## Documentation
-
-[![GoDoc](https://godoc.org/github.com/btcsuite/btcwallet/waddrmgr?status.png)]
-(http://godoc.org/github.com/btcsuite/btcwallet/waddrmgr)
-
-Full `go doc` style documentation for the project can be viewed online without
-installing this package by using the GoDoc site here:
-http://godoc.org/github.com/btcsuite/btcwallet/waddrmgr
-
-You can also view the documentation locally once the package is installed with
-the `godoc` tool by running `godoc -http=":6060"` and pointing your browser to
-http://localhost:6060/pkg/github.com/btcsuite/btcwallet/waddrmgr
-
-## Installation
-
-```bash
-$ go get github.com/btcsuite/btcwallet/waddrmgr
-```
+## License
 
 Package waddrmgr is licensed under the [copyfree](http://copyfree.org) ISC
 License.

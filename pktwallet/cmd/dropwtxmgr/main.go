@@ -20,7 +20,7 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/wtxmgr"
 )
 
-const defaultNet = "mainnet"
+const defaultNet = "pkt"
 
 var datadir = btcutil.AppDataDir("pktwallet", false)
 

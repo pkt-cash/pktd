@@ -47,7 +47,7 @@ var (
 func ParseBroadcastError(msg *wire.MsgReject, peerAddr string) er.R {
 	// We'll determine the appropriate broadcast error code by looking at
 	// the reject's message code and reason. The only reject codes returned
-	// from peers (bitcoind and btcd) when attempting to accept a
+	// from peers (bitcoind/btcd/pktd) when attempting to accept a
 	// transaction into their mempool are:
 	//   RejectInvalid, RejectNonstandard, RejectInsufficientFee,
 	//   RejectDuplicate

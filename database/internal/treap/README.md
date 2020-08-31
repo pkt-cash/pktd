@@ -1,9 +1,7 @@
 treap
 =====
 
-[![Build Status](https://travis-ci.org/btcsuite/btcd.png?branch=master)](https://travis-ci.org/btcsuite/btcd)
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
-[![GoDoc](https://godoc.org/github.com/btcsuite/btcd/database/internal/treap?status.png)](http://godoc.org/github.com/btcsuite/btcd/database/internal/treap)
 
 Package treap implements a treap data structure that is used to hold ordered
 key/value pairs using a combination of binary search tree and heap semantics.
@@ -25,8 +23,6 @@ mutations.  All readers can simply use their existing pointer as a snapshot
 since the treap it points to is immutable.  This effectively provides O(1)
 snapshot capability with efficient memory usage characteristics since the old
 nodes only remain allocated until there are no longer any references to them.
-
-Package treap is licensed under the copyfree ISC license.
 
 ## Usage
 

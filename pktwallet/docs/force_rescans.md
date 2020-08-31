@@ -10,7 +10,9 @@ rescan.
 
 Rescans are automatically performed each time the wallet syncs to the network.
 These are used to "catch up" the wallet to the newest best block in the block
-chain.  For example, the following log messages at startup indicate that an
+chain.
+
+For example, the following log messages at startup indicate that an
 out-of-sync wallet started a rescan for all addresses and unspent outputs since
 some block.
 
@@ -20,29 +22,26 @@ some block.
 13:45:49 2015-04-13 [INF] WLLT: Finished rescan for 1 address (synced to block 0000000005cecab1013ecb1275a3e0c9623c4a497a57b6b6bf0fc1525aca1fbf, height 335146)
 ```
 
-During the rescan, relevant transactions from previously unseen blocks are added
-to the wallet database and spend tracking is updated accordingly.  After the
-rescan at startup finishes, a wallet is marked in sync with the chain.
+During the rescan, relevant transactions from previously unseen blocks are
+added to the wallet database and spend tracking is updated accordingly.
+
+After the rescan at startup finishes, a wallet is marked in sync with the
+chain.
 
 When wallet is started without any transaction history, a rescan is performed
-for all blocks since the creation date of the wallet's first address.  There are
-two situations when this holds true:
+for all blocks since the creation date of the wallet's first address.  There
+are two situations when this holds true:
 
-1. The wallet is newly created or was recreated from the seed
-2. The transaction history is explicitly deleted
+1. The wallet is newly created, or was recreated from the seed.
+2. The entire transaction history is explicitly deleted.
 
 The second case is how a forced rescan is performed.
 
-btcwallet will not drop transaction history by itself, as this is something that
-should not be necessary under normal wallet operation.  However, a tool,
-`dropwtxmgr`, is provided in the `cmd/dropwtxmgr` directory which may be used to
-drop the wallet transaction manager (wtxmgr) history from a wallet database.
-The tool may already be installed in your PATH, but if not, installing it is easy:
-
-```
-$ cd $GOPATH/src/github.com/btcsuite/btcwallet/cmd/dropwtxmgr
-$ go get
-```
+pktwallet will not nomrally drop transaction history by itself - this is
+something that should not be necessary under normal wallet operation.  
+A tool, `dropwtxmgr`, is provided in the `cmd/dropwtxmgr` directory which
+may be used to drop the wallet transaction manager (wtxmgr) history from a
+wallet database.
 
 Dropping transaction history given the default database location can be
 performed by stopping wallet (to release the database) and running the tool,
@@ -50,8 +49,8 @@ answering yes to the prompt:
 
 ```
 $ dropwtxmgr
-Database path: /home/username/.btcwallet/mainnet/wallet.db
-Drop all btcwallet transaction history? [y/N] y
+Database path: /home/user/.pktwallet/pkt/wallet.db
+Drop all pktwallet transaction history? [y/N] y
 Dropping wtxmgr namespace
 ```
 
@@ -60,17 +59,17 @@ different network (e.g. testnet or simnet) must be dropped, the full database
 path may be specified:
 
 ```
-$ dropwtxmgr --db ~/.btcwallet/testnet/wallet.db
-Database path: /home/username/.btcwallet/testnet/wallet.db
-Drop all btcwallet transaction history? [y/N] y
+$ dropwtxmgr --db ~/.pktwallet/pktest/wallet.db
+Database path: /home/user/.pktwallet/pkttest/wallet.db
+Drop all pktwallet transaction history? [y/N] y
 Dropping wtxmgr namespace
 ```
 
-After dropping transaction history, btcwallet may be restarted and a full rescan
-will be triggered to sync the wallet:
+After dropping transaction history, pktwallet may be restarted and a
+full rescan will be triggered to sync the wallet:
 
 ```
-$ btcwallet
+$ pktwallet ...
 14:05:31 2015-04-13 [INF] BTCW: No recorded transaction history -- needs full rescan
 ...
 14:05:31 2015-04-13 [INF] WLLT: Started rescan from block 000000000000e37b0f99af2e434834123b5459e31e17937169ce81ed0cc4d61c (height 193191) for 1 address

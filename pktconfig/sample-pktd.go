@@ -10,11 +10,11 @@ const PktdSampleConfig = `
 ; The directory to store data such as the block chain and peer addresses.  The
 ; block chain takes several GB, so this location must have a lot of free space.
 ; The default is ~/.pktd/data on POSIX OSes, $LOCALAPPDATA/Pktd/data on Windows,
-; ~/Library/Application Support/Pktd/data on Mac OS, and $home/btcd/data on
+; ~/Library/Application Support/Pktd/data on Mac OS, and $home/Pktd/data on
 ; Plan9.  Environment variables are expanded so they may be used.  NOTE: Windows
 ; environment variables are typically %VARIABLE%, but they must be accessed with
 ; $VARIABLE here.  Also, ~ is expanded to $LOCALAPPDATA on Windows.
-; datadir=~/.btcd/data
+; datadir=~/.pktd/data
 
 
 ; ------------------------------------------------------------------------------
@@ -64,10 +64,10 @@ const PktdSampleConfig = `
 ; upnp=1
 
 ; Specify the external IP addresses your node is listening on.  One address per
-; line.  btcd will not contact 3rd-party sites to obtain external ip addresses.
+; line.  pktd will not contact 3rd-party sites to obtain external ip addresses.
 ; This means if you are behind NAT, your node will not be able to advertise a
 ; reachable address unless you specify it here or enable the 'upnp' option (and
-; have a supported device).
+; have a supported routing device).
 ; externalip=1.2.3.4
 ; externalip=2002::1234
 
@@ -76,9 +76,9 @@ const PktdSampleConfig = `
 ;
 ; Only one of the following two options, 'addpeer' and 'connect', may be
 ; specified.  Both allow you to specify peers that you want to stay connected
-; with, but the behavior is slightly different.  By default, btcd will query DNS
-; to find peers to connect to, so unless you have a specific reason such as
-; those described below, you probably won't need to modify anything here.
+; with, but the behavior is slightly different.  By default, pktd will query
+; DNS to find peers to connect to, so unless you have a specific reason such
+; as those described below, you probably won't need to modify anything here.
 ;
 ; 'addpeer' does not prevent connections to other peers discovered from
 ; the peers you are connected to and also lets the remote peers know you are
@@ -133,7 +133,7 @@ const PktdSampleConfig = `
 ; whitelist=192.168.0.0/24
 ; whitelist=fd00::/16
 
-; Disable DNS seeding for peers.  By default, when btcd starts, it will use
+; Disable DNS seeding for peers.  By default, when pktd starts, it will use
 ; DNS to query for available peers to connect with.
 ; nodnsseed=1
 
@@ -184,7 +184,7 @@ const PktdSampleConfig = `
 
 ; ------------------------------------------------------------------------------
 ; RPC server options - The following options control the built-in RPC server
-; which is used to control and query information from a running btcd process.
+; which is used to control and query information from a running pktd process.
 ;
 ; NOTE: The RPC server is disabled by default if rpcuser AND rpcpass, or
 ; rpclimituser AND rpclimitpass, are not specified.
@@ -347,7 +347,7 @@ const PktdSampleConfig = `
 ; Debug logging level.
 ; Valid levels are {trace, debug, info, warn, error, critical}
 ; You may also specify <subsystem>=<level>,<subsystem2>=<level>,... to set
-; log level for individual subsystems.  Use btcd --debuglevel=show to list
+; log level for individual subsystems.  Use pktd --debuglevel=show to list
 ; available subsystems.
 ; debuglevel=info
 

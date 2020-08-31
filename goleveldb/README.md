@@ -3,7 +3,7 @@ This is an implementation of the [LevelDB key/value database](http:code.google.c
 Requirements
 -----------
 
-* Need at least `go1.5` or newer.
+* Need at least `go1.14` or newer.
 
 Usage
 -----------

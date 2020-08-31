@@ -1,6 +1,9 @@
-Copied from https://github.com/btcsuite/btclog
+pktlog
+======
+
+This package is based on btclog.
 
 ## License
 
-Package btclog is licensed under the [copyfree](http://copyfree.org) ISC
+Package pktlog is licensed under the [copyfree](http://copyfree.org) ISC
 License.
