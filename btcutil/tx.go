@@ -57,7 +57,7 @@ func (t *Tx) Hash() *chainhash.Hash {
 // HasWitness on the underlying wire.MsgTx, however it caches the result so
 // subsequent calls are more efficient.
 func (t *Tx) HasWitness() bool {
-	if t.txHashWitness != nil {
+	if t.txHasWitness != nil {
 		return *t.txHasWitness
 	}
 
