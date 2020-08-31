@@ -24,8 +24,8 @@ import (
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 
-	"github.com/btcsuite/go-socks/socks"
-	"github.com/btcsuite/websocket"
+	"github.com/decred/go-socks/socks"
+	"github.com/gorilla/websocket"
 	"github.com/pkt-cash/pktd/btcjson"
 )
 

@@ -19,7 +19,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/btcsuite/websocket"
+	"github.com/gorilla/websocket"
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/btcjson"
 	"github.com/pkt-cash/pktd/btcutil"

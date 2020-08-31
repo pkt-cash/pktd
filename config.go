@@ -16,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/btcsuite/go-socks/socks"
+	"github.com/decred/go-socks/socks"
 	flags "github.com/jessevdk/go-flags"
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/btcutil"

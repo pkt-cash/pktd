@@ -21,7 +21,7 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktconfig/version"
 
-	"github.com/btcsuite/websocket"
+	"github.com/gorilla/websocket"
 	"github.com/pkt-cash/pktd/btcjson"
 	"github.com/pkt-cash/pktd/pktwallet/chain"
 	"github.com/pkt-cash/pktd/pktwallet/wallet"

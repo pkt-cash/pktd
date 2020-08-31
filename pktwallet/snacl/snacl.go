@@ -14,9 +14,9 @@ import (
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 
-	"github.com/btcsuite/golangcrypto/nacl/secretbox"
-	"github.com/btcsuite/golangcrypto/scrypt"
 	"github.com/pkt-cash/pktd/pktwallet/internal/zero"
+	"golang.org/x/crypto/nacl/secretbox"
+	"golang.org/x/crypto/scrypt"
 )
 
 var (

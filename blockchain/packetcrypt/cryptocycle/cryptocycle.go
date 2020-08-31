@@ -9,8 +9,8 @@ import (
 
 	"github.com/aead/chacha20/chacha"
 
-	"github.com/btcsuite/golangcrypto/curve25519"
-	"github.com/btcsuite/golangcrypto/poly1305"
+	"golang.org/x/crypto/curve25519"
+	"golang.org/x/crypto/poly1305"
 
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/interpret"
 

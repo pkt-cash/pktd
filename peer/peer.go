@@ -21,8 +21,8 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/wire/protocol"
 
-	"github.com/btcsuite/go-socks/socks"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/decred/go-socks/socks"
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"

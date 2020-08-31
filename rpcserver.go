@@ -27,7 +27,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/btcsuite/websocket"
+	"github.com/gorilla/websocket"
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/blockchain/indexers"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt"
