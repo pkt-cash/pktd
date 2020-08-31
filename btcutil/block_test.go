@@ -272,7 +272,7 @@ func TestBlockErrors(t *testing.T) {
 		t.Errorf("TxHash: wrong error - got: %v <%T>, "+
 			"want: <%T>", err, err, btcutil.OutOfRangeError.Default())
 	}
-	_, err = b.TxHash(len(Block100000.Transactions) + 1)
+	_, err = b.TxHash(len(Block100000.Transactions))
 	if !btcutil.OutOfRangeError.Is(err) {
 		t.Errorf("TxHash: wrong error - got: %v <%T>, "+
 			"want: <%T>", err, err, btcutil.OutOfRangeError.Default())
@@ -284,7 +284,7 @@ func TestBlockErrors(t *testing.T) {
 		t.Errorf("Tx: wrong error - got: %v <%T>, "+
 			"want: <%T>", err, err, btcutil.OutOfRangeError.Default())
 	}
-	_, err = b.Tx(len(Block100000.Transactions) + 1)
+	_, err = b.Tx(len(Block100000.Transactions))
 	if !btcutil.OutOfRangeError.Is(err) {
 		t.Errorf("Tx: wrong error - got: %v <%T>, "+
 			"want: <%T>", err, err, btcutil.OutOfRangeError.Default())
