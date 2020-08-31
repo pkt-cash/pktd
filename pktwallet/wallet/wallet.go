@@ -55,7 +55,7 @@ const (
 	// recoveryBatchSize is the default number of blocks that will be
 	// scanned successively by the recovery manager, in the event that the
 	// wallet is started in recovery mode.
-	recoveryBatchSize = 200
+	recoveryBatchSize = 19
 )
 
 var (
@@ -656,8 +656,7 @@ func (w *Wallet) recovery(chainClient chain.Interface, birthdayBlock *waddrmgr.B
 		return err
 	}
 
-	// We'll initialize the recovery manager with a default batch size of
-	// 2000.
+	// initialize the recovery manager
 	recoveryMgr := NewRecoveryManager(
 		w.recoveryWindow, recoveryBatchSize, w.chainParams,
 	)
