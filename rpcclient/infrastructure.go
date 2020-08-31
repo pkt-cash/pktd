@@ -18,8 +18,8 @@ import (
 	"net"
 	"net/http"
 	"net/url"
-	"sync"
 	"os"
+	"sync"
 	"sync/atomic"
 	"time"
 

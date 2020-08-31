@@ -118,4 +118,3 @@ var (
 func makeError(c *er.ErrorCode, desc string, err er.R) er.R {
 	return c.New(desc, err)
 }
-
