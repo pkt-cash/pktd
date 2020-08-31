@@ -121,6 +121,7 @@ func BenchmarkFieldNormalize(b *testing.B) {
 		f.Normalize()
 	}
 }
+
 // BenchmarkFieldNormalizeWithCarry requires the evaluation of more involved logic in
 // field.Normalize(). We should ensure the runtime is the same as in
 // BenchmarkFieldNormalize
@@ -130,4 +131,3 @@ func BenchmarkFieldNormalizeWithCarry(b *testing.B) {
 		f.Normalize()
 	}
 }
-

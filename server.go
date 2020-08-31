@@ -2576,7 +2576,7 @@ func newServer(listenAddrs, agentBlacklist, agentWhitelist []string,
 	}
 
 	s := server{
-		startupTime:		  time.Now().Unix(),
+		startupTime:          time.Now().Unix(),
 		chainParams:          chainParams,
 		addrManager:          amgr,
 		newPeers:             make(chan *serverPeer, cfg.MaxPeers),
