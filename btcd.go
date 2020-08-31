@@ -296,14 +296,12 @@ func loadBlockDB() (database.DB, er.R) {
 func main() {
 	version.SetUserAgentName("pktd")
 
-	// Use all processor cores.
-	runtime.GOMAXPROCS(runtime.NumCPU())
-
 	// Block and transaction processing can cause bursty allocations.  This
 	// limits the garbage collector from excessively overallocating during
 	// bursts.  This value was arrived at with the help of profiling live
 	// usage.
 	debug.SetGCPercent(10)
+	runtime.GOMAXPROCS(runtime.NumCPU()*4)
 
 	// Up some limits.
 	if err := limits.SetLimits(); err != nil {

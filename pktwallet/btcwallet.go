@@ -12,6 +12,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"runtime/debug"
 	"sync"
 	"time"
 
@@ -33,8 +34,8 @@ var (
 func main() {
 	version.SetUserAgentName("pktwallet")
 
-	// Use all processor cores.
-	runtime.GOMAXPROCS(runtime.NumCPU())
+	debug.SetGCPercent(10)
+	runtime.GOMAXPROCS(runtime.NumCPU()*4)
 
 	// Work around defer not working after os.Exit.
 	if err := walletMain(); err != nil {
