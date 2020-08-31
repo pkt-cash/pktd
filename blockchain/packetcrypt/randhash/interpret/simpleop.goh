@@ -6,7 +6,7 @@ package interpret
 
 import (
 	"fmt"
-	"github.com/btcsuite/btcd/blockchain/packetcrypt/randhash/opcodes"
+	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/opcodes"
 )
 
 #define DEBUG
