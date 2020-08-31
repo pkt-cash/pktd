@@ -35,7 +35,7 @@ func main() {
 	version.SetUserAgentName("pktwallet")
 
 	debug.SetGCPercent(10)
-	runtime.GOMAXPROCS(runtime.NumCPU()*4)
+	runtime.GOMAXPROCS(runtime.NumCPU() * 4)
 
 	// Work around defer not working after os.Exit.
 	if err := walletMain(); err != nil {

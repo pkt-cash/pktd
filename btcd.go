@@ -301,7 +301,7 @@ func main() {
 	// bursts.  This value was arrived at with the help of profiling live
 	// usage.
 	debug.SetGCPercent(10)
-	runtime.GOMAXPROCS(runtime.NumCPU()*4)
+	runtime.GOMAXPROCS(runtime.NumCPU() * 4)
 
 	// Up some limits.
 	if err := limits.SetLimits(); err != nil {

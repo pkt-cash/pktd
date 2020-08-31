@@ -15,7 +15,7 @@ require (
 	github.com/jessevdk/go-flags v1.4.1-0.20200711081900-c17162fe8fd7
 	github.com/kkdai/bstream v1.0.0
 	github.com/lightningnetwork/lnd/queue v1.0.5-0.20200828124145-e4764a67cc41
-	github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca
+	github.com/pkt-cash/pktd/goleveldb v0.0.0-00010101000000-000000000000
 	github.com/sethgrid/pester v1.1.1-0.20200617174401-d2ad9ec9a8b6
 	go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
