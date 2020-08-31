@@ -1,4 +1,0 @@
-[submodule "goleveldb"]
-	path = goleveldb
-	url = https://github.com/syndtr/goleveldb
-	branch = master
