@@ -210,9 +210,13 @@ func (w *Wallet) connectBlock(dbtx walletdb.ReadWriteTx, b wtxmgr.BlockMeta) er.
 	addrmgrNs := dbtx.ReadWriteBucket(waddrmgrNamespaceKey)
 
 	st := w.Manager.SyncedTo()
+	shouldLog := 0
 	for height := st.Height + 1; height < b.Height; height++ {
-		log.Debugf("Inserting block [%d] which is out of order, must insert [%d] first",
+		if shouldLog%100 == 0 {
+			log.Debugf("Inserting block [%d] which is out of order, must insert [%d] first",
 			b.Height, height)
+			shouldLog++
+		}
 		hash, err := w.chainClient.GetBlockHash(int64(height))
 		if err != nil {
 			err.AddMessage(fmt.Sprintf("Unable to backfill missing block hash [%d]", st.Height+1))
