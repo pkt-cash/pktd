@@ -1357,7 +1357,7 @@ func testFetchBlockIO(tc *testContext, tx database.Tx) bool {
 		region.Offset = 0
 		region.Len = uint32(len(blockBytes) + 1)
 		_, err = tx.FetchBlockRegion(&region)
-		if !checkDbError(tc.t, testName, err, wantErrCode) {
+		if !util.CheckError(tc.t, testName, err, wantErrCode) {
 			return false
 		}
 	}
@@ -1500,7 +1500,7 @@ func testFetchBlockIO(tc *testContext, tx database.Tx) bool {
 	}
 	wantErrCode = database.ErrBlockRegionInvalid
 	_, err = tx.FetchBlockRegions(badBlockRegions)
-	if !checkDbError(tc.t, testName, err, wantErrCode) {
+	if !util.CheckError(tc.t, testName, err, wantErrCode) {
 		return false
 	}
 
