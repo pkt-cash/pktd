@@ -101,6 +101,7 @@ type Wallet struct {
 	chainClientSyncMtx sync.Mutex
 
 	lockedOutpoints map[wire.OutPoint]string
+	lockedOutpointsMtx sync.Mutex
 
 	recoveryWindow uint32
 
@@ -2453,6 +2454,9 @@ func (w *Wallet) ImportPrivateKey(scope waddrmgr.KeyScope, wif *btcutil.WIF,
 // LockedOutpoint returns whether an outpoint has been marked as locked and
 // should not be used as an input for created transactions.
 func (w *Wallet) LockedOutpoint(op wire.OutPoint) bool {
+	w.lockedOutpointsMtx.Lock()
+	defer w.lockedOutpointsMtx.Unlock()
+
 	_, locked := w.lockedOutpoints[op]
 	return locked
 }
@@ -2466,12 +2470,16 @@ func (w *Wallet) LockOutpoint(op wire.OutPoint, name string) {
 // UnlockOutpoint marks an outpoint as unlocked, that is, it may be used as an
 // input for newly created transactions.
 func (w *Wallet) UnlockOutpoint(op wire.OutPoint) {
+	w.lockedOutpointsMtx.Lock()
+	defer w.lockedOutpointsMtx.Unlock()
 	delete(w.lockedOutpoints, op)
 }
 
 // ResetLockedOutpoints resets the set of locked outpoints so all may be used
 // as inputs for new transactions.
 func (w *Wallet) ResetLockedOutpoints(lockName *string) {
+	w.lockedOutpointsMtx.Lock()
+	defer w.lockedOutpointsMtx.Unlock()
 	if lockName != nil {
 		for op, ln := range w.lockedOutpoints {
 			if ln == *lockName {
