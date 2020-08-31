@@ -9,6 +9,7 @@ require (
 	github.com/btcsuite/winsvc v1.0.0
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/dchest/blake2b v1.0.0
+	github.com/decred/dcrd/lru v1.0.1-0.20200830030304-fed6edd63b13
 	github.com/decred/go-socks v1.1.0
 	github.com/emirpasic/gods v1.12.1-0.20200630092735-7e2349589531
 	github.com/gorilla/websocket v1.4.3-0.20200822210332-78ab81e2420a
