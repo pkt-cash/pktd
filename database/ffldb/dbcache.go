@@ -12,10 +12,10 @@ import (
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 
-	"github.com/btcsuite/goleveldb/leveldb"
-	"github.com/btcsuite/goleveldb/leveldb/iterator"
-	"github.com/btcsuite/goleveldb/leveldb/util"
 	"github.com/pkt-cash/pktd/database/internal/treap"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/iterator"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/util"
 )
 
 const (

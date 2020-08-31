@@ -6,8 +6,9 @@ package version
 
 import (
 	"fmt"
-	"strings"
 	"regexp"
+	"strings"
+
 	"github.com/pkt-cash/pktd/pktlog"
 )
 

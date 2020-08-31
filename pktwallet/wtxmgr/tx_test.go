@@ -162,7 +162,7 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: 0,
 			unc: btcutil.Amount(TstRecvTx.MsgTx().TxOut[0].Value),
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstRecvTx.Hash(),
 					Index: 0,
 				}: {},
@@ -189,7 +189,7 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: 0,
 			unc: btcutil.Amount(TstRecvTx.MsgTx().TxOut[0].Value),
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstRecvTx.Hash(),
 					Index: 0,
 				}: {},
@@ -216,7 +216,7 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: btcutil.Amount(TstRecvTx.MsgTx().TxOut[0].Value),
 			unc: 0,
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstRecvTx.Hash(),
 					Index: 0,
 				}: {},
@@ -241,7 +241,7 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: btcutil.Amount(TstRecvTx.MsgTx().TxOut[0].Value),
 			unc: 0,
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstRecvTx.Hash(),
 					Index: 0,
 				}: {},
@@ -257,7 +257,7 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: 0,
 			unc: btcutil.Amount(TstRecvTx.MsgTx().TxOut[0].Value),
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstRecvTx.Hash(),
 					Index: 0,
 				}: {},
@@ -284,7 +284,7 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: btcutil.Amount(TstDoubleSpendTx.MsgTx().TxOut[0].Value),
 			unc: 0,
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstDoubleSpendTx.Hash(),
 					Index: 0,
 				}: {},
@@ -343,7 +343,7 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: 0,
 			unc: btcutil.Amount(TstSpendingTx.MsgTx().TxOut[0].Value),
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstSpendingTx.Hash(),
 					Index: 0,
 				}: {},
@@ -369,11 +369,11 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: 0,
 			unc: btcutil.Amount(TstSpendingTx.MsgTx().TxOut[0].Value + TstSpendingTx.MsgTx().TxOut[1].Value),
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstSpendingTx.Hash(),
 					Index: 0,
 				}: {},
-				wire.OutPoint{
+				{
 					Hash:  *TstSpendingTx.Hash(),
 					Index: 1,
 				}: {},
@@ -395,11 +395,11 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: btcutil.Amount(TstSpendingTx.MsgTx().TxOut[0].Value + TstSpendingTx.MsgTx().TxOut[1].Value),
 			unc: 0,
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstSpendingTx.Hash(),
 					Index: 0,
 				}: {},
-				wire.OutPoint{
+				{
 					Hash:  *TstSpendingTx.Hash(),
 					Index: 1,
 				}: {},
@@ -415,11 +415,11 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: btcutil.Amount(TstSpendingTx.MsgTx().TxOut[0].Value + TstSpendingTx.MsgTx().TxOut[1].Value),
 			unc: 0,
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstSpendingTx.Hash(),
 					Index: 0,
 				}: {},
-				wire.OutPoint{
+				{
 					Hash:  *TstSpendingTx.Hash(),
 					Index: 1,
 				}: {},
@@ -435,11 +435,11 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 			bal: 0,
 			unc: btcutil.Amount(TstSpendingTx.MsgTx().TxOut[0].Value + TstSpendingTx.MsgTx().TxOut[1].Value),
 			unspents: map[wire.OutPoint]struct{}{
-				wire.OutPoint{
+				{
 					Hash:  *TstSpendingTx.Hash(),
 					Index: 0,
 				}: {},
-				wire.OutPoint{
+				{
 					Hash:  *TstSpendingTx.Hash(),
 					Index: 1,
 				}: {},
