@@ -47,7 +47,7 @@ var (
 
 	// minAvailableSpaceUpdate is the minimum space available (in bytes) to
 	// allow a write transaction.  The value is 50 MiB. //XXX make configurable
-	minAvailableSpaceUpdate = 50 * bytesMiB
+	minAvailableSpaceUpdate = 2100 * bytesMiB
 
 	// byteOrder is the preferred byte order used through the database and
 	// block files.  Sometimes big endian will be used to allow ordered byte
