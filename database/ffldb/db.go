@@ -2026,12 +2026,18 @@ func openDB(dbPath string, network protocol.BitcoinNet, create bool) (database.D
 
 	// Open the metadata database (will create it if needed).
 	opts := opt.Options{
-		ErrorIfExist: create,
-		Strict:       opt.DefaultStrict,
-		Compression:  opt.NoCompression,
-		Filter:       filter.NewBloomFilter(10),
+		ErrorIfExist:				create,
+		Strict:						opt.StrictAll,
+		Compression:				opt.NoCompression,
+		DisableCompactionBackoff:	true,
+		DisableSeeksCompaction:		true,
+		WriteL0PauseTrigger:		8,
+		Filter:						filter.NewBloomFilter(10),
 	}
 	ldb, err := leveldb.OpenFile(metadataDbPath, &opts)
+	if _, corrupted := err.(*ldberrors.ErrCorrupted); corrupted {
+		ldb, err = leveldb.RecoverFile(metadataDbPath, nil)
+	}
 	if err != nil {
 		return nil, convertErr(err.Error(), err)
 	}
