@@ -100,7 +100,7 @@ type Wallet struct {
 	chainClientSynced  bool
 	chainClientSyncMtx sync.Mutex
 
-	lockedOutpoints map[wire.OutPoint]string
+	lockedOutpoints    map[wire.OutPoint]string
 	lockedOutpointsMtx sync.Mutex
 
 	recoveryWindow uint32
