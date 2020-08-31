@@ -214,7 +214,7 @@ func (w *Wallet) connectBlock(dbtx walletdb.ReadWriteTx, b wtxmgr.BlockMeta) er.
 	for height := st.Height + 1; height < b.Height; height++ {
 		if shouldLog%100 == 0 {
 			log.Debugf("Inserting block [%d] which is out of order, must insert [%d] first",
-			b.Height, height)
+				b.Height, height)
 			shouldLog++
 		}
 		hash, err := w.chainClient.GetBlockHash(int64(height))

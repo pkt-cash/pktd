@@ -22,9 +22,9 @@ import (
 	"github.com/pkt-cash/pktd/wire/protocol"
 
 	"github.com/davecgh/go-spew/spew"
+	"github.com/decred/dcrd/lru"
 	"github.com/decred/go-socks/socks"
 	"github.com/pkt-cash/pktd/blockchain"
-	"github.com/decred/dcrd/lru"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/wire"
