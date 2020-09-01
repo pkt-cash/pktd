@@ -812,6 +812,18 @@ func NewVerifyTxOutProofCmd(proof string) *VerifyTxOutProofCmd {
 	}
 }
 
+// This is dumb, but the json serializer wants to work with a struct
+// and echo demands an array of anything and responds with the same
+type EchoCmd struct {
+	A *string
+	B *string
+	C *string
+	D *string
+	E *string
+	F *string
+	G *string
+}
+
 // EstimateSmartFeeMode defines the different fee estimation modes available
 // for the estimatesmartfee JSON-RPC command.
 type EstimateSmartFeeMode string
@@ -889,6 +901,7 @@ func init() {
 	MustRegisterCmd("help", (*HelpCmd)(nil), flags)
 	MustRegisterCmd("invalidateblock", (*InvalidateBlockCmd)(nil), flags)
 	MustRegisterCmd("ping", (*PingCmd)(nil), flags)
+	MustRegisterCmd("echo", (*EchoCmd)(nil), flags)
 	MustRegisterCmd("preciousblock", (*PreciousBlockCmd)(nil), flags)
 	MustRegisterCmd("reconsiderblock", (*ReconsiderBlockCmd)(nil), flags)
 	MustRegisterCmd("searchrawtransactions", (*SearchRawTransactionsCmd)(nil), flags)

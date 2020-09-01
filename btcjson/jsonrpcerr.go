@@ -54,10 +54,11 @@ var (
 // server are most likely to see.  Generally, the codes should match one of the
 // more general errors above.
 var (
-	ErrRPCBlockNotFound = Err.CodeWithNumber("ErrRPCBlockNotFound", -5)
-	ErrRPCDifficulty    = Err.CodeWithNumber("ErrRPCDifficulty", -5)
-	ErrRPCOutOfRange    = Err.CodeWithNumber("ErrRPCOutOfRange", -1)
-	ErrRPCNoTxInfo      = Err.CodeWithNumberAndDetail("ErrRPCNoTxInfo", -5,
+	ErrRPCBlockNotFound      = Err.CodeWithNumber("ErrRPCBlockNotFound", -5)
+	ErrRPCDifficulty         = Err.CodeWithNumber("ErrRPCDifficulty", -5)
+	ErrRPCOutOfRange         = Err.CodeWithNumber("ErrRPCOutOfRange", -1)
+	ErrBlockHeightOutOfRange = Err.CodeWithNumber("ErrBlockHeightOutOfRange", -8)
+	ErrRPCNoTxInfo           = Err.CodeWithNumberAndDetail("ErrRPCNoTxInfo", -5,
 		"No information for transaction")
 	ErrRPCNoCFIndex        = Err.CodeWithNumber("ErrRPCNoCFIndex", -5)
 	ErrRPCInvalidTxVout    = Err.CodeWithNumber("ErrRPCInvalidTxVout", -5)

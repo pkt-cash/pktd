@@ -102,6 +102,7 @@ type config struct {
 	RPCServer     string `short:"s" long:"rpcserver" description:"RPC server to connect to"`
 	RPCCert       string `short:"c" long:"rpccert" description:"RPC server certificate chain for validation"`
 	NoTLS         bool   `long:"notls" description:"Disable TLS"`
+	TLS           bool   `long:"tls" description:"Enable TLS - default false except for wallet"`
 	Proxy         string `long:"proxy" description:"Connect via SOCKS5 proxy (eg. 127.0.0.1:9050)"`
 	ProxyUser     string `long:"proxyuser" description:"Username for proxy server"`
 	ProxyPass     string `long:"proxypass" default-mask:"-" description:"Password for proxy server"`
@@ -243,6 +244,12 @@ func loadConfig() (*config, []string, er.R) {
 	if userpass, err := pktconfig.ReadUserPass(serverConfigPath); err != nil {
 		fmt.Fprintf(os.Stderr, "Warning: cannot open file [%s] [%s]\n",
 			serverConfigPath, err.String())
+	} else if len(userpass) != 2 {
+		dir := pktdHomeDir
+		if preCfg.Wallet {
+			dir = pktwalletHomeDir
+		}
+		fmt.Fprintf(os.Stderr, "Warning: unable to get rpc password from path [%s]\n", dir)
 	} else {
 		cfg.RPCUser = userpass[0]
 		cfg.RPCPassword = userpass[1]
@@ -283,6 +290,10 @@ func loadConfig() (*config, []string, er.R) {
 		err := fmt.Errorf(str, "loadConfig")
 		fmt.Fprintln(os.Stderr, err)
 		return nil, nil, er.E(err)
+	}
+
+	if cfg.Wallet && !cfg.NoTLS {
+		cfg.TLS = true
 	}
 
 	// Override the RPC certificate if the --wallet flag was specified and
