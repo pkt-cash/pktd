@@ -79,7 +79,8 @@ type config struct {
 	// RPC client options
 	RPCConnect       string                  `short:"c" long:"rpcconnect" description:"Hostname/IP and port of pktd RPC server to connect to (default localhost:8334, testnet: localhost:18334, simnet: localhost:18556)"`
 	CAFile           *cfgutil.ExplicitString `long:"cafile" description:"File containing root certificates to authenticate a TLS connections with pktd"`
-	DisableClientTLS bool                    `long:"noclienttls" description:"Disable TLS for the RPC client -- NOTE: This is only allowed if the RPC client is connecting to localhost"`
+	DisableClientTLS bool                    `long:"noclienttls" description:"nolonger used" hidden:"true"`
+	ClientTLS        bool                    `long:"clienttls" description:"enable tls to the pktd instance"`
 	BtcdUsername     string                  `long:"pktdusername" description:"Username for pktd authentication"`
 	BtcdPassword     string                  `long:"pktdpassword" default-mask:"-" description:"Password for pktd authentication"`
 	Proxy            string                  `long:"proxy" description:"Connect via SOCKS5 proxy (eg. 127.0.0.1:9050)"`
@@ -591,17 +592,7 @@ func loadConfig() (*config, []string, er.R) {
 		if errr != nil {
 			return nil, nil, er.E(errr)
 		}
-		if cfg.DisableClientTLS {
-			if _, ok := localhostListeners[RPCHost]; !ok {
-				str := "%s: the --noclienttls option may not be used " +
-					"when connecting RPC to non localhost " +
-					"addresses: %s"
-				err := er.Errorf(str, funcName, cfg.RPCConnect)
-				fmt.Fprintln(os.Stderr, err)
-				fmt.Fprintln(os.Stderr, usageMessage)
-				return nil, nil, err
-			}
-		} else {
+		if cfg.ClientTLS {
 			// If CAFile is unset, choose either the copy or local pktd cert.
 			if !cfg.CAFile.ExplicitlySet() {
 				cfg.CAFile.Value = filepath.Join(cfg.AppDataDir.Value, defaultCAFilename)

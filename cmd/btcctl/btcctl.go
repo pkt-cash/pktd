@@ -154,6 +154,7 @@ func main() {
 				fmt.Fprintln(os.Stderr, line)
 			}
 		}
+		os.Exit(-result.Error.Code)
 		return
 	}
 

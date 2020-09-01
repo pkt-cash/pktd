@@ -159,6 +159,7 @@ var rpcHandlersBeforeInit = map[string]commandHandler{
 	"help":                   handleHelp,
 	"node":                   handleNode,
 	"ping":                   handlePing,
+	"echo":                   handleEcho,
 	"searchrawtransactions":  handleSearchRawTransactions,
 	"sendrawtransaction":     handleSendRawTransaction,
 	"setgenerate":            handleSetGenerate,
@@ -1315,6 +1316,7 @@ func handleGetBlockChainInfo(s *rpcServer, cmd interface{}, closeChan <-chan str
 		Headers:              chainSnapshot.Height,
 		BestBlockHash:        chainSnapshot.Hash.String(),
 		VerificationProgress: progress,
+		InitialBlockDownload: !chain.IsCurrent(),
 		Difficulty:           getDifficultyRatio(chainSnapshot.Bits, params),
 		MedianTime:           chainSnapshot.MedianTime.Unix(),
 		Pruned:               false,
@@ -1472,7 +1474,7 @@ func handleGetBlockHash(s *rpcServer, cmd interface{}, closeChan <-chan struct{}
 	hash, err := s.cfg.Chain.BlockHashByHeight(int32(c.Index))
 	if err != nil {
 		return nil, btcjson.NewRPCError(
-			btcjson.ErrRPCOutOfRange,
+			btcjson.ErrBlockHeightOutOfRange,
 			"Block number out of range",
 			nil,
 		)
@@ -3157,6 +3159,33 @@ func handlePing(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (inter
 	return nil, nil
 }
 
+func handleEcho(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, er.R) {
+	c := cmd.(*btcjson.EchoCmd)
+	var out []string
+	if c.A != nil {
+		out = append(out, *c.A)
+	}
+	if c.B != nil {
+		out = append(out, *c.B)
+	}
+	if c.C != nil {
+		out = append(out, *c.C)
+	}
+	if c.D != nil {
+		out = append(out, *c.D)
+	}
+	if c.E != nil {
+		out = append(out, *c.E)
+	}
+	if c.F != nil {
+		out = append(out, *c.F)
+	}
+	if c.G != nil {
+		out = append(out, *c.G)
+	}
+	return out, nil
+}
+
 // retrievedTx represents a transaction that was either loaded from the
 // transaction memory pool or from the database.  When a transaction is loaded
 // from the database, it is loaded with the raw serialized bytes while the
@@ -4239,11 +4268,52 @@ func parseCmd(request *btcjson.Request) *parsedRPCCmd {
 	return &parsedCmd
 }
 
-// createMarshalledReply returns a new marshalled JSON-RPC response given the
-// passed parameters.  It will automatically convert errors that are not of
-// the type *btcjson.RPCError to the appropriate type as needed.
 func createMarshalledReply(id, result interface{}, jsonErr er.R) ([]byte, er.R) {
 	return btcjson.MarshalResponse(id, result, jsonErr)
+}
+
+func createResponse(id, result interface{}, jsonErr er.R) (*btcjson.Response, er.R) {
+	marshalledResult, errr := json.Marshal(result)
+	if errr != nil {
+		return nil, er.E(errr)
+	}
+	return btcjson.NewResponse(id, marshalledResult, jsonErr)
+}
+
+func (s *rpcServer) jsonRPCReq(
+	request *btcjson.Request,
+	closeChan chan struct{},
+	isAdmin bool,
+) (*btcjson.Response, er.R) {
+
+	var jsonErr er.R
+	var result interface{}
+
+	// Check if the user is limited and set error if method unauthorized
+	if !isAdmin {
+		if _, ok := rpcLimited[request.Method]; !ok {
+			jsonErr = btcjson.NewRPCError(
+				btcjson.ErrRPCInvalidParams,
+				"limited user not authorized for this method",
+				nil,
+			)
+		}
+	}
+
+	rpcsLog.Infof("RPC %s", request.Method)
+
+	// Attempt to parse the JSON-RPC request into a known concrete
+	// command.
+	if jsonErr == nil {
+		parsedCmd := parseCmd(request)
+		if parsedCmd.err != nil {
+			jsonErr = parsedCmd.err
+		} else {
+			result, jsonErr = s.standardCmdResult(parsedCmd, closeChan)
+		}
+	}
+
+	return createResponse(request.ID, result, jsonErr)
 }
 
 // jsonRPCRead handles reading and responding to RPC messages.
@@ -4287,12 +4357,29 @@ func (s *rpcServer) jsonRPCRead(w http.ResponseWriter, r *http.Request, isAdmin 
 	defer buf.Flush()
 	conn.SetReadDeadline(timeZeroVal)
 
-	// Attempt to parse the raw body into a JSON-RPC request.
-	var responseID interface{}
+	// Setup a close notifier.  Since the connection is hijacked,
+	// the CloseNotifer on the ResponseWriter is not available.
+	closeChan := make(chan struct{}, 1)
+	go func() {
+		_, err := conn.Read(make([]byte, 1))
+		if err != nil {
+			close(closeChan)
+		}
+	}()
+
+	var requests []btcjson.Request
+	var req0 btcjson.Request
 	var jsonErr er.R
-	var result interface{}
-	var request btcjson.Request
-	if errr := json.Unmarshal(body, &request); errr != nil {
+	isArray := len(body) > 0 && body[0] == '['
+	if isArray {
+		if errr := json.Unmarshal(body, &requests); errr != nil {
+			jsonErr = btcjson.NewRPCError(
+				btcjson.ErrRPCParse,
+				"Failed to parse requests",
+				er.E(errr),
+			)
+		}
+	} else if errr := json.Unmarshal(body, &req0); errr != nil {
 		jsonErr = btcjson.NewRPCError(
 			btcjson.ErrRPCParse,
 			"Failed to parse request",
@@ -4300,76 +4387,56 @@ func (s *rpcServer) jsonRPCRead(w http.ResponseWriter, r *http.Request, isAdmin 
 		)
 		rpcsLog.Infof("RPC %s", request.Method)
 
+	} else {
+		requests = append(requests, req0)
 	}
+
+	responses := make([]*btcjson.Response, 0, len(requests))
 	if jsonErr == nil {
-		// The JSON-RPC 1.0 spec defines that notifications must have their "id"
-		// set to null and states that notifications do not have a response.
-		//
-		// A JSON-RPC 2.0 notification is a request with "json-rpc":"2.0", and
-		// without an "id" member. The specification states that notifications
-		// must not be responded to. JSON-RPC 2.0 permits the null value as a
-		// valid request id, therefore such requests are not notifications.
-		//
-		// Bitcoin Core serves requests with "id":null or even an absent "id",
-		// and responds to such requests with "id":null in the response.
-		//
-		// Btcd does not respond to any request without and "id" or "id":null,
-		// regardless the indicated JSON-RPC protocol version unless RPC quirks
-		// are enabled. With RPC quirks enabled, such requests will be responded
-		// to if the reqeust does not indicate JSON-RPC version.
-		//
-		// RPC quirks can be enabled by the user to avoid compatibility issues
-		// with software relying on Core's behavior.
-		if request.ID == nil && !(cfg.RPCQuirks && request.Jsonrpc == "") {
+		for _, req := range requests {
+			res, jsonErr := s.jsonRPCReq(&req, closeChan, isAdmin)
+			if jsonErr != nil {
+				break
+			}
+			responses = append(responses, res)
+		}
+	}
+
+	var msg []byte
+	if jsonErr != nil {
+		resp, err := createResponse(requests[0].ID, nil, jsonErr)
+		if err != nil {
+			rpcsLog.Error(err)
 			return
 		}
-
-		// The parse was at least successful enough to have an ID so
-		// set it for the response.
-		responseID = request.ID
-
-		// Setup a close notifier.  Since the connection is hijacked,
-		// the CloseNotifer on the ResponseWriter is not available.
-		closeChan := make(chan struct{}, 1)
-		go func() {
-			_, err := conn.Read(make([]byte, 1))
-			if err != nil {
-				close(closeChan)
-			}
-		}()
-
-		// Check if the user is limited and set error if method unauthorized
-		if !isAdmin {
-			if _, ok := rpcLimited[request.Method]; !ok {
-				jsonErr = btcjson.NewRPCError(
-					btcjson.ErrRPCInvalidParams,
-					"limited user not authorized for this method",
-					nil,
-				)
-			}
+		out, errr := json.Marshal(&resp)
+		if errr != nil {
+			rpcsLog.Error(er.E(errr))
+			return
 		}
-
-		if jsonErr == nil {
-			// Attempt to parse the JSON-RPC request into a known concrete
-			// command.
-			parsedCmd := parseCmd(&request)
-			if parsedCmd.err != nil {
-				jsonErr = parsedCmd.err
-			} else {
-				result, jsonErr = s.standardCmdResult(parsedCmd, closeChan)
-			}
+		msg = out
+	} else if isArray {
+		out, errr := json.Marshal(&responses)
+		if errr != nil {
+			rpcsLog.Error(er.E(errr))
+			return
 		}
+		msg = out
+	} else {
+		var resp0 *btcjson.Response
+		resp0 = responses[0]
+		out, errr := json.Marshal(&resp0)
+		if errr != nil {
+			rpcsLog.Error(er.E(errr))
+			return
+		}
+		msg = out
 	}
 
-	// Marshal the response.
-	msg, err := createMarshalledReply(responseID, result, jsonErr)
-	if err != nil {
-		rpcsLog.Errorf("Failed to marshal reply: %v", err)
-		return
-	}
+	w.Header().Add("Content-Length", strconv.FormatInt(int64(len(msg)+1), 10))
 
 	// Write the response.
-	err = s.writeHTTPResponseHeaders(r, w.Header(), http.StatusOK, buf)
+	err := s.writeHTTPResponseHeaders(r, w.Header(), http.StatusOK, buf)
 	if err != nil {
 		rpcsLog.Error(err)
 		return

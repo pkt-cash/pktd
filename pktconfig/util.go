@@ -7,6 +7,7 @@ package pktconfig
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -70,14 +71,33 @@ type userpass struct {
 func ReadUserPass(filePath string) ([]string, er.R) {
 	cfg := userpass{}
 	parser := flags.NewParser(&cfg, flags.IgnoreUnknown)
-	if errr := flags.NewIniParser(parser).ParseFile(filePath); errr != nil {
+	if errr := flags.NewIniParser(parser).ParseFile(filePath); errr == nil {
+		if cfg.Username == "" {
+			cfg.Username = cfg.OldUsername
+		}
+		if cfg.Password == "" {
+			cfg.Password = cfg.OldPassword
+		}
+		if cfg.Username != "" && cfg.Password != "" {
+			return []string{cfg.Username, cfg.Password}, nil
+		}
+	} else if _, ok := errr.(*os.PathError); !ok {
 		return nil, er.E(errr)
 	}
-	if cfg.Username == "" {
-		cfg.Username = cfg.OldUsername
+	// Couldn't find the file or didn't have user/pass
+	// Lets see if there's a .cookie file
+	cookiePath := strings.ReplaceAll(filePath, "pktd.conf", ".cookie")
+	if cookiePath == filePath {
+		return nil, nil
+	} else if cookie, errr := ioutil.ReadFile(cookiePath); errr != nil {
+		if _, ok := errr.(*os.PathError); !ok {
+			return nil, er.E(errr)
+		} else {
+			return nil, nil
+		}
+	} else if up := strings.Split(string(cookie), ":"); len(up) != 2 {
+		return nil, er.Errorf("Unexpected cookie file format")
+	} else {
+		return []string{up[0], up[1]}, nil
 	}
-	if cfg.Password == "" {
-		cfg.Password = cfg.OldPassword
-	}
-	return []string{cfg.Username, cfg.Password}, nil
 }

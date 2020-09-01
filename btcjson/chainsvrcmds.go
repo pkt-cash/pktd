@@ -812,6 +812,46 @@ func NewVerifyTxOutProofCmd(proof string) *VerifyTxOutProofCmd {
 	}
 }
 
+<<<<<<< HEAD
+// EstimateSmartFeeMode defines the different fee estimation modes available
+// for the estimatesmartfee JSON-RPC command.
+type EstimateSmartFeeMode string
+
+var (
+	EstimateModeUnset        EstimateSmartFeeMode = "UNSET"
+	EstimateModeEconomical   EstimateSmartFeeMode = "ECONOMICAL"
+	EstimateModeConservative EstimateSmartFeeMode = "CONSERVATIVE"
+)
+
+// EstimateSmartFeeCmd defines the estimatesmartfee JSON-RPC command.
+type EstimateSmartFeeCmd struct {
+	ConfTarget   int64
+	EstimateMode *EstimateSmartFeeMode `jsonrpcdefault:"\"CONSERVATIVE\""`
+}
+
+// EstimateFeeCmd defines the estimatefee JSON-RPC command.
+type EstimateFeeCmd struct {
+	NumBlocks int64
+}
+
+// NewEstimateFeeCmd returns a new instance which can be used to issue a
+// estimatefee JSON-RPC command.
+func NewEstimateFeeCmd(numBlocks int64) *EstimateFeeCmd {
+	return &EstimateFeeCmd{
+		NumBlocks: numBlocks,
+	}
+// This is dumb, but the json serializer wants to work with a struct
+// and echo demands an array of anything and responds with the same
+type EchoCmd struct {
+	A *string
+	B *string
+	C *string
+	D *string
+	E *string
+	F *string
+	G *string
+}
+
 // EstimateSmartFeeMode defines the different fee estimation modes available
 // for the estimatesmartfee JSON-RPC command.
 type EstimateSmartFeeMode string
@@ -889,6 +929,7 @@ func init() {
 	MustRegisterCmd("help", (*HelpCmd)(nil), flags)
 	MustRegisterCmd("invalidateblock", (*InvalidateBlockCmd)(nil), flags)
 	MustRegisterCmd("ping", (*PingCmd)(nil), flags)
+	MustRegisterCmd("echo", (*EchoCmd)(nil), flags)
 	MustRegisterCmd("preciousblock", (*PreciousBlockCmd)(nil), flags)
 	MustRegisterCmd("reconsiderblock", (*ReconsiderBlockCmd)(nil), flags)
 	MustRegisterCmd("searchrawtransactions", (*SearchRawTransactionsCmd)(nil), flags)

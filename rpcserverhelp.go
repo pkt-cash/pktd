@@ -204,6 +204,7 @@ var helpDescsEnUS = map[string]string{
 	"getblockchaininforesult-blocks":                "The number of blocks in the best known chain",
 	"getblockchaininforesult-headers":               "The number of headers that we've gathered for in the best known chain",
 	"getblockchaininforesult-bestblockhash":         "The block hash for the latest block in the main chain",
+	"getblockchaininforesult-initialblockdownload":  "Are we syncing the chain",
 	"getblockchaininforesult-difficulty":            "The current chain difficulty",
 	"getblockchaininforesult-mediantime":            "The median time from the PoV of the best block in the chain",
 	"getblockchaininforesult-verificationprogress":  "An estimate for how much of the best chain we've verified",
@@ -600,6 +601,17 @@ var helpDescsEnUS = map[string]string{
 	"ping--synopsis": "Queues a ping to be sent to each connected peer.\n" +
 		"Ping times are provided by getpeerinfo via the pingtime and pingwait fields.",
 
+	// Echo help.
+	"echo--synopsis": "Output the same as the input",
+	"echo--result0":  "The same as what you put in",
+	"echo-a":         "anything",
+	"echo-b":         "anything",
+	"echo-c":         "anything",
+	"echo-d":         "anything",
+	"echo-e":         "anything",
+	"echo-f":         "anything",
+	"echo-g":         "anything",
+
 	// SearchRawTransactionsCmd help.
 	"searchrawtransactions--synopsis": "Returns raw data for transactions involving the passed address.\n" +
 		"Returned transactions are pulled from both the database, and transactions currently in the mempool.\n" +
@@ -798,6 +810,7 @@ var rpcResultTypes = map[string][]interface{}{
 	"node":                   nil,
 	"help":                   {(*string)(nil), (*string)(nil)},
 	"ping":                   nil,
+	"echo":                   {(*[]string)(nil)},
 	"searchrawtransactions":  {(*string)(nil), (*[]btcjson.TxRawResult)(nil)},
 	"sendrawtransaction":     {(*string)(nil)},
 	"setgenerate":            nil,
