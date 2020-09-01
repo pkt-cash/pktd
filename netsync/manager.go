@@ -714,8 +714,10 @@ func (sm *SyncManager) handleBlockMsg(bmsg *blockMsg) {
 		// it as such.  Otherwise, something really did go wrong, so log
 		// it as an actual error.
 		if ruleerror.Err.Is(err) {
-			log.Infof("Rejected block %v from %s: %v", blockHash,
-				peer, err)
+			if !ruleerror.ErrDuplicateBlock.Is(err) {
+				log.Infof("Rejected block %v from %s: %v", blockHash,
+					peer, err)
+			}
 		} else {
 			log.Errorf("Failed to process block %v: %v",
 				blockHash, err)

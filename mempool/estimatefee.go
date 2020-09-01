@@ -14,6 +14,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/pkt-cash/pktd/btcjson"
 	"github.com/pkt-cash/pktd/btcutil/er"
 
 	"github.com/pkt-cash/pktd/btcutil"
@@ -561,6 +562,19 @@ func (ef *FeeEstimator) EstimateFee(numBlocks uint32) (BtcPerKilobyte, er.R) {
 	}
 
 	return ef.cached[int(numBlocks)-1].ToBtcPerKb(), nil
+}
+
+// int confTarget, FeeCalculation *feeCalc, bool conservative
+// This adheres to the API of estimateSmartFee but it is not actually smart.
+func (ef *FeeEstimator) EstimateSmartFee(numBlocks uint32, conservitive bool) btcjson.EstimateSmartFeeResult {
+	out := btcjson.EstimateSmartFeeResult{}
+	if fpk, err := ef.EstimateFee(numBlocks); err != nil {
+		out.Errors = append(out.Errors, err.Message())
+	} else {
+		btcPerKb := float64(fpk)
+		out.FeeRate = &btcPerKb
+	}
+	return out
 }
 
 // In case the format for the serialized version of the FeeEstimator changes,

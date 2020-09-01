@@ -147,6 +147,10 @@ var helpDescsEnUS = map[string]string{
 	"estimatefee--result0": "Estimated fee per kilobyte in satoshis for a block to " +
 		"be mined in the next NumBlocks blocks.",
 
+	// EstimateSmartFee help.
+	"estimatesmartfee--synopsis": "EstimateSmartFee",
+	"estimatesmartfee--result0":  "Result",
+
 	// GenerateCmd help
 	"generate--synopsis": "Generates a set number of blocks (simnet or regtest only) and returns a JSON\n" +
 		" array of their hashes.",
@@ -474,6 +478,9 @@ var helpDescsEnUS = map[string]string{
 	"configureminingpayouts-payoutpercents--key":   "Which address to pay.",
 	"configureminingpayouts-payoutpercents--value": "Percent that each address should be paid.",
 
+	// GetNetworkInfo help.
+	"getnetworkinfo--synopsis": "Returns information about the network.",
+	"getnetworkinfo--result0":  "NetworkInfo",
 	// GetNetworkSteward help.
 	"getnetworksteward--synopsis":           "Returns information about the network steward, if using a chain with one",
 	"getnetworkstewardresult-totalpossible": "Total coins existing",

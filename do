@@ -42,16 +42,17 @@ fi
 
 MODESPEC=${#BUILDMODE}
 if [ "${MODESPEC}" -gt 1 ]; then
-	die "./do: Error: Use only one Build Mode; see \"./do -h\" for usage."
+	die "./do: Error: Specify only one Build Mode; see \"./do -h\" for usage."
 fi
 
 export GO111MODULE=on
-PKTD_GIT_ID=$(git describe --tags HEAD)
+export PKT_FAIL_DIRTY=1
+PKTD_GIT_ID=$(git describe --tags HEAD) || { die "Unable to execute git."; };
 if ! git diff --quiet; then
-    if test "x${PKT_FAIL_DIRTY}" != x; then
-        printf '%s\n' "Build is dirty, aborting."
-  #      git diff
-  #      exit 1;
+    if [ "x$PKT_FAIL_DIRTY" != "x" ]; then
+		git --no-pager diff
+		printf '\n%s\n' "ERROR: Build is dirty." "Modifications displayed above; aborting."
+		exit 1;
     fi
     PKTD_GIT_ID="${PKTD_GIT_ID}-dirty"
 fi

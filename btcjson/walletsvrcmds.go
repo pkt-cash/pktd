@@ -81,19 +81,6 @@ type VacuumCmd struct {
 	BeginKey  *string
 }
 
-// EstimateFeeCmd defines the estimatefee JSON-RPC command.
-type EstimateFeeCmd struct {
-	NumBlocks int64
-}
-
-// NewEstimateFeeCmd returns a new instance which can be used to issue a
-// estimatefee JSON-RPC command.
-func NewEstimateFeeCmd(numBlocks int64) *EstimateFeeCmd {
-	return &EstimateFeeCmd{
-		NumBlocks: numBlocks,
-	}
-}
-
 // GetBalanceCmd defines the getbalance JSON-RPC command.
 type GetBalanceCmd struct {
 	MinConf *int `jsonrpcdefault:"1"`
@@ -459,7 +446,6 @@ func init() {
 	MustRegisterCmd("resync", (*ResyncCmd)(nil), flags)
 	MustRegisterCmd("vacuum", (*VacuumCmd)(nil), flags)
 	MustRegisterCmd("dumpprivkey", (*DumpPrivKeyCmd)(nil), flags)
-	MustRegisterCmd("estimatefee", (*EstimateFeeCmd)(nil), flags)
 	MustRegisterCmd("getbalance", (*GetBalanceCmd)(nil), flags)
 	MustRegisterCmd("getnetworkstewardvote", (*GetNetworkStewardVoteCmd)(nil), flags)
 	MustRegisterCmd("getnewaddress", (*GetNewAddressCmd)(nil), flags)

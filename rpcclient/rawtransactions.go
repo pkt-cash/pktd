@@ -61,7 +61,7 @@ func (c *Client) GetRawTransactionAsync(txHash *chainhash.Hash) FutureGetRawTran
 		hash = txHash.String()
 	}
 
-	cmd := btcjson.NewGetRawTransactionCmd(hash, btcjson.Int(0))
+	cmd := btcjson.NewGetRawTransactionCmd(hash, btcjson.Bool(false))
 	return c.sendCmd(cmd)
 }
 

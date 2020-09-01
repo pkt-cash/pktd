@@ -2878,6 +2878,7 @@ func newServer(listenAddrs, agentBlacklist, agentWhitelist []string,
 			AddrIndex:    s.addrIndex,
 			CfIndex:      s.cfIndex,
 			FeeEstimator: s.feeEstimator,
+			ServiceFlags: services,
 		})
 		if err != nil {
 			return nil, err

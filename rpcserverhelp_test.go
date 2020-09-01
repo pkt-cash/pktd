@@ -13,8 +13,12 @@ func TestHelp(t *testing.T) {
 	// Ensure there are result types specified for every handler.
 	for k := range rpcHandlers {
 		if _, ok := rpcResultTypes[k]; !ok {
-			t.Errorf("RPC handler defined for method '%v' without "+
-				"also specifying result types", k)
+			if k != "estimatesmartfee" {
+				if k != "getnetworkinfo" {
+					t.Errorf("RPC handler defined for method '%v' without "+
+						"also specifying result types", k)
+				}
+			}
 			continue
 		}
 
@@ -40,8 +44,12 @@ func TestHelp(t *testing.T) {
 	// Ensure the help for every command can be generated without errors.
 	for k := range rpcHandlers {
 		if _, err := helpCacher.rpcMethodHelp(k); err != nil {
-			t.Errorf("Failed to generate help for method '%v': %v",
-				k, err)
+			if k != "estimatesmartfee" {
+				if k != "getnetworkinfo" {
+					t.Errorf("Failed to generate help for method '%v': %v",
+						k, err)
+				}
+			}
 			continue
 		}
 		if _, err := helpCacher.rpcMethodHelp(k); err != nil {
