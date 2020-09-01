@@ -852,6 +852,35 @@ type EchoCmd struct {
 	G *string
 }
 
+// EstimateSmartFeeMode defines the different fee estimation modes available
+// for the estimatesmartfee JSON-RPC command.
+type EstimateSmartFeeMode string
+
+var (
+	EstimateModeUnset        EstimateSmartFeeMode = "UNSET"
+	EstimateModeEconomical   EstimateSmartFeeMode = "ECONOMICAL"
+	EstimateModeConservative EstimateSmartFeeMode = "CONSERVATIVE"
+)
+
+// EstimateSmartFeeCmd defines the estimatesmartfee JSON-RPC command.
+type EstimateSmartFeeCmd struct {
+	ConfTarget   int64
+	EstimateMode *EstimateSmartFeeMode `jsonrpcdefault:"\"CONSERVATIVE\""`
+}
+
+// EstimateFeeCmd defines the estimatefee JSON-RPC command.
+type EstimateFeeCmd struct {
+	NumBlocks int64
+}
+
+// NewEstimateFeeCmd returns a new instance which can be used to issue a
+// estimatefee JSON-RPC command.
+func NewEstimateFeeCmd(numBlocks int64) *EstimateFeeCmd {
+	return &EstimateFeeCmd{
+		NumBlocks: numBlocks,
+	}
+}
+
 func init() {
 	// No special flags for commands in this file.
 	flags := UsageFlag(0)

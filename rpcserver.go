@@ -4300,6 +4300,8 @@ func (s *rpcServer) jsonRPCReq(
 		}
 	}
 
+	rpcsLog.Infof("RPC %s", request.Method)
+
 	// Attempt to parse the JSON-RPC request into a known concrete
 	// command.
 	if jsonErr == nil {
