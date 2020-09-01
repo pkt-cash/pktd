@@ -812,7 +812,6 @@ func NewVerifyTxOutProofCmd(proof string) *VerifyTxOutProofCmd {
 	}
 }
 
-<<<<<<< HEAD
 // EstimateSmartFeeMode defines the different fee estimation modes available
 // for the estimatesmartfee JSON-RPC command.
 type EstimateSmartFeeMode string
