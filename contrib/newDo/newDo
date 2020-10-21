@@ -1,0 +1,1166 @@
+#!/usr/bin/env sh
+# set tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab
+
+# Abort and inform in the case of csh or tcsh as sh.
+test _`echo asdf 2>/dev/null` != _asdf >/dev/null &&\
+	printf '%s\n' "Error: csh as sh is unsupported." &&\
+	exit 1
+
+# 'do' should work correctly with shells that aim to be
+# mostly SUS/UNIX/POSIX compliant. While written with the
+# intention of supporting most modern shells, we fully test
+# zsh, bash, ksh93, dash, ash, mksh, lksh, and OpenKSH.
+
+# Users SHOULD REVIEW THE BUILD CONFIGURATION options below:
+
+###################################### Build configuration:
+# It is NOT RECOMMENDED to modify this file. It will result
+# in a "dirty" build, and the default options may change at
+# any time in the future, without notice. Instead, you can
+# specify options via the shell, such as 'BE_VERBOSE=1 ./do',
+# or export them to your environment. Always check that no
+# defaults changed, and that no options were added or removed,
+# if you decide to make any direct script modifications. A
+# good configuration will be written to disk for future use.
+# Be sure to read the script output for usage information.
+
+# With BE_VERBOSE enabled, the script itself and any external
+# commands it calls will be configured for extra verbosity.
+#BE_VERBOSE=0				# OFF by default
+
+# When DEBUG_OUTPUT is enabled, the script itself as well
+# as some called commands will be configured to produce
+# extra output, which may be helpful for debugging issues.
+#DEBUG_OUTPUT=0				# OFF by default
+
+# If PKT_FAIL_DIRTY is enabled, the build process will fail
+# if any changes have been made to the the sources or the
+# build scripts, to ensure a stable and reliable build.
+#PKT_FAIL_DIRTY=1			# ON by default
+
+# If using a build that utilizes Cgo, this option will add
+# "-march=native" to the compiler flags, which will produce
+# binary output that is possibly faster, but not-portable.
+#PKT_BUILD_NATIVE=0			# OFF by default
+
+# When enabled, updates to the latest available packages,
+# instead of using the included stable and tested defaults.
+#PKT_UPDATE_GOMOD=0			# OFF by default
+
+# When enabled, no tests are run when the build is done.
+#PKT_SKIP_TESTS=0			# OFF by default
+
+# When enabled, use a separate GOPATH for the PKT build.
+#PKT_OWN_GOPATH=1			# ON by default
+
+# If PKT_OWN_GOPATH is enabled, then the PKT_OWN_GOPATH_DIR
+# variable will be used to provide a specific directory to
+# be used for the GOPATH. If undefined, the default "go-pkt"
+# directory will be created in the current directory.
+#PKT_OWN_GOPATH_DIR="$HOME/.go-pkt"	# SET by default
+
+# When this option is enabled, special steps are taken to 
+# ensure a *fully* fresh build is produced, without using
+# any previous build artifacts. At a minimum, this calls
+# use git clean and go clean -cache. Additionally, if
+# PKT_OWN_GOPATH is enabled, the entire contents of the
+# PKT_OWN_GOPATH_DIR will be cleared. If ccache is is found,
+# the ccache cache directory is also completely cleared.
+# During the build, -a to rebuild all will be enabled also.
+#PKT_FROM_SCRATCH=0			# OFF by default
+
+# When enabled, builds the (unsupported) wallettool utility.
+#PKT_BUILD_WALLETTOOL=0		# OFF by default
+
+# When enbabld, builds the (unsupported) dropwtxmgr utility.
+#PKT_BUILD_DROPWTXMGR=0		# OFF by default
+
+# This option will make best efforts for a "pure Go" build,
+# avoiding any unnecessary use of Cgo functionality or Gccgo,
+# and will force the selection of the pure Go DNS resolver.
+# This outputs a standalone static binary on most platforms.
+#PKT_BUILD_PUREGO=1			# ON by default
+
+# This option, in combination with the required toolchain,
+# such as that which is available on Fedora 26 or higher,
+# will build PIE (Position Independent Executable) binaries
+# which use the hardened compiler and linker flags developed
+# and tested by Red Hat. These options are are the defaults
+# when no overriding options are specified using the Red Hat
+# distributed releases of Golang. This option could be useful
+# to users of other distributions, or for Red Hat users who
+# are utilizing the mainline Google Golang distribution.
+#PKT_BUILD_HARDRH=0			# OFF by default
+
+# This option attempts to create a reproducible binary, where
+# the same source will produce the the same binary each time,
+# at the the expense of extended features, such as support
+# for GNU_HASH, Build-ID, and similar ELF functionality.
+#PKT_BUILD_REPROD=1		# ON by default
+
+# This option will make use of the "UPX" compression utiltity.
+# if available, to reduce the size of the compiled binaries.
+#PKT_UPX_COMPRESS=0				# OFF by default
+
+################################ End of build configuration
+# NOT YET USED: Reserved for future cross-building config.
+#PKT_BUILD_CROSSB=0				# OFF by default
+
+DUALCASE=1 ; export DUALCASE
+if [ ".${ZSH_VERSION:-}" != . ] && (emulate sh) >/dev/null 2>&1; then :
+    emulate sh
+    export NULLCMD=:
+	setopt NO_GLOB_SUBST
+    alias -g '${1+"$@"}'='"$@"'
+	unalias -a 2>/dev/null || true >/dev/null 2>&1
+	unalias -m '*' >/dev/null 2>&1
+	disable -f -m '*' >/dev/null 2>&1
+	setopt no_aliases >/dev/null 2>&1
+	setopt nobgnice >/dev/null 2>&1
+	setopt bsdecho >/dev/null 2>&1
+	setopt nocheckjobs >/dev/null 2>&1
+	setopt nocheckrunningjobs >/dev/null 2>&1
+	setopt noevallineno >/dev/null 2>&1
+	setopt nohashlistall >/dev/null 2>&1
+	setopt nomonitor >/dev/null 2>&1
+	setopt pipefail >/dev/null 2>&1
+	setopt posixaliases >/dev/null 2>&1
+	setopt posixargzero >/dev/null 2>&1
+	setopt posixbuiltins >/dev/null 2>&1
+	setopt posixcd >/dev/null 2>&1
+	setopt posixidentifiers >/dev/null 2>&1
+	setopt posixjobs >/dev/null 2>&1
+	setopt posixstrings >/dev/null 2>&1
+	setopt posixtraps >/dev/null 2>&1
+	setopt printeightbit >/dev/null 2>&1
+	setopt printexitvalue >/dev/null 2>&1
+	export POSIXLY_CORRECT=1
+	export POSIX_ME_HARDER=1
+elif [ ".${BASH_VERSION:-}" != . ] && (set -o posix) >/dev/null 2>&1; then
+    set -o posix >/dev/null 2>&1
+	set -o pipefail >/dev/null 2>&1
+	set -o nolog >/dev/null 2>&1
+	set +o monitor >/dev/null 2>&1
+	set +o history >/dev/null 2>&1
+	set +o histexpand >/dev/null 2>&1
+	set +o hashall >/dev/null 2>&1
+	shopt -s xpg_echo >/dev/null 2>&1
+	shopt -u progcomp >/dev/null 2>&1
+	shopt -u hostcomplete >/dev/null 2>&1
+	shopt -u expand_aliases >/dev/null 2>&1
+	shopt -u cmdhist >/dev/null 2>&1
+	shopt -u checkwinsize >/dev/null 2>&1
+	export POSIXLY_CORRECT=1
+	export POSIX_ME_HARDER=1
+	unalias -a 2>/dev/null || true >/dev/null 2>&1
+fi
+
+for as_var in BASH_ENV ENV MAIL MAILPATH
+do eval test x\${$as_var+set} = xset \
+	&& ( (unset $as_var) || exit 1) >/dev/null 2>&1 && unset $as_var || :
+done
+PS1='$ '
+PS2='> '
+PS4='+ '
+
+# NLS nuisances.
+eval export `locale` >/dev/null 2>&1 || true :
+LC_ALL=C
+export LC_ALL
+LANGUAGE=C
+export LANGUAGE
+LANG=C
+export LANG
+(unset CDPATH) >/dev/null 2>&1 && unset CDPATH
+CLICOLOR_FORCE=
+GREP_OPTIONS=
+(unset CLICOLOR_FORCE ; unset GREP_OPTIONS) >/dev/null 2>&1 &&\
+	unset CLICOLOR_FORCE ; unset GREP_OPTIONS
+unset LSCOLORS LSCOLOURS LS_COLORS LS_COLOURS >/dev/null 2>&1
+
+# XXX production not using -u
+set +e
+TOOLNAME="newDo" && export TOOLNAME
+TOOLVERS="0.6-20200830-R_PRODUCTION" && export TOOLVERS
+
+if [ ! -n "${HOME:-}" ] || [ -z "${HOME:-}" ]; then
+	printf '%s\n' "Error: No HOME variable set, cannot continue."
+	exit 1
+fi
+
+cleanup() {
+	command printf '\n%s\n' "${TOOLNAME}: Running cleanup tasks." >&2 || true :
+	set +u 1>/dev/null 2>/dev/null || true :
+    command rm -f "${gtemp1}" "${gtemp2}" "${gtemp3}" 1>/dev/null 2>/dev/null || true :
+	command rmdir -f "${TMPDIR}" 1>/dev/null 2>/dev/null || true :
+	command printf '%s\n' "${TOOLNAME}: All cleanup tasks completed." >&2 || true :
+	command printf '%s\n' "" || true :
+}
+
+global_trap() {
+    err=$?
+    trap - EXIT; trap '' EXIT INT TERM ABRT ALRM HUP
+    cleanup
+}
+trap 'global_trap $?' EXIT
+trap 'err=$?; global_trap; exit $?' ABRT ALRM HUP TERM
+trap 'err=$?; trap - EXIT; global_trap $err; exit $err' QUIT
+trap 'global_trap; trap - INT; kill -INT $$; sleep 1; trap - TERM; kill -TERM $$' INT
+trap '' WINCH EMT INFO IO LOST PWR SYS URG 2>/dev/null || true :
+
+USR1_trap() {
+	if [ ! -n "${1:-}" ] || [ -z "${1:-}" ]; then
+		P="10"
+	else
+		P="${1:-}"
+	fi
+	trap - USR1
+}
+trap 'USR1_trap' USR1
+
+USR2_trap() {
+	if [ ! -n "${1:-}" ] || [ -z "${1:-}" ]; then
+		P="11"
+	else
+		P="${1:-}"
+	fi
+	trap - USR2
+}
+trap 'USR2_trap' USR2
+
+init_command() {
+	var_init_command="$1"
+	if [ -n "${KSH_VERSION:-}" ] && [ ! -z "${KSH_VERSION:-}" ]; then
+		unalias -a || true :				# all of this for one
+		alias command="command" || true :   # ridiculous ksh93-2020
+		unalias -a || true :				# crash bug workaroind
+	fi
+	if ! command command true 2>/dev/null 1>&2; then
+		printf %s\\n "${TOOLNAME}: Error: Could not locate required POSIX \"command\" utility." >&2
+	return 1
+	fi
+	command basename . 2>/dev/null 1>&2 ||\
+		{ printf %s\\n "${TOOLNAME}: Error: Could not locate required POSIX \"basename\" utility." >&2;
+		return 1; };
+	cmdtest=$(basename "$(command -v command)") 2>/dev/null
+	if [ "${cmdtest}" = "command" ]; then
+		ret_init_command="command"
+		unset cmdtest
+		envtest=$(basename "$(command -v env 2>/dev/null)" 2>/dev/null)
+		if [ "${envtest}" != "env" ]; then
+			unset envtest
+			printf %s\\n "${TOOLNAME}: Error: Could not locate required POSIX \"env\" utility." >&2
+			return 1
+		else
+			unset envtest
+			eval "$var_init_command=\${ret_init_command}"
+			return 0
+		fi
+	else
+		unset cmdtest
+		printf %s\\n "${TOOLNAME}: Error: Required \"command\" utility is non-standard or non-functional." >&2
+		return 1
+	fi
+}
+
+say() {
+	printf '%s\n' "${1}" ||\
+		{ printf '%s\n' "say: Error: Malformed input." >&2; return 1; };
+}
+
+nsay() {
+	printf '%s' "${1}" ||\
+		{ printf '%s\n' "nsay: Error: Malformed input." >&2; return 1; };
+}
+
+yell() {
+	if [ -n "${TOOLNAME:-}" ] && [ ! -z "${TOOLNAME:-}" ]; then
+		say "${TOOLNAME}: $*" >&2 ||\
+			{ printf '%s\n' "yell: Error $? trying say()" >&2; return 1; };
+	else
+		say "$*" >&2 ||\
+			{ printf '%s\n' "yell: Error $? trying say()" >&2; return 1; };
+	fi
+}
+
+nyell() {
+	if [ -n "${TOOLNAME:-}" ] && [ ! -z "${TOOLNAME:-}" ]; then
+		nsay "${TOOLNAME}: $*" >&2 ||\
+			{ printf '%s\n' "nyell: Error $? trying say()" >&2; return 1; };
+	else
+		nsay "$*" >&2 ||\
+			{ printf '%s\n' "nyell: Error $? trying say()" >&2; return 1; };
+	fi
+}
+
+vyell() { true; };
+
+dyell() { true; };
+
+just() {
+	"$@" || true :
+}
+
+die() {
+	unset -v die_ec 2>/dev/null || true :
+	unset -v die_em 2>/dev/null || true :
+	if [ "$#" -le 0 ]; then
+		die_ec="72"
+		unset die_em
+	fi
+	if [ "$#" -eq 1 ]; then
+		die_ec="${1}"
+	fi
+	if [ "$#" -ge 2 ] && [ -n "$2" ] && [ ! -z "$2" ]; then
+		die_ec="${1}"
+		shift
+		die_em="$*"
+		if ! [ "$die_ec" -eq "$die_ec" ] 2>/dev/null; then
+			if [ "$die_ec" -gt 63 ]; then
+				if [ "$kl" -ge 1 ]; then
+					export kl=0
+				else
+					die_ec=128
+				fi
+			fi
+		else
+			die_ec=71
+		fi
+	fi
+	if [ -n "${die_ec:-}" ] && [ ! -z "${die_ec:-}" ]; then
+		if [ -n "${die_em:-}" ] && [ ! -z "${die_em:-}" ]; then
+			just yell "${die_em}"
+			exit "${die_ec}"
+		fi
+	fi
+	if [ -n "${die_ec:-}" ] && [ ! -z "${die_ec:-}" ]; then
+		if [ -n "${die_em:-}" ] && [ ! -z "${die_em:-}" ]; then
+			just yell "Error: Cannot continue; status ${die_ec}"
+			exit "${die_ec}"
+		fi
+	fi
+}
+
+try() {
+	"$@" ||\
+		{ ec=$?; die "${ec}" "Error: Cannot $*"; };
+}
+
+call() {
+### usage: call returnvar function [-e|x|p]
+# -e: evaluates, in the callers scope, the returnvar returnstring content
+# -x: exports the returnvar with evalulated returnstring to the environment
+# -p: prints, via try say(), the evaluated returnvar's returnstring content
+	if [ "$#" -eq 3 ]; then
+		eval "$1"_callfunction="${1}"
+		eval "$1"_returnstring="${2}"
+		eval "$1"_optionstring="${3}"
+	elif [ "$#" -eq 2 ]; then
+		if [ "${2}" = "-x" ] || [ "${2}" = "-e" ] || [ "${2}" = "-p" ]; then
+			die 1 "Error: call() invoking call action parameters requires a specified return string."
+		fi
+		eval "$1"_callfunction="${1}"
+		eval "$1"_returnstring="${2}"
+		eval "$1"_optionstring=""
+	elif [ "$#" -eq 1 ]; then
+		eval "$1"_callfunction="${1}"
+		eval "$1"_returnstring="returned"
+		eval "$1"_optionstring=""
+	elif [ "$#" -le 0 ]; then
+		die 1 "Error: call() invoked with no target function."
+	else
+		die 1 "Error: call() invoked with extraneous parameters."
+	fi
+	eval _cals=\$"$1"_callfunction
+	eval _rets=\$"$1"_returnstring
+	eval _opts=\$"$1"_optionstring
+	"$_cals" "$_rets" "$*" || ( exit 1 ); exitcode=$?
+	if [ "$exitcode" != 0 ]; then
+		if [ -n "${_rets:-}" ] && [ ! -z "${_rets:-}" ]; then
+			die 1 "Error: Status ${exitcode} returned from call to ${_cals} (\"${_rets}\")."
+		else
+			die 1 "Error: Status ${exitcode} returned from call to ${_cals}."
+		fi
+	fi
+	eval _cals=\$"$1"_callfunction
+	eval _rets=\$"$1"_returnstring
+	eval _opts=\$"$1"_optionstring
+	if [ -n "${_opts:-}" ] && [ ! -z "${_opts:-}" ]; then
+		if [ "${_opts}" = "-e" ]; then
+			try eval "\${ret_$1}"
+			return 0
+		elif [ "${_opts}" = "-x" ]; then
+			try eval try export \$"$1"_returnstring=\"\$ret_"$1"\"
+			return 0
+		elif [ "${_opts}" = "-p" ]; then
+			try eval try say \""\$ret_$1"\"
+			try eval try unset \$"$1"_returnstring
+			return 0
+		else
+			die 1 "Error: call() invoked with unknown action parameter ${_opts}."
+		fi
+	fi
+	return 0
+}
+
+get_goversion() {
+	var_get_goversion="${1}"
+	goversion=$(try "$do_go" version | try "$do_sed" -e 's/alpha/\ /' -e 's/beta/\ /') || return 1
+	go_major_version=$(try printf '%s\n' "${goversion}" |\
+		try "$do_tr" -d '[A-Za-z/]' |\
+		try "$do_tr" -s ' ' |\
+		try "$do_cut" -d ' ' -f 2 |\
+		try "$do_cut" -d '.' -f 1)
+	go_minor_version=$(try printf '%s\n' "${goversion}" |\
+		try "$do_tr" -d '[A-Za-z/]' |\
+		try "$do_tr" -s ' ' |\
+		try "$do_cut" -d ' ' -f 2 |\
+		try "$do_cut" -d '.' -f 2)
+	ret_get_goversion="printf '%s ' export go_major_version=$go_major_version \; export go_minor_version=$go_minor_version"
+	eval "$var_get_goversion=\${ret_get_goversion}"
+	unset goversion
+	return 0
+}
+
+get_go_valid_os() {
+	var_get_go_valid_os="$1"
+	ret_get_go_valid_os=$(try printf '%s ' "$(${do_go} tool dist list |\
+		try ${do_cut} -f 1 -d '/' |\
+		try ${do_sort} -u)")
+	eval "$var_get_go_valid_os=\${ret_get_go_valid_os}"
+}
+
+get_go_valid_arch() {
+	var_get_go_valid_arch="$1"
+	ret_get_go_valid_arch=$(try printf '%s ' "$(${do_go} tool dist list |\
+		try ${do_cut} -f 2 -d '/' |\
+		try ${do_sort} -u)")
+	eval "$var_get_go_valid_arch=\${ret_get_go_valid_arch}"
+}
+
+get_goenv() {
+	var_get_goenv="$1"
+	goenv=$(try printf '%s ' "${do_go} env") || return 1
+	ret_get_goenv="${goenv}"
+	eval "$var_func_name=\${ret_get_goversion}"
+	unset goenv
+	return 0
+}
+
+do_configuration() {
+	var_do_configuration="$1"
+	fatal=""
+	warns=""
+	if [ -z "${BE_VERBOSE:-}" ];             then export BE_VERBOSE=0;                   fi
+	if [ -z "${DEBUG_OUTPUT:-}" ];           then export DEBUG_OUTPUT=0;                 fi
+	if [ -z "${PKT_FAIL_DIRTY:-}" ];         then export PKT_FAIL_DIRTY=1;               fi
+	if [ -z "${PKT_UPDATE_GOMOD:-}" ];       then export PKT_UPDATE_GOMOD=0;             fi
+	if [ -z "${PKT_SKIP_TESTS:-}" ];         then export PKT_SKIP_TESTS=0;               fi
+	if [ -z "${PKT_OWN_GOPATH:-}" ];         then export PKT_OWN_GOPATH=1;               fi
+	if [ -z "${PKT_OWN_GOPATH_DIR:-}" ];     then export PKT_OWN_GOPATH_DIR="$HOME/.go-pkt"; fi
+	if [ -z "${PKT_FROM_SCRATCH:-}" ];       then export PKT_FROM_SCRATCH=0;             fi
+	if [ -z "${PKT_BUILD_NATIVE:-}" ];	  	 then export PKT_BUILD_NATIVE=0;	 	     fi
+	if [ -z "${PKT_BUILD_WALLETTOOL:-}" ];   then export PKT_BUILD_WALLETTOOL=0;         fi
+	if [ -z "${PKT_BUILD_DROPWTXMGR:-}" ];   then export PKT_BUILD_DROPWTXMGR=0;         fi
+	if [ -z "${PKT_BUILD_PUREGO:-}" ];       then export PKT_BUILD_PUREGO=1;             fi
+	if [ -z "${PKT_BUILD_HARDRH:-}" ];       then export PKT_BUILD_HARDRH=0;             fi
+	if [ -z "${PKT_BUILD_REPROD:-}" ];       then export PKT_BUILD_REPROD=1;             fi
+	if [ -z "${PKT_BUILD_CROSSB:-}" ];		 then export PKT_BUILD_CROSSB=0;		     fi
+	if [ -z "${PKT_UPX_COMPRESS:-}" ];		 then export PKT_UPX_COMPRESS=0;		     fi
+
+	if ! [ "$PKT_UPX_COMPRESS" -eq "$PKT_UPX_COMPRESS" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_UPX_COMPRESS must be an integer.${normal}" "${fatal}"); 
+	fi
+
+	if ! [ "$BE_VERBOSE" -eq "$BE_VERBOSE" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: BE_VERBOSE must be an integer.${normal}" "${fatal}"); 
+	fi
+
+	if ! [ "$PKT_BUILD_CROSSB" -eq "$PKT_BUILD_CROSSB" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_BUILD_CROSSB must be an integer.${normal}" "${fatal}"); 
+	fi
+
+	if ! [ "$DEBUG_OUTPUT" -eq "$DEBUG_OUTPUT" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: DEBUG_OUTPUT must be an integer.${normal}" "${fatal}"); 
+	fi
+
+	if ! [ "$PKT_FAIL_DIRTY" -eq "$PKT_FAIL_DIRTY" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_FAIL_DIRTY must be an integer.${normal}" "${fatal}")
+	fi
+
+	if ! [ "$PKT_UPDATE_GOMOD" -eq "$PKT_UPDATE_GOMOD" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_UPDATE_GOMOD must be an integer.${normal}" "${fatal}")
+	fi
+
+	if ! [ "$PKT_SKIP_TESTS" -eq "$PKT_SKIP_TESTS" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_SKIP_TESTS must be an integer.${normal}" "${fatal}")
+	fi
+
+	if ! [ "$PKT_OWN_GOPATH" -eq "$PKT_OWN_GOPATH" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_OWN_GOPATH must be an integer.${normal}" "${fatal}")
+	fi
+
+	if ! [ "$PKT_FROM_SCRATCH" -eq "$PKT_FROM_SCRATCH" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_FROM_SCRATCH must be an integer.${normal}" "${fatal}")
+	fi
+
+	if ! [ "$PKT_BUILD_WALLETTOOL" -eq "$PKT_BUILD_WALLETTOOL" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_BUILD_WALLETTOOL must be an integer.${normal}" "${fatal}")
+	fi
+
+	if ! [ "$PKT_BUILD_DROPWTXMGR" -eq "$PKT_BUILD_DROPWTXMGR" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_BUILD_DROPWTXMGR must be an integer.${normal}" "${fatal}")
+	fi
+
+	if ! [ "$PKT_BUILD_PUREGO" -eq "$PKT_BUILD_PUREGO" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_BUILD_PUREGO must be an integer.${normal}" "${fatal}")
+	fi
+
+	if ! [ "$PKT_BUILD_HARDRH" -eq "$PKT_BUILD_HARDRH" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_BUILD_HARDRH must be an integer.${normal}" "${fatal}")
+	fi
+
+	if ! [ "$PKT_BUILD_REPROD" -eq "$PKT_BUILD_REPROD" ] 2>/dev/null; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_BUILD_REPROD must be an integer.${normal}" "${fatal}")
+	fi
+
+	if [ "$PKT_BUILD_NATIVE" -eq 1 ] && [ "$PKT_FAIL_DIRTY" -eq 1 ]; then
+		fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_BUILD_NATIVE is incomaptible with PKT_FAIL_DIRTY.${normal}" "${fatal}")
+	fi
+
+    if [ "$PKT_UPDATE_GOMOD" -eq 1 ] && [ "$PKT_FAIL_DIRTY" -eq 1 ]; then
+        fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_UPDATE_GOMOD is incomaptible with PKT_FAIL_DIRTY.${normal}" "${fatal}")
+	fi
+
+    if [ "$PKT_BUILD_HARDRH" -eq 1 ] && [ "$PKT_FAIL_DIRTY" -eq 1 ]; then
+        fatal=$(try printf '%s\n' "${bold}${underline}Error: PKT_BUILD_HARDRH is incomaptible with PKT_FAIL_DIRTY.${normal}" "${fatal}")
+	fi
+
+	if [ "$PKT_BUILD_HARDRH" -eq 1 ] && [ "$PKT_BUILD_PUREGO" -eq 1 ]; then
+		fatal=$(try printf '%s\n' "${bold}Warning: PKT_BUILD_HARDRH is incompatible with PKT_BUILD_PUREGO.${normal}" "${fatal}")
+	fi
+
+	if [ "$PKT_BUILD_HARDRH" -eq 1 ] && [ "$PKT_BUILD_PUREGO" -eq 1 ]; then
+		fatal=$(try printf '%s\n' "${bold}Warning: PKT_BUILD_HARDRH is incompatible with PKT_BUILD_PUREGO.${normal}" "${fatal}")
+	fi
+
+	if [ "$PKT_BUILD_HARDRH" -eq 1 ] && [ "$PKT_BUILD_REPROD" -eq 1 ]; then
+		fatal=$(try printf '%s\n' "${bold}Warning: PKT_BUILD_HARDRH is incompatible with PKT_BUILD_REPROD.${normal}" "${fatal}")
+	fi
+
+	if [ -z "${fatal}" ] && [ -z "${warns}" ]; then
+		ret_do_configuration="Checking basic PKT build configuration: passed"
+	fi
+
+	if [ -z "${fatal}" ] && [ ! -z "${warns}" ]; then
+		ret_do_configuration=$(try printf '%s\n' "Checking basic PKT build configuration: passed (with warnings)" "${warns}")
+	fi
+
+	if [ ! -z "${fatal}" ] && [ ! -z "${warns}" ]; then
+		ret_do_configuration=$(try printf '%s\n' "Checking basic PKT build configuration: ${bold}failed${normal} (errors and warnings)" "${fatal}" "${warns}")
+	fi
+
+	if [ ! -z "${fatal}" ] && [ -z "${warns}" ]; then
+		ret_do_configuration=$(try printf '%s\n' "Checking basic PKT build configuration: ${bold}failed${normal} (errors)" "${fatal}" "${warns}")
+	fi
+
+	eval "$var_do_configuration=\${ret_do_configuration}"
+	return 0
+}
+
+path_check() {
+	var_path_check="$1"
+	if [ ! -n "${PATH:-}" ] || [ -z "${PATH:-}" ]; then
+        PATH=$(try command -p getconf PATH 2>/dev/null)
+		if [ -z "${PATH:-}" ]; then
+			return 1
+		else
+			try export PATH="${PATH}"
+			ret_path_check=""
+		fi
+	else
+		ret_path_check=""
+	fi
+	eval "$var_path_check=\${ret_path_check}"
+	return 0
+}
+
+posix_check() {
+	var_posix_check="$1"
+	POSIXVER=$(getconf _POSIX_VERSION 2>/dev/null) || true :
+	if [ -n "${POSIXVER:-}" ] && [ ! -z "${POSIXVER:-}" ]; then
+		ret_posix_check="${POSIXVER}"
+	else
+		ret_posix_check="not complaint"
+	fi
+	unset POSIXVER
+	eval "$var_posix_check=\${ret_posix_check}"
+	return 0
+}
+
+util_check() {
+	var_util_check="$1"
+	if [ -n "${1:-}" ] && [ ! -z "${1:-}" ]; then
+		util="${1}"
+		if [ "${util}" = "returned" ]; then
+			try yell "Error: util_check was invoked without a utility name."
+			unset util
+			return 1
+		else
+			utiltest="$(try "$cmd" -v "${util}")"
+			if [ -n "${utiltest:-}" ] && [ ! -z "${utiltest:-}" ]; then
+				ret_util_check="${utiltest}"
+				unset utiltest util
+			else
+				try yell "Error: Unable to locate required \"${util}\" utility."
+				unset utiltest util
+				return 1
+			fi
+		fi
+	else
+		try yell "Error: Malformed input."
+		return 1
+	fi
+	eval "$var_util_check=\${ret_util_check}"
+	return 0
+}
+
+need() {
+	var_need="$1"
+	if [ ! -n "${1:-}" ] && [ -z "${1:-}" ]; then
+		try yell "Error: need() was invoked without a utility name."
+		return 1
+	else
+		try nyell "Looking for ${1}: "
+		tool=$(try call util_check "${1}" "-p") || return 1
+		try say "${tool}" >&2
+		export "do_${1}=${tool}"
+		need_result="do_${1}=${tool}"
+		ret_need="${need_result}"
+		eval "$var_need=\${ret_need}"
+		unset need_result
+		eval unset "${1}"
+		return 0
+	fi
+}
+
+want() {
+	var_want="${1}"
+	if [ ! -n "${1:-}" ] && [ -z "${1:-}" ]; then
+		try yell "Error: want() was invoked without a utility name."
+		return 1
+	else
+		try nyell "Looking for ${1}: "
+		wanted=$(try call util_check "${1}" "-p" 2>&1)
+		if [ -n "${wanted}" ] && [ ! -z "${wanted}" ]; then
+			if try printf %s\\n "${wanted}" | "$do_grep" -q -v Error; then
+				try say "${wanted}" >&2 && export "do_${1}=${wanted}"
+				want_result="do_${1}=${wanted}"
+			else
+				want_result="do_${1}=false"
+				try say "not found" >&2
+			fi
+		fi
+	ret_want="${want_result}"
+	eval "$var_want=\${ret_want}"
+	unset want_result
+	eval unset "${1}"
+	return 0
+	fi
+}
+
+############################# Start of script
+
+try export kl=0
+try export PROC=$$
+try export V=""
+try export D=""
+try export A=""
+try export PIE=""
+try export HARD_LINKER=""
+underline=""
+bold=""
+normal=""
+
+if [ -n "${DEBUG_OUTPUT:-}" ] && [ ! -z "${DEBUG_OUTPUT:-}" ]; then
+	if [ "$DEBUG_OUTPUT" -eq "$DEBUG_OUTPUT" ] 2>/dev/null; then
+		if [ "$DEBUG_OUTPUT" -eq 1 ]; then
+			export DEBUG_MODE=1
+			if [ "$DEBUG_MODE" -eq 1 ]; then
+				just unset -v DEBUG_OUTPUT
+				just unset -f dyell
+				try export D="-x"
+				dyell() { try yell "${underline}[DEBUG] $*${normal}"; };
+				try dyell "DEBUG mode is enabled"
+			fi
+		fi
+	fi
+fi
+
+if [ -n "${BE_VERBOSE:-}" ] && [ ! -z "${BE_VERBOSE:-}" ]; then
+	if [ "$BE_VERBOSE" -eq "$BE_VERBOSE" ] 2>/dev/null; then
+		if [ "$BE_VERBOSE" -eq 1 ]; then
+			export VERBOSE_MODE=1
+			if [ "$VERBOSE_MODE" -eq 1 ]; then
+				just unset -v BE_VERBOSE
+				just unset -f vyell
+				try export V="-v"
+				vyell() { try yell "${underline}[VERBOSE] $*${normal}"; };
+				try vyell "VERBOSE mode is enabled"
+			fi
+		fi
+	fi
+fi
+
+try say "" >&2
+try yell "This is PKT ${TOOLNAME}; version ${TOOLVERS}."
+try say "" >&2
+
+try call path_check ||\
+	die 1 "Error: No usable basic search PATH could be determined."
+try call init_command cmd -x ||\
+	die 1 "Error: Unable to locate basic POSIX utilities."
+try yell "$(try nsay "POSIX compliance claim: " &&\
+	try call posix_check posixver -p)"
+try say "" >&2
+
+if [ -d "/System" ] && [ -d "/Library" ]; then
+	dyell "Mac OS X system inferred: expanding search PATH"
+	PATH="~/bin:~/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/opt/:/usr/local/Cellar/:$PATH"
+fi
+
+try yell "Locating required POSIX utilities:"
+try call need cat
+try call need chmod
+try call need comm
+try call need cut
+try call need grep
+try call need mkdir
+try call need mktemp
+try call need rm
+try call need rmdir
+try call need sed
+try call need sort
+try call need tr
+try call need true
+try call need uname
+try call need xargs
+try say "" >&2
+
+try yell "Locating required build tools:"
+try call need git
+try call need go
+try say "" >&2
+
+try yell "Locating optional utilities:"
+try call want ccache
+try call want checksec
+try call want lsb_release
+try call want sw_vers
+try call want tput
+try call want upx
+try say "" >&2
+
+if [ ! -z ${do_tput} ]; then
+	just ${do_tput} cnorm
+	bold=$(just ${do_tput} bold)
+	normal=$(just ${do_tput} sgr0)
+	underline=$(just ${do_tput} smul)
+else
+	bold=""
+	normal=""
+	underline=""
+fi
+
+try export TMPDIR=$(try ${do_mktemp} -d)
+
+if [ -f "$HOME/.pkt-do.conf" ] && [ ! -x "$HOME/.pkt-do.conf" ]; then
+	try yell "${bold}Warning: Previous config \"${underline}$HOME/.pkt-do.conf${normal}\" ignored, no execute attribute.${normal}"
+fi
+if [ -f "$HOME/.pkt-do.conf" ] && [ -x "$HOME/.pkt-do.conf" ]; then
+	try yell "Notice: Previous config \"${underline}$HOME/.pkt-do.conf${normal}\" is loading."
+	. $HOME/.pkt-do.conf 2>/dev/null
+	try yell "Notice: Previous config ${underline}has been loaded${normal}; this ${bold}overrides${normal} other settings."
+	try export USED_SAVED_CONFIG=1
+fi
+try say "" >&2
+
+try nyell "Operating system claims to be: "
+uname_s="$(try "$do_uname" -s |\
+	try "$do_tr" '[:upper:]' '[:lower:]')"
+try say "${uname_s}" >&2
+if [ "${uname_s}" = "linux" ] && [ ! -z "${do_lsb_release}" ]; then
+	distro=$("$do_lsb_release" -d |\
+		try "$do_tr" -d '\t' |\
+		try "$do_tr" -s ' ' |\
+		try "$do_cut" -f 2 -d ':')
+	if [ ! -z "${distro}" ]; then
+	try yell "Linux distribution claim: ${distro}"
+	fi
+fi
+
+if [ "${uname_s}" = "darwin" ] && [ ! -z "${do_sw_vers}" ]; then
+	MACOSX=$(${do_sw_vers} -productName)
+	MACOSV=$(${do_sw_vers} -productVersion)
+	MACOSB=$(${do_sw_vers} -buildVersion)
+	try export MACOSX MACOSV MACOSB
+	try yell "Apple OS: ${MACOSX}"
+	try yell "Version: ${MACOSV}"
+	try yell "Build: ${MACOSB}"
+	try export MACINTOSH_X=1
+fi
+
+try nyell "Machine hardware claims to be: "
+uname_m=$(try "$do_uname" -m |\
+	try "$do_sed" -e 's/[Xx]8\?6\?.64/amd64/' |\
+	try "$do_tr" '[:upper:]' '[:lower:]')
+try say "${uname_m}" >&2
+try say "" >&2
+
+try call do_configuration build_configuration -p >/dev/null 2>&1
+build_config_out=$(try call do_configuration build_configuration -p)
+dyell "BUILD_CONFIG_OUT: ${build_config_out}"
+printf '%s\n' "${build_config_out}" | {
+	while read -r message; do
+		yell "$message" >&2
+	done; }
+PKT_CONFIG_FAIL=$(printf '%s\n' "${build_config_out:-}" | ${do_grep} "error")
+if [ ! -z "${PKT_CONFIG_FAIL}" ]; then
+	die 1 "${bold}${underline}Error: Unable to continue with current build configuration, exiting.${normal}"
+fi
+
+if [ ! -z "${MACOSX:-}" ] && [ "${MACINTOSH_X:-}" -eq 1 ]; then
+	if [ "${PKT_BUILD_NATIVE:-}" -eq 1 ]; then
+		die 1 "${bold}${underline}Error: PKT_BUILD_NATIVE is not compatible with Mac OS X; cannot continue.${normal}"
+	fi
+	if [ "${PKT_BUILD_PUREGO:-}" -eq 1 ]; then
+		try yell "${bold}Warning: PKT_BUILD_PUREGO on Mac OS X is an untested configuration.${normal}"
+	fi
+	if [ "${PKT_BUILD_HARDRH:-}" -eq 1 ]; then
+		die 1 "${bold}${underline}Error: PKT_BUILD_HARDRH is incompatible with Mac OS X; cannot continue.${normal}"
+	fi
+	if [ "${PKT_BUILD_REPROD:-}" -eq 1 ]; then
+		try yell "${bold}Warning: PKT_BUILD_REPROD on Mac OS X is an untested configuration.${normal}"
+	fi
+fi
+
+nyell "Checking Go version: "
+go_ver=$(try call get_goversion version -p)
+go_ver_cmd=$(try eval "${go_ver}")
+try eval "${go_ver_cmd}" && unset go_ver go_ver_cmd
+if [ "${go_minor_version}" -le 12 ]; then
+	 die 1 "${bold}${underline}Error: Go ${go_major_version}.${go_minor_version}.x detected, but Go 13 or later required.${normal}" >&2
+else
+	try say "Go ${go_major_version}.${go_minor_version}.x" >&2
+fi
+
+nyell "Checking PKT build configuration compatability with Go ${go_minor_version}: "
+if [ "${go_minor_version}" -le 12 ] && [ "${PKT_BUILD_REPROD}" -eq 1 ]; then
+    die 1 "${bold}${underline}Error: PKT_BUILD_REPROD requires Go 13 or later.${normal}"
+else
+	say "passed" >&2
+fi
+
+nyell "Checking operating system compatibility with Go ${go_minor_version}: "
+valid_goos=$(printf '%s ' "$(try call get_go_valid_os os_list -p)")
+dyell "VALID_GOOS: ${valid_goos}"
+for os in ${valid_goos}; do
+	if [ "${os}" = "${uname_s}" ]; then
+		GO_SUPPORTED_OS="${os}"
+	fi
+done
+if [ ! -n "${GO_SUPPORTED_OS:-}" ] || [ -z "${GO_SUPPORTED_OS:-}" ]; then
+	say "failed" >&2
+	die 1 "${bold}${underline}Error: Your operating system (${uname_s}) is not supported by this Go release.${normal}"
+else
+	say "passed (${GO_SUPPORTED_OS})" >&2
+fi
+
+nyell "Checking machine hardware compatibility with Go ${go_minor_version}: "
+valid_goarch=$(printf '%s ' "$(try call get_go_valid_arch arch_list -p)")
+dyell "VALID_GOARCH: ${valid_goarch}"
+for arch in ${valid_goarch}; do
+	if [ "${arch}" = "${uname_m}" ]; then
+		GO_SUPPORTED_ARCH="${arch}"
+	fi
+done
+if [ ! -n "${GO_SUPPORTED_ARCH:-}" ] || [ -z "${GO_SUPPORTED_ARCH:-}" ]; then
+	say "failed" >&2
+    die 1 "${bold}${underline}Error: Your machine hardware architecture (${uname_m}) is not supported by this Go release.${normal}"
+else
+	say "passed (${GO_SUPPORTED_ARCH})" >&2
+fi
+
+nyell "Checking overall Go configuration: "
+goenv_ignore='(GOENV|GOGCCFLAGS|fdebug)'
+goenv="$(try ${do_go} env GOENV)"
+goenv_currents="$(try ${do_go} env |\
+	try ${do_grep} -v -E ${goenv_ignore} |\
+	try ${do_grep} "^.GO")"
+dyell "GOENV_CURRENT: ${goenv_currents}"
+goenv_defaults="$(try env GOENV=/dev/null ${do_go} env |\
+	try ${do_grep} -v -E ${goenv_ignore} |\
+	try ${do_grep} "^.GO")"
+dyell "GOENV_DEFAULT: ${goenv_defaults}"
+try export gtemp1=$(try ${do_mktemp})
+try printf '%s\n' ${goenv_currents} |\
+	try ${do_sort} > "${gtemp1}"
+try export gtemp2=$(try ${do_mktemp})
+try printf '%s\n' ${goenv_defaults} |\
+	try ${do_sort} > "${gtemp2}"
+goenv_compare=$(try "${do_comm}" -13 "${gtemp2}" "${gtemp1}" |\
+	${do_cut} -f 1 -d '=')
+try ${do_rm} -f "${gtemp2}" "${gtemp1}"
+goenv_nondefault=$(try printf '%s ' ${goenv_compare})
+dyell "GOENV_NONDEFAULT: ${goenv_nondefault}"
+if [ ! -z "$(try printf '%s ' ${goenv_nondefault} |\
+	try ${do_tr} -d ' ')" ]; then
+	say "passed (with warnings)" >&2
+	for setting in ${goenv_nondefault}; do
+		cur=$( try "${do_go}" env "${setting}" )
+		def=$( try env GOENV=/dev/null "${do_go}" env "${setting}" )
+		try yell "${bold}Warning: Build may override non-default ${setting}=\"${cur}\" (default is \"${def}\")${normal}" 
+	done
+	if [ -n "${goenv:-}" ] && [ ! -z "${goenv:-}" ] &&\
+		[ -r "${goenv:-}" ]; then
+		goenv_out=$("${do_cat}" "${goenv}")
+		if [ ! -z "${goenv_out:-}" ]; then
+			nyell "${bold}Warning: GOENV (${goenv}) sets: [ ${normal}"
+			printf '%s\n' "${goenv_out}" |\
+				"${do_grep}" -v -E "${goenv_ignore}" | {
+			while read -r message; do
+				var=$(printf '%s\n' "${message}" |\
+					try ${do_cut} -f 1 -d '=')
+				nsay "${var} " >&2
+		    done; }
+			say "${bold}]${normal}" >&2
+		fi
+	fi
+else
+	say "passed" >&2
+fi
+try yell "Notice: PKT build has been ${underline}successfully configured${normal}."
+say "" >&2
+
+if [ -f "${HOME}/.pkt-do.conf" ] && [ ! -x "${HOME}/.pkt-do.conf" ]; then
+	try yell "${bold}Warning: Removing existing configuration at \"${HOME}/.pkt-do.conf\"${normal}"
+	try ${do_rm} -f "${HOME}/.pkt-do.conf"
+fi
+
+if [ ! -f "${HOME}/.pkt-do.conf" ]; then
+	try export -p | ${do_grep} "export PKT.*=" > ${HOME}/.pkt-do.conf
+	try yell "Notice: Current configuration written to ${underline}\"$HOME/.pkt-do.conf\"${normal}"
+	try yell "Notice: To enable it, execute: \"chmod +x ${underline}$HOME/.pkt-do.conf\"${normal}"
+else
+	try yell "Notice: ${bold}Not overwriting${normal} this config at ${underline}\"$HOME/.pkt-do.conf\"${normal}"
+	try yell "Notice: To disable, \"chmod -x ${underline}${HOME}/.pkt-do.conf\"${normal}\", or simply remove it."
+fi
+try say "" >&2
+
+try export GO111MODULE=on
+try export BUILD_TAGS="-tags=netgo,osusergo"
+dyell "BUILD_TAGS: ${BUILD_TAGS}"
+
+if [ "${PKT_BUILD_REPROD:-}" -eq 1 ]; then
+	try yell "PKT_BUILD_REPROD: Build ${underline}should${normal} be reproducible when compiling same sources."
+	try export TRIMPATH="-trimpath"
+	try export REPRO="-buildid="
+else
+	try export TRIMPATH=""
+	try export REPRO=""
+fi
+
+if [ "${PKT_BUILD_PUREGO:-}" -eq 1 ]; then
+	try yell "PKT_BUILD_PUREGO: Making ${underline}best efforts${normal} to avoid CGo, static linking if possible."
+	try export CGO_ENABLED=0
+	try export GODEBUG=netdns=go
+	dyell "CGO_ENABLED=0 and GODEBUG=netdns=go exported"
+fi
+
+if [ "${PKT_BUILD_NATIVE:-}" -eq 1 ]; then
+	try yell "PKT_BUILD_NATIVE: Native code generation enabled, output will ${underline}${bold}NOT${normal} be portable."
+	native_flags=$(try "${do_go}" env |\
+		try "${do_grep}" "CGO_.*FLAGS" |\
+		try ${do_sed} -e 's/="/="-march=native/g' -e 's/-g -O2/ -Ofast/g' -e 's/^/export /g')
+	dyell "NATIVE_FLAGS: ${native_flags}"
+	try eval ${native_flags} 2>/dev/null 1>&2
+else
+	normal_flags=$(try "${do_go}" env |\
+		try "${do_grep}" "CGO_.*FLAGS")
+	dyell "NATIVE_FLAGS: ${normal_flags}"
+	try eval ${normal_flags} 2>/dev/null 1>&2
+fi
+
+if [ "${PKT_BUILD_HARDRH:-}" -eq 1 ]; then
+	try yell "PKT_BUILD_HARDRH: Enabling ${underline}high security${normal} linker and compiler configuration."
+	try export CGO_ENABLED=1
+	try export PIE="-buildmode=pie"
+	try export CGO_CPPFLAGS="${CGO_CPPFLAGS:-} -D_FORTIFY_SOURCE=2 -fstack-protector-all -fstack-clash-protection"
+	try export CGO_CFLAGS="${CGO_CFLAGS:-} -D_FORTIFY_SOURCE=2 -fstack-protector-all -fstack-clash-protection"
+	try export CGO_CPPFLAGS="${CGO_CPPFLAGS:-} -D_FORTIFY_SOURCE=2 -fstack-protector-all -fstack-clash-protection"
+	try export CGO_CXXFLAGS="${CGO_CXXFLAGS:-} -D_FORTIFY_SOURCE=2 -fstack-protector-all -fstack-clash-protection"
+	try export CGO_FFLAGS="${CGO_FFLAGS:-} -D_FORTIFY_SOURCE=2"
+	try export CGO_LDFLAGS="${CGO_LDFLAGS:-} -D_FORTIFY_SOURCE=2"
+	try export CGO_LDFLAGS="${CGO_LDFLAGS:-} -s -Wl,-z,relro,-z,now"
+	try export HARD_LINKER="-s"
+	dyell "HARDENED: CGO_ENABLED=1, buildmode=pie, CFLAGS: ${CGO_CFLAGS}, LDFLAGS: ${CGO_LDFLAGS}, HARD_LINKER: ${HARD_LINKER}"
+fi
+
+if [ "${PKT_FROM_SCRATCH}" -eq 1 ]; then
+	try yell "PKT_FROM_SCRATCH: Fully clean caches, GOPATH, and ${underline}recompile everything${normal} by default."
+	try export A="-a"
+	dyell "Calling git reset --hard; git clean -fdx"
+	try ${do_git} reset --hard 1>/dev/null 2>/dev/null
+	try ${do_git} clean -fdx 1>/dev/null 2>/dev/null
+	if [ "${PKT_OWN_GOPATH}" -eq 1 ]; then
+		just ${do_mkdir} -p ${PKT_OWN_GOPATH_DIR}
+		try ${do_chmod} -R u+rw ${PKT_OWN_GOPATH_DIR}
+		try ${do_rm} -rf "${PKT_OWN_GOPATH_DIR}"
+		just ${do_mkdir} -p ${PKT_OWN_GOPATH_DIR}
+		try export GOPATH="${PKT_OWN_GOPATH_DIR}"
+		try yell "PKT_FROM_SCRATCH: ${underline}${PKT_OWN_GOPATH_DIR}${normal} cleaned."
+		if [ ! -z "${do_ccache:-}" ]; then
+			try yell "PKT_FROM_SCRATCH: Ccache detected: ${underline}clearing.${normal}"
+			try "${do_ccache}" -c 2>/dev/null 1>/dev/null
+			try "${do_ccache}" -C 2>/dev/null 1>/dev/null
+		fi
+		try yell "PKT_FROM_SCRATCH: running ${underline}go clean -cache -testcache -modcache -r -x${normal}"
+		try "${do_go}" clean -cache -testcache -modcache -r
+	fi
+fi
+if [ "${PKT_UPDATE_GOMOD:-}" -eq 1 ]; then
+	try yell "PKT_UPDATE_GOMOD: Updating packages to the latest versions ${underline}not yet certified for PKT${normal}."
+	try say "" >&2
+	try "${do_go}" clean ${V} ${D} -testcache
+	try "${do_go}" clean ${V} ${D} -r -modcache all
+	try "${do_go}" get ${V} ${D} -u -t
+	try "${do_go}" get ${V} ${D} -u -t
+	try "${do_go}" mod tidy
+	try "${do_go}" get ${V} ${D} -u -t
+	try "${do_go}" get ${V} ${D} -u -t
+	try "${do_go}" mod tidy
+fi
+
+PKTD_GIT_ID=$(${do_git} describe --tags HEAD)
+if [ -z "$PKTD_GIT_ID" ]; then
+	die 1 "${bold}${underline}Error: Unable to extract git ID to build version; cannot continue.${normal}"
+fi
+
+if [ ! -z "${PKT_BUILD_NATIVE:-}" ]; then
+	pktd_extra_native="-native"
+	PKTD_GIT_ID="${PKTD_GIT_ID}${pktd_extra_native}"
+fi
+
+if [ ! -z "${PKT_UPDATE_GOMOD:-}" ]; then
+	pktd_extra_bleeding="-bleeding"
+	PKTD_GIT_ID="${PKTD_GIT_ID}${pktd_extra_bleeding}"
+fi
+
+if ( ! "${do_git}" diff --quiet ); then
+	PKTD_GIT_ID="${PKTD_GIT_ID}${pktd_extra_native}${pktd_extra_bleeding}-gridfinity"
+		if [ "${PKT_FAIL_DIRTY:-}" -ne 1 ]; then
+			try yell "${bold}Warning: PKT_FAIL_DIRTY: Build is ${underline}dirty${normal}${bold}, ignoring.${normal}"
+		else
+			die 1 "${bold}${underline}Error: PKT_FAIL_DIRTY: Build is ${underline}dirty${normal}${bold}, exiting.${normal}"
+		fi
+fi
+try say "" >&2
+
+dyell "PKTD_GIT_ID: ${PKTD_GIT_ID}"
+PKTD_LDFLAGS="-X github.com/pkt-cash/pktd/pktconfig/version.appBuild=${PKTD_GIT_ID} ${HARD_LINKER}"
+dyell "PKTD_LDFLAGS: ${PKTD_LDFLAGS}"
+dyell "GO BUILD OPT: ${PIE} ${A} ${V} ${D} ${BUILD_TAGS} ${TRIMPATH} ${PKTD_LDFLAGS}"
+try yell "Notice: Building ${underline}pktd${normal}"
+${do_go} build ${PIE} ${A} ${V} ${D} ${BUILD_TAGS} ${TRIMPATH} -ldflags="$PKTD_LDFLAGS ${REPRO}" -o ./bin/pktd ||\
+	die 1 "${bold}${underline}Error: Fatal error building pktd.${normal}"
+try say "" >&2
+
+try yell "Notice: Building ${underline}pktwallet${normal}"
+${do_go} build ${PIE} ${A} ${V} ${D} ${BUILD_TAGS} ${TRIMPATH} -ldflags="${PKTD_LDFLAGS} ${REPRO}" -o ./bin/pktwallet ./pktwallet ||\
+	die 1 "${bold}${underline}Error: Fatal error building pktwallet.${normal}"
+try say "" >&2
+
+try yell "Notice: Building ${underline}pktctl${normal}"
+${do_go} build ${PIE} ${A} ${V} ${D} ${BUILD_TAGS} ${TRIMPATH} -ldflags="${PKTD_LDFLAGS} ${REPRO}" -o ./bin/pktctl ./cmd/btcctl ||\
+	die 1 "${bold}${underline}Error: Fatal error building pktctl.${normal}"
+try say "" >&2
+
+if [ "${PKT_BUILD_WALLETTOOL:-}" -eq 1 ]; then
+	try yell "Notice: Building ${underline}wallettool${normal}"
+	${do_go} build ${PIE} ${A} ${V} ${D} ${BUILD_TAGS} ${TRIMPATH} -ldflags="${PKTD_LDFLAGS} ${REPRO}" -o bin/wallettool ./pktwallet/cmd/wallettool ||\
+		die 1 "${bold}${underline}Error: Fatal error building wallettool.${normal}"
+	try say "" >&2
+fi
+
+if [ "${PKT_BUILD_DROPWTXMGR:-}" -eq 1 ]; then
+	try yell "Notice: Building ${underline}dropwtxmgr${normal}"
+	${do_go} build ${PIE} ${A} ${V} ${D} ${BUILD_TAGS} ${TRIMPATH} -ldflags="${PKTD_LDFLAGS} ${REPRO}" -o bin/dropwtxmgr ./pktwallet/cmd/dropwtxmgr ||\
+		die 1 "${bold}${underline}Error: Fatal error building dropwtxmgr.${normal}"
+	try say "" >&2
+fi
+
+if [ "${PKT_BUILD_CROSSB:-}" -eq 1 ]; then
+	try yell "${bold}Warning: PKT_BUILD_CROSSB: ${underline}Not running tests${normal}${bold} nor compiled output.${normal}"
+	try say "" >&2
+fi
+
+if [ "${PKT_SKIP_TESTS:-}" -eq 1 ]; then
+	try yell "${bold}Warning: PKT_SKIP_TESTS: Not running tests.${normal}"
+else
+	if [ "${PKT_BUILD_CROSSB:-}" -ne 1 ]; then
+		try yell "Notice: Regenerating tests."
+		try say "" >&2
+		try ${do_go} generate ./... >/dev/null >&2
+		try say "" >&2
+		try yell "Notice: Running ${underline}all${normal} ${underline}tests${normal}."
+		${do_go} test ./... | ${do_grep} -v "no test files" ||\
+				die 1 "${bold}${underline}Error: Tests ${underline}failed${normal} to complete without errors.${normal}"
+	fi
+fi
+
+if [ "${PKT_BUILD_CROSSB:-}" -ne 1 ]; then
+	try say "" >&2
+	try nsay "do: ${underline}[Executing pktd --version:]${normal}: ${bold}"
+	try ./bin/pktd --version
+	try say "${normal}" >&2
+	try yell "${bold}Build complete${normal}"
+fi
+
+if [ "${PKT_BUILD_HARDRH:-}" -eq 1 ]; then
+	if [ ! -z "${do_checksec:-}" ]; then
+		try say "" >&2
+		try yell "PKT_BUILD_HARDRH: ${underline}Running checksec${normal} to verify hardened build."
+		try say "" >&2
+		($cmd env -i ${do_checksec} --dir=bin | ${do_grep} -v sysctl) 1>&2
+	fi
+fi
+
+if [ "${PKT_UPX_COMPRESS:-}" -eq 1 ]; then
+	if [ ! -z "${do_upx:-}" ]; then
+		try yell "PKT_UPX_COMPRESS: Compression requested, ${underline}starting UPX${normal} to compress."
+		${do_upx} ${V} --ultra-brute bin/* ||\
+			die 1 "${bold}${underline}Error when compressing files with UPX.${normal}"
+	fi
+fi
+
+try say "" >&2
+if [ "${PKT_FROM_SCRATCH:-}" -eq 1 ]; then
+    try yell "PKT_FROM_SCRATCH: ${underline}Post-build cleanup${normal}"
+    if [ "${PKT_OWN_GOPATH:-}" -eq 1 ]; then
+        just ${do_mkdir} -p ${PKT_OWN_GOPATH_DIR}
+        try ${do_chmod} -R u+rw ${PKT_OWN_GOPATH_DIR}
+        try ${do_rm} -rf "${PKT_OWN_GOPATH_DIR}"
+        just ${do_mkdir} -p ${PKT_OWN_GOPATH_DIR}
+        try yell "PKT_OWN_GOPATH_DIR: ${underline}${PKT_OWN_GOPATH_DIR}${normal} cleaned."
+        if [ ! -z "${do_ccache:-}" ]; then
+            try yell "PKT_FROM_SCRATCH: Ccache detected: ${underline}clearing${normal}"
+            try "${do_ccache}" -c 2>/dev/null 1>/dev/null
+            try "${do_ccache}" -C 2>/dev/null 1>/dev/null
+        fi
+        try yell "PKT_FROM_SCRATCH: running ${underline}go clean -cache${normal}"
+        try "${do_go}" clean -cache
+    fi
+fi
+try say "" >&2
+
+try yell "${bold}All build actions completed.${normal}"
