@@ -9,7 +9,7 @@ For the complete details of the bitcoin protocol, see the official wiki entry
 at https://en.bitcoin.it/wiki/Protocol_specification.  The following only serves
 as a quick overview to provide information on how to use the package.
 
-At a high level, this package provides support for marshalling and unmarshalling
+At a high level, this package provides support for marshaling and unmarshalling
 supported bitcoin messages to and from the wire.  This package does not deal
 with the specifics of message handling such as what to do when a message is
 received.  This provides the caller with a high level of flexibility.
@@ -26,7 +26,7 @@ To accomplish this, there is a generic interface for bitcoin messages named
 Message which allows messages of any type to be read, written, or passed around
 through channels, functions, etc.  In addition, concrete implementations of most
 of the currently supported bitcoin messages are provided.  For these supported
-messages, all of the details of marshalling and unmarshalling to and from the
+messages, all of the details of marshaling and unmarshalling to and from the
 wire using bitcoin encoding are handled so the caller doesn't have to concern
 themselves with the specifics.
 

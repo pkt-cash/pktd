@@ -1763,7 +1763,7 @@ func TestManager(t *testing.T) {
 		_, err := Open(ns, pubPassphrase, &chaincfg.MainNetParams)
 		return err
 	})
-	if !util.CheckError(t, "Open non-existant", err, ErrNoExist) {
+	if !util.CheckError(t, "Open non-existent", err, ErrNoExist) {
 		return
 	}
 

@@ -9,12 +9,13 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/hex"
-	"github.com/json-iterator/go"
 	"fmt"
 	"net"
 	"strconv"
 	"sync"
 	"time"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -54,7 +55,7 @@ func confirms(txHeight, curHeight int32) int32 {
 // requestHandler is a handler function to handle an unmarshaled and parsed
 // request into a marshalable response.  If the error is a *btcjson.RPCError
 // or any of the above special error classes, the server will respond with
-// the JSON-RPC appropiate error code.  All other errors use the wallet
+// the JSON-RPC appropriate error code.  All other errors use the wallet
 // catch-all error code, btcjson.ErrRPCWallet.
 type requestHandler func(interface{}, *wallet.Wallet) (interface{}, er.R)
 
@@ -203,7 +204,7 @@ func makeResponse(id, result interface{}, err er.R) btcjson.Response {
 		return btcjson.Response{
 			ID: idPtr,
 			Error: btcjson.SerializeError(
-				btcjson.ErrRPCInternal.New("Unexpected error marshalling result", nil)),
+				btcjson.ErrRPCInternal.New("Unexpected error marshaling result", nil)),
 		}
 	}
 	return btcjson.Response{
@@ -325,7 +326,7 @@ func createMultiSig(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
 }
 
 // dumpPrivKey handles a dumpprivkey request with the private key
-// for a single address, or an appropiate error if the wallet
+// for a single address, or an appropriate error if the wallet
 // is locked.
 func dumpPrivKey(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
 	cmd := icmd.(*btcjson.DumpPrivKeyCmd)
@@ -617,7 +618,7 @@ func importPrivKey(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
 }
 
 // getNewAddress handles a getnewaddress request by returning a new
-// address for an account.  If the account does not exist an appropiate
+// address for an account.  If the account does not exist an appropriate
 // error is returned.
 // TODO: Follow BIP 0044 and warn if number of unused addresses exceeds
 // the gap limit.
@@ -796,8 +797,8 @@ func getTransaction(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
 // localeHelpDescs maps from locale strings (e.g. "en_US") to a function that
 // builds a map of help texts for each RPC server method.  This prevents help
 // text maps for every locale map from being rooted and created during init.
-// Instead, the appropiate function is looked up when help text is first needed
-// using the current locale and saved to the global below for futher reuse.
+// Instead, the appropriate function is looked up when help text is first needed
+// using the current locale and saved to the global below for further reuse.
 //
 // requestUsages contains single line usages for every supported request,
 // separated by newlines.  It is set during init.  These usages are used for all
@@ -832,7 +833,7 @@ func help(icmd interface{}, w *wallet.Wallet, chainClient *chain.RPCClient) (int
 	cmd := icmd.(*btcjson.HelpCmd)
 
 	// pktd returns different help messages depending on the kind of
-	// connection the client is using.  Only methods availble to HTTP POST
+	// connection the client is using.  Only methods available to HTTP POST
 	// clients are available to be used by wallet clients, even though
 	// wallet itself is a websocket client to pktd.  Therefore, create a
 	// POST client as needed.
@@ -1667,7 +1668,7 @@ func signRawTransaction(icmd interface{}, w *wallet.Wallet, chainClient chain.In
 	var buf bytes.Buffer
 	buf.Grow(tx.SerializeSize())
 
-	// All returned errors (not OOM, which panics) encounted during
+	// All returned errors (not OOM, which panics) encountered during
 	// bytes.Buffer writes are unexpected.
 	if err = tx.Serialize(&buf); err != nil {
 		panic(err)

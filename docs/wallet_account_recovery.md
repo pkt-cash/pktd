@@ -1,6 +1,6 @@
 # Wallet Account Recovery
 
-The use of accounts with the wallet is *unsupported*, in case you have accidentally created a wallet with accounts and are now unable to access funds in an account, this proceedure will recover the funds.
+The use of accounts with the wallet is *unsupported*, in case you have accidentally created a wallet with accounts and are now unable to access funds in an account, this procedure will recover the funds.
 
 First, you must determine what account address(es) have received funds which must be recovered. Get the list of addresses which need to be recovered.
 

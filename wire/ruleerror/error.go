@@ -332,7 +332,7 @@ var (
 )
 
 var (
-	ErrUnknown = Err.CodeWithDetail("ErrUnknown", "Rejected witn unexpected code")
+	ErrUnknown = Err.CodeWithDetail("ErrUnknown", "Rejected with unexpected code")
 )
 
 func IsTxRuleErrorCode(ec *er.ErrorCode) bool {

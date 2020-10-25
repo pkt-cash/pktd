@@ -30,7 +30,7 @@ type BufferPool struct {
 	equal   uint32
 	greater uint32
 	miss    uint32
-	mu sync.RWMutex
+	mu      sync.RWMutex
 }
 
 func (p *BufferPool) poolNum(n int) int {

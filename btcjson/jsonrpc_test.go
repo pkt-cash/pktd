@@ -85,16 +85,16 @@ func TestMarshalResponse(t *testing.T) {
 	t.Logf("Running %d tests", len(tests))
 	for i, test := range tests {
 		_, _ = i, test
-		marshalled, err := btcjson.MarshalResponse(testID, test.result, test.jsonErr)
+		marshaled, err := btcjson.MarshalResponse(testID, test.result, test.jsonErr)
 		if err != nil {
 			t.Errorf("Test #%d (%s) unexpected error: %v", i,
 				test.name, err)
 			continue
 		}
 
-		if !bytes.Contains(marshalled, test.expected) {
+		if !bytes.Contains(marshaled, test.expected) {
 			t.Errorf("Test #%d (%s) mismatched result - got %s, "+
-				"want %s", i, test.name, marshalled,
+				"want %s", i, test.name, marshaled,
 				test.expected)
 		}
 	}
@@ -123,14 +123,14 @@ func TestMiscErrors(t *testing.T) {
 	}
 
 	// Force an error in MarshalResponse by giving it a result type that
-	// can't be marshalled.
-/*	_, err = btcjson.MarshalResponse(1, make(chan int), nil)
-	if _, ok := er.Wrapped(err).(*json.UnsupportedTypeError); !ok {
-		wantErr := &json.UnsupportedTypeError{}
-		t.Errorf("MarshalResult: did not receive expected error - got "+
-			"%v (%[1]T), want %T", err, wantErr)
-		return
-	} XXX -trn */
+	// can't be marshaled.
+	/*	_, err = btcjson.MarshalResponse(1, make(chan int), nil)
+		if _, ok := er.Wrapped(err).(*json.UnsupportedTypeError); !ok {
+			wantErr := &json.UnsupportedTypeError{}
+			t.Errorf("MarshalResult: did not receive expected error - got "+
+				"%v (%[1]T), want %T", err, wantErr)
+			return
+		} XXX -trn */
 }
 
 // TestRPCError tests the error output for the RPCError type.

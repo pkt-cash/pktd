@@ -84,7 +84,7 @@ func LoadBlocks(filename string) ([]*btcutil.Block, er.R) {
 }
 
 func GetBlock(name string, t *testing.T) *btcutil.Block {
-	runtime.GOMAXPROCS(runtime.NumCPU()*6)
+	runtime.GOMAXPROCS(runtime.NumCPU() * 6)
 
 	blocks, err := LoadBlocks(name)
 	if err != nil {

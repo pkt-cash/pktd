@@ -5,10 +5,11 @@
 package btcjson_test
 
 import (
-	"github.com/json-iterator/go"
 	"math"
 	"reflect"
 	"testing"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 

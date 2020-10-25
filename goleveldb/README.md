@@ -1,17 +1,5 @@
 This is an implementation of the [LevelDB key/value database](http:code.google.com/p/leveldb) in the [Go programming language](http:golang.org).
 
-[![Build Status](https://travis-ci.org/syndtr/goleveldb.png?branch=master)](https://travis-ci.org/syndtr/goleveldb)
-
-Installation
------------
-
-	go get github.com/pkt-cash/pktd/goleveldb/leveldb
-
-Requirements
------------
-
-* Need at least `go1.5` or newer.
-
 Usage
 -----------
 
@@ -101,7 +89,3 @@ db, err := leveldb.OpenFile("path/to/db", o)
 defer db.Close()
 ...
 ```
-Documentation
------------
-
-You can read package documentation [here](http:godoc.org/github.com/pkt-cash/pktd/goleveldb).

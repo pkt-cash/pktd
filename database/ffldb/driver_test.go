@@ -281,7 +281,7 @@ func TestInterface(t *testing.T) {
 	}
 
 	// Run all of the interface tests against the database.
-	runtime.GOMAXPROCS(runtime.NumCPU()*6)
+	runtime.GOMAXPROCS(runtime.NumCPU() * 6)
 
 	// Change the maximum file size to a small value to force multiple flat
 	// files with the test data set.

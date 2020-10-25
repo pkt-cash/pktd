@@ -10,7 +10,6 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/base64"
-	"github.com/json-iterator/go"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -21,6 +20,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 
@@ -290,7 +291,7 @@ type (
 
 	// rawNotification is a partially-unmarshaled JSON-RPC notification.
 	rawNotification struct {
-		Method string            `json:"method"`
+		Method string                `json:"method"`
 		Params []jsoniter.RawMessage `json:"params"`
 	}
 
@@ -298,7 +299,7 @@ type (
 	// to be valid (according to JSON-RPC 1.0 spec), ID may not be nil.
 	rawResponse struct {
 		Result jsoniter.RawMessage `json:"result"`
-		Error  *btcjson.RPCErr `json:"error"`
+		Error  *btcjson.RPCErr     `json:"error"`
 	}
 )
 
@@ -870,7 +871,7 @@ func (c *Client) sendRequest(jReq *jsonRequest) {
 
 	// Add the request to the internal tracking map so the response from the
 	// remote server can be properly detected and routed to the response
-	// channel.  Then send the marshalled request via the websocket
+	// channel.  Then send the marshaled request via the websocket
 	// connection.
 	if err := c.addRequest(jReq); err != nil {
 		jReq.responseChan <- &response{err: err}
