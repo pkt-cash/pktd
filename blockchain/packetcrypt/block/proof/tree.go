@@ -52,7 +52,7 @@ import (
 // Left-side leaf nodes do not need to contain a range, because the node itself is an announcement
 // hash and the "start" of the node is known by looking at the hash.
 //
-// If we were proving the existance of just one announcement in the tree, it would be this easy.
+// If we were proving the existence of just one announcement in the tree, it would be this easy.
 // However, because we are proving 4, there are also a number of entries which are COMPUTABLE,
 // meaning that both of their children are known and so we can compute them completely.
 
@@ -290,7 +290,7 @@ type Tree struct {
 // in the coinbase.
 func (t *Tree) GetRoot() *TreeNode { return &t.entries[0] }
 
-// GetAnnEntry gets the table netry corrisponding to a particular announcement.
+// GetAnnEntry gets the table netry corresponding to a particular announcement.
 func (t *Tree) GetAnnEntry(annNum uint64) *TreeNode {
 	path := pathForNum(annNum, t.branchHeight)
 	e := t.GetRoot()

@@ -921,7 +921,7 @@ func blockDetails(block *btcutil.Block, txIndex int) *btcjson.BlockDetails {
 	}
 }
 
-// newRedeemingTxNotification returns a new marshalled redeemingtx notification
+// newRedeemingTxNotification returns a new marshaled redeemingtx notification
 // with the passed parameters.
 func newRedeemingTxNotification(txHex string, index int, block *btcutil.Block) ([]byte, er.R) {
 	// Create and marshal the notification.
@@ -993,13 +993,13 @@ func (m *wsNotificationManager) notifyRelevantTxAccepted(tx *btcutil.Tx,
 
 	if len(clientsToNotify) != 0 {
 		n := btcjson.NewRelevantTxAcceptedNtfn(txHexString(tx.MsgTx()))
-		marshalled, err := btcjson.MarshalCmd(nil, n)
+		marshaled, err := btcjson.MarshalCmd(nil, n)
 		if err != nil {
 			rpcsLog.Errorf("Failed to marshal notification: %v", err)
 			return
 		}
 		for quitChan := range clientsToNotify {
-			clients[quitChan].QueueNotification(marshalled)
+			clients[quitChan].QueueNotification(marshaled)
 		}
 	}
 }
@@ -1425,7 +1425,7 @@ out:
 }
 
 // serviceRequest services a parsed RPC request by looking up and executing the
-// appropriate RPC handler.  The response is marshalled and sent to the
+// appropriate RPC handler.  The response is marshaled and sent to the
 // websocket client.
 func (c *wsClient) serviceRequest(r *parsedRPCCmd) {
 	var (

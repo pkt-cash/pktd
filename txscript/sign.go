@@ -124,7 +124,7 @@ func p2pkSignatureScript(tx *wire.MsgTx, idx int, subScript []byte, hashType par
 }
 
 // signMultiSig signs as many of the outputs in the provided multisig script as
-// possible. It returns the generated script and a boolean if the script fulfils
+// possible. It returns the generated script and a boolean if the script fulfills
 // the contract (i.e. nrequired signatures are provided).  Since it is arguably
 // legal to not be able to sign any of the outputs, no error is returned.
 func signMultiSig(tx *wire.MsgTx, idx int, subScript []byte, hashType params.SigHashType,
@@ -330,7 +330,7 @@ sigLoop:
 	for _, sig := range possibleSigs {
 
 		// can't have a valid signature that doesn't at least have a
-		// hashtype, in practise it is even longer than this. but
+		// hashtype, in practice it is even longer than this. but
 		// that'll be checked next.
 		if len(sig) < 1 {
 			continue

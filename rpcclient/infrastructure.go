@@ -870,7 +870,7 @@ func (c *Client) sendRequest(jReq *jsonRequest) {
 
 	// Add the request to the internal tracking map so the response from the
 	// remote server can be properly detected and routed to the response
-	// channel.  Then send the marshalled request via the websocket
+	// channel.  Then send the marshaled request via the websocket
 	// connection.
 	if err := c.addRequest(jReq); err != nil {
 		jReq.responseChan <- &response{err: err}

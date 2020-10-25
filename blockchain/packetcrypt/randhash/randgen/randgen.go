@@ -102,7 +102,7 @@ func _getVar(ctx *randGen, dbl bool) int {
 			break
 		}
 		// walk up to a higher scope
-		if !cointoss(ctx, util.Conf_RandGen_HIGHER_SCOPE_LIKELYHOOD) {
+		if !cointoss(ctx, util.Conf_RandGen_HIGHER_SCOPE_LIKELIHOOD) {
 			break
 		}
 	nextFrame:
@@ -119,7 +119,7 @@ func _getVar(ctx *randGen, dbl bool) int {
 			j = bof + 1
 		}
 		//printf("%08x %d\n", ctx->vars.elems[j], j);
-		if (!dbl || (j > bof+1)) && cointoss(ctx, util.Conf_RandGen_VAR_REUSE_LIKELYHOOD) {
+		if (!dbl || (j > bof+1)) && cointoss(ctx, util.Conf_RandGen_VAR_REUSE_LIKELIHOOD) {
 			//printf("reuse\n");
 			return j
 		} else if (ctx.vars[j] & 1) == 0 {
@@ -132,12 +132,12 @@ func _getVar(ctx *randGen, dbl bool) int {
 func getVar(ctx *randGen, dbl bool) int {
 	out := _getVar(ctx, dbl)
 	if ctx.vars[out] == ^uint32(0) {
-		panic("getVar out references a frame boundry")
+		panic("getVar out references a frame boundary")
 	}
 	ctx.vars[out] |= 1
 	if dbl {
 		if ctx.vars[out-1] == ^uint32(0) {
-			panic("getVar out-1 references a frame boundry")
+			panic("getVar out-1 references a frame boundary")
 		}
 		ctx.vars[out-1] |= 1
 	}
@@ -146,7 +146,7 @@ func getVar(ctx *randGen, dbl bool) int {
 
 func getA(ctx *randGen, dbl bool) uint32 { return uint32(getVar(ctx, dbl)) << 9 }
 func getB(ctx *randGen, dbl bool) uint32 {
-	if cointoss(ctx, util.Conf_RandGen_IMMEDIATE_LIKELYHOOD) {
+	if cointoss(ctx, util.Conf_RandGen_IMMEDIATE_LIKELIHOOD) {
 		return (randu32(ctx) << 20) | (1 << 18)
 	}
 	return uint32(getVar(ctx, dbl)) << 20
@@ -234,7 +234,7 @@ func branch(ctx *randGen, budget *int) bool {
 		return false
 	}
 	op := opcodes.OpCode_IF_LIKELY
-	if cointoss(ctx, util.Conf_RandGen_RANDOM_BRANCH_LIKELYHOOD) {
+	if cointoss(ctx, util.Conf_RandGen_RANDOM_BRANCH_LIKELIHOOD) {
 		op = opcodes.OpCode_IF_RANDOM
 	}
 

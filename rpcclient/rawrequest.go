@@ -41,7 +41,7 @@ func (c *Client) RawRequestAsync(method string, params []jsoniter.RawMessage) Fu
 
 	// Create a raw JSON-RPC request using the provided method and params
 	// and marshal it.  This is done rather than using the sendCmd function
-	// since that relies on marshalling registered btcjson commands rather
+	// since that relies on marshaling registered btcjson commands rather
 	// than custom commands.
 	id := c.NextID()
 	rawRequest := &btcjson.Request{

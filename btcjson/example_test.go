@@ -33,7 +33,7 @@ func ExampleMarshalCmd() {
 		return
 	}
 
-	// Display the marshalled command.  Ordinarily this would be sent across
+	// Display the marshaled command.  Ordinarily this would be sent across
 	// the wire to the RPC server, but for this example, just display it.
 	fmt.Printf("%s\n", marshalledBytes)
 
@@ -103,7 +103,7 @@ func ExampleMarshalResponse() {
 		return
 	}
 
-	// Display the marshalled response.  Ordinarily this would be sent
+	// Display the marshaled response.  Ordinarily this would be sent
 	// across the wire to the RPC client, but for this example, just display
 	// it.
 	fmt.Printf("%s\n", marshalledBytes)
