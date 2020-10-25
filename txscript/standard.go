@@ -264,7 +264,7 @@ type ScriptInfo struct {
 
 // CalcScriptInfo returns a structure providing data about the provided script
 // pair.  It will error if the pair is in someway invalid such that they can not
-// be analysed, i.e. if they do not parse or the pkScript is not a push-only
+// be analyzed, i.e. if they do not parse or the pkScript is not a push-only
 // script
 func CalcScriptInfo(sigScript, pkScript []byte, witness wire.TxWitness,
 	bip16, segwit bool) (*ScriptInfo, er.R) {
@@ -530,7 +530,7 @@ func PayToAddrScript(addr btcutil.Address) ([]byte, er.R) {
 	return PayToAddrScriptWithVote(addr, nil, nil)
 }
 
-// stripVote removes any votes from a script so that it will appear as a cannonical
+// stripVote removes any votes from a script so that it will appear as a canonical
 // transaction.
 func stripVote(pops []parsescript.ParsedOpcode) []parsescript.ParsedOpcode {
 	out := make([]parsescript.ParsedOpcode, 0, len(pops))
@@ -719,7 +719,7 @@ func ExtractPkScriptAddrs(pkScript []byte, chainParams *chaincfg.Params) (Script
 	return scriptClass, addrs, requiredSigs, nil
 }
 
-// PkScriptToAddress returns the address corrisponding to a script.
+// PkScriptToAddress returns the address corresponding to a script.
 // Because most multi-signature scripts are segwit and are thus able to be represented as
 // addresses, most scripts are able to be represented directly as addresses, but if there
 // is a script which is not directly parsable, this function will return "script:" followed

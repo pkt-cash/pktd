@@ -565,7 +565,7 @@ func (ef *FeeEstimator) EstimateFee(numBlocks uint32) (BtcPerKilobyte, er.R) {
 
 // int confTarget, FeeCalculation *feeCalc, bool conservative
 // This adheres to the API of estimateSmartFee but it is not actually smart.
-func (ef *FeeEstimator) EstimateSmartFee(numBlocks uint32, conservitive bool) btcjson.EstimateSmartFeeResult {
+func (ef *FeeEstimator) EstimateSmartFee(numBlocks uint32, conservative bool) btcjson.EstimateSmartFeeResult {
 	out := btcjson.EstimateSmartFeeResult{}
 	if fpk, err := ef.EstimateFee(numBlocks); err != nil {
 		out.Errors = append(out.Errors, err.Message())

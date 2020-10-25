@@ -130,7 +130,7 @@ func walletMain() er.R {
 	// (which should be closed last) is added first.
 	addInterruptHandler(func() {
 		// When panicing, do not cleanly unload the wallet (by closing
-		// the db).  If a panic occured inside a bolt transaction, the
+		// the db).  If a panic occurred inside a bolt transaction, the
 		// db mutex is still held and this causes a deadlock.
 		if r := recover(); r != nil {
 			panic(r)

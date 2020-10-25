@@ -257,7 +257,7 @@ Changes in 0.5.0 (Tue Mar 03 2015)
         status and wallet sync state
       - Begin creating websocket notifications by sending to one of many
         notification channels in the rpcServer struct, which are in turn
-        marshalled and broadcast to each websocket client
+        marshaled and broadcast to each websocket client
     - Separate the RPC client code into the chain package:
       - Uses rpcclient for a btcd websocket RPC client
       - Converts all notification callbacks to typed messages sent over channels
@@ -270,7 +270,7 @@ Changes in 0.5.0 (Tue Mar 03 2015)
     - Check and handle all errors in some way, or explicitly comment why a
       particular error was left unchecked
     - Simplify RPC error handling by wrapping specific errors in unique types to
-      create an appropriate btcjson error before the response is marshalled
+      create an appropriate btcjson error before the response is marshaled
     - Add a map of unspent outputs (keyed by outpoint) to the transaction store
       for quick lookup of any UTXO and access to the full wallet UTXO set
       without iterating over many transactions looking for unspent credits
@@ -343,7 +343,7 @@ Changes in 0.4.0 (Sun May 25 2014)
       transactions
 
   - Rewrite the transaction store to handle several issues regarding
-    transation malleability and performance issues
+    transition malleability and performance issues
     - The new transaction store is written to disk in a different format
       then before, and upgrades will require a rescan to rebuild the
       transaction history

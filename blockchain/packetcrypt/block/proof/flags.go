@@ -20,7 +20,7 @@ const (
 	// no information is provided because it's hard-wired to all ff
 	FPadEntry Flag = (1 << 1)
 
-	// FLeaf this node is canadian, it corrisponds to an announcement hash
+	// FLeaf this node is canadian, it corresponds to an announcement hash
 	// (including the ones which we're proving)
 	FLeaf Flag = (1 << 2)
 

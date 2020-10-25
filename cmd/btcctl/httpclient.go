@@ -65,7 +65,7 @@ func newHTTPClient(cfg *config) (*http.Client, er.R) {
 	return &client, nil
 }
 
-// sendPostRequest sends the marshalled JSON-RPC command using HTTP-POST mode
+// sendPostRequest sends the marshaled JSON-RPC command using HTTP-POST mode
 // to the server described in the passed config struct.  It also attempts to
 // unmarshal the response as a JSON-RPC response and returns either the result
 // field or the error field depending on whether or not there is an error.

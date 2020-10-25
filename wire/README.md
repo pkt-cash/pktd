@@ -22,7 +22,7 @@ To accomplish this, there is a generic interface for bitcoin messages named
 `Message` which allows messages of any type to be read, written, or passed
 around through channels, functions, etc. In addition, concrete implementations
 of most of the currently supported bitcoin messages are provided. For these
-supported messages, all of the details of marshalling and unmarshalling to and
+supported messages, all of the details of marshaling and unmarshalling to and
 from the wire using bitcoin encoding are handled so the caller doesn't have to
 concern themselves with the specifics.
 
