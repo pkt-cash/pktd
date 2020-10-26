@@ -309,7 +309,7 @@ func TestStoreQueries(t *testing.T) {
 	})
 
 	// Insert another unmined transaction which spends txA:0, splitting the
-	// amount into outputs of 40 and 60 BTC.
+	// amount into outputs of 40 and 60 PKT.
 	txB := spendOutput(&recA.Hash, 0, 40e8, 60e8)
 	recB, err := NewTxRecordFromMsgTx(txB, timeNow())
 	if err != nil {

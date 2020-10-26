@@ -3,8 +3,8 @@ chaincfg
 
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org)
 
-Package chaincfg defines chain configuration parameters for BTC and PKT Cash
-networks and provides the ability to define additional custom networks.
+Package chaincfg defines chain configuration parameters for BTC and PKT
+Cash networks and provides the ability to define additional custom networks.
 
 Although this package was primarily written for btcd and adapted to pktd, it
 has intentionally been designed so it can be used as a standalone package for

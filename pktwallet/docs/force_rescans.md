@@ -71,7 +71,7 @@ will be triggered to sync the wallet:
 
 ```
 $ btcwallet
-14:05:31 2015-04-13 [INF] BTCW: No recorded transaction history -- needs full rescan
+14:05:31 2015-04-13 [INF] PKTW: No recorded transaction history -- needs full rescan
 ...
 14:05:31 2015-04-13 [INF] WLLT: Started rescan from block 000000000000e37b0f99af2e434834123b5459e31e17937169ce81ed0cc4d61c (height 193191) for 1 address
 ...

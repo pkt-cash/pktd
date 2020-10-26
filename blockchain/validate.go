@@ -189,7 +189,7 @@ func isBIP0030Node(node *blockNode) bool {
 // At the target block generation rate for the main network, this is
 // approximately every 4 years.
 func bitcoinCalcBlockSubsidy(height int32, chainParams *chaincfg.Params) int64 {
-	bitcoinBaseSubsidy := 50 * globalcfg.SatoshiPerBitcoin()
+	bitcoinBaseSubsidy := 50 * globalcfg.SatoshiPerPKT()
 	if chainParams.SubsidyReductionInterval == 0 {
 		return bitcoinBaseSubsidy
 	}
@@ -211,7 +211,7 @@ func pktCalcBlockSubsidy(period int32) int64 {
 	periods := big.NewInt(int64(period))
 	a := big.NewInt(9)
 	a.Exp(a, periods, nil)
-	a.Mul(a, big.NewInt(int64(4166)*globalcfg.SatoshiPerBitcoin()))
+	a.Mul(a, big.NewInt(int64(4166)*globalcfg.SatoshiPerPKT()))
 	b := big.NewInt(10)
 	b.Exp(b, periods, nil)
 	a.Div(a, b)
@@ -272,8 +272,8 @@ func CheckTransactionSanity(tx *btcutil.Tx) er.R {
 	// output must not be negative or more than the max allowed per
 	// transaction.  Also, the total of all outputs must abide by the same
 	// restrictions.  All amounts in a transaction are in a unit value known
-	// as a satoshi.  One bitcoin is a quantity of satoshi as defined by the
-	// SatoshiPerBitcoin constant.
+	// as a Satoshi.  One PKT is a quantity of Satoshi as defined by the
+	// SatoshiPerPKT constant.
 	var totalSatoshi int64
 	for _, txOut := range msgTx.TxOut {
 		satoshi := txOut.Value
@@ -290,7 +290,7 @@ func CheckTransactionSanity(tx *btcutil.Tx) er.R {
 		}
 
 		// Two's complement int64 overflow guarantees that any overflow
-		// is detected and reported.  This is impossible for Bitcoin, but
+		// is detected and reported.  This is impossible for PKT, but
 		// perhaps possible if an alt increases the total money supply.
 		totalSatoshi += satoshi
 		if totalSatoshi < 0 {
@@ -610,7 +610,7 @@ func checkBlockSanity(block *btcutil.Block, powLimit *big.Int, timeSource Median
 	// Build merkle tree and ensure the calculated merkle root matches the
 	// entry in the block header.  This also has the effect of caching all
 	// of the transaction hashes in the block to speed up future hash
-	// checks.  Bitcoind builds the tree here and checks the merkle root
+	// checks. pktd builds the tree here and checks the merkle root
 	// after the following checks, but there is no reason not to check the
 	// merkle root matches here.
 	merkles := BuildMerkleTreeStore(block.Transactions(), false)
@@ -1014,9 +1014,9 @@ func CheckTransactionInputs(tx *btcutil.Tx, txHeight int32, utxoView *UtxoViewpo
 		// Ensure the transaction amounts are in range.  Each of the
 		// output values of the input transactions must not be negative
 		// or more than the max allowed per transaction.  All amounts in
-		// a transaction are in a unit value known as a satoshi.  One
-		// bitcoin is a quantity of satoshi as defined by the
-		// SatoshiPerBitcoin constant.
+		// a transaction are in a unit value known as a Satoshi.  One
+		// bitcoin is a quantity of Satoshi as defined by the
+		// SatoshiPerPKT constant.
 		originTxSatoshi := utxo.Amount()
 		if originTxSatoshi < 0 {
 			str := fmt.Sprintf("transaction output has negative "+

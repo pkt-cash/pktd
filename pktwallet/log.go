@@ -51,19 +51,19 @@ var (
 	// or data races and/or nil pointer dereferences will occur.
 	backendLog = pktlog.NewBackend(logWriter{})
 
-	log          = backendLog.Logger("BTCW")
+	log          = backendLog.Logger("PKTW")
 	walletLog    = backendLog.Logger("WLLT")
 	txmgrLog     = backendLog.Logger("TMGR")
 	chainLog     = backendLog.Logger("CHNS")
 	grpcLog      = backendLog.Logger("GRPC")
 	legacyRPCLog = backendLog.Logger("RPCS")
-	btcnLog      = backendLog.Logger("BTCN")
+	btcnLog      = backendLog.Logger("PKTN")
 
 	adxrLog = backendLog.Logger("ADXR")
 	amgrLog = backendLog.Logger("AMGR")
 	cmgrLog = backendLog.Logger("CMGR")
 	bcdbLog = backendLog.Logger("BCDB")
-	pktdLog = backendLog.Logger("BTCD")
+	pktdLog = backendLog.Logger("PKTD")
 	chanLog = backendLog.Logger("CHAN")
 	discLog = backendLog.Logger("DISC")
 	indxLog = backendLog.Logger("INDX")
@@ -102,13 +102,13 @@ func init() {
 
 // subsystemLoggers maps each subsystem identifier to its associated logger.
 var subsystemLoggers = map[string]pktlog.Logger{
-	"BTCW": log,
+	"PKTW": log,
 	"WLLT": walletLog,
 	"TMGR": txmgrLog,
 	"CHNS": chainLog,
 	"GRPC": grpcLog,
 	"RPCS": legacyRPCLog,
-	"BTCN": btcnLog,
+	"PKTN": btcnLog,
 
 	"ADXR": adxrLog,
 	"AMGR": amgrLog,

@@ -105,7 +105,7 @@ func ExampleSignTxOutput() {
 
 	// For this example, create a fake transaction that represents what
 	// would ordinarily be the real transaction that is being spent.  It
-	// contains a single output that pays to address in the amount of 1 BTC.
+	// contains a single output that pays to address in the amount of 1 PKT.
 	originTx := wire.NewMsgTx(constants.TxVersion)
 	prevOut := wire.NewOutPoint(&chainhash.Hash{}, ^uint32(0))
 	txIn := wire.NewTxIn(prevOut, []byte{opcode.OP_0, opcode.OP_0}, nil)

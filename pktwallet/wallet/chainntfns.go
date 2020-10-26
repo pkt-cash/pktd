@@ -206,7 +206,7 @@ func (w *Wallet) addRelevantTx(dbtx walletdb.ReadWriteTx, rec *wtxmgr.TxRecord, 
 					// don't log when we see the same money again
 				} else if block != nil {
 					log.Infof("💸 "+pktlog.GreenBg("Got paid!")+" [%s] -> [%s] tx [%s] @ [%s]",
-						pktlog.Coins(txOutAmt.ToBTC()),
+						pktlog.Coins(txOutAmt.ToPKT()),
 						pktlog.Address(addr.String()),
 						pktlog.Txid(rec.Hash.String()),
 						pktlog.Height(block.Height))
@@ -221,7 +221,7 @@ func (w *Wallet) addRelevantTx(dbtx walletdb.ReadWriteTx, rec *wtxmgr.TxRecord, 
 					})
 				} else {
 					log.Infof("⏱  Detected unconfirmed payment [%s] -> [%s] tx [%s]",
-						pktlog.Coins(txOutAmt.ToBTC()),
+						pktlog.Coins(txOutAmt.ToPKT()),
 						pktlog.Address(addr.String()),
 						pktlog.Txid(rec.Hash.String()))
 				}

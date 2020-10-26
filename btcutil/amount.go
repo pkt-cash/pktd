@@ -12,8 +12,8 @@ import (
 	"github.com/pkt-cash/pktd/chaincfg/globalcfg"
 )
 
-// Amount represents the base bitcoin monetary unit (colloquially referred
-// to as a `Satoshi').  A single Amount is equal to 1e-8 of a bitcoin.
+// Amount represents the base PKT monetary unit (colloquially referred
+// to as a `Satoshi').  A single Amount is equal to 1e-8 of a PKT.
 type Amount int64
 
 // round converts a floating point number, which may or may not be representable
@@ -28,14 +28,13 @@ func round(f float64) Amount {
 }
 
 // NewAmount creates an Amount from a floating point value representing
-// some value in bitcoin.  NewAmount errors if f is NaN or +-Infinity, but
-// does not check that the amount is within the total amount of bitcoin
+// some value in PKT.  NewAmount errors if f is NaN or +-Infinity, but
+// does not check that the amount is within the total amount of PKT Cash
 // producible as f may not refer to an amount at a single moment in time.
 //
-// NewAmount is for specifically for converting BTC to Satoshi.
+// NewAmount is for specifically for converting PKT to Satoshi.
 // For creating a new Amount with an int64 value which denotes a quantity of Satoshi,
 // do a simple type conversion from type int64 to Amount.
-// See GoDoc for example: http://godoc.org/github.com/pkt-cash/btcutil#example-Amount
 func NewAmount(f float64) (Amount, er.R) {
 	// The amount is only considered invalid if it cannot be represented
 	// as an integer type.  This may happen if f is NaN or +-Infinity.
@@ -48,11 +47,11 @@ func NewAmount(f float64) (Amount, er.R) {
 		return 0, er.New("invalid bitcoin amount")
 	}
 
-	return round(f * float64(globalcfg.SatoshiPerBitcoin())), nil
+	return round(f * float64(globalcfg.SatoshiPerPKT())), nil
 }
 
-// ToUnit converts a monetary amount counted in bitcoin base units to a
-// floating point value representing an amount of bitcoin.
+// ToUnit converts a monetary amount counted in PKT base units to a
+// floating point value representing an amount of PKT.
 func (a Amount) ToUnit(uname string) (float64, er.R) {
 	units := globalcfg.AmountUnits()
 	for _, u := range units {
@@ -64,8 +63,8 @@ func (a Amount) ToUnit(uname string) (float64, er.R) {
 	return math.NaN(), er.Errorf("%s is not a valid unit", uname)
 }
 
-// ToBTC is the equivalent of calling ToUnit with AmountBTC.
-func (a Amount) ToBTC() float64 {
+// ToPKT is the equivalent of calling ToUnit with AmountPKT.
+func (a Amount) ToPKT() float64 {
 	out, err := a.ToUnit(globalcfg.AmountUnits()[0].Name)
 	if err != nil {
 		panic("ToUnit failed with default unit")
@@ -73,7 +72,7 @@ func (a Amount) ToBTC() float64 {
 	return out
 }
 
-// Format formats a monetary amount counted in bitcoin base units as a
+// Format formats a monetary amount counted in PKT base units as a
 // string for a given unit.  The conversion will succeed for any unit,
 // however, known units will be formated with an appended label describing
 // the units with SI notation, or "Satoshi" for the base unit.
@@ -94,7 +93,7 @@ func (a Amount) Format(uname string) (string, er.R) {
 	return "", er.Errorf("%s is not a valid unit", uname)
 }
 
-// String is the equivalent of calling Format with AmountBTC.
+// String is the equivalent of calling Format with AmountPKT.
 func (a Amount) String() string {
 	out, err := a.Format(globalcfg.AmountUnits()[0].Name)
 	if err != nil {
@@ -105,7 +104,7 @@ func (a Amount) String() string {
 
 // MulF64 multiplies an Amount by a floating point value.  While this is not
 // an operation that must typically be done by a full node or wallet, it is
-// useful for services that build on top of bitcoin (for example, calculating
+// useful for services that build on top of PKT (for example, calculating
 // a fee by multiplying by a percentage).
 func (a Amount) MulF64(f float64) Amount {
 	return round(float64(a) * f)

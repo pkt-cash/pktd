@@ -65,6 +65,7 @@ func BitcoinDefaults() Config {
 	}
 }
 
+// PktDefaults creates a new config with the default values for PKT Cash
 func PktDefaults() Config {
 	return Config{
 		ProofOfWorkAlgorithm: PowPacketCrypt,
@@ -74,7 +75,7 @@ func PktDefaults() Config {
 		Amounts: []CoinAmount{
 			{Name: "PKT", Units: int64(1) << 30, Zeros: 9},
 			{Name: "MPKT", Units: int64(1) << 30 * 1e6, Zeros: 12},
-			{Name: "kPKT", Units: int64(1) << 30 * 1e3, Zeros: 15},
+			{Name: "kBTC", Units: int64(1) << 30 * 1e3, Zeros: 15},
 
 			{Name: "Pibit", Units: int64(1) << 50, Zeros: 15},
 			{Name: "Tibit", Units: int64(1) << 40, Zeros: 12},
@@ -83,7 +84,8 @@ func PktDefaults() Config {
 			{Name: "Kibit", Units: int64(1) << 10, Zeros: 3},
 			{Name: "bit", Units: int64(1), Zeros: 0},
 		},
-		// Just over 10x bitcoin, but using an odd number because CalcPastMedianTime()
+		// Just over 10x bitcoin, but using an odd
+		// number because CalcPastMedianTime() 
 		// algorithm depends on the number being odd
 		MedianTimeBlocks: 111,
 
@@ -144,8 +146,8 @@ func HasNetworkSteward() bool {
 	return gConf.HasNetworkSteward
 }
 
-// SatoshiPerBitcoin returns the number of atomic units per "coin"
-func SatoshiPerBitcoin() int64 {
+// SatoshiPerPKT returns the number of atomic units per "coin"
+func SatoshiPerPKT() int64 {
 	checkRegistered()
 	return gConf.UnitsPerCoin
 }

@@ -39,7 +39,7 @@ const (
 // MinHighPriority is the minimum priority value that allows a
 // transaction to be considered high priority.
 func MinHighPriority() float64 {
-	return float64(globalcfg.SatoshiPerBitcoin()) * 144.0 / 250
+	return float64(globalcfg.SatoshiPerPKT()) * 144.0 / 250
 }
 
 // TxDesc is a descriptor about a transaction in a transaction source along with
@@ -292,14 +292,14 @@ func createCoinbaseTx(params *chaincfg.Params, coinbaseScript []byte, nextBlockH
 			amt := int64(float64(coins) * realPct)
 			if coinsToDate+amt > coins {
 				amt2 := coins - coinsToDate
-				diff := float64(amt-amt2) / float64(globalcfg.SatoshiPerBitcoin())
+				diff := float64(amt-amt2) / float64(globalcfg.SatoshiPerPKT())
 				log.Infof("Shaved [%v] coins off from address [%s] to make exact total",
 					diff, addr.EncodeAddress())
 				amt = amt2
 			}
 			if count == i && coinsToDate+amt < coins {
 				amt2 := coins - coinsToDate
-				diff := float64(amt2-amt) / float64(globalcfg.SatoshiPerBitcoin())
+				diff := float64(amt2-amt) / float64(globalcfg.SatoshiPerPKT())
 				log.Infof("Gave away [%v] coins off from address [%s] to make exact total",
 					diff, addr.EncodeAddress())
 				amt = amt2

@@ -1275,7 +1275,7 @@ func listTransactions(tx walletdb.ReadTx, details *wtxmgr.TxDetails, addrMgr *wa
 		// Note: The actual fee is debitTotal - outputTotal.  However,
 		// this RPC reports negative numbers for fees, so the inverse
 		// is calculated.
-		feeF64 = (outputTotal - debitTotal).ToBTC()
+		feeF64 = (outputTotal - debitTotal).ToPKT()
 	}
 
 outputs:
@@ -1312,7 +1312,7 @@ outputs:
 			}
 		}
 
-		amountF64 := btcutil.Amount(output.Value).ToBTC()
+		amountF64 := btcutil.Amount(output.Value).ToPKT()
 		result := btcjson.ListTransactionsResult{
 			// Fields left zeroed:
 			//   InvolvesWatchOnly
@@ -1677,7 +1677,7 @@ func (w *Wallet) ListUnspent(minconf, maxconf int32,
 				Vout:          output.OutPoint.Index,
 				Account:       acctName,
 				ScriptPubKey:  hex.EncodeToString(output.PkScript),
-				Amount:        output.Amount.ToBTC(),
+				Amount:        output.Amount.ToPKT(),
 				Confirmations: int64(confs),
 				Spendable:     spendable,
 			}

@@ -243,7 +243,7 @@ func NewLockUnspentCmd(unlock bool, transactions []TransactionInput) *LockUnspen
 // SendFromCmd defines the sendfrom JSON-RPC command.
 type SendFromCmd struct {
 	ToAddress     string
-	Amount        float64 // In BTC
+	Amount        float64 // In PKT
 	FromAddresses *[]string
 	MinConf       *int `jsonrpcdefault:"1"`
 	Comment       *string
@@ -284,7 +284,7 @@ type CreateTransactionCmd struct {
 
 // SendManyCmd defines the sendmany JSON-RPC command.
 type SendManyCmd struct {
-	Amounts       map[string]float64 `jsonrpcusage:"{\"address\":amount,...}"` // In BTC
+	Amounts       map[string]float64 `jsonrpcusage:"{\"address\":amount,...}"` // In PKT
 	FromAddresses *[]string
 	MinConf       *int `jsonrpcdefault:"1"`
 	Comment       *string
@@ -329,7 +329,7 @@ func NewSendToAddressCmd(address string, amount float64, comment, commentTo *str
 
 // SetTxFeeCmd defines the settxfee JSON-RPC command.
 type SetTxFeeCmd struct {
-	Amount float64 // In BTC
+	Amount float64 // In PKT
 }
 
 // NewSetTxFeeCmd returns a new instance which can be used to issue a settxfee

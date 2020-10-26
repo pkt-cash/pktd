@@ -11,7 +11,7 @@ from and managing sets of unspent transaction outpoints (UTXOs).
 Each unspent transaction outpoint is represented by the Coin interface.  An
 example of a concrete type that implements Coin is coinset.SimpleCoin.
 
-The typical use case for this library is for creating raw bitcoin transactions
+The typical use case for this library is for creating raw transactions
 given a set of Coins that may be spent by the user, for example as below:
 
 ```Go
