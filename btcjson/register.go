@@ -5,13 +5,14 @@
 package btcjson
 
 import (
-	"github.com/json-iterator/go"
 	"fmt"
 	"reflect"
 	"sort"
 	"strconv"
 	"strings"
 	"sync"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 )

@@ -53,7 +53,6 @@ const (
 	// a serialized block (4 bytes network version + 4 bytes block size +
 	// 4 bytes checksum).
 	blockMetadataSize = 12
-
 )
 
 var (

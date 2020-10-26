@@ -6,8 +6,9 @@
 package btcjson_test
 
 import (
-	"github.com/json-iterator/go"
 	"testing"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcjson"
 )

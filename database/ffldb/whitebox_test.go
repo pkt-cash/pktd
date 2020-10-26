@@ -23,9 +23,9 @@ import (
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/genesis"
 	"github.com/pkt-cash/pktd/database"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb"
+	ldberrors "github.com/pkt-cash/pktd/goleveldb/leveldb/errors"
 	"github.com/pkt-cash/pktd/wire/protocol"
-	"github.com/syndtr/goleveldb/leveldb"
-	ldberrors "github.com/syndtr/goleveldb/leveldb/errors"
 )
 
 var (

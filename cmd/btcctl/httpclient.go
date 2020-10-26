@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"crypto/tls"
 	"crypto/x509"
-	"github.com/json-iterator/go"
 	"fmt"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktconfig/version"

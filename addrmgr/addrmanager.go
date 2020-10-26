@@ -10,7 +10,6 @@ import (
 	crand "crypto/rand" // for seeding
 	"encoding/base32"
 	"encoding/binary"
-	"github.com/json-iterator/go"
 	"io"
 	"math/rand"
 	"net"
@@ -21,6 +20,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/wire/protocol"

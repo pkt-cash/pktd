@@ -200,9 +200,9 @@ func View(db DB, f func(tx ReadTx) er.R) er.R {
 	}
 	// Make sure the transaction rolls back in the event of a panic.
 	defer func() {
-        if tx != nil {
-                tx.Rollback()
-        }
+		if tx != nil {
+			tx.Rollback()
+		}
 	}()
 	err = f(tx)
 	rollbackErr := tx.Rollback()
@@ -228,9 +228,9 @@ func Update(db DB, f func(tx ReadWriteTx) er.R) er.R {
 	}
 	// Make sure the transaction rolls back in the event of a panic.
 	defer func() {
-        if tx != nil {
-                tx.Rollback()
-        }
+		if tx != nil {
+			tx.Rollback()
+		}
 	}()
 	err = f(tx)
 	if err != nil {

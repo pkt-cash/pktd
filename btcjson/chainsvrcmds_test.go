@@ -7,10 +7,11 @@ package btcjson_test
 import (
 	"bytes"
 	/*"encoding/json" XXX -trn */
-	"github.com/json-iterator/go"
 	"fmt"
 	"reflect"
 	"testing"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcjson"
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -1164,35 +1165,35 @@ func TestChainSvrCmds(t *testing.T) {
 // TestChainSvrCmdErrors ensures any errors that occur in the command during
 // custom mashal and unmarshal are as expected.
 /*func TestChainSvrCmdErrors(t *testing.T) {
-	t.Parallel()
+t.Parallel()
 
-	tests := []struct {
-		name       string
-		result     interface{}
-		marshalled string
-		err        er.R
-	}{
-		{
-			name:       "template request with invalid type",
-			result:     &btcjson.TemplateRequest{},
-			marshalled: `{"mode":1}`,
-			err:        er.E(&json.UnmarshalTypeError{}),
-		},
-		{
-			name:       "invalid template request sigoplimit field",
-			result:     &btcjson.TemplateRequest{},
-			marshalled: `{"sigoplimit":"invalid"}`,
-			err:        btcjson.ErrInvalidType.Default(),
-		},
-		{
-			name:       "invalid template request sizelimit field",
-			result:     &btcjson.TemplateRequest{},
-			marshalled: `{"sizelimit":"invalid"}`,
-			err:        btcjson.ErrInvalidType.Default(),
-		},
-	} XXX -trn */
+tests := []struct {
+	name       string
+	result     interface{}
+	marshalled string
+	err        er.R
+}{
+	{
+		name:       "template request with invalid type",
+		result:     &btcjson.TemplateRequest{},
+		marshalled: `{"mode":1}`,
+		err:        er.E(&json.UnmarshalTypeError{}),
+	},
+	{
+		name:       "invalid template request sigoplimit field",
+		result:     &btcjson.TemplateRequest{},
+		marshalled: `{"sigoplimit":"invalid"}`,
+		err:        btcjson.ErrInvalidType.Default(),
+	},
+	{
+		name:       "invalid template request sizelimit field",
+		result:     &btcjson.TemplateRequest{},
+		marshalled: `{"sizelimit":"invalid"}`,
+		err:        btcjson.ErrInvalidType.Default(),
+	},
+} XXX -trn */
 
-	/*t.Logf("Running %d tests", len(tests))
+/*t.Logf("Running %d tests", len(tests))
 	for i, test := range tests {
 		err := er.E(jsoniter.Unmarshal([]byte(test.marshalled), &test.result))
 		if !er.FuzzyEquals(err, test.err) {
@@ -1200,5 +1201,5 @@ func TestChainSvrCmds(t *testing.T) {
 				i, test.name, err, err, test.err)
 			continue
 		}
-	} XXX -trn 
+	} XXX -trn
 }*/
