@@ -1,7 +1,7 @@
 package neutrino
 
 import (
-	"compress/bzip2"
+	"github.com/ulikunitz/xz"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -40,7 +40,7 @@ var (
 
 	// blockDataFile is the path to a file containing the first 256 blocks
 	// of the block chain.
-	blockDataFile = filepath.Join("testdata", "blocks1-256.bz2")
+	blockDataFile = filepath.Join("testdata", "blocks1-256.xz")
 )
 
 // loadBlocks loads the blocks contained in the testdata directory and returns
@@ -62,7 +62,12 @@ func loadBlocks(t *testing.T, dataFile string, network protocol.BitcoinNet) (
 				err)
 		}
 	}()
-	dr := bzip2.NewReader(fi)
+	dr, err := xz.NewReader(fi)
+	if err != nil {
+		err := er.E(err)
+		t.Errorf("xz.NewReader error %s", err)
+		return nil, err
+    }
 
 	// Set the first block as the genesis block.
 	blocks := make([]*btcutil.Block, 0, 256)

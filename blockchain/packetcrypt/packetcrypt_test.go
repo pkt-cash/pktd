@@ -188,7 +188,7 @@ func TestInsertCoinbaseCommit(t *testing.T) {
 	cbc := wire.PcCoinbaseCommit{}
 	copy(cbc.Bytes[:], cbcBytes)
 
-	block := testdata.GetBlock("../testdata/277647.dat.bz2", t)
+	block := testdata.GetBlock("../testdata/277647.dat.xz", t)
 	mb := block.MsgBlock()
 
 	packetcrypt.InsertCoinbaseCommit(mb.Transactions[0], &cbc)

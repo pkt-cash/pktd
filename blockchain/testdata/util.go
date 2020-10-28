@@ -11,7 +11,7 @@ package testdata
 
 import (
 	"bytes"
-	"compress/bzip2"
+	"github.com/ulikunitz/xz"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -40,8 +40,12 @@ func LoadBlocks(filename string) ([]*btcutil.Block, er.R) {
 		return nil, er.E(err)
 	}
 
-	if strings.HasSuffix(filename, ".bz2") {
-		dr = bzip2.NewReader(fi)
+	if strings.HasSuffix(filename, ".xz") {
+		dr, err = xz.NewReader(fi)
+	if err != nil {
+		err := er.E(err)
+		return nil, err
+    }
 	} else {
 		dr = fi
 	}
