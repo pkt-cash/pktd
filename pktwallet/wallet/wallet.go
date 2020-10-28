@@ -674,7 +674,7 @@ type (
 
 	// heldUnlock is a tool to prevent the wallet from automatically
 	// locking after some timeout before an operation which needed
-	// the unlocked wallet has finished.  Any aquired heldUnlock
+	// the unlocked wallet has finished.  Any acquired heldUnlock
 	// *must* be released (preferably with a defer) or the wallet
 	// will forever remain unlocked.
 	heldUnlock chan struct{}
@@ -1202,7 +1202,7 @@ func RecvCategory(details *wtxmgr.TxDetails, syncHeight int32, net *chaincfg.Par
 	return CreditReceive
 }
 
-// listTransactions creates a object that may be marshalled to a response result
+// listTransactions creates a object that may be marshaled to a response result
 // for a listtransactions RPC.
 //
 // TODO: This should be moved to the legacyrpc package.
@@ -2847,7 +2847,7 @@ func (w *Wallet) rescan() {
 		top = limit
 	}
 	if err := w.rescan2(rj.height, top, true); err != nil {
-		log.Warnf("Error while running maintanence job [%s]", err.String())
+		log.Warnf("Error while running maintenance job [%s]", err.String())
 		return
 	}
 	rj.height = top

@@ -18,8 +18,8 @@ import (
 
 // TestWalletSvrWsNtfns tests all of the chain server websocket-specific
 // notifications marshal and unmarshal into valid results include handling of
-// optional fields being omitted in the marshalled command, while optional
-// fields with defaults have the default assigned on unmarshalled commands.
+// optional fields being omitted in the marshaled command, while optional
+// fields with defaults have the default assigned on unmarhsaled commands.
 func TestWalletSvrWsNtfns(t *testing.T) {
 	t.Parallel()
 
@@ -27,8 +27,8 @@ func TestWalletSvrWsNtfns(t *testing.T) {
 		name         string
 		newNtfn      func() (interface{}, er.R)
 		staticNtfn   func() interface{}
-		marshalled   string
-		unmarshalled interface{}
+		marshaled   string
+		unmarhsaled interface{}
 	}{
 		{
 			name: "accountbalance",
@@ -38,8 +38,8 @@ func TestWalletSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewAccountBalanceNtfn("acct", 1.25, true)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"accountbalance","params":["acct",1.25,true],"id":null}`,
-			unmarshalled: &btcjson.AccountBalanceNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"accountbalance","params":["acct",1.25,true],"id":null}`,
+			unmarhsaled: &btcjson.AccountBalanceNtfn{
 				Account:   "acct",
 				Balance:   1.25,
 				Confirmed: true,
@@ -53,8 +53,8 @@ func TestWalletSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewBtcdConnectedNtfn(true)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"pktdconnected","params":[true],"id":null}`,
-			unmarshalled: &btcjson.BtcdConnectedNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"pktdconnected","params":[true],"id":null}`,
+			unmarhsaled: &btcjson.BtcdConnectedNtfn{
 				Connected: true,
 			},
 		},
@@ -66,8 +66,8 @@ func TestWalletSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewWalletLockStateNtfn(true)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"walletlockstate","params":[true],"id":null}`,
-			unmarshalled: &btcjson.WalletLockStateNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"walletlockstate","params":[true],"id":null}`,
+			unmarhsaled: &btcjson.WalletLockStateNtfn{
 				Locked: true,
 			},
 		},
@@ -96,8 +96,8 @@ func TestWalletSvrWsNtfns(t *testing.T) {
 				}
 				return btcjson.NewNewTxNtfn("acct", result)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"newtx","params":["acct",{"abandoned":false,"account":"acct","address":"1Address","amount":1.5,"bip125-replaceable":"unknown","category":"send","confirmations":1,"fee":0.0001,"time":12345678,"timereceived":12345876,"trusted":true,"txid":"456","vout":789,"walletconflicts":[],"otheraccount":"otheracct"}],"id":null}`,
-			unmarshalled: &btcjson.NewTxNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"newtx","params":["acct",{"abandoned":false,"account":"acct","address":"1Address","amount":1.5,"bip125-replaceable":"unknown","category":"send","confirmations":1,"fee":0.0001,"time":12345678,"timereceived":12345876,"trusted":true,"txid":"456","vout":789,"walletconflicts":[],"otheraccount":"otheracct"}],"id":null}`,
+			unmarhsaled: &btcjson.NewTxNtfn{
 				Account: "acct",
 				Details: btcjson.ListTransactionsResult{
 					Abandoned:         false,
@@ -124,17 +124,17 @@ func TestWalletSvrWsNtfns(t *testing.T) {
 	for i, test := range tests {
 		// Marshal the notification as created by the new static
 		// creation function.  The ID is nil for notifications.
-		marshalled, err := btcjson.MarshalCmd(nil, test.staticNtfn())
+		marshaled, err := btcjson.MarshalCmd(nil, test.staticNtfn())
 		if err != nil {
 			t.Errorf("MarshalCmd #%d (%s) unexpected error: %v", i,
 				test.name, err)
 			continue
 		}
 
-		if !bytes.Equal(marshalled, []byte(test.marshalled)) {
-			t.Errorf("Test #%d (%s) unexpected marshalled data - "+
-				"got %s, want %s", i, test.name, marshalled,
-				test.marshalled)
+		if !bytes.Equal(marshaled, []byte(test.marhsaled)) {
+			t.Errorf("Test #%d (%s) unexpected marshaled data - "+
+				"got %s, want %s", i, test.name, marshaled,
+				test.marhsaled)
 			continue
 		}
 
@@ -149,22 +149,22 @@ func TestWalletSvrWsNtfns(t *testing.T) {
 		// Marshal the notification as created by the generic new
 		// notification creation function.    The ID is nil for
 		// notifications.
-		marshalled, err = btcjson.MarshalCmd(nil, cmd)
+		marshaled, err = btcjson.MarshalCmd(nil, cmd)
 		if err != nil {
 			t.Errorf("MarshalCmd #%d (%s) unexpected error: %v", i,
 				test.name, err)
 			continue
 		}
 
-		if !bytes.Equal(marshalled, []byte(test.marshalled)) {
-			t.Errorf("Test #%d (%s) unexpected marshalled data - "+
-				"got %s, want %s", i, test.name, marshalled,
-				test.marshalled)
+		if !bytes.Equal(marshaled, []byte(test.marhsaled)) {
+			t.Errorf("Test #%d (%s) unexpected marshaled data - "+
+				"got %s, want %s", i, test.name, marshaled,
+				test.marhsaled)
 			continue
 		}
 
 		var request btcjson.Request
-		if err := jsoniter.Unmarshal(marshalled, &request); err != nil {
+		if err := jsoniter.Unmarshal(marshaled, &request); err != nil {
 			t.Errorf("Test #%d (%s) unexpected error while "+
 				"unmarshalling JSON-RPC request: %v", i,
 				test.name, err)
@@ -178,11 +178,11 @@ func TestWalletSvrWsNtfns(t *testing.T) {
 			continue
 		}
 
-		if !reflect.DeepEqual(cmd, test.unmarshalled) {
-			t.Errorf("Test #%d (%s) unexpected unmarshalled command "+
+		if !reflect.DeepEqual(cmd, test.unmarhsaled) {
+			t.Errorf("Test #%d (%s) unexpected unmarhsaled command "+
 				"- got %s, want %s", i, test.name,
 				fmt.Sprintf("(%T) %+[1]v", cmd),
-				fmt.Sprintf("(%T) %+[1]v\n", test.unmarshalled))
+				fmt.Sprintf("(%T) %+[1]v\n", test.unmarhsaled))
 			continue
 		}
 	}

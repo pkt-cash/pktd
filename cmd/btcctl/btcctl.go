@@ -132,7 +132,7 @@ func main() {
 
 	// Marshal the command into a JSON-RPC byte slice in preparation for
 	// sending it to the RPC server.
-	marshalledJSON, err := btcjson.MarshalCmd(1, cmd)
+	marhsaledJSON, err := btcjson.MarshalCmd(1, cmd)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -140,7 +140,7 @@ func main() {
 
 	// Send the JSON-RPC request to the server using the user-specified
 	// connection configuration.
-	result, err := sendPostRequest(marshalledJSON, cfg)
+	result, err := sendPostRequest(marhsaledJSON, cfg)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)

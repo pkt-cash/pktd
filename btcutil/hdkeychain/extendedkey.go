@@ -33,7 +33,7 @@ const (
 	RecommendedSeedLen = 32 // 256 bits
 
 	// HardenedKeyStart is the index at which a hardended key starts.  Each
-	// extended key has 2^31 normal child keys and 2^31 hardned child keys.
+	// extended key has 2^31 normal child keys and 2^31 hardened child keys.
 	// Thus the range for normal child keys is [0, 2^31 - 1] and the range
 	// for hardened child keys is [2^31, 2^32 - 1].
 	HardenedKeyStart = 0x80000000 // 2^31
@@ -143,7 +143,7 @@ type ExtendedKey struct {
 // NewExtendedKey returns a new instance of an extended key with the given
 // fields.  No error checking is performed here as it's only intended to be a
 // convenience method used to create a populated struct. This function should
-// only by used by applications that need to create custom ExtendedKeys. All
+// only b3 used by applications that need to create custom ExtendedKeys. All
 // other applications should just use NewMaster, Child, or Neuter.
 func NewExtendedKey(version, key, chainCode, parentFP []byte, depth uint8,
 	childNum uint32, isPrivate bool) *ExtendedKey {

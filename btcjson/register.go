@@ -32,7 +32,7 @@ const (
 	UFWebsocketOnly
 
 	// UFNotification indicates that the command is actually a notification.
-	// This means when it is marshalled, the ID must be nil.
+	// This means when it is marshaled, the ID must be nil.
 	UFNotification
 
 	// highestUsageFlagBit is the maximum usage flag bit and is used in the
@@ -140,7 +140,7 @@ func isAcceptableKind(kind reflect.Kind) bool {
 //
 //   - The provided command must be a single pointer to a struct
 //   - All fields must be exported
-//   - The order of the positional parameters in the marshalled JSON will be in
+//   - The order of the positional parameters in the marshaled JSON will be in
 //     the same order as declared in the struct definition
 //   - Struct embedding is not supported
 //   - Struct fields may NOT be channels, functions, complex, or interface
@@ -239,7 +239,7 @@ func RegisterCmd(method string, cmd interface{}, flags UsageFlag) er.R {
 			}
 		}
 
-		// Ensure the default value can be unsmarshalled into the type
+		// Ensure the default value can be unsmarhsaled into the type
 		// and that defaults are only specified for optional fields.
 		if tag := rtf.Tag.Get("jsonrpcdefault"); tag != "" {
 			if !isOptional {

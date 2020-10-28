@@ -37,7 +37,7 @@ func NewRPCError(code *er.ErrorCode, message string, err er.R) er.R {
 // valid JSON type.  JSON-RPC 2.0 (which bitcoind follows for some parts) only
 // allows string, number, or null, so this function restricts the allowed types
 // to that list.  This function is only provided in case the caller is manually
-// marshalling for some reason.    The functions which accept an ID in this
+// marshaling for some reason.    The functions which accept an ID in this
 // package already call this function to ensure the provided id is valid.
 func IsValidIDType(id interface{}) bool {
 	switch id.(type) {
@@ -66,14 +66,14 @@ type Request struct {
 }
 
 // NewRequest returns a new JSON-RPC 1.0 request object given the provided id,
-// method, and parameters.  The parameters are marshalled into a
+// method, and parameters.  The parameters are marshaled into a
 // jsoniter.RawMessage for the Params field of the returned request object.
 // This function is only provided in case the caller wants to construct raw
 // requests for some reason.
 //
 // Typically callers will instead want to create a registered concrete command
 // type with the NewCmd or New<Foo>Cmd functions and call the MarshalCmd
-// function with that command to generate the marshalled JSON-RPC request.
+// function with that command to generate the marshaled JSON-RPC request.
 func NewRequest(id interface{}, method string, params []interface{}) (*Request, er.R) {
 	if !IsValidIDType(id) {
 		str := fmt.Sprintf("the id of type '%T' is invalid", id)
@@ -82,11 +82,11 @@ func NewRequest(id interface{}, method string, params []interface{}) (*Request, 
 
 	rawParams := make([]jsoniter.RawMessage, 0, len(params))
 	for _, param := range params {
-		marshalledParam, err := jsoniter.Marshal(param)
+		marhsaledParam, err := jsoniter.Marshal(param)
 		if err != nil {
 			return nil, er.E(err)
 		}
-		rawMessage := jsoniter.RawMessage(marshalledParam)
+		rawMessage := jsoniter.RawMessage(marhsaledParam)
 		rawParams = append(rawParams, rawMessage)
 	}
 
@@ -129,12 +129,12 @@ func SerializeError(err er.R) *RPCErr {
 }
 
 // NewResponse returns a new JSON-RPC response object given the provided id,
-// marshalled result, and RPC error.  This function is only provided in case the
+// marshaled result, and RPC error.  This function is only provided in case the
 // caller wants to construct raw responses for some reason.
 //
-// Typically callers will instead want to create the fully marshalled JSON-RPC
+// Typically callers will instead want to create the fully marshaled JSON-RPC
 // response to send over the wire with the MarshalResponse function.
-func NewResponse(id interface{}, marshalledResult []byte, rpcErr er.R) (*Response, er.R) {
+func NewResponse(id interface{}, marhsaledResult []byte, rpcErr er.R) (*Response, er.R) {
 	if !IsValidIDType(id) {
 		str := fmt.Sprintf("the id of type '%T' is invalid", id)
 		return nil, makeError(ErrInvalidType, str)
@@ -142,7 +142,7 @@ func NewResponse(id interface{}, marshalledResult []byte, rpcErr er.R) (*Respons
 
 	pid := &id
 	return &Response{
-		Result: marshalledResult,
+		Result: marhsaledResult,
 		Error:  SerializeError(rpcErr),
 		ID:     pid,
 	}, nil
@@ -151,11 +151,11 @@ func NewResponse(id interface{}, marshalledResult []byte, rpcErr er.R) (*Respons
 // MarshalResponse marshals the passed id, result, and RPCError to a JSON-RPC
 // response byte slice that is suitable for transmission to a JSON-RPC client.
 func MarshalResponse(id interface{}, result interface{}, rpcErr er.R) ([]byte, er.R) {
-	marshalledResult, errr := jsoniter.Marshal(result)
+	marhsaledResult, errr := jsoniter.Marshal(result)
 	if errr != nil {
 		return nil, er.E(errr)
 	}
-	response, err := NewResponse(id, marshalledResult, rpcErr)
+	response, err := NewResponse(id, marhsaledResult, rpcErr)
 	if err != nil {
 		return nil, err
 	}

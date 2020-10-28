@@ -366,7 +366,7 @@ func newManagedAddressWithoutPrivKey(m *ScopedKeyManager,
 	case NestedWitnessPubKey:
 		// For this address type we'l generate an address which is
 		// backwards compatible to Bitcoin nodes running 0.6.0 onwards, but
-		// allows us to take advantage of segwit's scripting improvments,
+		// allows us to take advantage of segwit's scripting improvements,
 		// and malleability fixes.
 
 		// First, we'll generate a normal p2wkh address from the pubkey hash.

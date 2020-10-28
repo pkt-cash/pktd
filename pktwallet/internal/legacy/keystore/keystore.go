@@ -1895,7 +1895,7 @@ type PubKeyAddress interface {
 	// PubKey returns the public key associated with the address.
 	PubKey() *btcec.PublicKey
 	// ExportPubKey returns the public key associated with the address
-	// serialised as a hex encoded string.
+	// serialized as a hex encoded string.
 	ExportPubKey() string
 	// PrivKey returns the private key for the address.
 	// It can fail if the key store is watching only, the key store is locked,
@@ -2333,7 +2333,7 @@ func (a *btcAddress) pubKeyBytes() []byte {
 	return a.pubKey.SerializeUncompressed()
 }
 
-// ExportPubKey returns the public key associated with the address serialised as
+// ExportPubKey returns the public key associated with the address serialized as
 // a hex encoded string. Implemnts PubKeyAddress
 func (a *btcAddress) ExportPubKey() string {
 	return hex.EncodeToString(a.pubKeyBytes())

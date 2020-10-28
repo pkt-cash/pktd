@@ -19,8 +19,8 @@ import (
 
 // TestChainSvrWsNtfns tests all of the chain server websocket-specific
 // notifications marshal and unmarshal into valid results include handling of
-// optional fields being omitted in the marshalled command, while optional
-// fields with defaults have the default assigned on unmarshalled commands.
+// optional fields being omitted in the marshaled command, while optional
+// fields with defaults have the default assigned on unmarhsaled commands.
 func TestChainSvrWsNtfns(t *testing.T) {
 	t.Parallel()
 
@@ -28,8 +28,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 		name         string
 		newNtfn      func() (interface{}, er.R)
 		staticNtfn   func() interface{}
-		marshalled   string
-		unmarshalled interface{}
+		marshaled   string
+		unmarhsaled interface{}
 	}{
 		{
 			name: "blockconnected",
@@ -39,8 +39,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewBlockConnectedNtfn("123", 100000, 123456789)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"blockconnected","params":["123",100000,123456789],"id":null}`,
-			unmarshalled: &btcjson.BlockConnectedNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"blockconnected","params":["123",100000,123456789],"id":null}`,
+			unmarhsaled: &btcjson.BlockConnectedNtfn{
 				Hash:   "123",
 				Height: 100000,
 				Time:   123456789,
@@ -54,8 +54,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewBlockDisconnectedNtfn("123", 100000, 123456789)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"blockdisconnected","params":["123",100000,123456789],"id":null}`,
-			unmarshalled: &btcjson.BlockDisconnectedNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"blockdisconnected","params":["123",100000,123456789],"id":null}`,
+			unmarhsaled: &btcjson.BlockDisconnectedNtfn{
 				Hash:   "123",
 				Height: 100000,
 				Time:   123456789,
@@ -69,8 +69,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewFilteredBlockConnectedNtfn(100000, "header", []string{"tx0", "tx1"})
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"filteredblockconnected","params":[100000,"header",["tx0","tx1"]],"id":null}`,
-			unmarshalled: &btcjson.FilteredBlockConnectedNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"filteredblockconnected","params":[100000,"header",["tx0","tx1"]],"id":null}`,
+			unmarhsaled: &btcjson.FilteredBlockConnectedNtfn{
 				Height:        100000,
 				Header:        "header",
 				SubscribedTxs: []string{"tx0", "tx1"},
@@ -84,8 +84,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewFilteredBlockDisconnectedNtfn(100000, "header")
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"filteredblockdisconnected","params":[100000,"header"],"id":null}`,
-			unmarshalled: &btcjson.FilteredBlockDisconnectedNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"filteredblockdisconnected","params":[100000,"header"],"id":null}`,
+			unmarhsaled: &btcjson.FilteredBlockDisconnectedNtfn{
 				Height: 100000,
 				Header: "header",
 			},
@@ -104,8 +104,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 				}
 				return btcjson.NewRecvTxNtfn("001122", &blockDetails)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"recvtx","params":["001122",{"height":100000,"hash":"123","index":0,"time":12345678}],"id":null}`,
-			unmarshalled: &btcjson.RecvTxNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"recvtx","params":["001122",{"height":100000,"hash":"123","index":0,"time":12345678}],"id":null}`,
+			unmarhsaled: &btcjson.RecvTxNtfn{
 				HexTx: "001122",
 				Block: &btcjson.BlockDetails{
 					Height: 100000,
@@ -129,8 +129,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 				}
 				return btcjson.NewRedeemingTxNtfn("001122", &blockDetails)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"redeemingtx","params":["001122",{"height":100000,"hash":"123","index":0,"time":12345678}],"id":null}`,
-			unmarshalled: &btcjson.RedeemingTxNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"redeemingtx","params":["001122",{"height":100000,"hash":"123","index":0,"time":12345678}],"id":null}`,
+			unmarhsaled: &btcjson.RedeemingTxNtfn{
 				HexTx: "001122",
 				Block: &btcjson.BlockDetails{
 					Height: 100000,
@@ -148,8 +148,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewRescanFinishedNtfn("123", 100000, 12345678)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"rescanfinished","params":["123",100000,12345678],"id":null}`,
-			unmarshalled: &btcjson.RescanFinishedNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"rescanfinished","params":["123",100000,12345678],"id":null}`,
+			unmarhsaled: &btcjson.RescanFinishedNtfn{
 				Hash:   "123",
 				Height: 100000,
 				Time:   12345678,
@@ -163,8 +163,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewRescanProgressNtfn("123", 100000, 12345678)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"rescanprogress","params":["123",100000,12345678],"id":null}`,
-			unmarshalled: &btcjson.RescanProgressNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"rescanprogress","params":["123",100000,12345678],"id":null}`,
+			unmarhsaled: &btcjson.RescanProgressNtfn{
 				Hash:   "123",
 				Height: 100000,
 				Time:   12345678,
@@ -178,8 +178,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewTxAcceptedNtfn("123", 1.5)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"txaccepted","params":["123",1.5],"id":null}`,
-			unmarshalled: &btcjson.TxAcceptedNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"txaccepted","params":["123",1.5],"id":null}`,
+			unmarhsaled: &btcjson.TxAcceptedNtfn{
 				TxID:   "123",
 				Amount: 1.5,
 			},
@@ -201,8 +201,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 				}
 				return btcjson.NewTxAcceptedVerboseNtfn(txResult)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"txacceptedverbose","params":[{"hex":"001122","txid":"123","version":1,"locktime":4294967295,"vin":null,"vout":null}],"id":null}`,
-			unmarshalled: &btcjson.TxAcceptedVerboseNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"txacceptedverbose","params":[{"hex":"001122","txid":"123","version":1,"locktime":4294967295,"vin":null,"vout":null}],"id":null}`,
+			unmarhsaled: &btcjson.TxAcceptedVerboseNtfn{
 				RawTx: btcjson.TxRawResult{
 					Hex:           "001122",
 					Txid:          "123",
@@ -222,8 +222,8 @@ func TestChainSvrWsNtfns(t *testing.T) {
 			staticNtfn: func() interface{} {
 				return btcjson.NewRelevantTxAcceptedNtfn("001122")
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"relevanttxaccepted","params":["001122"],"id":null}`,
-			unmarshalled: &btcjson.RelevantTxAcceptedNtfn{
+			marshaled: `{"jsonrpc":"1.0","method":"relevanttxaccepted","params":["001122"],"id":null}`,
+			unmarhsaled: &btcjson.RelevantTxAcceptedNtfn{
 				Transaction: "001122",
 			},
 		},
@@ -233,17 +233,17 @@ func TestChainSvrWsNtfns(t *testing.T) {
 	for i, test := range tests {
 		// Marshal the notification as created by the new static
 		// creation function.  The ID is nil for notifications.
-		marshalled, err := btcjson.MarshalCmd(nil, test.staticNtfn())
+		marshaled, err := btcjson.MarshalCmd(nil, test.staticNtfn())
 		if err != nil {
 			t.Errorf("MarshalCmd #%d (%s) unexpected error: %v", i,
 				test.name, err)
 			continue
 		}
 
-		if !bytes.Equal(marshalled, []byte(test.marshalled)) {
-			t.Errorf("Test #%d (%s) unexpected marshalled data - "+
-				"got %s, want %s", i, test.name, marshalled,
-				test.marshalled)
+		if !bytes.Equal(marshaled, []byte(test.marhsaled)) {
+			t.Errorf("Test #%d (%s) unexpected marshaled data - "+
+				"got %s, want %s", i, test.name, marshaled,
+				test.marhsaled)
 			continue
 		}
 
@@ -258,22 +258,22 @@ func TestChainSvrWsNtfns(t *testing.T) {
 		// Marshal the notification as created by the generic new
 		// notification creation function.    The ID is nil for
 		// notifications.
-		marshalled, err = btcjson.MarshalCmd(nil, cmd)
+		marshaled, err = btcjson.MarshalCmd(nil, cmd)
 		if err != nil {
 			t.Errorf("MarshalCmd #%d (%s) unexpected error: %v", i,
 				test.name, err)
 			continue
 		}
 
-		if !bytes.Equal(marshalled, []byte(test.marshalled)) {
-			t.Errorf("Test #%d (%s) unexpected marshalled data - "+
-				"got %s, want %s", i, test.name, marshalled,
-				test.marshalled)
+		if !bytes.Equal(marshaled, []byte(test.marhsaled)) {
+			t.Errorf("Test #%d (%s) unexpected marshaled data - "+
+				"got %s, want %s", i, test.name, marshaled,
+				test.marhsaled)
 			continue
 		}
 
 		var request btcjson.Request
-		if err := jsoniter.Unmarshal(marshalled, &request); err != nil {
+		if err := jsoniter.Unmarshal(marshaled, &request); err != nil {
 			t.Errorf("Test #%d (%s) unexpected error while "+
 				"unmarshalling JSON-RPC request: %v", i,
 				test.name, err)
@@ -287,11 +287,11 @@ func TestChainSvrWsNtfns(t *testing.T) {
 			continue
 		}
 
-		if !reflect.DeepEqual(cmd, test.unmarshalled) {
-			t.Errorf("Test #%d (%s) unexpected unmarshalled command "+
+		if !reflect.DeepEqual(cmd, test.unmarhsaled) {
+			t.Errorf("Test #%d (%s) unexpected unmarhsaled command "+
 				"- got %s, want %s", i, test.name,
 				fmt.Sprintf("(%T) %+[1]v", cmd),
-				fmt.Sprintf("(%T) %+[1]v\n", test.unmarshalled))
+				fmt.Sprintf("(%T) %+[1]v\n", test.unmarhsaled))
 			continue
 		}
 	}

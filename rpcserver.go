@@ -857,16 +857,16 @@ func handleEstimateSmartFee(s *rpcServer, cmd interface{}, closeChan <-chan stru
 		return nil, er.New("Fee estimation disabled")
 	}
 
-	conservitive := true
+	conservative := true
 	if c.EstimateMode != nil && *c.EstimateMode == btcjson.EstimateModeEconomical {
-		conservitive = false
+		conservative = false
 	}
 
 	if c.ConfTarget <= 0 {
 		return -1.0, er.New("Parameter NumBlocks must be positive")
 	}
 
-	return s.cfg.FeeEstimator.EstimateSmartFee(uint32(c.ConfTarget), conservitive), nil
+	return s.cfg.FeeEstimator.EstimateSmartFee(uint32(c.ConfTarget), conservative), nil
 }
 
 // handleGenerate handles generate commands.
@@ -4195,11 +4195,11 @@ func createMarshalledReply(id, result interface{}, jsonErr er.R) ([]byte, er.R) 
 }
 
 func createResponse(id, result interface{}, jsonErr er.R) (*btcjson.Response, er.R) {
-	marshalledResult, errr := jsoniter.Marshal(result)
+	marhsaledResult, errr := jsoniter.Marshal(result)
 	if errr != nil {
 		return nil, er.E(errr)
 	}
-	return btcjson.NewResponse(id, marshalledResult, jsonErr)
+	return btcjson.NewResponse(id, marhsaledResult, jsonErr)
 }
 
 func (s *rpcServer) jsonRPCReq(
@@ -4362,7 +4362,7 @@ func (s *rpcServer) jsonRPCRead(w http.ResponseWriter, r *http.Request, isAdmin 
 		return
 	}
 	if _, err := buf.Write(msg); err != nil {
-		rpcsLog.Errorf("Failed to write marshalled reply: %v", err)
+		rpcsLog.Errorf("Failed to write marshaled reply: %v", err)
 	}
 
 	// Terminate with newline to maintain compatibility with Bitcoin Core.

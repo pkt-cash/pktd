@@ -129,7 +129,7 @@ func genRandomBlockHash() *chainhash.Hash {
 // will then convert that filter into CacheableFilter to compute it's size for
 // convenience. It will return the filter along with it's size and randomly
 // generated block hash. testing.T is passed in as a convenience to deal with
-// errors in this method and making the test code more straigthforward. Method
+// errors in this method and making the test code more straightforward. Method
 // originally taken from filterdb/db_test.go.
 func genRandFilter(numElements uint32, t *testing.T) (
 	*chainhash.Hash, *gcs.Filter, uint64) {

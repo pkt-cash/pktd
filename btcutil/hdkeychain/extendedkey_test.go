@@ -517,8 +517,8 @@ tests:
 	}
 }
 
-// TestGenenerateSeed ensures the GenerateSeed function works as intended.
-func TestGenenerateSeed(t *testing.T) {
+// TestGenerateSeed ensures the GenerateSeed function works as intended.
+func TestGenerateSeed(t *testing.T) {
 	wantErr := ErrInvalidSeedLen.New("seed length must be between 128 and 512 bits", nil)
 
 	tests := []struct {
@@ -961,7 +961,7 @@ func TestZero(t *testing.T) {
 		wantAddr := "1HT7xU2Ngenf7D4yocz2SAcnNLW7rK8d4E"
 		addr, err := key.Address(&chaincfg.MainNetParams)
 		if err != nil {
-			t.Errorf("Addres s #%d (%s): unexpected error: %v", i,
+			t.Errorf("Address s #%d (%s): unexpected error: %v", i,
 				testName, err)
 			return false
 		}

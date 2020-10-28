@@ -114,7 +114,7 @@ type jsonRequest struct {
 	id             uint64
 	method         string
 	cmd            interface{}
-	marshalledJSON []byte
+	marhsaledJSON []byte
 	responseChan   chan *response
 }
 
@@ -184,7 +184,7 @@ func (c *Client) NextID() uint64 {
 }
 
 // addRequest associates the passed jsonRequest with its id.  This allows the
-// response from the remote server to be unmarshalled to the appropriate type
+// response from the remote server to be unmarhsaled to the appropriate type
 // and sent to the specified channel when it is received.
 //
 // If the client has already begun shutting down, ErrClientShutdown is returned
@@ -495,10 +495,10 @@ cleanup:
 // sendMessage sends the passed JSON to the connected server using the
 // websocket connection.  It is backed by a buffered channel, so it will not
 // block until the send channel is full.
-func (c *Client) sendMessage(marshalledJSON []byte) {
+func (c *Client) sendMessage(marhsaledJSON []byte) {
 	// Don't send the message if disconnected.
 	select {
-	case c.sendChan <- marshalledJSON:
+	case c.sendChan <- marhsaledJSON:
 	case <-c.disconnectChan():
 		return
 	}
@@ -624,7 +624,7 @@ func (c *Client) resendRequests() {
 
 		log.Tracef("Sending command [%s] with id %d", jReq.method,
 			jReq.id)
-		c.sendMessage(jReq.marshalledJSON)
+		c.sendMessage(jReq.marhsaledJSON)
 	}
 }
 
@@ -707,7 +707,7 @@ out:
 }
 
 // handleSendPostMessage handles performing the passed HTTP request, reading the
-// result, unmarshalling it, and delivering the unmarshalled result to the
+// result, unmarshalling it, and delivering the unmarhsaled result to the
 // provided response channel.
 func (c *Client) handleSendPostMessage(details *sendPostDetails) {
 	jReq := details.jsonRequest
@@ -830,7 +830,7 @@ func (c *Client) sendPost(jReq *jsonRequest) {
 		protocol = "https"
 	}
 	url := protocol + "://" + c.config.Host
-	bodyReader := bytes.NewReader(jReq.marshalledJSON)
+	bodyReader := bytes.NewReader(jReq.marhsaledJSON)
 	httpReq, err := http.NewRequest("POST", url, bodyReader)
 	if err != nil {
 		jReq.responseChan <- &response{result: nil, err: er.E(err)}
@@ -870,14 +870,14 @@ func (c *Client) sendRequest(jReq *jsonRequest) {
 
 	// Add the request to the internal tracking map so the response from the
 	// remote server can be properly detected and routed to the response
-	// channel.  Then send the marshalled request via the websocket
+	// channel.  Then send the marshaled request via the websocket
 	// connection.
 	if err := c.addRequest(jReq); err != nil {
 		jReq.responseChan <- &response{err: err}
 		return
 	}
 	log.Tracef("Sending command [%s] with id %d", jReq.method, jReq.id)
-	c.sendMessage(jReq.marshalledJSON)
+	c.sendMessage(jReq.marhsaledJSON)
 }
 
 // sendCmd sends the passed command to the associated server and returns a
@@ -893,7 +893,7 @@ func (c *Client) sendCmd(cmd interface{}) chan *response {
 
 	// Marshal the command.
 	id := c.NextID()
-	marshalledJSON, err := btcjson.MarshalCmd(id, cmd)
+	marhsaledJSON, err := btcjson.MarshalCmd(id, cmd)
 	if err != nil {
 		return newFutureError(err)
 	}
@@ -904,7 +904,7 @@ func (c *Client) sendCmd(cmd interface{}) chan *response {
 		id:             id,
 		method:         method,
 		cmd:            cmd,
-		marshalledJSON: marshalledJSON,
+		marhsaledJSON: marhsaledJSON,
 		responseChan:   responseChan,
 	}
 	c.sendRequest(jReq)

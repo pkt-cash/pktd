@@ -89,7 +89,7 @@ func NewNotifyReceivedCmd(addresses []string) *NotifyReceivedCmd {
 	}
 }
 
-// OutPoint describes a transaction outpoint that will be marshalled to and
+// OutPoint describes a transaction outpoint that will be marshaled to and
 // from JSON.
 type OutPoint struct {
 	Hash  string `json:"hash"`
