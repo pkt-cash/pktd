@@ -2325,7 +2325,6 @@ func opcodeCheckMultiSig(op *parsescript.ParsedOpcode, vm *Engine) er.R {
 		if err := vm.checkPubKeyEncoding(pubKey); err != nil {
 			return err
 		}
-
 		// Parse the pubkey.
 		parsedPubKey, err := btcec.ParsePubKey(pubKey, btcec.S256())
 		if err != nil {
@@ -2350,7 +2349,6 @@ func opcodeCheckMultiSig(op *parsescript.ParsedOpcode, vm *Engine) er.R {
 		} else {
 			hash = calcSignatureHash(script, hashType, &vm.tx, vm.txIdx)
 		}
-
 		var valid bool
 		if vm.sigCache != nil {
 			var sigHash chainhash.Hash
