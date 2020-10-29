@@ -677,7 +677,7 @@ func createVoutList(mtx *wire.MsgTx, chainParams *chaincfg.Params, filterAddrMap
 
 		var vout btcjson.Vout
 		vout.N = uint32(i)
-		vout.ValueCoins = btcutil.Amount(v.Value).ToPKT()
+		vout.ValueCoins = btcutil.Amount(v.Value).ToCoins()
 		vout.Svalue = strconv.FormatInt(v.Value, 10)
 		vout.Address = txscript.PkScriptToAddress(v.PkScript, chainParams).EncodeAddress()
 		vout.ScriptPubKey.Addresses = encodedAddrs
@@ -1432,11 +1432,11 @@ func handleGetNetworkInfo(s *rpcServer, cmd interface{}, closeChan <-chan struct
 		Networkactive:      !cfg.DisableListen,
 		Connections:        s.cfg.ConnMgr.ConnectedCount(),
 		Networks:           []btcjson.GetNetworkInfoNetworks{}, // TODO: populate
-		Relayfee:           cfg.minRelayTxFee.ToPKT(),
+		Relayfee:           cfg.minRelayTxFee.ToCoins(),
 
 		// Not implemented here, but in practice replace-by-fee requires a tx to have as much fees
 		// as everything is replaces plus the minimum again.
-		Incrementalfee: cfg.minRelayTxFee.ToPKT(),
+		Incrementalfee: cfg.minRelayTxFee.ToCoins(),
 
 		Localaddresses: []string{}, // TODO populate
 	}, nil
@@ -2550,7 +2550,7 @@ func handleGetInfo(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (in
 		Proxy:           cfg.Proxy,
 		Difficulty:      getDifficultyRatio(best.Bits, s.cfg.ChainParams),
 		TestNet:         cfg.TestNet3,
-		RelayFee:        cfg.minRelayTxFee.ToPKT(),
+		RelayFee:        cfg.minRelayTxFee.ToCoins(),
 	}
 
 	return ret, nil
@@ -2664,7 +2664,7 @@ func handleGetMiningPayouts(s *rpcServer, cmd interface{}, closeChan <-chan stru
 			continue
 		}
 		addr := txscript.PkScriptToAddress(out.PkScript, s.cfg.ChainParams)
-		m[addr.EncodeAddress()] = btcutil.Amount(out.Value).ToPKT()
+		m[addr.EncodeAddress()] = btcutil.Amount(out.Value).ToCoins()
 	}
 	return m, nil
 }
@@ -3052,7 +3052,7 @@ func handleGetTxOut(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (i
 	txOutReply := &btcjson.GetTxOutResult{
 		BestBlock:     bestBlockHash,
 		Confirmations: int64(confirmations),
-		ValueCoins:    btcutil.Amount(value).ToPKT(),
+		ValueCoins:    btcutil.Amount(value).ToCoins(),
 		Svalue:        strconv.FormatInt(value, 10),
 		Address:       txscript.PkScriptToAddress(pkScript, s.cfg.ChainParams).EncodeAddress(),
 		ScriptPubKey:  scriptPubKey(pkScript, s.cfg.ChainParams),
@@ -3287,7 +3287,7 @@ func createVinList(mtx *wire.MsgTx, chainParams *chaincfg.Params) []btcjson.VinP
 			po := btcjson.PrevOut{}
 			if mtx.Additional[i].Value != nil {
 				v := *mtx.Additional[i].Value
-				po.ValueCoins = btcutil.Amount(v).ToPKT()
+				po.ValueCoins = btcutil.Amount(v).ToCoins()
 				po.Svalue = strconv.FormatInt(v, 10)
 			}
 			if len(mtx.Additional[i].PkScript) > 0 {
@@ -3364,7 +3364,7 @@ func loadPrevOuts(
 		// requested.
 		list[i].PrevOut = &btcjson.PrevOut{
 			Address:    txscript.PkScriptToAddress(originTxOut.PkScript, chainParams).EncodeAddress(),
-			ValueCoins: btcutil.Amount(originTxOut.Value).ToPKT(),
+			ValueCoins: btcutil.Amount(originTxOut.Value).ToCoins(),
 			Svalue:     strconv.FormatInt(originTxOut.Value, 10),
 		}
 	}

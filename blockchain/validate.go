@@ -189,7 +189,7 @@ func isBIP0030Node(node *blockNode) bool {
 // At the target block generation rate for the main network, this is
 // approximately every 4 years.
 func bitcoinCalcBlockSubsidy(height int32, chainParams *chaincfg.Params) int64 {
-	bitcoinBaseSubsidy := 50 * globalcfg.SatoshiPerPKT()
+	bitcoinBaseSubsidy := 50 * globalcfg.UnitsPerCoin()
 	if chainParams.SubsidyReductionInterval == 0 {
 		return bitcoinBaseSubsidy
 	}
@@ -211,7 +211,7 @@ func pktCalcBlockSubsidy(period int32) int64 {
 	periods := big.NewInt(int64(period))
 	a := big.NewInt(9)
 	a.Exp(a, periods, nil)
-	a.Mul(a, big.NewInt(int64(4166)*globalcfg.SatoshiPerPKT()))
+	a.Mul(a, big.NewInt(int64(4166)*globalcfg.UnitsPerCoin()))
 	b := big.NewInt(10)
 	b.Exp(b, periods, nil)
 	a.Div(a, b)
@@ -272,9 +272,9 @@ func CheckTransactionSanity(tx *btcutil.Tx) er.R {
 	// output must not be negative or more than the max allowed per
 	// transaction.  Also, the total of all outputs must abide by the same
 	// restrictions.  All amounts in a transaction are in a unit value known
-	// as a Satoshi.  One PKT is a quantity of Satoshi as defined by the
-	// SatoshiPerPKT constant.
-	var totalSatoshi int64
+	// as a Unit.  One PKT is a quantity of Units as defined by the
+	// UnitsPerCoin constant.
+	var totalUnits int64
 	for _, txOut := range msgTx.TxOut {
 		satoshi := txOut.Value
 		if satoshi < 0 {
@@ -292,17 +292,17 @@ func CheckTransactionSanity(tx *btcutil.Tx) er.R {
 		// Two's complement int64 overflow guarantees that any overflow
 		// is detected and reported.  This is impossible for PKT, but
 		// perhaps possible if an alt increases the total money supply.
-		totalSatoshi += satoshi
-		if totalSatoshi < 0 {
+		totalUnits += satoshi
+		if totalUnits < 0 {
 			str := fmt.Sprintf("total value of all transaction "+
 				"outputs exceeds max allowed value of %v",
 				btcutil.MaxUnits())
 			return ruleerror.ErrOversizeTxOutSum.New(str, nil)
 		}
-		if totalSatoshi > int64(btcutil.MaxUnits()) {
+		if totalUnits > int64(btcutil.MaxUnits()) {
 			str := fmt.Sprintf("total value of all transaction "+
 				"outputs is %v which is higher than max "+
-				"allowed value of %v", totalSatoshi,
+				"allowed value of %v", totalUnits,
 				btcutil.MaxUnits())
 			return ruleerror.ErrOversizeTxOutSum.New(str, nil)
 		}
@@ -970,7 +970,7 @@ func CheckTransactionInputs(tx *btcutil.Tx, txHeight int32, utxoView *UtxoViewpo
 		return 0, nil
 	}
 
-	var totalSatoshiIn int64
+	var totalCoinUnitsIn int64
 	for txInIndex, txIn := range tx.MsgTx().TxIn {
 		// Ensure the referenced input transaction is available.
 		utxo := utxoView.LookupEntry(txIn.PreviousOutPoint)
@@ -1015,18 +1015,18 @@ func CheckTransactionInputs(tx *btcutil.Tx, txHeight int32, utxoView *UtxoViewpo
 		// output values of the input transactions must not be negative
 		// or more than the max allowed per transaction.  All amounts in
 		// a transaction are in a unit value known as a Satoshi.  One
-		// bitcoin is a quantity of Satoshi as defined by the
-		// SatoshiPerPKT constant.
-		originTxSatoshi := utxo.Amount()
-		if originTxSatoshi < 0 {
+		// coin is a quantity of Satoshi as defined by the
+		// UnitsPerCoin constant.
+		originTxCoinUnits := utxo.Amount()
+		if originTxCoinUnits < 0 {
 			str := fmt.Sprintf("transaction output has negative "+
-				"value of %v", btcutil.Amount(originTxSatoshi))
+				"value of %v", btcutil.Amount(originTxCoinUnits))
 			return 0, ruleerror.ErrNegativeTxOutValue.New(str, nil)
 		}
-		if originTxSatoshi > int64(btcutil.MaxUnits()) {
+		if originTxCoinUnits > int64(btcutil.MaxUnits()) {
 			str := fmt.Sprintf("transaction output value of %v is "+
 				"higher than max allowed value of %v",
-				btcutil.Amount(originTxSatoshi),
+				btcutil.Amount(originTxCoinUnits),
 				btcutil.MaxUnits())
 			return 0, ruleerror.ErrOversizeTxOutValue.New(str, nil)
 		}
@@ -1034,13 +1034,13 @@ func CheckTransactionInputs(tx *btcutil.Tx, txHeight int32, utxoView *UtxoViewpo
 		// The total of all outputs must not be more than the max
 		// allowed per transaction.  Also, we could potentially overflow
 		// the accumulator so check for overflow.
-		lastSatoshiIn := totalSatoshiIn
-		totalSatoshiIn += originTxSatoshi
-		if totalSatoshiIn < lastSatoshiIn ||
-			totalSatoshiIn > int64(btcutil.MaxUnits()) {
+		lastSatoshiIn := totalCoinUnitsIn
+		totalCoinUnitsIn += originTxCoinUnits
+		if totalCoinUnitsIn < lastSatoshiIn ||
+			totalCoinUnitsIn > int64(btcutil.MaxUnits()) {
 			str := fmt.Sprintf("total value of all transaction "+
 				"inputs is %v which is higher than max "+
-				"allowed value of %v", totalSatoshiIn,
+				"allowed value of %v", totalCoinUnitsIn,
 				btcutil.MaxUnits())
 			return 0, ruleerror.ErrOversizeTxOutSum.New(str, nil)
 		}
@@ -1049,23 +1049,23 @@ func CheckTransactionInputs(tx *btcutil.Tx, txHeight int32, utxoView *UtxoViewpo
 	// Calculate the total output amount for this transaction.  It is safe
 	// to ignore overflow and out of range errors here because those error
 	// conditions would have already been caught by checkTransactionSanity.
-	var totalSatoshiOut int64
+	var totalCoinUnitsOut int64
 	for _, txOut := range tx.MsgTx().TxOut {
-		totalSatoshiOut += txOut.Value
+		totalCoinUnitsOut += txOut.Value
 	}
 
 	// Ensure the transaction does not spend more than its inputs.
-	if totalSatoshiIn < totalSatoshiOut {
+	if totalCoinUnitsIn < totalCoinUnitsOut {
 		str := fmt.Sprintf("total value of all transaction inputs for "+
 			"transaction %v is %v which is less than the amount "+
-			"spent of %v", tx.Hash(), totalSatoshiIn, totalSatoshiOut)
+			"spent of %v", tx.Hash(), totalCoinUnitsIn, totalCoinUnitsOut)
 		return 0, ruleerror.ErrSpendTooHigh.New(str, nil)
 	}
 
 	// NOTE: bitcoind checks if the transaction fees are < 0 here, but that
 	// is an impossible condition because of the check above that ensures
 	// the inputs are >= the outputs.
-	txFeeInSatoshi := totalSatoshiIn - totalSatoshiOut
+	txFeeInSatoshi := totalCoinUnitsIn - totalCoinUnitsOut
 	return txFeeInSatoshi, nil
 }
 
@@ -1243,16 +1243,16 @@ func (b *BlockChain) checkConnectBlock(node *blockNode, block *btcutil.Block,
 	// mining the block.  It is safe to ignore overflow and out of range
 	// errors here because those error conditions would have already been
 	// caught by checkTransactionSanity.
-	var totalSatoshiOut int64
+	var totalCoinUnitsOut int64
 	for _, txOut := range transactions[0].MsgTx().TxOut {
-		totalSatoshiOut += txOut.Value
+		totalCoinUnitsOut += txOut.Value
 	}
 	subsidy := CalcBlockSubsidy(node.height, b.chainParams)
 	expectedSatoshiOut := subsidy + totalFees
-	if totalSatoshiOut > expectedSatoshiOut {
+	if totalCoinUnitsOut > expectedSatoshiOut {
 		str := fmt.Sprintf("coinbase transaction for block pays %v "+
 			"which is more than expected value of %v",
-			totalSatoshiOut, expectedSatoshiOut)
+			totalCoinUnitsOut, expectedSatoshiOut)
 		return nil, ruleerror.ErrBadCoinbaseValue.New(str, nil)
 	}
 

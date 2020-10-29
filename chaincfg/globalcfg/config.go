@@ -75,7 +75,7 @@ func PktDefaults() Config {
 		Amounts: []CoinAmount{
 			{Name: "PKT", Units: int64(1) << 30, Zeros: 9},
 			{Name: "MPKT", Units: int64(1) << 30 * 1e6, Zeros: 12},
-			{Name: "kBTC", Units: int64(1) << 30 * 1e3, Zeros: 15},
+			{Name: "kPKT", Units: int64(1) << 30 * 1e3, Zeros: 15},
 
 			{Name: "Pibit", Units: int64(1) << 50, Zeros: 15},
 			{Name: "Tibit", Units: int64(1) << 40, Zeros: 12},
@@ -146,8 +146,8 @@ func HasNetworkSteward() bool {
 	return gConf.HasNetworkSteward
 }
 
-// SatoshiPerPKT returns the number of atomic units per "coin"
-func SatoshiPerPKT() int64 {
+// UnitsPerCoin returns the number of atomic units per "coin"
+func UnitsPerCoin() int64 {
 	checkRegistered()
 	return gConf.UnitsPerCoin
 }

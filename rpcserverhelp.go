@@ -353,7 +353,7 @@ var helpDescsEnUS = map[string]string{
 	"getblocktemplateresulttx-data":    "Hex-encoded transaction data (byte-for-byte)",
 	"getblocktemplateresulttx-hash":    "Hex-encoded transaction hash (little endian if treated as a 256-bit number)",
 	"getblocktemplateresulttx-depends": "Other transactions before this one (by 1-based index in the 'transactions'  list) that must be present in the final block if this one is",
-	"getblocktemplateresulttx-fee":     "Difference in value between transaction inputs and outputs (in Satoshi)",
+	"getblocktemplateresulttx-fee":     "Difference in value between transaction inputs and outputs (in base Units)",
 	"getblocktemplateresulttx-sigops":  "Total number of signature operations as counted for purposes of block limits",
 	"getblocktemplateresulttx-weight":  "The weight of the transaction",
 
@@ -371,7 +371,7 @@ var helpDescsEnUS = map[string]string{
 	"getblocktemplateresult-version":                    "The block version",
 	"getblocktemplateresult-coinbaseaux":                "Data that should be included in the coinbase signature script",
 	"getblocktemplateresult-coinbasetxn":                "Information about the coinbase transaction",
-	"getblocktemplateresult-coinbasevalue":              "Total amount available for the coinbase in Satoshi",
+	"getblocktemplateresult-coinbasevalue":              "Total amount available for the coinbase in base Units",
 	"getblocktemplateresult-workid":                     "This value must be returned with result if provided (not provided)",
 	"getblocktemplateresult-longpollid":                 "Identifier for long poll request which allows monitoring for expiration",
 	"getblocktemplateresult-longpolluri":                "An alternate URI to use for long poll requests if provided (not provided)",

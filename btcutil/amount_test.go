@@ -178,15 +178,15 @@ func TestAmountUnitConversions(t *testing.T) {
 			continue
 		}
 
-		// Verify that Amount.ToBTC works as advertised.
+		// Verify that Amount.ToCoins works as advertised.
 		f1, e := test.amount.ToUnit("BTC")
 		if e != nil {
 			t.Errorf("error converting unit %v", e)
 			continue
 		}
-		f2 := test.amount.ToPKT()
+		f2 := test.amount.ToCoins()
 		if f1 != f2 {
-			t.Errorf("%v: ToPKT does not match ToUnit(AmountPKT): %v != %v", test.name, f1, f2)
+			t.Errorf("%v: ToCoins does not match ToUnit(AmountPKT): %v != %v", test.name, f1, f2)
 		}
 
 		// Verify that Amount.String works as advertised.

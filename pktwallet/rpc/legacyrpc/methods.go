@@ -355,16 +355,16 @@ func getAddressBalances(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) 
 			results = append(results, btcjson.GetAddressBalancesResult{
 				Address: addr.EncodeAddress(),
 
-				Spendable:  bal.Spendable.ToPKT(),
+				Spendable:  bal.Spendable.ToCoins(),
 				Sspendable: strconv.FormatInt(int64(bal.Spendable), 10),
 
-				Total:  bal.Total.ToPKT(),
+				Total:  bal.Total.ToCoins(),
 				Stotal: strconv.FormatInt(int64(bal.Total), 10),
 
-				ImmatureReward:  bal.ImmatureReward.ToPKT(),
+				ImmatureReward:  bal.ImmatureReward.ToCoins(),
 				SimmatureReward: strconv.FormatInt(int64(bal.ImmatureReward), 10),
 
-				Unconfirmed:  bal.Unconfirmed.ToPKT(),
+				Unconfirmed:  bal.Unconfirmed.ToCoins(),
 				Sunconfirmed: strconv.FormatInt(int64(bal.Unconfirmed), 10),
 
 				OutputCount: bal.OutputCount,
@@ -413,7 +413,7 @@ func getBalance(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
 	if balance, err := w.CalculateBalance(int32(*cmd.MinConf)); err != nil {
 		return nil, err
 	} else {
-		return balance.ToPKT(), nil
+		return balance.ToCoins(), nil
 	}
 }
 
@@ -579,7 +579,7 @@ func getUnconfirmedBalance(icmd interface{}, w *wallet.Wallet) (interface{}, er.
 		return nil, err
 	}
 
-	return (bals.Total - bals.Spendable).ToPKT(), nil
+	return (bals.Total - bals.Spendable).ToCoins(), nil
 }
 
 // importPrivKey handles an importprivkey request by parsing
@@ -649,7 +649,7 @@ func getReceivedByAddress(icmd interface{}, w *wallet.Wallet) (interface{}, er.R
 		return nil, err
 	}
 
-	return total.ToPKT(), nil
+	return total.ToCoins(), nil
 }
 
 // getTransaction handles a gettransaction request by returning details about
@@ -720,7 +720,7 @@ func getTransaction(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
 			outputTotal += btcutil.Amount(output.Value)
 		}
 		fee = debitTotal - outputTotal
-		feeF64 = fee.ToPKT()
+		feeF64 = fee.ToCoins()
 	}
 
 	if len(details.Debits) == 0 {
@@ -743,7 +743,7 @@ func getTransaction(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
 			// details for transaction outputs, just like
 			// listtransactions (but using the short result format).
 			Category: "send",
-			Amount:   (-debitTotal).ToPKT(), // negative since it is a send
+			Amount:   (-debitTotal).ToCoins(), // negative since it is a send
 			Fee:      &feeF64,
 		}
 		ret.Fee = feeF64
@@ -779,12 +779,12 @@ func getTransaction(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
 			Account:  accountName,
 			Address:  address,
 			Category: credCat,
-			Amount:   cred.Amount.ToPKT(),
+			Amount:   cred.Amount.ToCoins(),
 			Vout:     cred.Index,
 		})
 	}
 
-	ret.Amount = creditTotal.ToPKT()
+	ret.Amount = creditTotal.ToCoins()
 	return ret, nil
 }
 
@@ -1000,7 +1000,7 @@ func listReceivedByAddress(icmd interface{}, w *wallet.Wallet) (interface{}, er.
 	for address, addrData := range allAddrData {
 		ret[idx] = btcjson.ListReceivedByAddressResult{
 			Address:       address,
-			Amount:        addrData.amount.ToPKT(),
+			Amount:        addrData.amount.ToCoins(),
 			Confirmations: uint64(addrData.confirmations),
 			TxIDs:         addrData.tx,
 		}

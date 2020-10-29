@@ -147,7 +147,7 @@ type config struct {
 	CPUProfile           string        `long:"cpuprofile" description:"Write CPU profile to the specified file"`
 	DebugLevel           string        `short:"d" long:"debuglevel" description:"Logging level for all subsystems {trace, debug, info, warn, error, critical} -- You may also specify <subsystem>=<level>,<subsystem2>=<level>,... to set the log level for individual subsystems -- Use show to list available subsystems"`
 	Upnp                 bool          `long:"upnp" description:"Use UPnP to map our listening port outside of NAT"`
-	MinRelayTxFee        float64       `long:"minrelaytxfee" description:"The minimum transaction fee in PKT/kB to be considered a non-zero fee."`
+	MinRelayTxFee        float64       `long:"minrelaytxfee" description:"The minimum transaction fee in coins/kB to be considered a non-zero fee."`
 	FreeTxRelayLimit     float64       `long:"limitfreerelay" description:"Limit relay of transactions with no transaction fee to the given amount in thousands of bytes per minute"`
 	NoRelayPriority      bool          `long:"norelaypriority" description:"Do not require free or low-fee transactions to have high priority for relaying"`
 	TrickleInterval      time.Duration `long:"trickleinterval" description:"Minimum time between attempts to send new inventory to a connected peer"`
@@ -802,7 +802,7 @@ func loadConfig() (*config, []string, er.R) {
 		cfg.minRelayTxFee = btcutil.Amount(mrf)
 	} else {
 		cfg.minRelayTxFee = mempool.DefaultMinRelayTxFee
-		cfg.MinRelayTxFee = btcutil.Amount(cfg.minRelayTxFee).ToPKT()
+		cfg.MinRelayTxFee = btcutil.Amount(cfg.minRelayTxFee).ToCoins()
 	}
 
 	// Limit the max block size to a sane value.

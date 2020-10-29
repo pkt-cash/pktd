@@ -12,8 +12,8 @@ import (
 	"github.com/pkt-cash/pktd/chaincfg/globalcfg"
 )
 
-// Amount represents the base PKT monetary unit (colloquially referred
-// to as a `Satoshi').  A single Amount is equal to 1e-8 of a PKT.
+// Amount represents the base monetary unit (colloquially referred
+// to as a `Satoshi').  A single Amount is equal to 1e-8 of a coin.
 type Amount int64
 
 // round converts a floating point number, which may or may not be representable
@@ -47,7 +47,7 @@ func NewAmount(f float64) (Amount, er.R) {
 		return 0, er.New("invalid bitcoin amount")
 	}
 
-	return round(f * float64(globalcfg.SatoshiPerPKT())), nil
+	return round(f * float64(globalcfg.UnitsPerCoin())), nil
 }
 
 // ToUnit converts a monetary amount counted in PKT base units to a
@@ -63,8 +63,8 @@ func (a Amount) ToUnit(uname string) (float64, er.R) {
 	return math.NaN(), er.Errorf("%s is not a valid unit", uname)
 }
 
-// ToPKT is the equivalent of calling ToUnit with AmountPKT.
-func (a Amount) ToPKT() float64 {
+// ToCoins is the equivalent of calling ToUnit with AmountPKT.
+func (a Amount) ToCoins() float64 {
 	out, err := a.ToUnit(globalcfg.AmountUnits()[0].Name)
 	if err != nil {
 		panic("ToUnit failed with default unit")

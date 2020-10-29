@@ -121,7 +121,7 @@ func TestBIP0113Activation(t *testing.T) {
 	defer r.TearDown()
 
 	// Create a fresh output for usage within the test below.
-	const outputValue = btcutil.SatoshiPerPKT
+	const outputValue = btcutil.UnitsPerCoin
 	outputKey, testOutput, testPkScript, err := makeTestOutput(r, t,
 		outputValue)
 	if err != nil {
@@ -283,7 +283,7 @@ func TestBIP0113Activation(t *testing.T) {
 // createCSVOutput creates an output paying to a trivially redeemable CSV
 // pkScript with the specified time-lock.
 func createCSVOutput(r *rpctest.Harness, t *testing.T,
-	numSatoshis btcutil.Amount, timeLock int32,
+	numCoinUnits btcutil.Amount, timeLock int32,
 	isSeconds bool) ([]byte, *wire.OutPoint, *wire.MsgTx, er.R) {
 
 	// Convert the time-lock to the proper sequence lock based according to
@@ -313,7 +313,7 @@ func createCSVOutput(r *rpctest.Harness, t *testing.T,
 	}
 	output := &wire.TxOut{
 		PkScript: p2shScript,
-		Value:    int64(numSatoshis),
+		Value:    int64(numCoinUnits),
 	}
 
 	// Finally create a valid transaction which creates the output crafted
@@ -428,7 +428,7 @@ func TestBIP0068AndBIP0112Activation(t *testing.T) {
 	}
 
 	const (
-		outputAmt         = btcutil.SatoshiPerPKT
+		outputAmt         = btcutil.UnitsPerCoin
 		relativeBlockLock = 10
 	)
 

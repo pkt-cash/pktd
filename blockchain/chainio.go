@@ -227,7 +227,7 @@ func dbFetchElectionStateByNode(dbTx database.Tx, node *blockNode) (*ElectionSta
 //  - header code: 0x13 (coinbase, height 9)
 //  - reserved: 0x00
 //  - compressed txout 0:
-//    - 0x32: VLQ-encoded compressed amount for 5000000000 (50 PKT)
+//    - 0x32: VLQ-encoded compressed amount for 5000000000=50 BTC, 53687091200=50 PKT
 //    - 0x05: special script type pay-to-pubkey
 //    - 0x11...5c: x-coordinate of the pubkey
 //

@@ -202,12 +202,12 @@ func (w *Wallet) txToOutputs(txr CreateTxReq) (tx *txauthor.AuthoredTx, err er.R
 		} else if eligibleOuts.unusedCount > 0 {
 			return nil, TooManyInputsError.New(
 				fmt.Sprintf("additional [%d] transactions containing [%f] coins",
-					eligibleOuts.unusedCount, eligibleOuts.unusedAmt.ToPKT()), err)
+					eligibleOuts.unusedCount, eligibleOuts.unusedAmt.ToCoins()), err)
 		} else if eligibleOuts.unconfirmedCount > 0 {
 			return nil, UnconfirmedCoinsError.New(
 				fmt.Sprintf("there are [%f] coins available in [%d] unconfirmed transactions, "+
 					"to spend from these you need to specify minconf=0",
-					eligibleOuts.unconfirmedAmt.ToPKT(), eligibleOuts.unconfirmedCount), err)
+					eligibleOuts.unconfirmedAmt.ToCoins(), eligibleOuts.unconfirmedCount), err)
 		} else {
 			if txr.InputAddresses != nil {
 				return nil, InsufficientFundsError.New(

@@ -221,7 +221,7 @@ func (s *Store) updateMinedBalance(ns walletdb.ReadWriteBucket, rec *TxRecord,
 	for addr, amt := range spentByAddress {
 		log.Infof("📩 %s [%s] from [%s] tx [%s] @ [%s]",
 			pktlog.GreenBg("Confirmed spend"),
-			pktlog.Coins(amt.ToPKT()),
+			pktlog.Coins(amt.ToCoins()),
 			pktlog.Address(addr),
 			pktlog.Txid(rec.Hash.String()),
 			pktlog.Height(block.Height))
@@ -464,7 +464,7 @@ func rollbackTransaction(
 			addr := txscript.PkScriptToAddress(output.PkScript, params)
 			log.Infof("😱 %s [%s] <- [%s] by rollback of [%s]",
 				pktlog.BgYellow("Got UNPAID"),
-				pktlog.Coins(btcutil.Amount(output.Value).ToPKT()),
+				pktlog.Coins(btcutil.Amount(output.Value).ToCoins()),
 				pktlog.Address(addr.String()),
 				pktlog.Txid(rec.Hash.String()))
 
@@ -591,7 +591,7 @@ func rollbackTransaction(
 
 	for addr, amt := range unspentByAddress {
 		log.Infof("⚠️ Spend unconfirmed [%s] <- [%s] by rollback of [%s]",
-			pktlog.Coins(btcutil.Amount(amt).ToPKT()),
+			pktlog.Coins(btcutil.Amount(amt).ToCoins()),
 			pktlog.Address(addr),
 			pktlog.Txid(rec.Hash.String()))
 	}
@@ -636,7 +636,7 @@ func rollbackTransaction(
 	}
 	for addr, amt := range unearnedByAddress {
 		log.Infof("⚠️ Income unconfirmed [%s] <- [%s] by rollback of [%s]",
-			pktlog.Coins(btcutil.Amount(amt).ToPKT()),
+			pktlog.Coins(btcutil.Amount(amt).ToCoins()),
 			pktlog.Address(addr),
 			pktlog.Txid(rec.Hash.String()))
 	}
