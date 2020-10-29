@@ -32,6 +32,7 @@ import (
 	"github.com/pkt-cash/pktd/rpcclient"
 	"github.com/pkt-cash/pktd/txscript"
 	"github.com/pkt-cash/pktd/wire"
+	"go.etcd.io/bbolt"
 )
 
 var (
@@ -1112,7 +1113,10 @@ func TestNeutrinoSync(t *testing.T) {
 		t.Fatalf("Failed to create temporary directory: %s", er.E(errr))
 	}
 	defer os.RemoveAll(tempDir)
-	db, err := walletdb.Create("bdb", tempDir+"/weks.db")
+	opts := &bbolt.Options{
+		NoFreelistSync: true,
+	}
+	db, err := walletdb.Create("bdb", tempDir+"/weks.db", opts)
 	defer db.Close()
 	if err != nil {
 		t.Fatalf("Error opening DB: %s\n", err)

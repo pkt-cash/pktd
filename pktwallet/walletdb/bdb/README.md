@@ -18,7 +18,7 @@ if err != nil {
 ```
 
 ```Go
-db, err := walletdb.Create("bdb", "path/to/database.db")
+db, err := walletdb.Create("bdb", "path/to/database.db", *bbolt.opts)
 if err != nil {
 	// Handle error
 }
