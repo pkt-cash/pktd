@@ -3,13 +3,14 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"github.com/json-iterator/go"
 	"encoding/json"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"strings"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcjson"
 	"github.com/pkt-cash/pktd/pktconfig/version"

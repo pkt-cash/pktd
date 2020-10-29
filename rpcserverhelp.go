@@ -92,14 +92,6 @@ var helpDescsEnUS = map[string]string{
 	"vin-txinwitness": "The witness used to redeem the input encoded as a string array of its items",
 	"vin-sequence":    "The script sequence number",
 
-	// ScriptPubKeyResult help.
-	"scriptpubkeyresult-asm":                "Disassembly of the script",
-	"scriptpubkeyresult-hex":                "Hex-encoded bytes of the script",
-	"scriptpubkeyresult-reqSigs":            "The number of required signatures",
-	"scriptpubkeyresult-type":               "The type of the script (e.g. 'pubkeyhash')",
-	"scriptpubkeyresult-addresses":          "The bitcoin addresses associated with this script",
-	"scriptpubkeyresult-deprecationwarning": "A warning because this structure is deprecated where it is being used",
-
 	"vote-for":     "The network steward which this payment is voting for",
 	"vote-against": "The network steward address which this payment is voting against",
 

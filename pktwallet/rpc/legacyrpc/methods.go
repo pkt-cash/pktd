@@ -9,12 +9,13 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/hex"
-	"github.com/json-iterator/go"
 	"fmt"
 	"net"
 	"strconv"
 	"sync"
 	"time"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -499,6 +500,20 @@ func getInfo(icmd interface{}, w *wallet.Wallet, chainClient chain.Interface) (i
 		}); err != nil {
 			return nil, err
 		}
+		for _, q := range neut.CS.GetActiveQueries() {
+			peer := "<none>"
+			if q.Peer != nil {
+				peer = q.Peer.String()
+			}
+			ni.Queries = append(ni.Queries, btcjson.NeutrinoQuery{
+				Peer:             peer,
+				Command:          q.Command,
+				ReqNum:           q.ReqNum,
+				CreateTime:       q.CreateTime,
+				LastRequestTime:  q.LastRequestTime,
+				LastResponseTime: q.LastResponseTime,
+			})
+		}
 	}
 
 	return out, nil
@@ -564,22 +579,15 @@ func getNetworkStewardVote(icmd interface{}, w *wallet.Wallet) (interface{}, er.
 // getUnconfirmedBalance handles a getunconfirmedbalance extension request
 // by returning the current unconfirmed balance of an account.
 func getUnconfirmedBalance(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
-	cmd := icmd.(*btcjson.GetUnconfirmedBalanceCmd)
-
-	acctName := "default"
-	if cmd.Account != nil {
-		acctName = *cmd.Account
-	}
-	account, err := w.AccountNumber(waddrmgr.KeyScopeBIP0044, acctName)
+	bals, err := w.CalculateAddressBalances(0, false)
 	if err != nil {
 		return nil, err
 	}
-	bals, err := w.CalculateAccountBalances(account, 1)
-	if err != nil {
-		return nil, err
+	sum := btcutil.Amount(0)
+	for _, b := range bals {
+		sum += b.Unconfirmed
 	}
-
-	return (bals.Total - bals.Spendable).ToCoins(), nil
+	return sum.ToCoins(), nil
 }
 
 // importPrivKey handles an importprivkey request by parsing
@@ -1648,11 +1656,11 @@ func signRawTransaction(icmd interface{}, w *wallet.Wallet, chainClient chain.In
 		if err != nil {
 			return nil, err
 		}
-		script, errr := hex.DecodeString(result.ScriptPubKey.Hex)
-		if errr != nil {
-			return nil, er.E(errr)
+		if a, err := btcutil.DecodeAddress(result.Address, w.ChainParams()); err != nil {
+			return nil, err
+		} else {
+			inputs[outPoint] = a.ScriptAddress()
 		}
-		inputs[outPoint] = script
 	}
 
 	// All args collected. Now we can sign all the inputs that we can.

@@ -20,7 +20,9 @@ without having to worry about conflicts with other packages even though they are
 sharing the same database that is managed by the wallet.
 
 This interfaces provided by this package were heavily inspired by the original
-boltdb project (https://github.com/boltdb/bolt) by Ben B. Johnson.
+[BoltDB project](https://github.com/boltdb/bolt) by Ben B. Johnson.
+
+Currently, the database in use is [etcd.io's BBoltDB](https://go.etcd.io/bbolt).
 
 ## Feature Overview
 

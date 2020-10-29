@@ -12,7 +12,6 @@ import (
 	"crypto/subtle"
 	"encoding/base64"
 	"encoding/hex"
-	"github.com/json-iterator/go"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -26,6 +25,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/gorilla/websocket"
 	"github.com/pkt-cash/pktd/blockchain"
@@ -643,35 +644,9 @@ func witnessToHex(witness wire.TxWitness) []string {
 func createVoutList(mtx *wire.MsgTx, chainParams *chaincfg.Params, filterAddrMap map[string]struct{}) []btcjson.Vout {
 	voutList := make([]btcjson.Vout, 0, len(mtx.TxOut))
 	for i, v := range mtx.TxOut {
-		// The disassembled string will contain [error] inline if the
-		// script doesn't fully parse, so ignore the error here.
-		disbuf, _ := txscript.DisasmString(v.PkScript)
-
-		// Ignore the error here since an error means the script
-		// couldn't parse and there is no additional information about
-		// it anyways.
-		scriptClass, addrs, reqSigs, _ := txscript.ExtractPkScriptAddrs(
-			v.PkScript, chainParams)
-
-		// Encode the addresses while checking if the address passes the
-		// filter when needed.
-		passesFilter := len(filterAddrMap) == 0
-		encodedAddrs := make([]string, len(addrs))
-		for j, addr := range addrs {
-			encodedAddr := addr.EncodeAddress()
-			encodedAddrs[j] = encodedAddr
-
-			// No need to check the map again if the filter already
-			// passes.
-			if passesFilter {
-				continue
-			}
-			if _, exists := filterAddrMap[encodedAddr]; exists {
-				passesFilter = true
-			}
-		}
-
-		if !passesFilter {
+		encodedAddr := txscript.PkScriptToAddress(v.PkScript, chainParams).EncodeAddress()
+		if len(filterAddrMap) == 0 {
+		} else if _, exists := filterAddrMap[encodedAddr]; !exists {
 			continue
 		}
 
@@ -679,14 +654,7 @@ func createVoutList(mtx *wire.MsgTx, chainParams *chaincfg.Params, filterAddrMap
 		vout.N = uint32(i)
 		vout.ValueCoins = btcutil.Amount(v.Value).ToCoins()
 		vout.Svalue = strconv.FormatInt(v.Value, 10)
-		vout.Address = txscript.PkScriptToAddress(v.PkScript, chainParams).EncodeAddress()
-		vout.ScriptPubKey.Addresses = encodedAddrs
-		vout.ScriptPubKey.Asm = disbuf
-		vout.ScriptPubKey.Hex = hex.EncodeToString(v.PkScript)
-		vout.ScriptPubKey.Type = scriptClass.String()
-		vout.ScriptPubKey.ReqSigs = int32(reqSigs)
-		vout.ScriptPubKey.DeprecationWarning =
-			"scriptPubKey will soon be removed, please use address instead"
+		vout.Address = encodedAddr
 
 		vote(&vout.Vote, v.PkScript, chainParams)
 		voutList = append(voutList, vout)
@@ -3055,36 +3023,10 @@ func handleGetTxOut(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (i
 		ValueCoins:    btcutil.Amount(value).ToCoins(),
 		Svalue:        strconv.FormatInt(value, 10),
 		Address:       txscript.PkScriptToAddress(pkScript, s.cfg.ChainParams).EncodeAddress(),
-		ScriptPubKey:  scriptPubKey(pkScript, s.cfg.ChainParams),
 		Coinbase:      isCoinbase,
 	}
 	vote(&txOutReply.Vote, pkScript, s.cfg.ChainParams)
 	return txOutReply, nil
-}
-
-func scriptPubKey(pkScript []byte, params *chaincfg.Params) btcjson.ScriptPubKeyResult {
-	// Disassemble script into single line printable format.
-	// The disassembled string will contain [error] inline if the script
-	// doesn't fully parse, so ignore the error here.
-	disbuf, _ := txscript.DisasmString(pkScript)
-
-	// Get further info about the script.
-	// Ignore the error here since an error means the script couldn't parse
-	// and there is no additional information about it anyways.
-	scriptClass, addrs, reqSigs, _ := txscript.ExtractPkScriptAddrs(pkScript, params)
-	addresses := make([]string, len(addrs))
-	for i, addr := range addrs {
-		addresses[i] = addr.EncodeAddress()
-	}
-
-	return btcjson.ScriptPubKeyResult{
-		Asm:                disbuf,
-		Hex:                hex.EncodeToString(pkScript),
-		ReqSigs:            int32(reqSigs),
-		Type:               scriptClass.String(),
-		Addresses:          addresses,
-		DeprecationWarning: "scriptPubKey will soon be removed, please use address instead",
-	}
 }
 
 // handleHelp implements the help command.
@@ -4006,6 +3948,8 @@ type rpcServer struct {
 	helpCacher             *helpCacher
 	requestProcessShutdown chan struct{}
 	quit                   chan int
+	reqNum                 int64
+	reqCompl               int64
 }
 
 // httpStatusLine returns a response Status-Line (RFC 2616 Section 6.1)
@@ -4280,7 +4224,16 @@ func (s *rpcServer) jsonRPCReq(
 		}
 	}
 
-	rpcsLog.Infof("RPC %s", request.Method)
+	ps := make([]string, 0, len(request.Params))
+	for _, par := range request.Params {
+		ps = append(ps, string(par))
+	}
+
+	reqNum := atomic.AddInt64(&s.reqNum, 1)
+	reqCompl := atomic.LoadInt64(&s.reqCompl)
+
+	rpcsLog.Infof("> %d:%d RPC %s %s",
+		reqNum, (reqNum - reqCompl), request.Method, strings.Join(ps, " "))
 
 	// Attempt to parse the JSON-RPC request into a known concrete
 	// command.
@@ -4293,7 +4246,16 @@ func (s *rpcServer) jsonRPCReq(
 		}
 	}
 
-	return createResponse(request.ID, result, jsonErr)
+	resp, err := createResponse(request.ID, result, jsonErr)
+
+	resStr := "ok"
+	if err != nil {
+		resStr = err.Message()
+	}
+	rpcsLog.Infof("< %d:%d RPC %s %s", reqNum, (reqNum - reqCompl), request.Method, resStr)
+	atomic.AddInt64(&s.reqCompl, 1)
+
+	return resp, err
 }
 
 // jsonRPCRead handles reading and responding to RPC messages.

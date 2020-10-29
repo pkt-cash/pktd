@@ -1751,8 +1751,6 @@ func testSync(tc *testContext) bool {
 // It makes use of a test context because the address manager is persistent and
 // much of the testing involves having specific state.
 func TestManager(t *testing.T) {
-	t.Parallel()
-
 	teardown, db := emptyDB(t)
 	defer teardown()
 
@@ -1873,8 +1871,6 @@ func TestManager(t *testing.T) {
 // TestManagerIncorrectVersion ensures that that the manager cannot be accessed
 // if its version does not match the latest version.
 func TestManagerHigherVersion(t *testing.T) {
-	t.Parallel()
-
 	teardown, db, _ := setupManager(t)
 	defer teardown()
 
@@ -1930,8 +1926,6 @@ func TestManagerHigherVersion(t *testing.T) {
 // TestEncryptDecryptErrors ensures that errors which occur while encrypting and
 // decrypting data return the expected errors.
 func TestEncryptDecryptErrors(t *testing.T) {
-	t.Parallel()
-
 	teardown, db, mgr := setupManager(t)
 	defer teardown()
 
@@ -1983,8 +1977,6 @@ func TestEncryptDecryptErrors(t *testing.T) {
 // TestEncryptDecrypt ensures that encrypting and decrypting data with the
 // the various crypto key types works as expected.
 func TestEncryptDecrypt(t *testing.T) {
-	t.Parallel()
-
 	teardown, db, mgr := setupManager(t)
 	defer teardown()
 
@@ -2026,8 +2018,6 @@ func TestEncryptDecrypt(t *testing.T) {
 // create, retrieve, and utilize new scoped managers outside the set of default
 // created scopes.
 func TestScopedKeyManagerManagement(t *testing.T) {
-	t.Parallel()
-
 	teardown, db := emptyDB(t)
 	defer teardown()
 
@@ -2275,8 +2265,6 @@ func TestScopedKeyManagerManagement(t *testing.T) {
 // TestRootHDKeyNeutering tests that callers are unable to create new scoped
 // managers once the root HD key has been deleted from the database.
 func TestRootHDKeyNeutering(t *testing.T) {
-	t.Parallel()
-
 	teardown, db := emptyDB(t)
 	defer teardown()
 
@@ -2367,8 +2355,6 @@ func TestRootHDKeyNeutering(t *testing.T) {
 // raw accounts created with only an account number, and not a string which is
 // eventually mapped to an account number.
 func TestNewRawAccount(t *testing.T) {
-	t.Parallel()
-
 	teardown, db := emptyDB(t)
 	defer teardown()
 

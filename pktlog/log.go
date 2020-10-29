@@ -286,6 +286,14 @@ func Address(addr string) string {
 	return Bright + FgMagenta + addr + Reset
 }
 
+func IpAddr(addr string) string {
+	return Bright + fgRed + addr + Reset
+}
+
+func Int(num int) string {
+	return Bright + fgYellow + strconv.FormatInt(int64(num), 10) + Reset
+}
+
 // Appends a header in the default format 'YYYY-MM-DD hh:mm:ss.sss [LVL] TAG: '.
 // If either of the Lshortfile or Llongfile flags are specified, the file named
 // and line number are included after the tag and before the final colon.

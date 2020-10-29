@@ -3,7 +3,6 @@ module github.com/pkt-cash/pktd
 go 1.14
 
 require (
-	github.com/LK4D4/trylock v0.0.0-20191027065348-ff7e133a5c54
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da
 	github.com/aead/siphash v1.0.1
 	github.com/btcsuite/winsvc v1.0.0
@@ -32,6 +31,5 @@ require (
 	golang.org/x/sys v0.0.0-20201020230747-6e5568b54d1a // indirect
 	google.golang.org/genproto v0.0.0-20201021134325-0d71844de594 // indirect
 	google.golang.org/grpc v1.34.0-dev.0.20201021230544-4e8458e5c638
-	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 )

@@ -32,10 +32,6 @@ type Interface interface {
 	FilterBlocks(*FilterBlocksRequest) (*FilterBlocksResponse, er.R)
 	BlockStamp() (*waddrmgr.BlockStamp, er.R)
 	SendRawTransaction(*wire.MsgTx, bool) (*chainhash.Hash, er.R)
-	Rescan(*chainhash.Hash, []btcutil.Address, map[wire.OutPoint]btcutil.Address) er.R
-	NotifyReceived([]btcutil.Address) er.R
-	NotifyBlocks() er.R
-	Notifications() <-chan interface{}
 	BackEnd() string
 }
 

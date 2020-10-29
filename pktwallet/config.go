@@ -52,26 +52,21 @@ var (
 
 type config struct {
 	// General application behavior
-	ConfigFile         *cfgutil.ExplicitString `short:"C" long:"configfile" description:"Path to configuration file"`
-	ShowVersion        bool                    `short:"V" long:"version" description:"Display version information and exit"`
-	Create             bool                    `long:"create" description:"Create the wallet if it does not exist"`
-	CreateTemp         bool                    `long:"createtemp" description:"Create a temporary simulation wallet (pass=password) in the data directory indicated; must call with --datadir"`
-	AppDataDir         *cfgutil.ExplicitString `short:"A" long:"appdata" description:"Application data directory for wallet config, databases and logs"`
-	Wallet             string                  `short:"w" long:"wallet" description:"Wallet file name or path, if a simple word such as 'personal' then pktwallet will look for wallet_personal.db, if prefixed with a / then pktwallet will consider it an absolute path."`
-	TestNet3           bool                    `long:"testnet" description:"Use the test Bitcoin network (version 3) (default mainnet)"`
-	PktTestNet         bool                    `long:"pkttest" description:"Use the test pkt.cash test network"`
-	BtcMainNet         bool                    `long:"btc" description:"Use the test bitcoin main network"`
-	PktMainNet         bool                    `long:"pkt" description:"Use the test pkt.cash main network"`
-	SimNet             bool                    `long:"simnet" description:"Use the simulation test network (default mainnet)"`
-	NoInitialLoad      bool                    `long:"noinitialload" description:"Defer wallet creation/opening on startup and enable loading wallets over RPC"`
-	DebugLevel         string                  `short:"d" long:"debuglevel" description:"Logging level {trace, debug, info, warn, error, critical}"`
-	LogDir             string                  `long:"logdir" description:"Directory to log output."`
-	Profile            string                  `long:"profile" description:"Enable HTTP profiling on given port -- NOTE port must be between 1024 and 65536"`
-	AutoVacuum         bool                    `long:"autovacuum" description:"Automatically clean up unspendable outputs from the database in the background"`
-	NoAutoVacuum       bool                    `long:"noautovacuum" description:"Do not automatically clean up unspendable outputs from the database in the background"`
-	AutoVacuumMs       uint32                  `long:"autovacuummaxms" description:"Maximum number of milliseconds to spend on an auto-vacuum cycle"`
-	AutoVacuumPauseMs  uint32                  `long:"autovacuumpausems" description:"Number of milliseconds to pause before resuming vacuuming"`
-	AutoVacuumSleepSec uint32                  `long:"autovacuumsleepsec" description:"Number of seconds to sleep after autovacuum is complete before starting again"`
+	ConfigFile    *cfgutil.ExplicitString `short:"C" long:"configfile" description:"Path to configuration file"`
+	ShowVersion   bool                    `short:"V" long:"version" description:"Display version information and exit"`
+	Create        bool                    `long:"create" description:"Create the wallet if it does not exist"`
+	CreateTemp    bool                    `long:"createtemp" description:"Create a temporary simulation wallet (pass=password) in the data directory indicated; must call with --datadir"`
+	AppDataDir    *cfgutil.ExplicitString `short:"A" long:"appdata" description:"Application data directory for wallet config, databases and logs"`
+	Wallet        string                  `short:"w" long:"wallet" description:"Wallet file name or path, if a simple word such as 'personal' then pktwallet will look for wallet_personal.db, if prefixed with a / then pktwallet will consider it an absolute path."`
+	TestNet3      bool                    `long:"testnet" description:"Use the test Bitcoin network (version 3) (default mainnet)"`
+	PktTestNet    bool                    `long:"pkttest" description:"Use the test pkt.cash test network"`
+	BtcMainNet    bool                    `long:"btc" description:"Use the test bitcoin main network"`
+	PktMainNet    bool                    `long:"pkt" description:"Use the test pkt.cash main network"`
+	SimNet        bool                    `long:"simnet" description:"Use the simulation test network (default mainnet)"`
+	NoInitialLoad bool                    `long:"noinitialload" description:"Defer wallet creation/opening on startup and enable loading wallets over RPC"`
+	DebugLevel    string                  `short:"d" long:"debuglevel" description:"Logging level {trace, debug, info, warn, error, critical}"`
+	LogDir        string                  `long:"logdir" description:"Directory to log output."`
+	Profile       string                  `long:"profile" description:"Enable HTTP profiling on given port -- NOTE port must be between 1024 and 65536"`
 
 	// Wallet options
 	WalletPass string `long:"walletpass" default-mask:"-" description:"The public wallet password -- Only required if the wallet was created with one"`
@@ -282,11 +277,6 @@ func loadConfig() (*config, []string, er.R) {
 		ConfigFile:             cfgutil.NewExplicitString(defaultConfigFile),
 		AppDataDir:             cfgutil.NewExplicitString(defaultAppDataDir),
 		LogDir:                 defaultLogDir,
-		AutoVacuum:             true,
-		NoAutoVacuum:           false,
-		AutoVacuumMs:           500,
-		AutoVacuumPauseMs:      100,
-		AutoVacuumSleepSec:     3600,
 		WalletPass:             wallet.InsecurePubPassphrase,
 		CAFile:                 cfgutil.NewExplicitString(""),
 		RPCKey:                 cfgutil.NewExplicitString(defaultRPCKeyFile),
@@ -352,7 +342,7 @@ func loadConfig() (*config, []string, er.R) {
 			return nil, nil, er.E(errr)
 		}
 		// file doesn't exist, whatever
-	} else {
+	} else if len(userpass) >= 2 {
 		cfg.BtcdUsername = userpass[0]
 		cfg.BtcdPassword = userpass[1]
 	}
@@ -494,6 +484,12 @@ func loadConfig() (*config, []string, er.R) {
 		return nil, nil, err
 	}
 
+	// Ensure the data directory for the network exists.
+	if err := checkCreateDir(netDir); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return nil, nil, err
+	}
+
 	if cfg.CreateTemp {
 		tempWalletExists := false
 
@@ -502,12 +498,6 @@ func loadConfig() (*config, []string, er.R) {
 				"wallet instead.")
 			fmt.Fprintln(os.Stdout, str)
 			tempWalletExists = true
-		}
-
-		// Ensure the data directory for the network exists.
-		if err := checkCreateDir(netDir); err != nil {
-			fmt.Fprintln(os.Stderr, err)
-			return nil, nil, err
 		}
 
 		if !tempWalletExists {
@@ -523,12 +513,6 @@ func loadConfig() (*config, []string, er.R) {
 		if dbFileExists {
 			err := er.Errorf("The wallet database file `%v` "+
 				"already exists.", dbPath)
-			fmt.Fprintln(os.Stderr, err)
-			return nil, nil, err
-		}
-
-		// Ensure the data directory for the network exists.
-		if err := checkCreateDir(netDir); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			return nil, nil, err
 		}

@@ -276,7 +276,8 @@ func newBlockManager(s *ChainService,
 
 	// Verification of PacketCrypt or AuxPoW proofs
 	bm.likelyChainTip = int32(time.Since(time.Unix(1566252000, 0)).Minutes())
-	log.Tracef("Deduced that the probable chain tip is [%d]", bm.likelyChainTip)
+	bm.updateLikelyChainTip(int32(height))
+
 	var rv [4]byte
 	if _, errr := rand.Read(rv[:]); errr != nil {
 		return nil, er.E(errr)
@@ -284,6 +285,20 @@ func newBlockManager(s *ChainService,
 	bm.randomVerificationSeed = binary.LittleEndian.Uint32(rv[:])
 
 	return &bm, nil
+}
+
+func (b *blockManager) updateLikelyChainTip(height int32) {
+	cp := b.findPreviousHeaderCheckpoint(height)
+	if cp == nil {
+		return
+	}
+	fh, err := b.server.BlockHeaders.FetchHeaderByHeight(uint32(height))
+	if err != nil {
+		log.Infof("Unable to update probable chain tip [%s]", err)
+		return
+	}
+	b.likelyChainTip = int32(time.Since(fh.Timestamp).Minutes()) + int32(height)
+	log.Debugf("Updated the probable chain tip to [%d]", b.likelyChainTip)
 }
 
 // Start begins the core block handler which processes block and inv messages.
@@ -374,7 +389,7 @@ func (b *blockManager) handleNewPeerMsg(peers *list.List, sp *ServerPeer) {
 		return
 	}
 
-	log.Infof("New valid peer %s (%s)", sp, sp.UserAgent())
+	log.Infof("New valid peer [%s] (%s)", pktlog.IpAddr(sp.Addr()), sp.UserAgent())
 
 	// Ignore the peer if it's not a sync candidate.
 	if !b.isSyncCandidate(sp) {
@@ -401,6 +416,8 @@ func (b *blockManager) handleNewPeerMsg(peers *list.List, sp *ServerPeer) {
 			return
 		}
 		stopHash := &zeroHash
+
+		log.Infof("Requesting headers from [%s]", pktlog.IpAddr(sp.Addr()))
 		sp.PushGetHeadersMsg(locator, stopHash)
 	}
 
@@ -435,7 +452,7 @@ func (b *blockManager) handleDonePeerMsg(peers *list.List, sp *ServerPeer) {
 		}
 	}
 
-	log.Infof("Lost peer %s", sp)
+	log.Infof("Lost peer [%s]", pktlog.IpAddr(sp.Addr()))
 
 	// Attempt to find a new peer to sync from if the quitting peer is the
 	// sync peer.  Also, reset the header state.
@@ -902,7 +919,7 @@ func (b *blockManager) getCheckpointedCFHeaders(checkpoints []*chainhash.Hash,
 		return
 	}
 
-	log.Infof("Attempting to query for %v cfheader batches", batchesCount)
+	log.Debugf("Attempting to query for %v cfheader batches", batchesCount)
 
 	// With the set of messages constructed, we'll now request the batch
 	// all at once. This message will distributed the header requests
@@ -2075,8 +2092,8 @@ func (b *blockManager) startSync(peers *list.List) {
 			return
 		}
 
-		log.Infof("Syncing to block height [%s] from peer %s",
-			pktlog.Height(bestPeer.LastBlock()), bestPeer.Addr())
+		log.Infof("Syncing to block height [%s] from peer [%s]",
+			pktlog.Height(bestPeer.LastBlock()), pktlog.IpAddr(bestPeer.Addr()))
 
 		// Now that we know we have a new sync peer, we'll lock it in
 		// within the proper attribute.
@@ -2093,9 +2110,11 @@ func (b *blockManager) startSync(peers *list.List) {
 		// we'll use the next checkpoint to guide the set of headers we
 		// fetch, setting our stop hash to the next checkpoint hash.
 		if b.nextCheckpoint != nil && int32(bestHeight) < b.nextCheckpoint.Height {
-			log.Infof("Downloading headers for blocks %d to "+
-				"%d from peer %s", bestHeight+1,
-				b.nextCheckpoint.Height, bestPeer.Addr())
+			log.Infof("Downloading headers for blocks [%s] to [%s] from peer [%s]",
+				pktlog.Int(int(bestHeight+1)),
+				pktlog.Int(int(b.nextCheckpoint.Height)),
+				pktlog.IpAddr(bestPeer.Addr()),
+			)
 
 			stopHash = b.nextCheckpoint.Hash
 		} else {
@@ -2106,6 +2125,7 @@ func (b *blockManager) startSync(peers *list.List) {
 
 		// With our stop hash selected, we'll kick off the sync from
 		// this peer with an initial GetHeaders message.
+		log.Infof("Requesting headers from [%s]", pktlog.IpAddr(b.SyncPeer().Addr()))
 		b.SyncPeer().PushGetHeadersMsg(locator, stopHash)
 	} else {
 		log.Warnf("No sync peer candidates available")
@@ -2247,7 +2267,7 @@ func (b *blockManager) handleInvMsg(imsg *invMsg) {
 
 	// If this is the sync peer or we're current, get the headers for the
 	// announced blocks and update the last announced block.
-	if lastBlock != -1 && (imsg.peer == b.SyncPeer() || b.BlockHeadersSynced()) {
+	if lastBlock != -1 && b.BlockHeadersSynced() {
 		lastEl := b.headerList.Back()
 		var lastHash chainhash.Hash
 		if lastEl != nil {
@@ -2272,6 +2292,7 @@ func (b *blockManager) handleInvMsg(imsg *invMsg) {
 			}
 
 			// Get headers based on locator.
+			log.Infof("Requesting headers from [%s]", pktlog.IpAddr(imsg.peer.Addr()))
 			err = imsg.peer.PushGetHeadersMsg(locator,
 				&invVects[lastBlock].Hash)
 			if err != nil {
@@ -2314,9 +2335,6 @@ func (b *blockManager) handleHeadersMsg(hmsg *headersMsg) {
 	msg := hmsg.headers
 	numHeaders := len(msg.Headers)
 
-	log.Debugf("Got headers message from [%s] with [%d] headers",
-		hmsg.peer.Addr(), numHeaders)
-
 	// Nothing to do for an empty headers message.
 	if numHeaders == 0 {
 		return
@@ -2336,9 +2354,13 @@ func (b *blockManager) handleHeadersMsg(hmsg *headersMsg) {
 
 	needProofs := make([]hashHeight, 0, 1)
 
+	tip := hmsg.peer.LastBlock()
+	if tip > b.likelyChainTip {
+		tip = b.likelyChainTip
+	}
 	for i, header := range msg.Headers {
 		h := int32(backHeight) + int32(i) + 1
-		depth := b.likelyChainTip - h
+		depth := tip - h
 		if depth < 1 {
 			depth = 1
 		}
@@ -2349,10 +2371,17 @@ func (b *blockManager) handleHeadersMsg(hmsg *headersMsg) {
 		numI := binary.LittleEndian.Uint32(x[:4])
 		numF := float64(numI) / 4294967296.0
 		if numF <= 20.0/float64(depth) {
-			log.Debugf("Requesting PacketCrypt Proof for block number [%d]", h)
+			log.Tracef("Requesting PacketCrypt Proof for block number [%d]", h)
 			needProofs = append(needProofs, hashHeight{hash: header.BlockHash(), height: h})
 		}
 	}
+
+	log.Infof("Headers from [%s] height: [%s] checking [%s] PacketCrypt proofs of total [%s] headers",
+		pktlog.IpAddr(hmsg.peer.Addr()),
+		pktlog.Height(int32(backHeight+1)),
+		pktlog.Int(len(needProofs)),
+		pktlog.Int(len(msg.Headers)),
+	)
 
 	if len(needProofs) == 0 {
 		log.Debugf("No PacketCrypt proofs required for header batch")
@@ -2368,7 +2397,7 @@ func (b *blockManager) handleHeadersMsg(hmsg *headersMsg) {
 		for _, hash := range needProofs {
 			sem <- 1
 			go func(hh hashHeight) {
-				h, err := s.GetBlock0(hh.hash, uint32(hh.height))
+				h, err := s.GetBlock0(hh.hash, uint32(hh.height), Encoding(wire.BaseEncoding))
 				if err != nil {
 					log.Infof("Unable to get block [%s @ %d]: %s",
 						hh.hash.String(), hh.height, err.String())
@@ -2404,12 +2433,12 @@ func blockHashByHeight(needHeight int32,
 		if int(needHeight-newHeadersHeight) >= len(newHeaders) {
 			return chainhash.Hash{}, er.New("height too big")
 		}
-		log.Debugf("PacketCrypt getting header hash [%d] from new headers", needHeight)
+		log.Tracef("PacketCrypt getting header hash [%d] from new headers", needHeight)
 		return newHeaders[needHeight-newHeadersHeight].BlockHash(), nil
 	} else if hdr, err := server.BlockHeaders.FetchHeaderByHeight(uint32(needHeight)); err != nil {
 		return chainhash.Hash{}, err
 	} else {
-		log.Debugf("PacketCrypt getting header hash [%d] from chain", needHeight)
+		log.Tracef("PacketCrypt getting header hash [%d] from chain", needHeight)
 		return hdr.BlockHash(), nil
 	}
 }
@@ -2510,7 +2539,7 @@ func (b *blockManager) handleProvenHeadersMsg(phmsg *provenHeadersMsg) {
 			if blk, ok := phmsg.proofs[thisHeaderHeight]; ok {
 				thisHeaderIndex := int32(i)
 				newHeadersHeight := thisHeaderHeight - thisHeaderIndex
-				log.Debugf("Checking PacketCrypt proof add1")
+				log.Tracef("Checking PacketCrypt proof add1")
 				if err := checkPacketCryptProof(
 					blk, thisHeaderHeight, msg.Headers, newHeadersHeight, b.server,
 				); err != nil {
@@ -2744,7 +2773,7 @@ func (b *blockManager) handleProvenHeadersMsg(phmsg *provenHeadersMsg) {
 			nodeHash := node.Header.BlockHash()
 			if nodeHash.IsEqual(b.nextCheckpoint.Hash) {
 				receivedCheckpoint = true
-				log.Infof("Verified downloaded block "+
+				log.Debugf("Verified downloaded block "+
 					"header against checkpoint at height "+
 					"%d/hash %s", node.Height, nodeHash)
 			} else {
@@ -2796,6 +2825,7 @@ func (b *blockManager) handleProvenHeadersMsg(phmsg *provenHeadersMsg) {
 
 	// When this header is a checkpoint, find the next checkpoint.
 	if receivedCheckpoint {
+		b.updateLikelyChainTip(b.nextCheckpoint.Height)
 		b.nextCheckpoint = b.findNextHeaderCheckpoint(finalHeight)
 	}
 

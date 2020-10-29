@@ -13,7 +13,6 @@ import (
 	"path/filepath"
 	"runtime"
 	"sync"
-	"time"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktconfig/version"
@@ -43,20 +42,6 @@ func main() {
 	// Work around defer not working after os.Exit.
 	if err := walletMain(); err != nil {
 		os.Exit(1)
-	}
-}
-
-func goMaintenance(cfg *config, w *wallet.Wallet) {
-	for {
-		// Don't try to vacuum until the chain connection comes up
-		if w.ChainClient() != nil {
-			break
-		}
-		time.Sleep(time.Duration(1) * time.Second)
-	}
-	for {
-		w.Maintenance()
-		time.Sleep(time.Duration(cfg.AutoVacuumPauseMs) * time.Millisecond)
 	}
 }
 
@@ -110,10 +95,6 @@ func walletMain() er.R {
 	loader.RunAfterLoad(func(w *wallet.Wallet) {
 		startWalletRPCServices(w, rpcs, legacyRPCServer)
 	})
-
-	if cfg.AutoVacuum && !cfg.NoAutoVacuum {
-		loader.RunAfterLoad(func(w *wallet.Wallet) { go goMaintenance(cfg, w) })
-	}
 
 	if !cfg.NoInitialLoad {
 		// Load the wallet database.  It must have been created already

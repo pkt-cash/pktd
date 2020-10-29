@@ -5,12 +5,12 @@
 package btcjson
 
 import (
-	"github.com/json-iterator/go"
-	"encoding/json"
 	"fmt"
 	"reflect"
 	"strconv"
 	"strings"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 )
@@ -140,20 +140,14 @@ func UnmarshalCmd(r *Request) (interface{}, er.R) {
 			// The most common error is the wrong type, so
 			// explicitly detect that error and make it nicer.
 			fieldName := strings.ToLower(rt.Field(i).Name)
-			if jerr, ok := err.(*json.UnmarshalTypeError); ok {
-				if jerr.Type.Kind() == reflect.Bool && jerr.Value == "number" {
-					var num int
-					if jsoniter.Unmarshal(r.Params[i], &num) == nil {
-						if num == 0 || num == 1 {
-							reflect.Indirect(rvf).SetBool(num != 0)
-							continue
-						}
+			if strings.Contains(err.Error(), "ReadBool: expect t or f, but found") {
+				var num int
+				if jsoniter.Unmarshal(r.Params[i], &num) == nil {
+					if num == 0 || num == 1 {
+						reflect.Indirect(rvf).SetBool(num != 0)
+						continue
 					}
 				}
-				str := fmt.Sprintf("parameter #%d '%s' must "+
-					"be type %v (got %v)", i+1, fieldName,
-					jerr.Type, jerr.Value)
-				return nil, makeError(ErrInvalidType, str)
 			}
 
 			// Fallback to showing the underlying error.

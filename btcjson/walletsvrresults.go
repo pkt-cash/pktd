@@ -69,18 +69,25 @@ type NeutrinoBan struct {
 	EndTime string `json:"endtime"`
 }
 
+type NeutrinoQuery struct {
+	Peer             string
+	Command          string
+	ReqNum           uint32
+	CreateTime       uint32
+	LastRequestTime  uint32
+	LastResponseTime uint32
+}
+
 type NeutrinoInfo struct {
-	Peers []peer.PeerDesc
-	Bans  []NeutrinoBan
+	Peers   []peer.PeerDesc
+	Bans    []NeutrinoBan
+	Queries []NeutrinoQuery
 }
 
 type WalletStats struct {
-	MaintenanceInProgress bool
-	MaintenanceName       string
-	MaintenanceCycles     int
-	//AutoVacuumBurned           int
-	//AutoVacuumOrphaned         int
-	//AutoVacuumVisitedUtxos     int
+	MaintenanceInProgress       bool
+	MaintenanceName             string
+	MaintenanceCycles           int
 	MaintenanceLastBlockVisited int
 	TimeOfLastMaintenance       time.Time
 
@@ -164,6 +171,8 @@ type ListUnspentResult struct {
 	RedeemScript  string  `json:"redeemScript,omitempty"`
 	Amount        float64 `json:"amount"`
 	Confirmations int64   `json:"confirmations"`
+	Height        int64   `json:"height"`
+	BlockHash     string  `json:"blockHash"`
 	Spendable     bool    `json:"spendable"`
 }
 

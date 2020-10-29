@@ -6,7 +6,7 @@
 package btcjson
 
 import (
-	"github.com/json-iterator/go"
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 )
@@ -281,28 +281,15 @@ type GetRawMempoolVerboseResult struct {
 	Depends          []string `json:"depends"`
 }
 
-// ScriptPubKeyResult models the scriptPubKey data of a tx script.  It is
-// defined separately since it is used by multiple commands.
-// DEPRECATED: Will be removed in favor of simply returning "address"
-type ScriptPubKeyResult struct {
-	Asm                string   `json:"asm"`
-	Hex                string   `json:"hex,omitempty"`
-	ReqSigs            int32    `json:"reqSigs,omitempty"`
-	Type               string   `json:"type"`
-	Addresses          []string `json:"addresses,omitempty"`
-	DeprecationWarning string   `json:"deprecationwarning,omitempty"`
-}
-
 // GetTxOutResult models the data from the gettxout command.
 type GetTxOutResult struct {
-	BestBlock     string             `json:"bestblock"`
-	Confirmations int64              `json:"confirmations"`
-	ValueCoins    float64            `json:"value"`
-	Svalue        string             `json:"svalue"`
-	Address       string             `json:"address"`
-	Vote          *Vote              `json:"vote,omitempty"`
-	ScriptPubKey  ScriptPubKeyResult `json:"scriptPubKey"`
-	Coinbase      bool               `json:"coinbase"`
+	BestBlock     string  `json:"bestblock"`
+	Confirmations int64   `json:"confirmations"`
+	ValueCoins    float64 `json:"value"`
+	Svalue        string  `json:"svalue"`
+	Address       string  `json:"address"`
+	Vote          *Vote   `json:"vote,omitempty"`
+	Coinbase      bool    `json:"coinbase"`
 }
 
 // GetNetTotalsResult models the data returned from the getnettotals command.
@@ -475,12 +462,11 @@ func (v *VinPrevOut) MarshalJSON() ([]byte, error) {
 // Vout models parts of the tx data.  It is defined separately since both
 // getrawtransaction and decoderawtransaction use the same structure.
 type Vout struct {
-	ValueCoins   float64            `json:"value"`
-	Svalue       string             `json:"svalue"`
-	N            uint32             `json:"n"`
-	Address      string             `json:"address"`
-	Vote         *Vote              `json:"vote,omitempty"`
-	ScriptPubKey ScriptPubKeyResult `json:"scriptPubKey"`
+	ValueCoins float64 `json:"value"`
+	Svalue     string  `json:"svalue"`
+	N          uint32  `json:"n"`
+	Address    string  `json:"address"`
+	Vote       *Vote   `json:"vote,omitempty"`
 }
 
 // GetMiningInfoResult models the data from the getmininginfo command.

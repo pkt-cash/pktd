@@ -2,7 +2,7 @@ pktwallet
 =========
 
 pktwallet is a daemon handling bitcoin wallet functionality for a
-single user.  It acts as both an RPC client to pktd and an RPC server
+single user. It acts as both an RPC client to `pktd` and an RPC server
 for wallet clients and legacy RPC applications.
 
 Public and private keys are derived using the hierarchical
@@ -21,14 +21,12 @@ wallet file is compromised without exposing all current and future
 addresses (public keys) managed by the wallet. While access to this
 information would not allow an attacker to spend or steal coins, it
 does mean they could track all transactions involving your addresses
-and therefore know your exact balance.  In a future release, public data
+and therefore know your exact balance. In a future release, public data
 encryption will extend to transactions as well.
 
-pktwallet is not an SPV client and requires connecting to a local or
-remote pktd instance for asynchronous blockchain queries and
-notifications over websockets.  Full pktd installation instructions
-can be found [here](https://github.com/pkt-cash/pktd).  An alternative
-SPV mode is planned for a future release.
+pktwallet is not an SPV client and requires a connection to a local or
+remote `pktd` instance for asynchronous blockchain queries, as well as
+to receive notifications over websockets.
 
 Wallet clients can use one of two RPC servers:
 
@@ -49,11 +47,9 @@ Wallet clients can use one of two RPC servers:
 	 due to API changes, b) have issues with the legacy API, or c) need to get
 	 notifications for changes to the wallet, this is the RPC server to use.
 
-	 The new server is documented [here](./rpc/documentation/README.md).
-
 ## Issue Tracker
 
-The [integrated github issue tracker](https://github.com/pkt-cash/pktd/issues)
+The [integrated GitHub issue tracker](https://github.com/pkt-cash/pktd/issues)
 is used for this project.
 
 ## License

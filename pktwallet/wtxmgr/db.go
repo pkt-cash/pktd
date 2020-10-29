@@ -224,22 +224,6 @@ func makeReadBlockIterator(ns walletdb.ReadBucket, height int32) blockIterator {
 	return blockIterator{c: readCursor{c}, seek: seek}
 }
 
-// Works just like makeBlockIterator but will initially position the cursor at
-// the last k/v pair.  Use this with blockIterator.prev.
-func makeReverseBlockIterator(ns walletdb.ReadWriteBucket) blockIterator {
-	seek := make([]byte, 4)
-	byteOrder.PutUint32(seek, ^uint32(0))
-	c := ns.NestedReadWriteBucket(bucketBlocks).ReadWriteCursor()
-	return blockIterator{c: c, seek: seek}
-}
-
-func makeReadReverseBlockIterator(ns walletdb.ReadBucket) blockIterator {
-	seek := make([]byte, 4)
-	byteOrder.PutUint32(seek, ^uint32(0))
-	c := ns.NestedReadBucket(bucketBlocks).ReadCursor()
-	return blockIterator{c: readCursor{c}, seek: seek}
-}
-
 func (it *blockIterator) next() bool {
 	if it.c == nil {
 		return false
@@ -302,7 +286,7 @@ func (it *blockIterator) prev() bool {
 	return true
 }
 
-// unavailable until https://github.com/boltdb/bolt/issues/620 is fixed.
+// unavailable until https://github.com/etcd-io/bbolt/issues/146 is fixed.
 // func (it *blockIterator) delete() error {
 // 	err := it.c.Delete()
 // 	if err != nil {

@@ -121,8 +121,7 @@ type Wallet struct {
 	wsLock sync.RWMutex
 	ws     btcjson.WalletStats
 
-	watch     watcher.Watcher
-	chainLock sync.Mutex
+	watch watcher.Watcher
 
 	rescanJLock sync.Mutex
 	rescanJ     *rescanJob
@@ -133,6 +132,7 @@ type rescanJob struct {
 	height     int32
 	stopHeight int32
 	name       string
+	dropDb     bool
 }
 
 // Start starts the goroutines necessary to manage a wallet.
@@ -183,20 +183,13 @@ func (w *Wallet) SynchronizeRPC(chainClient chain.Interface) {
 	}
 	w.chainClient = chainClient
 
-	// If the chain client is a NeutrinoClient instance, set a birthday so
-	// we don't download all the filters as we go.
-	switch cc := chainClient.(type) {
-	case *chain.NeutrinoClient:
-		cc.SetStartTime(w.Manager.Birthday())
-	}
 	w.chainClientLock.Unlock()
 
 	// TODO: It would be preferable to either run these goroutines
 	// separately from the wallet (use wallet mutator functions to
 	// make changes from the RPC client) and not have to stop and
 	// restart them each time the client disconnects and reconnets.
-	w.wg.Add(1)
-	go w.handleChainNotifications()
+	go w.goMainLoop()
 }
 
 // requireChainClient marks that a wallet method can only be completed when the
@@ -377,7 +370,7 @@ func (w *Wallet) syncWithChain(birthdayStamp *waddrmgr.BlockStamp) er.R {
 	// MaxReorgDepth blocks to store. We don't do this for development
 	// environments as we can't guarantee a lively chain.
 	if !w.isDevEnv() {
-		log.Debug("Waiting for chain backend to sync to tip")
+		log.Info("Waiting for chain backend to sync to tip")
 		if err := w.waitUntilBackendSynced(chainClient); err != nil {
 			return err
 		}
@@ -435,18 +428,6 @@ func (w *Wallet) syncWithChain(birthdayStamp *waddrmgr.BlockStamp) er.R {
 		ws.BirthdayBlock = birthdayStamp.Height
 	})
 
-	// Request notifications for connected and disconnected blocks.
-	//
-	// TODO(jrick): Either request this notification only once, or when
-	// rpcclient is modified to allow some notification request to not
-	// automatically resent on reconnect, include the notifyblocks request
-	// as well.  I am leaning towards allowing off all rpcclient
-	// notification re-registrations, in which case the code here should be
-	// left as is.
-	if err := chainClient.NotifyBlocks(); err != nil {
-		return err
-	}
-
 	// Finally, we'll trigger a wallet rescan and request notifications for
 	// transactions sending to all wallet addresses and spending all wallet
 	// UTXOs.
@@ -470,18 +451,6 @@ func (w *Wallet) syncWithChain(birthdayStamp *waddrmgr.BlockStamp) er.R {
 	w.watch.WatchAddrs(addrs)
 	w.watch.WatchOutpoints(ao)
 
-	bestH, bestHeight, err := chainClient.GetBestBlock()
-	if err != nil {
-		return err
-	}
-	st := w.Manager.SyncedTo()
-	if st.Height >= bestHeight {
-	} else if err := w.block(wtxmgr.Block{
-		Hash:   *bestH,
-		Height: bestHeight,
-	}); err != nil {
-		return err
-	}
 	return nil
 }
 
@@ -500,9 +469,9 @@ func (w *Wallet) isDevEnv() bool {
 // waitUntilBackendSynced blocks until the chain backend considers itself
 // "current".
 func (w *Wallet) waitUntilBackendSynced(chainClient chain.Interface) er.R {
-	// We'll poll every second to determine if our chain considers itself
+	// We'll poll every 100ms to determine if our chain considers itself
 	// "current".
-	t := time.NewTicker(time.Second)
+	t := time.NewTicker(time.Millisecond * 100)
 	defer t.Stop()
 
 	for {
@@ -993,47 +962,6 @@ func (w *Wallet) CalculateAddressBalances(
 	})
 }
 
-// CalculateAccountBalances sums the amounts of all unspent transaction
-// outputs to the given account of a wallet and returns the balance.
-//
-// This function is much slower than it needs to be since transactions outputs
-// are not indexed by the accounts they credit to, and all unspent transaction
-// outputs must be iterated.
-func (w *Wallet) CalculateAccountBalances(account uint32, confirms int32) (Balances, er.R) {
-	var bals Balances
-	err := walletdb.View(w.db, func(tx walletdb.ReadTx) er.R {
-		addrmgrNs := tx.ReadBucket(waddrmgrNamespaceKey)
-		txmgrNs := tx.ReadBucket(wtxmgrNamespaceKey)
-
-		// Get current block.  The block height used for calculating
-		// the number of tx confirmations.
-		syncBlock := w.Manager.SyncedTo()
-
-		return w.TxStore.ForEachUnspentOutput(txmgrNs, nil, func(_ []byte, output *wtxmgr.Credit) er.R {
-			var outputAcct uint32
-			_, addrs, _, err := txscript.ExtractPkScriptAddrs(
-				output.PkScript, w.chainParams)
-			if err == nil && len(addrs) > 0 {
-				_, outputAcct, err = w.Manager.AddrAccount(addrmgrNs, addrs[0])
-			}
-			if err != nil || outputAcct != account {
-				// disregard the error and keep searching
-				return nil
-			}
-
-			bals.Total += output.Amount
-			if output.FromCoinBase && !confirmed(int32(w.chainParams.CoinbaseMaturity),
-				output.Height, syncBlock.Height) {
-				bals.ImmatureReward += output.Amount
-			} else if confirmed(confirms, output.Height, syncBlock.Height) {
-				bals.Spendable += output.Amount
-			}
-			return nil
-		})
-	})
-	return bals, err
-}
-
 // CurrentAddress gets the most recently requested Bitcoin payment address
 // from a wallet for a particular key-chain scope.  If the address has already
 // been used (there is at least one transaction spending to it in the
@@ -1149,24 +1077,6 @@ func (w *Wallet) AddressInfo(a btcutil.Address) (waddrmgr.ManagedAddress, er.R) 
 		return err
 	})
 	return managedAddress, err
-}
-
-// AccountNumber returns the account number for an account name under a
-// particular key scope.
-func (w *Wallet) AccountNumber(scope waddrmgr.KeyScope, accountName string) (uint32, er.R) {
-	manager, err := w.Manager.FetchScopedKeyManager(scope)
-	if err != nil {
-		return 0, err
-	}
-
-	var account uint32
-	err = walletdb.View(w.db, func(tx walletdb.ReadTx) er.R {
-		addrmgrNs := tx.ReadBucket(waddrmgrNamespaceKey)
-		var err er.R
-		account, err = manager.LookupAccount(addrmgrNs, accountName)
-		return err
-	})
-	return account, err
 }
 
 // AccountName returns the name of an account.
@@ -1679,6 +1589,8 @@ func (w *Wallet) ListUnspent(minconf, maxconf int32,
 				ScriptPubKey:  hex.EncodeToString(output.PkScript),
 				Amount:        output.Amount.ToCoins(),
 				Confirmations: int64(confs),
+				Height:        int64(output.Height),
+				BlockHash:     output.Block.Hash.String(),
 				Spendable:     spendable,
 			}
 
@@ -1737,7 +1649,7 @@ func (w *Wallet) ImportPrivateKey(scope waddrmgr.KeyScope, wif *btcutil.WIF,
 		if w.rescanJ != nil {
 			return "", er.Errorf(
 				"You requested a rescan but there is already a rescan job"+
-					" ([%v]) running, use `stoprescan` to stop it", w.rescanJ.name)
+					" ([%v]) running, use `stopresync` to stop it", w.rescanJ.name)
 		}
 	}
 
@@ -2441,7 +2353,7 @@ func (w *Wallet) ResyncChain(fromHeight, toHeight int32, addresses []string, dro
 	gj := w.rescanJ
 	if gj != nil {
 		return er.Errorf(
-			"There is already a rescan job ([%v]) running, use `stoprescan` to stop it",
+			"There is already a rescan job ([%v]) running, use `stopresync` to stop it",
 			gj.name)
 	}
 
@@ -2481,28 +2393,13 @@ func (w *Wallet) ResyncChain(fromHeight, toHeight int32, addresses []string, dro
 		}
 	}
 
-	if !dropDb {
-		w.rescanJ = &rescanJob{
-			name: fmt.Sprintf("resync-%d-to-%d-at-%d",
-				fromHeight, toHeight, time.Now().Unix()),
-			height:     fromHeight,
-			stopHeight: toHeight,
-			watch:      watch,
-		}
-		return nil
-	}
-
-	if bs, err := getBlockStamp(w.chainClient, fromHeight); err != nil {
-		return err
-	} else if err := walletdb.Update(w.db, func(tx walletdb.ReadWriteTx) er.R {
-		txNs := tx.ReadWriteBucket(wtxmgrNamespaceKey)
-		if err := wtxmgr.DropTransactionHistory(txNs); err != nil {
-			return err
-		}
-		w.Manager.SetSyncedTo(tx.ReadWriteBucket(waddrmgrNamespaceKey), bs)
-		return nil
-	}); err != nil {
-		return err
+	w.rescanJ = &rescanJob{
+		name: fmt.Sprintf("resync_%d_to_%d_at_%d",
+			fromHeight, toHeight, time.Now().Unix()),
+		height:     fromHeight,
+		stopHeight: toHeight,
+		watch:      watch,
+		dropDb:     dropDb,
 	}
 	return nil
 }
@@ -2520,9 +2417,134 @@ func (w *Wallet) WalletMempool() ([]wtxmgr.TxDetails, er.R) {
 }
 
 type SyncerResp struct {
+	// this can be nil if rollbackHash is non-nil
+	// or if we're syncing the chain and we need to load headers
 	filter *chain.FilterBlocksResponse
+
+	// if nil then there is nothing to be done at all
 	header *wire.BlockHeader
 	height int32
+
+	// nil unless we have a block to revert
+	rollbackHash *chainhash.Hash
+}
+
+// Returns true if tx pays a an address in the set of watchedAddrs which is not recorded in storedTx
+func paysUncreditedAddress(
+	tx *wire.MsgTx,
+	storedTx *wtxmgr.TxDetails,
+	watchedAddrs []btcutil.Address,
+) bool {
+	for _, addr := range watchedAddrs {
+		script := addr.ScriptAddress()
+		for index, out := range tx.TxOut {
+			if !bytes.Equal(script, out.PkScript) {
+				continue
+			}
+			found := false
+			for _, credit := range storedTx.Credits {
+				if credit.Index != uint32(index) {
+				} else if credit.Amount != btcutil.Amount(out.Value) {
+					log.Debug("Reload [%s] because out records show it "+
+						"paying [%s] [%s] but the chains says [%s]",
+						tx.TxHash(),
+						addr.EncodeAddress(),
+						credit.Amount.ToBTC(),
+						btcutil.Amount(out.Value).ToBTC(),
+					)
+					return true
+				} else {
+					// We found a matching credit, we're done
+					found = true
+					break
+				}
+			}
+			if !found {
+				log.Debug("Reload [%s] because it pays [%s] and we are missing that credit",
+					tx.TxHash(), addr.EncodeAddress())
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// This is easy because utxos are removed from the watchlist when they are spent
+// We don't need to care about the storedTx
+func spendsUndebitedAddress(
+	tx *wire.MsgTx,
+	storedTx *wtxmgr.TxDetails,
+	watchedAddrs map[wire.OutPoint]btcutil.Address,
+) bool {
+	ops := make(map[wire.OutPoint]struct{})
+	for _, in := range tx.TxIn {
+		ops[in.PreviousOutPoint] = struct{}{}
+	}
+	for op, addr := range watchedAddrs {
+		if _, ok := ops[op]; ok {
+			log.Debug("Reload [%s] because it spends from [%s]",
+				tx.TxHash(), addr.EncodeAddress())
+			return true
+		}
+	}
+	return false
+}
+
+// Returns the relevant txDetail and whether or not we should reload it
+func existsTxEntry(
+	tx *wire.MsgTx,
+	header *wire.BlockHeader,
+	txDetails []wtxmgr.TxDetails,
+) (*wtxmgr.TxDetails, bool) {
+	blockHash := header.BlockHash()
+	for _, txd := range txDetails {
+		txh := tx.TxHash()
+		if !txh.IsEqual(&txd.Hash) {
+			continue
+		} else if !txd.Block.Hash.IsEqual(&blockHash) {
+			log.Debugf("Reloading [%s] because it has block hash [%s] but correct is [%s]",
+				tx.TxHash(), txd.Block.Hash.String(), blockHash.String())
+			return &txd, true
+		}
+		return &txd, false
+	}
+	return nil, true
+}
+
+func mkFilterReq(w *watcher.Watcher, header *wire.BlockHeader, height int32) *chain.FilterBlocksRequest {
+	filterReq := w.FilterReq(height)
+	filterReq.Blocks = []wtxmgr.BlockMeta{
+		{
+			Block: wtxmgr.Block{
+				Hash:   header.BlockHash(),
+				Height: height,
+			},
+			Time: header.Timestamp,
+		},
+	}
+	return filterReq
+}
+
+func containsDuplicateTx(txd []wtxmgr.TxDetails) bool {
+	for i, d := range txd {
+		for _, dd := range txd[:i] {
+			if d.Hash.IsEqual(&dd.Hash) {
+				log.Debugf("Rolling back [%s] because tx [%s] is duplicated in the db",
+					d.Block.Hash, d.Hash)
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func containsTxFromWrongBlock(txd []wtxmgr.TxDetails, correctHash *chainhash.Hash) bool {
+	for _, tx := range txd {
+		if !correctHash.IsEqual(&tx.Block.Hash) {
+			return false
+		}
+	}
+	return false
 }
 
 func rescanStep(
@@ -2547,28 +2569,30 @@ func rescanStep(
 			})
 		if hash, err := chainClient.GetBlockHash(int64(height)); err != nil {
 			return err
-		} else if len(txDetails) > 0 && !hash.IsEqual(&txDetails[0].Block.Hash) {
-			log.Infof("Block [%v @ %v] mismatch, backend says [%v @ %v]",
-				txDetails[0].Block.Hash, height, hash, height)
-			//w.TxStore.RollbackOne(txNs, rj.Height)
-			// TODO, something
-			return nil
 		} else if header, err := chainClient.GetBlockHeader(hash); err != nil {
 			return err
 		} else {
-			filterReq := watch.FilterReq(height)
-			filterReq.Blocks = []wtxmgr.BlockMeta{
-				{
-					Block: wtxmgr.Block{
-						Hash:   header.BlockHash(),
-						Height: height,
-					},
-					Time: header.Timestamp,
-				},
-			}
+			filterReq := mkFilterReq(watch, header, height)
 			res, err := chainClient.FilterBlocks(filterReq)
+			if containsTxFromWrongBlock(txDetails, hash) || containsDuplicateTx(txDetails) {
+				out = SyncerResp{
+					filter:       res,
+					header:       header,
+					height:       height,
+					rollbackHash: &txDetails[0].Block.Hash,
+				}
+				return nil
+			}
 			if res == nil {
 				// valid to have no response and no error
+				if !isRescan {
+					// If we're not rescanning, we MUST send the header
+					out = SyncerResp{
+						filter: res,
+						header: header,
+						height: height,
+					}
+				}
 				return err
 			}
 			var knownTx = make(map[chainhash.Hash]struct{})
@@ -2577,47 +2601,23 @@ func rescanStep(
 			}
 			var newTransactions = make([]*wire.MsgTx, 0)
 			for _, tx := range res.RelevantTxns {
-				shouldReload := true
-				for _, txd := range txDetails {
-					txh := tx.TxHash()
-					if txh.IsEqual(&txd.Hash) {
-						// We already know about the tx so we don't bother reloading it
-						// unless we have a reason to
-						shouldReload = false
-						break
+				detail, shouldReload := existsTxEntry(tx, header, txDetails)
+				if detail == nil {
+					if isRescan {
+						// This is the case whenever we receive a new block so we will only log if rescanning
+						log.Debugf("Reload [%s] because we're missing the tx entry", tx.TxHash())
 					}
-				}
-				if !shouldReload {
+				} else if paysUncreditedAddress(tx, detail, filterReq.ImportedAddrs) {
 					// See if this tx gives coins to an address which we don't have a known credit for
-				outer:
-					for _, addr := range filterReq.ImportedAddrs {
-						script := addr.ScriptAddress()
-						for _, out := range tx.TxOut {
-							if bytes.Equal(script, out.PkScript) {
-								shouldReload = true
-								break outer
-							}
-						}
-					}
-				}
-				if !shouldReload {
-					// See if this tx spends coins which weren't spent before
-					ops := make(map[wire.OutPoint]struct{})
-					for _, in := range tx.TxIn {
-						ops[in.PreviousOutPoint] = struct{}{}
-					}
-					for op := range filterReq.WatchedOutPoints {
-						if _, ok := ops[op]; ok {
-							shouldReload = true
-							break
-						}
-					}
+					shouldReload = true
+				} else if spendsUndebitedAddress(tx, detail, filterReq.WatchedOutPoints) {
+					shouldReload = true
 				}
 				if shouldReload {
 					newTransactions = append(newTransactions, tx)
 				}
 			}
-			if len(newTransactions) == 0 {
+			if len(newTransactions) == 0 && isRescan {
 				return nil
 			}
 			res.RelevantTxns = newTransactions
@@ -2642,23 +2642,21 @@ func (w *Wallet) connectBlocks(blks []SyncerResp, isRescan bool) er.R {
 				st.Hash.String(), st.Height,
 				blk.header.PrevBlock.String())
 		}
-	} else {
-		found := false
-		for _, b := range blks {
-			if b.filter != nil {
-				found = true
-				break
-			}
-		}
-		// Short cirtuit if we're resyncing and there are no filters
-		if !found {
-			return nil
-		}
 	}
-	w.chainLock.Lock()
-	defer w.chainLock.Unlock()
 	return walletdb.Update(w.db, func(dbtx walletdb.ReadWriteTx) er.R {
 		for _, b := range blks {
+			if bs := w.Manager.SyncedTo(); b.height > bs.Height+1 {
+				// This happens if we get a resync/dropdb triggered while we're syncing
+				continue
+			}
+			if b.rollbackHash != nil {
+				txmgrNs := dbtx.ReadWriteBucket(wtxmgrNamespaceKey)
+				log.Infof("Invalid block detected at [%d] replacing [%s] -> [%s]",
+					b.height, b.rollbackHash, b.header.BlockHash())
+				if err := w.TxStore.RollbackOne(txmgrNs, b.height); err != nil {
+					return err
+				}
+			}
 			if b.filter == nil {
 			} else if err := w.storeTxns(dbtx, b.filter); err != nil {
 				return err
@@ -2726,7 +2724,11 @@ func (w *Wallet) rescan2(
 				return err
 			}
 			respLock.Lock()
-			batch = append(batch, responses[int32(blockNum)])
+			x := responses[int32(blockNum)]
+			if x.header != nil {
+				// no header means there's nothing to be done at all
+				batch = append(batch, x)
+			}
 			delete(responses, int32(blockNum))
 			respLock.Unlock()
 			if len(batch) >= syncerBatchSz {
@@ -2764,8 +2766,6 @@ func (w *Wallet) rollbackIfNeeded() er.R {
 		} else if nextHdr.PrevBlock.IsEqual(&st.Hash) {
 			return nil
 		} else {
-			w.chainLock.Lock()
-			defer w.chainLock.Unlock()
 			if err := walletdb.Update(w.db, func(dbtx walletdb.ReadWriteTx) er.R {
 				return w._rollbackBlock(dbtx, st)
 			}); err != nil {
@@ -2815,13 +2815,19 @@ func (w *Wallet) block(bm wtxmgr.Block) er.R {
 	}
 	// Remember to re-check the stamp because it might have been rolled back
 	st = w.Manager.SyncedTo()
-	if err := w.rescan2(st.Height+1, bm.Height+1, false); err != nil {
+
+	// Don't do more than 100 blocks in a cycle
+	top := bm.Height + 1
+	if top > st.Height+100 {
+		top = st.Height + 100
+	}
+	if err := w.rescan2(st.Height+1, top, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (w *Wallet) Maintenance() {
+func (w *Wallet) rescan() {
 	w.rescanJLock.Lock()
 	defer w.rescanJLock.Unlock()
 	rj := w.rescanJ
@@ -2829,6 +2835,29 @@ func (w *Wallet) Maintenance() {
 	if rj == nil {
 		return
 	}
+
+	// Process dropdb requests
+	if !rj.dropDb {
+	} else if bs, err := getBlockStamp(w.chainClient, rj.height); err != nil {
+		log.Warnf("Error dropping db [%s]", err.String())
+		return
+	} else if err := walletdb.Update(w.db, func(tx walletdb.ReadWriteTx) er.R {
+		txNs := tx.ReadWriteBucket(wtxmgrNamespaceKey)
+		log.Infof("Dropping transaction db")
+		if err := wtxmgr.DropTransactionHistory(txNs); err != nil {
+			return err
+		}
+		if err := w.Manager.SetSyncedTo(tx.ReadWriteBucket(waddrmgrNamespaceKey), bs); err != nil {
+			return err
+		}
+		return nil
+	}); err != nil {
+		log.Warnf("Error dropping transaction db [%s]", err)
+		return
+	} else {
+		return
+	}
+
 	sta := w.Manager.SyncedTo()
 	limit := sta.Height
 	if rj.stopHeight > -1 {
@@ -2841,12 +2870,12 @@ func (w *Wallet) Maintenance() {
 		})
 		return
 	}
-	top := rj.height + 5000
+	top := rj.height + 100
 	if limit < top {
 		top = limit
 	}
 	if err := w.rescan2(rj.height, top, true); err != nil {
-		log.Warnf("Error while running maintanence job [%s]", err.String())
+		log.Warnf("Error while running resync [%s] resync stopped", err.String())
 		return
 	}
 	rj.height = top
@@ -2861,6 +2890,66 @@ func (w *Wallet) Maintenance() {
 		ws.MaintenanceLastBlockVisited = int(top)
 		ws.MaintenanceName = rj.name
 	})
+}
+
+func (w *Wallet) checkBlock() {
+	cc := w.chainClient
+	if cc == nil {
+		/// shutting down
+		return
+	}
+	bestH, bestHeight, err := cc.GetBestBlock()
+	if err != nil {
+		log.Warnf("Error checking for best block [%s]", err.String())
+	}
+	st := w.Manager.SyncedTo()
+	if st.Height >= bestHeight {
+	} else if err := w.block(wtxmgr.Block{
+		Hash:   *bestH,
+		Height: bestHeight,
+	}); err != nil {
+		log.Warnf("Error registering block [%s]", err.String())
+	}
+}
+
+func (w *Wallet) walletInit() {
+	birthdayStore := &walletBirthdayStore{
+		db:      w.db,
+		manager: w.Manager,
+	}
+	birthdayBlock, err := birthdaySanityCheck(
+		w.ChainClient(), birthdayStore,
+	)
+	if err != nil && !waddrmgr.ErrBirthdayBlockNotSet.Is(err) {
+		err.AddMessage("Unable to sanity check wallet birthday block")
+		panic(err.String())
+	}
+
+	err = w.syncWithChain(birthdayBlock)
+	if err != nil && !w.ShuttingDown() {
+		err.AddMessage("Unable to synchronize wallet to chain")
+		panic(err.String())
+	}
+}
+
+func (w *Wallet) goMainLoop() {
+	w.wg.Add(1)
+	for {
+		if w.ChainClient() != nil {
+			break
+		}
+		time.Sleep(time.Duration(1) * time.Second)
+	}
+	w.walletInit()
+	for {
+		w.rescan()
+		w.checkBlock()
+		if w.ShuttingDown() {
+			break
+		}
+		time.Sleep(time.Duration(500) * time.Millisecond)
+	}
+	w.wg.Done()
 }
 
 // Open loads an already-created wallet from the passed database and namespaces.

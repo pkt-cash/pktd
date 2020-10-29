@@ -18,7 +18,7 @@ import (
 // maxFailedAttempts is the maximum number of successive failed connection
 // attempts after which network failure is assumed and new connections will
 // be delayed by the configured retry duration.
-const maxFailedAttempts = 25
+const maxFailedAttempts = 10
 
 var (
 	//ErrDialNil is used to indicate that Dial cannot be nil in the configuration.
@@ -419,7 +419,10 @@ func (cm *ConnManager) Connect(c *ConnReq) {
 	// During the time we wait for retry there is a chance that
 	// this connection was already canceled
 	if c.State() == ConnCanceled {
-		log.Debugf("Ignoring connect for canceled connreq=%v", c)
+		log.Infof("Ignoring canceled connreq=%v, attempting new connection.", c)
+		theId := c.id
+		cm.Remove(theId)
+		cm.NewConnReq()
 		return
 	}
 

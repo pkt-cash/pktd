@@ -406,7 +406,7 @@ func (s *Store) addCredit(ns walletdb.ReadWriteBucket, rec *TxRecord, block *Blo
 	}
 
 	txOutAmt := btcutil.Amount(rec.MsgTx.TxOut[index].Value)
-	log.Debugf("Marking transaction %v output %d (%v) spendable",
+	log.Tracef("Marking transaction %v output %d (%v) spendable",
 		rec.Hash, index, txOutAmt)
 
 	cred := credit{
@@ -643,20 +643,6 @@ func rollbackTransaction(
 	return
 }
 
-// RollbackTransaction kills off a transaction in case it is invalid or burned
-// or the block is orphaned.
-func RollbackTransaction(
-	ns walletdb.ReadWriteBucket,
-	txHash *chainhash.Hash,
-	block *Block,
-	params *chaincfg.Params,
-) er.R {
-	if _, err := rollbackTransaction(ns, txHash, block, params); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (s *Store) RollbackOne(ns walletdb.ReadWriteBucket, height int32) er.R {
 	it := makeReadBlockIterator(ns, height)
 	if !it.next() {
@@ -666,13 +652,19 @@ func (s *Store) RollbackOne(ns walletdb.ReadWriteBucket, height int32) er.R {
 	if it.elem.Height != height {
 		panic("Iterator mistake")
 	}
-	log.Warnf("ROLLBACK rolling back %d transactions from block %v height %d",
-		len(b.transactions), b.Hash, b.Height)
 
-	for i := range b.transactions {
-		txHash := &b.transactions[i]
+	// dedupe because we might have duplication in the db
+	txns := make(map[chainhash.Hash]struct{})
+	for _, txHash := range b.transactions {
+		txns[txHash] = struct{}{}
+	}
+
+	log.Warnf("ROLLBACK rolling back %d transactions from block %v height %d",
+		len(txns), b.Hash, b.Height)
+
+	for txHash := range txns {
 		log.Infof("Rolling back tx [%s]", pktlog.Txid(txHash.String()))
-		if _, err := rollbackTransaction(ns, txHash, &b.Block, s.chainParams); err != nil {
+		if _, err := rollbackTransaction(ns, &txHash, &b.Block, s.chainParams); err != nil {
 			return err
 		}
 	}

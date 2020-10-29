@@ -56,7 +56,7 @@ func TestBase58Check(t *testing.T) {
 	// bytes are missing).
 	testString := ""
 	for len := 0; len < 4; len++ {
-		// make a string of length `len`
+		testString = testString + "x"
 		_, _, err = base58.CheckDecode(testString)
 		if !base58.ErrInvalidFormat.Is(err) {
 			t.Error("Checkdecode test failed, expected ErrInvalidFormat")

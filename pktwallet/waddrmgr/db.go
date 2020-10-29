@@ -1936,24 +1936,6 @@ func fetchSyncedTo(ns walletdb.ReadBucket) (*BlockStamp, er.R) {
 func PutSyncedTo(ns walletdb.ReadWriteBucket, bs *BlockStamp) er.R {
 	errStr := fmt.Sprintf("failed to store sync information %v", bs.Hash)
 
-	// If the block height is greater than zero, check that the previous
-	// block height exists.	This prevents reorg issues in the future. We use
-	// BigEndian so that keys/values are added to the bucket in order,
-	// making writes more efficient for some database backends.
-	if bs.Height > 0 {
-		// We'll only check the previous block height exists if we've
-		// determined our birthday block. This is needed as we'll no
-		// longer store _all_ block hashes of the chain, so we only
-		// expect the previous block to exist once our initial sync has
-		// completed, which is dictated by our birthday block being set.
-		if _, err := FetchBirthdayBlock(ns); err == nil {
-			_, err := fetchBlockHash(ns, bs.Height-1)
-			if err != nil {
-				return managerError(ErrBlockNotFound, errStr, err)
-			}
-		}
-	}
-
 	// Store the block hash by block height.
 	if err := addBlockHash(ns, bs.Height, bs.Hash); err != nil {
 		return managerError(ErrDatabase, errStr, err)

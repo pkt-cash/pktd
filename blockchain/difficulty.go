@@ -269,10 +269,10 @@ func (b *BlockChain) calcNextRequiredDifficulty(lastNode *blockNode, newBlockTim
 
 	newTargetBits := b.computeNextTarget(actualTimespan, lastNode.bits)
 
-	log.Debugf("Difficulty retarget at block height %d", lastNode.height+1)
-	log.Debugf("Old target %08x (%064x)", lastNode.bits, lastNode.bits)
-	log.Debugf("New target %08x (%064x)", newTargetBits, CompactToBig(newTargetBits))
-	log.Debugf("Actual timespan %v, target timespan %v",
+	log.Tracef("Difficulty retarget at block height %d", lastNode.height+1)
+	log.Tracef("Old target %08x (%064x)", lastNode.bits, lastNode.bits)
+	log.Tracef("New target %08x (%064x)", newTargetBits, CompactToBig(newTargetBits))
+	log.Tracef("Actual timespan %v, target timespan %v",
 		time.Duration(actualTimespan)*time.Second,
 		b.chainParams.TargetTimespan)
 

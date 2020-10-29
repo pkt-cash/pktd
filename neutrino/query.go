@@ -3,6 +3,7 @@
 package neutrino
 
 import (
+	"fmt"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -718,7 +719,7 @@ func queryChainServicePeers(
 	// required response has been found. This is done by closing the
 	// channel.
 	checkResponse func(sp *ServerPeer, resp wire.Message,
-		quit chan<- struct{}),
+		quit chan<- struct{}) bool,
 
 	// options takes functional options for executing the query.
 	options ...QueryOption) {
@@ -753,19 +754,38 @@ func queryChainServicePeers(
 	peerTimeout := time.NewTimer(qo.timeout)
 	connectionTimeout := time.NewTimer(qo.peerConnectTimeout)
 	connectionTicker := connectionTimeout.C
+	reqNum := atomic.AddUint32(&s.reqNum, 1)
+
+	query := Query{
+		ReqNum:     reqNum,
+		Command:    queryMsg.Command(),
+		Peer:       queryPeer,
+		CreateTime: uint32(time.Now().Unix()),
+	}
+	s.mtxQueries.Lock()
+	s.queries[reqNum] = &query
+	s.mtxQueries.Unlock()
+
+	reqName := fmt.Sprintf("%d/%s", reqNum, queryMsg.Command())
 	if queryPeer != nil {
 		peerTries[queryPeer.Addr()]++
 		queryPeer.subscribeRecvMsg(subscription)
 		queryPeer.QueueMessageWithEncoding(queryMsg, nil, qo.encoding)
+		log.Tracef("[%s] sending to sync peer [%s]", reqName, queryPeer)
+		query.LastRequestTime = uint32(time.Now().Unix())
+	} else {
+		log.Debugf("[%s] not sending because we have no sync peer", reqName)
 	}
 checkResponses:
 	for {
+		log.Tracef("[%s] waiting for replies or timeouts", reqName)
 		select {
 		case <-connectionTicker:
 			// When we time out, we're done.
 			if queryPeer != nil {
 				queryPeer.unsubscribeRecvMsgs(subscription)
 			}
+			log.Debugf("[%s] connection timeout", reqName)
 			break checkResponses
 
 		case <-queryQuit:
@@ -773,6 +793,7 @@ checkResponses:
 			if queryPeer != nil {
 				queryPeer.unsubscribeRecvMsgs(subscription)
 			}
+			log.Tracef("[%s] complete", reqName)
 			break checkResponses
 
 		case <-s.quit:
@@ -780,6 +801,7 @@ checkResponses:
 			if queryPeer != nil {
 				queryPeer.unsubscribeRecvMsgs(subscription)
 			}
+			log.Debugf("[%s] server shutdown", reqName)
 			break checkResponses
 
 		// A message has arrived over the subscription channel, so we
@@ -789,18 +811,23 @@ checkResponses:
 			// TODO: This will get stuck if checkResponse gets
 			// stuck. This is a caveat for callers that should be
 			// fixed before exposing this function for public use.
-			checkResponse(sm.sp, sm.msg, queryQuit)
+			if checkResponse(sm.sp, sm.msg, queryQuit) {
+				// cfilter messages are way too noisy
+				log.Tracef("[%s] good reply [%s] from [%s]",
+					reqName, sm.msg.Command(), sm.sp.String())
+				query.LastResponseTime = uint32(time.Now().Unix())
 
-			// Each time we receive a response from the current
-			// peer, we'll reset the main peer timeout as they're
-			// being responsive.
-			if !peerTimeout.Stop() {
-				select {
-				case <-peerTimeout.C:
-				default:
+				// Each time we receive a response from the current
+				// peer, we'll reset the main peer timeout as they're
+				// being responsive.
+				if !peerTimeout.Stop() {
+					select {
+					case <-peerTimeout.C:
+					default:
+					}
 				}
+				peerTimeout.Reset(qo.timeout)
 			}
-			peerTimeout.Reset(qo.timeout)
 
 			// Also at this point, if the peerConnectTimeout is
 			// still active, then we can disable it, as we're
@@ -816,10 +843,7 @@ checkResponses:
 		// The current peer we're querying has failed to answer the
 		// query. Time to select a new peer and query it.
 		case <-peerTimeout.C:
-			if queryPeer != nil {
-				queryPeer.unsubscribeRecvMsgs(subscription)
-			}
-
+			oldQueryPeer := queryPeer
 			queryPeer = nil
 			for _, peer := range s.Peers() {
 				// If the peer is no longer connected, we'll
@@ -839,20 +863,33 @@ checkResponses:
 
 				queryPeer = peer
 
+				if oldQueryPeer != nil {
+					oldQueryPeer.unsubscribeRecvMsgs(subscription)
+					log.Debugf("[%s] got timeout from [%s], querying [%s]",
+						reqName, oldQueryPeer.String(), queryPeer.String())
+				} else {
+					log.Debugf("[%s] found a peer to query [%s]",
+						reqName, queryPeer.String())
+				}
+
 				// Found a peer we can query.
 				peerTries[queryPeer.Addr()]++
 				queryPeer.subscribeRecvMsg(subscription)
 				queryPeer.QueueMessageWithEncoding(
 					queryMsg, nil, qo.encoding,
 				)
+				query.LastRequestTime = uint32(time.Now().Unix())
+				query.Peer = queryPeer
 				break
 			}
 
 			// If at this point, we don't yet have a query peer,
 			// then we'll exit now as all the peers are exhausted.
 			if queryPeer == nil {
+				log.Debugf("[%s] no peers to query", reqName)
 				break checkResponses
 			}
+			peerTimeout.Reset(qo.timeout)
 		}
 	}
 
@@ -862,6 +899,9 @@ checkResponses:
 	if qo.doneChan != nil {
 		close(qo.doneChan)
 	}
+	s.mtxQueries.Lock()
+	delete(s.queries, reqNum)
+	s.mtxQueries.Unlock()
 }
 
 // getFilterFromCache returns a filter from ChainService's FilterCache if it
@@ -1073,25 +1113,27 @@ func (s *ChainService) prepareCFiltersQuery(
 
 // handleCFiltersRespons is called every time we receive a response for the
 // GetCFilters request.
+// Returns true if the reply is valid (related to the query) but we still need more
+// closes the quit chan if we're done
 func (s *ChainService) handleCFiltersResponse(q *cfiltersQuery,
-	resp wire.Message, quit chan<- struct{}) {
+	resp wire.Message, quit chan<- struct{}) bool {
 
 	// We're only interested in "cfilter" messages.
 	response, ok := resp.(*wire.MsgCFilter)
 	if !ok {
-		return
+		return false
 	}
 
 	// If the response doesn't match our request, ignore this message.
 	if q.filterType != response.FilterType {
-		return
+		return false
 	}
 
 	// If this filter is for a block not in our index, we can ignore it, as
 	// we either already got it, or it is out of our queried range.
 	i, ok := q.headerIndex[response.BlockHash]
 	if !ok {
-		return
+		return false
 	}
 
 	gotFilter, err := gcs.FromNBytes(
@@ -1099,7 +1141,7 @@ func (s *ChainService) handleCFiltersResponse(q *cfiltersQuery,
 	)
 	if err != nil {
 		// Malformed filter data. We can ignore this message.
-		return
+		return false
 	}
 
 	// Now that we have a proper filter, ensure that re-calculating the
@@ -1111,11 +1153,11 @@ func (s *ChainService) handleCFiltersResponse(q *cfiltersQuery,
 		gotFilter, prevHeader,
 	)
 	if err != nil {
-		return
+		return false
 	}
 
 	if gotHeader != curHeader {
-		return
+		return false
 	}
 
 	// At this point, the filter matches what we know about it and we
@@ -1169,6 +1211,7 @@ func (s *ChainService) handleCFiltersResponse(q *cfiltersQuery,
 	if len(q.headerIndex) == 0 {
 		close(quit)
 	}
+	return true
 }
 
 func (s *ChainService) doFilterRequest(
@@ -1227,8 +1270,8 @@ func (s *ChainService) doFilterRequest(
 
 				// Check responses and if we get one that matches, end
 				// the query early.
-				func(_ *ServerPeer, resp wire.Message, quit chan<- struct{}) {
-					s.handleCFiltersResponse(query, resp, quit)
+				func(_ *ServerPeer, resp wire.Message, quit chan<- struct{}) bool {
+					return s.handleCFiltersResponse(query, resp, quit)
 				},
 				query.options...,
 			)
@@ -1324,22 +1367,30 @@ func (s *ChainService) GetCFilter(blockHash chainhash.Hash,
 		return nil, err
 	}
 
-	_, height, err := s.BlockHeaders.FetchHeader(&blockHash)
-	if err != nil {
+	doHash := &blockHash
+	var doHeight int64
+	if _, height, err := s.BlockHeaders.FetchHeader(&blockHash); err != nil {
 		return nil, err
-	}
-	// We need to always load on even boundaries
-	doHeight := int64(height) / filterBatchSize * filterBatchSize
-	if doHeight == 0 {
-		// height 0 is unfetchable
-		doHeight++
-	}
-	doHash, err := s.GetBlockHash(doHeight)
-	if err != nil {
-		log.Debug("Non-critical error getting hash at height [%d]: [%s]",
-			doHeight, err.String())
-		doHash = &blockHash
+	} else if _, tipHeight, err := s.BlockHeaders.ChainTip(); err != nil {
+		return nil, err
+	} else if tipHeight-height < wire.MaxGetCFiltersReqRange {
+		// We're at or near the tip, don't load a batch
 		doHeight = int64(height)
+	} else {
+		// Always load on even boundaries to prevent duplication
+		tryHeight := int64(height) / filterBatchSize * filterBatchSize
+		if tryHeight == 0 {
+			// height 0 is unfetchable
+			tryHeight++
+		}
+		if dh, err := s.GetBlockHash(tryHeight); err != nil {
+			log.Debug("Non-critical error getting hash at height [%d]: [%s]",
+				doHeight, err.String())
+			doHeight = int64(height)
+		} else {
+			doHash = dh
+			doHeight = tryHeight
+		}
 	}
 
 	for {
@@ -1417,8 +1468,7 @@ func (s *ChainService) GetBlock0(blockHash chainhash.Hash, height uint32,
 
 		// Check responses and if we get one that matches, end the
 		// query early.
-		func(sp *ServerPeer, resp wire.Message,
-			quit chan<- struct{}) {
+		func(sp *ServerPeer, resp wire.Message, quit chan<- struct{}) bool {
 			switch response := resp.(type) {
 			// We're only interested in "block" messages.
 			case *wire.MsgBlock:
@@ -1426,12 +1476,12 @@ func (s *ChainService) GetBlock0(blockHash chainhash.Hash, height uint32,
 				// found a block, or we risk closing an already
 				// closed channel.
 				if foundBlock != nil {
-					return
+					return false
 				}
 
 				// If this isn't our block, ignore it.
 				if response.BlockHash() != blockHash {
-					return
+					return false
 				}
 				block := btcutil.NewBlock(response)
 
@@ -1458,7 +1508,7 @@ func (s *ChainService) GetBlock0(blockHash chainhash.Hash, height uint32,
 						"disconnecting peer", blockHash,
 						sp.Addr())
 					sp.Disconnect()
-					return
+					return false
 				}
 
 				// TODO(roasbeef): modify CheckBlockSanity to
@@ -1470,8 +1520,10 @@ func (s *ChainService) GetBlock0(blockHash chainhash.Hash, height uint32,
 				// the caller.
 				foundBlock = block
 				close(quit)
+				return true
 			default:
 			}
+			return false
 		},
 		options...,
 	)
@@ -1489,25 +1541,42 @@ func (s *ChainService) GetBlock0(blockHash chainhash.Hash, height uint32,
 	return foundBlock, nil
 }
 
-// sendTransaction sends a transaction to all peers. It returns an error if any
-// peer rejects the transaction.
+// SendTransaction0 sends a transaction to your peers. It returns an error if
+// it is "unlikely" that the network has accepted it.
 //
-// TODO: Better privacy by sending to only one random peer and watching
-// propagation, requires better peer selection support in query API.
+// Fasten your seatbelts because here comes the stupid.
+// So, the way it works is this: you create a transaction and you want to bcast it
+// and see if "most of the network" accepts it, like at least to check that it's
+// not going to be immediately dropped on the ground because you were trying to spend
+// a txo which was already spent or something. So you would want something like an HTTP
+// endpoint which replies yay or nay. And I'm here to tell you that Bitcoin protocol
+// does not offer you anything of the sort.
 //
-// TODO(wilmer): Move to pushtx package after introducing a query package. This
-// cannot be done at the moment due to circular dependencies.
+// In Bitcoin, what you need to do is send an INV message ("I have a thing"), which then
+// after receiving it, a node might reply with getdata ("gimme dat"), and only then can
+// you send the tx to the node. If the node is unhappy with your tx, it MIGHT send you
+// back a Reject message, but this is a bit deprecated and the Satoshi client doesn't
+// do it and if the node crashes or something, it obviously won't send a reject.
 //
-// TODO(cjd): We should find a way not to depend on rejection messages to know
-// if a transaction is invalid. Bitcoind does not send them nor even have the
-// infrastructure for doing so anymore and the lack of rejections cannot really
-// be considered as proof that the transaction was accepted by anyone.
+// If the node DOES like your tx, it will store it in it's mempool and then start
+// sending INV messages to its other peers, but it WONT send an INV back to you.
+// So waiting to see if other nodes send you an INV of your transaction is a good way
+// to know that it's being accepted, but you have to be careful because as you send the
+// tx to each node in turn, each node will then become unwilling to give you an INV
+// message with the tx.
 //
-func (s *ChainService) sendTransaction(tx *wire.MsgTx, options ...QueryOption) er.R {
-	// Starting with the set of default options, we'll apply any specified
-	// functional options to the query so that we can check what inv type
-	// to use. Broadcast the inv to all peers, responding to any getdata
-	// messages for the transaction.
+// The algorithm used here is as follows:
+// * Send the tx to your syncNode (the one you are primarily using)
+// * If you receive an INV message from anyone then consider it good
+// * Otherwise, if you receive a reject message from anyone then consider it bad
+// * Otherwise, if you have notificed every one of your peers and received a getdata
+//     request from all of them, then consider it good. This last rule covers the case
+//     when you are connected only to one peer using --connect
+//
+// NOTE: If you get an error RejMempool or RejConfirmed, it means your transaction
+//       has already been accepted and you're just getting notified that the node already
+//       knows about it.
+func (s *ChainService) SendTransaction0(tx *wire.MsgTx, options ...QueryOption) er.R {
 	qo := defaultQueryOptions()
 	qo.applyQueryOptions(options...)
 	invType := wire.InvTypeWitnessTx
@@ -1518,34 +1587,62 @@ func (s *ChainService) sendTransaction(tx *wire.MsgTx, options ...QueryOption) e
 	// Create an inv.
 	txHash := tx.TxHash()
 	inv := wire.NewMsgInv()
-	inv.AddInvVect(wire.NewInvVect(invType, &txHash))
+	iv := wire.NewInvVect(invType, &txHash)
+	inv.AddInvVect(iv)
 
-	// We'll gather all of the peers who replied to our query, along with
-	// the ones who rejected it and their reason for rejecting it. We'll use
-	// this to determine whether our transaction was actually rejected.
-	numReplied := 0
-	rejections := make([]er.R, 0)
-	rejectionTypes := make(map[*er.ErrorCode]int)
+	gotInv := false
+	var reject er.R
+	peersGetdatad := 0
+
+	log.Debugf("Listening for INV [%v] [%s/%v]", iv, iv.Hash, iv.Type)
+
+	var doneCh chan<- struct{}
+	stopCh := make(chan struct{})
+	go func() {
+		sch := stopCh
+		invCh := s.ListenInvs(txHash)
+		defer s.StopListenInvs(txHash, invCh)
+	lewp:
+		for {
+			select {
+			case <-sch:
+				break lewp
+			case sp := <-invCh:
+				log.Debugf("Got INV from [%s]", sp)
+				gotInv = true
+				break lewp
+			}
+		}
+		for {
+			if doneCh != nil {
+				close(doneCh)
+				return
+			}
+			time.Sleep(time.Millisecond * 50)
+		}
+	}()
 
 	// Send the peer query and listen for getdata.
-	s.queryAllPeers(
+	s.queryPeers(
 		inv,
-		func(sp *ServerPeer, resp wire.Message, quit chan<- struct{},
-			peerQuit chan<- struct{}) {
-
+		func(sp *ServerPeer,
+			resp wire.Message,
+			quit chan<- struct{},
+		) bool {
+			if doneCh == nil {
+				doneCh = quit
+			}
 			switch response := resp.(type) {
 			// A peer has replied with a GetData message, so we'll
 			// send them the transaction.
 			case *wire.MsgGetData:
 				for _, vec := range response.InvList {
 					if vec.Hash == txHash {
-						sp.QueueMessageWithEncoding(
-							tx, nil, qo.encoding,
-						)
-
-						numReplied++
+						sp.QueueMessageWithEncoding(tx, nil, qo.encoding)
 					}
 				}
+				peersGetdatad++
+				return true
 
 			// A peer has rejected our transaction for whatever
 			// reason. Rather than returning to the caller upon the
@@ -1555,69 +1652,31 @@ func (s *ChainService) sendTransaction(tx *wire.MsgTx, options ...QueryOption) e
 				// Ensure this rejection is for the transaction
 				// we're attempting to broadcast.
 				if response.Hash != txHash {
-					return
+					return false
 				}
-
-				broadcastErr := pushtx.ParseBroadcastError(
-					response, sp.Addr(),
-				)
-				rejections = append(rejections, broadcastErr)
-				rejectionTypes[pushtx.Err.Decode(broadcastErr)]++
+				reject = pushtx.ParseBroadcastError(response, sp.Addr())
 			}
+			return false
 		},
-		// Default to 500ms timeout. Default for queryAllPeers is a
-		// single try.
-		//
-		// TODO(wilmer): Is this timeout long enough assuming a
-		// worst-case round trip? Also needs to take into account that
-		// the other peer must query its own state to determine whether
-		// it should accept the transaction.
-		append(
-			[]QueryOption{Timeout(time.Millisecond * 500)},
-			options...,
-		)...,
 	)
+	if stopCh != nil {
+		close(stopCh)
+	}
 
-	// If none of our peers replied to our query, we'll avoid returning an
-	// error as the reliable broadcaster will take care of broadcasting this
-	// transaction upon every block connected/disconnected.
-	if numReplied == 0 {
-		log.Debugf("No peers replied to inv message for transaction %v",
-			tx.TxHash())
+	if gotInv {
+		log.Debugf("Tx [%s] got an inv", txHash)
 		return nil
+	} else if reject != nil {
+		log.Debugf("Tx [%s] got rejected [%s]", txHash, reject)
+		return reject
 	}
 
-	// If all of our peers who replied to our query also rejected our
-	// transaction, we'll deem that there was actually something wrong with
-	// it so we'll return the most rejected error between all of our peers.
-	//
-	// TODO(wilmer): This might be too naive, some rejections are more
-	// critical than others.
-	//
-	// TODO(wilmer): This does not cover the case where a peer also rejected
-	// our transaction but didn't send the response within our given timeout
-	// and certain other cases. Due to this, we should probably decide on a
-	// threshold of rejections instead.
-	if numReplied == len(rejections) {
-		log.Warnf("All peers rejected transaction %v checking errors",
-			tx.TxHash())
-
-		mostRejectedCount := 0
-		var mostRejectedCode *er.ErrorCode
-
-		for broadcastErr, count := range rejectionTypes {
-			if count > mostRejectedCount {
-				mostRejectedCount = count
-				mostRejectedCode = broadcastErr
-			}
-		}
-		for _, rejection := range rejections {
-			if mostRejectedCode.Is(rejection) {
-				return rejection
-			}
-		}
-		panic("Should have found a rejection reason")
+	log.Debugf("Tx [%s] no rejects and [%d] of [%d] peers sent a getdata",
+		txHash, peersGetdatad, len(s.Peers()))
+	if peersGetdatad >= len(s.Peers()) {
+		return nil
+	} else {
+		return er.Errorf("No INV messages and only [%d] of our [%d] peers sent a getData",
+			peersGetdatad, len(s.Peers()))
 	}
-
-	return nil
 }

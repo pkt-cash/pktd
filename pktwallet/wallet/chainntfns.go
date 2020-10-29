@@ -5,7 +5,6 @@
 package wallet
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/pkt-cash/pktd/btcutil"
@@ -28,78 +27,6 @@ const (
 	// for a better birthday block candidate (if possible).
 	birthdayBlockDelta = 2 * time.Hour
 )
-
-func (w *Wallet) handleChainNotifications() {
-	defer w.wg.Done()
-
-	chainClient, err := w.requireChainClient()
-	if err != nil {
-		log.Errorf("handleChainNotifications called without RPC client")
-		return
-	}
-
-	for {
-		select {
-		case n, ok := <-chainClient.Notifications():
-			if !ok {
-				return
-			}
-
-			//log.Infof("Notification %v", reflect.TypeOf(n))
-			var notificationName string
-			var err er.R
-			switch n := n.(type) {
-			case chain.ClientConnected:
-				// Before attempting to sync with our backend,
-				// we'll make sure that our birthday block has
-				// been set correctly to potentially prevent
-				// missing relevant events.
-				birthdayStore := &walletBirthdayStore{
-					db:      w.db,
-					manager: w.Manager,
-				}
-				birthdayBlock, err := birthdaySanityCheck(
-					chainClient, birthdayStore,
-				)
-				if err != nil && !waddrmgr.ErrBirthdayBlockNotSet.Is(err) {
-					err.AddMessage("Unable to sanity check wallet birthday block")
-					panic(err.String())
-				}
-
-				err = w.syncWithChain(birthdayBlock)
-				if err != nil && !w.ShuttingDown() {
-					err.AddMessage("Unable to synchronize wallet to chain")
-					panic(err.String())
-				}
-			case chain.BlockConnected:
-				err = w.block(wtxmgr.BlockMeta(n).Block)
-				notificationName = "block connected"
-			case chain.BlockDisconnected:
-				// Do nothing, connect block triggers the operations
-				notificationName = "block disconnected"
-			case chain.RelevantTx:
-				// Neutrino does not notify us of transactions
-				notificationName = "relevant transaction"
-			case chain.FilteredBlockConnected:
-				notificationName = "filtered block connected"
-
-			// The following require some database maintenance, but also
-			// need to be reported to the wallet's rescan goroutine.
-			case *chain.RescanProgress:
-				notificationName = "rescan progress"
-			case *chain.RescanFinished:
-				notificationName = "rescan finished"
-			}
-			if err != nil {
-				err.AddMessage(fmt.Sprintf("Unable to process chain backend "+
-					"%v notification", notificationName))
-				log.Errorf(err.String())
-			}
-		case <-w.quit:
-			return
-		}
-	}
-}
 
 func (w *Wallet) storeTxns(
 	dbtx walletdb.ReadWriteTx,
@@ -158,7 +85,7 @@ func (w *Wallet) _rollbackBlock(dbtx walletdb.ReadWriteTx, bs waddrmgr.BlockStam
 	}
 
 	err = w.TxStore.RollbackOne(txmgrNs, bs.Height)
-	if err != nil {
+	if err != nil && !wtxmgr.ErrNoExists.Is(err) {
 		return err
 	}
 
