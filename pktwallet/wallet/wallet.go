@@ -2449,8 +2449,8 @@ func paysUncreditedAddress(
 						"paying [%s] [%s] but the chains says [%s]",
 						tx.TxHash(),
 						addr.EncodeAddress(),
-						credit.Amount.ToBTC(),
-						btcutil.Amount(out.Value).ToBTC(),
+						credit.Amount.ToCoins(),
+						btcutil.Amount(out.Value).ToCoins(),
 					)
 					return true
 				} else {
