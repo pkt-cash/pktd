@@ -1,5 +1,7 @@
 language: go
 go: 1.15.3
+git:
+    depth: false
 env:
   - PKT_FAIL_DIRTY=1
 jobs:
