@@ -19,7 +19,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/decred/go-socks/socks"
 	flags "github.com/jessevdk/go-flags"
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/btcutil"
@@ -98,7 +97,7 @@ type config struct {
 	LogDir               string        `long:"logdir" description:"Directory to log output."`
 	AddPeers             []string      `short:"a" long:"addpeer" description:"Add a peer to connect with at startup"`
 	ConnectPeers         []string      `long:"connect" description:"Connect only to the specified peers at startup"`
-	DisableListen        bool          `long:"nolisten" description:"Disable listening for incoming connections -- NOTE: Listening is automatically disabled if the --connect or --proxy options are used without also specifying listen interfaces via --listen"`
+	DisableListen        bool          `long:"nolisten" description:"Disable listening for incoming connections -- NOTE: Listening is automatically disabled if the --connect option is used without also specifying listening interfaces via --listen"`
 	Listeners            []string      `long:"listen" description:"Add an interface/port to listen for connections (default all interfaces port: 8333, testnet: 18333)"`
 	MaxPeers             int           `long:"maxpeers" description:"Max number of inbound and outbound peers"`
 	DisableBanning       bool          `long:"nobanning" description:"Disable banning of misbehaving peers"`
@@ -124,9 +123,6 @@ type config struct {
 	EnableTLS            bool          `long:"tls" description:"Enable TLS for the RPC server -- default is disabled unless bound to non-localhost"`
 	DisableDNSSeed       bool          `long:"nodnsseed" description:"Disable DNS seeding for peers"`
 	ExternalIPs          []string      `long:"externalip" description:"Add an ip to the list of local addresses we claim to listen on to peers"`
-	Proxy                string        `long:"proxy" description:"Connect via SOCKS5 proxy (eg. 127.0.0.1:9050)"`
-	ProxyUser            string        `long:"proxyuser" description:"Username for proxy server"`
-	ProxyPass            string        `long:"proxypass" default-mask:"-" description:"Password for proxy server"`
 	TestNet3             bool          `long:"testnet" description:"Use the test network"`
 	PktTest              bool          `long:"pkttest" description:"Use the pkt.cash test network"`
 	BtcMainNet           bool          `long:"btc" description:"Use the bitcoin main network"`
@@ -690,12 +686,6 @@ func loadConfig() (*config, []string, er.R) {
 		return nil, nil, err
 	}
 
-	// --proxy or --connect without --listen disables listening.
-	if (cfg.Proxy != "" || len(cfg.ConnectPeers) > 0) &&
-		len(cfg.Listeners) == 0 {
-		cfg.DisableListen = true
-	}
-
 	// Connect means no DNS seeding.
 	if len(cfg.ConnectPeers) > 0 {
 		cfg.DisableDNSSeed = true
@@ -969,26 +959,6 @@ func loadConfig() (*config, []string, er.R) {
 	cfg.lookup = func(host string) ([]net.IP, er.R) {
 		out, errr := net.LookupIP(host)
 		return out, er.E(errr)
-	}
-	if cfg.Proxy != "" {
-		_, _, err := net.SplitHostPort(cfg.Proxy)
-		if err != nil {
-			str := "%s: Proxy address '%s' is invalid: %v"
-			err := er.Errorf(str, funcName, cfg.Proxy, err)
-			fmt.Fprintln(os.Stderr, err)
-			fmt.Fprintln(os.Stderr, usageMessage)
-			return nil, nil, err
-		}
-
-		proxy := &socks.Proxy{
-			Addr:         cfg.Proxy,
-			Username:     cfg.ProxyUser,
-			Password:     cfg.ProxyPass,
-		}
-		cfg.dial = func(n string, addr string, to time.Duration) (net.Conn, er.R) {
-			ret, errr := proxy.DialTimeout(n, addr, to)
-			return ret, er.E(errr)
-		}
 	}
 
 	// Warn about missing config file only after all other configuration is

@@ -12,7 +12,7 @@ This package builds upon the wire package, which provides the fundamental
 primitives necessary to speak the bitcoin wire protocol, in order to simplify
 the process of creating fully functional peers.  In essence, it provides a
 common base for creating concurrent safe fully validating nodes, Simplified
-Payment Verification (SPV) nodes, proxies, etc.
+Payment Verification (SPV) nodes, etc.
 
 A quick overview of the major features peer provides are as follows:
 
@@ -24,9 +24,9 @@ A quick overview of the major features peer provides are as follows:
  - Asynchronous message queuing of outbound messages with optional channel for
    notification when the message is actually sent
  - Flexible peer configuration
-   - Caller is responsible for creating outgoing connections and listening for
-     incoming connections so they have flexibility to establish connections as
-     they see fit (proxies, etc)
+   - Caller is responsible for creating outgoing connections
+     and listening for incoming connections so they have flexibility
+	 to establish connections as they see fit
    - User agent name and version
    - Bitcoin network
    - Service support signaling (full nodes, bloom filters, etc)
@@ -62,9 +62,8 @@ Inbound and Outbound Peers
 
 A peer can either be inbound or outbound.  The caller is responsible for
 establishing the connection to remote peers and listening for incoming peers.
-This provides high flexibility for things such as connecting via proxies, acting
-as a proxy, creating bridge peers, choosing whether to listen for inbound peers,
-etc.
+This provides high flexibility for things such as creating bridge peers, 
+choosing whether to listen for inbound peers, etc.
 
 NewOutboundPeer and NewInboundPeer functions must be followed by calling Connect
 with a net.Conn instance to the peer.  This will start all async I/O goroutines

@@ -8,11 +8,9 @@ package peer_test
 import (
 	"io"
 	"net"
-	"strconv"
 	"testing"
 	"time"
 
-	"github.com/decred/go-socks/socks"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
@@ -35,9 +33,6 @@ type conn struct {
 
 	// remote network, address for the connection.
 	rnet, raddr string
-
-	// mocks socks proxy if true
-	proxy bool
 }
 
 // LocalAddr returns the local address for the connection.
@@ -47,16 +42,7 @@ func (c conn) LocalAddr() net.Addr {
 
 // Remote returns the remote address for the connection.
 func (c conn) RemoteAddr() net.Addr {
-	if !c.proxy {
 		return &addr{c.rnet, c.raddr}
-	}
-	host, strPort, _ := net.SplitHostPort(c.raddr)
-	port, _ := strconv.Atoi(strPort)
-	return &socks.ProxiedAddr{
-		Net:  c.rnet,
-		Host: host,
-		Port: port,
-	}
 }
 
 // Close handles closing the connection.
@@ -291,32 +277,6 @@ func TestPeerConnection(t *testing.T) {
 			func() (*peer.Peer, *peer.Peer, er.R) {
 				inConn, outConn := pipe(
 					&conn{raddr: "10.0.0.1:8333"},
-					&conn{raddr: "10.0.0.2:8333"},
-				)
-				inPeer := peer.NewInboundPeer(peer1Cfg)
-				inPeer.AssociateConnection(inConn)
-
-				outPeer, err := peer.NewOutboundPeer(peer2Cfg, "10.0.0.2:8333")
-				if err != nil {
-					return nil, nil, err
-				}
-				outPeer.AssociateConnection(outConn)
-
-				for i := 0; i < 4; i++ {
-					select {
-					case <-verack:
-					case <-time.After(time.Second):
-						return nil, nil, er.New("verack timeout")
-					}
-				}
-				return inPeer, outPeer, nil
-			},
-		},
-		{
-			"socks proxy",
-			func() (*peer.Peer, *peer.Peer, er.R) {
-				inConn, outConn := pipe(
-					&conn{raddr: "10.0.0.1:8333", proxy: true},
 					&conn{raddr: "10.0.0.2:8333"},
 				)
 				inPeer := peer.NewInboundPeer(peer1Cfg)

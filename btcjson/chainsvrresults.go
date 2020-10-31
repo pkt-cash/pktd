@@ -239,7 +239,6 @@ type GetNetworkInfoNetworks struct {
 	Name                      string `json:"name"`
 	Limited                   bool   `json:"limited"`
 	Reachable                 bool   `json:"reachable"`
-	Proxy                     string `json:"proxy"`
 }
 
 type GetNetworkInfoResult struct {
@@ -491,7 +490,6 @@ type InfoChainResult struct {
 	Blocks          int32   `json:"blocks"`
 	TimeOffset      int64   `json:"timeoffset"`
 	Connections     int32   `json:"connections"`
-	Proxy           string  `json:"proxy"`
 	Difficulty      float64 `json:"difficulty"`
 	TestNet         bool    `json:"testnet"`
 	RelayFee        float64 `json:"relayfee"`

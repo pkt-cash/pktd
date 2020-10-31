@@ -117,7 +117,6 @@ var helpDescsEnUS = map[string]string{
 	"infowalletresult-blocks":          "The number of blocks processed",
 	"infowalletresult-timeoffset":      "The time offset",
 	"infowalletresult-connections":     "The number of connected peers",
-	"infowalletresult-proxy":           "The proxy used by the server",
 	"infowalletresult-difficulty":      "The current target difficulty",
 	"infowalletresult-testnet":         "Whether or not server is using testnet",
 	"infowalletresult-relayfee":        "The minimum relay fee for non-free transactions in BTC/KB",

@@ -15,7 +15,7 @@ This package builds upon the wire package, which provides the fundamental
 primitives necessary to speak the bitcoin wire protocol, in order to simplify
 the process of creating fully functional peers.  In essence, it provides a
 common base for creating concurrent safe fully validating nodes, Simplified
-Payment Verification (SPV) nodes, proxies, etc.
+Payment Verification (SPV) nodes, etc.
 
 A quick overview of the major features peer provides are as follows:
 
@@ -27,9 +27,9 @@ A quick overview of the major features peer provides are as follows:
  - Asynchronous message queueing of outbound messages with optional channel for
    notification when the message is actually sent
  - Flexible peer configuration
-   - Caller is responsible for creating outgoing connections and listening for
-     incoming connections so they have flexibility to establish connections as
-     they see fit (proxies, etc)
+   - Caller is responsible for creating outgoing connections
+     and listening for incoming connections so they have flexibility
+	 to establish connections as they see fit
    - User agent name and version
    - Bitcoin network
    - Service support signaling (full nodes, bloom filters, etc)
@@ -43,7 +43,7 @@ A quick overview of the major features peer provides are as follows:
    specify the related flag to signal support
    - Disconnects the peer when the protocol version is high enough
    - Does not invoke the related callbacks for older protocol versions
- - Snapshottable peer statistics such as the total number of bytes read and
+ - Snapshot-able peer statistics such as the total number of bytes read and
    written, the remote address, user agent, and negotiated protocol version
  - Helper functions pushing addresses, getblocks, getheaders, and reject
    messages

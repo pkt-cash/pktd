@@ -14,29 +14,13 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktconfig/version"
 
-	"github.com/decred/go-socks/socks"
 	"github.com/pkt-cash/pktd/btcjson"
 )
-
 // newHTTPClient returns a new HTTP client that is configured according to the
 // proxy and TLS settings in the associated connection configuration.
 func newHTTPClient(cfg *config) (*http.Client, er.R) {
 	// Configure proxy if needed.
 	var dial func(network, addr string) (net.Conn, error)
-	if cfg.Proxy != "" {
-		proxy := &socks.Proxy{
-			Addr:     cfg.Proxy,
-			Username: cfg.ProxyUser,
-			Password: cfg.ProxyPass,
-		}
-		dial = func(network, addr string) (net.Conn, error) {
-			c, err := proxy.Dial(network, addr)
-			if err != nil {
-				return nil, err
-			}
-			return c, nil
-		}
-	}
 
 	// Configure TLS if needed.
 	var tlsConfig *tls.Config
@@ -54,8 +38,7 @@ func newHTTPClient(cfg *config) (*http.Client, er.R) {
 		}
 	}
 
-	// Create and return the new HTTP client potentially configured with a
-	// proxy and TLS.
+	// Create and return a new HTTP client potentially configured with TLS
 	client := http.Client{
 		Transport: &http.Transport{
 			Dial:            dial,

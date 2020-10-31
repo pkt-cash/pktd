@@ -29,8 +29,8 @@ Application Options:
       --connect=            Connect only to the specified peers at startup
       --nolisten            Disable listening for incoming connections -- NOTE:
                             Listening is automatically disabled if the --connect
-                            or --proxy options are used without also specifying
-                            listen interfaces via --listen
+                            options is used without also specifying listening
+							interfaces via --listen
       --listen=             Add an interface/port to listen for connections
                             (default all interfaces port: 8333, testnet: 18333)
       --maxpeers=           Max number of inbound and outbound peers (125)
@@ -63,9 +63,6 @@ Application Options:
       --nodnsseed           Disable DNS seeding for peers
       --externalip=         Add an ip to the list of local addresses we claim to
                             listen on to peers
-      --proxy=              Connect via SOCKS5 proxy (eg. 127.0.0.1:9050)
-      --proxyuser=          Username for proxy server
-      --proxypass=          Password for proxy server
       --homedir=            Creates this directory at startup
                             (eg. 127.0.0.1:9050)
       --testnet             Use the test network

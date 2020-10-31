@@ -17,14 +17,12 @@ import (
 	"math"
 	"net"
 	"net/http"
-	"net/url"
 	"sync"
 	"sync/atomic"
 	"time"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 
-	"github.com/decred/go-socks/socks"
 	"github.com/gorilla/websocket"
 
 	"github.com/pkt-cash/pktd/btcjson"
@@ -1087,20 +1085,6 @@ type ConnConfig struct {
 	// is true.
 	Certificates []byte
 
-	// Proxy specifies to connect through a SOCKS 5 proxy server.  It may
-	// be an empty string if a proxy is not required.
-	Proxy string
-
-	// ProxyUser is an optional username to use for the proxy server if it
-	// requires authentication.  It has no effect if the Proxy parameter
-	// is not set.
-	ProxyUser string
-
-	// ProxyPass is an optional password to use for the proxy server if it
-	// requires authentication.  It has no effect if the Proxy parameter
-	// is not set.
-	ProxyPass string
-
 	// DisableAutoReconnect specifies the client should not automatically
 	// try to reconnect to the server when it has been disconnected.
 	DisableAutoReconnect bool
@@ -1124,18 +1108,9 @@ type ConnConfig struct {
 	EnableBCInfoHacks bool
 }
 
-// newHTTPClient returns a new http client that is configured according to the
-// proxy and TLS settings in the associated connection configuration.
+// newHTTPClient returns a new http client that is configured according
+// to the TLS settings in the associated connection configuration.
 func newHTTPClient(config *ConnConfig) (*http.Client, er.R) {
-	// Set proxy function if there is a proxy configured.
-	var proxyFunc func(*http.Request) (*url.URL, error)
-	if config.Proxy != "" {
-		proxyURL, errr := url.Parse(config.Proxy)
-		if errr != nil {
-			return nil, er.E(errr)
-		}
-		proxyFunc = http.ProxyURL(proxyURL)
-	}
 
 	// Configure TLS if needed.
 	var tlsConfig *tls.Config
@@ -1151,7 +1126,6 @@ func newHTTPClient(config *ConnConfig) (*http.Client, er.R) {
 
 	client := http.Client{
 		Transport: &http.Transport{
-			Proxy:           proxyFunc,
 			TLSClientConfig: tlsConfig,
 		},
 	}
@@ -1178,18 +1152,7 @@ func dial(config *ConnConfig) (*websocket.Conn, er.R) {
 	}
 
 	// Create a websocket dialer that will be used to make the connection.
-	// It is modified by the proxy setting below as needed.
 	dialer := websocket.Dialer{TLSClientConfig: tlsConfig}
-
-	// Setup the proxy if one is configured.
-	if config.Proxy != "" {
-		proxy := &socks.Proxy{
-			Addr:     config.Proxy,
-			Username: config.ProxyUser,
-			Password: config.ProxyPass,
-		}
-		dialer.NetDial = proxy.Dial
-	}
 
 	// The RPC server requires basic authorization, so create a custom
 	// request header with the Authorization header set.

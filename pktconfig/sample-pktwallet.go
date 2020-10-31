@@ -16,13 +16,6 @@ const PktwalletSampleConfig = `
 ; RPC client settings
 ; ------------------------------------------------------------------------------
 
-; Connect via a SOCKS5 proxy.  NOTE: Specifying a proxy will disable listening
-; for incoming connections unless listen addresses are provided via the
-; 'rpclisten' option.
-; proxy=127.0.0.1:9050
-; proxyuser=
-; proxypass=
-
 ; The server and port used for pktd websocket connections.
 ; rpcconnect=localhost:18334
 

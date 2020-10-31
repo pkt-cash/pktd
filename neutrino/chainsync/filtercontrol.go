@@ -15,7 +15,7 @@ import (
 // expected filter headers.
 var filterHeaderCheckpoints = map[protocol.BitcoinNet]map[uint32]*chainhash.Hash{
 	// Mainnet filter header checkpoints.
-	chaincfg.MainNetParams.Net: map[uint32]*chainhash.Hash{
+	chaincfg.MainNetParams.Net: {
 		100000: hashFromStr("f28cbc1ab369eb01b7b5fe8bf59763abb73a31471fe404a26a06be4153aa7fa5"),
 		200000: hashFromStr("e5031471732f4fbfe7a25f6a03acc1413300d5c56ae8e06b95046b8e4c0f32b3"),
 		300000: hashFromStr("1bd50220fcdde929ca3143c91d2dd9a9bfedb38c452ba98dbb51e719bff8aa5b"),
@@ -25,7 +25,7 @@ var filterHeaderCheckpoints = map[protocol.BitcoinNet]map[uint32]*chainhash.Hash
 	},
 
 	// Testnet filter header checkpoints.
-	chaincfg.TestNet3Params.Net: map[uint32]*chainhash.Hash{
+	chaincfg.TestNet3Params.Net: {
 		100000:  hashFromStr("97c0633f14625627fcd133250ad8cc525937e776b5f3fd272b06d02c58b65a1c"),
 		200000:  hashFromStr("51aa817e5abe3acdcf103616b1a5736caf84bc3773a7286e9081108ecc38cc87"),
 		400000:  hashFromStr("4aab9b3d4312cd85cfcd48a08b36c4402bfdc1e8395dcf4236c3029dfa837c48"),

@@ -121,16 +121,6 @@ func TestMiscErrors(t *testing.T) {
 			"%v (%[1]T), want %v (%[2]T)", err, wantErr)
 		return
 	}
-
-	// Force an error in MarshalResponse by giving it a result type that
-	// can't be marshalled.
-/*	_, err = btcjson.MarshalResponse(1, make(chan int), nil)
-	if _, ok := er.Wrapped(err).(*json.UnsupportedTypeError); !ok {
-		wantErr := &json.UnsupportedTypeError{}
-		t.Errorf("MarshalResult: did not receive expected error - got "+
-			"%v (%[1]T), want %T", err, wantErr)
-		return
-	} XXX -trn */
 }
 
 // TestRPCError tests the error output for the RPCError type.

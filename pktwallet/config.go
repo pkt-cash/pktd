@@ -77,9 +77,6 @@ type config struct {
 	ClientTLS        bool                    `long:"clienttls" description:"enable tls to the pktd instance"`
 	BtcdUsername     string                  `long:"pktdusername" description:"Username for pktd authentication"`
 	BtcdPassword     string                  `long:"pktdpassword" default-mask:"-" description:"Password for pktd authentication"`
-	Proxy            string                  `long:"proxy" description:"Connect via SOCKS5 proxy (eg. 127.0.0.1:9050)"`
-	ProxyUser        string                  `long:"proxyuser" description:"Username for proxy server"`
-	ProxyPass        string                  `long:"proxypass" default-mask:"-" description:"Password for proxy server"`
 
 	// SPV client options
 	UseSPV       bool          `long:"usespv" description:"Use SPV mode (default)"`

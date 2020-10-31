@@ -30,17 +30,17 @@ func TestCreateOpenFail(t *testing.T) {
 	// the expected error.
 	wantErr := walletdb.ErrDbDoesNotExist.Default()
 	if _, err := walletdb.Open(dbType, "noexist.db", opts); !er.Equals(err, wantErr) {
-		t.Errorf("Open: did not receive expected error - got %v, "+
+		t.Errorf("Open: did not receive expected error - got %v, " +
 			"want %v", err, wantErr)
 		return
 	}
 
 	// Ensure that attempting to open a database with the wrong number of
 	// parameters returns the expected error.
-	wantErr = er.Errorf("invalid arguments to %s.Open -- expected "+
+	wantErr = er.Errorf("invalid arguments to %s.Open -- expected " +
 		"database path and *bbolt.Option option", dbType)
 	if _, err := walletdb.Open(dbType, 1, 2, 3); err.Message() != wantErr.Message() {
-		t.Errorf("Open: did not receive expected error - got %v, "+
+		t.Errorf("Open: did not receive expected error - got %v, " +
 			"want %v", err, wantErr)
 		return
 	}

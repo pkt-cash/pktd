@@ -52,7 +52,6 @@ type InfoWalletResult struct {
 	Blocks          int32   `json:"blocks"`
 	TimeOffset      int64   `json:"timeoffset"`
 	Connections     int32   `json:"connections"`
-	Proxy           string  `json:"proxy"`
 	Difficulty      float64 `json:"difficulty"`
 	TestNet         bool    `json:"testnet"`
 	KeypoolOldest   int64   `json:"keypoololdest"`

@@ -103,9 +103,6 @@ type config struct {
 	RPCCert       string `short:"c" long:"rpccert" description:"RPC server certificate chain for validation"`
 	NoTLS         bool   `long:"notls" description:"Disable TLS"`
 	TLS           bool   `long:"tls" description:"Enable TLS - default false except for wallet"`
-	Proxy         string `long:"proxy" description:"Connect via SOCKS5 proxy (eg. 127.0.0.1:9050)"`
-	ProxyUser     string `long:"proxyuser" description:"Username for proxy server"`
-	ProxyPass     string `long:"proxypass" default-mask:"-" description:"Password for proxy server"`
 	TestNet3      bool   `long:"testnet" description:"Connect to testnet"`
 	PktTest       bool   `long:"pkttest" description:"Use the pkt.cash test network"`
 	BtcMainNet    bool   `long:"btc" description:"Use the bitcoin main network"`
