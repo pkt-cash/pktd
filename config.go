@@ -27,7 +27,6 @@ import (
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/chaincfg/globalcfg"
-	"github.com/pkt-cash/pktd/connmgr"
 	"github.com/pkt-cash/pktd/database"
 	_ "github.com/pkt-cash/pktd/database/ffldb"
 	"github.com/pkt-cash/pktd/mempool"
@@ -40,7 +39,6 @@ const (
 	defaultDataDirname           = "data"
 	defaultLogLevel              = "info"
 	defaultLogDirname            = "logs"
-	defaultLogFilename           = "pktd.log"
 	defaultMaxPeers              = 125
 	defaultBanDuration           = time.Hour * 24
 	defaultBanThreshold          = 100
@@ -129,11 +127,6 @@ type config struct {
 	Proxy                string        `long:"proxy" description:"Connect via SOCKS5 proxy (eg. 127.0.0.1:9050)"`
 	ProxyUser            string        `long:"proxyuser" description:"Username for proxy server"`
 	ProxyPass            string        `long:"proxypass" default-mask:"-" description:"Password for proxy server"`
-	OnionProxy           string        `long:"onion" description:"Connect to tor hidden services via SOCKS5 proxy (eg. 127.0.0.1:9050)"`
-	OnionProxyUser       string        `long:"onionuser" description:"Username for onion proxy server"`
-	OnionProxyPass       string        `long:"onionpass" default-mask:"-" description:"Password for onion proxy server"`
-	NoOnion              bool          `long:"noonion" description:"Disable connecting to tor hidden services"`
-	TorIsolation         bool          `long:"torisolation" description:"Enable Tor stream isolation by randomizing user credentials for each connection."`
 	TestNet3             bool          `long:"testnet" description:"Use the test network"`
 	PktTest              bool          `long:"pkttest" description:"Use the pkt.cash test network"`
 	BtcMainNet           bool          `long:"btc" description:"Use the bitcoin main network"`
@@ -174,7 +167,6 @@ type config struct {
 	RejectReplacement    bool          `long:"rejectreplacement" description:"Reject transactions that attempt to replace existing transactions within the mempool through the Replace-By-Fee (RBF) signaling policy."`
 	MiningSkipChecks     string        `long:"miningskipchecks" description:"Either 'txns', 'template' or 'both', skips certain time-consuming checks during mining process, be careful as you might create invalid block templates!"`
 	lookup               func(string) ([]net.IP, er.R)
-	oniondial            func(string, string, time.Duration) (net.Conn, er.R)
 	dial                 func(string, string, time.Duration) (net.Conn, er.R)
 	addCheckpoints       []chaincfg.Checkpoint
 	miningAddrs          map[btcutil.Address]float64
@@ -956,15 +948,6 @@ func loadConfig() (*config, []string, er.R) {
 	cfg.ConnectPeers = normalizeAddresses(cfg.ConnectPeers,
 		activeNetParams.DefaultPort)
 
-	// --noonion and --onion do not mix.
-	if cfg.NoOnion && cfg.OnionProxy != "" {
-		err := er.Errorf("%s: the --noonion and --onion options may "+
-			"not be activated at the same time", funcName)
-		fmt.Fprintln(os.Stderr, err)
-		fmt.Fprintln(os.Stderr, usageMessage)
-		return nil, nil, err
-	}
-
 	// Check the checkpoints for syntax errors.
 	var err er.R
 	cfg.addCheckpoints, err = parseCheckpoints(cfg.AddCheckpoints)
@@ -976,22 +959,9 @@ func loadConfig() (*config, []string, er.R) {
 		return nil, nil, err
 	}
 
-	// Tor stream isolation requires either proxy or onion proxy to be set.
-	if cfg.TorIsolation && cfg.Proxy == "" && cfg.OnionProxy == "" {
-		str := "%s: Tor stream isolation requires either proxy or " +
-			"onionproxy to be set"
-		err := er.Errorf(str, funcName)
-		fmt.Fprintln(os.Stderr, err)
-		fmt.Fprintln(os.Stderr, usageMessage)
-		return nil, nil, err
-	}
-
 	// Setup dial and DNS resolution (lookup) functions depending on the
 	// specified options.  The default is to use the standard
-	// net.DialTimeout function as well as the system DNS resolver.  When a
-	// proxy is specified, the dial function is set to the proxy specific
-	// dial function and the lookup is set to use tor (unless --noonion is
-	// specified in which case the system DNS resolver is used).
+	// net.DialTimeout function as well as the system DNS resolver.
 	cfg.dial = func(n string, addr string, to time.Duration) (net.Conn, er.R) {
 		ret, errr := net.DialTimeout(n, addr, to)
 		return ret, er.E(errr)
@@ -1010,93 +980,14 @@ func loadConfig() (*config, []string, er.R) {
 			return nil, nil, err
 		}
 
-		// Tor isolation flag means proxy credentials will be overridden
-		// unless there is also an onion proxy configured in which case
-		// that one will be overridden.
-		torIsolation := false
-		if cfg.TorIsolation && cfg.OnionProxy == "" &&
-			(cfg.ProxyUser != "" || cfg.ProxyPass != "") {
-
-			torIsolation = true
-			fmt.Fprintln(os.Stderr, "Tor isolation set -- "+
-				"overriding specified proxy user credentials")
-		}
-
 		proxy := &socks.Proxy{
 			Addr:         cfg.Proxy,
 			Username:     cfg.ProxyUser,
 			Password:     cfg.ProxyPass,
-			TorIsolation: torIsolation,
 		}
 		cfg.dial = func(n string, addr string, to time.Duration) (net.Conn, er.R) {
 			ret, errr := proxy.DialTimeout(n, addr, to)
 			return ret, er.E(errr)
-		}
-
-		// Treat the proxy as tor and perform DNS resolution through it
-		// unless the --noonion flag is set or there is an
-		// onion-specific proxy configured.
-		if !cfg.NoOnion && cfg.OnionProxy == "" {
-			cfg.lookup = func(host string) ([]net.IP, er.R) {
-				return connmgr.TorLookupIP(host, cfg.Proxy)
-			}
-		}
-	}
-
-	// Setup onion address dial function depending on the specified options.
-	// The default is to use the same dial function selected above.  However,
-	// when an onion-specific proxy is specified, the onion address dial
-	// function is set to use the onion-specific proxy while leaving the
-	// normal dial function as selected above.  This allows .onion address
-	// traffic to be routed through a different proxy than normal traffic.
-	if cfg.OnionProxy != "" {
-		_, _, err := net.SplitHostPort(cfg.OnionProxy)
-		if err != nil {
-			str := "%s: Onion proxy address '%s' is invalid: %v"
-			err := er.Errorf(str, funcName, cfg.OnionProxy, err)
-			fmt.Fprintln(os.Stderr, err)
-			fmt.Fprintln(os.Stderr, usageMessage)
-			return nil, nil, err
-		}
-
-		// Tor isolation flag means onion proxy credentials will be
-		// overridden.
-		if cfg.TorIsolation &&
-			(cfg.OnionProxyUser != "" || cfg.OnionProxyPass != "") {
-			fmt.Fprintln(os.Stderr, "Tor isolation set -- "+
-				"overriding specified onionproxy user "+
-				"credentials ")
-		}
-
-		cfg.oniondial = func(network, addr string, timeout time.Duration) (net.Conn, er.R) {
-			proxy := &socks.Proxy{
-				Addr:         cfg.OnionProxy,
-				Username:     cfg.OnionProxyUser,
-				Password:     cfg.OnionProxyPass,
-				TorIsolation: cfg.TorIsolation,
-			}
-			conn, errr := proxy.DialTimeout(network, addr, timeout)
-			return conn, er.E(errr)
-		}
-
-		// When configured in bridge mode (both --onion and --proxy are
-		// configured), it means that the proxy configured by --proxy is
-		// not a tor proxy, so override the DNS resolution to use the
-		// onion-specific proxy.
-		if cfg.Proxy != "" {
-			cfg.lookup = func(host string) ([]net.IP, er.R) {
-				return connmgr.TorLookupIP(host, cfg.OnionProxy)
-			}
-		}
-	} else {
-		cfg.oniondial = cfg.dial
-	}
-
-	// Specifying --noonion means the onion address dial function results in
-	// an error.
-	if cfg.NoOnion {
-		cfg.oniondial = func(a, b string, t time.Duration) (net.Conn, er.R) {
-			return nil, er.New("tor has been disabled")
 		}
 	}
 
@@ -1111,29 +1002,13 @@ func loadConfig() (*config, []string, er.R) {
 }
 
 // pktdDial connects to the address on the named network using the appropriate
-// dial function depending on the address and configuration options.  For
-// example, .onion addresses will be dialed using the onion specific proxy if
-// one was specified, but will otherwise use the normal dial function (which
-// could itself use a proxy or not).
+// dial function depending on the address and configuration options.
 func pktdDial(addr net.Addr) (net.Conn, er.R) {
-	if strings.Contains(addr.String(), ".onion:") {
-		return cfg.oniondial(addr.Network(), addr.String(),
-			defaultConnectTimeout)
-	}
 	return cfg.dial(addr.Network(), addr.String(), defaultConnectTimeout)
 }
 
 // pktdLookup resolves the IP of the given host using the correct DNS lookup
-// function depending on the configuration options.  For example, addresses will
-// be resolved using tor when the --proxy flag was specified unless --noonion
-// was also specified in which case the normal system DNS resolver will be used.
-//
-// Any attempt to resolve a tor address (.onion) will return an error since they
-// are not intended to be resolved outside of the tor proxy.
+// function depending on the configuration options.
 func pktdLookup(host string) ([]net.IP, er.R) {
-	if strings.HasSuffix(host, ".onion") {
-		return nil, er.Errorf("attempt to resolve tor address %s", host)
-	}
-
 	return cfg.lookup(host)
 }

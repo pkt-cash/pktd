@@ -8,7 +8,6 @@ package addrmgr
 import (
 	"container/list"
 	crand "crypto/rand" // for seeding
-	"encoding/base32"
 	"encoding/binary"
 	"github.com/json-iterator/go"
 	"io"
@@ -17,7 +16,6 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
-	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -721,24 +719,11 @@ func (a *AddrManager) reset() {
 	}
 }
 
-// HostToNetAddress returns a netaddress given a host address.  If the address
-// is a Tor .onion address this will be taken care of.  Else if the host is
-// not an IP address it will be resolved (via Tor if required).
+// HostToNetAddress returns a netaddress given a host address. 
+// If the host is not an IP address it will be resolved
 func (a *AddrManager) HostToNetAddress(host string, port uint16, services protocol.ServiceFlag) (*wire.NetAddress, er.R) {
-	// Tor address is 16 char base32 + ".onion"
 	var ip net.IP
-	if len(host) == 22 && host[16:] == ".onion" {
-		// go base32 encoding uses capitals (as does the rfc
-		// but Tor and bitcoind tend to user lowercase, so we switch
-		// case here.
-		data, err := base32.StdEncoding.DecodeString(
-			strings.ToUpper(host[:16]))
-		if err != nil {
-			return nil, er.E(err)
-		}
-		prefix := []byte{0xfd, 0x87, 0xd8, 0x7e, 0xeb, 0x43}
-		ip = net.IP(append(prefix, data...))
-	} else if ip = net.ParseIP(host); ip == nil {
+	if ip = net.ParseIP(host); ip == nil {
 		ips, err := a.lookupFunc(host)
 		if err != nil {
 			return nil, err
@@ -752,16 +737,8 @@ func (a *AddrManager) HostToNetAddress(host string, port uint16, services protoc
 	return wire.NewNetAddressIPPort(ip, port, services), nil
 }
 
-// ipString returns a string for the ip from the provided NetAddress. If the
-// ip is in the range used for Tor addresses then it will be transformed into
-// the relevant .onion address.
+// ipString returns a string for the ip from the provided NetAddress.
 func ipString(na *wire.NetAddress) string {
-	if IsOnionCatTor(na) {
-		// We know now that na.IP is long enough.
-		base32 := base32.StdEncoding.EncodeToString(na.IP[6:])
-		return strings.ToLower(base32) + ".onion"
-	}
-
 	return na.IP.String()
 }
 
@@ -1052,18 +1029,6 @@ func getReachabilityFrom(localAddr, remoteAddr *wire.NetAddress) int {
 		return Unreachable
 	}
 
-	if IsOnionCatTor(remoteAddr) {
-		if IsOnionCatTor(localAddr) {
-			return Private
-		}
-
-		if IsRoutable(localAddr) && IsIPv4(localAddr) {
-			return Ipv4
-		}
-
-		return Default
-	}
-
 	if IsRFC4380(remoteAddr) {
 		if !IsRoutable(localAddr) {
 			return Default
@@ -1141,7 +1106,7 @@ func (a *AddrManager) GetBestLocalAddress(remoteAddr *wire.NetAddress) *wire.Net
 
 		// Send something unroutable if nothing suitable.
 		var ip net.IP
-		if !IsIPv4(remoteAddr) && !IsOnionCatTor(remoteAddr) {
+		if !IsIPv4(remoteAddr) {
 			ip = net.IPv6zero
 		} else {
 			ip = net.IPv4zero

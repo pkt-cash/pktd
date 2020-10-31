@@ -3,12 +3,12 @@
 // license that can be found in the LICENSE file.
 
 /*
-Package addrmgr implements concurrency safe Bitcoin address manager.
+Package addrmgr implements a concurrently-safe Bitcoin address manager.
 
 Address Manager Overview
 
 In order maintain the peer-to-peer Bitcoin network, there needs to be a source
-of addresses to connect to as nodes come and go.  The Bitcoin protocol provides
+of addresses to connect to as nodes come and go. The Bitcoin protocol provides
 the getaddr and addr messages to allow peers to communicate known addresses with
 each other.  However, there needs to a mechanism to store those results and
 select peers from them.  It is also important to note that remote peers can't
@@ -22,17 +22,19 @@ are connected, known good, and attempted.  The caller also requests addresses as
 it needs them.
 
 The address manager internally segregates the addresses into groups and
-non-deterministically selects groups in a cryptographically random manner.  This
-reduce the chances multiple addresses from the same nets are selected which
-generally helps provide greater peer diversity, and perhaps more importantly,
-drastically reduces the chances an attacker is able to coerce your peer into
-only connecting to nodes they control.
+non-deterministically selects groups in a cryptographically random manner.
 
-The address manager also understands routability and Tor addresses and tries
-hard to only return routable addresses.  In addition, it uses the information
-provided by the caller about connected, known good, and attempted addresses to
-periodically purge peers which no longer appear to be good peers as well as
-bias the selection toward known good peers.  The general idea is to make a best
-effort at only providing usable addresses.
+This reduces the chances multiple addresses from the same nets are selected
+which generally helps provide greater peer diversity, and perhaps more
+importantly, drastically reduces the chances an attacker is able to coerce
+your peer into only connecting to nodes they control.
+
+The address manager also understands reachability and tries hard to only
+return globally routeable addresses. In addition, it uses the information
+provided by the caller about connected, known good, and attempted addresses
+to periodically purge peers which no longer appear to be good peers as well 
+as bias the selection toward known good peers.
+
+The general idea is to make a best effort at only providing usable addresses.
 */
 package addrmgr

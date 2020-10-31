@@ -62,28 +62,6 @@ const (
 	connectionRetryInterval = time.Second * 5
 )
 
-// onionAddr implements the net.Addr interface and represents a tor address.
-type onionAddr struct {
-	addr string
-}
-
-// String returns the onion address.
-//
-// This is part of the net.Addr interface.
-func (oa *onionAddr) String() string {
-	return oa.addr
-}
-
-// Network returns "onion".
-//
-// This is part of the net.Addr interface.
-func (oa *onionAddr) Network() string {
-	return "onion"
-}
-
-// Ensure onionAddr implements the net.Addr interface.
-var _ net.Addr = (*onionAddr)(nil)
-
 // simpleAddr implements the net.Addr interface with two struct fields
 type simpleAddr struct {
 	net, addr string
@@ -1993,7 +1971,6 @@ func newPeerConfig(sp *serverPeer) *peer.Config {
 		},
 		NewestBlock:       sp.newestBlock,
 		HostToNetAddress:  sp.server.addrManager.HostToNetAddress,
-		Proxy:             cfg.Proxy,
 		UserAgentName:     version.UserAgentName(),
 		UserAgentVersion:  version.UserAgentVersion(),
 		UserAgentComments: cfg.UserAgentComments,
@@ -2986,10 +2963,9 @@ func initListeners(amgr *addrmgr.AddrManager, listenAddrs []string, services pro
 	return listeners, nat, nil
 }
 
-// addrStringToNetAddr takes an address in the form of 'host:port' and returns
-// a net.Addr which maps to the original address with any host names resolved
-// to IP addresses.  It also handles tor addresses properly by returning a
-// net.Addr that encapsulates the address.
+// addrStringToNetAddr takes an address in the form of 'host:port'
+// and returns a net.Addr which maps to the original address with
+// any host names resolved to IP addresses.
 func addrStringToNetAddr(addr string) (net.Addr, er.R) {
 	host, strPort, errr := net.SplitHostPort(addr)
 	if errr != nil {
@@ -3007,16 +2983,6 @@ func addrStringToNetAddr(addr string) (net.Addr, er.R) {
 			IP:   ip,
 			Port: port,
 		}, nil
-	}
-
-	// Tor addresses cannot be resolved to an IP, so just return an onion
-	// address instead.
-	if strings.HasSuffix(host, ".onion") {
-		if cfg.NoOnion {
-			return nil, er.New("tor has been disabled")
-		}
-
-		return &onionAddr{addr: addr}, nil
 	}
 
 	// Attempt to look up an IP address associated with the parsed host.

@@ -240,7 +240,6 @@ type GetNetworkInfoNetworks struct {
 	Limited                   bool   `json:"limited"`
 	Reachable                 bool   `json:"reachable"`
 	Proxy                     string `json:"proxy"`
-	Proxyrandomizecredentials string `json:"proxy_randomize_credentials"`
 }
 
 type GetNetworkInfoResult struct {

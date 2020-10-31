@@ -205,9 +205,6 @@ func makeListeners(normalizedListenAddrs []string, listen listenFunc) []net.List
 
 		// Remove the IPv6 zone from the host, if present.  The zone
 		// prevents ParseIP from correctly parsing the IP address.
-		// ResolveIPAddr is intentionally not used here due to the
-		// possibility of leaking a DNS query over Tor if the host is a
-		// hostname and not an IP address.
 		zoneIndex := strings.Index(host, "%")
 		if zoneIndex != -1 {
 			host = host[:zoneIndex]
