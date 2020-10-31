@@ -8,7 +8,7 @@
 package ffldb
 
 import (
-	"compress/bzip2"
+	"github.com/ulikunitz/xz"
 	"encoding/binary"
 	"fmt"
 	"hash/crc32"
@@ -34,7 +34,7 @@ var (
 
 	// blockDataFile is the path to a file containing the first 256 blocks
 	// of the block chain.
-	blockDataFile = filepath.Join("..", "testdata", "blocks1-256.bz2")
+	blockDataFile = filepath.Join("..", "testdata", "blocks1-256.xz")
 
 	// errSubTestFail is used to signal that a sub test returned false.
 	errSubTestFail = er.GenericErrorType.CodeWithDetail("errSubTestFail",
@@ -56,7 +56,13 @@ func loadBlocks(t *testing.T, dataFile string, network protocol.BitcoinNet) ([]*
 				err)
 		}
 	}()
-	dr := bzip2.NewReader(fi)
+	dr, err := xz.NewReader(fi)
+	if err != nil {
+		err := er.E(err)
+		t.Errorf("xz.NewWriter error %s", err)
+		return nil, err
+    }
+
 
 	// Set the first block as the genesis block.
 	blocks := make([]*btcutil.Block, 0, 256)

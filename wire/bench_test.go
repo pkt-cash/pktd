@@ -6,13 +6,14 @@ package wire
 
 import (
 	"bytes"
-	"compress/bzip2"
+	"github.com/ulikunitz/xz"
 	"fmt"
 	"io/ioutil"
 	"net"
 	"os"
 	"testing"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/wire/protocol"
 )
@@ -308,17 +309,18 @@ func BenchmarkDeserializeTxSmall(b *testing.B) {
 func BenchmarkDeserializeTxLarge(b *testing.B) {
 	// tx bb41a757f405890fb0f5856228e23b715702d714d59bf2b1feb70d8b2b4e3e08
 	// from the main block chain.
-	fi, err := os.Open("testdata/megatx.bin.bz2")
+	fi, err := os.Open("testdata/megatx.bin.xz")
 	if err != nil {
 		b.Fatalf("Failed to read transaction data: %v", err)
 	}
 	defer fi.Close()
-	buf, err := ioutil.ReadAll(bzip2.NewReader(fi))
+	buf, err := xz.NewReader(fi)
 	if err != nil {
+		err := er.E(err)
 		b.Fatalf("Failed to read transaction data: %v", err)
 	}
-
-	r := bytes.NewReader(buf)
+	br, err := ioutil.ReadAll(buf)
+	r := bytes.NewReader(br)
 	var tx MsgTx
 	for i := 0; i < b.N; i++ {
 		r.Seek(0, 0)

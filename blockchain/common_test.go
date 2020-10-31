@@ -6,7 +6,7 @@
 package blockchain
 
 import (
-	"compress/bzip2"
+	"github.com/ulikunitz/xz"
 	"encoding/binary"
 	"io"
 	"os"
@@ -157,8 +157,13 @@ func loadUtxoView(filename string) (*UtxoViewpoint, er.R) {
 
 	// Choose read based on whether the file is compressed or not.
 	var r io.Reader
-	if strings.HasSuffix(filename, ".bz2") {
-		r = bzip2.NewReader(fi)
+	if strings.HasSuffix(filename, ".xz") {
+		r, err = xz.NewReader(fi)
+		if err != nil {
+			err := er.E(err)
+        return nil, err
+    }
+
 	} else {
 		r = fi
 	}
