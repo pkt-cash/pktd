@@ -7,7 +7,6 @@
 package leveldb
 
 import (
-	"errors"
 	"math/rand"
 	"runtime"
 	"sync"
@@ -16,10 +15,6 @@ import (
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/iterator"
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/opt"
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/util"
-)
-
-var (
-	errInvalidInternalKey = errors.New("leveldb: Iterator: invalid internal key")
 )
 
 type memdbReleaser struct {

@@ -1428,43 +1428,6 @@ func (w *Wallet) ListAllTransactions() ([]btcjson.ListTransactionsResult, er.R) 
 	return txList, err
 }
 
-// creditSlice satisifies the sort.Interface interface to provide sorting
-// transaction credits from oldest to newest.  Credits with the same receive
-// time and mined in the same block are not guaranteed to be sorted by the order
-// they appear in the block.  Credits from the same transaction are sorted by
-// output index.
-type creditSlice []wtxmgr.Credit
-
-func (s creditSlice) Len() int {
-	return len(s)
-}
-
-func (s creditSlice) Less(i, j int) bool {
-	switch {
-	// If both credits are from the same tx, sort by output index.
-	case s[i].OutPoint.Hash == s[j].OutPoint.Hash:
-		return s[i].OutPoint.Index < s[j].OutPoint.Index
-
-	// If both transactions are unmined, sort by their received date.
-	case s[i].Height == -1 && s[j].Height == -1:
-		return s[i].Received.Before(s[j].Received)
-
-	// Unmined (newer) txs always come last.
-	case s[i].Height == -1:
-		return false
-	case s[j].Height == -1:
-		return true
-
-	// If both txs are mined in different blocks, sort by block height.
-	default:
-		return s[i].Height < s[j].Height
-	}
-}
-
-func (s creditSlice) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
-}
-
 // ListUnspent returns a slice of objects representing the unspent wallet
 // transactions fitting the given criteria. The confirmations will be more than
 // minconf, less than maxconf and if addresses is populated only the addresses

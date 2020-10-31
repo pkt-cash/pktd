@@ -2855,8 +2855,6 @@ func (b *blockManager) handleProvenHeadersMsg(phmsg *provenHeadersMsg) {
 	b.newHeadersSignal.Broadcast()
 }
 
-var timeLastLogged time.Time
-
 func (b *blockManager) checkHeaderSanity(blockHeader *wire.BlockHeader,
 	maxTimestamp time.Time, reorgAttempt bool) er.R {
 	diff, err := b.calcNextRequiredDifficulty(

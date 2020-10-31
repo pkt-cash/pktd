@@ -8,7 +8,6 @@ package leveldb
 
 import (
 	"bytes"
-	"fmt"
 	"sort"
 	"sync/atomic"
 
@@ -87,18 +86,6 @@ type tFiles []*tFile
 
 func (tf tFiles) Len() int      { return len(tf) }
 func (tf tFiles) Swap(i, j int) { tf[i], tf[j] = tf[j], tf[i] }
-
-func (tf tFiles) nums() string {
-	x := "[ "
-	for i, f := range tf {
-		if i != 0 {
-			x += ", "
-		}
-		x += fmt.Sprint(f.fd.Num)
-	}
-	x += " ]"
-	return x
-}
 
 // Returns true if i smallest key is less than j.
 // This used for sort by key in ascending order.

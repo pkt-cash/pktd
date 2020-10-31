@@ -2721,13 +2721,10 @@ func newServer(listenAddrs, agentBlacklist, agentWhitelist []string,
 	switch cfg.MiningSkipChecks {
 	case "txns":
 		msc = mining.CheckTxns
-		break
 	case "template":
 		msc = mining.CheckBlkTemplate
-		break
 	case "both":
 		msc = mining.CheckBoth
-		break
 	}
 
 	// Create the mining policy and block template generator based on the

@@ -166,7 +166,6 @@ func NewBackend(w io.Writer, opts ...BackendOption) *Backend {
 // subsystems.
 type Backend struct {
 	ch   chan *[]byte
-	mu   sync.Mutex // ensures atomic writes
 	flag uint32
 }
 
@@ -305,16 +304,12 @@ func formatHeader(flags uint32, buf *[]byte, t time.Time, lvl, tag string, file 
 		switch lvl {
 		case "DBG":
 			*buf = append(*buf, colorDbg...)
-			break
 		case "WRN":
 			*buf = append(*buf, colorWarn...)
-			break
 		case "ERR":
 			*buf = append(*buf, colorErr...)
-			break
 		case "CRT":
 			*buf = append(*buf, colorCrit...)
-			break
 		default:
 			hasColor = false
 		}
