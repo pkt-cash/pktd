@@ -13,9 +13,9 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/er"
 
 	"github.com/pkt-cash/pktd/database/internal/treap"
-	"github.com/syndtr/goleveldb/leveldb"
-	"github.com/syndtr/goleveldb/leveldb/iterator"
-	"github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/iterator"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/util"
 )
 
 const (
@@ -24,8 +24,9 @@ const (
 
 	// defaultFlushSecs is the default number of seconds to use as a
 	// threshold in between database cache flushes when the cache size has
-	// not been exceeded.
-	defaultFlushSecs = 60 // 1 minute
+	// not been exceeded.  Reduced from a default of 1m to 30s, where
+	// extensive benchmarking shows little to no performance degredation.
+	defaultFlushSecs = 30 // 30 seconds
 )
 
 // ldbCacheIter wraps a treap iterator to provide the additional functionality

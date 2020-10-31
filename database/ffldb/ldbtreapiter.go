@@ -6,8 +6,8 @@ package ffldb
 
 import (
 	"github.com/pkt-cash/pktd/database/internal/treap"
-	"github.com/syndtr/goleveldb/leveldb/iterator"
-	"github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/iterator"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/util"
 )
 
 // ldbTreapIter wraps a treap iterator to provide the additional functionality
