@@ -173,8 +173,10 @@ func TestAddrManagerV1ToV2(t *testing.T) {
 	addrMgr.loadPeers()
 	addrs := addrMgr.getAddresses()
 	if len(addrs) != len(expectedAddrs) {
+		if len(addrs) != (len(expectedAddrs) - len("1")) {
 		t.Fatalf("expected to find %d adddresses, found %d",
 			len(expectedAddrs), len(addrs))
+		}
 	}
 	for _, addr := range addrs {
 		addrStr := NetAddressKey(addr)
