@@ -8,7 +8,6 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/base64"
-	"github.com/json-iterator/go"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -18,6 +17,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktconfig/version"
 
@@ -208,56 +208,6 @@ func (s *Server) RegisterWallet(w *wallet.Wallet) {
 	s.handlerMu.Lock()
 	s.wallet = w
 	s.handlerMu.Unlock()
-}
-
-// Stop gracefully shuts down the rpc server by stopping and disconnecting all
-// clients, disconnecting the chain server connection, and closing the wallet's
-// account files.  This blocks until shutdown completes.
-func (s *Server) Stop() {
-	s.quitMtx.Lock()
-	select {
-	case <-s.quit:
-		s.quitMtx.Unlock()
-		return
-	default:
-	}
-
-	// Stop the connected wallet and chain server, if any.
-	s.handlerMu.Lock()
-	wallet := s.wallet
-	chainClient := s.chainClient
-	s.handlerMu.Unlock()
-	if wallet != nil {
-		wallet.Stop()
-	}
-	if chainClient != nil {
-		chainClient.Stop()
-	}
-
-	// Stop all the listeners.
-	for _, listener := range s.listeners {
-		err := listener.Close()
-		if err != nil {
-			log.Errorf("Cannot close listener `%s`: %v",
-				listener.Addr(), err)
-		}
-	}
-
-	// Signal the remaining goroutines to stop.
-	close(s.quit)
-	s.quitMtx.Unlock()
-
-	// First wait for the wallet and chain server to stop, if they
-	// were ever set.
-	if wallet != nil {
-		wallet.WaitForShutdown()
-	}
-	if chainClient != nil {
-		chainClient.WaitForShutdown()
-	}
-
-	// Wait for all remaining goroutines to exit.
-	s.wg.Wait()
 }
 
 // SetChainServer sets the chain server client component needed to run a fully
