@@ -53,8 +53,12 @@ const (
 	// required to be supported by outbound peers.
 	defaultRequiredServices = protocol.SFNodeNetwork
 
-	// defaultTargetOutbound is the default number of outbound peers to target.
-	defaultTargetOutbound = 8
+	// defaultTargetOutbound is the default number of outbound peers to 
+	// target. We are normalizing the Bitcoin Core in allowing 16 here,
+	// For Bitcoin Core latest Bitcoin Core, 14 connections are used for
+	// full relaying and 2 are used for "block only" "fast" connections,
+	// although we don't yet make such a distinction.
+	defaultTargetOutbound = 16
 
 	// connectionRetryInterval is the base amount of time to wait in between
 	// retries when connecting to persistent peers.  It is adjusted by the
@@ -1226,9 +1230,22 @@ func (sp *serverPeer) OnGetAddr(_ *peer.Peer, msg *wire.MsgGetAddr) {
 	// Get the current known addresses from the address manager.
 	addrCache := sp.server.addrManager.AddressCache()
 
-	// Push the addresses.
+	// Add the best addresses we have for peer discovery here - if
+	// we have a port of 0 then that means nothing good was found,
+	// so don't rebroracast that. At this point, we trim the cache
+	// size by one entry if we add a record so we don't flood past
+	// the maximum allowed size and trigger bans.
+	bestAddress := sp.server.addrManager.GetBestLocalAddress(sp.NA())
+	if bestAddress.Port != 0 {
+		if len(addrCache) > 0 {
+			addrCache = addrCache[1:]
+		}
+	addrCache = append(addrCache, bestAddress)
+	// Now, push the addresses we got.
+	}
 	sp.pushAddrMsg(addrCache)
 }
+
 
 // OnAddr is invoked when a peer receives an addr bitcoin message and is
 // used to notify the server about advertised addresses.
@@ -1560,12 +1577,6 @@ func (s *server) handleAddPeerMsg(state *peerState, sp *serverPeer) bool {
 		return false
 	}
 
-	// Disconnect peers with unwanted user agents.
-	if sp.HasUndesiredUserAgent(s.agentBlacklist, s.agentWhitelist) {
-		sp.Disconnect()
-		return false
-	}
-
 	// Ignore new peers if we're shutting down.
 	if atomic.LoadInt32(&s.shutdown) != 0 {
 		srvrLog.Infof("New peer %s ignored - server is shutting down", sp)
@@ -1622,7 +1633,7 @@ func (s *server) handleAddPeerMsg(state *peerState, sp *serverPeer) bool {
 		s.addrManager.Connected(sp.NA())
 	}
 	// Signal the sync manager this peer is a new sync candidate.
-	s.syncManager.NewPeer(sp.Peer)
+	s.syncManager.NewPeer(sp.Peer, nil)
 	// Update the address manager and request known addresses from the
 	// remote peer for outbound connections. This is skipped when running on
 	// the simulation test network since it is only intended to connect to
@@ -1984,12 +1995,6 @@ func newPeerConfig(sp *serverPeer) *peer.Config {
 			OnAddr:         sp.OnAddr,
 			OnRead:         sp.OnRead,
 			OnWrite:        sp.OnWrite,
-
-			// Note: The reference client currently bans peers that send alerts
-			// not signed with its key.  We could verify against their key, but
-			// since the reference client is currently unwilling to support
-			// other implementations' alert messages, we will not relay theirs.
-			OnAlert: nil,
 		},
 		NewestBlock:       sp.newestBlock,
 		HostToNetAddress:  sp.server.addrManager.HostToNetAddress,
@@ -2048,7 +2053,7 @@ func (s *server) peerDoneHandler(sp *serverPeer) {
 	sp.WaitForDisconnect()
 	s.donePeers <- sp
 	if sp.VerAckReceived() {
-	s.syncManager.DonePeer(sp.Peer)
+	s.syncManager.DonePeer(sp.Peer, nil)
 	// Evict any remaining orphans that were sent by the peer.
 	numEvicted := s.txMemPool.RemoveOrphansByTag(mempool.Tag(sp.ID()))
 	if numEvicted > 0 {
@@ -2215,8 +2220,6 @@ func (s *server) RelayInventory(invVect *wire.InvVect, data interface{}) {
 // BroadcastMessage sends msg to all peers currently connected to the server
 // except those in the passed peers to exclude.
 func (s *server) BroadcastMessage(msg wire.Message, exclPeers ...*serverPeer) {
-	// XXX: Need to determine if this is an alert that has already been
-	// broadcast and refrain from broadcasting again.
 	bmsg := broadcastMsg{message: msg, excludePeers: exclPeers}
 	s.broadcast <- bmsg
 }
@@ -2565,7 +2568,6 @@ func newServer(listenAddrs, agentBlacklist, agentWhitelist []string,
 	}
 
 	amgr := addrmgr.New(cfg.DataDir, pktdLookup)
-
 	var listeners []net.Listener
 	var nat NAT
 	if !cfg.DisableListen {
@@ -2865,6 +2867,7 @@ func newServer(listenAddrs, agentBlacklist, agentWhitelist []string,
 		})
 	}
 
+
 	if !cfg.DisableRPC {
 		// Setup listeners for the configured RPC listen addresses and
 		// TLS settings.
@@ -2906,132 +2909,6 @@ func newServer(listenAddrs, agentBlacklist, agentWhitelist []string,
 	}
 
 	return &s, nil
-}
-
-// initListeners initializes the configured net listeners and adds any bound
-// addresses to the address manager. Returns the listeners and a NAT interface,
-// which is non-nil if UPnP is in use.
-func initListeners(amgr *addrmgr.AddrManager, listenAddrs []string, services protocol.ServiceFlag) ([]net.Listener, NAT, er.R) {
-	// Listen for TCP connections at the configured addresses
-	netAddrs, err := parseListeners(listenAddrs)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	listeners := make([]net.Listener, 0, len(netAddrs))
-	for _, addr := range netAddrs {
-		listener, err := net.Listen(addr.Network(), addr.String())
-		if err != nil {
-			srvrLog.Warnf("Can't listen on %s: %v", addr, err)
-			continue
-		}
-		listeners = append(listeners, listener)
-	}
-
-	var nat NAT
-	if len(cfg.ExternalIPs) != 0 {
-		defaultPort, errr := strconv.ParseUint(activeNetParams.DefaultPort, 10, 16)
-		if errr != nil {
-			srvrLog.Errorf("Can not parse default port %s for active chain: %v",
-				activeNetParams.DefaultPort, errr)
-			return nil, nil, er.E(errr)
-		}
-
-		for _, sip := range cfg.ExternalIPs {
-			eport := uint16(defaultPort)
-			host, portstr, errr := net.SplitHostPort(sip)
-			if errr != nil {
-				// no port, use default.
-				host = sip
-			} else {
-				port, err := strconv.ParseUint(portstr, 10, 16)
-				if err != nil {
-					srvrLog.Warnf("Can not parse port from %s for "+
-						"externalip: %v", sip, err)
-					continue
-				}
-				eport = uint16(port)
-			}
-			na, err := amgr.HostToNetAddress(host, eport, services)
-			if err != nil {
-				srvrLog.Warnf("Not adding %s as externalip: %v", sip, err)
-				continue
-			}
-
-			err = amgr.AddLocalAddress(na, addrmgr.ManualPrio)
-			if err != nil {
-				amgrLog.Warnf("Skipping specified external IP: %v", err)
-			}
-		}
-	} else {
-		if cfg.Upnp {
-			var err er.R
-			nat, err = Discover()
-			if err != nil {
-				srvrLog.Warnf("Can't discover upnp: %v", err)
-			}
-			// nil nat here is fine, just means no upnp on network.
-		}
-
-		// Add bound addresses to address manager to be advertised to peers.
-		for _, listener := range listeners {
-			addr := listener.Addr().String()
-			err := addLocalAddress(amgr, addr, services)
-			if err != nil {
-				amgrLog.Warnf("Skipping bound address %s: %v", addr, err)
-			}
-		}
-	}
-
-	return listeners, nat, nil
-}
-
-// addrStringToNetAddr takes an address in the form of 'host:port' and returns
-// a net.Addr which maps to the original address with any host names resolved
-// to IP addresses.  It also handles tor addresses properly by returning a
-// net.Addr that encapsulates the address.
-func addrStringToNetAddr(addr string) (net.Addr, er.R) {
-	host, strPort, errr := net.SplitHostPort(addr)
-	if errr != nil {
-		return nil, er.E(errr)
-	}
-
-	port, errr := strconv.Atoi(strPort)
-	if errr != nil {
-		return nil, er.E(errr)
-	}
-
-	// Skip if host is already an IP address.
-	if ip := net.ParseIP(host); ip != nil {
-		return &net.TCPAddr{
-			IP:   ip,
-			Port: port,
-		}, nil
-	}
-
-	// Tor addresses cannot be resolved to an IP, so just return an onion
-	// address instead.
-	if strings.HasSuffix(host, ".onion") {
-		if cfg.NoOnion {
-			return nil, er.New("tor has been disabled")
-		}
-
-		return &onionAddr{addr: addr}, nil
-	}
-
-	// Attempt to look up an IP address associated with the parsed host.
-	ips, err := pktdLookup(host)
-	if err != nil {
-		return nil, err
-	}
-	if len(ips) == 0 {
-		return nil, er.Errorf("no addresses found for %s", host)
-	}
-
-	return &net.TCPAddr{
-		IP:   ips[0],
-		Port: port,
-	}, nil
 }
 
 // addLocalAddress adds an address that this node is listening on to the
@@ -3201,4 +3078,130 @@ func (sp *serverPeer) HasUndesiredUserAgent(blacklistedAgents,
 		"whitelist", sp, agent)
 
 	return true
+}
+
+// addrStringToNetAddr takes an address in the form of 'host:port' and returns
+// a net.Addr which maps to the original address with any host names resolved
+// to IP addresses.  It also handles tor addresses properly by returning a
+// net.Addr that encapsulates the address.
+func addrStringToNetAddr(addr string) (net.Addr, er.R) {
+	host, strPort, errr := net.SplitHostPort(addr)
+	if errr != nil {
+		return nil, er.E(errr)
+	}
+
+	port, errr := strconv.Atoi(strPort)
+	if errr != nil {
+		return nil, er.E(errr)
+	}
+
+	// Skip if host is already an IP address.
+	if ip := net.ParseIP(host); ip != nil {
+		return &net.TCPAddr{
+			IP:   ip,
+			Port: port,
+		}, nil
+	}
+
+	// Tor addresses cannot be resolved to an IP, so just return an onion
+	// address instead.
+	if strings.HasSuffix(host, ".onion") {
+		if cfg.NoOnion {
+			return nil, er.New("tor has been disabled")
+		}
+
+		return &onionAddr{addr: addr}, nil
+	}
+
+	// Attempt to look up an IP address associated with the parsed host.
+	ips, err := pktdLookup(host)
+	if err != nil {
+		return nil, err
+	}
+	if len(ips) == 0 {
+		return nil, er.Errorf("no addresses found for %s", host)
+	}
+
+	return &net.TCPAddr{
+		IP:   ips[0],
+		Port: port,
+	}, nil
+}
+
+// initListeners initializes the configured net listeners and adds any bound
+// addresses to the address manager. Returns the listeners and a NAT interface,
+// which is non-nil if UPnP is in use.
+func initListeners(amgr *addrmgr.AddrManager, listenAddrs []string, services protocol.ServiceFlag) ([]net.Listener, NAT, er.R) {
+	// Listen for TCP connections at the configured addresses
+	netAddrs, err := parseListeners(listenAddrs)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	listeners := make([]net.Listener, 0, len(netAddrs))
+	for _, addr := range netAddrs {
+		listener, err := net.Listen(addr.Network(), addr.String())
+		if err != nil {
+			srvrLog.Warnf("Can't listen on %s: %v", addr, err)
+			continue
+		}
+		listeners = append(listeners, listener)
+	}
+
+	var nat NAT
+	if len(cfg.ExternalIPs) != 0 {
+		defaultPort, errr := strconv.ParseUint(activeNetParams.DefaultPort, 10, 16)
+		if errr != nil {
+			srvrLog.Errorf("Can not parse default port %s for active chain: %v",
+				activeNetParams.DefaultPort, errr)
+			return nil, nil, er.E(errr)
+		}
+
+		for _, sip := range cfg.ExternalIPs {
+			eport := uint16(defaultPort)
+			host, portstr, errr := net.SplitHostPort(sip)
+			if errr != nil {
+				// no port, use default.
+				host = sip
+			} else {
+				port, err := strconv.ParseUint(portstr, 10, 16)
+				if err != nil {
+					srvrLog.Warnf("Can not parse port from %s for "+
+						"externalip: %v", sip, err)
+					continue
+				}
+				eport = uint16(port)
+			}
+			na, err := amgr.HostToNetAddress(host, eport, services)
+			if err != nil {
+				srvrLog.Warnf("Not adding %s as externalip: %v", sip, err)
+				continue
+			}
+
+			err = amgr.AddLocalAddress(na, addrmgr.ManualPrio)
+			if err != nil {
+				amgrLog.Warnf("Skipping specified external IP: %v", err)
+			}
+		}
+	} else {
+		if cfg.Upnp {
+			var err er.R
+			nat, err = Discover()
+			if err != nil {
+				srvrLog.Warnf("Can't discover upnp: %v", err)
+			}
+			// nil nat here is fine, just means no upnp on network.
+		}
+
+		// Add bound addresses to address manager to be advertised to peers.
+		for _, listener := range listeners {
+			addr := listener.Addr().String()
+			err := addLocalAddress(amgr, addr, services)
+			if err != nil {
+				amgrLog.Warnf("Skipping bound address %s: %v", addr, err)
+			}
+		}
+	}
+
+	return listeners, nat, nil
 }

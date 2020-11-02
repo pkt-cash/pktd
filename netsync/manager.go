@@ -66,6 +66,7 @@ var zeroHash chainhash.Hash
 // newPeerMsg signifies a newly connected peer to the block handler.
 type newPeerMsg struct {
 	peer *peerpkg.Peer
+	reply chan struct{}
 }
 
 // blockMsg packages a bitcoin block message and the peer it came from together
@@ -81,6 +82,7 @@ type blockMsg struct {
 type invMsg struct {
 	inv  *wire.MsgInv
 	peer *peerpkg.Peer
+	reply chan struct{}
 }
 
 // headersMsg packages a bitcoin headers message and the peer it came from
@@ -88,11 +90,13 @@ type invMsg struct {
 type headersMsg struct {
 	headers *wire.MsgHeaders
 	peer    *peerpkg.Peer
+	reply chan struct{}
 }
 
 // donePeerMsg signifies a newly disconnected peer to the block handler.
 type donePeerMsg struct {
 	peer *peerpkg.Peer
+	reply chan struct{}
 }
 
 // txMsg packages a bitcoin tx message and the peer it came from together
@@ -156,6 +160,9 @@ type peerSyncState struct {
 	requestQueue    []*wire.InvVect
 	requestedTxns   map[chainhash.Hash]struct{}
 	requestedBlocks map[chainhash.Hash]struct{}
+	syncPeerMutex sync.RWMutex
+	syncPeer      *peerpkg.Peer
+	peerStates    map[*peerpkg.Peer]*peerSyncState
 }
 
 // SyncManager is used to communicate block related messages with peers. The
@@ -191,6 +198,13 @@ type SyncManager struct {
 
 	// An optional fee estimator.
 	feeEstimator *mempool.FeeEstimator
+	syncPeerMutex  sync.RWMutex
+}
+
+func (sm *SyncManager) SyncPeer() *peerpkg.Peer {
+	sm.syncPeerMutex.RLock()
+	defer sm.syncPeerMutex.RUnlock()
+	return sm.syncPeer
 }
 
 // resetHeaderState sets the headers-first mode state to values appropriate for
@@ -262,7 +276,9 @@ func (sm *SyncManager) startSync() {
 		if !state.syncCandidate {
 			continue
 		}
-
+		if !peer.Connected() {
+			continue
+		}
 		if segwitActive && !peer.IsWitnessEnabled() {
 			log.Debugf("peer %v not witness enabled, skipping", peer)
 			continue
@@ -406,6 +422,9 @@ func (sm *SyncManager) isSyncCandidate(peer *peerpkg.Peer) bool {
 // be considered as a sync peer (they have already successfully negotiated).  It
 // also starts syncing if needed.  It is invoked from the syncHandler goroutine.
 func (sm *SyncManager) handleNewPeerMsg(peer *peerpkg.Peer) {
+	if !peer.Connected() {
+		return
+	}
 	// Ignore if in the process of shutting down.
 	if atomic.LoadInt32(&sm.shutdown) != 0 {
 		return
@@ -415,15 +434,25 @@ func (sm *SyncManager) handleNewPeerMsg(peer *peerpkg.Peer) {
 
 	// Initialize the peer state
 	isSyncCandidate := sm.isSyncCandidate(peer)
+	sm.syncPeerMutex.Lock()
+	defer sm.syncPeerMutex.Unlock()
 	sm.peerStates[peer] = &peerSyncState{
 		syncCandidate:   isSyncCandidate,
 		requestedTxns:   make(map[chainhash.Hash]struct{}),
 		requestedBlocks: make(map[chainhash.Hash]struct{}),
 	}
 
-	// Start syncing by choosing the best candidate if needed.
-	if isSyncCandidate && sm.syncPeer == nil {
-		sm.startSync()
+	// Start syncing by choosing the best candidate
+		if isSyncCandidate {
+		if sm.syncPeer == nil {
+			sm.startSync()
+			return
+		}
+		// If for some reason we are not connected to
+		// a sync peer, go ahead and find another.
+		if !sm.syncPeer.Connected() {
+			sm.updateSyncPeer(true)
+		}
 	}
 }
 
@@ -438,24 +467,24 @@ func (sm *SyncManager) handleStallSample() {
 
 	// If we don't have an active sync peer, exit early.
 	if sm.syncPeer == nil {
+		sm.updateSyncPeer(true)
 		return
 	}
 
 	// If the stall timeout has not elapsed, exit early.
 	if time.Since(sm.lastProgressTime) <= maxStallDuration {
+		sm.updateSyncPeer(true)
 		return
 	}
 
-	// Check to see that the peer's sync state exists.
-	state, exists := sm.peerStates[sm.syncPeer]
-	if !exists {
+	if !sm.syncPeer.Connected() {
+		sm.updateSyncPeer(true)
 		return
 	}
-
-	sm.clearRequestedState(state)
 
 	disconnectSyncPeer := sm.shouldDCStalledSyncPeer()
 	sm.updateSyncPeer(disconnectSyncPeer)
+	sm.updateSyncPeer(true)
 }
 
 // shouldDCStalledSyncPeer determines whether or not we should disconnect a
@@ -485,6 +514,8 @@ func (sm *SyncManager) shouldDCStalledSyncPeer() bool {
 // the current sync peer, attempts to select a new best peer to sync from.  It
 // is invoked from the syncHandler goroutine.
 func (sm *SyncManager) handleDonePeerMsg(peer *peerpkg.Peer) {
+	sm.syncPeerMutex.Lock()
+	defer sm.syncPeerMutex.Unlock()
 	state, exists := sm.peerStates[peer]
 	if !exists {
 		log.Warnf("Received done peer message for unknown peer %s", peer)
@@ -550,7 +581,9 @@ func (sm *SyncManager) updateSyncPeer(dcSyncPeer bool) {
 // handleTxMsg handles transaction messages from all peers.
 func (sm *SyncManager) handleTxMsg(tmsg *txMsg) {
 	peer := tmsg.peer
+	sm.syncPeerMutex.RLock()
 	state, exists := sm.peerStates[peer]
+	sm.syncPeerMutex.RUnlock()
 	if !exists {
 		log.Warnf("Received tx message from unknown peer %s", peer)
 		return
@@ -611,8 +644,9 @@ func (sm *SyncManager) handleTxMsg(tmsg *txMsg) {
 		peer.PushRejectMsg(wire.CmdTx, code, reason, txHash, false)
 		return
 	}
-
-	sm.peerNotifier.AnnounceNewTransactions(acceptedTxs)
+	if len(acceptedTxs) > 0 {
+		sm.peerNotifier.AnnounceNewTransactions(acceptedTxs)
+	}
 }
 
 // current returns true if we believe we are synced with our peers, false if we
@@ -624,6 +658,8 @@ func (sm *SyncManager) current() bool {
 
 	// if blockChain thinks we are current and we have no syncPeer it
 	// is probably right.
+	sm.syncPeerMutex.Lock()
+	defer sm.syncPeerMutex.Unlock()
 	if sm.syncPeer == nil {
 		return true
 	}
@@ -639,7 +675,9 @@ func (sm *SyncManager) current() bool {
 // handleBlockMsg handles block messages from all peers.
 func (sm *SyncManager) handleBlockMsg(bmsg *blockMsg) {
 	peer := bmsg.peer
+	sm.syncPeerMutex.RLock()
 	state, exists := sm.peerStates[peer]
+	sm.syncPeerMutex.RUnlock()
 	if !exists {
 		log.Warnf("Received block message from unknown peer %s", peer)
 		return
@@ -826,9 +864,13 @@ func (sm *SyncManager) handleBlockMsg(bmsg *blockMsg) {
 				"peer %s: %v", peer.Addr(), err)
 			return
 		}
-		log.Infof("Downloading headers for blocks %d to %d from "+
-			"peer %s", prevHeight+1, sm.nextCheckpoint.Height,
-			sm.syncPeer.Addr())
+		sm.syncPeerMutex.RLock()
+		defer sm.syncPeerMutex.RUnlock()
+		if sm.syncPeer != nil {
+			log.Infof("Downloading headers for blocks %d to %d from "+
+				"peer %s", prevHeight+1, sm.nextCheckpoint.Height,
+				sm.syncPeer.Addr())
+		}
 		return
 	}
 
@@ -851,6 +893,12 @@ func (sm *SyncManager) handleBlockMsg(bmsg *blockMsg) {
 // list of blocks to be downloaded based on the current list of headers.
 func (sm *SyncManager) fetchHeaderBlocks() {
 	// Nothing to do if there is no start header.
+	sm.syncPeerMutex.Lock()
+	defer sm.syncPeerMutex.Unlock()
+	if sm.syncPeer == nil {
+		log.Warnf("fetchHeaderBlocks called with no sync peer")
+		return
+	}
 	if sm.startHeader == nil {
 		log.Warnf("fetchHeaderBlocks called with no start header")
 		return
@@ -905,7 +953,9 @@ func (sm *SyncManager) fetchHeaderBlocks() {
 // requested when performing a headers-first sync.
 func (sm *SyncManager) handleHeadersMsg(hmsg *headersMsg) {
 	peer := hmsg.peer
+	sm.syncPeerMutex.RLock()
 	_, exists := sm.peerStates[peer]
+	sm.syncPeerMutex.RUnlock()
 	if !exists {
 		log.Warnf("Received headers message from unknown peer %s", peer)
 		return
@@ -921,8 +971,10 @@ func (sm *SyncManager) handleHeadersMsg(hmsg *headersMsg) {
 		return
 	}
 
-	// Nothing to do for an empty headers message.
 	if numHeaders == 0 {
+		if peer == sm.syncPeer {
+			sm.updateSyncPeer(true)
+		}
 		return
 	}
 
@@ -1064,7 +1116,9 @@ func (sm *SyncManager) haveInventory(invVect *wire.InvVect) (bool, er.R) {
 // We examine the inventory advertised by the remote peer and act accordingly.
 func (sm *SyncManager) handleInvMsg(imsg *invMsg) {
 	peer := imsg.peer
+	sm.syncPeerMutex.RLock()
 	state, exists := sm.peerStates[peer]
+	sm.syncPeerMutex.RUnlock()
 	if !exists {
 		log.Warnf("Received inv message from unknown peer %s", peer)
 		return
@@ -1295,15 +1349,19 @@ out:
 			switch msg := m.(type) {
 			case *newPeerMsg:
 				sm.handleNewPeerMsg(msg.peer)
-
+				if msg.reply != nil {
+					msg.reply <- struct{}{}
+				}
 			case *txMsg:
 				sm.handleTxMsg(msg)
-				msg.reply <- struct{}{}
-
+				if msg.reply != nil {
+					msg.reply <- struct{}{}
+				}
 			case *blockMsg:
-				sm.handleBlockMsg(msg)
 				msg.reply <- struct{}{}
-
+				if msg.reply != nil {
+					msg.reply <- struct{}{}
+				}
 			case *invMsg:
 				sm.handleInvMsg(msg)
 
@@ -1312,12 +1370,16 @@ out:
 
 			case *donePeerMsg:
 				sm.handleDonePeerMsg(msg.peer)
-
+				if msg.reply != nil {
+					msg.reply <- struct{}{}
+				}
 			case getSyncPeerMsg:
 				var peerID int32
+				sm.syncPeerMutex.RLock()
 				if sm.syncPeer != nil {
 					peerID = sm.syncPeer.ID()
 				}
+				sm.syncPeerMutex.RUnlock()
 				msg.reply <- peerID
 
 			case processBlockMsg:
@@ -1443,12 +1505,17 @@ func (sm *SyncManager) handleBlockchainNotification(notification *blockchain.Not
 }
 
 // NewPeer informs the sync manager of a newly active peer.
-func (sm *SyncManager) NewPeer(peer *peerpkg.Peer) {
-	// Ignore if we are shutting down.
-	if atomic.LoadInt32(&sm.shutdown) != 0 {
+func (sm *SyncManager) NewPeer(peer *peerpkg.Peer, done chan struct{}) {
+	// Ignore peer if it got disconnected.
+	if !peer.Connected() {
 		return
 	}
-	sm.msgChan <- &newPeerMsg{peer: peer}
+	// Ignore if we are shutting down.
+	if atomic.LoadInt32(&sm.shutdown) != 0 {
+		done <- struct{}{}
+		return
+	}
+	sm.msgChan <- &newPeerMsg{peer: peer, reply: done}
 }
 
 // QueueTx adds the passed transaction message and peer to the block handling
@@ -1501,13 +1568,13 @@ func (sm *SyncManager) QueueHeaders(headers *wire.MsgHeaders, peer *peerpkg.Peer
 }
 
 // DonePeer informs the blockmanager that a peer has disconnected.
-func (sm *SyncManager) DonePeer(peer *peerpkg.Peer) {
+func (sm *SyncManager) DonePeer(peer *peerpkg.Peer, done chan struct{}) {
 	// Ignore if we are shutting down.
 	if atomic.LoadInt32(&sm.shutdown) != 0 {
+		done <- struct{}{}
 		return
 	}
-
-	sm.msgChan <- &donePeerMsg{peer: peer}
+	sm.msgChan <- &donePeerMsg{peer: peer, reply: done}
 }
 
 // Start begins the core block handler which processes block and inv messages.

@@ -124,9 +124,6 @@ type MessageListeners struct {
 	// OnPong is invoked when a peer receives a pong bitcoin message.
 	OnPong func(p *Peer, msg *wire.MsgPong)
 
-	// OnAlert is invoked when a peer receives an alert bitcoin message.
-	OnAlert func(p *Peer, msg *wire.MsgAlert)
-
 	// OnMemPool is invoked when a peer receives a mempool bitcoin message.
 	OnMemPool func(p *Peer, msg *wire.MsgMemPool)
 
@@ -287,6 +284,11 @@ type Config struct {
 	// TrickleInterval is the duration of the ticker which trickles down the
 	// inventory to a peer.
 	TrickleInterval time.Duration
+
+	// allowSelfConnection is only used to allow the tests to bypass the self
+	// connection detecting and disconnect logic since they intentionally
+	// do so for testing purposes.
+	allowSelfConns bool
 }
 
 // minUint32 is a helper function to return the minimum of two uint32s.
@@ -1500,11 +1502,6 @@ out:
 				p.cfg.Listeners.OnPong(p, msg)
 			}
 
-		case *wire.MsgAlert:
-			if p.cfg.Listeners.OnAlert != nil {
-				p.cfg.Listeners.OnAlert(p, msg)
-			}
-
 		case *wire.MsgMemPool:
 			if p.cfg.Listeners.OnMemPool != nil {
 				p.cfg.Listeners.OnMemPool(p, msg)
@@ -1689,7 +1686,7 @@ out:
 			// No handshake?  They'll find out soon enough.
 			if p.VersionKnown() {
 				// If this is a new block, then we'll blast it
-				// out immediately, sipping the inv trickle
+				// out immediately, skipping the inv trickle
 				// queue.
 				if iv.Type == wire.InvTypeBlock ||
 					iv.Type == wire.InvTypeWitnessBlock {
@@ -2306,7 +2303,6 @@ func NewOutboundPeer(cfg *Config, addr string) (*Peer, er.R) {
 	} else {
 		p.na = wire.NewNetAddressIPPort(net.ParseIP(host), uint16(port), 0)
 	}
-
 	return p, nil
 }
 

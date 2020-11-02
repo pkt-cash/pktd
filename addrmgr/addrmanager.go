@@ -101,11 +101,11 @@ const (
 const (
 	// needAddressThreshold is the number of addresses under which the
 	// address manager will claim to need more addresses.
-	needAddressThreshold = 1000
+	needAddressThreshold = 3000
 
 	// dumpAddressInterval is the interval used to dump the address
 	// cache to disk for future use.
-	dumpAddressInterval = time.Minute * 10
+	dumpAddressInterval = 2 * time.Minute
 
 	// triedBucketSize is the maximum number of addresses in each
 	// tried address bucket.
@@ -137,15 +137,15 @@ const (
 
 	// numMissingDays is the number of days before which we assume an
 	// address has vanished if we have not seen it announced  in that long.
-	numMissingDays = 30
+	numMissingDays = 14
 
 	// numRetries is the number of tried without a single success before
 	// we assume an address is bad.
-	numRetries = 3
+	numRetries = 5
 
 	// maxFailures is the maximum number of failures we will accept without
 	// a success before considering an address bad.
-	maxFailures = 10
+	maxFailures = 15
 
 	// minBadDays is the number of days since the last success before we
 	// will consider evicting an address.
@@ -154,7 +154,7 @@ const (
 	// getAddrMax is the most addresses that we will send in response
 	// to a getAddr (in practise the most addresses we will return from a
 	// call to AddressCache()).
-	getAddrMax = 2500
+	getAddrMax = 5000
 
 	// getAddrPercent is the percentage of total addresses known that we
 	// will share with a call to AddressCache.

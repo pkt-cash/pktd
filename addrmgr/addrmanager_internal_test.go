@@ -92,16 +92,11 @@ func assertAddrs(t *testing.T, addrMgr *AddrManager,
 // TestAddrManagerSerialization ensures that we can properly serialize and
 // deserialize the manager's current address cache.
 func TestAddrManagerSerialization(t *testing.T) {
-	t.Parallel()
-
-	// We'll start by creating our address manager backed by a temporary
-	// directory.
 	tempDir, err := ioutil.TempDir("", "addrmgr")
 	if err != nil {
 		t.Fatalf("unable to create temp dir: %v", err)
 	}
 	defer os.RemoveAll(tempDir)
-
 	addrMgr := New(tempDir, nil)
 
 	// We'll be adding 5 random addresses to the manager.
@@ -132,7 +127,6 @@ func TestAddrManagerSerialization(t *testing.T) {
 // TestAddrManagerV1ToV2 ensures that we can properly upgrade the serialized
 // version of the address manager from v1 to v2.
 func TestAddrManagerV1ToV2(t *testing.T) {
-	t.Parallel()
 
 	// We'll start by creating our address manager backed by a temporary
 	// directory.

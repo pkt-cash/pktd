@@ -158,6 +158,9 @@ type BlockChain struct {
 	// chain state can be quickly reconstructed on load.
 	stateLock     sync.RWMutex
 	stateSnapshot *BestState
+	// notificationLock is used to make sure notifications are sent
+	// serially and protect against double mutex unlock panics during reorg.
+	notificationLock sync.Mutex
 
 	// The following caches are used to efficiently keep track of the
 	// current deployment threshold state of each rule change deployment.
@@ -685,9 +688,13 @@ func (b *BlockChain) connectBlock(node *blockNode, block *btcutil.Block,
 	// Notify the caller that the block was connected to the main chain.
 	// The caller would typically want to react with actions such as
 	// updating wallets.
+	b.notificationLock.Lock()
 	b.chainLock.Unlock()
 	b.sendNotification(NTBlockConnected, block)
 	b.chainLock.Lock()
+	b.notificationLock.Unlock()
+	b.stateLock.Lock()
+	defer b.stateLock.Unlock()
 
 	return nil
 }
@@ -810,9 +817,11 @@ func (b *BlockChain) disconnectBlock(node *blockNode, block *btcutil.Block, view
 	// Notify the caller that the block was disconnected from the main
 	// chain.  The caller would typically want to react with actions such as
 	// updating wallets.
+	b.notificationLock.Lock()
 	b.chainLock.Unlock()
 	b.sendNotification(NTBlockDisconnected, block)
 	b.chainLock.Lock()
+	b.notificationLock.Unlock()
 
 	return nil
 }
@@ -1076,8 +1085,12 @@ func (b *BlockChain) reorganizeChain(detachNodes, attachNodes *list.List) er.R {
 		if err != nil {
 			return err
 		}
+        b.notificationLock.Lock()
+        b.chainLock.Unlock()
+        b.sendNotification(NTBlockAccepted, block)
+        b.chainLock.Lock()
+        b.notificationLock.Unlock()
 	}
-
 	// Log the point where the chain forked and old and new best chain
 	// heads.
 	if forkNode != nil {

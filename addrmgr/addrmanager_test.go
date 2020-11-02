@@ -254,7 +254,7 @@ func TestConnected(t *testing.T) {
 
 func TestNeedMoreAddresses(t *testing.T) {
 	n := addrmgr.New("testneedmoreaddresses", lookupFunc)
-	addrsToAdd := 1500
+	addrsToAdd := 5000
 	b := n.NeedMoreAddresses()
 	if !b {
 		t.Errorf("Expected that we need more addresses")
