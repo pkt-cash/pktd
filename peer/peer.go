@@ -44,7 +44,7 @@ const (
 	// trickling concept all-together and attempting to broadcast all txns
 	// immediately, but it would require some extra peer selection logic,
 	// rather than just rebroadcasting txns to connected peers at random.
-	DefaultTrickleInterval = 5 * time.Second
+	DefaultTrickleInterval = 1 * time.Second
 
 	// MinAcceptableProtocolVersion is the lowest protocol version that a
 	// connected peer may support.

@@ -239,7 +239,7 @@ func TestPeerConnection(t *testing.T) {
 		ChainParams:       &chaincfg.MainNetParams,
 		ProtocolVersion:   protocol.RejectVersion, // Configure with older version
 		Services:          0,
-		TrickleInterval:   time.Second * 10,
+		TrickleInterval:   time.Second * 1,
 	}
 	peer2Cfg := &peer.Config{
 		Listeners:         peer1Cfg.Listeners,
@@ -453,7 +453,7 @@ func TestPeerListeners(t *testing.T) {
 		UserAgentComments: []string{"comment"},
 		ChainParams:       &chaincfg.MainNetParams,
 		Services:          protocol.SFNodeBloom,
-		TrickleInterval:   time.Second * 10,
+		TrickleInterval:   time.Second * 1,
 	}
 	inConn, outConn := pipe(
 		&conn{raddr: "10.0.0.1:8333"},
@@ -624,7 +624,7 @@ func TestOutboundPeer(t *testing.T) {
 		UserAgentComments: []string{"comment"},
 		ChainParams:       &chaincfg.MainNetParams,
 		Services:          0,
-		TrickleInterval:   time.Second * 10,
+		TrickleInterval:   time.Second * 1,
 	}
 
 	r, w := io.Pipe()
@@ -765,7 +765,7 @@ func TestUnsupportedVersionPeer(t *testing.T) {
 		UserAgentComments: []string{"comment"},
 		ChainParams:       &chaincfg.MainNetParams,
 		Services:          0,
-		TrickleInterval:   time.Second * 10,
+		TrickleInterval:   time.Second * 1,
 	}
 
 	localNA := wire.NewNetAddressIPPort(
