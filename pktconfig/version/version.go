@@ -27,7 +27,7 @@ var prerelease = false
 var dirty = false
 
 func init() {
-	if appBuild = "" {
+	if appBuild == "" {
 		// custom build
 		return
 	}
