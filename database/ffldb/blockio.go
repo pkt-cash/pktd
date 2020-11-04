@@ -231,7 +231,7 @@ func (s *blockStore) openWriteFile(fileNum uint32) (filer, er.R) {
 	// append to it.  Also, it shouldn't be part of the least recently used
 	// file.
 	filePath := blockFilePath(s.basePath, fileNum)
-	file, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0666)
+	file, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0600)
 	if err != nil {
 		str := fmt.Sprintf("failed to open file %q for writing", filePath)
 		return nil, makeDbErr(database.ErrDriverSpecific, str, er.E(err))

@@ -414,6 +414,6 @@ func generateListeningAddresses() (string, string) {
 // baseDir is the directory path of the temp directory for all rpctest files.
 func baseDir() (string, er.R) {
 	dirPath := filepath.Join(os.TempDir(), "pktd", "rpctest")
-	errr := os.MkdirAll(dirPath, 0755)
+	errr := os.MkdirAll(dirPath, 0750)
 	return dirPath, er.E(errr)
 }
