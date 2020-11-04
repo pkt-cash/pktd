@@ -182,7 +182,7 @@ func assertEqual(t *testing.T, a interface{}, b interface{}, message string) {
 	if a == b {
 		return
 	}
-	if len(message) == 0 {
+	if message == "" {
 		message = fmt.Sprintf("%v != %v", a, b)
 	}
 	t.Fatal(message)
