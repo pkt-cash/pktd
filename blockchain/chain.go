@@ -1131,8 +1131,8 @@ func (b *BlockChain) connectBestChain(node *blockNode, block *btcutil.Block, fla
 	// most common case.
 	parentHash := &block.MsgBlock().Header.PrevBlock
 	if parentHash.IsEqual(&b.bestChain.Tip().hash) {
-		// We're going to get the election state from either checkConnectBlock or
-		// in the case of fastAdd, from electionProcessBlock() directly
+		// We're going to get the election state from either checkConnectBlock
+		// or, in the case of fastAdd, from electionProcessBlock() directly
 		var nextEs *ElectionState
 
 		// Skip checks if node has already been fully validated.
@@ -1237,7 +1237,7 @@ func (b *BlockChain) connectBestChain(node *blockNode, block *btcutil.Block, fla
 	// find the common ancestor of both sides of the fork, disconnect the
 	// blocks that form the (now) old fork from the main chain, and attach
 	// the blocks that form the new chain to the main chain starting at the
-	// common ancenstor (the point where the chain forked).
+	// common ancestor (the point where the chain forked).
 	detachNodes, attachNodes := b.getReorganizeNodes(node)
 
 	// Reorganize the chain.
