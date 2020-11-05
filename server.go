@@ -1224,12 +1224,10 @@ func (sp *serverPeer) OnAddr(_ *peer.Peer, msg *wire.MsgAddr) {
 		return
 	}
 
-	// A message that has no addresses is invalid.
+	// A message that has no addresses produces a warning.
 	if len(msg.AddrList) == 0 {
-		peerLog.Errorf("Command [%s] from %s does not contain any addresses",
+		peerLog.Warnf("Command [%s] from %s does not contain any addresses",
 			msg.Command(), sp.Peer)
-		sp.Disconnect()
-		return
 	}
 
 	for _, na := range msg.AddrList {
