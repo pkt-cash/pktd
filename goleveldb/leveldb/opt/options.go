@@ -23,7 +23,7 @@ const (
 
 var (
 	DefaultBlockCacher                   = LRUCacher
-	DefaultBlockCacheCapacity            = 8 * MiB
+	DefaultBlockCacheCapacity            = 4 * MiB
 	DefaultBlockRestartInterval          = 16
 	DefaultBlockSize                     = 4 * KiB
 	DefaultCompactionExpandLimitFactor   = 25
@@ -32,13 +32,13 @@ var (
 	DefaultCompactionSourceLimitFactor   = 1
 	DefaultCompactionTableSize           = 2 * MiB
 	DefaultCompactionTableSizeMultiplier = 1.0
-	DefaultCompactionTotalSize           = 10 * MiB
+	DefaultCompactionTotalSize           = 12 * MiB
 	DefaultCompactionTotalSizeMultiplier = 10.0
 	DefaultCompressionType               = SnappyCompression
 	DefaultIteratorSamplingRate          = 1 * MiB
 	DefaultOpenFilesCacher               = LRUCacher
 	DefaultWriteBuffer                   = 4 * MiB
-	DefaultWriteL0PauseTrigger           = 12
+	DefaultWriteL0PauseTrigger           = 10
 	DefaultWriteL0SlowdownTrigger        = 8
 	DefaultFilterBaseLg                  = 11
 )

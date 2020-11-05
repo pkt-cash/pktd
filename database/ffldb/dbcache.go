@@ -20,13 +20,19 @@ import (
 
 const (
 	// defaultCacheSize is the default size for the database cache.
-	defaultCacheSize = 10 * 1024 * 1024 // 10 MB
+	// The 4MB is derived from analysis of actual metadata size,
+	// and would be sufficient to cache the full metadata of one
+	// block in 99% of the cases - and only rarely in actual use is
+	// there concurrent access to multiple blocks, outside of being
+	// a sync peer or acting as a server to multiple SPV clients.
+	defaultCacheSize = 4 * 1024 * 1024 // 4 MB
 
 	// defaultFlushSecs is the default number of seconds to use as a
 	// threshold in between database cache flushes when the cache size has
-	// not been exceeded.  Reduced from a default of 1m to 30s, where
-	// extensive benchmarking shows little to no performance degredation.
-	defaultFlushSecs = 30 // 30 seconds
+	// not been exceeded. The 5 second number has less than a 10% hit on
+	// performance in testing and makes the metadata more resilient in
+	// the cases such as unplanned hard shutdowns or unexpected power loss.
+	defaultFlushSecs = 5 // 5 seconds
 )
 
 // ldbCacheIter wraps a treap iterator to provide the additional functionality
