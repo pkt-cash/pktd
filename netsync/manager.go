@@ -615,24 +615,28 @@ func (sm *SyncManager) handleTxMsg(tmsg *txMsg) {
 	sm.peerNotifier.AnnounceNewTransactions(acceptedTxs)
 }
 
-// current returns true if we believe we are synced with our peers, false if we
-// still have blocks to check
+// Are we current?  Should return true if we believe we are
+// sync'd and false if we still have blocks to check for.
 func (sm *SyncManager) current() bool {
+
+	// If the chain says we aren't current, we aren't.
 	if !sm.chain.IsCurrent() {
 		return false
 	}
 
-	// if blockChain thinks we are current and we have no syncPeer it
-	// is probably right.
-	if sm.syncPeer == nil {
-		return true
-	}
-
-	// No matter what chain thinks, if we are below the block we are syncing
-	// to we are not current.
+	// No matter what chain thinks, if we are below the block
+	// we are trying to sync to we are obviously not current.
 	if sm.chain.BestSnapshot().Height < sm.syncPeer.LastBlock() {
 		return false
 	}
+
+	// If there is no current syncPeer and the blockchain
+	// thinks we are current, then we probably are current.
+    if sm.syncPeer == nil && sm.chain.IsCurrent() {
+		return true
+	}
+
+	// And in any other case, we'll assume we are current.
 	return true
 }
 
