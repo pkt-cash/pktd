@@ -3,41 +3,41 @@ pktd
 
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org)
 
-`pktd` is the full node *PKT Cash* implementation, written in Go (golang).
+`pktd` is the primary full node *PKT Cash* implementation, written in Go.
 
-This project is currently under active development and considered 
+The PKT Cash project is currently under active development and considered 
 to be beta quality software.
 
 In particular, the development branch of `pktd` is highly experimental, 
-and only be very carefully, if at all, operated in a production
-environment or pn the PKT Cash mainnet.
+and should generally not be used in a production environment or on the
+PKT Cash mainnet.
 
-`pktd` is the primary mainnet node - It is known to correctly download,
-validate, and serve the PKT Cash blockchain, using the rule for block
-acceptance based on Bitcoin Core, with the addition of PacketCrypt Proofs. 
+`pktd` is the primary mainnet node software for the PKT blockchain.
+It is known to correctly download, validate, and serve the chain,
+using rules for block acceptance based on Bitcoin Core, with the
+addition of PacketCrypt Proofs. 
 
-It relays newly mined blocks, and individual transactions that have not yet
-made it into a block, as well as maintaining a transaction pool. All
-individual transactions admitted to the pool follow the rules defined by the
-PKT Cash blockchain, which includes strict checks which filter transactions
+It relays newly mined blocks, and individual transactions that have 
+not yet made it into a block, as well as maintaining a transaction pool.
+All individual transactions admitted to the pool follow rules defined by 
+the network operators, which include strict checks to filter transactions
 based on miner requirements ("standard" vs "non-standard" transactions).
 
 Unlike other similar software, `pktd` does *NOT* directly include wallet
 functionality - this was an intentional design decision.  You will not be
-able to make or receive payments directly with `pktd` directly.
+able to make or receive payments with `pktd` directly.
 
-Example wallet functionality will be provided by the included, separate,
+Example wallet functionality is provided in the included, separate,
 [pktwallet](https://github.com/pkt-cash/pktd/pktwallet) package.
 
 ## Requirements
 
-* [Go](http://golang.org) 1.14 or later.
+* Google [Go](http://golang.org) (Golang) version 1.14 or higher.
 * A somewhat recent release of Git.
 
 ## Issue Tracker
 
-* The GitHub [integrated GitHub issue tracker](https://github.com/pkt-cash/pktd/issues)
-is used for this project.  
+* The GitHub [integrated GitHub issue tracker](https://github.com/pkt-cash/pktd/issues) is used for this project.  
 
 ## Building
 
@@ -48,22 +48,22 @@ Using `git`, clone the project from the repository:
 Use the `./do` shell script to build `pktd`, `pktwallet`, and `pktctl`.
 
 NOTE: It is highly recommended to use only the toolchain Google distributes
-at the [official Golang homepage](https://golang.org/dl). Go provided by a 
-Linux distribution very often uses different defaults and applies non-standard
-patches against the official sources, often to meet specific distributions
-requirements (for example, Red Hat backports security fixes, as well as
-providing a different default linker configuration vs. the upstream Google
-Golang.)
+at the [official Go homepage](https://golang.org/dl). Go toolchains provided
+by Linux distributions often use different defaults or apply non-standard
+patches to the official sources, usually to meet distribution-specific
+requirements (for example, Red Hat backports, security fixes, and provides
+a different default linker configuration vs. the upstream Google Go package.)
 
-Support can only be provided for binaries compiled from unmodified released
-compilers, using the upstream Golang toolchain, and the official PKT Cash 
-source code. We simply cannot test and support every distribution specific
-toolchain combination. The official Golang Linux installer always available 
+Support can only be provided for binaries compiled from unmodified sources,
+using the official (upstream) Google Golang toolchain. We unfortunately are
+unable to test and support every distribution specific combination. 
+
+The official Google Golang installer for Linux is always available 
 for download [here](https://storage.googleapis.com/golang/getgo/installer_linux).
 
 ## Documentation
 
-The documentation for `pktd` is work-in-progress, and is located in the [docs](https://github.com/pkt-cash/pktd/tree/master/docs) folder.
+The documentation for `pktd` is work-in-progress, and available in the [docs](https://github.com/pkt-cash/pktd/tree/master/docs) folder.
 
 ## License
 
