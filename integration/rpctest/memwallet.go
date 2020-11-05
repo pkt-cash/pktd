@@ -127,7 +127,7 @@ func newMemWallet(net *chaincfg.Params, harnessID uint32) (*memWallet, er.R) {
 
 	// The first child key from the hd root is reserved as the coinbase
 	// generation address.
-	coinbaseChild, err := hdRoot.Child(0)
+	coinbaseChild, err := hdRoot.DeriveNonStandard(0)
 	if err != nil {
 		return nil, err
 	}
@@ -339,7 +339,7 @@ func (m *memWallet) unwindBlock(update *chainUpdate) {
 func (m *memWallet) newAddress() (btcutil.Address, er.R) {
 	index := m.hdIndex
 
-	childKey, err := m.hdRoot.Child(index)
+	childKey, err := m.hdRoot.DeriveNonStandard(index)
 	if err != nil {
 		return nil, err
 	}
@@ -473,7 +473,7 @@ func (m *memWallet) CreateTransaction(outputs []*wire.TxOut,
 		outPoint := txIn.PreviousOutPoint
 		utxo := m.utxos[outPoint]
 
-		extendedKey, err := m.hdRoot.Child(utxo.keyIndex)
+		extendedKey, err := m.hdRoot.DeriveNonStandard(utxo.keyIndex)
 		if err != nil {
 			return nil, err
 		}
