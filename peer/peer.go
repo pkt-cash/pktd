@@ -304,6 +304,11 @@ type Config struct {
 	// TrickleInterval is the duration of the ticker which trickles down the
 	// inventory to a peer.
 	TrickleInterval time.Duration
+
+	// allowSelfConns is only used to allow the tests to bypass the self
+	// connection detecting and disconnect logic since they intentionally
+	// do so for testing purposes.
+	allowSelfConns bool
 }
 
 // minUint32 is a helper function to return the minimum of two uint32s.
