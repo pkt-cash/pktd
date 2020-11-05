@@ -580,7 +580,7 @@ func handleCreateRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan 
 			return nil, internalRPCError(err, context)
 		}
 
-		txOut := wire.NewTxOut(int64(satoshi), pkScript)
+		txOut := wire.NewTxOut(satoshi, pkScript)
 		mtx.AddTxOut(txOut)
 	}
 
@@ -1160,7 +1160,7 @@ func handleGetBlock(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (i
 	var retargetEstimate *float64
 
 	blocksBetweenRetargets := int32(params.TargetTimespan / params.TargetTimePerBlock)
-	blocksUntilRetarget := blocksBetweenRetargets - (int32(blockHeight) % blocksBetweenRetargets)
+	blocksUntilRetarget := blocksBetweenRetargets - (blockHeight % blocksBetweenRetargets)
 	if blocksUntilRetarget == blocksBetweenRetargets {
 		blocksUntilRetarget = 0
 	}
