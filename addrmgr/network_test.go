@@ -182,11 +182,6 @@ func TestGroupKey(t *testing.T) {
 		// Cjdns
 		{name: "ipv6 cjdns fc00::/8", ip: "fc00::1234", expected: "fc00::"},
 
-		// Tor.
-		{name: "ipv6 tor onioncat", ip: "fd87:d87e:eb43:1234::5678", expected: "tor:2"},
-		{name: "ipv6 tor onioncat 2", ip: "fd87:d87e:eb43:1245::6789", expected: "tor:2"},
-		{name: "ipv6 tor onioncat 3", ip: "fd87:d87e:eb43:1345::6789", expected: "tor:3"},
-
 		// IPv6 normal.
 		{name: "ipv6 normal", ip: "2602:100::1", expected: "2602:100::"},
 		{name: "ipv6 normal 2", ip: "2602:0100::1234", expected: "2602:100::"},

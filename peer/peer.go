@@ -242,11 +242,6 @@ type Config struct {
 	// nil in  which case the host will be parsed as an IP address.
 	HostToNetAddress HostToNetAddrFunc `json:"-"`
 
-	// Proxy indicates a proxy is being used for connections.  The only
-	// effect this has is to prevent leaking the tor proxy address, so it
-	// only needs to specified if using a tor proxy.
-	Proxy string
-
 	// UserAgentName specifies the user agent name to advertise.  It is
 	// highly recommended to specify this value.
 	UserAgentName string
@@ -2073,19 +2068,6 @@ func (p *Peer) localVersionMsg() (*wire.MsgVersion, er.R) {
 	}
 
 	theirNA := p.na
-
-	// If we are behind a proxy and the connection comes from the proxy then
-	// we return an unroutable address as their address. This is to prevent
-	// leaking the tor proxy address.
-	if p.cfg.Proxy != "" {
-		proxyaddress, _, err := net.SplitHostPort(p.cfg.Proxy)
-		// invalid proxy means poorly configured, be on the safe side.
-		if err != nil || p.na.IP.String() == proxyaddress {
-			theirNA = wire.NewNetAddressIPPort(net.IP([]byte{0, 0, 0, 0}), 0,
-				theirNA.Services)
-		}
-	}
-
 	// Create a wire.NetAddress with only the services set to use as the
 	// "addrme" in the version message.
 	//

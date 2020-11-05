@@ -66,14 +66,8 @@ Application Options:
       --proxy=              Connect via SOCKS5 proxy (eg. 127.0.0.1:9050)
       --proxyuser=          Username for proxy server
       --proxypass=          Password for proxy server
-      --onion=              Connect to tor hidden services via SOCKS5 proxy
       --homedir=            Creates this directory at startup
                             (eg. 127.0.0.1:9050)
-      --onionuser=          Username for onion proxy server
-      --onionpass=          Password for onion proxy server
-      --noonion             Disable connecting to tor hidden services
-      --torisolation        Enable Tor stream isolation by randomizing user
-                            credentials for each connection.
       --testnet             Use the test network
       --regtest             Use the regression test network
       --simnet              Use the simulation test network

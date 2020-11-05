@@ -981,13 +981,12 @@ func handleGetAddedNodeInfo(s *rpcServer, cmd interface{}, closeChan <-chan stru
 		}
 
 		var ipList []string
+		// DNS lookup the address. If it fails, just use the host.
 		switch {
-		case net.ParseIP(host) != nil, strings.HasSuffix(host, ".onion"):
+		case net.ParseIP(host) != nil:
 			ipList = make([]string, 1)
 			ipList[0] = host
 		default:
-			// Do a DNS lookup for the address.  If the lookup fails, just
-			// use the host.
 			ips, err := pktdLookup(host)
 			if err != nil {
 				ipList = make([]string, 1)

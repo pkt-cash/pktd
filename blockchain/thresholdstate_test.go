@@ -13,7 +13,6 @@ import (
 // TestThresholdStateStringer tests the stringized output for the
 // ThresholdState type.
 func TestThresholdStateStringer(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		in   ThresholdState
@@ -25,12 +24,6 @@ func TestThresholdStateStringer(t *testing.T) {
 		{ThresholdActive, "ThresholdActive"},
 		{ThresholdFailed, "ThresholdFailed"},
 		{0xff, "Unknown ThresholdState (255)"},
-	}
-
-	// Detect additional threshold states that don't have the stringer added.
-	if len(tests)-1 != int(numThresholdsStates) {
-		t.Errorf("It appears a threshold statewas added without " +
-			"adding an associated stringer test")
 	}
 
 	t.Logf("Running %d tests", len(tests))
@@ -47,7 +40,6 @@ func TestThresholdStateStringer(t *testing.T) {
 // TestThresholdStateCache ensure the threshold state cache works as intended
 // including adding entries, updating existing entries, and flushing.
 func TestThresholdStateCache(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name       string

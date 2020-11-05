@@ -43,10 +43,6 @@ const (
 	// time has been reached and it did not reach the ThresholdLockedIn
 	// state.
 	ThresholdFailed
-
-	// numThresholdsStates is the maximum number of threshold states used in
-	// tests.
-	numThresholdsStates
 )
 
 // thresholdStateStrings is a map of ThresholdState values back to their
