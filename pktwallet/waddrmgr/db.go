@@ -563,13 +563,13 @@ func fetchMasterHDKeys(ns walletdb.ReadBucket) ([]byte, []byte, er.R) {
 	key := bucket.Get(masterHDPrivName)
 	if key != nil {
 		masterHDPrivEnc = make([]byte, len(key))
-		copy(masterHDPrivEnc[:], key)
+		copy(masterHDPrivEnc, key)
 	}
 
 	key = bucket.Get(masterHDPubName)
 	if key != nil {
 		masterHDPubEnc = make([]byte, len(key))
-		copy(masterHDPubEnc[:], key)
+		copy(masterHDPubEnc, key)
 	}
 
 	return masterHDPrivEnc, masterHDPubEnc, nil
@@ -870,7 +870,7 @@ func forEachKeyScope(ns walletdb.ReadBucket, fn func(KeyScope) er.R) er.R {
 		}
 
 		scope := KeyScope{
-			Purpose: binary.LittleEndian.Uint32(k[:]),
+			Purpose: binary.LittleEndian.Uint32(k),
 			Coin:    binary.LittleEndian.Uint32(k[4:]),
 		}
 
@@ -1440,7 +1440,7 @@ func fetchAddressByHash(ns walletdb.ReadBucket, scope *KeyScope,
 
 	bucket := scopedBucket.NestedReadBucket(addrBucketName)
 
-	serializedRow := bucket.Get(addrHash[:])
+	serializedRow := bucket.Get(addrHash)
 	if serializedRow == nil {
 		str := "address not found"
 		return nil, managerError(ErrAddressNotFound, str, nil)
@@ -2185,7 +2185,7 @@ func fetchBirthdayBlockVerification(ns walletdb.ReadBucket) bool {
 	}
 
 	// Otherwise, we'll determine if it's verified by the value stored.
-	verified := binary.BigEndian.Uint16(verifiedValue[:])
+	verified := binary.BigEndian.Uint16(verifiedValue)
 	return verified != 0
 }
 

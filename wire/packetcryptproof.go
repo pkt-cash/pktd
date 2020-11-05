@@ -105,7 +105,7 @@ func (h *PacketCryptProof) SplitContentProof(proofIdx uint32) ([][]byte, er.R) {
 			blockSize <<= 1
 		}
 		b := make([]byte, length)
-		if _, err := io.ReadFull(cpb, b[:]); err != nil {
+		if _, err := io.ReadFull(cpb, b); err != nil {
 			return nil, er.Errorf("SplitContentProof: unable to read ann content proof [%s]", err)
 		}
 		out[i] = b

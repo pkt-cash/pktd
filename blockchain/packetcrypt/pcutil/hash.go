@@ -21,7 +21,7 @@ func HashExpand(out, key []byte, counter uint32) {
 		out[i] = 0
 	}
 	//chacha20.XORKeyStream(out, out, &nonce, &key)
-	chacha20.XORKeyStream(out, out, nonce[:], key)
+	chacha20.XORKeyStream(out, out, nonce, key)
 }
 
 func HashCompress(out, in []byte) {

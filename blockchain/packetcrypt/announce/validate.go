@@ -148,7 +148,7 @@ func CheckAnn(pcAnn *wire.PacketCryptAnn, parentBlockHash *chainhash.Hash, packe
 		buf := make([]byte, 64*2)
 		copy(buf[:64], pcAnn.GetMerkleProof()[13*64:])
 		copy(buf[64:], ctx.annHash0[:])
-		pcutil.HashCompress64(buf[:64], buf[:])
+		pcutil.HashCompress64(buf[:64], buf)
 		mkItemSeed = buf[:64]
 		if mkItem2Prog(&prog, mkItemSeed[:32]) != 0 {
 			return nil, er.New("Validate_checkAnn_BAD_PROGRAM")

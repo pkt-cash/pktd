@@ -106,7 +106,7 @@ func dbFetchVersion(dbTx database.Tx, key []byte) uint32 {
 		return 0
 	}
 
-	return byteOrder.Uint32(serialized[:])
+	return byteOrder.Uint32(serialized)
 }
 
 // dbPutVersion uses an existing database transaction to update the provided
@@ -143,8 +143,8 @@ func serializeElectionState(state ElectionState) []byte {
 
 	serializedData := make([]byte, serializedLen)
 	byteOrder.PutUint64(serializedData[0:8], uint64(state.Disapproval))
-	copy(serializedData[8:8+len(state.NetworkSteward)], state.NetworkSteward[:])
-	return serializedData[:]
+	copy(serializedData[8:8+len(state.NetworkSteward)], state.NetworkSteward)
+	return serializedData
 }
 
 func deserializeElectionState(serialized []byte) (ElectionState, er.R) {
@@ -942,7 +942,7 @@ func serializeBestChainState(state bestChainState) []byte {
 	byteOrder.PutUint32(serializedData[offset:], workSumBytesLen)
 	offset += 4
 	copy(serializedData[offset:], workSumBytes)
-	return serializedData[:]
+	return serializedData
 }
 
 // deserializeBestChainState deserializes the passed serialized best chain

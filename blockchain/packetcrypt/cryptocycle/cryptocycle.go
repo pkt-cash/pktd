@@ -149,7 +149,7 @@ func Update(state *State, item []byte, contentBlock []byte, randHashCycles int, 
 		if err != nil {
 			return false
 		}
-		if interpret.Interpret(prog, state.Bytes[:], item[:], randHashCycles) != nil {
+		if interpret.Interpret(prog, state.Bytes[:], item, randHashCycles) != nil {
 			return false
 		}
 	}

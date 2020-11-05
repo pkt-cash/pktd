@@ -810,8 +810,8 @@ func (m *Manager) ChangePassphrase(ns walletdb.ReadWriteBucket, oldPassphrase,
 
 		// Now that the db has been successfully updated, clear the old
 		// key and set the new one.
-		copy(m.cryptoKeyPrivEncrypted[:], encPriv)
-		copy(m.cryptoKeyScriptEncrypted[:], encScript)
+		copy(m.cryptoKeyPrivEncrypted, encPriv)
+		copy(m.cryptoKeyScriptEncrypted, encScript)
 		m.masterKeyPriv.Zero() // Clear the old key.
 		m.masterKeyPriv = newMasterKey
 		m.privPassphraseSalt = passphraseSalt
