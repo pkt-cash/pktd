@@ -4488,7 +4488,10 @@ func genCertPair(certFile, keyFile string) er.R {
 		return er.E(errr)
 	}
 	if errr := ioutil.WriteFile(keyFile, key, 0600); errr != nil {
-		os.Remove(certFile)
+		perr := os.Remove(certFile)
+			if perr != nil {
+				panic("genCertPair: os.Remove failure")
+			}
 		return er.E(errr)
 	}
 

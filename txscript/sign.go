@@ -355,8 +355,14 @@ sigLoop:
 			// it is an error to call this internal function with
 			// bad input.
 			pkaddr := addr.(*btcutil.AddressPubKey)
+			if pkaddr == nil {
+				panic("mergeMultiSig: pkaddr == nil")
+			}
 
 			pubKey := pkaddr.PubKey()
+			if pubKey == nil {
+				panic("mergeMultiSig: pubKey == nil")
+			}
 
 			// If it matches we put it in the map. We only
 			// can take one signature per public key so if we

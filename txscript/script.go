@@ -567,7 +567,10 @@ func calcSignatureHash(script []parsescript.ParsedOpcode, hashType params.SigHas
 	// value) appended.
 	wbuf := bytes.NewBuffer(make([]byte, 0, txCopy.SerializeSizeStripped()+4))
 	txCopy.SerializeNoWitness(wbuf)
-	binary.Write(wbuf, binary.LittleEndian, hashType)
+	errr := binary.Write(wbuf, binary.LittleEndian, hashType)
+	if errr != nil {
+		panic("calcSignatureHash: binary.Write failed")
+	}
 	return chainhash.DoubleHashB(wbuf.Bytes())
 }
 

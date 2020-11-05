@@ -1281,7 +1281,10 @@ func randomUint16Number(max uint16) uint16 {
 	var randomNumber uint16
 	var limitRange = (math.MaxUint16 / max) * max
 	for {
-		binary.Read(rand.Reader, binary.LittleEndian, &randomNumber)
+		errr := binary.Read(rand.Reader, binary.LittleEndian, &randomNumber)
+		if errr != nil {
+			panic("randomUint16Number: binary.Read failed.")
+		}
 		if randomNumber < limitRange {
 			return (randomNumber % max)
 		}
@@ -2422,7 +2425,10 @@ func (s *server) upnpUpdateThread() {
 	// Go off immediately to prevent code duplication, thereafter we renew
 	// lease every 15 minutes.
 	timer := time.NewTimer(0 * time.Second)
-	lport, _ := strconv.ParseInt(activeNetParams.DefaultPort, 10, 16)
+	lport, errr := strconv.ParseInt(activeNetParams.DefaultPort, 10, 16)
+	if errr == nil {
+		panic("upnpUpdateThread: lport == nil")
+	}
 	first := true
 out:
 	for {

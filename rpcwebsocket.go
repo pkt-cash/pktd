@@ -1733,6 +1733,9 @@ func handleWebsocketHelp(wsc *wsClient, icmd interface{}) (interface{}, er.R) {
 // NOTE: This extension is ported from github.com/decred/dcrd
 func handleLoadTxFilter(wsc *wsClient, icmd interface{}) (interface{}, er.R) {
 	cmd := icmd.(*btcjson.LoadTxFilterCmd)
+	if cmd == nil {
+		panic("handleLoadTxFilter: cmd == nil")
+	}
 
 	outPoints := make([]wire.OutPoint, len(cmd.OutPoints))
 	for i := range cmd.OutPoints {

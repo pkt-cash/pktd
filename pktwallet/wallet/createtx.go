@@ -305,7 +305,13 @@ func (a *amountCount) overLimit(maxInputs int) bool {
 // NilComparator compares by txid/index in order to make the red-black tree functions
 func NilComparator(a, b interface{}) int {
 	s1 := a.(*wtxmgr.Credit)
+	if s1 == nil {
+		panic("NilComparator: s1 == nil")
+	}
 	s2 := b.(*wtxmgr.Credit)
+	if s2 == nil {
+		panic("NilComparator: s2 == nil")
+	}
 	utils.Int64Comparator(int64(s1.Amount), int64(s2.Amount))
 	txidCmp := bytes.Compare(s1.Hash[:], s2.Hash[:])
 	if txidCmp != 0 {
@@ -317,7 +323,14 @@ func NilComparator(a, b interface{}) int {
 // PreferOldest prefers oldest outputs first
 func PreferOldest(a, b interface{}) int {
 	s1 := a.(*wtxmgr.Credit)
+	if s1 == nil {
+		panic("PreferOldest: s1 == nil")
+	}
 	s2 := b.(*wtxmgr.Credit)
+	if s2 == nil {
+		panic("PreferOldest: s2 == nil")
+	}
+
 	if s1.Height < s2.Height {
 		return -1
 	} else if s1.Height > s2.Height {
@@ -335,7 +348,14 @@ func PreferOldest(a, b interface{}) int {
 // PreferBiggest prefers biggest (coin value) outputs first
 func PreferBiggest(a, b interface{}) int {
 	s1 := a.(*wtxmgr.Credit)
+	if s1 == nil {
+		panic("PreferBiggest: s1 == nil")
+	}
 	s2 := b.(*wtxmgr.Credit)
+	if s2 == nil {
+		panic("PreferBiggest: s2 == nil")
+	}
+
 	if s1.Amount < s2.Amount {
 		return 1
 	} else if s1.Amount > s2.Amount {
@@ -355,6 +375,9 @@ func convertResult(ac *amountCount) []*wtxmgr.Credit {
 	out := make([]*wtxmgr.Credit, len(ifaces))
 	for i := range ifaces {
 		out[i] = ifaces[i].(*wtxmgr.Credit)
+		if out[i] == nil {
+			panic("convertResult: out == nil")
+		}
 	}
 	return out
 }
@@ -471,6 +494,9 @@ func (w *Wallet) findEligibleOutputs(
 			// We need more coins
 		} else {
 			worst := ha.credits.Right().Key.(*wtxmgr.Credit)
+			if worst == nil {
+				panic("findEligibleOutputs: worst == nil")
+			}
 			if ha.amount-worst.Amount >= needAmount {
 				// Our amount is still fine even if we drop the worst credit
 				// so we'll drop it and continue traversing to find the best outputs
@@ -498,6 +524,9 @@ func (w *Wallet) findEligibleOutputs(
 		} else {
 			// Too many inputs, we will remove the worst
 			worst := ha.credits.Right().Key.(*wtxmgr.Credit)
+			if worst == nil {
+				panic("findEligibleOutputs: worst == nil")
+            }
 			ha.credits.Remove(worst)
 			ha.amount -= worst.Amount
 			out.unusedAmt += worst.Amount
@@ -555,6 +584,9 @@ func (w *Wallet) findEligibleOutputs(
 		for outAc.overLimit(maxInputs) {
 			// Too many inputs, we will remove the worst
 			worst := outAc.credits.Right().Key.(*wtxmgr.Credit)
+			if worst == nil {
+				panic("findEligibleOutputs: worst == nil")
+            }
 			outAc.credits.Remove(worst)
 			outAc.amount -= worst.Amount
 			out.unusedAmt += worst.Amount

@@ -139,7 +139,10 @@ func createWallet(cfg *config) er.R {
 		}
 	}
 
-	fi, _ := os.Stdin.Stat()
+	fi, err := os.Stdin.Stat()
+	if err != nil {
+		panic("createWallet: os.Stdin.Stat failure.")
+	}
 	tty := false
 	var privPass []byte
 	pubPass := []byte(wallet.InsecurePubPassphrase)
@@ -274,9 +277,9 @@ func createWallet(cfg *config) er.R {
 	if tty {
 		fmt.Println("Creating the wallet...")
 	}
-	w, err := loader.CreateNewWallet(pubPass, privPass, seedInput, seed)
-	if err != nil {
-		return err
+	w, werr := loader.CreateNewWallet(pubPass, privPass, seedInput, seed)
+	if werr != nil {
+		return werr
 	}
 
 	w.Manager.Close()

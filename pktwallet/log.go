@@ -33,7 +33,10 @@ import (
 type logWriter struct{}
 
 func (logWriter) Write(p []byte) (n int, err error) {
-	os.Stdout.Write(p)
+	_, err = os.Stdout.Write(p)
+	if err != nil {
+		panic("logWriter: os.Stdout.Write failure")
+	}
 	return len(p), nil
 }
 
