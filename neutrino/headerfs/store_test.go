@@ -19,6 +19,7 @@ import (
 	"github.com/pkt-cash/pktd/chaincfg/genesis"
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
 	"github.com/pkt-cash/pktd/wire"
+	"go.etcd.io/bbolt"
 )
 
 func createTestBlockHeaderStore() (func(), walletdb.DB, string,
@@ -27,9 +28,11 @@ func createTestBlockHeaderStore() (func(), walletdb.DB, string,
 	if errr != nil {
 		return nil, nil, "", nil, er.E(errr)
 	}
-
+    opts := &bbolt.Options{
+        NoFreelistSync: true,
+    }
 	dbPath := filepath.Join(tempDir, "test.db")
-	db, err := walletdb.Create("bdb", dbPath)
+	db, err := walletdb.Create("bdb", dbPath, opts)
 	if err != nil {
 		return nil, nil, "", nil, err
 	}
@@ -232,7 +235,10 @@ func createTestFilterHeaderStore() (func(), walletdb.DB, string, *FilterHeaderSt
 	}
 
 	dbPath := filepath.Join(tempDir, "test.db")
-	db, err := walletdb.Create("bdb", dbPath)
+	opts := &bbolt.Options{
+		NoFreelistSync: true,
+	}
+	db, err := walletdb.Create("bdb", dbPath, opts)
 	if err != nil {
 		return nil, nil, "", nil, err
 	}
@@ -523,7 +529,6 @@ func TestFilterHeaderStateAssertion(t *testing.T) {
 
 	const chainTip = 10
 	filterHeaderChain := createTestFilterHeaderChain(chainTip)
-
 	setup := func(t *testing.T) (func(), string, walletdb.DB) {
 		cleanUp, db, tempDir, fhs, err := createTestFilterHeaderStore()
 		if err != nil {

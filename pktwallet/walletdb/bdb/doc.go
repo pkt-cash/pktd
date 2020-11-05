@@ -16,8 +16,10 @@ database path as a string:
 	if err != nil {
 		// Handle error
 	}
-
-	db, err := walletdb.Create("bdb", "path/to/database.db")
+    opts := &bbolt.Options{
+        // bbolt options
+    }
+	db, err := walletdb.Create("bdb", "path/to/database.db", opts)
 	if err != nil {
 		// Handle error
 	}

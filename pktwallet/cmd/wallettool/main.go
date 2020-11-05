@@ -21,6 +21,7 @@ import (
 	"github.com/pkt-cash/pktd/pktconfig/version"
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
 	_ "github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
+	"go.etcd.io/bbolt"
 )
 
 const defaultNet = "pkt"
@@ -122,7 +123,10 @@ func repair0(temppath string, db walletdb.DB) er.R {
 	if util.Exists(backupPath) {
 		return er.Errorf("%s exists so no place to put the backup", backupPath)
 	}
-	toDb, err := walletdb.Create("bdb", temppath)
+    bboltopts := &bbolt.Options{
+        NoFreelistSync: true,
+    }
+	toDb, err := walletdb.Create("bdb", temppath, bboltopts)
 	if err != nil {
 		return err
 	}
@@ -178,8 +182,10 @@ func mainInt() int {
 		fmt.Println("Database file does not exist")
 		return 1
 	}
-
-	db, err := walletdb.Open("bdb", opts.DbPath)
+	bboltopts := &bbolt.Options{
+	// Not needed
+	}
+	db, err := walletdb.Open("bdb", opts.DbPath, bboltopts)
 	if err != nil {
 		fmt.Println("Failed to open database:", err)
 		return 1
