@@ -249,7 +249,9 @@ func loadConfig() (*config, []string, er.R) {
 		if preCfg.Wallet {
 			dir = pktwalletHomeDir
 		}
-		fmt.Fprintf(os.Stderr, "Warning: unable to get rpc password from path [%s]\n", dir)
+		if cfg.RPCPassword != "" {
+			fmt.Fprintf(os.Stderr, "Warning: unable to get rpc password from path [%s]\n", dir)
+		}
 	} else {
 		cfg.RPCUser = userpass[0]
 		cfg.RPCPassword = userpass[1]
