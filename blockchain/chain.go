@@ -156,8 +156,9 @@ type BlockChain struct {
 	//
 	// In addition, some of the fields are stored in the database so the
 	// chain state can be quickly reconstructed on load.
-	stateLock     sync.RWMutex
-	stateSnapshot *BestState
+	stateLock        sync.RWMutex
+	stateSnapshot    *BestState
+	notificationLock sync.Mutex
 
 	// The following caches are used to efficiently keep track of the
 	// current deployment threshold state of each rule change deployment.
@@ -685,9 +686,11 @@ func (b *BlockChain) connectBlock(node *blockNode, block *btcutil.Block,
 	// Notify the caller that the block was connected to the main chain.
 	// The caller would typically want to react with actions such as
 	// updating wallets.
+	b.notificationLock.Lock()
 	b.chainLock.Unlock()
 	b.sendNotification(NTBlockConnected, block)
 	b.chainLock.Lock()
+	b.notificationLock.Unlock()
 
 	return nil
 }
@@ -810,9 +813,13 @@ func (b *BlockChain) disconnectBlock(node *blockNode, block *btcutil.Block, view
 	// Notify the caller that the block was disconnected from the main
 	// chain.  The caller would typically want to react with actions such as
 	// updating wallets.
+	b.notificationLock.Lock()
 	b.chainLock.Unlock()
 	b.sendNotification(NTBlockDisconnected, block)
 	b.chainLock.Lock()
+	b.notificationLock.Unlock()
+	b.stateLock.Lock()
+	defer b.stateLock.Unlock()
 
 	return nil
 }
@@ -1124,8 +1131,8 @@ func (b *BlockChain) connectBestChain(node *blockNode, block *btcutil.Block, fla
 	// most common case.
 	parentHash := &block.MsgBlock().Header.PrevBlock
 	if parentHash.IsEqual(&b.bestChain.Tip().hash) {
-		// We're going to get the election state from either checkConnectBlock or
-		// in the case of fastAdd, from electionProcessBlock() directly
+		// We're going to get the election state from either checkConnectBlock
+		// or, in the case of fastAdd, from electionProcessBlock() directly
 		var nextEs *ElectionState
 
 		// Skip checks if node has already been fully validated.
@@ -1230,7 +1237,7 @@ func (b *BlockChain) connectBestChain(node *blockNode, block *btcutil.Block, fla
 	// find the common ancestor of both sides of the fork, disconnect the
 	// blocks that form the (now) old fork from the main chain, and attach
 	// the blocks that form the new chain to the main chain starting at the
-	// common ancenstor (the point where the chain forked).
+	// common ancestor (the point where the chain forked).
 	detachNodes, attachNodes := b.getReorganizeNodes(node)
 
 	// Reorganize the chain.
