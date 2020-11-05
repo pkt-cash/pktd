@@ -98,12 +98,12 @@ func TestIsBad(t *testing.T) {
 	}
 
 	//It has failed at least three times and never succeeded.
-	if !addrmgr.TstKnownAddressIsBad(addrmgr.TstNewKnownAddress(minutesOldNa, 3, minutesOld, zeroTime, true, 0)) {
+	if !addrmgr.TstKnownAddressIsBad(addrmgr.TstNewKnownAddress(minutesOldNa, 5, minutesOld, zeroTime, true, 0)) {
 		t.Errorf("test case 8: addresses that have never succeeded are bad.")
 	}
 
 	//It has failed ten times in the last week
-	if !addrmgr.TstKnownAddressIsBad(addrmgr.TstNewKnownAddress(minutesOldNa, 10, minutesOld, monthOld, true, 0)) {
+	if !addrmgr.TstKnownAddressIsBad(addrmgr.TstNewKnownAddress(minutesOldNa, 15, minutesOld, monthOld, true, 0)) {
 		t.Errorf("test case 9: addresses that have not succeeded in too long are bad.")
 	}
 

@@ -139,7 +139,6 @@ func TestAddrManagerSerialization(t *testing.T) {
 // TestAddrManagerV1ToV2 ensures that we can properly upgrade the serialized
 // version of the address manager from v1 to v2.
 func TestAddrManagerV1ToV2(t *testing.T) {
-	t.Parallel()
 
 	// We'll start by creating our address manager backed by a temporary
 	// directory.
