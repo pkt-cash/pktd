@@ -1098,14 +1098,7 @@ func (s *ChainService) peerHandler() {
 		connmgr.SeedFromDNS(&s.chainParams, RequiredServices,
 			s.nameResolver, func(addrs []*wire.NetAddress) {
 				var validAddrs []*wire.NetAddress
-				for _, addr := range addrs {
-					// if addr.Services&RequiredServices !=
-					// 	RequiredServices {
-					// 	continue
-					// }
-
-					validAddrs = append(validAddrs, addr)
-				}
+				validAddrs = append(validAddrs, addrs...)
 
 				if len(validAddrs) == 0 {
 					return
