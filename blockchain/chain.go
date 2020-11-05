@@ -1382,6 +1382,7 @@ func (b *BlockChain) BlockHashByHeight(blockHeight int32) (*chainhash.Hash, er.R
 	return &node.hash, nil
 }
 
+// BlockHashByHeightContextual ...
 func (b *BlockChain) BlockHashByHeightContextual(height int32, context *chainhash.Hash) (
 	*chainhash.Hash,
 	er.R,

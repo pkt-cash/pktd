@@ -311,6 +311,7 @@ func (b *BlockChain) computeNextTarget(timespanSeconds int64, currentDiff uint32
 	return newTargetBits
 }
 
+// ComputeNextTarget ...
 func (b *BlockChain) ComputeNextTarget(timespanSeconds int64, currentDiff uint32) uint32 {
 	b.chainLock.Lock()
 	defer b.chainLock.Unlock()

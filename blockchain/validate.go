@@ -661,6 +661,7 @@ func CheckBlockSanity(block *btcutil.Block, powLimit *big.Int, timeSource Median
 	return checkBlockSanity(block, powLimit, timeSource, BFNone)
 }
 
+// ExtractBlockHeight ...
 func ExtractBlockHeight(msg *wire.MsgBlock) (int32, er.R) {
 	if len(msg.Transactions) < 1 {
 		return -1, er.New("Unable to extract height, no transactions")

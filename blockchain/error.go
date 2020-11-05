@@ -21,6 +21,7 @@ func (e deploymentError0) Error() string {
 	return fmt.Sprintf("deployment ID %d does not exist", uint32(e))
 }
 
+// DeploymentError ...
 func DeploymentError(i uint32) er.R {
 	return er.E(deploymentError0(i))
 }
