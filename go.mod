@@ -16,7 +16,7 @@ require (
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/gorilla/websocket v1.4.3-0.20200912193213-c3dd95aea977
 	github.com/jessevdk/go-flags v1.4.1-0.20200711081900-c17162fe8fd7
-	github.com/json-iterator/go v1.1.10
+	github.com/json-iterator/go v1.1.11-0.20200806011408-6821bec9fa5c
 	github.com/kkdai/bstream v1.0.0
 	github.com/lightningnetwork/lnd/queue v1.0.5-0.20201016111222-d12f76fd6d48
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
