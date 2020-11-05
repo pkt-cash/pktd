@@ -47,18 +47,6 @@ var (
 	}
 )
 
-func testDB() (walletdb.DB, func(), er.R) {
-	tmpDir, errr := ioutil.TempDir("", "wtxmgr_test")
-	if errr != nil {
-		return nil, func() {}, er.E(errr)
-	}
-	opts := &bbolt.Options{
-		NoFreelistSync: true,
-	}
-	db, err := walletdb.Create("bdb", filepath.Join(tmpDir, "db"), opts)
-	return db, func() { os.RemoveAll(tmpDir) }, err
-}
-
 var namespaceKey = []byte("txstore")
 
 func testStore() (*Store, walletdb.DB, func(), er.R) {

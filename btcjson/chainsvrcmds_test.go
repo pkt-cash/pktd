@@ -6,7 +6,6 @@ package btcjson_test
 
 import (
 	"bytes"
-	/*"encoding/json" XXX -trn */
 	"github.com/json-iterator/go"
 	"fmt"
 	"reflect"

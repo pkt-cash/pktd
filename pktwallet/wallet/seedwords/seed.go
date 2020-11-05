@@ -72,10 +72,10 @@ type SeedEnc struct {
 	Bytes [encByteLen]byte
 }
 
-func (s *SeedEnc) putUnused(u byte) {
+/*func (s *SeedEnc) putUnused(u byte) {
 	s.Bytes[0] &= 0x1f
 	s.Bytes[0] |= ((u & 0x07) << 5)
-}
+}*/
 func (s *SeedEnc) getUnused() byte {
 	return s.Bytes[0] >> 5
 }
@@ -113,12 +113,12 @@ func (s *SeedEnc) getCsum() byte {
 	return s.Bytes[1]
 }
 
-func (s *SeedEnc) putSeed(seed *[17]byte) {
+/*func (s *SeedEnc) putSeed(seed *[17]byte) {
 	copy(s.Bytes[4:], seed[:])
 }
 func (s *SeedEnc) getSeed(seedOut *[17]byte) {
 	copy(seedOut[:], s.Bytes[4:])
-}
+}*/
 
 func (s *SeedEnc) computeCsum() byte {
 	// Pull the csum
@@ -160,12 +160,12 @@ func (s *SeedEnc) toBig(b *big.Int) {
 	b.SetBytes(s.Bytes[:])
 }
 
-func (s *SeedEnc) fromBig(b *big.Int) {
+/*func (s *SeedEnc) fromBig(b *big.Int) {
 	b.Lsh(b, 16)
 	bytes := b.Bytes()
 	copy(s.Bytes[:], bytes[:])
 	zero.Bytes(bytes)
-}
+}*/
 
 func zeroStr(s []string) {
 	x := s[0:cap(s)]

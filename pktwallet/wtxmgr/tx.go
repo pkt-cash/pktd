@@ -313,7 +313,7 @@ func (s *Store) insertMinedTx(ns walletdb.ReadWriteBucket, rec *TxRecord,
 				if !txid.IsEqual(&rec.Hash) {
 					transactions = append(transactions, txid)
 				}
-			} else {
+			}
 				// Ideally we would do some sort of transaction rollback operation
 				// but we're dealing with a corrupt db and rollbackTransaction()
 				// is not going to rollback everything it can and ignore what it
@@ -327,7 +327,6 @@ func (s *Store) insertMinedTx(ns walletdb.ReadWriteBucket, rec *TxRecord,
 				//      ForEachUnspentOutput will filter these out
 				// 2. there may be debits which spent credits that should not have
 				//      been spent.
-			}
 		}
 	}
 	transactions = append(transactions, rec.Hash)

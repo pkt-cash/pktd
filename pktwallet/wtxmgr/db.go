@@ -306,10 +306,6 @@ func (it *blockIterator) prev() bool {
 // 	return nil
 // }
 
-func (it *blockIterator) reposition(height int32) {
-	it.c.Seek(keyBlockRecord(height))
-}
-
 func deleteBlockRecord(ns walletdb.ReadWriteBucket, height int32) er.R {
 	k := keyBlockRecord(height)
 	return ns.NestedReadWriteBucket(bucketBlocks).Delete(k)
@@ -512,15 +508,6 @@ func putRawCredit(ns walletdb.ReadWriteBucket, k, v []byte) er.R {
 	return nil
 }
 
-// putUnspentCredit puts a credit record for an unspent credit.  It may only be
-// used when the credit is already know to be unspent, or spent by an
-// unconfirmed transaction.
-func putUnspentCredit(ns walletdb.ReadWriteBucket, cred *credit) er.R {
-	k := keyCredit(&cred.outPoint.Hash, cred.outPoint.Index, &cred.block)
-	v := valueUnspentCredit(cred)
-	return putRawCredit(ns, k, v)
-}
-
 func extractRawCreditTxRecordKey(k []byte) []byte {
 	return k[0:68]
 }
@@ -537,17 +524,6 @@ func fetchRawCreditAmount(v []byte) (btcutil.Amount, er.R) {
 		return 0, storeError(ErrData, str, nil)
 	}
 	return btcutil.Amount(byteOrder.Uint64(v)), nil
-}
-
-// fetchRawCreditAmountSpent returns the amount of the credit and whether the
-// credit is spent.
-func fetchRawCreditAmountSpent(v []byte) (btcutil.Amount, bool, er.R) {
-	if len(v) < 9 {
-		str := fmt.Sprintf("%s: short read (expected %d bytes, read %d)",
-			bucketCredits, 9, len(v))
-		return 0, false, storeError(ErrData, str, nil)
-	}
-	return btcutil.Amount(byteOrder.Uint64(v)), v[8]&(1<<0) != 0, nil
 }
 
 // fetchRawCreditAmountChange returns the amount of the credit and whether the
@@ -1005,14 +981,6 @@ func fetchRawUnminedCreditIndex(k []byte) (uint32, er.R) {
 		return 0, storeError(ErrData, str, nil)
 	}
 	return byteOrder.Uint32(k[32:36]), nil
-}
-
-func fetchRawUnminedCreditAmount(v []byte) (btcutil.Amount, er.R) {
-	if len(v) < 9 {
-		str := "short unmined credit value"
-		return 0, storeError(ErrData, str, nil)
-	}
-	return btcutil.Amount(byteOrder.Uint64(v)), nil
 }
 
 func fetchRawUnminedCreditAmountChange(v []byte) (btcutil.Amount, bool, er.R) {

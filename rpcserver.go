@@ -4362,8 +4362,7 @@ func (s *rpcServer) jsonRPCRead(w http.ResponseWriter, r *http.Request, isAdmin 
 		}
 		msg = out
 	} else {
-		var resp0 *btcjson.Response
-		resp0 = responses[0]
+		var resp0 *btcjson.Response = responses[0]
 		out, errr := jsoniter.Marshal(&resp0)
 		if errr != nil {
 			rpcsLog.Error(er.E(errr))
@@ -4442,9 +4441,13 @@ func (s *rpcServer) Start() {
 			return
 		}
 
-		// Attempt to upgrade the connection to a websocket connection
-		// using the default size for read/write buffers.
-		ws, errr := websocket.Upgrade(w, r, nil, 0, 0)
+		// Attempt to upgrade the connection to a websocket connection.
+		var upgrader = websocket.Upgrader{
+			EnableCompression: true,
+		    ReadBufferSize:  1024,
+		    WriteBufferSize: 1024,
+		}
+		ws, errr := upgrader.Upgrade(w, r, nil)
 		if errr != nil {
 			if _, ok := errr.(websocket.HandshakeError); !ok {
 				rpcsLog.Errorf("Unexpected websocket error: %v",

@@ -181,13 +181,6 @@ func (db *DB) getEffectiveMem() *memDB {
 	return db.mem
 }
 
-// Check whether we has frozen memdb.
-func (db *DB) hasFrozenMem() bool {
-	db.memMu.RLock()
-	defer db.memMu.RUnlock()
-	return db.frozenMem != nil
-}
-
 // Get frozen memdb.
 func (db *DB) getFrozenMem() *memDB {
 	db.memMu.RLock()
