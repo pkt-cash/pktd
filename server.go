@@ -1966,11 +1966,6 @@ func newPeerConfig(sp *serverPeer) *peer.Config {
 			OnRead:         sp.OnRead,
 			OnWrite:        sp.OnWrite,
 
-			// Note: The reference client currently bans peers that send alerts
-			// not signed with its key.  We could verify against their key, but
-			// since the reference client is currently unwilling to support
-			// other implementations' alert messages, we will not relay theirs.
-			OnAlert: nil,
 		},
 		NewestBlock:       sp.newestBlock,
 		HostToNetAddress:  sp.server.addrManager.HostToNetAddress,
@@ -2195,8 +2190,6 @@ func (s *server) RelayInventory(invVect *wire.InvVect, data interface{}) {
 // BroadcastMessage sends msg to all peers currently connected to the server
 // except those in the passed peers to exclude.
 func (s *server) BroadcastMessage(msg wire.Message, exclPeers ...*serverPeer) {
-	// XXX: Need to determine if this is an alert that has already been
-	// broadcast and refrain from broadcasting again.
 	bmsg := broadcastMsg{message: msg, excludePeers: exclPeers}
 	s.broadcast <- bmsg
 }
