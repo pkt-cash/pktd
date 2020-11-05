@@ -815,7 +815,7 @@ func TestBlockManagerDetectBadPeers(t *testing.T) {
 
 		peers  = []string{"good1:1", "good2:1", "bad:1", "good3:1"}
 		expBad = map[string]struct{}{
-			"bad:1": struct{}{},
+			"bad:1": {},
 		}
 	)
 
