@@ -1147,6 +1147,13 @@ func (sm *SyncManager) handleInvMsg(imsg *invMsg) {
 				// Skip the transaction if it has already been
 				// rejected.
 				if _, exists := sm.rejectedTxns[iv.Hash]; exists {
+	                log.Infof("Skipping already rejected transaction from %s", peer)
+					continue
+				}
+				// Also skip if it has already been requested, so
+				// we don't end up doing things multiple times.
+				if _, exists := sm.requestedTxns[iv.Hash]; exists {
+	                log.Infof("Skipping already requested transaction from %s", peer)
 					continue
 				}
 			}
@@ -1368,6 +1375,7 @@ func (sm *SyncManager) handleBlockchainNotification(notification *blockchain.Not
 		// Don't relay if we are not current. Other peers that are
 		// current should already know about it.
 		if !sm.current() {
+			log.Warnf("Block acceptance notification not relayed since we are not current.")
 			return
 		}
 
