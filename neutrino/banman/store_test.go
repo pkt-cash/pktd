@@ -93,7 +93,7 @@ func TestBanStore(t *testing.T) {
 	}
 
 	// We'll create two IP networks, the first banned for an hour and the
-	// second for a second.
+	// second for 15 seconds.
 	addr1 := "127.0.0.1:8333"
 	ipNet1, err := banman.ParseIPNet(addr1, nil)
 	if err != nil {
@@ -108,7 +108,7 @@ func TestBanStore(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unable to parse IP network from %v: %v", addr2, err)
 	}
-	err = banStore.BanIPNet(ipNet2, banman.ExceededBanThreshold, time.Second)
+	err = banStore.BanIPNet(ipNet2, banman.ExceededBanThreshold, 15 * time.Second)
 	if err != nil {
 		t.Fatalf("unable to ban IP network: %v", err)
 	}
@@ -116,10 +116,10 @@ func TestBanStore(t *testing.T) {
 	// Both IP networks should be found within the BanStore with their
 	// expected reason since their ban has yet to expire.
 	checkBanStore(ipNet1, true, banman.NoCompactFilters, time.Hour)
-	checkBanStore(ipNet2, true, banman.ExceededBanThreshold, time.Second)
+	checkBanStore(ipNet2, true, banman.ExceededBanThreshold, 15 * time.Second)
 
 	// Wait long enough for the second IP network's ban to expire.
-	<-time.After(time.Second)
+	<-time.After(16 * time.Second)
 
 	// We should only find the first IP network within the BanStore.
 	checkBanStore(ipNet1, true, banman.NoCompactFilters, time.Hour)
