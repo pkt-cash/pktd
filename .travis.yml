@@ -1,7 +1,15 @@
 language: go
 go: 1.15.3
+install:
+  - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+  - git fetch --tags 
+  - git fetch --all
+git:
+  depth: false
+  autocrlf: input
+  symlinks: true
 env:
-  - PKT_FAIL_DIRTY=1
+    - PKT_FAIL_DIRTY=1
 jobs:
   include:
   - os: linux
@@ -36,4 +44,4 @@ deploy:
   on:
     repo: pkt-cash/pktd
     tags: true
-  skip_cleanup: 'true'
+  cleanup: false

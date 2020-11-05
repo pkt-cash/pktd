@@ -32,8 +32,9 @@ _cgo_export.*
 _testmain.go
 
 *.exe
-/pktd
 /btcctl
+/pktd
+/pktwallet
 /wallet
 /bin
 /pktd.test
