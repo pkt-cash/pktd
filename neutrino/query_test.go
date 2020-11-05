@@ -272,7 +272,7 @@ func TestBlockCache(t *testing.T) {
 		}
 		headers.WriteHeaders(header)
 
-		sz, _ := (&cache.CacheableBlock{b}).Size()
+		sz, _ := (&cache.CacheableBlock{Block: b}).Size()
 		if i < len(blocks)/2 {
 			size += sz
 		}
