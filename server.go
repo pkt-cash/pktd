@@ -1208,7 +1208,19 @@ func (sp *serverPeer) OnGetAddr(_ *peer.Peer, msg *wire.MsgGetAddr) {
 	// Get the current known addresses from the address manager.
 	addrCache := sp.server.addrManager.AddressCache()
 
-	// Push the addresses.
+	// Add the best addresses we have for peer discovery here - if
+	// we have a port of 0 then that means nothing good was found,
+	// so don't rebroracast that. At this point, we trim the cache
+	// size by one entry if we add a record so we don't flood past
+	// the maximum allowed size and trigger bans.
+	bestAddress := sp.server.addrManager.GetBestLocalAddress(sp.NA())
+	if bestAddress.Port != 0 {
+		if len(addrCache) > 0 {
+			addrCache = addrCache[1:]
+		}
+	addrCache = append(addrCache, bestAddress)
+	}
+	// Now, push the addresses we got.
 	sp.pushAddrMsg(addrCache)
 }
 
