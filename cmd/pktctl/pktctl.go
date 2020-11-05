@@ -94,7 +94,7 @@ func main() {
 					"from stdin: %v\n", err)
 				os.Exit(1)
 			}
-			if err == io.EOF && len(param) == 0 {
+			if err == io.EOF && param == "" {
 				fmt.Fprintln(os.Stderr, "Not enough lines "+
 					"provided on stdin")
 				os.Exit(1)

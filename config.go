@@ -338,7 +338,7 @@ func newCheckpointFromStr(checkpoint string) (chaincfg.Checkpoint, er.R) {
 			"checkpoint %q due to malformed height", checkpoint)
 	}
 
-	if len(parts[1]) == 0 {
+	if parts[1] == "" {
 		return chaincfg.Checkpoint{}, er.Errorf("unable to parse "+
 			"checkpoint %q due to missing hash", checkpoint)
 	}

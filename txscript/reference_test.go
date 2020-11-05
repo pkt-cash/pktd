@@ -131,7 +131,7 @@ func parseShortForm(script string) ([]byte, er.R) {
 	builder := scriptbuilder.NewScriptBuilder()
 
 	for _, tok := range tokens {
-		if len(tok) == 0 {
+		if tok == "" {
 			continue
 		}
 		// if parses as a plain number
