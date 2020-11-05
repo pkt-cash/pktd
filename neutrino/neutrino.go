@@ -278,6 +278,7 @@ func (sp *ServerPeer) OnVersion(_ *peer.Peer, msg *wire.MsgVersion) *wire.MsgRej
 			[]*wire.NetAddress{sp.NA()}, sp.NA(),
 		)
 		addrManager.Good(sp.NA())
+		sp.server.connManager.NotifyConnectionRequestActuallyCompleted()
 
 		// Update the address manager with the advertised services for
 		// outbound connections in case they have changed. This is not

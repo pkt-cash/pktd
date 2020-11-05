@@ -1634,6 +1634,8 @@ func (s *server) handleAddPeerMsg(state *peerState, sp *serverPeer) bool {
 		// Mark the address as a known good address.
 		s.addrManager.Good(sp.NA())
 	}
+	// Notify the connection manager of finality
+	s.connManager.NotifyConnectionRequestActuallyCompleted()
 	return true
 }
 
