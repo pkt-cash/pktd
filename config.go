@@ -41,8 +41,8 @@ const (
 	defaultLogDirname            = "logs"
 	defaultMaxPeers              = 125
 	defaultBanDuration           = time.Hour * 24
-	defaultBanThreshold          = 100
-	defaultConnectTimeout        = time.Second * 30
+	defaultBanThreshold          = 120
+	defaultConnectTimeout        = time.Second * 10
 	defaultMaxRPCClients         = 10
 	defaultMaxRPCWebsockets      = 25
 	defaultMaxRPCConcurrentReqs  = 20

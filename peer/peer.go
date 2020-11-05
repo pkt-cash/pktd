@@ -36,15 +36,35 @@ const (
 	// DefaultTrickleInterval is the min time between attempts to send an
 	// inv message to a peer.
 	//
-	// The BTCD default is 10 - this controls the wait before nodes send
-	// more txns at once and reduces the time new txns have to wait before
-	// before being broadcast - with the previous settings, the maximum a
-	// single node could send would be about ~28MB worth of txns every ten
-	// minutes - XXX(trn) I'm investigating the effects of removing the
-	// trickling concept all-together and attempting to broadcast all txns
-	// immediately, but it would require some extra peer selection logic,
-	// rather than just rebroadcasting txns to connected peers at random.
-	DefaultTrickleInterval = 5 * time.Second
+	//
+	// XXX(trn): The BTCD default is 10 - this controls the wait before
+	// nodes send more txns at once and reduces the time new txns/inv msgs
+	// and forces a before they can be broadcast. The previous settings were
+	// limited the maximum a single node could send to about ~28MB worth of
+	// txns every ten minutes. 
+	//
+	// XXX(trn) I'm investigating the effects of removing the trickling 
+	// concept all-together and broadcasting or rebroadcasting all txns
+	// almost immediately, but it would require some extra peer selection
+	// logic, rather than just rebroadcasting txns to connected peers at
+	// random, as well as profiling to ensure proper performance at runtime.
+	//
+	// Gcash is currently using a *1ms* TrickleInterval, Bitcoin Core has
+	// removed trickling completely: at first they were using random delays
+	// between 1ms and 10s, but are now are using per-node/message Poisson
+	// delays. The entire point of the trickling concept is to slow down
+	// P2P message propagation. This was apparently done for privacy, as an
+	// attempt to reduce the chances of a non-directly connected node being
+	// able to fingerprint the exact origin of another nodes transactions.
+	// This was later proven mostly ineffective, at least for privacy, see:
+	// https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6292573/ - While we are
+	// not yet reducing this to millisecond timeframes or eliminating it, 
+	// testing with the 2s interval in simulation (10,000 nodes) as well as
+	// on the pkt mainnet has been successful, without any negative effect.
+	//
+	// XXX(trn): TODO: Implement and test using per-node and per message
+	// poisson-distributed delays, as used by Bitcoin Core, post-0.13.0.
+	DefaultTrickleInterval = 2 * time.Second
 
 	// MinAcceptableProtocolVersion is the lowest protocol version that a
 	// connected peer may support.
@@ -58,16 +78,21 @@ const (
 	maxInvTrickleSize = 1000
 
 	// maxKnownInventory is the maximum number of items to keep in the known
-	// inventory cache.
-	maxKnownInventory = 1000
+	// inventory cache.  This has been slightly increased over BTCD defaults
+	// to closer match Bitcoin Core behavior, after reducing trickle timing.
+	maxKnownInventory = 1280
 
 	// pingInterval is the interval of time to wait in between sending ping
 	// messages.
 	pingInterval = 1 * time.Minute
 
 	// negotiateTimeout is the duration of inactivity before we timeout a
-	// peer that hasn't completed the initial version negotiation.
-	negotiateTimeout = 30 * time.Second
+	// peer that hasn't completed the initial version negotiation. The BTCD
+	// default timeout of 30 for negotiations has been decreased to 10 seconds
+	// to be closer to the behavior of the Satoshi Bitcoin implementation,
+	// which is currently is 5000ms, but is tunable, and often incresed by 
+	// end-users to improve successful peer negotiations.
+	negotiateTimeout = 10 * time.Second
 
 	// idleTimeout is the duration of inactivity before we time out a peer.
 	idleTimeout = 5 * time.Minute
