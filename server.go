@@ -53,8 +53,12 @@ const (
 	// required to be supported by outbound peers.
 	defaultRequiredServices = protocol.SFNodeNetwork
 
-	// defaultTargetOutbound is the default number of outbound peers to target.
-	defaultTargetOutbound = 8
+	// defaultTargetOutbound is the default number of outbound peers to 
+	// target. We are normalizing the Bitcoin Core in allowing 16 here,
+	// For Bitcoin Core latest Bitcoin Core, 14 connections are used for
+	// full relaying and 2 are used for "block only" "fast" connections,
+	// although we don't yet make such a distinction.
+	defaultTargetOutbound = 14
 
 	// connectionRetryInterval is the base amount of time to wait in between
 	// retries when connecting to persistent peers.  It is adjusted by the

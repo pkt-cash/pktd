@@ -301,8 +301,10 @@ func TestRetryPermanent(t *testing.T) {
 
 // TestMaxRetryDuration tests the maximum retry duration.
 //
-// We have a timed dialer which initially returns err but after RetryDuration
-// hits maxRetryDuration returns a mock conn.
+// We have a timed dialer which initially returns
+// err but after RetryDuration hits maxRetryDuration
+// returns a mock conn. We set TargetOutbound to zero
+// because we only want the connection we requested.
 func TestMaxRetryDuration(t *testing.T) {
 	networkUp := make(chan struct{})
 	time.AfterFunc(5*time.Millisecond, func() {
@@ -320,7 +322,7 @@ func TestMaxRetryDuration(t *testing.T) {
 	connected := make(chan *ConnReq)
 	cmgr, err := New(&Config{
 		RetryDuration:  time.Millisecond,
-		TargetOutbound: 1,
+		TargetOutbound: 0,
 		Dial:           timedDialer,
 		OnConnection: func(c *ConnReq, conn net.Conn) {
 			connected <- c
