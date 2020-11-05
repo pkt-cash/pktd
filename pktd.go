@@ -14,6 +14,7 @@ import (
 	"runtime"
 	"runtime/debug"
 	"runtime/pprof"
+	"time"
 
 	"github.com/pkt-cash/pktd/blockchain/indexers"
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -153,11 +154,26 @@ func pktdMain(serverChan chan<- *server) er.R {
 		return err
 	}
 	defer func() {
-		pktdLog.Infof("Gracefully shutting down the server...")
+		// Shut down in 2 minutes, or just pull the plug.
+		const shutdownTimeout = 2 * time.Minute
+		pktdLog.Infof("Attempting graceful shutdown (%s timeout)...", shutdownTimeout)
 		server.Stop()
-		server.WaitForShutdown()
+		shutdownDone := make(chan struct{})
+		go func() {
+			server.WaitForShutdown()
+			shutdownDone <- struct{}{}
+		}()
+
+		select {
+		case <-shutdownDone:
+		case <-time.Tick(shutdownTimeout):
+		pktdLog.Errorf("Graceful shutdown in %s failed - forcefully terminating in 5s...", shutdownTimeout)
+		time.Sleep(5 * time.Second)
+		panic("Forcefully terminating the server process...")
+		}
 		srvrLog.Infof("Server shutdown complete")
 	}()
+
 	server.Start()
 	if serverChan != nil {
 		serverChan <- server
