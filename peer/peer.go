@@ -1487,9 +1487,7 @@ out:
 			// No read lock is necessary because verAckReceived is not written
 			// to in any other goroutine.
 			if p.verAckReceived {
-				log.Infof("Already received 'verack' from peer %v -- "+
-					"disconnecting", p)
-				break out
+				log.Infof("Received extraneous 'verack' message from peer %v", p)
 			}
 			p.flagsMtx.Lock()
 			p.verAckReceived = true
