@@ -45,11 +45,11 @@ func (s *session) newTemp() storage.FileDesc {
 const (
 	// maxCachedNumber represents the maximum number of version tasks
 	// that can be cached in the ref loop.
-	maxCachedNumber = 256
+	maxCachedNumber = 32
 
 	// maxCachedTime represents the maximum time for ref loop to cache
 	// a version task.
-	maxCachedTime = 5 * time.Minute
+	maxCachedTime = 1 * time.Minute
 )
 
 // vDelta indicates the change information between the next version
