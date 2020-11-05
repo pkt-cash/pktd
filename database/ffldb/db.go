@@ -22,13 +22,13 @@ import (
 	"github.com/pkt-cash/pktd/database"
 	"github.com/pkt-cash/pktd/database/internal/treap"
 	"github.com/pkt-cash/pktd/wire"
-	"github.com/syndtr/goleveldb/leveldb"
-	"github.com/syndtr/goleveldb/leveldb/comparer"
-	ldberrors "github.com/syndtr/goleveldb/leveldb/errors"
-	"github.com/syndtr/goleveldb/leveldb/filter"
-	"github.com/syndtr/goleveldb/leveldb/iterator"
-	"github.com/syndtr/goleveldb/leveldb/opt"
-	"github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/comparer"
+	ldberrors "github.com/pkt-cash/pktd/goleveldb/leveldb/errors"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/filter"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/iterator"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/opt"
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/util"
 )
 
 const (
