@@ -82,7 +82,10 @@ func pktdMain(serverChan chan<- *server) er.R {
 			pktdLog.Errorf("Unable to create cpu profile: %v", err)
 			return er.E(errr)
 		}
-		pprof.StartCPUProfile(f)
+		if errp := pprof.StartCPUProfile(f); errp != nil {
+            pktdLog.Errorf("could not start CPU profile: ", errp)
+			return er.E(errp)
+        }
 		defer f.Close()
 		defer pprof.StopCPUProfile()
 	}

@@ -101,9 +101,13 @@ func sendPostRequest(marshalledJSON []byte, cfg *config) (*btcjson.Response, er.
 
 	// Read the raw bytes and close the response.
 	respBytes, errr := ioutil.ReadAll(httpResponse.Body)
-	httpResponse.Body.Close()
 	if errr != nil {
 		err = er.Errorf("error reading json reply: %v", errr)
+		return nil, err
+	}
+	errrr := httpResponse.Body.Close()
+	if errrr != nil {
+		err = er.Errorf("error closing connection: %v", errrr)
 		return nil, err
 	}
 
