@@ -13,6 +13,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"sync"
+	"time"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktconfig/version"
@@ -89,62 +90,27 @@ func walletMain() er.R {
 
 	// Create and start chain RPC client so it's ready to connect to
 	// the wallet when loaded later.
-	if !cfg.NoInitialLoad {
-		go rpcClientConnectLoop(legacyRPCServer, loader)
-	}
+	go rpcClientConnectLoop(legacyRPCServer, loader)
 
 	loader.RunAfterLoad(func(w *wallet.Wallet) {
 		startWalletRPCServices(w, rpcs, legacyRPCServer)
 	})
 
-	if !cfg.NoInitialLoad {
-		// Load the wallet database.  It must have been created already
-		// or this will return an appropriate error.
-		_, err = loader.OpenExistingWallet([]byte(cfg.WalletPass), true)
-		if err != nil {
-			log.Error(err)
-			return err
-		}
+	// Load the wallet database.  It must have been created already
+	// or this will return an appropriate error.
+	_, err = loader.OpenExistingWallet([]byte(cfg.WalletPass), true)
+	if err != nil {
+		log.Error(err)
+		return err
 	}
 
-	// Add interrupt handlers to shutdown the various process components
-	// before exiting.  Interrupt handlers run in LIFO order, so the wallet
-	// (which should be closed last) is added first.
-	addInterruptHandler(func() {
-		// When panicing, do not cleanly unload the wallet (by closing
-		// the db).  If a panic occured inside a bolt transaction, the
-		// db mutex is still held and this causes a deadlock.
-		if r := recover(); r != nil {
-			panic(r)
-		}
-		err := loader.UnloadWallet()
-		if err != nil && !wallet.ErrNotLoaded.Is(err) {
-			log.Errorf("Failed to close wallet: %v", err)
-		}
-	})
-	if rpcs != nil {
-		addInterruptHandler(func() {
-			// TODO: Does this need to wait for the grpc server to
-			// finish up any requests?
-			log.Debug("Stopping RPC server...")
-			rpcs.Stop()
-			log.Debug("RPC server shutdown")
-		})
-	}
 	if legacyRPCServer != nil {
-		addInterruptHandler(func() {
-			log.Debug("Stopping RPC server...")
-			legacyRPCServer.Stop()
-			log.Debug("RPC server shutdown")
-		})
-		go func() {
-			<-legacyRPCServer.RequestProcessShutdown()
-			simulateInterrupt()
-		}()
+		<-legacyRPCServer.RequestProcessShutdown()
+	} else {
+		for {
+			time.Sleep(time.Hour)
+		}
 	}
-
-	<-interruptHandlersDone
-	log.Info("Shutdown complete")
 	return nil
 }
 
@@ -236,23 +202,6 @@ func rpcClientConnectLoop(legacyRPCServer *legacyrpc.Server, loader *wallet.Load
 		mu.Lock()
 		associateRPCClient = nil
 		mu.Unlock()
-
-		loadedWallet, ok := loader.LoadedWallet()
-		if ok {
-			// Do not attempt a reconnect when the wallet was
-			// explicitly stopped.
-			if loadedWallet.ShuttingDown() {
-				return
-			}
-
-			loadedWallet.SetChainSynced(false)
-
-			// TODO: Rework the wallet so changing the RPC client
-			// does not require stopping and restarting everything.
-			loadedWallet.Stop()
-			loadedWallet.WaitForShutdown()
-			loadedWallet.Start()
-		}
 	}
 }
 

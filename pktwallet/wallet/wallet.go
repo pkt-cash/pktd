@@ -112,11 +112,8 @@ type Wallet struct {
 	NtfnServer *NotificationServer
 
 	chainParams *chaincfg.Params
-	wg          sync.WaitGroup
 
 	started bool
-	quit    chan struct{}
-	quitMu  sync.Mutex
 
 	wsLock sync.RWMutex
 	ws     btcjson.WalletStats
@@ -137,23 +134,6 @@ type rescanJob struct {
 
 // Start starts the goroutines necessary to manage a wallet.
 func (w *Wallet) Start() {
-	w.quitMu.Lock()
-	select {
-	case <-w.quit:
-		// Restart the wallet goroutines after shutdown finishes.
-		w.WaitForShutdown()
-		w.quit = make(chan struct{})
-	default:
-		// Ignore when the wallet is still running.
-		if w.started {
-			w.quitMu.Unlock()
-			return
-		}
-		w.started = true
-	}
-	w.quitMu.Unlock()
-
-	w.wg.Add(2)
 	go w.txCreator()
 	go w.walletLocker()
 }
@@ -165,14 +145,6 @@ func (w *Wallet) Start() {
 // This method is unstable and will be removed when all syncing logic is moved
 // outside of the wallet package.
 func (w *Wallet) SynchronizeRPC(chainClient chain.Interface) {
-	w.quitMu.Lock()
-	select {
-	case <-w.quit:
-		w.quitMu.Unlock()
-		return
-	default:
-	}
-	w.quitMu.Unlock()
 
 	// TODO: Ignoring the new client when one is already set breaks callers
 	// who are replacing the client, perhaps after a disconnect.
@@ -216,54 +188,6 @@ func (w *Wallet) ChainClient() chain.Interface {
 	chainClient := w.chainClient
 	w.chainClientLock.Unlock()
 	return chainClient
-}
-
-// quitChan atomically reads the quit channel.
-func (w *Wallet) quitChan() <-chan struct{} {
-	w.quitMu.Lock()
-	c := w.quit
-	w.quitMu.Unlock()
-	return c
-}
-
-// Stop signals all wallet goroutines to shutdown.
-func (w *Wallet) Stop() {
-	w.quitMu.Lock()
-	quit := w.quit
-	w.quitMu.Unlock()
-
-	select {
-	case <-quit:
-	default:
-		close(quit)
-		w.chainClientLock.Lock()
-		if w.chainClient != nil {
-			w.chainClient.Stop()
-			w.chainClient = nil
-		}
-		w.chainClientLock.Unlock()
-	}
-}
-
-// ShuttingDown returns whether the wallet is currently in the process of
-// shutting down or not.
-func (w *Wallet) ShuttingDown() bool {
-	select {
-	case <-w.quitChan():
-		return true
-	default:
-		return false
-	}
-}
-
-// WaitForShutdown blocks until all wallet goroutines have finished executing.
-func (w *Wallet) WaitForShutdown() {
-	w.chainClientLock.Lock()
-	if w.chainClient != nil {
-		w.chainClient.WaitForShutdown()
-	}
-	w.chainClientLock.Unlock()
-	w.wg.Wait()
 }
 
 // NetworkStewardVote gets the network steward which this account is voting for
@@ -475,14 +399,10 @@ func (w *Wallet) waitUntilBackendSynced(chainClient chain.Interface) er.R {
 	defer t.Stop()
 
 	for {
-		select {
-		case <-t.C:
-			if chainClient.IsCurrent() {
-				return nil
-			}
-		case <-w.quitChan():
-			return ErrWalletShuttingDown.Default()
+		if chainClient.IsCurrent() {
+			return nil
 		}
+		<-t.C
 	}
 }
 
@@ -614,24 +534,17 @@ type (
 // for both requests, rather than just one, to fail due to not enough available
 // inputs.
 func (w *Wallet) txCreator() {
-	quit := w.quitChan()
-out:
 	for {
-		select {
-		case txr := <-w.createTxRequests:
-			heldUnlock, err := w.holdUnlock()
-			if err != nil {
-				txr.resp <- createTxResponse{nil, err}
-				continue
-			}
-			tx, err := w.txToOutputs(txr.req)
-			heldUnlock.release()
-			txr.resp <- createTxResponse{tx, err}
-		case <-quit:
-			break out
+		txr := <-w.createTxRequests
+		heldUnlock, err := w.holdUnlock()
+		if err != nil {
+			txr.resp <- createTxResponse{nil, err}
+			continue
 		}
+		tx, err := w.txToOutputs(txr.req)
+		heldUnlock.release()
+		txr.resp <- createTxResponse{tx, err}
 	}
-	w.wg.Done()
 }
 
 // CreateSimpleTx creates a new signed transaction spending unspent P2PKH
@@ -684,8 +597,6 @@ type (
 func (w *Wallet) walletLocker() {
 	var timeout <-chan time.Time
 	holdChan := make(heldUnlock)
-	quit := w.quitChan()
-out:
 	for {
 		select {
 		case req := <-w.unlockRequests:
@@ -760,9 +671,6 @@ out:
 		case w.lockState <- w.Manager.IsLocked():
 			continue
 
-		case <-quit:
-			break out
-
 		case <-w.lockRequests:
 		case <-timeout:
 		}
@@ -777,7 +685,6 @@ out:
 			log.Info("The wallet has been locked")
 		}
 	}
-	w.wg.Done()
 }
 
 // Unlock unlocks the wallet's address manager and relocks it after timeout has
@@ -2920,14 +2827,13 @@ func (w *Wallet) walletInit() {
 	}
 
 	err = w.syncWithChain(birthdayBlock)
-	if err != nil && !w.ShuttingDown() {
+	if err != nil {
 		err.AddMessage("Unable to synchronize wallet to chain")
 		panic(err.String())
 	}
 }
 
 func (w *Wallet) goMainLoop() {
-	w.wg.Add(1)
 	for {
 		if w.ChainClient() != nil {
 			break
@@ -2938,12 +2844,8 @@ func (w *Wallet) goMainLoop() {
 	for {
 		w.rescan()
 		w.checkBlock()
-		if w.ShuttingDown() {
-			break
-		}
 		time.Sleep(time.Duration(500) * time.Millisecond)
 	}
-	w.wg.Done()
 }
 
 // Open loads an already-created wallet from the passed database and namespaces.
@@ -3008,7 +2910,6 @@ func Open(db walletdb.DB, pubPass []byte, cbs *waddrmgr.OpenCallbacks,
 		changePassphrase:   make(chan changePassphraseRequest),
 		changePassphrases:  make(chan changePassphrasesRequest),
 		chainParams:        params,
-		quit:               make(chan struct{}),
 		watch:              watcher.New(),
 	}
 

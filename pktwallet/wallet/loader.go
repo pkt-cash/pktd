@@ -237,30 +237,6 @@ func (l *Loader) LoadedWallet() (*Wallet, bool) {
 	return w, w != nil
 }
 
-// UnloadWallet stops the loaded wallet, if any, and closes the wallet database.
-// This returns ErrNotLoaded if the wallet has not been loaded with
-// CreateNewWallet or LoadExistingWallet.  The Loader may be reused if this
-// function returns without error.
-func (l *Loader) UnloadWallet() er.R {
-	defer l.mu.Unlock()
-	l.mu.Lock()
-
-	if l.wallet == nil {
-		return ErrNotLoaded.Default()
-	}
-
-	l.wallet.Stop()
-	l.wallet.WaitForShutdown()
-	err := l.db.Close()
-	if err != nil {
-		return err
-	}
-
-	l.wallet = nil
-	l.db = nil
-	return nil
-}
-
 func fileExists(filePath string) (bool, er.R) {
 	_, err := os.Stat(filePath)
 	if err != nil {
