@@ -245,8 +245,8 @@ func (mp *TxPool) removeOrphan(tx *btcutil.Tx, removeRedeemers bool) {
 // This function is safe for concurrent access.
 func (mp *TxPool) RemoveOrphan(tx *btcutil.Tx) {
 	mp.mtx.Lock()
+	defer mp.mtx.Unlock()
 	mp.removeOrphan(tx, false)
-	mp.mtx.Unlock()
 }
 
 // RemoveOrphansByTag removes all orphan transactions tagged with the provided
@@ -256,13 +256,13 @@ func (mp *TxPool) RemoveOrphan(tx *btcutil.Tx) {
 func (mp *TxPool) RemoveOrphansByTag(tag Tag) uint64 {
 	var numEvicted uint64
 	mp.mtx.Lock()
+	defer mp.mtx.Unlock()
 	for _, otx := range mp.orphans {
 		if otx.tag == tag {
 			mp.removeOrphan(otx.tx, true)
 			numEvicted++
 		}
 	}
-	mp.mtx.Unlock()
 	return numEvicted
 }
 
@@ -521,6 +521,7 @@ func (mp *TxPool) RemoveTransaction(tx *btcutil.Tx, removeRedeemers bool) {
 func (mp *TxPool) RemoveDoubleSpends(tx *btcutil.Tx) {
 	// Protect concurrent access.
 	mp.mtx.Lock()
+	defer mp.mtx.Unlock()
 	for _, txIn := range tx.MsgTx().TxIn {
 		if txRedeemer, ok := mp.outpoints[txIn.PreviousOutPoint]; ok {
 			if !txRedeemer.Hash().IsEqual(tx.Hash()) {
@@ -528,7 +529,6 @@ func (mp *TxPool) RemoveDoubleSpends(tx *btcutil.Tx) {
 			}
 		}
 	}
-	mp.mtx.Unlock()
 }
 
 // addTransaction adds the passed transaction to the memory pool.  It should
@@ -1212,8 +1212,8 @@ func (mp *TxPool) maybeAcceptTransaction(tx *btcutil.Tx, isNew, rateLimit, rejec
 func (mp *TxPool) MaybeAcceptTransaction(tx *btcutil.Tx, isNew, rateLimit bool) ([]wire.OutPoint, *TxDesc, er.R) {
 	// Protect concurrent access.
 	mp.mtx.Lock()
+	defer mp.mtx.Unlock()
 	hashes, txD, err := mp.maybeAcceptTransaction(tx, isNew, rateLimit, true)
-	mp.mtx.Unlock()
 
 	return hashes, txD, err
 }
@@ -1313,8 +1313,8 @@ func (mp *TxPool) processOrphans(acceptedTx *btcutil.Tx) []*TxDesc {
 // This function is safe for concurrent access.
 func (mp *TxPool) ProcessOrphans(acceptedTx *btcutil.Tx) []*TxDesc {
 	mp.mtx.Lock()
+	defer mp.mtx.Unlock()
 	acceptedTxns := mp.processOrphans(acceptedTx)
-	mp.mtx.Unlock()
 
 	return acceptedTxns
 }
