@@ -54,19 +54,19 @@ var (
 	// or data races and/or nil pointer dereferences will occur.
 	backendLog = pktlog.NewBackend(logWriter{})
 
-	log          = backendLog.Logger("BTCW")
+	log          = backendLog.Logger("PKTW")
 	walletLog    = backendLog.Logger("WLLT")
 	txmgrLog     = backendLog.Logger("TMGR")
 	chainLog     = backendLog.Logger("CHNS")
 	grpcLog      = backendLog.Logger("GRPC")
 	legacyRPCLog = backendLog.Logger("RPCS")
-	btcnLog      = backendLog.Logger("BTCN")
+	pktnLog      = backendLog.Logger("PKTN")
 
 	adxrLog = backendLog.Logger("ADXR")
 	amgrLog = backendLog.Logger("AMGR")
 	cmgrLog = backendLog.Logger("CMGR")
-	bcdbLog = backendLog.Logger("BCDB")
-	pktdLog = backendLog.Logger("BTCD")
+	pkdbLog = backendLog.Logger("PKDB")
+	pktdLog = backendLog.Logger("PKTD")
 	chanLog = backendLog.Logger("CHAN")
 	discLog = backendLog.Logger("DISC")
 	indxLog = backendLog.Logger("INDX")
@@ -87,8 +87,7 @@ func init() {
 	chain.UseLogger(chainLog)
 	rpcclient.UseLogger(chainLog)
 	legacyrpc.UseLogger(legacyRPCLog)
-	neutrino.UseLogger(btcnLog)
-
+	neutrino.UseLogger(pktnLog)
 	addrmgr.UseLogger(amgrLog)
 	connmgr.UseLogger(cmgrLog)
 	blockchain.UseLogger(chanLog)
@@ -105,18 +104,17 @@ func init() {
 
 // subsystemLoggers maps each subsystem identifier to its associated logger.
 var subsystemLoggers = map[string]pktlog.Logger{
-	"BTCW": log,
+	"PKTW": log,
 	"WLLT": walletLog,
 	"TMGR": txmgrLog,
 	"CHNS": chainLog,
 	"GRPC": grpcLog,
 	"RPCS": legacyRPCLog,
-	"BTCN": btcnLog,
-
+	"PKTN": pktnLog,
 	"ADXR": adxrLog,
 	"AMGR": amgrLog,
 	"CMGR": cmgrLog,
-	"BCDB": bcdbLog,
+	"PKDB": pkdbLog,
 	"PKTD": pktdLog,
 	"CHAN": chanLog,
 	"DISC": discLog,

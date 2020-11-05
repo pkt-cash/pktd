@@ -50,8 +50,8 @@ var (
 	adxrLog = backendLog.Logger("ADXR")
 	amgrLog = backendLog.Logger("AMGR")
 	cmgrLog = backendLog.Logger("CMGR")
-	bcdbLog = backendLog.Logger("BCDB")
-	pktdLog = backendLog.Logger("BTCD")
+	pkdbLog = backendLog.Logger("PKDB")
+	pktdLog = backendLog.Logger("PKTD")
 	chanLog = backendLog.Logger("CHAN")
 	discLog = backendLog.Logger("DISC")
 	indxLog = backendLog.Logger("INDX")
@@ -77,7 +77,6 @@ func init() {
 	txscript.UseLogger(scrpLog)
 	netsync.UseLogger(syncLog)
 	mempool.UseLogger(txmpLog)
-
 	block.UseLogger(pcptLog)
 	proof.UseLogger(pcptLog)
 }
@@ -87,7 +86,7 @@ var subsystemLoggers = map[string]pktlog.Logger{
 	"ADXR": adxrLog,
 	"AMGR": amgrLog,
 	"CMGR": cmgrLog,
-	"BCDB": bcdbLog,
+	"PKDB": pkdbLog,
 	"PKTD": pktdLog,
 	"CHAN": chanLog,
 	"DISC": discLog,
