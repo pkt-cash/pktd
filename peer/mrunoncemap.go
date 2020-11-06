@@ -82,9 +82,7 @@ func (m *mruNonceMap) Add(nonce uint64) {
 	if uint(len(m.nonceMap))+1 > m.limit {
 		node := m.nonceList.Back()
 		lru := node.Value.(uint64)
-		if lru < 0 {
-			panic("Add: lru: node.Value failure")
-		}
+
 		// Evict least recently used item.
 		delete(m.nonceMap, lru)
 
