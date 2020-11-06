@@ -2293,46 +2293,6 @@ type SyncerResp struct {
 	rollbackHash *chainhash.Hash
 }
 
-// Returns true if tx pays a an address in the set of watchedAddrs which is not recorded in storedTx
-func paysUncreditedAddress(
-	tx *wire.MsgTx,
-	storedTx *wtxmgr.TxDetails,
-	watchedAddrs []btcutil.Address,
-) bool {
-	for _, addr := range watchedAddrs {
-		script := addr.ScriptAddress()
-		for index, out := range tx.TxOut {
-			if !bytes.Equal(script, out.PkScript) {
-				continue
-			}
-			found := false
-			for _, credit := range storedTx.Credits {
-				if credit.Index != uint32(index) {
-				} else if credit.Amount != btcutil.Amount(out.Value) {
-					log.Debug("Reload [%s] because out records show it "+
-						"paying [%s] [%s] but the chains says [%s]",
-						tx.TxHash(),
-						addr.EncodeAddress(),
-						credit.Amount.ToBTC(),
-						btcutil.Amount(out.Value).ToBTC(),
-					)
-					return true
-				} else {
-					// We found a matching credit, we're done
-					found = true
-					break
-				}
-			}
-			if !found {
-				log.Debug("Reload [%s] because it pays [%s] and we are missing that credit",
-					tx.TxHash(), addr.EncodeAddress())
-				return true
-			}
-		}
-	}
-	return false
-}
-
 // This is easy because utxos are removed from the watchlist when they are spent
 // We don't need to care about the storedTx
 func spendsUndebitedAddress(
@@ -2411,10 +2371,41 @@ func containsTxFromWrongBlock(txd []wtxmgr.TxDetails, correctHash *chainhash.Has
 	return false
 }
 
-func containsTxFromWrongBlock(txd []wtxmgr.TxDetails, correctHash *chainhash.Hash) bool {
-	for _, tx := range txd {
-		if !correctHash.IsEqual(&tx.Block.Hash) {
-			return false
+// Returns true if tx pays a an address in the set of watchedAddrs which is not recorded in storedTx
+func paysUncreditedAddress(
+	tx *wire.MsgTx,
+	storedTx *wtxmgr.TxDetails,
+	watchedAddrs []btcutil.Address,
+) bool {
+	for _, addr := range watchedAddrs {
+		script := addr.ScriptAddress()
+		for index, out := range tx.TxOut {
+			if !bytes.Equal(script, out.PkScript) {
+				continue
+			}
+			found := false
+			for _, credit := range storedTx.Credits {
+				if credit.Index != uint32(index) {
+				} else if credit.Amount != btcutil.Amount(out.Value) {
+					log.Debug("Reload [%s] because out records show it "+
+						"paying [%s] [%s] but the chains says [%s]",
+						tx.TxHash(),
+						addr.EncodeAddress(),
+						credit.Amount.ToBTC(),
+						btcutil.Amount(out.Value).ToBTC(),
+					)
+					return true
+				} else {
+					// We found a matching credit, we're done
+					found = true
+					break
+				}
+			}
+			if !found {
+				log.Debug("Reload [%s] because it pays [%s] and we are missing that credit",
+					tx.TxHash(), addr.EncodeAddress())
+				return true
+			}
 		}
 	}
 	return false
@@ -2516,8 +2507,6 @@ func (w *Wallet) connectBlocks(blks []SyncerResp, isRescan bool) er.R {
 				blk.header.PrevBlock.String())
 		}
 	}
-	w.chainLock.Lock()
-	defer w.chainLock.Unlock()
 	return walletdb.Update(w.db, func(dbtx walletdb.ReadWriteTx) er.R {
 		for _, b := range blks {
 			if bs := w.Manager.SyncedTo(); b.height > bs.Height+1 {
@@ -2546,15 +2535,6 @@ func (w *Wallet) connectBlocks(blks []SyncerResp, isRescan bool) er.R {
 				Timestamp: b.header.Timestamp,
 			}); err != nil {
 				return err
-			}
-			if len(txDetails) > 0 && !hash.IsEqual(&txDetails[0].Block.Hash) {
-				out = SyncerResp{
-					filter:       res,
-					header:       header,
-					height:       height,
-					rollbackHash: &txDetails[0].Block.Hash,
-				}
-				return nil
 			}
 		}
 		return nil

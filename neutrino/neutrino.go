@@ -921,16 +921,7 @@ func (s *ChainService) BestBlock() (*waddrmgr.BlockStamp, er.R) {
 
 func (s *ChainService) GetActiveQueries() []*Query {
 	s.mtxQueries.Lock()
-	out := make([]*Query, 0, len(s.queries))
-	for _, q := range s.queries {
-		out = append(out, q)
-	}
-	s.mtxQueries.Unlock()
-	return out
-}
-
-func (s *ChainService) GetActiveQueries() []*Query {
-	s.mtxQueries.Lock()
+	defer s.mtxQueries.Unlock()
 	out := make([]*Query, 0, len(s.queries))
 	for _, q := range s.queries {
 		out = append(out, q)
