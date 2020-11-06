@@ -926,7 +926,6 @@ func (s *ChainService) GetActiveQueries() []*Query {
 	for _, q := range s.queries {
 		out = append(out, q)
 	}
-	s.mtxQueries.Unlock()
 	return out
 }
 
