@@ -1157,6 +1157,7 @@ func (s *ChainService) handleCFiltersResponse(q *cfiltersQuery,
 	}
 
 	if gotHeader != curHeader {
+		// It was a legit reply, but we need more replied
 		return false
 	}
 

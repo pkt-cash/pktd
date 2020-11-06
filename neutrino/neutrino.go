@@ -929,6 +929,16 @@ func (s *ChainService) GetActiveQueries() []*Query {
 	return out
 }
 
+func (s *ChainService) GetActiveQueries() []*Query {
+	s.mtxQueries.Lock()
+	out := make([]*Query, 0, len(s.queries))
+	for _, q := range s.queries {
+		out = append(out, q)
+	}
+	s.mtxQueries.Unlock()
+	return out
+}
+
 // GetBlockHash returns the block hash at the given height.
 func (s *ChainService) GetBlockHash(height int64) (*chainhash.Hash, er.R) {
 	header, err := s.BlockHeaders.FetchHeaderByHeight(uint32(height))
