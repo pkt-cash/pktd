@@ -14,6 +14,7 @@ import (
 
 	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
+	"github.com/pkt-cash/pktd/chaincfg/globalcfg"
 	"github.com/pkt-cash/pktd/database"
 )
 
@@ -180,6 +181,13 @@ func (b *BlockChain) ProcessBlock(block *btcutil.Block, flags BehaviorFlags) (bo
 	}
 
 	blockHeader := &block.MsgBlock().Header
+
+	if globalcfg.GetProofOfWorkAlgorithm() != globalcfg.PowPacketCrypt {
+	} else if flags&BFNoPoWCheck == BFNoPoWCheck {
+	} else if err = b.pcCheckProofOfWork(block); err != nil {
+		prevHashExists, _ := b.blockExists(&blockHeader.PrevBlock)
+		return false, !prevHashExists, err
+	}
 
 	// Find the previous checkpoint and perform some additional checks based
 	// on the checkpoint.  This provides a few nice properties such as

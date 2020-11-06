@@ -1360,10 +1360,6 @@ func (b *BlockChain) checkConnectBlock(node *blockNode, block *btcutil.Block,
 	// expensive ECDSA signature check scripts.  Doing this last helps
 	// prevent CPU exhaustion attacks.
 	if runScripts {
-		if globalcfg.GetProofOfWorkAlgorithm() != globalcfg.PowPacketCrypt {
-		} else if err := b.pcCheckProofOfWork(block); err != nil {
-			return nil, err
-		}
 		err := checkBlockScripts(block, view, scriptFlags, b.sigCache,
 			b.hashCache)
 		if err != nil {
