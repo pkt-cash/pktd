@@ -32,13 +32,6 @@ _cgo_export.*
 _testmain.go
 
 *.exe
-/btcctl
-/pktd
-/pktwallet
-/wallet
-/bin
-/pktd.test
-/wallettool
 
 # IDE
 .vscode

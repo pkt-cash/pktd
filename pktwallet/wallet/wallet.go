@@ -2507,6 +2507,8 @@ func (w *Wallet) connectBlocks(blks []SyncerResp, isRescan bool) er.R {
 				blk.header.PrevBlock.String())
 		}
 	}
+	w.chainLock.Lock()
+	defer w.chainLock.Unlock()
 	return walletdb.Update(w.db, func(dbtx walletdb.ReadWriteTx) er.R {
 		for _, b := range blks {
 			if bs := w.Manager.SyncedTo(); b.height > bs.Height+1 {
@@ -2535,6 +2537,15 @@ func (w *Wallet) connectBlocks(blks []SyncerResp, isRescan bool) er.R {
 				Timestamp: b.header.Timestamp,
 			}); err != nil {
 				return err
+			}
+			if len(txDetails) > 0 && !hash.IsEqual(&txDetails[0].Block.Hash) {
+				out = SyncerResp{
+					filter:       res,
+					header:       header,
+					height:       height,
+					rollbackHash: &txDetails[0].Block.Hash,
+				}
+				return nil
 			}
 		}
 		return nil
@@ -2697,6 +2708,7 @@ func (w *Wallet) rescan() {
 	rj := w.rescanJ
 	w.rescanJ = nil
 	if rj == nil {
+				// no header means there's nothing to be done at all
 		return
 	}
 
