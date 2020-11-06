@@ -2411,6 +2411,15 @@ func containsTxFromWrongBlock(txd []wtxmgr.TxDetails, correctHash *chainhash.Has
 	return false
 }
 
+func containsTxFromWrongBlock(txd []wtxmgr.TxDetails, correctHash *chainhash.Hash) bool {
+	for _, tx := range txd {
+		if !correctHash.IsEqual(&tx.Block.Hash) {
+			return false
+		}
+	}
+	return false
+}
+
 func rescanStep(
 	db walletdb.DB,
 	height int32,
