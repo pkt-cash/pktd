@@ -184,9 +184,11 @@ func (b *BlockChain) ProcessBlock(block *btcutil.Block, flags BehaviorFlags) (bo
 
 	if globalcfg.GetProofOfWorkAlgorithm() != globalcfg.PowPacketCrypt {
 	} else if flags&BFNoPoWCheck == BFNoPoWCheck {
-	} else if err = b.pcCheckProofOfWork(block); err != nil {
+	} else if h, err := b.pcCheckProofOfWork(block); err != nil {
 		prevHashExists, _ := b.blockExists(&blockHeader.PrevBlock)
 		return false, !prevHashExists, err
+	} else {
+		block.SetHeight(h)
 	}
 
 	// Find the previous checkpoint and perform some additional checks based

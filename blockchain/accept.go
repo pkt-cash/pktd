@@ -38,7 +38,13 @@ func (b *BlockChain) maybeAcceptBlock(block *btcutil.Block, flags BehaviorFlags)
 	}
 
 	blockHeight := prevNode.height + 1
-	block.SetHeight(blockHeight)
+	if block.Height() == btcutil.BlockHeightUnknown {
+		block.SetHeight(blockHeight)
+	} else if block.Height() != blockHeight {
+		return false, ruleerror.ErrBadCoinbaseHeight.New(
+			fmt.Sprintf("Wrong declared block height, expected [%d] got [%d]",
+				blockHeight, block.Height()), nil)
+	}
 
 	// The block must pass all of the validation rules which depend on the
 	// position of the block within the block chain.
