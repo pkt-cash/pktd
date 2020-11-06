@@ -3,7 +3,7 @@ die() { printf '%s\n' "Error: ${*:?}" >&2; exit 1; }; # shellcheck disable=SC208
 build() { l="${1:-}"; printf '%s\n' "Building ${l:?${unset:?}}"; o=$(printf '%s\n' "${l:?${unset:?}}"|sed 's/^pktd$/./'); go build -a ${VEND} ${RACE} -o "${bindir:?${unset:?}}"/"${l?${unset:?}}" -trimpath -ldflags="${PKTD_LDFLAGS:?${unset:?}} -w -s -buildid=" "./${o?${unset:?}}" || die "Failed building ${l?${unset:?}}"; }
 export GO111MODULE="on" && export unset="Error: Variable is unset; aborting."
 export bindir="./bin" && export PKTD_TESTFLAGS="-count=1 -cover -parallel=1"
-export CGO_ENABLED=0 && export RACE="" && export VEND="-mod=readonly -mod=vendor"
+export CGO_ENABLED=0 && export RACE="" && export VEND=""
 PKTD_GIT_ID=$(git update-index -q --refresh 2>/dev/null; git describe --tags HEAD 2>/dev/null)
 if ! git diff --quiet 2>/dev/null; then
     if [ -n "${PKT_FAIL_DIRTY:-}" ]; then { git diff 2>/dev/null; die "Build is dirty, aborting."; }; fi
