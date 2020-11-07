@@ -5,15 +5,15 @@ set -u >/dev/null 2>&1 || { printf '%s\n' "Error: Shell is broken."; exit 1; };
 set -e >/dev/null 2>&1 || { printf '%s\n' "Error: Shell is broken."; exit 1; };
 set -o pipefail >/dev/null 2>&1 || { printf '%s\n' "Error: Shell is broken."; exit 1; };
 
-printf '\n%s\n' "Setting up..." && \
-go_expect="go1.15.3-gridfinity" && \
-export go_expect
+#printf '\n%s\n' "Setting up..." && \
+#go_expect="go1.15.4-gridfinity" && \
+#export go_expect
 
 if [ ! -d "${HOME:?}" ]; then
 	printf '%n\%s\n' "Error: No HOME!"; exit 1
 fi
 
-GOROOT="${HOME:?}/src/golang" && \
+GOROOT="${HOME:?}/src/go1.15.4-gridfinity" && \
 export GOROOT && \
 pkt_src="${HOME:?}/src/pktd" && \
 export pkt_src
@@ -36,10 +36,10 @@ fi
 
 mkdir -p "${HOME:?}/px" >/dev/null 2>&1 && \
 export GOPATH="${HOME:?}/px" && \
-export GOROOT="${HOME:?}/src/golang" && \
+#export GOROOT="${HOME:?}/src/golang" && \
 export PATH="${GOROOT:?}/bin:${PATH:?}" && \
 printf '\n%s\n' "Checking go..." && \
-{ go version 2>/dev/null | grep -q "${go_expect:?}" 2>/dev/null; } && \
+#{ go version 2>/dev/null | grep -q "${go_expect:?}" 2>/dev/null; } && \
 export GOPROXY="direct" && \
 export CGO_ENABLED=0 && \
 export GOMAXPROCS=128 && \
