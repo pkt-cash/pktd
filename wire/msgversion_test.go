@@ -284,7 +284,7 @@ func TestVersionWireErrors(t *testing.T) {
 	exceedUAVerEncoded := make([]byte, newLen)
 	copy(exceedUAVerEncoded, baseVersionEncoded[0:80])
 	copy(exceedUAVerEncoded[80:], newUAVarIntBuf.Bytes())
-	copy(exceedUAVerEncoded[83:], []byte(newUA))
+	copy(exceedUAVerEncoded[83:], newUA)
 	copy(exceedUAVerEncoded[83+len(newUA):], baseVersionEncoded[97:100])
 
 	tests := []struct {

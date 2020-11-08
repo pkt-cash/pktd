@@ -553,7 +553,7 @@ func New(dir string, desc string, passphrase []byte, net *chaincfg.Params,
 		missingKeysStart: rootKeyChainIdx,
 		secret:           aeskey,
 	}
-	copy(s.desc[:], []byte(desc))
+	copy(s.desc[:], desc)
 
 	// Create new root address from key and chaincode.
 	root, err := newRootBtcAddress(s, rootkey, nil, chaincode,

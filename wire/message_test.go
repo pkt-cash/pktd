@@ -30,7 +30,7 @@ func makeHeader(btcnet protocol.BitcoinNet, command string,
 	// payload length + 4 byte checksum.
 	buf := make([]byte, 24)
 	binary.LittleEndian.PutUint32(buf, uint32(btcnet))
-	copy(buf[4:], []byte(command))
+	copy(buf[4:], command)
 	binary.LittleEndian.PutUint32(buf[16:], payloadLen)
 	binary.LittleEndian.PutUint32(buf[20:], checksum)
 	return buf
