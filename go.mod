@@ -19,7 +19,7 @@ require (
 	github.com/json-iterator/go v1.1.11-0.20200806011408-6821bec9fa5c
 	github.com/kkdai/bstream v1.0.0
 	github.com/kr/text v0.2.0 // indirect
-	github.com/lightningnetwork/lnd/queue v1.0.5-0.20201106211923-4f4adab1dcff
+	github.com/lightningnetwork/lnd/queue v1.0.5-0.20201107123904-72cacb9c5e1a
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2-0.20200602030031-7e6ae53ffa0b // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
