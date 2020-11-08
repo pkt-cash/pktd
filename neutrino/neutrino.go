@@ -764,6 +764,12 @@ func NewChainService(cfg Config) (*ChainService, er.R) {
 			}
 
 			for tries := 0; tries < 100; tries++ {
+				select {
+				case <-s.quit:
+					return nil, ErrShuttingDown
+				default:
+				}
+
 				addr := s.addrManager.GetAddress()
 				if addr == nil {
 					break
@@ -1271,6 +1277,12 @@ func (s *ChainService) handleAddPeerMsg(state *peerState, sp *ServerPeer) bool {
 		s.firstPeerConnect = nil
 	}
 
+	// Update the address' last seen time if the peer has acknowledged our
+	// version and has sent us its version as well.
+	if sp.VerAckReceived() && sp.VersionKnown() && sp.NA() != nil {
+		s.addrManager.Connected(sp.NA())
+	}
+
 	return true
 }
 
@@ -1292,6 +1304,7 @@ func (s *ChainService) handleDonePeerMsg(state *peerState, sp *ServerPeer) {
 				s.connManager.Disconnect(sp.connReq.ID())
 			} else {
 				s.connManager.Remove(sp.connReq.ID())
+				go s.connManager.NewConnReq()
 			}
 		}
 		delete(list, sp.ID())
@@ -1302,12 +1315,7 @@ func (s *ChainService) handleDonePeerMsg(state *peerState, sp *ServerPeer) {
 	// We'll always remove peers that are not persistent.
 	if sp.connReq != nil {
 		s.connManager.Remove(sp.connReq.ID())
-	}
-
-	// Update the address' last seen time if the peer has acknowledged
-	// our version and has sent us its version as well.
-	if sp.VerAckReceived() && sp.VersionKnown() && sp.NA() != nil {
-		s.addrManager.Connected(sp.NA())
+		go s.connManager.NewConnReq()
 	}
 
 	// If we get here it means that either we didn't know about the peer
@@ -1392,7 +1400,10 @@ func (s *ChainService) outboundPeerConnected(c *connmgr.ConnReq, conn net.Conn) 
 		}
 	} else {
 		disconnect = func() {
+			// Since we're completely removing the request for this
+			// peer, we'll need to request a new one.
 			s.connManager.Remove(c.ID())
+			go s.connManager.NewConnReq()
 		}
 	}
 
