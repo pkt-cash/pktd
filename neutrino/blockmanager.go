@@ -1269,9 +1269,13 @@ func (b *blockManager) resolveConflict(
 					log.Errorf("Unable to ban peer %v: %v",
 						peer, err)
 				}
+				if sp := b.server.PeerByAddr(peer); sp != nil {
+					sp.Disconnect()
+				}
 				delete(checkpoints, peer)
 				break
-			} else if err != nil {
+			}
+			if err != nil {
 				return nil, err
 			}
 		}
