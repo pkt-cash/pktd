@@ -1251,15 +1251,15 @@ func (p *Peer) maybeAddDeadline(pendingResponses map[string]time.Time, msgCmd st
 		// Expects an inv message.
 		pendingResponses[wire.CmdInv] = deadline
 
-	case wire.CmdGetBlocks:
-		{
+	//case wire.CmdGetBlocks:
+		//{
 			// Normally we should expect an inv message, but GetBlocks is sent
 			// speculatively even if the peer's block height is the same as
 			// our own, so they might not reply.
 
 			// Expects an inv message.
 			//pendingResponses[wire.CmdInv] = deadline
-		}
+		//}
 
 	case wire.CmdGetData:
 		// Expects a block, merkleblock, tx, or notfound message.

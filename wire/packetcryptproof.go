@@ -186,14 +186,11 @@ func readPacketCryptProof(r io.Reader, pver uint32, enc MessageEncoding, pcp *Pa
 		}
 		switch t {
 		case endType:
-			{
 				if !hasPcp {
 					return messageError("readPacketCryptProof", "Missing PacketCrypt proof")
 				}
 				return nil
-			}
 		case pcpType:
-			{
 				if length <= (1024*4)+4 {
 					return er.Errorf("readPacketCryptProof runt pcp, len [%d]", length)
 				}
@@ -211,9 +208,7 @@ func readPacketCryptProof(r io.Reader, pver uint32, enc MessageEncoding, pcp *Pa
 					return er.E(err)
 				}
 				hasPcp = true
-			}
 		case signaturesType:
-			{
 				if !hasPcp {
 					return messageError("readPacketCryptProof", "Signatures came before pcp type")
 				}
@@ -236,9 +231,7 @@ func readPacketCryptProof(r io.Reader, pver uint32, enc MessageEncoding, pcp *Pa
 					return messageError("readPacketCryptProof",
 						"Dangling bytes after announcement signatures")
 				}
-			}
 		case contentProofsType:
-			{
 				if !hasPcp {
 					return messageError("readPacketCryptProof", "ContentProofs came before pcp type")
 				}
@@ -246,9 +239,7 @@ func readPacketCryptProof(r io.Reader, pver uint32, enc MessageEncoding, pcp *Pa
 				if _, err := io.ReadFull(r, pcp.ContentProof); err != nil {
 					return er.E(err)
 				}
-			}
 		case versionType:
-			{
 				ver, err := ReadVarInt(r, 0)
 				if err != nil {
 					return err
@@ -257,17 +248,14 @@ func readPacketCryptProof(r io.Reader, pver uint32, enc MessageEncoding, pcp *Pa
 				if VarIntSerializeSize(ver) != int(length) {
 					return messageError("readPacketCryptProof", "Dangling bytes after version field")
 				}
-			}
 		default:
-			{
 				x := make([]byte, length)
 				if _, err := io.ReadFull(r, x); err != nil {
 					return er.E(err)
 				}
-			}
+				}
 		}
 	}
-}
 
 func writePacketCryptProof(w io.Writer, pver uint32, enc MessageEncoding, pcp *PacketCryptProof) er.R {
 
@@ -289,7 +277,6 @@ func writePacketCryptProof(w io.Writer, pver uint32, enc MessageEncoding, pcp *P
 		return er.E(err)
 	}
 
-	{
 		sigLen := 0
 		for _, sig := range pcp.Signatures {
 			sigLen += len(sig)
@@ -308,9 +295,7 @@ func writePacketCryptProof(w io.Writer, pver uint32, enc MessageEncoding, pcp *P
 				}
 			}
 		}
-	}
 
-	{
 		if pcp.ContentProof != nil {
 			if err := WriteVarInt(w, 0, contentProofsType); err != nil {
 				return err
@@ -322,7 +307,6 @@ func writePacketCryptProof(w io.Writer, pver uint32, enc MessageEncoding, pcp *P
 				return er.E(err)
 			}
 		}
-	}
 
 	if pcp.Version > 0 {
 		if err := WriteVarInt(w, 0, versionType); err != nil {
