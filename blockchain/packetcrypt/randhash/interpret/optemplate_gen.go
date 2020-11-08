@@ -319,44 +319,34 @@ func mulh64(a int64, b int64) uint64 {
 	negate := bool(((a < 0) != (b < 0)))
 	_a := uint64(a)
 	_b := uint64(b)
-	{
 		if a < 0 {
 			_a = uint64(-a)
 		}
-	}
-	{
 		if b < 0 {
 			_b = uint64(-b)
 		}
-	}
 	res := uint64(mulhu64(_a, _b))
-	{
 		if negate {
 			res = (^(res))
 			if a*b == 0 {
 				res++
 			}
 		}
-	}
 	return res
 }
 func mulhsu64(a int64, b uint64) uint64 {
 	negate := bool((a < 0))
 	_a := uint64(a)
-	{
 		if a < 0 {
 			_a = uint64(-a)
 		}
-	}
 	res := uint64(mulhu64(_a, b))
-	{
 		if negate {
 			res = (^(res))
 			if uint64(a)*b == 0 {
 				res++
 			}
 		}
-	}
 	return res
 }
 func mul64C(a uint64, b uint64) uint128 { return MK128((a * b), mulh64(int64(a), int64(b))) }
