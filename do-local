@@ -51,10 +51,8 @@ export CACHE_BASE && \
 (cd "${CACHE_BASE:?}" && chmod u+rw -R "./${CACHE_DIR:?}" >/dev/null 2>&1 && rm -rf "./${CACHE_DIR:?}" >/dev/null 2>&1 ) && \
 printf '\n%s' "Downloading and verifying packages..." && \
 cd "${pkt_src:?}" && \
-(cd "${pkt_src:?}/goleveldb" && go mod download -x 2>&1 
-#| awk '{ printf "." }' && go mod verify >/dev/null && cd ..) && \
-(cd "${pkt_src:?}" && go mod download -x 2>&1 
-#| awk '{ printf "." } END { printf "\n" }' && go mod verify >/dev/null) && \
+(cd "${pkt_src:?}/goleveldb" && go mod download -x 2>&1 && go mod verify >/dev/null && cd ..) && \
+(cd "${pkt_src:?}" && go mod download -x 2>&1 && go mod verify >/dev/null) && \
 printf '\n%s\n' "Building..." && \
 ./do && \
 cd ./bin && \
