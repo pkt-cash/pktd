@@ -25,7 +25,7 @@ import (
 func loadS256BytePoints() er.R {
 	// There will be no byte points to load when generating them.
 	bp := secp256k1BytePoints
-	if len(bp) == 0 {
+	if bp == "" {
 		return nil
 	}
 
