@@ -55,7 +55,7 @@ func TestBase58Check(t *testing.T) {
 	// case 2: invalid formats (string lengths below 5 mean the version byte and/or the checksum
 	// bytes are missing).
 	testString := ""
-	for len := 0; len < 4; len++ {
+	for stlen := 0; stlen < 4; stlen++ {
 		testString = testString + "x"
 		_, _, err = base58.CheckDecode(testString)
 		if !base58.ErrInvalidFormat.Is(err) {
