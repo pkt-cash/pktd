@@ -18,6 +18,7 @@ btcd.db
 _obj
 _test
 vendor
+_vendor
 
 # Architecture specific extensions/prefixes
 *.[568vq]
@@ -28,11 +29,24 @@ vendor
 _cgo_defun.c
 _cgo_gotypes.go
 _cgo_export.*
-
 _testmain.go
 
 *.exe
+/pktd.test
+/wallettool
 
 # IDE
 .vscode
+
+# Coverage
+/gocov_report_pktd.txt
+/gocov_report_pktd.html
+/gocov_report_pktd.json
+/gocov_report_goleveldb.txt
+/gocov_report_goleveldb.html
+/gocov_report_goleveldb.json
+/goleveldb/gocov_report_goleveldb.txt
+/goleveldb/gocov_report_goleveldb.html
+/goleveldb/gocov_report_goleveldb.json
+/cov/
 
