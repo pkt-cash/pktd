@@ -1,12 +1,12 @@
 package main
 
 import (
-	"crypto/rand"
+	crand "crypto/rand"
 	"encoding/binary"
 	"flag"
 	"fmt"
 	"log"
-	mrand "math/rand"
+	rand "math/rand"
 	"net/http"
 	_ "net/http/pprof"
 	"os"
@@ -98,7 +98,7 @@ func randomData(dst []byte, ns, prefix byte, i uint32, dataLen int) []byte {
 		dst = dst[:dataLen]
 	}
 	half := (dataLen - 4) / 2
-	if _, err := rand.Reader.Read(dst[2 : half-8]); err != nil {
+	if _, err := crand.Reader.Read(dst[2 : half-8]); err != nil {
 		panic(err)
 	}
 	dst[0] = ns
@@ -109,7 +109,7 @@ func randomData(dst []byte, ns, prefix byte, i uint32, dataLen int) []byte {
 	full := half * 2
 	copy(dst[half:full], dst[:half])
 	if full < dataLen-4 {
-		if _, err := rand.Reader.Read(dst[full : dataLen-4]); err != nil {
+		if _, err := crand.Reader.Read(dst[full : dataLen-4]); err != nil {
 			panic(err)
 		}
 	}
@@ -301,6 +301,9 @@ func (s *latencyStats) add(x *latencyStats) {
 func main() {
 	flag.Parse()
 
+    var src cryptoSource
+    rnd := rand.New(src)
+
 	if enableBufferPool {
 		bpool = util.NewBufferPool(opt.DefaultBlockSize + 128)
 	}
@@ -380,7 +383,7 @@ func main() {
 		for b := range writeReq {
 
 			var err error
-			if mrand.Float64() < transactionProb {
+			if rnd.Float64() < transactionProb {
 				log.Print("> Write using transaction")
 				gTrasactionStat.start()
 				var tr *leveldb.Transaction
@@ -587,7 +590,7 @@ func main() {
 							}
 						}
 
-						if dataPrefix(k) == 2 || mrand.Int()%999 == 0 {
+						if dataPrefix(k) == 2 || rnd.Int()%999 == 0 {
 							delB.Delete(k)
 						}
 
@@ -629,4 +632,20 @@ func main() {
 	}()
 
 	wg.Wait()
+}
+
+type cryptoSource struct{}
+
+func (s cryptoSource) Seed(seed int64) {}
+
+func (s cryptoSource) Int63() int64 {
+    return int64(s.Uint64() & ^uint64(1<<63))
+}
+
+func (s cryptoSource) Uint64() (v uint64) {
+    err := binary.Read(crand.Reader, binary.BigEndian, &v)
+    if err != nil {
+        log.Fatal(err)
+    }
+    return v
 }
