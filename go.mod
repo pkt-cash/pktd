@@ -8,7 +8,6 @@ require (
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da
 	github.com/aead/siphash v1.0.1
 	github.com/btcsuite/winsvc v1.0.0
-	github.com/creack/pty v1.1.9 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/dchest/blake2b v1.0.0
 	github.com/decred/go-socks v1.1.0
@@ -26,7 +25,6 @@ require (
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/pkt-cash/pktd/goleveldb v0.0.0
 	github.com/sethgrid/pester v1.1.1-0.20200617174401-d2ad9ec9a8b6
-	github.com/stretchr/objx v0.3.0 // indirect
 	github.com/stretchr/testify v1.6.2-0.20201103103935-92707c0b2d50 // indirect
 	go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
 	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
