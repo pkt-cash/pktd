@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 
+printf '\n%s\n' "do-local started."
+
 printf '\n%s\n' "Initialization..."
+
+USERPATH="$(pwd -P)"
+cd "${USERPATH:?Error: Could not find our PATH.}"
+
 set -u >/dev/null 2>&1 || { printf '%s\n' "Error: Shell is broken."; exit 1; };
 set -e >/dev/null 2>&1 || { printf '%s\n' "Error: Shell is broken."; exit 1; };
 set -o pipefail >/dev/null 2>&1 || { printf '%s\n' "Error: Shell is broken."; exit 1; };
 
-#printf '\n%s\n' "Setting up..." && \
-#go_expect="go1.15.4-gridfinity" && \
-#export go_expect
+printf '\n%s\n' "Setting up..." && \
+go_expect="go1.15.4-gridfinity" && \
+export go_expect
 
 if [ ! -d "${HOME:?}" ]; then
 	printf '%n\%s\n' "Error: No HOME!"; exit 1
@@ -15,7 +21,7 @@ fi
 
 GOROOT="${HOME:?}/src/go1.15.4-gridfinity" && \
 export GOROOT && \
-pkt_src="${HOME:?}/src/pktd" && \
+pkt_src="${USERPATH:?}" && \
 export pkt_src
 
 if [ ! -d "${GOROOT:?}" ]; then
@@ -25,50 +31,52 @@ fi
 if [ ! -d "${pkt_src:?}" ]; then
 	printf '\n%s\n' "Error: No PKT sources at ${pkt_src:?}"; exit 1
 else
+	printf '\n%s\n' "Cleaning up old compiles and coverage reports..."
 	rm -rf "${pkt_src:?}/bin" >/dev/null 2>&1
 	rm -rf "${pkt_src:?}/cov" >/dev/null 2>&1
 fi
 
-printf '\n%s\n' "Cleaning up..." && \
+printf '\n%s\n' "Cleaning up isolated GOPATH..." && \
 if [ -d "${HOME:?}/px" ]; then
 	chmod u+rw -R "${HOME:?}/px" >/dev/null 2>&1
 	rm -rf "${HOME:?}/px" >/dev/null 2>&1
+	ccache -cC >/dev/null 2>&1
 fi
 
 mkdir -p "${HOME:?}/px" >/dev/null 2>&1 && \
 export GOPATH="${HOME:?}/px" && \
 export GOROOT="${HOME:?}/src/go1.15.4-gridfinity" && \
 export PATH="${GOROOT:?}/bin:${PATH:?}" && \
-printf '\n%s\n' "Checking go..." && \
-#{ go version 2>/dev/null | grep -q "${go_expect:?}" 2>/dev/null; } && \
+printf '\n%s\n' "Checking Go..." && \
+{ go version 2>/dev/null | grep -q "${go_expect:?}" 2>/dev/null; } && \
 export CGO_ENABLED=0 && \
+export GOPROXY="https://gocenter.io,https://goproxy.io,https://proxy.golang.org" && \
 export GOMAXPROCS=128 && \
 export GODEBUG="madvdontneed=1,cgocheck=0,asyncpreemptoff=1,netdns=go" && \
 CACHE_DIR=$(basename "$(go env GOCACHE 2>/dev/null | grep '/' 2>/dev/null)" 2>/dev/null) && \
 export CACHE_DIR && \
 CACHE_BASE=$(dirname "$(go env GOCACHE 2>/dev/null | grep '/' 2>/dev/null)" 2>/dev/null) && \
 export CACHE_BASE && \
-(cd "${CACHE_BASE:?}" && chmod u+rw -R "./${CACHE_DIR:?}" >/dev/null 2>&1 && rm -rf "./${CACHE_DIR:?}" >/dev/null 2>&1 ) && \
-printf '\n%s' "Downloading and verifying packages..." && \
+(cd "${CACHE_BASE:?}" && chmod u+rw -R "./${CACHE_DIR:?}" >/dev/null 2>&1 && printf '\n%s\n' "Cleaning up Go cache..." && rm -rf "./${CACHE_DIR:?}" >/dev/null 2>&1 ) && \
+printf '\n%s' "Downloading and verifying Go modules..." && \
 cd "${pkt_src:?}" && \
-#(cd "${pkt_src:?}/goleveldb" && go mod download -x 2>&1 && go mod verify >/dev/null && cd ..) && \
-#(cd "${pkt_src:?}" && go mod download -x 2>&1 && go mod verify >/dev/null) && \
-printf '\n%s\n' "Building..." && \
+(cd "${pkt_src:?}/goleveldb" && go mod download -x 2>&1 && go mod verify 2>/dev/null && cd ..) && \
+(cd "${pkt_src:?}" && go mod download -x 2>&1 && go mod verify 2>/dev/null) && \
+printf '\n%s\n' "Building PKT Suite..." && \
 ./do && \
 cd ./bin && \
 printf '\n%s\n' "Compressing (this may take awhile)..." && \
 strip --strip-all ./pkt* && \
 { /bin/ls -1 ./pkt* | xargs -n1 -P12 -I{} upx -qqq --ultra-brute "{}"; } && \
 cd .. && \
-printf '\n%s\n' "Cleaning up..."
+printf '\n%s\n' "Cleaning up isolated GOPATH..."
 if [ -d "${HOME:?}/px" ]; then
     chmod u+rw -R "${HOME:?}/px" >/dev/null 2>&1
     rm -rf "${HOME:?}/px" >/dev/null 2>&1
 fi 
-
 if [ -x "${HOME:?}/.pkt-local-script.sh" ]; then
-	printf '\n%s\n' "Local script found, starting."
-	(bash -E "${HOME:?}/.pkt-local-script.sh")
-	printf '\n%s\n' "Local script exited."
+	printf '\n%s\n' "Executable local userscript found, starting..."
+	(bash -E "${HOME:?}/.pkt-local-script.sh ${USERPATH:?}")
+	printf '\n%s\n' "Local userscript ended..."
 fi
-printf '%s\n' "Process complete"
+printf '\n%s\n' "do-local ended."
