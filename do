@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 die() { printf '%s\n' "Error: ${*:?}" >&2; exit 1; }; # shellcheck disable=SC2086
-build() { l="${1:-}"; printf '%s\n' "Building ${l:?${unset:?}}"; o=$(printf '%s\n' "${l:?${unset:?}}"|sed 's/^pktd$/./'); go build -a -v ${VEND} ${RACE} -o "${bindir:?${unset:?}}"/"${l?${unset:?}}" -trimpath -ldflags="${PKTD_LDFLAGS:?${unset:?}} -w -s -buildid=" "./${o?${unset:?}}" || die "Failed building ${l?${unset:?}}"; }
+build() { l="${1:-}"; printf '%s\n' "Building ${l:?${unset:?}}"; o=$(printf '%s\n' "${l:?${unset:?}}"|sed 's/^pktd$/./'); go build -a ${VEND} ${RACE} -o "${bindir:?${unset:?}}"/"${l?${unset:?}}" -trimpath -ldflags="${PKTD_LDFLAGS:?${unset:?}} -w -s -buildid=" "./${o?${unset:?}}" || die "Failed building ${l?${unset:?}}"; }
 export GO111MODULE="on" && export unset="Error: Variable is unset; aborting."
 export bindir="./bin" && export PKTD_TESTFLAGS="-count=1 -cover -parallel=1"
 export CGO_ENABLED=0 && export RACE="" && export VEND=""

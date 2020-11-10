@@ -26,6 +26,7 @@ if [ ! -d "${pkt_src:?}" ]; then
 	printf '\n%s\n' "Error: No PKT sources at ${pkt_src:?}"; exit 1
 else
 	rm -rf "${pkt_src:?}/bin" >/dev/null 2>&1
+	rm -rf "${pkt_src:?}/cov" >/dev/null 2>&1
 fi
 
 printf '\n%s\n' "Cleaning up..." && \
@@ -36,11 +37,10 @@ fi
 
 mkdir -p "${HOME:?}/px" >/dev/null 2>&1 && \
 export GOPATH="${HOME:?}/px" && \
-#export GOROOT="${HOME:?}/src/golang" && \
+export GOROOT="${HOME:?}/src/go1.15.4-gridfinity" && \
 export PATH="${GOROOT:?}/bin:${PATH:?}" && \
 printf '\n%s\n' "Checking go..." && \
 #{ go version 2>/dev/null | grep -q "${go_expect:?}" 2>/dev/null; } && \
-export GOPROXY="direct" && \
 export CGO_ENABLED=0 && \
 export GOMAXPROCS=128 && \
 export GODEBUG="madvdontneed=1,cgocheck=0,asyncpreemptoff=1,netdns=go" && \
