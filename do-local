@@ -76,7 +76,7 @@ if [ -d "${HOME:?}/px" ]; then
 fi 
 if [ -x "${HOME:?}/.pkt-local-script.sh" ]; then
 	printf '\n%s\n' "Executable local userscript found, starting..."
-	(bash -E "${HOME:?}/.pkt-local-script.sh ${USERPATH:?}")
+	(bash "${HOME:?}/.pkt-local-script.sh" "${USERPATH:?}")
 	printf '\n%s\n' "Local userscript ended..."
 fi
 printf '\n%s\n' "do-local ended."
