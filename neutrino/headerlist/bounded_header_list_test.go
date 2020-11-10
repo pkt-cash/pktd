@@ -9,7 +9,6 @@ import (
 // TestBoundedMemoryChainEmptyList tests the expected functionality of an empty
 // list w.r.t which methods return a nil pointer and which do not.
 func TestBoundedMemoryChainEmptyList(t *testing.T) {
-	t.Parallel()
 
 	memChain := NewBoundedMemoryChain(5)
 
@@ -45,7 +44,6 @@ func TestBoundedMemoryChainEmptyList(t *testing.T) {
 // elements, then reset the chain to nothing, it is identical to a newly
 // created chain with only that element.
 func TestBoundedMemoryChainResetHeaderState(t *testing.T) {
-	t.Parallel()
 
 	memChain := NewBoundedMemoryChain(5)
 
@@ -85,7 +83,6 @@ func TestBoundedMemoryChainResetHeaderState(t *testing.T) {
 // TestBoundedMemoryChainSizeLimit tests that if we add elements until the size
 // of the list if exceeded, then the list is properly bounded.
 func TestBoundedMemoryChainSizeLimit(t *testing.T) {
-	t.Parallel()
 
 	memChain := NewBoundedMemoryChain(5)
 
@@ -153,7 +150,6 @@ func TestBoundedMemoryChainSizeLimit(t *testing.T) {
 // can properly traverse the entire chain backwards, starting from the final
 // element.
 func TestBoundedMemoryChainPrevIteration(t *testing.T) {
-	t.Parallel()
 
 	memChain := NewBoundedMemoryChain(5)
 

@@ -11,7 +11,6 @@ import (
 )
 
 func TestControlCFHeader(t *testing.T) {
-	t.Parallel()
 
 	// We'll modify our backing list of checkpoints for this test.
 	height := uint32(999)

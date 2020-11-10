@@ -72,7 +72,6 @@ func applyMigration(t *testing.T, beforeMigration, afterMigration,
 // TestMigrationPupulateBirthdayBlock ensures that the migration to populate the
 // wallet's birthday block works as intended.
 func TestMigrationPopulateBirthdayBlock(t *testing.T) {
-	t.Parallel()
 
 	var expectedHeight int32
 	beforeMigration := func(ns walletdb.ReadWriteBucket) er.R {
@@ -139,7 +138,6 @@ func TestMigrationPopulateBirthdayBlock(t *testing.T) {
 // can properly detect a height estimate which the chain from our point of view
 // has not yet reached.
 func TestMigrationPopulateBirthdayBlockEstimateTooFar(t *testing.T) {
-	t.Parallel()
 
 	const numBlocks = 1000
 	chainParams := chaincfg.MainNetParams
@@ -221,7 +219,6 @@ func TestMigrationPopulateBirthdayBlockEstimateTooFar(t *testing.T) {
 // TestMigrationResetSyncedBlockToBirthday ensures that the wallet properly sees
 // its synced to block as the birthday block after resetting it.
 func TestMigrationResetSyncedBlockToBirthday(t *testing.T) {
-	t.Parallel()
 
 	var birthdayBlock BlockStamp
 	beforeMigration := func(ns walletdb.ReadWriteBucket) er.R {
@@ -282,7 +279,6 @@ func TestMigrationResetSyncedBlockToBirthday(t *testing.T) {
 // cannot reset our synced to block to our birthday block if one isn't
 // available.
 func TestMigrationResetSyncedBlockToBirthdayWithNoBirthdayBlock(t *testing.T) {
-	t.Parallel()
 
 	// To replicate the scenario where the database is not aware of a
 	// birthday block, we won't set one. This should cause the migration to
@@ -302,7 +298,6 @@ func TestMigrationResetSyncedBlockToBirthdayWithNoBirthdayBlock(t *testing.T) {
 // TestMigrationStoreMaxReorgDepth ensures that the storeMaxReorgDepth migration
 // works as expected under different sync scenarios.
 func TestMigrationStoreMaxReorgDepth(t *testing.T) {
-	t.Parallel()
 
 	testCases := []struct {
 		name      string

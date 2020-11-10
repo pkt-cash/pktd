@@ -35,7 +35,6 @@ func tstCheckScriptError(gotErr, wantErr er.R) er.R {
 
 // TestStack tests that all of the stack operations work as expected.
 func TestStack(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name      string

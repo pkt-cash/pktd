@@ -16,7 +16,6 @@ import (
 // TestBlockFilterCaches tests that we can put and retrieve elements from all
 // implementations of the filter and block caches.
 func TestBlockFilterCaches(t *testing.T) {
-	t.Parallel()
 
 	const filterType = filterdb.RegularFilter
 

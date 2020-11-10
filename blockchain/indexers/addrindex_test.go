@@ -169,7 +169,6 @@ func (b *addrIndexBucket) sanityCheck(addrKey [addrKeySize]byte, expectedTotal i
 // index creates multiple levels as described by the address index
 // documentation.
 func TestAddrIndexLevels(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name        string

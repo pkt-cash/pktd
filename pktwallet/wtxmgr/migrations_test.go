@@ -70,7 +70,6 @@ func applyMigration(t *testing.T,
 // TestMigrationDropTransactionHistory ensures that a transaction store is reset
 // to a clean state after dropping its transaction history.
 func TestMigrationDropTransactionHistory(t *testing.T) {
-	t.Parallel()
 
 	// checkTransactions is a helper function that will assert the correct
 	// state of the transaction store based on whether the migration has

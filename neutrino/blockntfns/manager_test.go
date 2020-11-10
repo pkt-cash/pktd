@@ -39,7 +39,6 @@ func (s *mockNtfnSource) NotificationsSinceHeight(
 // TestManagerNewSubscription ensures that a client properly receives new
 // block notifications once it successfully registers for a subscription.
 func TestManagerNewSubscription(t *testing.T) {
-	t.Parallel()
 
 	// We'll start by creating a subscription manager backed by our mocked
 	// block source.
@@ -122,7 +121,6 @@ func TestManagerNewSubscription(t *testing.T) {
 // their subscription, that they are no longer delivered any new notifications
 // after the fact.
 func TestManagerCancelSubscription(t *testing.T) {
-	t.Parallel()
 
 	// We'll start by creating a subscription manager backed by our mocked
 	// block source.
@@ -201,7 +199,6 @@ func TestManagerCancelSubscription(t *testing.T) {
 // chain, that a historical backlog of notifications is delivered from that
 // point forwards.
 func TestManagerHistoricalBacklog(t *testing.T) {
-	t.Parallel()
 
 	// We'll start by creating a subscription manager backed by our mocked
 	// block source.

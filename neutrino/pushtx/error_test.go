@@ -12,7 +12,6 @@ import (
 // TestParseBroadcastErrorCode ensures that we properly construct a
 // BroadcastError with the appropriate error code from a wire.MsgReject.
 func TestParseBroadcastErrorCode(t *testing.T) {
-	t.Parallel()
 
 	testCases := []struct {
 		name string
@@ -102,7 +101,6 @@ func TestParseBroadcastErrorCode(t *testing.T) {
 	for _, testCase := range testCases {
 		test := testCase
 		t.Run(test.name, func(t *testing.T) {
-			t.Parallel()
 
 			broadcastErr := pushtx.ParseBroadcastError(
 				test.msg, "127.0.0.1:8333",

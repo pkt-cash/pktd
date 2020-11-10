@@ -273,7 +273,6 @@ func generateResponses(msgs []wire.Message,
 // handle checkpointed filter header query responses in out of order, and when
 // a partial interval is already written to the store.
 func TestBlockManagerInitialInterval(t *testing.T) {
-	t.Parallel()
 	var wg sync.WaitGroup
 	failed := int32(0)
 	defer func() {
@@ -454,7 +453,6 @@ func TestBlockManagerInitialInterval(t *testing.T) {
 // TestBlockManagerInvalidInterval tests that the block manager is able to
 // determine it is receiving corrupt checkpoints and filter headers.
 func TestBlockManagerInvalidInterval(t *testing.T) {
-	t.Parallel()
 	var wg sync.WaitGroup
 	failed := int32(0)
 	defer func() {
@@ -799,8 +797,6 @@ var _ QueryAccess = (*mockQueryAccess)(nil)
 // TestBlockManagerDetectBadPeers checks that we detect bad peers, like peers
 // not responding to our filter query, serving inconsistent filters etc.
 func TestBlockManagerDetectBadPeers(t *testing.T) {
-	t.Parallel()
-
 	var (
 		stopHash        = chainhash.Hash{}
 		prev            = chainhash.Hash{}

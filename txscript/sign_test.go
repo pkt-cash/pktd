@@ -89,7 +89,6 @@ func signAndCheck(msg string, tx *wire.MsgTx, idx int, inputAmt int64, pkScript 
 }
 
 func TestSignTxOutput(t *testing.T) {
-	t.Parallel()
 
 	// make key
 	// make script based on key.
@@ -1652,8 +1651,6 @@ var sigScriptTests = []tstSigScript{
 // created for the MsgTxs in txTests, since they come from the blockchain
 // and we don't have the private keys.
 func TestSignatureScript(t *testing.T) {
-	t.Parallel()
-
 	privKey, _ := btcec.PrivKeyFromBytes(btcec.S256(), privKeyD)
 
 nexttest:

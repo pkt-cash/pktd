@@ -14,7 +14,6 @@ import (
 // iterators is as expected including tests for first, last, ordered and reverse
 // ordered iteration, limiting the range, seeking, and initially unpositioned.
 func TestMutableIterator(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		numKeys       int
@@ -271,7 +270,6 @@ testLoop:
 // TestMutableEmptyIterator ensures that the various functions behave as
 // expected when a mutable treap is empty.
 func TestMutableEmptyIterator(t *testing.T) {
-	t.Parallel()
 
 	// Create iterator against empty treap.
 	testTreap := NewMutable()
@@ -321,7 +319,6 @@ func TestMutableEmptyIterator(t *testing.T) {
 // TestIteratorUpdates ensures that issuing a call to ForceReseek on an iterator
 // that had the underlying mutable treap updated works as expected.
 func TestIteratorUpdates(t *testing.T) {
-	t.Parallel()
 
 	// Create a new treap with various values inserted in no particular
 	// order.  The resulting keys are the set (2, 4, 7, 11, 18, 25).
@@ -414,7 +411,6 @@ func TestIteratorUpdates(t *testing.T) {
 // iterators is as expected including tests for first, last, ordered and reverse
 // ordered iteration, limiting the range, seeking, and initially unpositioned.
 func TestImmutableIterator(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		numKeys       int
@@ -671,7 +667,6 @@ testLoop:
 // TestImmutableEmptyIterator ensures that the various functions behave as
 // expected when an immutable treap is empty.
 func TestImmutableEmptyIterator(t *testing.T) {
-	t.Parallel()
 
 	// Create iterator against empty treap.
 	testTreap := NewImmutable()

@@ -12,7 +12,6 @@ import (
 // TestIPNetSerialization ensures that we can serialize different supported IP
 // networks and deserialize them into their expected result.
 func TestIPNetSerialization(t *testing.T) {
-	t.Parallel()
 
 	testCases := []struct {
 		name  string

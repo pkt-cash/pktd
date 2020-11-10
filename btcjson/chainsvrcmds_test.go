@@ -21,7 +21,6 @@ import (
 // marshalled command, while optional fields with defaults have the default
 // assigned on unmarshalled commands.
 func TestChainSvrCmds(t *testing.T) {
-	t.Parallel()
 
 	testID := int(1)
 	tests := []struct {
@@ -1163,7 +1162,6 @@ func TestChainSvrCmds(t *testing.T) {
 // TestChainSvrCmdErrors ensures any errors that occur in the command during
 // custom mashal and unmarshal are as expected.
 /*func TestChainSvrCmdErrors(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name       string

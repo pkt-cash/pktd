@@ -77,7 +77,6 @@ func newAddressScriptHash(scriptHash []byte) btcutil.Address {
 // TestExtractPkScriptAddrs ensures that extracting the type, addresses, and
 // number of required signatures from PkScripts works as intended.
 func TestExtractPkScriptAddrs(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name    string
@@ -386,7 +385,6 @@ func TestExtractPkScriptAddrs(t *testing.T) {
 // TestCalcScriptInfo ensures the CalcScriptInfo provides the expected results
 // for various valid and invalid script pairs.
 func TestCalcScriptInfo(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name      string
@@ -605,7 +603,6 @@ func (b *bogusAddress) String() string {
 // TestPayToAddrScript ensures the PayToAddrScript function generates the
 // correct scripts for the various types of addresses.
 func TestPayToAddrScript(t *testing.T) {
-	t.Parallel()
 
 	// 1MirQ9bwyQcGVJPwKUgapu5ouK2E2Ey4gX
 	p2pkhMain, err := btcutil.NewAddressPubKeyHash(hexToBytes("e34cce70c86"+
@@ -724,7 +721,6 @@ func TestPayToAddrScript(t *testing.T) {
 // TestMultiSigScript ensures the MultiSigScript function returns the expected
 // scripts and errors.
 func TestMultiSigScript(t *testing.T) {
-	t.Parallel()
 
 	//  mainnet p2pk 13CG6SJ3yHUXo4Cr2RY4THLLJrNFuG3gUg
 	p2pkCompressedMain, err := btcutil.NewAddressPubKey(hexToBytes("02192d"+
@@ -831,7 +827,6 @@ func TestMultiSigScript(t *testing.T) {
 // TestCalcMultiSigStats ensures the CalcMutliSigStats function returns the
 // expected errors.
 func TestCalcMultiSigStats(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name   string
@@ -1060,7 +1055,6 @@ var scriptClassTests = []struct {
 // TestScriptClass ensures all the scripts in scriptClassTests have the expected
 // class.
 func TestScriptClass(t *testing.T) {
-	t.Parallel()
 
 	for _, test := range scriptClassTests {
 		script := mustParseShortForm(test.script)
@@ -1076,7 +1070,6 @@ func TestScriptClass(t *testing.T) {
 // TestStringifyClass ensures the script class string returns the expected
 // string for each script class.
 func TestStringifyClass(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name     string

@@ -15,7 +15,6 @@ import (
 // work as inteded.
 // and unmarshal code of results are as expected.
 func TestChainSvrCustomResults(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name     string

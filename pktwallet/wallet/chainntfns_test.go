@@ -141,7 +141,6 @@ func (s *mockBirthdayStore) SetBirthdayBlock(block waddrmgr.BlockStamp) er.R {
 // TestBirthdaySanityCheckEmptyBirthdayBlock ensures that a sanity check is not
 // done if the birthday block does not exist in the first place.
 func TestBirthdaySanityCheckEmptyBirthdayBlock(t *testing.T) {
-	t.Parallel()
 
 	chainConn := &mockChainConn{}
 
@@ -163,7 +162,6 @@ func TestBirthdaySanityCheckEmptyBirthdayBlock(t *testing.T) {
 // TestBirthdaySanityCheckVerifiedBirthdayBlock ensures that a sanity check is
 // not performed if the birthday block has already been verified.
 func TestBirthdaySanityCheckVerifiedBirthdayBlock(t *testing.T) {
-	t.Parallel()
 
 	const chainTip = 5000
 	chainConn := createMockChainConn(
@@ -205,7 +203,6 @@ func TestBirthdaySanityCheckVerifiedBirthdayBlock(t *testing.T) {
 // better birthday block candidate if our estimate happens to be too far back in
 // the chain.
 func TestBirthdaySanityCheckLowerEstimate(t *testing.T) {
-	t.Parallel()
 
 	// We'll start by defining our birthday timestamp to be around the
 	// timestamp of the 1337th block.
@@ -258,7 +255,6 @@ func TestBirthdaySanityCheckLowerEstimate(t *testing.T) {
 // better birthday block candidate if our estimate happens to be too far in the
 // chain.
 func TestBirthdaySanityCheckHigherEstimate(t *testing.T) {
-	t.Parallel()
 
 	// We'll start by defining our birthday timestamp to be around the
 	// timestamp of the 1337th block.

@@ -13,7 +13,6 @@ import (
 // TestMutableEmpty ensures calling functions on an empty mutable treap works as
 // expected.
 func TestMutableEmpty(t *testing.T) {
-	t.Parallel()
 
 	// Ensure the treap length is the expected value.
 	testTreap := NewMutable()
@@ -55,7 +54,6 @@ func TestMutableEmpty(t *testing.T) {
 // TestMutableReset ensures that resetting an existing mutable treap works as
 // expected.
 func TestMutableReset(t *testing.T) {
-	t.Parallel()
 
 	// Insert a few keys.
 	numItems := 10
@@ -111,7 +109,6 @@ func TestMutableReset(t *testing.T) {
 // TestMutableSequential ensures that putting keys into a mutable treap in
 // sequential order works as expected.
 func TestMutableSequential(t *testing.T) {
-	t.Parallel()
 
 	// Insert a bunch of sequential keys while checking several of the treap
 	// functions work as expected.
@@ -211,7 +208,6 @@ func TestMutableSequential(t *testing.T) {
 // TestMutableReverseSequential ensures that putting keys into a mutable treap
 // in reverse sequential order works as expected.
 func TestMutableReverseSequential(t *testing.T) {
-	t.Parallel()
 
 	// Insert a bunch of sequential keys while checking several of the treap
 	// functions work as expected.
@@ -312,7 +308,6 @@ func TestMutableReverseSequential(t *testing.T) {
 // TestMutableUnordered ensures that putting keys into a mutable treap in no
 // paritcular order works as expected.
 func TestMutableUnordered(t *testing.T) {
-	t.Parallel()
 
 	// Insert a bunch of out-of-order keys while checking several of the
 	// treap functions work as expected.
@@ -389,7 +384,6 @@ func TestMutableUnordered(t *testing.T) {
 // TestMutableDuplicatePut ensures that putting a duplicate key into a mutable
 // treap updates the existing value.
 func TestMutableDuplicatePut(t *testing.T) {
-	t.Parallel()
 
 	key := serializeUint32(0)
 	val := []byte("testval")
@@ -418,7 +412,6 @@ func TestMutableDuplicatePut(t *testing.T) {
 // TestMutableNilValue ensures that putting a nil value into a mutable treap
 // results in a key being added with an empty byte slice.
 func TestMutableNilValue(t *testing.T) {
-	t.Parallel()
 
 	key := serializeUint32(0)
 
@@ -442,7 +435,6 @@ func TestMutableNilValue(t *testing.T) {
 // TestMutableForEachStopIterator ensures that returning false from the ForEach
 // callback of a mutable treap stops iteration early.
 func TestMutableForEachStopIterator(t *testing.T) {
-	t.Parallel()
 
 	// Insert a few keys.
 	numItems := 10

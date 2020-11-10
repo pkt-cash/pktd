@@ -10,7 +10,6 @@ import (
 // TestLocateBirthdayBlock ensures we can properly map a block in the chain to a
 //timestamp.
 func TestLocateBirthdayBlock(t *testing.T) {
-	t.Parallel()
 
 	// We'll use test chains of 30 blocks with a duration between two
 	// consecutive blocks being slightly greater than the largest margin

@@ -239,7 +239,6 @@ func makeBlockMeta(height int32) BlockMeta {
 }
 
 func TestStoreQueries(t *testing.T) {
-	t.Parallel()
 
 	type queryTest struct {
 		desc    string
@@ -534,7 +533,6 @@ func TestStoreQueries(t *testing.T) {
 }
 
 func TestPreviousPkScripts(t *testing.T) {
-	t.Parallel()
 
 	s, db, teardown, err := testStore()
 	defer teardown()

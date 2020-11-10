@@ -48,7 +48,6 @@ func getOutPoint(tx *wire.MsgTx, index uint32) wire.OutPoint {
 // their dependency order under multiple scenarios. A transaction (a) can depend
 // on another (b) as long as (a) spends an output created in (b).
 func TestDependencySort(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name string
@@ -129,7 +128,6 @@ func TestDependencySort(t *testing.T) {
 	for _, test := range tests {
 		test := test
 		t.Run(test.name, func(t *testing.T) {
-			t.Parallel()
 
 			exp := test.setup(t)
 

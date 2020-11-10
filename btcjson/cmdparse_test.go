@@ -19,7 +19,6 @@ import (
 // TestAssignField tests the assignField function handles supported combinations
 // properly.
 func TestAssignField(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name     string
@@ -194,7 +193,6 @@ func TestAssignField(t *testing.T) {
 
 // TestAssignFieldErrors tests the assignField function error paths.
 func TestAssignFieldErrors(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name string
@@ -345,7 +343,6 @@ func TestAssignFieldErrors(t *testing.T) {
 
 // TestNewCmdErrors ensures the error paths of NewCmd behave as expected.
 func TestNewCmdErrors(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name   string
@@ -392,7 +389,6 @@ func TestNewCmdErrors(t *testing.T) {
 
 // TestMarshalCmdErrors  tests the error paths of the MarshalCmd function.
 func TestMarshalCmdErrors(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name string
@@ -433,7 +429,6 @@ func TestMarshalCmdErrors(t *testing.T) {
 
 // TestUnmarshalCmdErrors  tests the error paths of the UnmarshalCmd function.
 func TestUnmarshalCmdErrors(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name    string

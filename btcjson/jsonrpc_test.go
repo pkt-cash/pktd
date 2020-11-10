@@ -15,7 +15,6 @@ import (
 
 // TestIsValidIDType ensures the IsValidIDType function behaves as expected.
 func TestIsValidIDType(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		name    string
@@ -56,8 +55,6 @@ func TestIsValidIDType(t *testing.T) {
 
 // TestMarshalResponse ensures the MarshalResponse function works as expected.
 func TestMarshalResponse(t *testing.T) {
-	t.Parallel()
-
 	testID := 1
 	tests := []struct {
 		name     string
@@ -102,7 +99,6 @@ func TestMarshalResponse(t *testing.T) {
 
 // TestMiscErrors tests a few error conditions not covered elsewhere.
 func TestMiscErrors(t *testing.T) {
-	t.Parallel()
 
 	// Force an error in NewRequest by giving it a parameter type that is
 	// not supported.
@@ -135,7 +131,6 @@ func TestMiscErrors(t *testing.T) {
 
 // TestRPCError tests the error output for the RPCError type.
 func TestRPCError(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		in   er.R

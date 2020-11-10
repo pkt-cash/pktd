@@ -125,7 +125,6 @@ type testContext struct {
 // TestConvertErr ensures the leveldb error to database error conversion works
 // as expected.
 func TestConvertErr(t *testing.T) {
-	t.Parallel()
 
 	tests := []struct {
 		err         error
@@ -150,7 +149,6 @@ func TestConvertErr(t *testing.T) {
 // TestCornerCases ensures several corner cases which can happen when opening
 // a database and/or block files work as expected.
 func TestCornerCases(t *testing.T) {
-	t.Parallel()
 
 	// Create a file at the datapase path to force the open below to fail.
 	dbPath := filepath.Join(os.TempDir(), "ffldb-errors")

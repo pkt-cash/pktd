@@ -250,7 +250,6 @@ func TestBigFilterEvictsEverything(t *testing.T) {
 // TestBlockCache checks that blocks are inserted and fetched from the cache
 // before peers are queried.
 func TestBlockCache(t *testing.T) {
-	t.Parallel()
 
 	// Load the first 255 blocks from disk.
 	blocks, err := loadBlocks(t, blockDataFile, blockDataNet)

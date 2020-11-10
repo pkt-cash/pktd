@@ -20,7 +20,6 @@ import (
 // disabled opcodes result in a script execution failure when executed normally,
 // so the function is not called under normal circumstances.
 func TestOpcodeDisabled(t *testing.T) {
-	t.Parallel()
 
 	tests := []byte{opcode.OP_CAT, opcode.OP_SUBSTR, opcode.OP_LEFT, opcode.OP_RIGHT, opcode.OP_INVERT,
 		opcode.OP_AND, opcode.OP_OR, opcode.OP_2MUL, opcode.OP_2DIV, opcode.OP_MUL, opcode.OP_DIV, opcode.OP_MOD,
@@ -40,7 +39,6 @@ func TestOpcodeDisabled(t *testing.T) {
 // TestOpcodeDisasm tests the print function for all opcodes in both the oneline
 // and full modes to ensure it provides the expected disassembly.
 func TestOpcodeDisasm(t *testing.T) {
-	t.Parallel()
 
 	// First, test the oneline disassembly.
 

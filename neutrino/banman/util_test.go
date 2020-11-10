@@ -9,8 +9,6 @@ import (
 // TestParseIPNet ensures that we can parse different combinations of
 // IPs/addresses and masks.
 func TestParseIPNet(t *testing.T) {
-	t.Parallel()
-
 	testCases := []struct {
 		name   string
 		addr   string
