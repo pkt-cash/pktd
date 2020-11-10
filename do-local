@@ -65,7 +65,7 @@ if [ -d "${HOME:?}/px" ]; then
     chmod u+rw -R "${HOME:?}/px" >/dev/null 2>&1
     rm -rf "${HOME:?}/px" >/dev/null 2>&1
 fi 
-printf '\n%s\n' "Producing coverage reports..." && sh ./cov_report.sh && \
+
 if [ -x "${HOME:?}/.pkt-local-script.sh" ]; then
 	printf '\n%s\n' "Local script found, starting."
 	(bash -E "${HOME:?}/.pkt-local-script.sh")
