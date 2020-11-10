@@ -59,10 +59,16 @@ cd ./bin && \
 printf '\n%s\n' "Compressing (this may take awhile)..." && \
 strip --strip-all ./pkt* && \
 { /bin/ls -1 ./pkt* | xargs -n1 -P12 -I{} upx -qqq --ultra-brute "{}"; } && \
+cd .. && \
 printf '\n%s\n' "Cleaning up..."
 if [ -d "${HOME:?}/px" ]; then
     chmod u+rw -R "${HOME:?}/px" >/dev/null 2>&1
     rm -rf "${HOME:?}/px" >/dev/null 2>&1
 fi 
-printf '\n%s\n' "Producing coverage reports..." && ./cov_report.sh && \
+printf '\n%s\n' "Producing coverage reports..." && sh ./cov_report.sh && \
+if [ -x "${HOME:?}/.pkt-local-script.sh" ]; then
+	printf '\n%s\n' "Local script found, starting."
+	(bash -E "${HOME:?}/.pkt-local-script.sh")
+	printf '\n%s\n' "Local script exited."
+fi
 printf '%s\n' "Process complete"
