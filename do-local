@@ -64,4 +64,5 @@ if [ -d "${HOME:?}/px" ]; then
     chmod u+rw -R "${HOME:?}/px" >/dev/null 2>&1
     rm -rf "${HOME:?}/px" >/dev/null 2>&1
 fi 
+printf '\n%s\n' "Producing coverage reports..." && ./cov_report.sh && \
 printf '%s\n' "Process complete"
