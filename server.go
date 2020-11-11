@@ -608,7 +608,7 @@ func (sp *serverPeer) OnGetData(_ *peer.Peer, msg *wire.MsgGetData) {
 	// bursts of small requests are not penalized as that would potentially ban
 	// peers performing IBD.
 	// This incremental score decays each minute to half of its value.
-	sp.addBanScore(0, uint32(length)*99/wire.MaxInvPerMsg, "getdata")
+	sp.addBanScore(0, ((uint32(length)*99)/(wire.MaxInvPerMsg/12)), "getdata")
 
 	// We wait on this wait channel periodically to prevent queuing
 	// far more data than we can send in a reasonable time, wasting memory.
