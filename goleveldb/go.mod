@@ -8,7 +8,7 @@ require (
 	github.com/onsi/ginkgo v1.14.3-0.20201013214636-dfe369837f25
 	github.com/onsi/gomega v1.10.3
 	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b // indirect
-	golang.org/x/sys v0.0.0-20201109165425-215b40eba54c // indirect
+	golang.org/x/sys v0.0.0-20201110211018-35f3e6cf4a65 // indirect
 	golang.org/x/text v0.3.4 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 )

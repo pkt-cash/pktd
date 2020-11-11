@@ -50,7 +50,7 @@ export PATH="${GOROOT:?}/bin:${PATH:?}" && \
 printf '\n%s\n' "Checking Go..." && \
 { go version 2>/dev/null | grep -q "${go_expect:?}" 2>/dev/null; } && \
 export CGO_ENABLED=0 && \
-export GOPROXY="https://gocenter.io,https://goproxy.io,https://proxy.golang.org" && \
+export GOPROXY="http://127.0.0.1:8080,https://gocenter.io,https://goproxy.io,https://proxy.golang.org,direct" && \
 export GOMAXPROCS=128 && \
 export GODEBUG="madvdontneed=1,cgocheck=0,asyncpreemptoff=1,netdns=go" && \
 CACHE_DIR=$(basename "$(go env GOCACHE 2>/dev/null | grep '/' 2>/dev/null)" 2>/dev/null) && \

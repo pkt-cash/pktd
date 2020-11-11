@@ -1356,19 +1356,23 @@ func (w *Wallet) ListUnspent(minconf, maxconf int32,
 		results = make([]*btcjson.ListUnspentResult, 0)
 		w.TxStore.ForEachUnspentOutput(txmgrNs, nil, func(key []byte, output *wtxmgr.Credit) er.R {
 
+			// Only mature coinbase outputs are included.
+			immature := false
+			if output.FromCoinBase {
+				target := int32(w.ChainParams().CoinbaseMaturity)
+				if !confirmed(target, output.Height, syncBlock.Height) {
+					immature = true
+					if minconf > 0 {
+						return nil
+					}
+				}
+			}
+
 			// Outputs with fewer confirmations than the minimum or more
 			// confs than the maximum are excluded.
 			confs := confirms(output.Height, syncBlock.Height)
 			if confs < minconf || confs > maxconf {
 				return nil
-			}
-
-			// Only mature coinbase outputs are included.
-			if output.FromCoinBase {
-				target := int32(w.ChainParams().CoinbaseMaturity)
-				if !confirmed(target, output.Height, syncBlock.Height) {
-					return nil
-				}
 			}
 
 			// Exclude locked outputs from the result set.
@@ -1444,6 +1448,7 @@ func (w *Wallet) ListUnspent(minconf, maxconf int32,
 				}
 				spendable = true
 			}
+			spendable = spendable && !immature
 
 			result := &btcjson.ListUnspentResult{
 				TxID:          output.OutPoint.Hash.String(),
