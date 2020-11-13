@@ -443,8 +443,8 @@ func (w *Wallet) findEligibleOutputs(
 			// confirmations.  Coinbase transactions must have have reached
 			// maturity before their outputs may be spent.
 			if !confirmed(minconf, output.Height, bs.Height) {
-				log.Debugf("Skipping unconfirmed output [%s] at height %d",
-					output.OutPoint.String(), output.Height)
+				log.Debugf("Skipping unconfirmed output [%s] at height %d [cur height: %d]",
+					output.OutPoint.String(), output.Height, bs.Height)
 				out.unconfirmedCount++
 				out.unconfirmedAmt += output.Amount
 				return nil

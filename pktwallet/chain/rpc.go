@@ -10,14 +10,10 @@ import (
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 
-	"github.com/pkt-cash/pktd/btcjson"
-	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/btcutil/gcs"
 	"github.com/pkt-cash/pktd/btcutil/gcs/builder"
 	"github.com/pkt-cash/pktd/chaincfg"
-	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/pktwallet/waddrmgr"
-	"github.com/pkt-cash/pktd/pktwallet/wtxmgr"
 	"github.com/pkt-cash/pktd/rpcclient"
 	"github.com/pkt-cash/pktd/wire"
 )
@@ -30,15 +26,13 @@ type RPCClient struct {
 	chainParams       *chaincfg.Params
 	reconnectAttempts int
 
-	enqueueNotification chan interface{}
-	dequeueNotification chan interface{}
-	currentBlock        chan *waddrmgr.BlockStamp
-
 	quit    chan struct{}
 	wg      sync.WaitGroup
 	started bool
 	quitMtx sync.Mutex
 }
+
+var _ Interface = (*RPCClient)(nil)
 
 // NewRPCClient creates a client connection to the server described by the
 // connect string.  If disableTLS is false, the remote RPC certificate must be
@@ -64,23 +58,11 @@ func NewRPCClient(chainParams *chaincfg.Params, connect, user, pass string, cert
 			DisableConnectOnNew:  true,
 			DisableTLS:           disableTLS,
 		},
-		chainParams:         chainParams,
-		reconnectAttempts:   reconnectAttempts,
-		enqueueNotification: make(chan interface{}),
-		dequeueNotification: make(chan interface{}),
-		currentBlock:        make(chan *waddrmgr.BlockStamp),
-		quit:                make(chan struct{}),
+		chainParams:       chainParams,
+		reconnectAttempts: reconnectAttempts,
+		quit:              make(chan struct{}),
 	}
-	ntfnCallbacks := &rpcclient.NotificationHandlers{
-		OnClientConnected:   client.onClientConnect,
-		OnBlockConnected:    client.onBlockConnected,
-		OnBlockDisconnected: client.onBlockDisconnected,
-		OnRecvTx:            client.onRecvTx,
-		OnRedeemingTx:       client.onRedeemingTx,
-		OnRescanFinished:    client.onRescanFinished,
-		OnRescanProgress:    client.onRescanProgress,
-	}
-	rpcClient, err := rpcclient.New(client.connConfig, ntfnCallbacks)
+	rpcClient, err := rpcclient.New(client.connConfig, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -119,8 +101,6 @@ func (c *RPCClient) Start() er.R {
 	c.started = true
 	c.quitMtx.Unlock()
 
-	c.wg.Add(1)
-	go c.handler()
 	return nil
 }
 
@@ -133,10 +113,6 @@ func (c *RPCClient) Stop() {
 	default:
 		close(c.quit)
 		c.Client.Shutdown()
-
-		if !c.started {
-			close(c.dequeueNotification)
-		}
 	}
 	c.quitMtx.Unlock()
 }
@@ -155,21 +131,6 @@ func (c *RPCClient) IsCurrent() bool {
 	return bestHeader.Timestamp.After(time.Now().Add(-isCurrentDelta))
 }
 
-// Rescan wraps the normal Rescan command with an additional paramter that
-// allows us to map an oupoint to the address in the chain that it pays to.
-// This is useful when using BIP 158 filters as they include the prev pkScript
-// rather than the full outpoint.
-func (c *RPCClient) Rescan(startHash *chainhash.Hash, addrs []btcutil.Address,
-	outPoints map[wire.OutPoint]btcutil.Address) er.R {
-
-	flatOutpoints := make([]*wire.OutPoint, 0, len(outPoints))
-	for ops := range outPoints {
-		flatOutpoints = append(flatOutpoints, &ops)
-	}
-
-	return c.Client.Rescan(startHash, addrs, flatOutpoints)
-}
-
 // WaitForShutdown blocks until both the client has finished disconnecting
 // and all handlers have exited.
 func (c *RPCClient) WaitForShutdown() {
@@ -177,22 +138,13 @@ func (c *RPCClient) WaitForShutdown() {
 	c.wg.Wait()
 }
 
-// Notifications returns a channel of parsed notifications sent by the remote
-// bitcoin RPC server.  This channel must be continually read or the process
-// may abort for running out memory, as unread notifications are queued for
-// later reads.
-func (c *RPCClient) Notifications() <-chan interface{} {
-	return c.dequeueNotification
-}
-
 // BlockStamp returns the latest block notified by the client, or an error
 // if the client has been shut down.
 func (c *RPCClient) BlockStamp() (*waddrmgr.BlockStamp, er.R) {
-	select {
-	case bs := <-c.currentBlock:
-		return bs, nil
-	case <-c.quit:
-		return nil, er.New("disconnected")
+	if hash, height, err := c.GetBestBlock(); err != nil {
+		return nil, err
+	} else {
+		return &waddrmgr.BlockStamp{Hash: *hash, Height: height}, nil
 	}
 }
 
@@ -281,177 +233,6 @@ func (c *RPCClient) FilterBlocks(
 
 	// No addresses were found for this range.
 	return nil, nil
-}
-
-// parseBlock parses a btcws definition of the block a tx is mined it to the
-// Block structure of the wtxmgr package, and the block index.  This is done
-// here since rpcclient doesn't parse this nicely for us.
-func parseBlock(block *btcjson.BlockDetails) (*wtxmgr.BlockMeta, er.R) {
-	if block == nil {
-		return nil, nil
-	}
-	blkHash, err := chainhash.NewHashFromStr(block.Hash)
-	if err != nil {
-		return nil, err
-	}
-	blk := &wtxmgr.BlockMeta{
-		Block: wtxmgr.Block{
-			Height: block.Height,
-			Hash:   *blkHash,
-		},
-		Time: time.Unix(block.Time, 0),
-	}
-	return blk, nil
-}
-
-func (c *RPCClient) onClientConnect() {
-	select {
-	case c.enqueueNotification <- ClientConnected{}:
-	case <-c.quit:
-	}
-}
-
-func (c *RPCClient) onBlockConnected(hash *chainhash.Hash, height int32, time time.Time) {
-	select {
-	case c.enqueueNotification <- BlockConnected{
-		Block: wtxmgr.Block{
-			Hash:   *hash,
-			Height: height,
-		},
-		Time: time,
-	}:
-	case <-c.quit:
-	}
-}
-
-func (c *RPCClient) onBlockDisconnected(hash *chainhash.Hash, height int32, time time.Time) {
-	select {
-	case c.enqueueNotification <- BlockDisconnected{
-		Block: wtxmgr.Block{
-			Hash:   *hash,
-			Height: height,
-		},
-		Time: time,
-	}:
-	case <-c.quit:
-	}
-}
-
-func (c *RPCClient) onRecvTx(tx *btcutil.Tx, block *btcjson.BlockDetails) {
-	blk, err := parseBlock(block)
-	if err != nil {
-		// Log and drop improper notification.
-		log.Errorf("recvtx notification bad block: %v", err)
-		return
-	}
-
-	rec, err := wtxmgr.NewTxRecordFromMsgTx(tx.MsgTx(), time.Now())
-	if err != nil {
-		log.Errorf("Cannot create transaction record for relevant "+
-			"tx: %v", err)
-		return
-	}
-	select {
-	case c.enqueueNotification <- RelevantTx{rec, blk}:
-	case <-c.quit:
-	}
-}
-
-func (c *RPCClient) onRedeemingTx(tx *btcutil.Tx, block *btcjson.BlockDetails) {
-	// Handled exactly like recvtx notifications.
-	c.onRecvTx(tx, block)
-}
-
-func (c *RPCClient) onRescanProgress(hash *chainhash.Hash, height int32, blkTime time.Time) {
-	select {
-	case c.enqueueNotification <- &RescanProgress{hash, height, blkTime}:
-	case <-c.quit:
-	}
-}
-
-func (c *RPCClient) onRescanFinished(hash *chainhash.Hash, height int32, blkTime time.Time) {
-	select {
-	case c.enqueueNotification <- &RescanFinished{hash, height, blkTime}:
-	case <-c.quit:
-	}
-
-}
-
-// handler maintains a queue of notifications and the current state (best
-// block) of the chain.
-func (c *RPCClient) handler() {
-	hash, height, err := c.GetBestBlock()
-	if err != nil {
-		log.Errorf("Failed to receive best block from chain server: %v", err)
-		c.Stop()
-		c.wg.Done()
-		return
-	}
-
-	bs := &waddrmgr.BlockStamp{Hash: *hash, Height: height}
-
-	// TODO: Rather than leaving this as an unbounded queue for all types of
-	// notifications, try dropping ones where a later enqueued notification
-	// can fully invalidate one waiting to be processed.  For example,
-	// blockconnected notifications for greater block heights can remove the
-	// need to process earlier blockconnected notifications still waiting
-	// here.
-
-	var notifications []interface{}
-	enqueue := c.enqueueNotification
-	var dequeue chan interface{}
-	var next interface{}
-out:
-	for {
-		select {
-		case n, ok := <-enqueue:
-			if !ok {
-				// If no notifications are queued for handling,
-				// the queue is finished.
-				if len(notifications) == 0 {
-					break out
-				}
-				// nil channel so no more reads can occur.
-				enqueue = nil
-				continue
-			}
-			if len(notifications) == 0 {
-				next = n
-				dequeue = c.dequeueNotification
-			}
-			notifications = append(notifications, n)
-
-		case dequeue <- next:
-			if n, ok := next.(BlockConnected); ok {
-				bs = &waddrmgr.BlockStamp{
-					Height: n.Height,
-					Hash:   n.Hash,
-				}
-			}
-
-			notifications[0] = nil
-			notifications = notifications[1:]
-			if len(notifications) != 0 {
-				next = notifications[0]
-			} else {
-				// If no more notifications can be enqueued, the
-				// queue is finished.
-				if enqueue == nil {
-					break out
-				}
-				dequeue = nil
-			}
-
-		case c.currentBlock <- bs:
-
-		case <-c.quit:
-			break out
-		}
-	}
-
-	c.Stop()
-	close(c.dequeueNotification)
-	c.wg.Done()
 }
 
 // POSTClient creates the equivalent HTTP POST rpcclient.Client.
