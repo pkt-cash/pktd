@@ -27,6 +27,7 @@ jobs:
         packages:
         - coreutils
         - gnu-sed
+        update: true
     script:
     - git diff
     - git reset --hard
