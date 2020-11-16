@@ -31,7 +31,7 @@ fi
 if [ ! -d "${pkt_src:?}" ]; then
 	printf '\n%s\n' "Error: No PKT sources at ${pkt_src:?}"; exit 1
 else
-	printf '\n%s\n' "Cleaning up old compiles and coverage reports..."
+	printf '\n%s\n' "Cleaning up previous compiles and coverage reports..."
 	rm -rf "${pkt_src:?}/bin" >/dev/null 2>&1
 	rm -rf "${pkt_src:?}/cov" >/dev/null 2>&1
 fi
