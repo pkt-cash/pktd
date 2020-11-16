@@ -64,7 +64,7 @@ var (
 	BanDuration = time.Hour * 24
 
 	// TargetOutbound is the number of outbound peers to target.
-	TargetOutbound = 8
+	TargetOutbound = 12
 
 	// MaxPeers is the maximum number of connections the client maintains.
 	MaxPeers = 125
