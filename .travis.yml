@@ -21,26 +21,16 @@ jobs:
     script:
     - git diff
     - git reset --hard
-    - ./do
-    - gem install -N fpm --version '=1.11.0'
-    - bash -c 'cd $(dirname `gem which fpm`) && cd .. && find . -type f -print0 | xargs -0 sed -i "s#^require \"backports\"#require \"backports/latest\"#g"'
+    - sh -x ./do
+    - gem install -N fpm
     - bash -x ./contrib/deb/build.sh
     - bash -x ./contrib/rpm/build.sh
   - os: osx
-    cache:
-    - directories:
-      - /usr/local/Homebrew                                     
-    addons:
-      homebrew:
-        packages:
-        - coreutils
-        - gnu-sed
     script:
     - git diff
     - git reset --hard
-    - ./do
-    - gem install -N fpm --version '=1.11.0'
-    - bash -c 'brew update && brew install coreutils findutils gnu-sed && PATH="/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:$PATH" && cd $(dirname `gem which fpm`) && cd .. && find . -type f -print0 | xargs -0 sed -i "s#^require \"backports\"#require \"backports/latest\"#g"'
+    - sh -x ./do
+    - gem install -N fpm
     - bash -x ./contrib/macos/build.sh
 deploy:
   edge: true
@@ -55,3 +45,4 @@ deploy:
   on:
     repo: pkt-cash/pktd
     tags: true
+
