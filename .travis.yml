@@ -1,5 +1,5 @@
 language: go
-go: 1.15.3
+go: 1.15.5
 env:
   - PKT_FAIL_DIRTY=1
 jobs:
