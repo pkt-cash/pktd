@@ -15,12 +15,12 @@ require (
 	github.com/fsnotify/fsnotify v1.4.10-0.20200417215612-7f4cf4dd2b52 // indirect
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/gorilla/websocket v1.4.3-0.20200912193213-c3dd95aea977
-	github.com/mattn/go-isatty v0.0.12
 	github.com/jessevdk/go-flags v1.4.1-0.20200711081900-c17162fe8fd7
-	github.com/json-iterator/go v1.1.11-0.20200806011408-6821bec9fa5c
+	github.com/json-iterator/go v1.1.11-0.20201114014531-9b79a3e19284
 	github.com/kkdai/bstream v1.0.0
 	github.com/kr/text v0.2.0 // indirect
-	github.com/lightningnetwork/lnd/queue v1.0.5-0.20201112120322-3f9a707531b5
+	github.com/lightningnetwork/lnd/queue v1.0.5-0.20201114001639-c0247583cd3b
+	github.com/mattn/go-isatty v0.0.13-0.20200128103942-cb30d6282491
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2-0.20200602030031-7e6ae53ffa0b // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
@@ -29,7 +29,7 @@ require (
 	github.com/stretchr/testify v1.6.2-0.20201103103935-92707c0b2d50 // indirect
 	go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
 	golang.org/x/crypto v0.0.0-20201112155050-0c6587e931a9
-	google.golang.org/genproto v0.0.0-20201112120144-2985b7af83de // indirect
+	google.golang.org/genproto v0.0.0-20201113130914-ce600e9a6f9e // indirect
 	google.golang.org/grpc v1.34.0-dev.0.20201112215255-90f1b3ee835b
 	gopkg.in/check.v1 v1.0.0-20200902074654-038fdea0a05b // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
