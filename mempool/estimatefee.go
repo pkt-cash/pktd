@@ -563,6 +563,7 @@ func (ef *FeeEstimator) EstimateFee(numBlocks uint32) (BtcPerKilobyte, er.R) {
 	return ef.cached[int(numBlocks)-1].ToBtcPerKb(), nil
 }
 
+// EstimateSmartFee ...
 // int confTarget, FeeCalculation *feeCalc, bool conservative
 // This adheres to the API of estimateSmartFee but it is not actually smart.
 func (ef *FeeEstimator) EstimateSmartFee(numBlocks uint32, conservitive bool) btcjson.EstimateSmartFeeResult {

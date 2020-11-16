@@ -12,14 +12,14 @@ set -e >/dev/null 2>&1 || { printf '%s\n' "Error: Shell is broken."; exit 1; };
 set -o pipefail >/dev/null 2>&1 || { printf '%s\n' "Error: Shell is broken."; exit 1; };
 
 printf '\n%s\n' "Setting up..." && \
-go_expect="go1.15.4-gridfinity" && \
+go_expect="go1.15.5-gridfinity" && \
 export go_expect
 
 if [ ! -d "${HOME:?}" ]; then
 	printf '%n\%s\n' "Error: No HOME!"; exit 1
 fi
 
-GOROOT="${HOME:?}/src/go1.15.4-gridfinity" && \
+GOROOT="${HOME:?}/src/go1.15.5-gridfinity" && \
 export GOROOT && \
 pkt_src="${USERPATH:?}" && \
 export pkt_src
@@ -45,7 +45,7 @@ fi
 
 mkdir -p "${HOME:?}/px" >/dev/null 2>&1 && \
 export GOPATH="${HOME:?}/px" && \
-export GOROOT="${HOME:?}/src/go1.15.4-gridfinity" && \
+export GOROOT="${HOME:?}/src/go1.15.5-gridfinity" && \
 export PATH="${GOROOT:?}/bin:${PATH:?}" && \
 printf '\n%s\n' "Checking Go..." && \
 { go version 2>/dev/null | grep -q "${go_expect:?}" 2>/dev/null; } && \
