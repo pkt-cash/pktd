@@ -16,7 +16,7 @@ import (
 	"time"
 
 	flags "github.com/jessevdk/go-flags"
-
+	"github.com/mattn/go-isatty"
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -517,7 +517,7 @@ func loadConfig() (*config, []string, er.R) {
 			return nil, nil, err
 		}
 
-		if fi, _ := os.Stdin.Stat(); (fi.Mode() & os.ModeCharDevice) == 0 {
+		if !isatty.IsTerminal(os.Stdout.Fd()) {
 			// Don't log if stdin is not a tty
 			setLogLevels("off")
 		}
