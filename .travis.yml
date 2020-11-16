@@ -27,13 +27,12 @@ jobs:
         packages:
         - coreutils
         - gnu-sed
-        update: true
     script:
     - git diff
     - git reset --hard
     - ./do
     - gem install -N fpm --version '=1.11.0'
-    - bash -c 'export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:$PATH" && cd $(dirname `gem which fpm`) && cd .. && find . -type f -print0 | xargs -0 sed -i "s#^require \"backports\"#require \"backports/latest\"#g"'
+    - bash -c 'brew update && export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:$PATH" && cd $(dirname `gem which fpm`) && cd .. && find . -type f -print0 | xargs -0 sed -i "s#^require \"backports\"#require \"backports/latest\"#g"'
     - bash -x ./contrib/macos/build.sh
 deploy:
   edge: true
