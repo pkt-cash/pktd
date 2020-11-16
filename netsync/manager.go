@@ -652,8 +652,10 @@ func (sm *SyncManager) current() bool {
 
 	// No matter what chain thinks, if we are below the block
 	// we are trying to sync to we are obviously not current.
-	if sm.chain.BestSnapshot().Height < sm.syncPeer.LastBlock() {
-		return false
+	if sm.syncPeer != nil {
+		if sm.chain.BestSnapshot().Height < sm.syncPeer.LastBlock() {
+			return false
+		}
 	}
 
 	// If there is no current syncPeer and the blockchain

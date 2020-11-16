@@ -341,6 +341,11 @@ func (sp *serverPeer) addBanScore(persistent, transient uint32, reason string) {
 	if cfg.DisableBanning {
 		return
 	}
+
+	if reason == "getdata" {
+		return
+	}
+
 	if sp.isWhitelisted {
 		peerLog.Debugf("Misbehaving whitelisted peer %s: %s", sp, reason)
 		return
@@ -608,7 +613,7 @@ func (sp *serverPeer) OnGetData(_ *peer.Peer, msg *wire.MsgGetData) {
 	// bursts of small requests are not penalized as that would potentially ban
 	// peers performing IBD.
 	// This incremental score decays each minute to half of its value.
-	sp.addBanScore(0, ((uint32(length)*99)/(wire.MaxInvPerMsg/12)), "getdata")
+	sp.addBanScore(0, ((uint32(length)/128)/(wire.MaxInvPerMsg*128)), "getdata")
 
 	// We wait on this wait channel periodically to prevent queuing
 	// far more data than we can send in a reasonable time, wasting memory.

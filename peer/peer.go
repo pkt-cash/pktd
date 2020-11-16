@@ -820,9 +820,11 @@ func (p *Peer) ProtocolVersion() uint32 {
 // This function is safe for concurrent access.
 func (p *Peer) LastBlock() int32 {
 	p.statsMtx.RLock()
-	lastBlock := p.lastBlock
+	lastBlock := int32(p.lastBlock)
 	p.statsMtx.RUnlock()
-
+	if lastBlock < 1 {
+		return 0
+	}
 	return lastBlock
 }
 
