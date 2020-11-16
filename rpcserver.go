@@ -540,7 +540,7 @@ func handleCreateRawTransaction(s *rpcServer, cmd interface{}, closeChan <-chan 
 	params := s.cfg.ChainParams
 	for encodedAddr, amount := range c.Amounts {
 		// Ensure amount is in the valid range for monetary amounts.
-		if amount <= 0 || amount > float64(btcutil.MaxUnits()) {
+		if amount <= 0 || float64(amount*float64(globalcfg.SatoshiPerBitcoin())) > float64(btcutil.MaxUnits()) {
 			return nil, btcjson.NewRPCError(
 				btcjson.ErrRPCType,
 				"Invalid amount",
