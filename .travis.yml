@@ -1,5 +1,5 @@
 language: go
-go: 1.15.3
+go: 1.15.5
 env:
   - PKT_FAIL_DIRTY=1
 jobs:
@@ -13,16 +13,16 @@ jobs:
     script:
     - git diff
     - git reset --hard
-    - ./do
-    - gem install --no-document fpm
+    - sh -x ./do
+    - gem install -N fpm
     - bash -x ./contrib/deb/build.sh
     - bash -x ./contrib/rpm/build.sh
   - os: osx
     script:
     - git diff
     - git reset --hard
-    - ./do
-    - gem install --no-document fpm
+    - sh -x ./do
+    - gem install -N fpm
     - bash -x ./contrib/macos/build.sh
 deploy:
   provider: releases
@@ -36,4 +36,4 @@ deploy:
   on:
     repo: pkt-cash/pktd
     tags: true
-  skip_cleanup: 'true'
+
