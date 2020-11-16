@@ -15,7 +15,7 @@ jobs:
     - git reset --hard
     - ./do
     - gem install -N fpm --version '=1.11.0'
-    - bash -c 'cd `gem which fpm` && cd .. && find . -type f -print0 | xargs -0 sed -i "s#^require \"backports\"#require \"backports/latest\"#g"'
+    - bash -c 'cd $(dirname `gem which fpm`) && cd .. && find . -type f -print0 | xargs -0 sed -i "s#^require \"backports\"#require \"backports/latest\"#g"'
     - bash -x ./contrib/deb/build.sh
     - bash -x ./contrib/rpm/build.sh
   - os: osx
@@ -24,7 +24,7 @@ jobs:
     - git reset --hard
     - ./do
     - gem install -N fpm --version '=1.11.0'
-    - bash -c 'cd `gem which fpm` && cd .. && find . -type f -print0 | xargs -0 sed -i "s#^require \"backports\"#require \"backports/latest\"#g"'
+    - bash -c 'cd $(dirname `gem which fpm`) && cd .. && find . -type f -print0 | xargs -0 sed -i "s#^require \"backports\"#require \"backports/latest\"#g"'
     - bash -x ./contrib/macos/build.sh
 deploy:
   edge: true
