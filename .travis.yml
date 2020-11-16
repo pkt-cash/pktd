@@ -26,6 +26,7 @@ jobs:
       homebrew:
         packages:
         - coreutils
+        - gnu-sed
     script:
     - git diff
     - git reset --hard
