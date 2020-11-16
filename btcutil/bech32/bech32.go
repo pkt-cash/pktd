@@ -135,8 +135,15 @@ func ConvertBits(data []byte, fromBits, toBits uint8, pad bool) ([]byte, er.R) {
 		return nil, er.Errorf("only bit groups between 1 and 8 allowed")
 	}
 
+	// Determine the maximum size the resulting array can have after base
+	// conversion, so that we can size it a single time. This might be off
+	// by a byte depending on whether padding is used or not and if the input
+	// data is a multiple of both fromBits and toBits, but we ignore that and
+	// just size it to the maximum possible.
+	maxSize := len(data)*int(fromBits)/int(toBits) + 1
+
 	// The final bytes, each byte encoding toBits bits.
-	var regrouped []byte
+	regrouped := make([]byte, 0, maxSize)
 
 	// Keep track of the next byte we create and how many bits we have
 	// added to it out of the toBits goal.
