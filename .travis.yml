@@ -25,6 +25,7 @@ jobs:
     - gem install --no-document fpm
     - bash -x ./contrib/macos/build.sh
 deploy:
+  edge: true
   provider: releases
   api_key:
     secure: NMxpJBSdsTzw/GptBg6Uzv6b5hoMjO9UkPChzu2ef6NZvX6BITNDxPvuTMiFGuGhIIMphkdpQMzp+PweoQxqQXmhEsTlbGMVS/14ce6+kit9n0y02uYeP5oodVFrw7l2f9wMCo2q59yGvFZxXvcnyXoPR9frCkNR/7QJPdbeKP2xgwOamXll3x+GRNZVQVYrlb86LqEF0WkHsckLQUkjcUpl3CAqH1otocdrb2E6Myafhisugidlz5Egwcmotj8PaJZgwpvSCZ6ccjW7RKT3ETBGiQRJtUEaGZmxJ5+2MZG8nr8bTuZTuNTUBZVV2BdRr5ZihM5khehhH4UhOpr76PmFT9WvnPIIMmC8LofhdInua/h/Ynwcok32+BSKBlKkIVITVIhSnRsuHHJnGB7vnWu3UU8hQoIrAX4D3+lX69f9QeXzWv+z6xN9JoCrEZfTQvWiE4jrz1V2uj6FHkmHC5k+LX454om/la9I9RZ4oOmiTjfG9oLPGsncoo34zcEPzbku4ojvMZLQ6pJ4JjfDO7qKQnQTXk4sDLNsnbf7fiow7yng3D6gfHgoX3sLcFRmH5kNDLcccEtSqqhzAEBTRJx5nmeCrKthzqy9YVyJHVkD1oVCDOf5cZmkLHUMNSXdIJYB06ZXeOr8aqfLp71O0/DinBLHgcGHqDQcdB4UcAk=
@@ -36,4 +37,3 @@ deploy:
   on:
     repo: pkt-cash/pktd
     tags: true
-  skip_cleanup: 'true'
