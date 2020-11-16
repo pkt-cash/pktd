@@ -26,6 +26,7 @@ import (
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
+	"github.com/pkt-cash/pktd/pktlog"
 	"github.com/pkt-cash/pktd/wire"
 )
 
@@ -609,8 +610,10 @@ func (p *Peer) UpdateLastBlockHeight(newHeight int32) {
 		return
 	}
 	defer p.statsMtx.Unlock()
-	log.Tracef("Updating last block height of peer %v from %v to %v",
-		p.addr, p.lastBlock, newHeight)
+	if log.Level() <= pktlog.LevelTrace {
+		log.Tracef("Updating last block height of peer %v from %v to %v",
+			p.addr, p.lastBlock, newHeight)
+	}
 	p.lastBlock = newHeight
 }
 
