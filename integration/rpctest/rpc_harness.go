@@ -49,6 +49,13 @@ var (
 
 	// Used to protest concurrent access to above declared variables.
 	harnessStateMtx sync.RWMutex
+
+	// ListenAddressGenerator is a function that is used to generate two
+	// listen addresses (host:port), one for the P2P listener and one for
+	// the RPC listener. This is exported to allow overwriting of the
+	// default behavior which isn't very concurrency safe (just selecting
+	// a random port can produce collisions and therefore flakes).
+	ListenAddressGenerator = generateListeningAddresses
 )
 
 // Harness fully encapsulates an active pktd process to provide a unified
@@ -137,7 +144,7 @@ func New(activeNet *chaincfg.Params, handlers *rpcclient.NotificationHandlers,
 	}
 
 	// Generate p2p+rpc listening addresses.
-	config.listen, config.rpcListen = generateListeningAddresses()
+	config.listen, config.rpcListen = ListenAddressGenerator()
 
 	// Create the testing node bounded to the simnet.
 	node, err := newNode(config, nodeTestData)
