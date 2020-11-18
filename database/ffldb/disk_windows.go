@@ -13,7 +13,7 @@ import (
 )
 
 // getAvailableDiskSpace returns the number of bytes of available disk space.
-func getAvailableDiskSpace() (uint64, error) {
+func getAvailableDiskSpace(_ string) (uint64, error) {
 	wd, err := os.Getwd()
 	if err != nil {
 		return 0, err
@@ -23,8 +23,12 @@ func getAvailableDiskSpace() (uint64, error) {
 	c := h.MustFindProc("GetDiskFreeSpaceExW")
 
 	var freeBytes int64
-	if _, _, err := c.Call(uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(wd))),
-		uintptr(unsafe.Pointer(&freeBytes)), nil, nil); err != nil {
+	if _, _, err := c.Call(
+		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(wd))),
+		uintptr(unsafe.Pointer(&freeBytes)),
+		uintptr(0),
+		uintptr(0),
+	); err != nil {
 		return 0, err
 	}
 

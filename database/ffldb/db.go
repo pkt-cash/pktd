@@ -21,7 +21,6 @@ import (
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/database"
 	"github.com/pkt-cash/pktd/database/internal/treap"
-	"github.com/pkt-cash/pktd/wire"
 	"github.com/pkt-cash/pktd/goleveldb/leveldb"
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/comparer"
 	ldberrors "github.com/pkt-cash/pktd/goleveldb/leveldb/errors"
@@ -29,6 +28,7 @@ import (
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/iterator"
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/opt"
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/util"
+	"github.com/pkt-cash/pktd/wire"
 )
 
 const (
@@ -1765,7 +1765,6 @@ func (tx *transaction) Rollback() er.R {
 // the database.DB interface.  All database access is performed through
 // transactions which are obtained through the specific Namespace.
 type db struct {
-
 	writeLock sync.Mutex   // Limit to one write transaction at a time.
 	closeLock sync.RWMutex // Make database close block while txns active.
 	closed    bool         // Is the database closed?
@@ -1791,21 +1790,21 @@ func (db *db) Type() string {
 // which is used by the managed transaction code while the database method
 // returns the interface.
 func (db *db) begin(writable bool) (*transaction, er.R) {
-	    // Make sure there is enough available disk space so we can inform the
-    // user of the problem instead of causing a db failure.
-    if writable {
-        freeSpace, err := getAvailableDiskSpace(db.store.basePath)
-        if err != nil {
-        str := "failed to determine available disk space"
-            return nil, makeDbErr(database.ErrDriverSpecific, str, nil)
-        }
-        if freeSpace < uint64(minAvailableSpaceUpdate) {
-            errMsg := fmt.Sprintf("available disk space too low: "+
-                "%.1f MiB", float64(freeSpace)/float64(bytesMiB))
-            return nil, makeDbErr(database.ErrAvailableDiskSpace,
-                errMsg, nil)
-        }
-    }
+	// Make sure there is enough available disk space so we can inform the
+	// user of the problem instead of causing a db failure.
+	if writable {
+		freeSpace, err := getAvailableDiskSpace(db.store.basePath)
+		if err != nil {
+			str := "failed to determine available disk space"
+			return nil, makeDbErr(database.ErrDriverSpecific, str, nil)
+		}
+		if freeSpace < uint64(minAvailableSpaceUpdate) {
+			errMsg := fmt.Sprintf("available disk space too low: "+
+				"%.1f MiB", float64(freeSpace)/float64(bytesMiB))
+			return nil, makeDbErr(database.ErrAvailableDiskSpace,
+				errMsg, nil)
+		}
+	}
 
 	// Whenever a new writable transaction is started, grab the write lock
 	// to ensure only a single write transaction can be active at the same
@@ -2056,15 +2055,15 @@ func openDB(dbPath string, network protocol.BitcoinNet, create bool) (database.D
 
 	// Open the metadata database (will create it if needed).
 	opts := opt.Options{
-		ErrorIfExist:				create,
-		Strict:						opt.StrictAll,
-		Compression:				opt.NoCompression,
-		DisableCompactionBackoff:	true,
-		DisableSeeksCompaction:		true,
-		WriteL0PauseTrigger:		8,
-		DisableBufferPool:			true,
-		DisableBlockCache:			true,
-		Filter:						filter.NewBloomFilter(10),
+		ErrorIfExist:             create,
+		Strict:                   opt.StrictAll,
+		Compression:              opt.NoCompression,
+		DisableCompactionBackoff: true,
+		DisableSeeksCompaction:   true,
+		WriteL0PauseTrigger:      8,
+		DisableBufferPool:        true,
+		DisableBlockCache:        true,
+		Filter:                   filter.NewBloomFilter(10),
 	}
 	ldb, err := leveldb.OpenFile(metadataDbPath, &opts)
 	if _, corrupted := err.(*ldberrors.ErrCorrupted); corrupted {

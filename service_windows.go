@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
+	"github.com/pkt-cash/pktd/pktconfig/version"
 
 	"github.com/btcsuite/winsvc/eventlog"
 	"github.com/btcsuite/winsvc/mgr"
@@ -38,7 +39,7 @@ var elog *eventlog.Log
 // been started to the Windows event log.
 func logServiceStartOfDay(srvr *server) {
 	var message string
-	message += fmt.Sprintf("Version %s\n", version())
+	message += fmt.Sprintf("Version %s\n", version.Version())
 	message += fmt.Sprintf("Configuration directory: %s\n", defaultHomeDir)
 	message += fmt.Sprintf("Configuration file: %s\n", cfg.ConfigFile)
 	message += fmt.Sprintf("Data directory: %s\n", cfg.DataDir)
@@ -101,7 +102,7 @@ loop:
 
 		case err := <-doneChan:
 			if err != nil {
-				elog.Error(1, err.Error())
+				elog.Error(1, err.String())
 			}
 			break loop
 		}
@@ -121,18 +122,18 @@ func installService() er.R {
 	// For example, under cmd.exe it will only be the name of the app
 	// without the path or extension, but under mingw it will be the full
 	// path including the extension.
-	exePath, err := filepath.Abs(os.Args[0])
-	if err != nil {
-		return err
+	exePath, errr := filepath.Abs(os.Args[0])
+	if errr != nil {
+		return er.E(errr)
 	}
 	if filepath.Ext(exePath) == "" {
 		exePath += ".exe"
 	}
 
 	// Connect to the windows service manager.
-	serviceManager, err := mgr.Connect()
-	if err != nil {
-		return err
+	serviceManager, errr := mgr.Connect()
+	if errr != nil {
+		return er.E(errr)
 	}
 	defer serviceManager.Disconnect()
 
@@ -144,12 +145,12 @@ func installService() er.R {
 	}
 
 	// Install the service.
-	service, err = serviceManager.CreateService(svcName, exePath, mgr.Config{
+	service, errr = serviceManager.CreateService(svcName, exePath, mgr.Config{
 		DisplayName: svcDisplayName,
 		Description: svcDesc,
 	})
-	if err != nil {
-		return err
+	if errr != nil {
+		return er.E(errr)
 	}
 	defer service.Close()
 
@@ -158,7 +159,10 @@ func installService() er.R {
 	// messges instead of needing to create our own message catalog.
 	eventlog.Remove(svcName)
 	eventsSupported := uint32(eventlog.Error | eventlog.Warning | eventlog.Info)
-	return eventlog.InstallAsEventCreate(svcName, eventsSupported)
+	if errr := eventlog.InstallAsEventCreate(svcName, eventsSupported); errr != nil {
+		return er.E(errr)
+	}
+	return nil
 }
 
 // removeService attempts to uninstall the pktd service.  Typically this should
@@ -167,9 +171,9 @@ func installService() er.R {
 // since it would invalidate any existing event log messages.
 func removeService() er.R {
 	// Connect to the windows service manager.
-	serviceManager, err := mgr.Connect()
-	if err != nil {
-		return err
+	serviceManager, errr := mgr.Connect()
+	if errr != nil {
+		return er.E(errr)
 	}
 	defer serviceManager.Disconnect()
 
@@ -181,15 +185,18 @@ func removeService() er.R {
 	defer service.Close()
 
 	// Remove the service.
-	return service.Delete()
+	if errr := service.Delete(); errr != nil {
+		return er.E(errr)
+	}
+	return nil
 }
 
 // startService attempts to start the pktd service.
 func startService() er.R {
 	// Connect to the windows service manager.
-	serviceManager, err := mgr.Connect()
-	if err != nil {
-		return err
+	serviceManager, errr := mgr.Connect()
+	if errr != nil {
+		return er.E(errr)
 	}
 	defer serviceManager.Disconnect()
 
@@ -212,9 +219,9 @@ func startService() er.R {
 // state.
 func controlService(c svc.Cmd, to svc.State) er.R {
 	// Connect to the windows service manager.
-	serviceManager, err := mgr.Connect()
-	if err != nil {
-		return err
+	serviceManager, errr := mgr.Connect()
+	if errr != nil {
+		return er.E(errr)
 	}
 	defer serviceManager.Disconnect()
 
@@ -266,7 +273,7 @@ func performServiceCommand(command string) er.R {
 		err = controlService(svc.Stop, svc.Stopped)
 
 	default:
-		err = fmt.Errorf("invalid service command [%s]", command)
+		err = er.Errorf("invalid service command [%s]", command)
 	}
 
 	return err
@@ -279,24 +286,24 @@ func performServiceCommand(command string) er.R {
 func serviceMain() (bool, er.R) {
 	// Don't run as a service if we're running interactively (or that can't
 	// be determined due to an error).
-	isInteractive, err := svc.IsAnInteractiveSession()
-	if err != nil {
-		return false, err
+	isInteractive, errr := svc.IsAnInteractiveSession()
+	if errr != nil {
+		return false, er.E(errr)
 	}
 	if isInteractive {
 		return false, nil
 	}
 
-	elog, err = eventlog.Open(svcName)
-	if err != nil {
-		return false, err
+	elog, errr = eventlog.Open(svcName)
+	if errr != nil {
+		return false, er.E(errr)
 	}
 	defer elog.Close()
 
-	err = svc.Run(svcName, &pktdService{})
-	if err != nil {
-		elog.Error(1, fmt.Sprintf("Service start failed: %v", err))
-		return true, err
+	errr = svc.Run(svcName, &pktdService{})
+	if errr != nil {
+		elog.Error(1, fmt.Sprintf("Service start failed: %v", errr))
+		return true, er.E(errr)
 	}
 
 	return true, nil

@@ -19,7 +19,7 @@ func (h *headerStore) singleTruncate() er.R {
 	// of the file as it stands currently.
 	fileInfo, err := h.file.Stat()
 	if err != nil {
-		return err
+		return er.E(err)
 	}
 	fileSize := fileInfo.Size()
 
@@ -44,14 +44,14 @@ func (h *headerStore) singleTruncate() er.R {
 	// and reopen it.
 	fileName := h.file.Name()
 	if err = h.file.Close(); err != nil {
-		return err
+		return er.E(err)
 	}
 
 	if err = os.Truncate(fileName, newSize); err != nil {
-		return err
+		return er.E(err)
 	}
 
 	fileFlags := os.O_RDWR | os.O_APPEND | os.O_CREATE
 	h.file, err = os.OpenFile(fileName, fileFlags, 0644)
-	return err
+	return er.E(err)
 }
