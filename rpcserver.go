@@ -26,9 +26,9 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/gorilla/websocket"
 	jsoniter "github.com/json-iterator/go"
 
-	"github.com/gorilla/websocket"
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/blockchain/indexers"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt"

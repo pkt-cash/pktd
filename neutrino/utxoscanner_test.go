@@ -7,9 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/btcutil/gcs"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/pktwallet/waddrmgr"

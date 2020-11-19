@@ -12,7 +12,6 @@ import (
 	"sync"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/pktwallet/internal/prompt"
 	"github.com/pkt-cash/pktd/pktwallet/waddrmgr"

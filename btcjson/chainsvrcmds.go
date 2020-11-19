@@ -9,11 +9,11 @@
 package btcjson
 
 import (
-	"github.com/json-iterator/go"
 	"fmt"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
+	"github.com/json-iterator/go"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/wire"
 )
 

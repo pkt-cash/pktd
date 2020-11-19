@@ -18,17 +18,14 @@ import (
 	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/blockchain"
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/neutrino/banman"
-	"github.com/pkt-cash/pktd/pktlog"
-	"github.com/pkt-cash/pktd/txscript/params"
-	"github.com/pkt-cash/pktd/wire/ruleerror"
-
 	"github.com/pkt-cash/pktd/btcec"
 	"github.com/pkt-cash/pktd/btcjson"
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
+	"github.com/pkt-cash/pktd/neutrino/banman"
+	"github.com/pkt-cash/pktd/pktlog"
 	"github.com/pkt-cash/pktd/pktwallet/chain"
 	"github.com/pkt-cash/pktd/pktwallet/waddrmgr"
 	"github.com/pkt-cash/pktd/pktwallet/wallet"
@@ -37,7 +34,9 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/wtxmgr"
 	"github.com/pkt-cash/pktd/rpcclient"
 	"github.com/pkt-cash/pktd/txscript"
+	"github.com/pkt-cash/pktd/txscript/params"
 	"github.com/pkt-cash/pktd/wire"
+	"github.com/pkt-cash/pktd/wire/ruleerror"
 )
 
 // confirms returns the number of confirmations for a transaction in a block at

@@ -10,11 +10,11 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/protocol"
-
 	"github.com/davecgh/go-spew/spew"
+
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
+	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
 // TestGetBlocks tests the MsgGetBlocks API.

@@ -9,9 +9,8 @@ import (
 	"encoding/binary"
 	"io"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/pcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 // PcCoinbaseCommitMagic is the first 4 bytes of the commitment

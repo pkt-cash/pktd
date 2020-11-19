@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/database"
 	"github.com/pkt-cash/pktd/wire"

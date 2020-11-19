@@ -6,8 +6,8 @@
 package btcec
 
 import (
-	"reflect"
 	"encoding/hex"
+	"reflect"
 	"testing"
 )
 

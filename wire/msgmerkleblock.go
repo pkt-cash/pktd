@@ -9,9 +9,8 @@ import (
 	"io"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/protocol"
-
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
+	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
 // maxFlagsPerMerkleBlock is the maximum number of flag bytes that could

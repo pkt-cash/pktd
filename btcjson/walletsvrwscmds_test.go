@@ -6,14 +6,14 @@ package btcjson_test
 
 import (
 	"bytes"
-	"github.com/json-iterator/go"
 	"fmt"
 	"reflect"
 	"testing"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
+	"github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcjson"
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 // TestWalletSvrWsCmds tests all of the wallet server websocket-specific

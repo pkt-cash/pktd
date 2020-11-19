@@ -9,7 +9,9 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
-	_ "crypto/sha512" // Needed for RegisterHash in init
+
+	// Needed for RegisterHash in init
+	_ "crypto/sha512"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"

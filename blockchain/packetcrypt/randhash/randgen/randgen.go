@@ -7,11 +7,10 @@ package randgen
 import (
 	"encoding/binary"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/pcutil"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/opcodes"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/util"
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 type randGen struct {

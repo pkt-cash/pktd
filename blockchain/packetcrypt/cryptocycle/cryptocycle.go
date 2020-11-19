@@ -8,13 +8,11 @@ import (
 	"encoding/binary"
 
 	"github.com/aead/chacha20/chacha"
-
 	"golang.org/x/crypto/curve25519"
 	"golang.org/x/crypto/poly1305"
 
-	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/interpret"
-
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/pcutil"
+	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/interpret"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/randgen"
 )
 

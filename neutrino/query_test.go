@@ -12,11 +12,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/protocol"
-
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/btcutil/gcs"
 	"github.com/pkt-cash/pktd/btcutil/gcs/builder"
 	"github.com/pkt-cash/pktd/chaincfg"
@@ -27,6 +25,7 @@ import (
 	"github.com/pkt-cash/pktd/neutrino/filterdb"
 	"github.com/pkt-cash/pktd/neutrino/headerfs"
 	"github.com/pkt-cash/pktd/wire"
+	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
 var (

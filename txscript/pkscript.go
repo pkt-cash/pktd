@@ -4,12 +4,11 @@ import (
 	"crypto/sha256"
 	"errors"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/txscript/parsescript"
-
 	"github.com/pkt-cash/pktd/btcec"
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
+	"github.com/pkt-cash/pktd/txscript/parsescript"
 	"github.com/pkt-cash/pktd/wire"
 )
 

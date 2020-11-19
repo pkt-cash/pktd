@@ -42,8 +42,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/sethgrid/pester"
+
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 // NAT is an interface representing a NAT traversal options for example UPNP or

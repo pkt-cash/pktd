@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/database/internal/treap"
 	"github.com/pkt-cash/pktd/goleveldb/leveldb"
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/iterator"

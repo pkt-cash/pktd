@@ -7,18 +7,17 @@ package main
 import (
 	"bufio"
 	"encoding/hex"
-	"github.com/json-iterator/go"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"time"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/protocol"
+	"github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcec"
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/pktwallet/internal/legacy/keystore"
 	"github.com/pkt-cash/pktd/pktwallet/internal/prompt"
@@ -28,6 +27,7 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/wallet/seedwords"
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
 	_ "github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
+	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
 // networkDir returns the directory name of a network directory to hold wallet

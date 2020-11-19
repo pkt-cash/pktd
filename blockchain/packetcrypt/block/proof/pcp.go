@@ -8,10 +8,8 @@ import (
 	"bytes"
 	"encoding/binary"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/pcutil"
-
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/wire"
 )
 

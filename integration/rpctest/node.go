@@ -14,9 +14,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	rpc "github.com/pkt-cash/pktd/rpcclient"
 )
 

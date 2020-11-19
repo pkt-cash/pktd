@@ -7,9 +7,8 @@ package rpcclient
 import (
 	"github.com/json-iterator/go"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/btcjson"
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 // AddNodeCommand enumerates the available commands that the AddNode function

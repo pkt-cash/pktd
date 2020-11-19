@@ -8,11 +8,11 @@ package rpcclient
 import (
 	"bytes"
 	"encoding/hex"
+
 	"github.com/json-iterator/go"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/btcjson"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/wire"
 )

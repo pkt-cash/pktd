@@ -8,9 +8,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/btcjson"
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 // TestHelpReflectInternals ensures the various help functions which deal with

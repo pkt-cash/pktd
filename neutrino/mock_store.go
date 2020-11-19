@@ -1,9 +1,8 @@
 package neutrino
 
 import (
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/blockchain"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/neutrino/headerfs"
 	"github.com/pkt-cash/pktd/pktwallet/waddrmgr"

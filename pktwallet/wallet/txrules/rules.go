@@ -8,14 +8,13 @@ package txrules
 
 import (
 	"github.com/pkt-cash/pktd/blockchain"
+	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/pktwallet/wtxmgr"
-	"github.com/pkt-cash/pktd/wire/ruleerror"
-
-	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/txscript"
 	"github.com/pkt-cash/pktd/wire"
+	"github.com/pkt-cash/pktd/wire/ruleerror"
 )
 
 // DefaultRelayFeePerKb is the default minimum relay fee policy for a mempool.

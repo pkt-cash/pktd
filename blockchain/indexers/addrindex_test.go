@@ -10,7 +10,6 @@ import (
 	"testing"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/wire"
 )
 

@@ -9,19 +9,17 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/txscript/params"
-	"github.com/pkt-cash/pktd/txscript/scriptbuilder"
-	"github.com/pkt-cash/pktd/wire/constants"
-
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
-	"github.com/pkt-cash/pktd/pktwallet/wallet/txrules"
-	"github.com/pkt-cash/pktd/txscript"
-	"github.com/pkt-cash/pktd/wire"
-
 	h "github.com/pkt-cash/pktd/pktwallet/internal/helpers"
 	"github.com/pkt-cash/pktd/pktwallet/wallet/internal/txsizes"
+	"github.com/pkt-cash/pktd/pktwallet/wallet/txrules"
+	"github.com/pkt-cash/pktd/txscript"
+	"github.com/pkt-cash/pktd/txscript/params"
+	"github.com/pkt-cash/pktd/txscript/scriptbuilder"
+	"github.com/pkt-cash/pktd/wire"
+	"github.com/pkt-cash/pktd/wire/constants"
 )
 
 // InputSource provides transaction inputs referencing spendable outputs to

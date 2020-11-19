@@ -10,15 +10,15 @@ import (
 	"encoding/hex"
 	"io"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/dchest/blake2b"
+	"golang.org/x/crypto/ed25519"
+
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/announce"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/block"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/pcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/wire"
-	"golang.org/x/crypto/ed25519"
 )
 
 func ValidatePcAnn(p *wire.PacketCryptAnn, parentBlockHash *chainhash.Hash, packetCryptVersion int) (*chainhash.Hash, er.R) {

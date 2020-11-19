@@ -11,9 +11,8 @@ import (
 	"math/bits"
 	"strings"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/pcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 // How does it work:

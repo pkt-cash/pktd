@@ -11,13 +11,13 @@ import (
 	"path/filepath"
 	"strings"
 
+	flags "github.com/jessevdk/go-flags"
+
+	"github.com/pkt-cash/pktd/btcjson"
+	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktconfig"
 	"github.com/pkt-cash/pktd/pktconfig/version"
-
-	flags "github.com/jessevdk/go-flags"
-	"github.com/pkt-cash/pktd/btcjson"
-	"github.com/pkt-cash/pktd/btcutil"
 )
 
 const (

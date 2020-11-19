@@ -7,9 +7,10 @@ package addrmgr
 
 import (
 	"container/list"
-	crand "crypto/rand" // for seeding
+
+	// for seeding
+	crand "crypto/rand"
 	"encoding/binary"
-	"github.com/json-iterator/go"
 	"io"
 	"math/rand"
 	"net"
@@ -20,11 +21,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/protocol"
+	"github.com/json-iterator/go"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/wire"
+	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
 // AddrManager provides a concurrency safe address manager for caching potential

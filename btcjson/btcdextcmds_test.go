@@ -10,10 +10,11 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
+
 	"github.com/json-iterator/go"
-	"github.com/pkt-cash/pktd/btcutil/er"
 
 	"github.com/pkt-cash/pktd/btcjson"
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 // TestBtcdExtCmds tests all of the pktd extended commands marshal and unmarshal

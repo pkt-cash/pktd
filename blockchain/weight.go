@@ -7,12 +7,11 @@ package blockchain
 import (
 	"fmt"
 
+	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/btcutil/er"
+	"github.com/pkt-cash/pktd/txscript"
 	"github.com/pkt-cash/pktd/wire/constants"
 	"github.com/pkt-cash/pktd/wire/ruleerror"
-
-	"github.com/pkt-cash/pktd/btcutil"
-	"github.com/pkt-cash/pktd/txscript"
 )
 
 const (

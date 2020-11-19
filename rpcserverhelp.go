@@ -11,9 +11,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/btcjson"
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 // helpDescsEnUS defines the English descriptions used for the help strings.

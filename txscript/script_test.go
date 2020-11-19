@@ -16,7 +16,6 @@ import (
 	"github.com/pkt-cash/pktd/txscript/parsescript"
 	"github.com/pkt-cash/pktd/txscript/scriptbuilder"
 	"github.com/pkt-cash/pktd/txscript/txscripterr"
-
 	"github.com/pkt-cash/pktd/wire"
 )
 

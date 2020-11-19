@@ -10,19 +10,18 @@ import (
 	"container/heap"
 	"time"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/txscript/opcode"
-	"github.com/pkt-cash/pktd/txscript/scriptbuilder"
-	"github.com/pkt-cash/pktd/wire/constants"
-
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt"
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/chaincfg/globalcfg"
 	"github.com/pkt-cash/pktd/txscript"
+	"github.com/pkt-cash/pktd/txscript/opcode"
+	"github.com/pkt-cash/pktd/txscript/scriptbuilder"
 	"github.com/pkt-cash/pktd/wire"
+	"github.com/pkt-cash/pktd/wire/constants"
 )
 
 const (

@@ -8,7 +8,6 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/base64"
-	"github.com/json-iterator/go"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -18,11 +17,12 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/gorilla/websocket"
+	"github.com/json-iterator/go"
+
+	"github.com/pkt-cash/pktd/btcjson"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktconfig/version"
-
-	"github.com/gorilla/websocket"
-	"github.com/pkt-cash/pktd/btcjson"
 	"github.com/pkt-cash/pktd/pktwallet/chain"
 	"github.com/pkt-cash/pktd/pktwallet/wallet"
 )

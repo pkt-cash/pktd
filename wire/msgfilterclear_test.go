@@ -9,10 +9,10 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/davecgh/go-spew/spew"
+
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/wire/protocol"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 // TestFilterCLearLatest tests the MsgFilterClear API against the latest

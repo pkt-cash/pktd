@@ -16,12 +16,13 @@ import (
 	"runtime/pprof"
 	"time"
 
+	"github.com/arl/statsviz"
+
 	"github.com/pkt-cash/pktd/blockchain/indexers"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/database"
 	"github.com/pkt-cash/pktd/limits"
 	"github.com/pkt-cash/pktd/pktconfig/version"
-	"github.com/arl/statsviz"
 )
 
 const (

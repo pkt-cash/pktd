@@ -14,15 +14,15 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/pktconfig/version"
+	"github.com/arl/statsviz"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/neutrino"
+	"github.com/pkt-cash/pktd/pktconfig/version"
 	"github.com/pkt-cash/pktd/pktwallet/chain"
 	"github.com/pkt-cash/pktd/pktwallet/rpc/legacyrpc"
 	"github.com/pkt-cash/pktd/pktwallet/wallet"
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
-	"github.com/arl/statsviz"
 )
 
 var (

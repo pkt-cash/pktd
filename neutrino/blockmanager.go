@@ -15,15 +15,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/pkt-cash/pktd/blockchain/packetcrypt"
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/pktlog"
-	"github.com/pkt-cash/pktd/txscript/opcode"
-	"github.com/pkt-cash/pktd/wire/protocol"
-	"github.com/pkt-cash/pktd/wire/ruleerror"
-
 	"github.com/pkt-cash/pktd/blockchain"
+	"github.com/pkt-cash/pktd/blockchain/packetcrypt"
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/btcutil/gcs"
 	"github.com/pkt-cash/pktd/btcutil/gcs/builder"
 	"github.com/pkt-cash/pktd/chaincfg"
@@ -34,7 +29,11 @@ import (
 	"github.com/pkt-cash/pktd/neutrino/chainsync"
 	"github.com/pkt-cash/pktd/neutrino/headerfs"
 	"github.com/pkt-cash/pktd/neutrino/headerlist"
+	"github.com/pkt-cash/pktd/pktlog"
+	"github.com/pkt-cash/pktd/txscript/opcode"
 	"github.com/pkt-cash/pktd/wire"
+	"github.com/pkt-cash/pktd/wire/protocol"
+	"github.com/pkt-cash/pktd/wire/ruleerror"
 )
 
 const (

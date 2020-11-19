@@ -13,6 +13,7 @@ import (
 	"time"
 
 	flags "github.com/jessevdk/go-flags"
+
 	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/pktconfig/version"
 )

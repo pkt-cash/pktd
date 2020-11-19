@@ -14,12 +14,13 @@ import (
 	"strings"
 	"time"
 
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
+
 	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktwallet/rpc/legacyrpc"
 	"github.com/pkt-cash/pktd/pktwallet/wallet"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 )
 
 // openRPCKeyPair creates or loads the RPC TLS keypair specified by the

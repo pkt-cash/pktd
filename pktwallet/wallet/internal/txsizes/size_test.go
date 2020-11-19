@@ -6,7 +6,6 @@ import (
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/btcutil/util"
-
 	. "github.com/pkt-cash/pktd/pktwallet/wallet/internal/txsizes"
 	"github.com/pkt-cash/pktd/wire"
 )

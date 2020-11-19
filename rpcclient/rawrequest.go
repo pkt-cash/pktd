@@ -7,9 +7,8 @@ package rpcclient
 import (
 	"github.com/json-iterator/go"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/btcjson"
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 // FutureRawResult is a future promise to deliver the result of a RawRequest RPC

@@ -11,9 +11,8 @@ import (
 	"unicode/utf8"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/protocol"
-
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
+	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
 // MessageHeaderSize is the number of bytes in a bitcoin message header.

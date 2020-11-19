@@ -12,7 +12,6 @@ import (
 	"crypto/subtle"
 	"encoding/base64"
 	"encoding/hex"
-	"github.com/json-iterator/go"
 	"fmt"
 	"io"
 	"math"
@@ -20,6 +19,8 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	"github.com/json-iterator/go"
+
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/btcjson"
 	"github.com/pkt-cash/pktd/btcutil"

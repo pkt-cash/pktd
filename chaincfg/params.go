@@ -12,10 +12,9 @@ import (
 	"time"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/protocol"
-
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/chaincfg/globalcfg"
+	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
 // These variables are the chain proof-of-work limit parameters for each default

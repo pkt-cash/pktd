@@ -10,14 +10,13 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/chaincfg/genesis"
-	"github.com/pkt-cash/pktd/wire/protocol"
-
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
+	"github.com/pkt-cash/pktd/chaincfg/genesis"
 	"github.com/pkt-cash/pktd/database"
 	_ "github.com/pkt-cash/pktd/database/ffldb"
+	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
 // This example demonstrates creating a new database.

@@ -9,9 +9,8 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/mining"
 	"github.com/pkt-cash/pktd/wire"

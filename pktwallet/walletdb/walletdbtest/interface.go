@@ -10,7 +10,6 @@ import (
 	"reflect"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
 )
 

@@ -7,9 +7,8 @@
 package neutrino
 
 import (
-	"github.com/pkt-cash/pktd/btcutil/er"
-
 	"github.com/pkt-cash/pktd/addrmgr"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/connmgr"
 )
 

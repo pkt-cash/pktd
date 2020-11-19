@@ -14,10 +14,8 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/protocol"
-
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/database"
 	"github.com/pkt-cash/pktd/database/internal/treap"
@@ -29,6 +27,7 @@ import (
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/opt"
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/util"
 	"github.com/pkt-cash/pktd/wire"
+	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
 const (

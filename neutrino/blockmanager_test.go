@@ -13,8 +13,6 @@ import (
 	"time"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/txscript/opcode"
-
 	"github.com/pkt-cash/pktd/btcutil/gcs"
 	"github.com/pkt-cash/pktd/btcutil/gcs/builder"
 	"github.com/pkt-cash/pktd/chaincfg"
@@ -26,6 +24,7 @@ import (
 	"github.com/pkt-cash/pktd/peer"
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
 	"github.com/pkt-cash/pktd/txscript"
+	"github.com/pkt-cash/pktd/txscript/opcode"
 	"github.com/pkt-cash/pktd/wire"
 )
 

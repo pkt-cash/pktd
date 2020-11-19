@@ -10,12 +10,11 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/btcutil/er"
+	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/txscript/opcode"
 	"github.com/pkt-cash/pktd/txscript/txscripterr"
-
-	"github.com/pkt-cash/pktd/btcutil"
-	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/wire"
 )
 

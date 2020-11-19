@@ -12,18 +12,17 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/protocol"
-	"github.com/pkt-cash/pktd/wire/ruleerror"
-
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/database"
 	"github.com/pkt-cash/pktd/mempool"
 	peerpkg "github.com/pkt-cash/pktd/peer"
 	"github.com/pkt-cash/pktd/wire"
+	"github.com/pkt-cash/pktd/wire/protocol"
+	"github.com/pkt-cash/pktd/wire/ruleerror"
 )
 
 const (

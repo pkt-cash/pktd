@@ -9,17 +9,13 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-
-	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/util"
-
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/announce"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/block/proof"
-
+	"github.com/pkt-cash/pktd/blockchain/packetcrypt/cryptocycle"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/difficulty"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/pcutil"
-
-	"github.com/pkt-cash/pktd/blockchain/packetcrypt/cryptocycle"
+	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/util"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/wire"
 )

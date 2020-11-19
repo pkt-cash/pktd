@@ -9,9 +9,8 @@ import (
 	"io"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/protocol"
-
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
+	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
 // MaxBlockLocatorsPerMsg is the maximum number of block locator hashes allowed

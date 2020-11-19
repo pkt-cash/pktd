@@ -9,13 +9,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/wire/ruleerror"
-
 	"github.com/pkt-cash/pktd/btcutil"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/chaincfg/globalcfg"
 	"github.com/pkt-cash/pktd/database"
+	"github.com/pkt-cash/pktd/wire/ruleerror"
 )
 
 // BehaviorFlags is a bitmask defining tweaks to the normal behavior when
