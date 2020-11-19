@@ -210,6 +210,9 @@ func loadConfig() (*config, []string, er.R) {
 				"indicates that a parameter should be read "+
 				"from the\nnext unread line from standard "+
 				"input.")
+			if e.Type == flags.ErrHelp {
+				os.Exit(0)
+			}
 			return nil, nil, er.E(err)
 		}
 	}
