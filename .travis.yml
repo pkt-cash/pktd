@@ -25,13 +25,10 @@ jobs:
           - time
           update: true
       script:
-      - printf '%s\n' "dash dash/sh boolean false" | { $(which --skip-alias debconf-set-selections 2>/dev/null) || true; };
-      - export DEBIAN_FRONTEND=noninteractive || true
-      - printf '%s\n' "exit" | { $(which --skip-alias dpkg-reconfigure 2>/dev/null || true) dash || true; };
       - git -P diff --full-index --ignore-cr-at-eol --exit-code
       - git -P reset --hard
       - command time -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
-      - gem i -E -N -V fpm
+      - gem i -E -N fpm
       - bash -x ./contrib/deb/build.sh
       - bash -x ./contrib/rpm/build.sh
     - os: osx
@@ -49,7 +46,7 @@ jobs:
       - git -P diff --full-index --ignore-cr-at-eol --exit-code
       - git -P reset --hard
       - gtime -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
-      - gem i -E -N -V fpm
+      - gem i -E -N fpm
       - bash -x ./contrib/macos/build.sh
 deploy:
   edge: true
