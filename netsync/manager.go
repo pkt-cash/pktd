@@ -644,23 +644,23 @@ func (sm *SyncManager) handleTxMsg(tmsg *txMsg) {
 // current returns true if we believe we are synced with our peers, false if we
 // still have blocks to check
 func (sm *SyncManager) current() bool {
-	if !sm.chain.IsCurrent() {
+	sm.syncPeerMutex.Lock()
+	defer sm.syncPeerMutex.Unlock()
+	if !sm.chain.IsCurrent() && sm.syncPeer == nil {
 		return false
 	}
 
 	// if blockChain thinks we are current and we have no syncPeer it
 	// is probably right.
-	sm.syncPeerMutex.Lock()
-	defer sm.syncPeerMutex.Unlock()
-	if sm.syncPeer == nil {
+	if sm.syncPeer == nil && sm.chain.IsCurrent() {
 		return true
 	}
 
 	// No matter what chain thinks, if we are below the block we are syncing
 	// to we are not current.
-	if sm.chain.BestSnapshot().Height < sm.syncPeer.LastBlock() {
-		return false
-	}
+	if (sm.syncPeer != nil) && (sm.chain.BestSnapshot().Height < sm.syncPeer.LastBlock()) {
+			return false
+		}
 	return true
 }
 
