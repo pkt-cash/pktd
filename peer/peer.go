@@ -64,7 +64,7 @@ const (
 	//
 	// XXX(trn): TODO: Implement and test using per-node and per message
 	// poisson-distributed delays, as used by Bitcoin Core, post-0.13.0.
-	DefaultTrickleInterval = 2 * time.Second
+	DefaultTrickleInterval = 1 * time.Second
 
 	// MinAcceptableProtocolVersion is the lowest protocol version that a
 	// connected peer may support.
