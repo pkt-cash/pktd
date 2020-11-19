@@ -517,11 +517,6 @@ func loadConfig() (*config, []string, er.R) {
 			return nil, nil, err
 		}
 
-		if fi, _ := os.Stdin.Stat(); (fi.Mode() & os.ModeCharDevice) == 0 {
-			// Don't log if stdin is not a tty
-			setLogLevels("off")
-		}
-
 		// Perform the initial wallet creation wizard.
 		if err := createWallet(&cfg); err != nil {
 			fmt.Fprintln(os.Stderr, "Unable to create wallet:", err)
