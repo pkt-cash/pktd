@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# This script will use your default ${GOROOT} 
+# This script will use your default ${GOROOT}
 # and ${GOPATH}, so ensure these locations exist,
 # and "${GOPATH}/bin" is in your default ${PATH}.
 
@@ -12,6 +12,7 @@
 # runs should be straight-forward on most platforms.
 
 # Abort and inform in the case of csh or tcsh as sh.
+# shellcheck disable=SC2046,SC2006,SC2116,SC2065
 test _`echo asdf 2>/dev/null` != _asdf >/dev/null &&\
     printf '%s\n' "Error: csh as sh is unsupported." &&\
     exit 1
@@ -51,8 +52,12 @@ fi
 export CGO_ENABLED=0
 export TEST_FLAGS='-count=1 -cover -parallel=1'
 export GOFLAGS='-tags=osnetgo,osusergo'
+# shellcheck disable=SC2155
+export PKT_TARGETS="$(go list ./... | sort | uniq)"
+# shellcheck disable=SC2155
+export LDB_TARGETS="$(cd goleveldb/leveldb && go list ./... | sort | uniq)"
 
-type gocov 1>/dev/null 2>&1
+type gocov 1>/dev/null 2>&1; # shellcheck disable=SC2181
 if [ "${?}" -ne 0 ]; then
 	printf '\n%s\n' "This script requires the gocov tool."           >&2
 	printf '%s\n'   "You may obtain it with the following command:"  >&2
@@ -63,19 +68,19 @@ fi
 cleanUp || true && \
 unset="Error: Testing flags are unset, aborting." &&\
 	export unset
-
-(date 2>/dev/null; gocov test ${TEST_FLAGS:?${unset:?}} strings ./... > gocov_report_pktd.json && \
+# shellcheck disable=SC2086
+(date 2>/dev/null; gocov test ${TEST_FLAGS:?${unset:?}} ${PKT_TARGETS} > gocov_report_pktd.json && \
 	gocov report < gocov_report_pktd.json > gocov_report_pktd.txt) || \
 	{ printf '\n%s\n' "gocov failed complete pktd successfully." >&2
 		exit 1 || :; };
-
+# shellcheck disable=SC2086
 (date 2>/dev/null; cd goleveldb/leveldb && \
-	gocov test ${TEST_FLAGS:?${unset:?}} ./... > ../../gocov_report_goleveldb.json && \
+	gocov test ${TEST_FLAGS:?${unset:?}} ${LDB_TARGETS} > ../../gocov_report_goleveldb.json && \
 	gocov report < ../../gocov_report_goleveldb.json > ../../gocov_report_goleveldb.txt) || \
 	{ printf '\n%s\n' "gocov failed to complete goleveldb successfully." >&2
 		exit 1 || :; };
 
-type gocov-html 1>/dev/null 2>&1
+type gocov-html 1>/dev/null 2>&1; # shellcheck disable=SC2181
 if [ "${?}" -ne 0 ]; then
 	printf '%\n%s\n' "This script optionally utilizes gocov-html." >&2
     printf '%s\n'    "You may obtain it with the following command:" >&2
@@ -97,4 +102,3 @@ printf '\n%s\n' "" >&2
 
 mkdir -p ./cov && mv -f gocov_report_* ./cov && \
 printf '\n%s\n' "Done - output is located at ./cov"
-
