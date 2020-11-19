@@ -184,6 +184,8 @@ func testPeer(t *testing.T, p *peer.Peer, s peerStats) {
 	}
 
 	stats := p.StatsSnapshot()
+	lastSend := p.LastSend()
+	lastRecv := p.LastRecv()
 	if p.ID() != stats.ID {
 		t.Errorf("testPeer: wrong ID - got %v, want %v", p.ID(), stats.ID)
 		return
@@ -197,7 +199,7 @@ func testPeer(t *testing.T, p *peer.Peer, s peerStats) {
 
 	stats = p.StatsSnapshot()
 	if stats.LastSend != time.Unix(0, 0) {
-		if p.LastSend() != stats.LastSend {
+		if !stats.LastSend.Equal(p.LastSend()) && (stats.LastSend.Before(lastSend) || stats.LastSend.After(p.LastSend())) {
 			t.Errorf("testPeer: wrong LastSend - got %v, want %v", p.LastSend(), stats.LastSend)
 			return
 		}
@@ -205,7 +207,7 @@ func testPeer(t *testing.T, p *peer.Peer, s peerStats) {
 
 	stats = p.StatsSnapshot()
 	if stats.LastRecv != time.Unix(0, 0) {
-		if p.LastRecv() != stats.LastRecv {
+		if !stats.LastRecv.Equal(p.LastRecv()) && (stats.LastRecv.Before(lastRecv) || stats.LastRecv.After(p.LastRecv())) {
 			t.Errorf("testPeer: wrong LastRecv - got %v, want %v", p.LastRecv(), stats.LastRecv)
 			return
 		}
