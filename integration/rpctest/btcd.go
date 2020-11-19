@@ -35,7 +35,7 @@ func pktdExecutablePath() (string, er.R) {
 	defer compileMtx.Unlock()
 
 	// If pktd has already been compiled, just use that.
-	if len(executablePath) != 0 {
+	if executablePath != "" {
 		return executablePath, nil
 	}
 
