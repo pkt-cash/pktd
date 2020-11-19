@@ -29,8 +29,8 @@ jobs:
       - git -P reset --hard
       - command time -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
       - gem i -E -N fpm
-      - bash -x ./contrib/deb/build.sh
-      - bash -x ./contrib/rpm/build.sh
+      - bash ./contrib/deb/build.sh
+      - bash ./contrib/rpm/build.sh
     - os: osx
       osx_image: xcode12.2
       addons:
@@ -47,7 +47,7 @@ jobs:
       - git -P reset --hard
       - gtime -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
       - gem i -E -N fpm
-      - bash -x ./contrib/macos/build.sh
+      - bash ./contrib/macos/build.sh
 deploy:
   edge: true
   provider: releases
