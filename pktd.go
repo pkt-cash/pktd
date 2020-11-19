@@ -45,6 +45,10 @@ var winServiceMain func() (bool, er.R)
 // notified with the server once it is setup so it can gracefully stop it when
 // requested from the service control manager.
 func pktdMain(serverChan chan<- *server) er.R {
+
+	// Unconditionally show the version informatin at startup.
+	pktdLog.Infof("Version %s", version.Version())
+
 	// Load configuration and parse command line.  This function also
 	// initializes logging and configures it accordingly.
 	tcfg, _, err := loadConfig()
@@ -53,16 +57,18 @@ func pktdMain(serverChan chan<- *server) er.R {
 	}
 	cfg = tcfg
 
+	// Warn if running a pre-released pktd
+	version.WarnIfPrerelease(pktdLog)
+
 	// Get a channel that will be closed when a shutdown signal has been
 	// triggered either from an OS signal such as SIGINT (Ctrl+C) or from
 	// another subsystem such as the RPC server.
 	interrupt := interruptListener()
 	defer pktdLog.Info("Shutdown complete")
 
-	// Show version at startup.
-	pktdLog.Infof("Version %s", version.Version())
-
-	version.WarnIfPrerelease(pktdLog)
+	
+	
+	
 
 	// Enable http profiling server if requested.
 	if cfg.Profile != "" {

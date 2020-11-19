@@ -30,7 +30,6 @@ import (
 	_ "github.com/pkt-cash/pktd/database/ffldb"
 	"github.com/pkt-cash/pktd/mempool"
 	"github.com/pkt-cash/pktd/peer"
-	"github.com/pkt-cash/pktd/pktconfig/version"
 )
 
 const (
@@ -448,12 +447,11 @@ func loadConfig() (*config, []string, er.R) {
 		}
 	}
 
-	// Show the version and exit if the version flag was specified.
+	// Just need to exit if the version flag was specified
 	appName := filepath.Base(os.Args[0])
 	appName = strings.TrimSuffix(appName, filepath.Ext(appName))
 	usageMessage := fmt.Sprintf("Use %s -h to show usage", appName)
 	if preCfg.ShowVersion {
-		fmt.Println(appName, "version", version.Version())
 		os.Exit(0)
 	}
 
@@ -740,8 +738,8 @@ func loadConfig() (*config, []string, er.R) {
 	}
 
 	if cfg.RPCUser == "" || cfg.RPCPass == "" {
-		pktdLog.Infof("Creating a .cookie file")
-		cookiePath := filepath.Join(defaultHomeDir, ".cookie")
+		pktdLog.Infof("Creating a new .pktcookie authorization file")
+		cookiePath := filepath.Join(defaultHomeDir, ".pktcookie")
 		var buf [32]byte
 		if _, errr := rand.Read(buf[:]); errr != nil {
 			err := er.E(errr)
@@ -753,7 +751,7 @@ func loadConfig() (*config, []string, er.R) {
 		cookie := cfg.RPCUser + ":" + cfg.RPCPass
 		if errr := ioutil.WriteFile(cookiePath, []byte(cookie), 0600); errr != nil {
 			err := er.E(errr)
-			err.AddMessage("Could not write cookie")
+			err.AddMessage("Could not write .pktcookie file")
 			return nil, nil, err
 		}
 	}

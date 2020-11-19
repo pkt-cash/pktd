@@ -85,8 +85,8 @@ func ReadUserPass(filePath string) ([]string, er.R) {
 		return nil, er.E(errr)
 	}
 	// Couldn't find the file or didn't have user/pass
-	// Lets see if there's a .cookie file
-	cookiePath := strings.ReplaceAll(filePath, "pktd.conf", ".cookie")
+	// Lets see if there's a cookie file
+	cookiePath := strings.ReplaceAll(filePath, "pktd.conf", ".pktcookie")
 	if cookiePath == filePath {
 		return nil, nil
 	} else if cookie, errr := ioutil.ReadFile(cookiePath); errr != nil {
