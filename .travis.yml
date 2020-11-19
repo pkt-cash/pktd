@@ -23,9 +23,6 @@ jobs:
           - bash
           - rpm
           - time
-          - debianutils
-          - debutils
-          - coreutils
           update: true
       script:
       - printf '%s\n' "dash dash/sh boolean false" | { $(which --skip-alias debconf-set-selections 2>/dev/null) || true; };
