@@ -12,7 +12,7 @@ export PKTD_LDFLAGS="-X github.com/pkt-cash/pktd/pktconfig/version.appBuild=${PK
 mkdir -p "${bindir:?${unset:?}}" || die "Failed to create output directory; aborting."
 build pktd && build pktwallet && build pktctl
 printf '%s\n' "Running tests"; # shellcheck disable=SC2086,SC2046
-{ go test ${PKTD_TESTFLAGS:?${unset:?}} $(go list ./... | sort | uniq); } || die "One or more tests failed."; # shellcheck disable=SC2086,SC2046,SC2015
-if [ -n "${LDB_TEST:-}" ]; then (cd goleveldb/leveldb && go test ${PKTD_TESTFLAGS:?${unset:?}} $(go list ./... | sort | uniq) || die "One or more tests failed."); fi
+{ go test ${PKTD_TESTFLAGS:?${unset:?}} $(go list ./... | grep -v test | sort | uniq); } || die "One or more tests failed."; # shellcheck disable=SC2086,SC2046,SC2015
+if [ -n "${LDB_TEST:-}" ]; then (cd goleveldb/leveldb && go test ${PKTD_TESTFLAGS:?${unset:?}} $(go list ./... | grep -v test | sort | uniq) || die "One or more tests failed."); fi
 "${bindir?${unset:?}}/pktd" --version || die "Unable to run compiled pktd executable."; # shellcheck disable=SC2250
 printf '%s\n' "Success! $( (cd "${bindir:?${unset:?}}" 2>/dev/null && d=$(pwd -P 2>/dev/null) && printf '%s\n' "Compiled output is located at ${d:?${bindir:?$unset}}." 2>/dev/null) 2>/dev/null )"

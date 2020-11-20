@@ -53,9 +53,9 @@ export CGO_ENABLED=0
 export TEST_FLAGS='-count=1 -cover -parallel=1'
 export GOFLAGS='-tags=osnetgo,osusergo'
 # shellcheck disable=SC2155
-export PKT_TARGETS="$(go list ./... | sort | uniq)"
+export PKT_TARGETS="$(go list ./... | grep -v test | sort | uniq)"
 # shellcheck disable=SC2155
-export LDB_TARGETS="$(cd goleveldb/leveldb && go list ./... | sort | uniq)"
+export LDB_TARGETS="$(cd goleveldb/leveldb && go list ./... | grep -v test | sort | uniq)"
 
 type gocov 1>/dev/null 2>&1; # shellcheck disable=SC2181
 if [ "${?}" -ne 0 ]; then
