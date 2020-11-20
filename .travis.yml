@@ -1,5 +1,8 @@
 language: go
 go: 1.15.5
+before_install:
+  - go get github.com/mattn/goveralls
+  - go get golang.org/x/tools/cmd/cover
 install:
   - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
   - git -P fetch --tags
@@ -25,12 +28,15 @@ jobs:
           - time
           update: true
       script:
+      - GO111MODULE="off" go get -u github.com/mattn/goveralls
+      - GO111MODULE="off" go get golang.org/x/tools/cmd/cover
       - git -P diff --full-index --ignore-cr-at-eol --exit-code
       - git -P reset --hard
       - command time -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
       - gem i -E -N fpm
       - bash ./contrib/deb/build.sh
       - bash ./contrib/rpm/build.sh
+      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)"
     - os: osx
       osx_image: xcode12.2
       addons:
@@ -48,6 +54,7 @@ jobs:
       - gtime -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
       - gem i -E -N fpm
       - bash ./contrib/macos/build.sh
+      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)"
 deploy:
   edge: true
   provider: releases
