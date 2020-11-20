@@ -1,9 +1,17 @@
 # PKT Cash
 
 ### A blockchain utilizing [PacketCrypt]((https://pkt.cash/PacketCrypt-2020-09-04.pdf)), a new *bandwidth-hard* proof-of-work algorithm.
-### 
 
-[![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org) [![MadeWithGo](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](http://golang.org) [![GoVersion](https://img.shields.io/github/go-mod/go-version/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd/blob/master/go.mod) [![PkgGoDev](https://pkg.go.dev/badge/github.com/pkt-cash/pktd)](https://pkg.go.dev/github.com/pkt-cash/pktd) [![GitHubRelease](https://img.shields.io/github/release/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd/releases/) [![GitHubTag](https://img.shields.io/github/tag/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd/tags/) [![LocCount](https://img.shields.io/tokei/lines/github/pkt-cash/pktd.svg)](https://github.com/XAMPPRocky/tokei) [![GitHubCodeSize](https://img.shields.io/github/languages/code-size/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd)
+ [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org) 
+ [![GoVersion](https://img.shields.io/github/go-mod/go-version/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd/blob/master/go.mod) 
+ [![PkgGoDev](https://pkg.go.dev/badge/github.com/pkt-cash/pktd)](https://pkg.go.dev/github.com/pkt-cash/pktd) 
+ [![GitHubRelease](https://img.shields.io/github/release/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd/releases/) 
+ [![GitHubTag](https://img.shields.io/github/tag/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd/tags/) 
+ [![LocCount](https://img.shields.io/tokei/lines/github/pkt-cash/pktd.svg)](https://github.com/XAMPPRocky/tokei) 
+ [![GitHubCodeSize](https://img.shields.io/github/languages/code-size/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd) 
+ [![CoverageStatus](https://coveralls.io/repos/pkt-cash/pktd/badge.svg?branch=develop)](https://coveralls.io/pkt-cash/pktd?branch=develop) 
+ [![GoReport](https://goreportcard.com/badge/github.com/pkt-cash/pktd)](https://goreportcard.com/report/github.com/pkt-cash/pktd) 
+
 
 ## pktd
 
