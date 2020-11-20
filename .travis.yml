@@ -2,7 +2,7 @@ language: go
 go: 1.15.5
 before_install:
   - sh -c 'export GO111MODULE="off" && go get github.com/mattn/goveralls || true' || true
-  - sh -c 'export GO111MODULE="off" && go get golang.org/x/tools/cmd/cover || true || true
+  - sh -c 'export GO111MODULE="off" && go get golang.org/x/tools/cmd/cover || true' || true
 install:
   - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
   - git -P fetch --tags
