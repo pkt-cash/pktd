@@ -9,15 +9,17 @@ datastore.
 Usage
 
 This package is only a driver to the walletdb package and provides the database
-type of "bdb".  The only parameter the Open and Create functions take is the
-database path as a string:
+type of "bdb".  The parameters accepted by the Open and Create functions are the
+database path as a string and the database options:
 
-	db, err := walletdb.Open("bdb", "path/to/database.db")
+	db, err := walletdb.Open("bdb", "path/to/database.db", opts bbolt.Options)
 	if err != nil {
 		// Handle error
 	}
-
-	db, err := walletdb.Create("bdb", "path/to/database.db")
+    opts := &bbolt.Options{
+        // bbolt options
+    }
+	db, err := walletdb.Create("bdb", "path/to/database.db", opts bbolt.Options)
 	if err != nil {
 		// Handle error
 	}

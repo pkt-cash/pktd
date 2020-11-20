@@ -130,7 +130,7 @@ func (s *session) refLoop() {
 		for {
 			// Skip any abandoned version number to prevent blocking processing.
 			if skipAbandoned() {
-				next += 1
+				next ++
 				continue
 			}
 			// Don't bother the version that has been released.
@@ -162,13 +162,13 @@ func (s *session) refLoop() {
 			referenced[next] = struct{}{}
 			delete(ref, next)
 			delete(deltas, next)
-			next += 1
+			next++
 		}
 
 		// Use delta information to process all released versions.
 		for {
 			if skipAbandoned() {
-				next += 1
+				next++
 				continue
 			}
 			if d, exist := released[next]; exist {
@@ -176,7 +176,7 @@ func (s *session) refLoop() {
 					applyDelta(d)
 				}
 				delete(released, next)
-				next += 1
+				next++
 				continue
 			}
 			return

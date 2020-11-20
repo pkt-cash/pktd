@@ -23,6 +23,7 @@ import (
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/genesis"
 	"github.com/pkt-cash/pktd/database"
+//	"github.com/pkt-cash/pktd/database/ffldb"
 	"github.com/pkt-cash/pktd/wire/protocol"
 	"github.com/pkt-cash/pktd/goleveldb/leveldb"
 	ldberrors "github.com/pkt-cash/pktd/goleveldb/leveldb/errors"
@@ -162,9 +163,9 @@ func TestCornerCases(t *testing.T) {
 
 	// Ensure creating a new database fails when a file exists where a
 	// directory is needed.
-	testName := "openDB: fail due to file at target location"
+	testName := "OpenDB: fail due to file at target location"
 	wantErrCode := database.ErrDriverSpecific
-	idb, err := openDB(dbPath, blockDataNet, true)
+	idb, err := OpenDB(dbPath, blockDataNet, true)
 	if !util.CheckError(t, testName, err, wantErrCode) {
 		if err == nil {
 			idb.Close()
@@ -176,9 +177,9 @@ func TestCornerCases(t *testing.T) {
 	// Remove the file and create the database to run tests against.  It
 	// should be successful this time.
 	_ = os.RemoveAll(dbPath)
-	idb, err = openDB(dbPath, blockDataNet, true)
+	idb, err = OpenDB(dbPath, blockDataNet, true)
 	if err != nil {
-		t.Errorf("openDB: unexpected error: %v", err)
+		t.Errorf("OpenDB: unexpected error: %v", err)
 		return
 	}
 	defer os.RemoveAll(dbPath)
@@ -590,9 +591,9 @@ func TestFailureScenarios(t *testing.T) {
 	// Create a new database to run tests against.
 	dbPath := filepath.Join(os.TempDir(), "ffldb-failurescenarios")
 	_ = os.RemoveAll(dbPath)
-	idb, err := database.Create(dbType, dbPath, blockDataNet)
+	idb, err := OpenDB(dbPath, blockDataNet, true)
 	if err != nil {
-		t.Errorf("Failed to create test database (%s) %v", dbType, err)
+		t.Errorf("Failed to create test database: %v", err)
 		return
 	}
 	defer os.RemoveAll(dbPath)

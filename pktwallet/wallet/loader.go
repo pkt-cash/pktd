@@ -18,6 +18,8 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/waddrmgr"
 	"github.com/pkt-cash/pktd/pktwallet/wallet/seedwords"
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
+	"github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
+	"go.etcd.io/bbolt"
 )
 
 var Err er.ErrorType = er.NewErrorType("wallet.Err")
@@ -50,6 +52,7 @@ type Loader struct {
 	callbacks      []func(*Wallet)
 	chainParams    *chaincfg.Params
 	dbDirPath      string
+	noFreelistSync bool
 	walletName     string
 	recoveryWindow uint32
 	wallet         *Wallet
@@ -60,13 +63,14 @@ type Loader struct {
 // NewLoader constructs a Loader with an optional recovery window. If the
 // recovery window is non-zero, the wallet will attempt to recovery addresses
 // starting from the last SyncedTo height.
-func NewLoader(chainParams *chaincfg.Params, dbDirPath, walletName string,
-	recoveryWindow uint32) *Loader {
+func NewLoader(chainParams *chaincfg.Params, dbDirPath,
+	walletName string, noFreelistSync bool, recoveryWindow uint32) *Loader {
 
 	return &Loader{
 		chainParams:    chainParams,
 		walletName:     walletName,
 		dbDirPath:      dbDirPath,
+		noFreelistSync: noFreelistSync,
 		recoveryWindow: recoveryWindow,
 	}
 }
@@ -138,7 +142,10 @@ func (l *Loader) CreateNewWallet(pubPassphrase, privPassphrase []byte,
 	if err != nil {
 		return nil, err
 	}
-	db, err := walletdb.Create("bdb", dbPath)
+	opts := &bbolt.Options{
+		NoFreelistSync: l.noFreelistSync,
+	}
+	db, err := bdb.OpenDB(dbPath, true, opts)
 	if err != nil {
 		return nil, err
 	}
@@ -183,7 +190,10 @@ func (l *Loader) OpenExistingWallet(pubPassphrase []byte, canConsolePrompt bool)
 
 	// Open the database using the boltdb backend.
 	dbPath := WalletDbPath(l.dbDirPath, l.walletName)
-	db, err := walletdb.Open("bdb", dbPath)
+	opts := &bbolt.Options{
+		NoFreelistSync: l.noFreelistSync,
+	}
+	db, err := bdb.OpenDB(dbPath, false, opts)
 	if err != nil {
 		log.Errorf("Failed to open database: %v", err)
 		return nil, err

@@ -14,12 +14,9 @@ When a client wants programmatic access to the data provided by pktd, they'll
 likely want to use the [rpcclient](https://github.com/pkt-cash/pktd/tree/master/rpcclient)
 package which makes use of the [JSON-RPC API](https://github.com/pkt-cash/pktd/tree/master/docs/json_rpc_api.md).
 
-However, this package could be extremely useful for any applications requiring
-Bitcoin block storage capabilities.
-
-The default backend, ffldb, has a strong focus on speed, efficiency, and
-robustness.  It makes use of GoLevelDB for the metadata, flat files for
-block storage, and checksums in key areas to ensure data integrity.
+The database backend, ffldb, has a strong focus on speed, efficiency, and
+robustness. It makes use of GoLevelDB for storing metadata, and flat files
+for block storage, with checksums in key areas, to ensure data integrity.
 
 ## Feature Overview
 

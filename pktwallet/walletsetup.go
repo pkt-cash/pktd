@@ -26,8 +26,8 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/waddrmgr"
 	"github.com/pkt-cash/pktd/pktwallet/wallet"
 	"github.com/pkt-cash/pktd/pktwallet/wallet/seedwords"
-	"github.com/pkt-cash/pktd/pktwallet/walletdb"
-	_ "github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
+	"github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
+	"go.etcd.io/bbolt"
 )
 
 // networkDir returns the directory name of a network directory to hold wallet
@@ -116,7 +116,7 @@ type WalletSetupCfg struct {
 // provided path.
 func createWallet(cfg *config) er.R {
 	dbDir := networkDir(cfg.AppDataDir.Value, activeNet.Params)
-	loader := wallet.NewLoader(activeNet.Params, dbDir, cfg.Wallet, 250)
+	loader := wallet.NewLoader(activeNet.Params, dbDir, cfg.Wallet, true, 250)
 
 	// When there is a legacy keystore, open it now to ensure any errors
 	// don't end up exiting the process after the user has spent time
@@ -317,7 +317,10 @@ func createSimulationWallet(cfg *config) er.R {
 	fmt.Println("Creating the wallet...")
 
 	// Create the wallet database backed by bolt db.
-	db, err := walletdb.Create("bdb", dbPath)
+	opts := &bbolt.Options{
+		NoFreelistSync: true,
+	}
+	db, err := bdb.OpenDB(dbPath, true, opts)
 	if err != nil {
 		return err
 	}

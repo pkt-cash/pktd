@@ -5,6 +5,7 @@
 package main
 
 import (
+	"go.etcd.io/bbolt"
 	"bufio"
 	"fmt"
 	"os"
@@ -16,7 +17,7 @@ import (
 	"github.com/pkt-cash/pktd/pktconfig/version"
 	"github.com/pkt-cash/pktd/pktwallet/waddrmgr"
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
-	_ "github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
+	"github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
 	"github.com/pkt-cash/pktd/pktwallet/wtxmgr"
 )
 
@@ -102,7 +103,10 @@ func mainInt() int {
 		fmt.Println("Enter yes or no.")
 	}
 
-	db, err := walletdb.Open("bdb", opts.DbPath)
+	dbopts := &bbolt.Options{
+		NoFreelistSync: true,
+	}
+	db, err := bdb.OpenDB(opts.DbPath, false, dbopts)
 	if err != nil {
 		fmt.Println("Failed to open database:", err)
 		return 1

@@ -6,6 +6,7 @@ package bdb
 
 import (
 	"io"
+	"math"
 	"os"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -371,13 +372,33 @@ func fileExists(name string) bool {
 	return true
 }
 
-// openDB opens the database at the provided path.  walletdb.ErrDbDoesNotExist
+// OpenDB opens the database at the provided path.  walletdb.ErrDbDoesNotExist
 // is returned if the database doesn't exist and the create flag is not set.
-func openDB(dbPath string, create bool) (walletdb.DB, er.R) {
+func OpenDB(dbPath string, create bool, options *bbolt.Options) (walletdb.DB, er.R) {
+	var dbFileSize int64
+	dbFileSize = 1024 * 1024 * 1024
 	if !create && !fileExists(dbPath) {
 		return nil, walletdb.ErrDbDoesNotExist.Default()
+	} else {
+		if !create && fileExists(dbPath) {
+			dbFileInfo, err := os.Stat(dbPath)
+			if err != nil {
+				return nil, convertErr(err)
+			}
+			dbFileSize = int64(dbFileInfo.Size())
+		}
+		// TODO(jhj): Verify via testing these with testing before going live
+		const (
+			DefaultMaxBatchSize = 0
+			DefaultMaxBatchDelay = 0
+			DefaultAllocSize = 1 * 1024 * 1024 * 1024
+		)
+		options = &bbolt.Options{
+			NoFreelistSync:  true,
+			InitialMmapSize: int(math.Ceil(float64(dbFileSize) * 2.5)),
+			FreelistType:    bbolt.FreelistMapType,
+		}
 	}
-
-	boltDB, err := bbolt.Open(dbPath, 0600, nil)
+	boltDB, err := bbolt.Open(dbPath, 0600, options)
 	return (*db)(boltDB), convertErr(err)
 }

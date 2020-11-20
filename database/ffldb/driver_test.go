@@ -5,7 +5,6 @@
 package ffldb_test
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -14,140 +13,11 @@ import (
 
 	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/btcutil/er"
-	"github.com/pkt-cash/pktd/btcutil/util"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/genesis"
 	"github.com/pkt-cash/pktd/database"
 	"github.com/pkt-cash/pktd/database/ffldb"
 )
-
-// dbType is the database type name for this driver.
-const dbType = "ffldb"
-
-// TestCreateOpenFail ensures that errors related to creating and opening a
-// database are handled properly.
-func TestCreateOpenFail(t *testing.T) {
-
-	// Ensure that attempting to open a database that doesn't exist returns
-	// the expected error.
-	wantErrCode := database.ErrDbDoesNotExist
-	_, err := database.Open(dbType, "noexist", blockDataNet)
-	if !util.CheckError(t, "Open", err, wantErrCode) {
-		return
-	}
-
-	// Ensure that attempting to open a database with the wrong number of
-	// parameters returns the expected error.
-	wantErr := fmt.Errorf("invalid arguments to %s.Open -- expected "+
-		"database path and block network", dbType)
-	_, err = database.Open(dbType, 1, 2, 3)
-	if er.Wrapped(err).Error() != wantErr.Error() {
-		t.Errorf("Open: did not receive expected error - got %v, "+
-			"want %v", err, wantErr)
-		return
-	}
-
-	// Ensure that attempting to open a database with an invalid type for
-	// the first parameter returns the expected error.
-	wantErr = fmt.Errorf("first argument to %s.Open is invalid -- "+
-		"expected database path string", dbType)
-	_, err = database.Open(dbType, 1, blockDataNet)
-	if er.Wrapped(err).Error() != wantErr.Error() {
-		t.Errorf("Open: did not receive expected error - got %v, "+
-			"want %v", err, wantErr)
-		return
-	}
-
-	// Ensure that attempting to open a database with an invalid type for
-	// the second parameter returns the expected error.
-	wantErr = fmt.Errorf("second argument to %s.Open is invalid -- "+
-		"expected block network", dbType)
-	_, err = database.Open(dbType, "noexist", "invalid")
-	if er.Wrapped(err).Error() != wantErr.Error() {
-		t.Errorf("Open: did not receive expected error - got %v, "+
-			"want %v", err, wantErr)
-		return
-	}
-
-	// Ensure that attempting to create a database with the wrong number of
-	// parameters returns the expected error.
-	wantErr = fmt.Errorf("invalid arguments to %s.Create -- expected "+
-		"database path and block network", dbType)
-	_, err = database.Create(dbType, 1, 2, 3)
-	if er.Wrapped(err).Error() != wantErr.Error() {
-		t.Errorf("Create: did not receive expected error - got %v, "+
-			"want %v", err, wantErr)
-		return
-	}
-
-	// Ensure that attempting to create a database with an invalid type for
-	// the first parameter returns the expected error.
-	wantErr = fmt.Errorf("first argument to %s.Create is invalid -- "+
-		"expected database path string", dbType)
-	_, err = database.Create(dbType, 1, blockDataNet)
-	if er.Wrapped(err).Error() != wantErr.Error() {
-		t.Errorf("Create: did not receive expected error - got %v, "+
-			"want %v", err, wantErr)
-		return
-	}
-
-	// Ensure that attempting to create a database with an invalid type for
-	// the second parameter returns the expected error.
-	wantErr = fmt.Errorf("second argument to %s.Create is invalid -- "+
-		"expected block network", dbType)
-	_, err = database.Create(dbType, "noexist", "invalid")
-	if er.Wrapped(err).Error() != wantErr.Error() {
-		t.Errorf("Create: did not receive expected error - got %v, "+
-			"want %v", err, wantErr)
-		return
-	}
-
-	// Ensure operations against a closed database return the expected
-	// error.
-	dbPath := filepath.Join(os.TempDir(), "ffldb-createfail")
-	_ = os.RemoveAll(dbPath)
-	db, err := database.Create(dbType, dbPath, blockDataNet)
-	if err != nil {
-		t.Errorf("Create: unexpected error: %v", err)
-		return
-	}
-	defer os.RemoveAll(dbPath)
-	db.Close()
-
-	wantErrCode = database.ErrDbNotOpen
-	err = db.View(func(tx database.Tx) er.R {
-		return nil
-	})
-	if !util.CheckError(t, "View", err, wantErrCode) {
-		return
-	}
-
-	wantErrCode = database.ErrDbNotOpen
-	err = db.Update(func(tx database.Tx) er.R {
-		return nil
-	})
-	if !util.CheckError(t, "Update", err, wantErrCode) {
-		return
-	}
-
-	wantErrCode = database.ErrDbNotOpen
-	_, err = db.Begin(false)
-	if !util.CheckError(t, "Begin(false)", err, wantErrCode) {
-		return
-	}
-
-	wantErrCode = database.ErrDbNotOpen
-	_, err = db.Begin(true)
-	if !util.CheckError(t, "Begin(true)", err, wantErrCode) {
-		return
-	}
-
-	wantErrCode = database.ErrDbNotOpen
-	err = db.Close()
-	if !util.CheckError(t, "Close", err, wantErrCode) {
-		return
-	}
-}
 
 // TestPersistence ensures that values stored are still valid after closing and
 // reopening the database.
@@ -156,9 +26,9 @@ func TestPersistence(t *testing.T) {
 	// Create a new database to run tests against.
 	dbPath := filepath.Join(os.TempDir(), "ffldb-persistencetest")
 	_ = os.RemoveAll(dbPath)
-	db, err := database.Create(dbType, dbPath, blockDataNet)
+	db, err := ffldb.OpenDB(dbPath, blockDataNet, true)
 	if err != nil {
-		t.Errorf("Failed to create test database (%s) %v", dbType, err)
+		t.Errorf("Failed to create test database: %v", err)
 		return
 	}
 	defer os.RemoveAll(dbPath)
@@ -208,9 +78,9 @@ func TestPersistence(t *testing.T) {
 
 	// Close and reopen the database to ensure the values persist.
 	db.Close()
-	db, err = database.Open(dbType, dbPath, blockDataNet)
+	db, err = ffldb.OpenDB(dbPath, blockDataNet, false)
 	if err != nil {
-		t.Errorf("Failed to open test database (%s) %v", dbType, err)
+		t.Errorf("Failed to open test database: %v", err)
 		return
 	}
 	defer db.Close()
@@ -261,21 +131,13 @@ func TestInterface(t *testing.T) {
 	// Create a new database to run tests against.
 	dbPath := filepath.Join(os.TempDir(), "ffldb-interfacetest")
 	_ = os.RemoveAll(dbPath)
-	db, err := database.Create(dbType, dbPath, blockDataNet)
+	db, err := ffldb.OpenDB(dbPath, blockDataNet, true)
 	if err != nil {
-		t.Errorf("Failed to create test database (%s) %v", dbType, err)
+		t.Errorf("Failed to create test database %v", err)
 		return
 	}
 	defer os.RemoveAll(dbPath)
 	defer db.Close()
-
-	// Ensure the driver type is the expected value.
-	gotDbType := db.Type()
-	if gotDbType != dbType {
-		t.Errorf("Type: unepxected driver type - got %v, want %v",
-			gotDbType, dbType)
-		return
-	}
 
 	// Run all of the interface tests against the database.
 	runtime.GOMAXPROCS(runtime.NumCPU()*6)

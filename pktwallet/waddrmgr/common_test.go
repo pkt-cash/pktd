@@ -15,7 +15,8 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
-	_ "github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
+	"github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
+	"go.etcd.io/bbolt"
 )
 
 var (
@@ -225,7 +226,10 @@ func emptyDB(t *testing.T) (tearDownFunc func(), db walletdb.DB) {
 		t.Fatalf("Failed to create db temp dir: %v", errr)
 	}
 	dbPath := filepath.Join(dirName, "mgrtest.db")
-	db, err := walletdb.Create("bdb", dbPath)
+	opts := &bbolt.Options{
+		NoFreelistSync: true,
+	}
+	db, err := bdb.OpenDB(dbPath, true, opts)
 	if err != nil {
 		_ = os.RemoveAll(dirName)
 		t.Fatalf("createDbNamespace: unexpected error: %v", err)
@@ -246,7 +250,10 @@ func setupManager(t *testing.T) (tearDownFunc func(), db walletdb.DB, mgr *Manag
 		t.Fatalf("Failed to create db temp dir: %v", errr)
 	}
 	dbPath := filepath.Join(dirName, "mgrtest.db")
-	db, err := walletdb.Create("bdb", dbPath)
+	opts := &bbolt.Options{
+		NoFreelistSync: true,
+	}
+	db, err := bdb.OpenDB(dbPath, true, opts)
 	if err != nil {
 		_ = os.RemoveAll(dirName)
 		t.Fatalf("createDbNamespace: unexpected error: %v", err)

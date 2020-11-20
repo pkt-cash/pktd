@@ -14,8 +14,7 @@ import (
 	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/genesis"
-	"github.com/pkt-cash/pktd/database"
-	_ "github.com/pkt-cash/pktd/database/ffldb"
+	"github.com/pkt-cash/pktd/database/ffldb"
 )
 
 // This example demonstrates how to create a new chain instance and use
@@ -31,7 +30,7 @@ func ExampleBlockChain_ProcessBlock() {
 	// around.
 	dbPath := filepath.Join(os.TempDir(), "exampleprocessblock")
 	_ = os.RemoveAll(dbPath)
-	db, err := database.Create("ffldb", dbPath, chaincfg.MainNetParams.Net)
+	db, err := ffldb.OpenDB(dbPath, chaincfg.MainNetParams.Net, true)
 	if err != nil {
 		fmt.Printf("Failed to create database: %v\n", err)
 		return

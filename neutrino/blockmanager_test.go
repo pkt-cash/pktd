@@ -24,9 +24,10 @@ import (
 	"github.com/pkt-cash/pktd/neutrino/blockntfns"
 	"github.com/pkt-cash/pktd/neutrino/headerfs"
 	"github.com/pkt-cash/pktd/peer"
-	"github.com/pkt-cash/pktd/pktwallet/walletdb"
+	"github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
 	"github.com/pkt-cash/pktd/txscript"
 	"github.com/pkt-cash/pktd/wire"
+	"go.etcd.io/bbolt"
 )
 
 // maxHeight is the height we will generate filter headers up to.
@@ -42,8 +43,10 @@ func setupBlockManager() (*blockManager, headerfs.BlockHeaderStore,
 		return nil, nil, nil, nil, er.Errorf("Failed to create "+
 			"temporary directory: %s", errr)
 	}
-
-	db, err := walletdb.Create("bdb", tempDir+"/weks.db")
+    opts := &bbolt.Options{
+        NoFreelistSync: true,
+    }
+	db, err := bdb.OpenDB(tempDir+"/weks.db", true, opts)
 	if err != nil {
 		os.RemoveAll(tempDir)
 		return nil, nil, nil, nil, er.Errorf("Error opening DB: %s",

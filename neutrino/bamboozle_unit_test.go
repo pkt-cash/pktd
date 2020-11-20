@@ -14,8 +14,9 @@ import (
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/neutrino/headerfs"
-	"github.com/pkt-cash/pktd/pktwallet/walletdb"
+	"github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
 	"github.com/pkt-cash/pktd/wire"
+	"go.etcd.io/bbolt"
 )
 
 func decodeHashNoError(str string) *chainhash.Hash {
@@ -549,8 +550,10 @@ func runCheckCFCheckptSanityTestCase(t *testing.T, testCase *cfCheckptTestCase) 
 		t.Fatalf("Failed to create temporary directory: %s", er.E(errr))
 	}
 	defer os.RemoveAll(tempDir)
-
-	db, err := walletdb.Create("bdb", tempDir+"/weks.db")
+    opts := &bbolt.Options{
+        NoFreelistSync: true,
+    }
+	db, err := bdb.OpenDB(tempDir+"/weks.db", true, opts)
 	if err != nil {
 		t.Fatalf("Error opening DB: %s", err)
 	}

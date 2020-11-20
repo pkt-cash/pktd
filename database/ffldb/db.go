@@ -2034,9 +2034,9 @@ func initDB(ldb *leveldb.DB) er.R {
 	return nil
 }
 
-// openDB opens the database at the provided path.  database.ErrDbDoesNotExist
+// OpenDB opens the database at the provided path.  database.ErrDbDoesNotExist
 // is returned if the database doesn't exist and the create flag is not set.
-func openDB(dbPath string, network protocol.BitcoinNet, create bool) (database.DB, er.R) {
+func OpenDB(dbPath string, network protocol.BitcoinNet, create bool) (database.DB, er.R) {
 	// Error if the database doesn't exist and the create flag is not set.
 	metadataDbPath := filepath.Join(dbPath, metadataDbName)
 	dbExists := fileExists(metadataDbPath)

@@ -8,6 +8,8 @@
 package walletdb
 
 import (
+	//"go.etcd.io/bbolt"
+
 	"io"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -242,73 +244,16 @@ func Update(db DB, f func(tx ReadWriteTx) er.R) er.R {
 	return tx.Commit()
 }
 
-// Driver defines a structure for backend drivers to use when they registered
-// themselves as a backend which implements the Db interface.
-type Driver struct {
-	// DbType is the identifier used to uniquely identify a specific
-	// database driver.  There can be only one driver with the same name.
-	DbType string
-
-	// Create is the function that will be invoked with all user-specified
-	// arguments to create the database.  This function must return
-	// ErrDbExists if the database already exists.
-	Create func(args ...interface{}) (DB, er.R)
-
-	// Open is the function that will be invoked with all user-specified
-	// arguments to open the database.  This function must return
-	// ErrDbDoesNotExist if the database has not already been created.
-	Open func(args ...interface{}) (DB, er.R)
-}
-
-// driverList holds all of the registered database backends.
-var drivers = make(map[string]*Driver)
-
-// RegisterDriver adds a backend database driver to available interfaces.
-// ErrDbTypeRegistered will be retruned if the database type for the driver has
-// already been registered.
-func RegisterDriver(driver Driver) er.R {
-	if _, exists := drivers[driver.DbType]; exists {
-		return ErrDbTypeRegistered.Default()
-	}
-
-	drivers[driver.DbType] = &driver
-	return nil
-}
-
-// SupportedDrivers returns a slice of strings that represent the database
-// drivers that have been registered and are therefore supported.
-func SupportedDrivers() []string {
-	supportedDBs := make([]string, 0, len(drivers))
-	for _, drv := range drivers {
-		supportedDBs = append(supportedDBs, drv.DbType)
-	}
-	return supportedDBs
-}
-
 // Create intializes and opens a database for the specified type.  The arguments
 // are specific to the database type driver.  See the documentation for the
 // database driver for further details.
-//
-// ErrDbUnknownType will be returned if the the database type is not registered.
-func Create(dbType string, args ...interface{}) (DB, er.R) {
-	drv, exists := drivers[dbType]
-	if !exists {
-		return nil, ErrDbUnknownType.Default()
-	}
-
-	return drv.Create(args...)
-}
+//func Create(dbPath string, options *bbolt.Options) (DB, er.R) {
+//	return OpenDB(dbPath, true, options)
+//}
 
 // Open opens an existing database for the specified type.  The arguments are
 // specific to the database type driver.  See the documentation for the database
 // driver for further details.
-//
-// ErrDbUnknownType will be returned if the the database type is not registered.
-func Open(dbType string, args ...interface{}) (DB, er.R) {
-	drv, exists := drivers[dbType]
-	if !exists {
-		return nil, ErrDbUnknownType.Default()
-	}
-
-	return drv.Open(args...)
-}
+//func Open(dbPath string, options *bbolt.Options) (DB, er.R) {
+//	return OpenDB(dbPath, false, options)
+//}

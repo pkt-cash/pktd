@@ -5,6 +5,7 @@
 package main
 
 import (
+	"go.etcd.io/bbolt"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -22,6 +23,7 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/rpc/legacyrpc"
 	"github.com/pkt-cash/pktd/pktwallet/wallet"
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
+	"github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
 	"github.com/arl/statsviz"
 )
 
@@ -92,7 +94,7 @@ func walletMain() er.R {
 	}
 
 	dbDir := networkDir(cfg.AppDataDir.Value, activeNet.Params)
-	loader := wallet.NewLoader(activeNet.Params, dbDir, cfg.Wallet, 250)
+	loader := wallet.NewLoader(activeNet.Params, dbDir, cfg.Wallet, true, 250)
 
 	// Create and start HTTP server to serve wallet client connections.
 	// This will be updated with the wallet and chain server RPC client
@@ -189,13 +191,15 @@ func rpcClientConnectLoop(legacyRPCServer *legacyrpc.Server, loader *wallet.Load
 				spvdb        walletdb.DB
 			)
 			netDir := networkDir(cfg.AppDataDir.Value, activeNet.Params)
-			spvdb, err = walletdb.Create("bdb",
-				filepath.Join(netDir, "neutrino.db"))
-			defer spvdb.Close()
+			opts := &bbolt.Options{
+				NoFreelistSync: true,
+			}
+			spvdb, err = bdb.OpenDB(filepath.Join(netDir, "neutrino.db"), true, opts)
 			if err != nil {
 				log.Errorf("Unable to create Neutrino DB: %s", err)
 				continue
 			}
+			defer spvdb.Close()
 			cp := cfg.ConnectPeers
 			chainService, err = neutrino.NewChainService(
 				neutrino.Config{

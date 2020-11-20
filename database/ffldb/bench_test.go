@@ -15,6 +15,7 @@ import (
 	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/database"
+//	"github.com/pkt-cash/pktd/database/ffldb"
 )
 
 // BenchmarkBlockHeader benchmarks how long it takes to load the mainnet genesis
@@ -24,7 +25,7 @@ func BenchmarkBlockHeader(b *testing.B) {
 	// genesis block.
 	dbPath := filepath.Join(os.TempDir(), "ffldb-benchblkhdr")
 	_ = os.RemoveAll(dbPath)
-	db, err := database.Create("ffldb", dbPath, blockDataNet)
+	db, err := OpenDB(dbPath, blockDataNet, true)
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -65,7 +66,7 @@ func BenchmarkBlock(b *testing.B) {
 	// genesis block.
 	dbPath := filepath.Join(os.TempDir(), "ffldb-benchblk")
 	_ = os.RemoveAll(dbPath)
-	db, err := database.Create("ffldb", dbPath, blockDataNet)
+	db, err := OpenDB(dbPath, blockDataNet, true)
 	if err != nil {
 		b.Fatal(err)
 	}

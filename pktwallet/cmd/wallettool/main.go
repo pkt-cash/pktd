@@ -20,7 +20,8 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/util"
 	"github.com/pkt-cash/pktd/pktconfig/version"
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
-	_ "github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
+	"github.com/pkt-cash/pktd/pktwallet/walletdb/bdb"
+	"go.etcd.io/bbolt"
 )
 
 const defaultNet = "pkt"
@@ -94,7 +95,7 @@ func print0(depth int, b walletdb.ReadBucket) er.R {
 	})
 }
 
-func print(db walletdb.DB) er.R {
+func wprint(db walletdb.DB) er.R {
 	return walletdb.View(db, func(tx walletdb.ReadTx) er.R {
 		return print0(0, tx.ReadBucket(nil))
 	})
@@ -122,7 +123,10 @@ func repair0(temppath string, db walletdb.DB) er.R {
 	if util.Exists(backupPath) {
 		return er.Errorf("%s exists so no place to put the backup", backupPath)
 	}
-	toDb, err := walletdb.Create("bdb", temppath)
+    bboltopts := &bbolt.Options{
+        NoFreelistSync: true,
+    }
+	toDb, err := bdb.OpenDB(temppath, true, bboltopts)
 	if err != nil {
 		return err
 	}
@@ -158,7 +162,7 @@ func repair(db walletdb.DB) er.R {
 }
 
 var ops = map[string]func(db walletdb.DB) er.R{
-	"print":  print,
+	"print":  wprint,
 	"repair": repair,
 }
 
@@ -178,8 +182,10 @@ func mainInt() int {
 		fmt.Println("Database file does not exist")
 		return 1
 	}
-
-	db, err := walletdb.Open("bdb", opts.DbPath)
+	bboltopts := &bbolt.Options{
+	// Not needed
+	}
+	db, err := bdb.OpenDB(opts.DbPath, false, bboltopts)
 	if err != nil {
 		fmt.Println("Failed to open database:", err)
 		return 1

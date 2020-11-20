@@ -12,16 +12,31 @@
 
 package bdb_test
 
+
 import (
+	"io/ioutil"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/pkt-cash/pktd/pktwallet/walletdb/walletdbtest"
+	"go.etcd.io/bbolt"
 )
 
 // TestInterface performs all interfaces tests for this database driver.
 func TestInterface(t *testing.T) {
-	dbPath := "interfacetest.db"
+	tempDir, err := ioutil.TempDir("", "interfacetest")
+	if err != nil {
+		t.Errorf("unable to create temp dir: %v", err)
+		return
+	}
+	defer os.Remove(tempDir)
+
+	dbPath := filepath.Join(tempDir, "db")
 	defer os.RemoveAll(dbPath)
-	walletdbtest.TestInterface(t, dbType, dbPath)
+
+	opts := &bbolt.Options{
+		NoFreelistSync: true,
+	}
+	walletdbtest.TestInterface(t, dbPath, opts)
 }

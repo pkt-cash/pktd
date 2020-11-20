@@ -26,7 +26,6 @@ import (
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/chaincfg/globalcfg"
-	"github.com/pkt-cash/pktd/database"
 	_ "github.com/pkt-cash/pktd/database/ffldb"
 	"github.com/pkt-cash/pktd/mempool"
 	"github.com/pkt-cash/pktd/peer"
@@ -45,7 +44,6 @@ const (
 	defaultMaxRPCClients         = 10
 	defaultMaxRPCWebsockets      = 25
 	defaultMaxRPCConcurrentReqs  = 20
-	defaultDbType                = "ffldb"
 	defaultFreeTxRelayLimit      = 15.0
 	defaultTrickleInterval       = peer.DefaultTrickleInterval
 	defaultBlockMinSize          = 0
@@ -68,7 +66,6 @@ var (
 	defaultHomeDir     = btcutil.AppDataDir("pktd", false)
 	defaultConfigFile  = filepath.Join(defaultHomeDir, defaultConfigFilename)
 	defaultDataDir     = filepath.Join(defaultHomeDir, defaultDataDirname)
-	knownDbTypes       = database.SupportedDrivers()
 	defaultRPCKeyFile  = filepath.Join(defaultHomeDir, "rpc.key")
 	defaultRPCCertFile = filepath.Join(defaultHomeDir, "rpc.cert")
 	defaultLogDir      = filepath.Join(defaultHomeDir, defaultLogDirname)
@@ -131,7 +128,7 @@ type config struct {
 	SimNet               bool          `long:"simnet" description:"Use the simulation test network"`
 	AddCheckpoints       []string      `long:"addcheckpoint" description:"Add a custom checkpoint.  Format: '<height>:<hash>'"`
 	DisableCheckpoints   bool          `long:"nocheckpoints" description:"Disable built-in checkpoints.  Don't do this unless you know what you're doing."`
-	DbType               string        `long:"dbtype" description:"Database backend to use for the Block Chain"`
+	MemDb				 bool		   `long:"memdb" description:"Use the in-memory database.  Don't do this unless you know what you're doing."`
 	StatsViz			 string		   `long:"statsviz" description:"Enable StatsViz runtime visualization on given port -- NOTE port must be between 1024 and 65535"`
 	Profile              string        `long:"profile" description:"Enable HTTP profiling on given port -- NOTE port must be between 1024 and 65535"`
 	CPUProfile           string        `long:"cpuprofile" description:"Write CPU profile to the specified file"`
@@ -275,17 +272,6 @@ func parseAndSetDebugLevels(debugLevel string) er.R {
 	return nil
 }
 
-// validDbType returns whether or not dbType is a supported database type.
-func validDbType(dbType string) bool {
-	for _, knownType := range knownDbTypes {
-		if dbType == knownType {
-			return true
-		}
-	}
-
-	return false
-}
-
 // removeDuplicateAddresses returns a new slice with all duplicate entries in
 // addrs removed.
 func removeDuplicateAddresses(addrs []string) []string {
@@ -413,7 +399,6 @@ func loadConfig() (*config, []string, er.R) {
 		HomeDir:              defaultHomeDir,
 		DataDir:              defaultDataDir,
 		LogDir:               defaultLogDir,
-		DbType:               defaultDbType,
 		RPCKey:               defaultRPCKeyFile,
 		RPCCert:              defaultRPCCertFile,
 		MinRelayTxFee:        -1, // this gets configured later
@@ -609,16 +594,6 @@ func loadConfig() (*config, []string, er.R) {
 	// Parse, validate, and set debug log level(s).
 	if err := parseAndSetDebugLevels(cfg.DebugLevel); err != nil {
 		err := er.Errorf("%s: %v", funcName, err)
-		fmt.Fprintln(os.Stderr, err)
-		fmt.Fprintln(os.Stderr, usageMessage)
-		return nil, nil, err
-	}
-
-	// Validate database type.
-	if !validDbType(cfg.DbType) {
-		str := "%s: The specified database type [%v] is invalid -- " +
-			"supported types %v"
-		err := er.Errorf(str, funcName, cfg.DbType, knownDbTypes)
 		fmt.Fprintln(os.Stderr, err)
 		fmt.Fprintln(os.Stderr, usageMessage)
 		return nil, nil, err

@@ -214,14 +214,14 @@ func (cm *ConnManager) handleFailedConn(c *ConnReq) {
 			log.Debugf("Max failed connection attempts reached: [%d] "+
 				"-- retrying connection in: %v", maxFailedAttempts,
 				cm.cfg.RetryDuration)
-			theId := c.id
+			theID := c.id
 			time.AfterFunc(cm.cfg.RetryDuration, func() {
-				cm.Remove(theId)
+				cm.Remove(theID)
 				cm.NewConnReq()
 			})
 		} else {
-			go func(theId uint64) {
-				cm.Remove(theId)
+			go func(theID uint64) {
+				cm.Remove(theID)
 				cm.NewConnReq()
 			}(c.id)
 		}
@@ -428,8 +428,8 @@ func (cm *ConnManager) Connect(c *ConnReq) {
 	// this connection was already canceled
 	if c.State() == ConnCanceled {
 		log.Infof("Ignoring canceled connreq=%v, attempting new connection.", c)
-		theId := c.id
-		cm.Remove(theId)
+		theID := c.id
+		cm.Remove(theID)
 		cm.NewConnReq()
 		return
 	}

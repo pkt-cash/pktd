@@ -88,7 +88,7 @@ func TestBloomFilter_Small(t *testing.T) {
 func nextN(n int) int {
 	switch {
 	case n < 10:
-		n += 1
+		n++
 	case n < 100:
 		n += 10
 	case n < 1000:
