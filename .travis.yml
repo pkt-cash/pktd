@@ -1,8 +1,8 @@
 language: go
 go: 1.15.5
 before_install:
-  - go get github.com/mattn/goveralls
-  - go get golang.org/x/tools/cmd/cover
+  - sh -c 'export GO111MODULE="off" && go get github.com/mattn/goveralls || true' || true
+  - sh -c 'export GO111MODULE="off" && go get golang.org/x/tools/cmd/cover || true || true
 install:
   - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
   - git -P fetch --tags
@@ -28,15 +28,15 @@ jobs:
           - time
           update: true
       script:
-      - GO111MODULE="off" go get -u github.com/mattn/goveralls
-      - GO111MODULE="off" go get golang.org/x/tools/cmd/cover
+      - bash -c 'export GO111MODULE="off" && go get -u github.com/mattn/goveralls || true' || true
+      - bash -c 'export GO111MODULE="off" && go get golang.org/x/tools/cmd/cover || true' || true
       - git -P diff --full-index --ignore-cr-at-eol --exit-code
       - git -P reset --hard
       - command time -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
       - gem i -E -N fpm
       - bash ./contrib/deb/build.sh
       - bash ./contrib/rpm/build.sh
-      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)"
+      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)" || true
     - os: osx
       osx_image: xcode12.2
       addons:
@@ -49,12 +49,14 @@ jobs:
           - gnu-time
           update: true
       script:
+      - bash -c 'export GO111MODULE="off" && go get -u github.com/mattn/goveralls || true' || true
+      - bash -c 'export GO111MODULE="off" && go get golang.org/x/tools/cmd/cover || true' || true
       - git -P diff --full-index --ignore-cr-at-eol --exit-code
       - git -P reset --hard
       - gtime -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
       - gem i -E -N fpm
       - bash ./contrib/macos/build.sh
-      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)"
+      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)" || true
 deploy:
   edge: true
   provider: releases
