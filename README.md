@@ -59,7 +59,7 @@ Additional alternative wallet packages are currently under active development.
 
 ## Requirements
 
-* [Go](http://golang.org) (*Golang*), release 1.14.1 or later, running on a supported 64-bit architecture.
+* [Go](http://golang.org) (*Golang*), release 1.14.1 or later, running on a supported 64-bit platform.
 * A somewhat recent release of Git (*used to clone the repository, and by Go to download dependencies*).
 
 
