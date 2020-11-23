@@ -60,7 +60,6 @@ Application Options:
       --simnet                Use the simulation test network
       --addcheckpoint=        Add a custom checkpoint.  Format: '<height>:<hash>'
       --nocheckpoints         Disable built-in checkpoints.  Don't do this unless you know what you're doing.
-      --memdb                 Use the in-memory database.  Don't do this unless you know what you're doing.
       --statsviz=             Enable StatsViz runtime visualization on given port -- NOTE port must be between 1024 and 65535
       --profile=              Enable HTTP profiling on given port -- NOTE port must be between 1024 and 65535
       --cpuprofile=           Write CPU profile to the specified file

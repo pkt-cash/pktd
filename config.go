@@ -128,7 +128,6 @@ type config struct {
 	SimNet               bool          `long:"simnet" description:"Use the simulation test network"`
 	AddCheckpoints       []string      `long:"addcheckpoint" description:"Add a custom checkpoint.  Format: '<height>:<hash>'"`
 	DisableCheckpoints   bool          `long:"nocheckpoints" description:"Disable built-in checkpoints.  Don't do this unless you know what you're doing."`
-	MemDb				 bool		   `long:"memdb" description:"Use the in-memory database.  Don't do this unless you know what you're doing."`
 	StatsViz			 string		   `long:"statsviz" description:"Enable StatsViz runtime visualization on given port -- NOTE port must be between 1024 and 65535"`
 	Profile              string        `long:"profile" description:"Enable HTTP profiling on given port -- NOTE port must be between 1024 and 65535"`
 	CPUProfile           string        `long:"cpuprofile" description:"Write CPU profile to the specified file"`

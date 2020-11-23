@@ -387,12 +387,12 @@ func OpenDB(dbPath string, create bool, options *bbolt.Options) (walletdb.DB, er
 			}
 			dbFileSize = int64(dbFileInfo.Size())
 		}
-		// TODO(jhj): Verify via testing these with testing before going live
-		const (
+		// TODO(jhj): Verify these with more testing before going "live"
+		/* const (
 			DefaultMaxBatchSize = 0
 			DefaultMaxBatchDelay = 0
 			DefaultAllocSize = 1 * 1024 * 1024 * 1024
-		)
+		) */
 		options = &bbolt.Options{
 			NoFreelistSync:  true,
 			InitialMmapSize: int(math.Ceil(float64(dbFileSize) * 2.5)),
