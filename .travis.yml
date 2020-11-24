@@ -32,7 +32,7 @@ jobs:
       - bash -c 'export GO111MODULE="off" && go get golang.org/x/tools/cmd/cover || true' || true
       - git -P diff --full-index --ignore-cr-at-eol --exit-code
       - git -P reset --hard
-      - command time -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
+      - command time -v bash --noprofile --norc --posix -l -p -o pipefail -c "LONG_TESTS=1 ./do"
       - gem i -E -N fpm
       - bash ./contrib/deb/build.sh
       - bash ./contrib/rpm/build.sh
@@ -53,7 +53,7 @@ jobs:
       - bash -c 'export GO111MODULE="off" && go get golang.org/x/tools/cmd/cover || true' || true
       - git -P diff --full-index --ignore-cr-at-eol --exit-code
       - git -P reset --hard
-      - gtime -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
+      - gtime -v bash --noprofile --norc --posix -l -p -o pipefail -c "LONG_TESTS=1 ./do"
       - gem i -E -N fpm
       - bash ./contrib/macos/build.sh
       - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -tags osnetgo,osusergo,long_tests -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)" || true
