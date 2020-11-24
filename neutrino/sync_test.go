@@ -1,3 +1,5 @@
+// +build neutrino_long_tests
+
 package neutrino_test
 
 import (
@@ -1003,10 +1005,6 @@ func testRandomBlocks(harness *neutrinoHarness, t *testing.T) {
 }
 
 func TestNeutrinoSync(t *testing.T) {
-	if os.Getenv("ALL_TESTS") == "" {
-		t.Skip("Skipping TestNeutrinoSync because it is slow, use ALL_TESTS=1 to enable")
-		return
-	}
 	// Set up logging.
 	logger := pktlog.NewBackend(os.Stdout)
 	chainLogger := logger.Logger("CHAIN")

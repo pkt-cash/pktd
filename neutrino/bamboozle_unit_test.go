@@ -1,3 +1,5 @@
+// +build neutrino_long_tests
+
 package neutrino
 
 import (

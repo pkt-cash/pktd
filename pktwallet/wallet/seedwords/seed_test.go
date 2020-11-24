@@ -1,6 +1,8 @@
 // Copyright (c) 2020 Anode LLC
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
+//
+// +build long_tests
 
 package seedwords_test
 

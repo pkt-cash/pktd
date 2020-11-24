@@ -4,8 +4,6 @@ github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da h1:KjTM2ks9d14ZYCvmH
 github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da/go.mod h1:eHEWzANqSiWQsof+nXEI9bUVUyV6F53Fp89EuCh2EAA=
 github.com/aead/siphash v1.0.1 h1:FwHfE/T45KPKYuuSAKyyvE+oPWcaQ+CUmFW0bPlM+kg=
 github.com/aead/siphash v1.0.1/go.mod h1:Nywa3cDsYNNK3gaciGTWPwHt0wlpNV15vwmswBAUSII=
-github.com/arl/statsviz v0.2.1 h1:hjfBf5GLMd77tTALAThs6BWwGx4gZZoVeamahwu/ZKQ=
-github.com/arl/statsviz v0.2.1/go.mod h1:Dg/DhcWPSzBVk70gVbZWcymzHDkYRhVpeScx5l+Zj7o=
 github.com/arl/statsviz v0.2.2-0.20201115121518-5ea9f0cf1bd1 h1:k6L9CoSCgZjUXhMhJgmaMx2WhW54cpBKHBoa6tmDcKg=
 github.com/arl/statsviz v0.2.2-0.20201115121518-5ea9f0cf1bd1/go.mod h1:Dg/DhcWPSzBVk70gVbZWcymzHDkYRhVpeScx5l+Zj7o=
 github.com/btcsuite/winsvc v1.0.0 h1:J9B4L7e3oqhXOcm+2IuNApwzQec85lE+QaikUcCs+dk=

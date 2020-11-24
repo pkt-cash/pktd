@@ -1,3 +1,5 @@
+// +build long_tests
+
 package table
 
 import (

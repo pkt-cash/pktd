@@ -2,6 +2,8 @@
 // Copyright (c) 2016-2017 The Lightning Network Developers
 // Use of this source code is governed by an ISC
 // license that can be found in the LICENSE file.
+//
+// +build long_tests
 
 package gcs_test
 

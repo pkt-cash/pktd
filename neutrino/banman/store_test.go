@@ -1,3 +1,5 @@
+// +build long_tests
+
 package banman_test
 
 import (
