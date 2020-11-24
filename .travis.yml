@@ -36,7 +36,7 @@ jobs:
       - gem i -E -N fpm
       - bash ./contrib/deb/build.sh
       - bash ./contrib/rpm/build.sh
-      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)" || true
+      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -tags osnetgo,osusergo,long_tests -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)" || true
     - os: osx
       osx_image: xcode12.2
       addons:
@@ -56,7 +56,7 @@ jobs:
       - gtime -v bash --noprofile --norc --posix -l -p -o pipefail "./do"
       - gem i -E -N fpm
       - bash ./contrib/macos/build.sh
-      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)" || true
+      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -tags osnetgo,osusergo,long_tests -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)" || true
 deploy:
   edge: true
   provider: releases
