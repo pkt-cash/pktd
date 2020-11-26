@@ -647,7 +647,7 @@ func (s cryptoSource) Int63() int64 {
 func (s cryptoSource) Uint64() (v uint64) {
 	err := binary.Read(crand.Reader, binary.BigEndian, &v)
 	if err != nil {
-		panic(fmt.Sprintf("Panic: cryptoSource: CSPRNG failure", err))
+        log.Fatal(err)
 	}
 	return v
 }
