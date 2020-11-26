@@ -74,7 +74,7 @@ type ChangeSource func() ([]byte, er.R)
 // BUGS: Fee estimation may be off when redeeming non-compressed P2PKH outputs.
 // TODO(cjd): Fee estimation will be off when redeeming segwit multisigs, we need the redeem script...
 func NewUnsignedTransaction(outputs []*wire.TxOut, relayFeePerKb btcutil.Amount,
-	fetchInputs InputSource, fetchChange ChangeSource) (*AuthoredTx, er.R) {
+	fetchInputs InputSource, fetchChange ChangeSource, partialOk bool) (*AuthoredTx, er.R) {
 
 	targetAmount := h.SumOutputValues(outputs)
 	estimatedSize := txsizes.EstimateVirtualSize(0, 1, 0, outputs, true)
@@ -99,9 +99,14 @@ func NewUnsignedTransaction(outputs []*wire.TxOut, relayFeePerKb btcutil.Amount,
 			return nil, err
 		}
 		if inputAmount < targetAmount+targetFee {
-			return nil, ImpossibleTxError.New(fmt.Sprintf("paying [%s] "+
-				"with fee of [%s], [%s] is immediately available from [%d] inputs",
-				targetAmount.String(), targetFee.String(), inputAmount.String(), len(inputs)), nil)
+			if partialOk && len(outputs) == 1 {
+				targetAmount = 0
+				sweepTo = outputs[0]
+			} else {
+				return nil, ImpossibleTxError.New(fmt.Sprintf("paying [%s] "+
+					"with fee of [%s], [%s] is immediately available from [%d] inputs",
+					targetAmount.String(), targetFee.String(), inputAmount.String(), len(inputs)), nil)
+			}
 		}
 
 		// We count the types of inputs, which we'll use to estimate
