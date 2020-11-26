@@ -184,7 +184,8 @@ func TestNewUnsignedTransaction(t *testing.T) {
 
 	for i, test := range tests {
 		inputSource := makeInputSource(test.UnspentOutputs)
-		tx, err := NewUnsignedTransaction(test.Outputs, test.RelayFee, inputSource, changeSource)
+		tx, err := NewUnsignedTransaction(
+			test.Outputs, test.RelayFee, inputSource, changeSource, false)
 		switch {
 		case err == nil:
 		case InputSourceError.Is(err):

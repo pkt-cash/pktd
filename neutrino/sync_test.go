@@ -513,6 +513,7 @@ func testStartRescan(harness *neutrinoHarness, t *testing.T) {
 		func() ([]byte, er.R) {
 			return script3, nil
 		},
+		false,
 	)
 	if err != nil {
 		t.Fatalf("Couldn't create unsigned transaction: %s", err)
@@ -555,6 +556,7 @@ func testStartRescan(harness *neutrinoHarness, t *testing.T) {
 		func() ([]byte, er.R) {
 			return script3, nil
 		},
+		false,
 	)
 	if err != nil {
 		t.Fatalf("Couldn't create unsigned transaction: %s", err)

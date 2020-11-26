@@ -195,7 +195,8 @@ func (w *Wallet) txToOutputs(txr CreateTxReq) (tx *txauthor.AuthoredTx, err er.R
 		}
 		return txscript.PayToAddrScript(changeAddr)
 	}
-	tx, err = txauthor.NewUnsignedTransaction(txr.Outputs, txr.FeeSatPerKB, inputSource, changeSource)
+	tx, err = txauthor.NewUnsignedTransaction(
+		txr.Outputs, txr.FeeSatPerKB, inputSource, changeSource, txr.MaxInputs > -1)
 	if err != nil {
 		if !txauthor.ImpossibleTxError.Is(err) {
 			return nil, err
@@ -530,7 +531,7 @@ func (w *Wallet) findEligibleOutputs(
 			worst := ha.credits.Right().Key.(*wtxmgr.Credit)
 			if worst == nil {
 				panic("findEligibleOutputs: worst == nil")
-            }
+			}
 			ha.credits.Remove(worst)
 			ha.amount -= worst.Amount
 			out.unusedAmt += worst.Amount
@@ -590,7 +591,7 @@ func (w *Wallet) findEligibleOutputs(
 			worst := outAc.credits.Right().Key.(*wtxmgr.Credit)
 			if worst == nil {
 				panic("findEligibleOutputs: worst == nil")
-            }
+			}
 			outAc.credits.Remove(worst)
 			outAc.amount -= worst.Amount
 			out.unusedAmt += worst.Amount
