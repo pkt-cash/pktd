@@ -30,7 +30,8 @@ import (
 )
 
 var (
-	dbPath                 = path.Join(os.TempDir(), "goleveldb-testdb")
+	src						cryptoSource
+	dbPath                 = path.Join(os.TempDir(), strconv.Itoa(rand.New(src).Int()%9999), strconv.Itoa(rand.New(src).Int()%9999), "-goleveldb-testdb")
 	openFilesCacheCapacity = 500
 	keyLen                 = 63
 	valueLen               = 256
@@ -156,13 +157,13 @@ type testingStorage struct {
 func (ts *testingStorage) scanTable(fd storage.FileDesc, checksum bool) (corrupted bool) {
 	r, err := ts.Open(fd)
 	if err != nil {
-		log.Fatal(err)
+		panic(fmt.Sprintf("testingStorage scanTable Open failure: %v", err))
 	}
 	defer r.Close()
 
 	size, err := r.Seek(0, os.SEEK_END)
 	if err != nil {
-		log.Fatal(err)
+		panic(fmt.Sprintf("testingStorage scanTable Seek failure: %v", err))
 	}
 
 	o := &opt.Options{
@@ -174,7 +175,7 @@ func (ts *testingStorage) scanTable(fd storage.FileDesc, checksum bool) (corrupt
 	}
 	tr, err := table.NewReader(r, size, fd, nil, bpool, o)
 	if err != nil {
-		log.Fatal(err)
+		panic(fmt.Sprintf("testingStorage scanTable NewReader failure: %v", err))
 	}
 	defer tr.Release()
 
@@ -226,7 +227,7 @@ func (ts *testingStorage) scanTable(fd storage.FileDesc, checksum bool) (corrupt
 
 			log.Printf("FATAL: [%v] Corruption detected: %v", fd, err)
 		} else {
-			log.Fatal(err)
+			panic(fmt.Sprintf("Panic: iter.Error: err: %v, fd: %v", err, fd))
 		}
 	}
 
@@ -315,17 +316,17 @@ func main() {
 		runtime.SetBlockProfileRate(1)
 		go func() {
 			if err := http.ListenAndServe(httpProf, nil); err != nil {
-				log.Fatalf("HTTPPROF: %v", err)
+				panic(fmt.Sprintf("Panic: HTTPPROF: %v", err))
 			}
 		}()
 	}
 
-	runtime.GOMAXPROCS(runtime.NumCPU())
+	runtime.GOMAXPROCS(runtime.NumCPU()*2)
 
 	os.RemoveAll(dbPath)
 	stor, err := storage.OpenFile(dbPath, false)
 	if err != nil {
-		log.Fatal(err)
+		panic(fmt.Sprintf("Panic: OpenFile: %v", err))
 	}
 	tstor := &testingStorage{stor}
 	defer tstor.Close()
@@ -363,7 +364,7 @@ func main() {
 
 	db, err := leveldb.Open(tstor, o)
 	if err != nil {
-		log.Fatal(err)
+		panic(fmt.Sprintf("leveldb.Open failure: %v", err))
 	}
 	defer db.Close()
 
@@ -646,7 +647,7 @@ func (s cryptoSource) Int63() int64 {
 func (s cryptoSource) Uint64() (v uint64) {
 	err := binary.Read(crand.Reader, binary.BigEndian, &v)
 	if err != nil {
-		log.Fatal(err)
+		panic(fmt.Sprintf("Panic: cryptoSource: CSPRNG failure", err))
 	}
 	return v
 }
