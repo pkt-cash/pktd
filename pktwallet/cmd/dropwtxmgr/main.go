@@ -5,9 +5,9 @@
 package main
 
 import (
-	"go.etcd.io/bbolt"
 	"bufio"
 	"fmt"
+	"go.etcd.io/bbolt"
 	"math"
 	"os"
 	"path/filepath"
@@ -78,8 +78,7 @@ func mainInt() int {
 		fmt.Println("Database file does not exist")
 		return 1
 	}
-	var dbFileSize int64
-	dbFileSize = int64(dbFileInfo.Size())
+	var dbFileSize int64 = int64(dbFileInfo.Size())
 	for !opts.Force {
 		fmt.Print("Drop all pktwallet transaction history? [y/N] ")
 
