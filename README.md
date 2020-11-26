@@ -82,7 +82,7 @@ Additional alternative wallet packages are currently under active development.
 
 The **GitHub** [**Issue Tracker**](https://github.com/pkt-cash/pktd/issues) is used for this project.
 
-  * All users submitting a [new bug report](https://github.com/pkt-cash/pktd/issues/new) should attach the output of:
+  * All users submitting a [new bug report](https://github.com/pkt-cash/pktd/issues/new?assignees=&labels=&template=bug-report.md&title=) should attach the output of:
      * `go version`, `go env`
      * `git describe --tags --always --abbrev=40`, `git status -s -b` 
   * macOS X users should attach the output of:
