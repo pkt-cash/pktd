@@ -138,7 +138,7 @@ func (t *DBTesting) TestAll() {
 }
 
 func (t *DBTesting) Put(key, value []byte) {
-	if new := t.Present.PutU(key, value); new {
+	if tnew := t.Present.PutU(key, value); tnew {
 		t.setAct(DBPut, key)
 	} else {
 		t.setAct(DBOverwrite, key)

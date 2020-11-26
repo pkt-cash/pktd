@@ -377,7 +377,7 @@ func TestCorrupt_MissingLastBlock(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	n, err = io.Copy(ioutil.Discard, rr)
+	_, err = io.Copy(ioutil.Discard, rr)
 	if err != io.ErrUnexpectedEOF {
 		t.Fatalf("read #1: unexpected error: %v", err)
 	}
@@ -542,7 +542,7 @@ func TestCorrupt_CorruptedMiddleBlock(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	n, err = io.Copy(ioutil.Discard, rr)
+	_, err = io.Copy(ioutil.Discard, rr)
 	if err != io.ErrUnexpectedEOF {
 		t.Fatalf("read #1: unexpected error: %v", err)
 	}
@@ -662,7 +662,7 @@ func TestCorrupt_CorruptedLastBlock(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	n, err = io.Copy(ioutil.Discard, rr)
+	_, err = io.Copy(ioutil.Discard, rr)
 	if err != io.ErrUnexpectedEOF {
 		t.Fatalf("read #3: unexpected error: %v", err)
 	}
@@ -733,7 +733,7 @@ func TestCorrupt_FirstChuckLengthOverflow(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	n, err = io.Copy(ioutil.Discard, rr)
+	_, err = io.Copy(ioutil.Discard, rr)
 	if err != io.ErrUnexpectedEOF {
 		t.Fatalf("read #1: unexpected error: %v", err)
 	}

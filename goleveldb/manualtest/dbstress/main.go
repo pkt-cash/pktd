@@ -90,7 +90,7 @@ func init() {
 
 func randomData(dst []byte, ns, prefix byte, i uint32, dataLen int) []byte {
 	if dataLen < (2+4+4)*2+4 {
-		panic("dataLen is too small")
+		panic("randomData failure: dataLen is too small")
 	}
 	if cap(dst) < dataLen {
 		dst = make([]byte, dataLen)
@@ -99,7 +99,7 @@ func randomData(dst []byte, ns, prefix byte, i uint32, dataLen int) []byte {
 	}
 	half := (dataLen - 4) / 2
 	if _, err := crand.Reader.Read(dst[2 : half-8]); err != nil {
-		panic(err)
+		panic(fmt.Sprintf("randomData failure: %v", err))
 	}
 	dst[0] = ns
 	dst[1] = prefix
@@ -110,7 +110,7 @@ func randomData(dst []byte, ns, prefix byte, i uint32, dataLen int) []byte {
 	copy(dst[half:full], dst[:half])
 	if full < dataLen-4 {
 		if _, err := crand.Reader.Read(dst[full : dataLen-4]); err != nil {
-			panic(err)
+			panic(fmt.Sprintf("randomData failure: %v", err))
 		}
 	}
 	binary.LittleEndian.PutUint32(dst[dataLen-4:], util.NewCRC(dst[:dataLen-4]).Value())
@@ -161,7 +161,7 @@ func (ts *testingStorage) scanTable(fd storage.FileDesc, checksum bool) (corrupt
 
 	size, err := r.Seek(0, os.SEEK_END)
 	if err != nil {
-		log.Fatal(err)
+		panic(fmt.Sprintf("testingStorage scanTable Seek failure: %v", err))
 	}
 
 	o := &opt.Options{
@@ -257,7 +257,7 @@ func (s *latencyStats) start() {
 
 func (s *latencyStats) record(n int) {
 	if s.mark.IsZero() {
-		panic("not started")
+		panic("latencyStats not started")
 	}
 	dur := time.Now().Sub(s.mark)
 	dur1 := dur / time.Duration(n)
@@ -273,9 +273,9 @@ func (s *latencyStats) record(n int) {
 }
 
 func (s *latencyStats) ratePerSec() int {
-	durSec := s.dur / time.Second
-	if durSec > 0 {
-		return s.num / int(durSec)
+	durTime := s.dur / time.Second
+	if durTime > 0 {
+		return s.num / int(durTime)
 	}
 	return s.num
 }
@@ -362,7 +362,7 @@ func main() {
 
 	db, err := leveldb.Open(tstor, o)
 	if err != nil {
-		log.Fatal(err)
+		panic(fmt.Sprintf("leveldb.Open failure: %v", err))
 	}
 	defer db.Close()
 
