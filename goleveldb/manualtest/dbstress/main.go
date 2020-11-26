@@ -155,7 +155,7 @@ type testingStorage struct {
 func (ts *testingStorage) scanTable(fd storage.FileDesc, checksum bool) (corrupted bool) {
 	r, err := ts.Open(fd)
 	if err != nil {
-		panic(fmt.Sprintf("testingStorage scanTable Open failure: %v" err))
+		panic(fmt.Sprintf("testingStorage scanTable Open failure: %v", err))
 	}
 	defer r.Close()
 
@@ -314,7 +314,7 @@ func main() {
 		runtime.SetBlockProfileRate(1)
 		go func() {
 			if err := http.ListenAndServe(httpProf, nil); err != nil {
-				panic(fmt.Sprintf(("Panic: HTTPPROF: %v", err)
+				panic(fmt.Sprintf("Panic: HTTPPROF: %v", err))
 			}
 		}()
 	}
