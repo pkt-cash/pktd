@@ -363,7 +363,7 @@ func main() {
 
 	db, err := leveldb.Open(tstor, o)
 	if err != nil {
-		panic(fmt.Sprintf("levedb.Open failure: %v", err))
+		panic(fmt.Sprintf("leveldb.Open failure: %v", err))
 	}
 	defer db.Close()
 
