@@ -239,10 +239,7 @@ func reflectTypeToJSONExample(xT descLookupFunc, rt reflect.Type, indentLevel in
 		result := fmt.Sprintf("%s%q: %s, (%s) %s", innerIndent,
 			xT(fieldDescKey+"--key"), xT(fieldDescKey+"--value"),
 			reflectTypeToJSONType(xT, rt), xT(fieldDescKey+"--desc"))
-		results = append(results, result)
-		results = append(results, innerIndent+"...")
-
-		results = append(results, indent+"}")
+		results = append(results, result, innerIndent+"...", indent+"}")
 		return results, true
 	}
 

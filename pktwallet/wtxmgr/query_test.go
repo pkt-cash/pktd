@@ -733,8 +733,7 @@ func TestPreviousPkScripts(t *testing.T) {
 	// Insert tx D, which spends C:0 and C:1.  However, only C:0 is marked
 	// as a credit, and only that output script should be returned.
 	insertTx(ns, recD, nil)
-	tests = append(tests, scriptTest{recD, nil, [][]byte{scriptC0}})
-	tests = append(tests, scriptTest{recD, &b101.Block, nil})
+	tests = append(tests, scriptTest{recD, nil, [][]byte{scriptC0}}, scriptTest{recD, &b101.Block, nil})
 	for _, tst := range tests {
 		runTest(ns, &tst)
 	}

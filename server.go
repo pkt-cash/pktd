@@ -53,7 +53,7 @@ const (
 	// required to be supported by outbound peers.
 	defaultRequiredServices = protocol.SFNodeNetwork
 
-	// defaultTargetOutbound is the default number of outbound peers to 
+	// defaultTargetOutbound is the default number of outbound peers to
 	// target. We are normalizing the Bitcoin Core in allowing 16 here,
 	// For Bitcoin Core latest Bitcoin Core, 14 connections are used for
 	// full relaying and 2 are used for "block only" "fast" connections,
@@ -1218,7 +1218,7 @@ func (sp *serverPeer) OnGetAddr(_ *peer.Peer, msg *wire.MsgGetAddr) {
 		if len(addrCache) > 0 {
 			addrCache = addrCache[1:]
 		}
-	addrCache = append(addrCache, bestAddress)
+		addrCache = append(addrCache, bestAddress)
 	}
 	// Now, push the addresses we got.
 	sp.pushAddrMsg(addrCache)
@@ -1961,7 +1961,7 @@ func newPeerConfig(sp *serverPeer) *peer.Config {
 	return &peer.Config{
 		Listeners: peer.MessageListeners{
 			OnVersion:      sp.OnVersion,
-			OnVerAck:		sp.OnVerAck,
+			OnVerAck:       sp.OnVerAck,
 			OnMemPool:      sp.OnMemPool,
 			OnTx:           sp.OnTx,
 			OnBlock:        sp.OnBlock,
@@ -1981,7 +1981,6 @@ func newPeerConfig(sp *serverPeer) *peer.Config {
 			OnAddr:         sp.OnAddr,
 			OnRead:         sp.OnRead,
 			OnWrite:        sp.OnWrite,
-
 		},
 		NewestBlock:       sp.newestBlock,
 		HostToNetAddress:  sp.server.addrManager.HostToNetAddress,
@@ -2039,13 +2038,13 @@ func (s *server) peerDoneHandler(sp *serverPeer) {
 	sp.WaitForDisconnect()
 	s.donePeers <- sp
 	if sp.VerAckReceived() {
-	s.syncManager.DonePeer(sp.Peer)
-	// Evict any remaining orphans that were sent by the peer.
-	numEvicted := s.txMemPool.RemoveOrphansByTag(mempool.Tag(sp.ID()))
-	if numEvicted > 0 {
-		txmpLog.Debugf("Evicted %d %s from peer %v (id %d)",
-			numEvicted, pickNoun(numEvicted, "orphan",
-				"orphans"), sp, sp.ID())
+		s.syncManager.DonePeer(sp.Peer)
+		// Evict any remaining orphans that were sent by the peer.
+		numEvicted := s.txMemPool.RemoveOrphansByTag(mempool.Tag(sp.ID()))
+		if numEvicted > 0 {
+			txmpLog.Debugf("Evicted %d %s from peer %v (id %d)",
+				numEvicted, pickNoun(numEvicted, "orphan",
+					"orphans"), sp, sp.ID())
 		}
 	}
 	close(sp.quit)
@@ -2401,8 +2400,7 @@ func parseListeners(addrs []string) ([]net.Addr, er.R) {
 
 		// Empty host or host of * on plan9 is both IPv4 and IPv6.
 		if host == "" || (host == "*" && runtime.GOOS == "plan9") {
-			netAddrs = append(netAddrs, simpleAddr{net: "tcp4", addr: addr})
-			netAddrs = append(netAddrs, simpleAddr{net: "tcp6", addr: addr})
+			netAddrs = append(netAddrs, simpleAddr{net: "tcp4", addr: addr}, simpleAddr{net: "tcp6", addr: addr})
 			continue
 		}
 
@@ -2579,7 +2577,7 @@ func newServer(listenAddrs, agentBlacklist, agentWhitelist []string,
 	}
 
 	s := server{
-		startupTime:		  time.Now().Unix(),
+		startupTime:          time.Now().Unix(),
 		chainParams:          chainParams,
 		addrManager:          amgr,
 		newPeers:             make(chan *serverPeer, cfg.MaxPeers),
