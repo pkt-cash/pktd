@@ -13,7 +13,7 @@
  [![TickgitTODOs](https://img.shields.io/endpoint?url=https://api.tickgit.com/badge?repo=github.com/pkt-cash/pktd)](https://www.tickgit.com/browse?repo=github.com/pkt-cash/pktd)
 
 
-## PKTD
+## pktd
 
 `pktd` is the reference full node [*PKT Cash*](https://pkt.cash/)
 implementation, written in [Go](https://go.dev/).
@@ -63,22 +63,19 @@ Additional alternative wallet packages are currently under active development.
 * A somewhat recent release of Git (*used to clone the repository, and by Go to download dependencies*).
 
 
-## Building PKTD
+## Building pktd
 
-Using `git`, clone the project from the repository:
-  * `git clone https://github.com/pkt-cash/pktd`
-
-Then, use the `do` script to build `pktd`, `pktwallet`, and `pktctl`:
-  * `cd pktd && ./do`
+* Using `git`, clone the project from the repository:
+   * `git clone https://github.com/pkt-cash/pktd`
+* Then, use the `do` script to build `pktd`, `pktwallet`, and `pktctl`:
+   * `cd pktd && ./do`
 
 *Optionally*, run extended tests and generate code coverage reports:
-
-Using `go get`, install the `gocov` and `gocov-html` tools into your `GOPATH`:
-  * `GO111MODULES=off go get -t -u github.com/axw/gocov/gocov`
-  * `GO111MODULES=off go get -t -u github.com/matm/gocov-html`
-  
-Then, run the coverage generation script: (*zsh, bash, ksh, or mksh required*.)
-  * `PATH=$(go env GOPATH)/bin:${PATH} ./cov_report.sh` 
+* Using `go get`, install the `gocov` and `gocov-html` tools into your `GOPATH`:
+   * `GO111MODULES=off go get -t -u github.com/axw/gocov/gocov`
+   * `GO111MODULES=off go get -t -u github.com/matm/gocov-html`  
+* Then, run the coverage generation script: (*zsh, bash, ksh, or mksh required*.)
+   * `PATH=$(go env GOPATH)/bin:${PATH} ./cov_report.sh` 
 
 
 ## Bug Reporting
@@ -114,8 +111,8 @@ for software software such as `pktd`, operating on distributed consensus. This
 class of software is unique, in that it must maintain *bug-for-bug* compatability
 in consensus-critical codepaths. Nodes which incorporate their own changes, even
 well-intentioned *"fixes"*, may not be able to properly interoperate on the main
-network, and, in sufficient numbers, these nodes could unintentionally create a
-'*forked* isolated network, only able to work with other similarly modified nodes.
+network, and, in sufficient numbers, these nodes could, unintentionally, create an
+isolated or '*forked*' blockchain, usable only by other similarly broken nodes.
 
 While not *currently* the source of any *known* issue, [Red Hat](https://bugzilla.redhat.com/buglist.cgi?bug_status=NEW&bug_status=ASSIGNED&bug_status=ON_QA&component=golang)
 will backport cherry-picked updates from unreleased versions (or produce their
