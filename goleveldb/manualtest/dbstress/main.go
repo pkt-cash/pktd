@@ -29,7 +29,8 @@ import (
 )
 
 var (
-	dbPath                 = path.Join(os.TempDir(), "goleveldb-testdb")
+	src						cryptoSource
+	dbPath                 = path.Join(os.TempDir(), strconv.Itoa(rand.New(src).Int()%9999), strconv.Itoa(rand.New(src).Int()%9999), "-goleveldb-testdb")
 	openFilesCacheCapacity = 500
 	keyLen                 = 63
 	valueLen               = 256
