@@ -124,7 +124,8 @@ func repair0(temppath string, db walletdb.DB) er.R {
 		return er.Errorf("%s exists so no place to put the backup", backupPath)
 	}
     bboltopts := &bbolt.Options{
-        NoFreelistSync: true,
+		NoFreelistSync:  true,
+		FreelistType:    bbolt.FreelistMapType,
     }
 	toDb, err := bdb.OpenDB(temppath, true, bboltopts)
 	if err != nil {
@@ -183,7 +184,8 @@ func mainInt() int {
 		return 1
 	}
 	bboltopts := &bbolt.Options{
-	// Not needed
+		NoFreelistSync:  true,
+		FreelistType:    bbolt.FreelistMapType,
 	}
 	db, err := bdb.OpenDB(opts.DbPath, false, bboltopts)
 	if err != nil {

@@ -192,7 +192,9 @@ func rpcClientConnectLoop(legacyRPCServer *legacyrpc.Server, loader *wallet.Load
 			)
 			netDir := networkDir(cfg.AppDataDir.Value, activeNet.Params)
 			opts := &bbolt.Options{
-				NoFreelistSync: true,
+				NoFreelistSync:  true,
+				InitialMmapSize: 1024 * 1024 * 512,
+				FreelistType:    bbolt.FreelistMapType,
 			}
 			spvdb, err = bdb.OpenDB(filepath.Join(netDir, "neutrino.db"), true, opts)
 			if err != nil {

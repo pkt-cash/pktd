@@ -318,7 +318,9 @@ func createSimulationWallet(cfg *config) er.R {
 
 	// Create the wallet database backed by bolt db.
 	opts := &bbolt.Options{
-		NoFreelistSync: true,
+		NoFreelistSync:  true,
+		InitialMmapSize: 1024 * 1024 * 1024 * 2,
+		FreelistType:    bbolt.FreelistMapType,
 	}
 	db, err := bdb.OpenDB(dbPath, true, opts)
 	if err != nil {

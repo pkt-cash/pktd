@@ -393,10 +393,12 @@ func OpenDB(dbPath string, create bool, options *bbolt.Options) (walletdb.DB, er
 			DefaultMaxBatchDelay = 0
 			DefaultAllocSize = 1 * 1024 * 1024 * 1024
 		) */
-		options = &bbolt.Options{
-			NoFreelistSync:  true,
-			InitialMmapSize: int(math.Ceil(float64(dbFileSize) * 2.5)),
-			FreelistType:    bbolt.FreelistMapType,
+		if options == nil {
+			options = &bbolt.Options{
+				NoFreelistSync:  true,
+				InitialMmapSize: int(math.Ceil(float64(dbFileSize) * 2.5)),
+				FreelistType:    bbolt.FreelistMapType,
+			}
 		}
 	}
 	boltDB, err := bbolt.Open(dbPath, 0600, options)

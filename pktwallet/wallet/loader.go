@@ -6,6 +6,7 @@ package wallet
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
@@ -143,7 +144,8 @@ func (l *Loader) CreateNewWallet(pubPassphrase, privPassphrase []byte,
 		return nil, err
 	}
 	opts := &bbolt.Options{
-		NoFreelistSync: l.noFreelistSync,
+		NoFreelistSync:  true,
+		FreelistType:    bbolt.FreelistMapType,
 	}
 	db, err := bdb.OpenDB(dbPath, true, opts)
 	if err != nil {
@@ -188,10 +190,25 @@ func (l *Loader) OpenExistingWallet(pubPassphrase []byte, canConsolePrompt bool)
 		return nil, err
 	}
 
+		var dbFileSize int64
+		var opts *bbolt.Options
+
 	// Open the database using the boltdb backend.
 	dbPath := WalletDbPath(l.dbDirPath, l.walletName)
-	opts := &bbolt.Options{
-		NoFreelistSync: l.noFreelistSync,
+    exists, err := fileExists(dbPath)
+    if err != nil {
+        return nil, err
+    }
+    if exists {
+		dbFileInfo, _ := os.Stat(dbPath)
+		dbFileSize = int64(dbFileInfo.Size())
+		opts = &bbolt.Options{
+			NoFreelistSync:  true,
+			InitialMmapSize: int(math.Ceil(float64(dbFileSize) * 2.5)),
+			FreelistType:    bbolt.FreelistMapType,
+		}
+	} else {
+		return nil, err
 	}
 	db, err := bdb.OpenDB(dbPath, false, opts)
 	if err != nil {
