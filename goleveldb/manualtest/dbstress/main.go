@@ -301,8 +301,8 @@ func (s *latencyStats) add(x *latencyStats) {
 func main() {
 	flag.Parse()
 
-    var src cryptoSource
-    rnd := rand.New(src)
+	var src cryptoSource
+	rnd := rand.New(src)
 
 	if enableBufferPool {
 		bpool = util.NewBufferPool(opt.DefaultBlockSize + 128)
@@ -626,7 +626,7 @@ func main() {
 
 	go func() {
 		sig := make(chan os.Signal)
-		signal.Notify(sig, os.Interrupt, os.Kill)
+		signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
 		log.Printf("Got signal: %v, exiting...", <-sig)
 		atomic.StoreUint32(&done, 1)
 	}()
@@ -639,13 +639,13 @@ type cryptoSource struct{}
 func (s cryptoSource) Seed(seed int64) {}
 
 func (s cryptoSource) Int63() int64 {
-    return int64(s.Uint64() & ^uint64(1<<63))
+	return int64(s.Uint64() & ^uint64(1<<63))
 }
 
 func (s cryptoSource) Uint64() (v uint64) {
-    err := binary.Read(crand.Reader, binary.BigEndian, &v)
-    if err != nil {
-        log.Fatal(err)
-    }
-    return v
+	err := binary.Read(crand.Reader, binary.BigEndian, &v)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return v
 }
