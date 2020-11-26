@@ -259,7 +259,7 @@ func (s *latencyStats) record(n int) {
 	if s.mark.IsZero() {
 		panic("not started")
 	}
-	dur := time.Now().Sub(s.mark)
+	dur := time.Since(s.mark)
 	dur1 := dur / time.Duration(n)
 	if dur1 < s.min || s.min == 0 {
 		s.min = dur1
@@ -301,8 +301,8 @@ func (s *latencyStats) add(x *latencyStats) {
 func main() {
 	flag.Parse()
 
-    var src cryptoSource
-    rnd := rand.New(src)
+	var src cryptoSource
+	rnd := rand.New(src)
 
 	if enableBufferPool {
 		bpool = util.NewBufferPool(opt.DefaultBlockSize + 128)
@@ -413,7 +413,7 @@ func main() {
 
 			log.Print("------------------------")
 
-			log.Printf("> Elapsed=%v", time.Now().Sub(startTime))
+			log.Printf("> Elapsed=%v", time.Since(startTime))
 			mu.Lock()
 			log.Printf("> GetLatencyMin=%v GetLatencyMax=%v GetLatencyAvg=%v GetRatePerSec=%d",
 				gGetStat.min, gGetStat.max, gGetStat.avg(), gGetStat.ratePerSec())
@@ -615,7 +615,7 @@ func main() {
 						} else {
 							writeAckAck <- struct{}{}
 						}
-						log.Printf("[%02d] SCANNER #%d Deleted=%d Time=%v", ns, i, delB.Len(), time.Now().Sub(t))
+						log.Printf("[%02d] SCANNER #%d Deleted=%d Time=%v", ns, i, delB.Len(), time.Since(t))
 					}
 
 					i++
@@ -639,13 +639,13 @@ type cryptoSource struct{}
 func (s cryptoSource) Seed(seed int64) {}
 
 func (s cryptoSource) Int63() int64 {
-    return int64(s.Uint64() & ^uint64(1<<63))
+	return int64(s.Uint64() & ^uint64(1<<63))
 }
 
 func (s cryptoSource) Uint64() (v uint64) {
-    err := binary.Read(crand.Reader, binary.BigEndian, &v)
-    if err != nil {
-        log.Fatal(err)
-    }
-    return v
+	err := binary.Read(crand.Reader, binary.BigEndian, &v)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return v
 }
