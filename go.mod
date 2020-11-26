@@ -7,7 +7,7 @@ replace github.com/pkt-cash/pktd/goleveldb => ./goleveldb
 require (
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da
 	github.com/aead/siphash v1.0.1
-	github.com/arl/statsviz v0.2.2-0.20201115121518-5ea9f0cf1bd1
+	github.com/arl/statsviz v0.2.2-0.20201124191121-aeacce1395b7
 	github.com/btcsuite/winsvc v1.0.0
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/dchest/blake2b v1.0.0
