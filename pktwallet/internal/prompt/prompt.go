@@ -17,7 +17,7 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/hdkeychain"
 	"github.com/pkt-cash/pktd/pktwallet/internal/legacy/keystore"
 	"github.com/pkt-cash/pktd/pktwallet/wallet/seedwords"
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 // ProvideSeed is used to prompt for the wallet seed which maybe required during
@@ -53,7 +53,7 @@ func ProvidePrivPassphrase() ([]byte, er.R) {
 	prompt := "Enter the private passphrase of your wallet: "
 	for {
 		fmt.Print(prompt)
-		pass, err := terminal.ReadPassword(int(os.Stdin.Fd()))
+		pass, err := term.ReadPassword(int(os.Stdin.Fd()))
 		if err != nil {
 			return nil, er.E(err)
 		}
@@ -122,7 +122,7 @@ func promptPass(reader *bufio.Reader, prefix string, confirm bool) ([]byte, er.R
 	prompt := fmt.Sprintf("%s: ", prefix)
 	for {
 		fmt.Print(prompt)
-		pass, err := terminal.ReadPassword(int(os.Stdin.Fd()))
+		pass, err := term.ReadPassword(int(os.Stdin.Fd()))
 		if err != nil {
 			return nil, er.E(err)
 		}
@@ -137,7 +137,7 @@ func promptPass(reader *bufio.Reader, prefix string, confirm bool) ([]byte, er.R
 		}
 
 		fmt.Print("Confirm passphrase: ")
-		confirm, err := terminal.ReadPassword(int(os.Stdin.Fd()))
+		confirm, err := term.ReadPassword(int(os.Stdin.Fd()))
 		if err != nil {
 			return nil, er.E(err)
 		}
