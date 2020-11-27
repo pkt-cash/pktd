@@ -35,7 +35,6 @@ require (
 	google.golang.org/genproto v0.0.0-20201021134325-0d71844de594 // indirect
 	google.golang.org/grpc v1.34.0-dev.0.20201021230544-4e8458e5c638
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
-	golang.org/x/crypto v0.0.0-20201124201722-c8d3bf9c5392
 )
 
 replace (
