@@ -23,6 +23,7 @@ cleanUp() {
 	set +e >/dev/null 2>&1 || true :
 	rm -f ./gocov_report_pktd.txt >/dev/null 2>&1 || true :
 	rm -f ./gocov_report_pktd.html >/dev/null 2>&1 || true :
+	rm -f ./gocov_report_pktd.json >/dev/null 2>&1 || true :
 	printf '%s\n' "All cleanup tasks completed." >&2 || true :
 	printf '%s\n' "" || true :
 }
