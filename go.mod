@@ -1,3 +1,4 @@
+
 module github.com/pkt-cash/pktd
 
 go 1.14
