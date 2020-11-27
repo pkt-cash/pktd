@@ -3,6 +3,7 @@ module github.com/pkt-cash/pktd
 go 1.14
 
 require (
+	github.com/golang/snappy v0.0.3-0.20201103224600-674baa8c7fc3
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da
 	github.com/aead/siphash v1.0.1
 	github.com/arl/statsviz v0.2.2-0.20201124191121-aeacce1395b7
@@ -12,7 +13,6 @@ require (
 	github.com/emirpasic/gods v1.12.1-0.20201118132343-79df803e554c
 	github.com/fsnotify/fsnotify v1.4.10-0.20200417215612-7f4cf4dd2b52 // indirect
 	github.com/golang/protobuf v1.4.3 // indirect
-	github.com/golang/snappy v0.0.3-0.20201103224600-674baa8c7fc3
 	github.com/gorilla/websocket v1.4.3-0.20200912193213-c3dd95aea977
 	github.com/jessevdk/go-flags v1.4.1-0.20200711081900-c17162fe8fd7
 	github.com/json-iterator/go v1.1.11-0.20201118013158-e6b9536d3649
@@ -37,5 +37,4 @@ require (
 	google.golang.org/grpc v1.35.0-dev.0.20201125005357-44e408dab41e
 	gopkg.in/check.v1 v1.0.0-20200902074654-038fdea0a05b // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 )
