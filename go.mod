@@ -27,7 +27,7 @@ require (
 	github.com/sethgrid/pester v1.1.1-0.20200617174401-d2ad9ec9a8b6
 	github.com/stretchr/testify v1.6.1 // indirect
 	go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
-	//golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
+	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
 	golang.org/x/net v0.0.0-20201029221708-28c70e62bb1d // indirect
 	golang.org/x/sys v0.0.0-20201029080932-201ba4db2418 // indirect
 	golang.org/x/text v0.3.4 // indirect
