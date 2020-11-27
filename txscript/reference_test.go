@@ -125,8 +125,8 @@ func parseShortForm(script string) ([]byte, er.R) {
 	}
 
 	// Split only does one separator so convert all \n and tab into  space.
-	script = strings.Replace(script, "\n", " ", -1)
-	script = strings.Replace(script, "\t", " ", -1)
+	script = strings.ReplaceAll(script, "\n", " ")
+	script = strings.ReplaceAll(script, "\t", " ")
 	tokens := strings.Split(script, " ")
 	builder := scriptbuilder.NewScriptBuilder()
 
