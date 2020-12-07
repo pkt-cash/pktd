@@ -1910,6 +1910,7 @@ out:
 				} else {
 					nonce := uint64(rand.Int63())
 				}
+			}
 			p.QueueMessage(wire.NewMsgPing(nonce), nil)
 			sentNonces.Add(nonce)
 
