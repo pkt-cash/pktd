@@ -286,7 +286,7 @@ out:
 				if !ok {
 					connReq, ok = pending[msg.id]
 					if !ok {
-						log.Errorf("Unknown connid=%d",
+						log.Debugf("Peer dropped or disconnected for connmgr connid=%d",
 							msg.id)
 						continue
 					}
