@@ -6,7 +6,7 @@ package treap
 
 import (
 	"bytes"
-	"crypto/sha256"
+	"github.com/minio/sha256-simd"
 	"testing"
 )
 

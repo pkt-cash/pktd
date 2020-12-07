@@ -2157,7 +2157,7 @@ func (p *Peer) negotiateOutboundProtocol() er.R {
 func (p *Peer) start() er.R {
 	log.Tracef("Starting peer %s", p)
 
-	negotiateErr := make(chan er.R, 1)
+	negotiateErr := make(chan er.R)
 	go func() {
 		if p.inbound {
 			negotiateErr <- p.negotiateInboundProtocol()

@@ -12,7 +12,7 @@ import (
 	"bytes"
 	"crypto/hmac"
 	"crypto/rand"
-	"crypto/sha256"
+	"github.com/minio/sha256-simd"
 	"crypto/sha512"
 	"encoding/binary"
 	"fmt"

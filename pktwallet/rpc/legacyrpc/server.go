@@ -5,7 +5,7 @@
 package legacyrpc
 
 import (
-	"crypto/sha256"
+	"github.com/minio/sha256-simd"
 	"crypto/subtle"
 	"encoding/base64"
 	"github.com/json-iterator/go"

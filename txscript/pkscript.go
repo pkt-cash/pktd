@@ -1,7 +1,7 @@
 package txscript
 
 import (
-	"crypto/sha256"
+	"github.com/minio/sha256-simd"
 	"errors"
 
 	"github.com/pkt-cash/pktd/btcutil/er"

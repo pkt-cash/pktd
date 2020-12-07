@@ -8,17 +8,18 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"fmt"
 	"io"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 
-	"github.com/dchest/blake2b"
+	"golang.org/x/crypto/blake2b"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/announce"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/block"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/pcutil"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/wire"
-	"golang.org/x/crypto/ed25519"
+	ed25519 "github.com/hdevalence/ed25519consensus"
 )
 
 func ValidatePcAnn(p *wire.PacketCryptAnn, parentBlockHash *chainhash.Hash, packetCryptVersion int) (*chainhash.Hash, er.R) {
@@ -53,8 +54,14 @@ func checkContentProof(ann *wire.PacketCryptAnn, proofIdx uint32, cpb io.Reader)
 		}
 		blockToProve >>= 1
 		blockSize <<= 1
-		b2 := blake2b.New256()
-		b2.Write(buf[:])
+		b2, berr := blake2b.New256(nil)
+		if berr != nil {
+			panic(fmt.Sprintf("panic: PacketCrypt.checkContentProof.blake2b.New256() failure\n	%v", berr))
+		}
+		_, err := b2.Write(buf[:])
+		if err != nil {
+			panic(fmt.Sprintf("panic: failed b2.Write()\n %v", err))
+		}
 		x := b2.Sum(nil)
 		copy(hash[:], x)
 	}
@@ -65,7 +72,10 @@ func checkContentProof(ann *wire.PacketCryptAnn, proofIdx uint32, cpb io.Reader)
 }
 
 func contentProofIdx2(mb *wire.MsgBlock) uint32 {
-	b2 := blake2b.New256()
+	b2, berr := blake2b.New256(nil)
+	if berr != nil {
+		panic(fmt.Sprintf("panic: PacketCrypt.contentProofIdx2.blake2b.New256() failure\n	%v", berr))
+	}
 	mb.Header.Serialize(b2)
 	buf := b2.Sum(nil)
 	return binary.LittleEndian.Uint32(buf) ^ mb.Pcp.Nonce

@@ -9,7 +9,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/hmac"
-	"crypto/sha256"
+	"github.com/minio/sha256-simd"
 	"errors"
 	"hash"
 	"math/big"

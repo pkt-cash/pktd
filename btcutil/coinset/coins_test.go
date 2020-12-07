@@ -6,7 +6,7 @@ package coinset_test
 
 import (
 	"bytes"
-	"crypto/sha256"
+	"github.com/minio/sha256-simd"
 	"encoding/hex"
 	"fmt"
 	"testing"

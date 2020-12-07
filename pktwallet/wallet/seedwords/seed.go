@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dchest/blake2b"
+	"golang.org/x/crypto/blake2b"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktwallet/internal/zero"
 	"golang.org/x/crypto/argon2"

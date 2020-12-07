@@ -41,7 +41,7 @@ func main() {
 	dieIfError(err)
 	for _, f := range files {
 		if strings.HasSuffix(f.Name(), ".words.txt") {
-			langs = append(langs, strings.Replace(f.Name(), ".words.txt", "", -1))
+			langs = append(langs, strings.Replace(f.Name(), ".words.txt", ""))
 		}
 	}
 

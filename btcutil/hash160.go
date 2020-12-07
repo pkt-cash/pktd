@@ -5,7 +5,7 @@
 package btcutil
 
 import (
-	"crypto/sha256"
+	"github.com/minio/sha256-simd"
 	"hash"
 
 	//lint:ignore SA1019 ripemd160 may be deprecated but it is not going away.

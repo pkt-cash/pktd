@@ -6,10 +6,11 @@ package cryptocycle
 
 import (
 	"encoding/binary"
+	"fmt"
 
 	"github.com/aead/chacha20/chacha"
 
-	"golang.org/x/crypto/curve25519"
+	"github.com/johnsonjh/goc25519sm"
 	"golang.org/x/crypto/poly1305"
 
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/interpret"
@@ -169,10 +170,17 @@ func Update(state *State, item []byte, contentBlock []byte, randHashCycles int, 
 // Smul does a scalar mult cycle
 func Smul(s *State) {
 	var a, b, c [32]byte
+	var err error
 	copy(a[:], s.Bytes[32:][:32])
-	curve25519.ScalarBaseMult(&b, &a)
+	err = goc25519sm.OldScalarBaseMult(&b, &a)
+	if err != nil {
+		panic(fmt.Sprintf("CryptoCycle.goc25519sm.OldScalarBaseMult failure:\n	%v", err))
+	}
 	copy(a[:], s.Bytes[:32])
-	curve25519.ScalarMult(&c, &a, &b)
+	err = goc25519sm.OldScalarMult(&c, &a, &b)
+	if err != nil {
+		panic(fmt.Sprintf("CryptoCycle.goc25519sm.OldScalarMult failure:\n	%v", err))
+	}
 	copy(s.Bytes[64:][:32], c[:])
 }
 

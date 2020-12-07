@@ -768,7 +768,8 @@ func (b *blockManager) getUncheckpointedCFHeaders(
 			}
 			sp := b.server.PeerByAddr(peer)
 			if sp != nil {
-				sp.Disconnect()
+				// XXX(trn) Don't immediately disconnect
+				// sp.Disconnect()
 			}
 			delete(headers, peer)
 		}

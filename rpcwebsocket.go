@@ -8,7 +8,7 @@ package main
 import (
 	"bytes"
 	"container/list"
-	"crypto/sha256"
+	"github.com/minio/sha256-simd"
 	"crypto/subtle"
 	"encoding/base64"
 	"encoding/hex"

@@ -6,7 +6,7 @@ package snacl
 
 import (
 	"crypto/rand"
-	"crypto/sha256"
+	"github.com/minio/sha256-simd"
 	"crypto/subtle"
 	"encoding/binary"
 	"io"
