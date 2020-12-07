@@ -1898,17 +1898,18 @@ func (p *Peer) pingHandler() {
 	sfrotate()
 	pingTicker := time.NewTicker(pingInterval)
 	defer pingTicker.Stop()
-
+	var nonce uint64
+	var err error
 out:
 	for {
 		select {
 		case <-pingTicker.C:
 			if sf != nil {
-				nonce, err := sf.NextID()
+				nonce, err = sf.NextID()
 				if err != nil {
 					continue
 				} else {
-					nonce := uint64(rand.Int63())
+					nonce = uint64(rand.Int63())
 				}
 			}
 			p.QueueMessage(wire.NewMsgPing(nonce), nil)
