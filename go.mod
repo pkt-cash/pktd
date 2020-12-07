@@ -23,6 +23,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/pkt-cash/pktd/goleveldb v0.0.0
 	github.com/sethgrid/pester v1.1.1-0.20200617174401-d2ad9ec9a8b6
+	github.com/sony/sonyflake v1.0.1-0.20200827011719-848d664ceea4
 	github.com/stretchr/testify v1.6.1 // indirect
 	go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
 	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897

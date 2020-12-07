@@ -21,6 +21,7 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/wire/protocol"
 
+	sfl "github.com/sony/sonyflake"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/chaincfg"
@@ -28,6 +29,8 @@ import (
 	"github.com/pkt-cash/pktd/pktlog"
 	"github.com/pkt-cash/pktd/wire"
 )
+
+var sf *sfl.Sonyflake
 
 const (
 	// MaxProtocolVersion is the max protocol version the peer supports.
@@ -119,7 +122,7 @@ var (
 
 	// sentNonces houses the unique nonces that are generated when pushing
 	// version messages that are used to detect self connections.
-	sentNonces = newMruNonceMap(50)
+	sentNonces = newMruNonceMap(384)
 
 	// allowSelfConns is only used to allow the tests to bypass the self
 	// connection detecting and disconnect logic since they intentionally
@@ -1070,8 +1073,14 @@ func (p *Peer) PushRejectMsg(command string, code wire.RejectCode, reason string
 func (p *Peer) handlePingMsg(msg *wire.MsgPing) {
 	// Only reply with pong if the message is from a new enough client.
 	if p.ProtocolVersion() > protocol.BIP0031Version {
-		// Include nonce from ping so pong can be identified.
-		p.QueueMessage(wire.NewMsgPong(msg.Nonce), nil)
+	    if !allowSelfConns && sentNonces.Exists(msg.Nonce) {
+			log.Warnf("Loop detected - disconnecting %v", p)
+			p.Disconnect()
+		} else {
+			// Include nonce from ping so pong can be identified.
+			p.QueueMessage(wire.NewMsgPong(msg.Nonce), nil)
+			sentNonces.Add(msg.Nonce)
+		}
 	}
 }
 
@@ -1878,8 +1887,15 @@ cleanup:
 	log.Tracef("Peer output handler done for %s", p)
 }
 
+// randMachineID generates a randomized machineID for Sonyflake
+func randMachineID() (uint16, error) {
+	rid := uint16(rand.Int63())
+	return rid, nil
+}
+
 // pingHandler periodically pings the peer.  It must be run as a goroutine.
 func (p *Peer) pingHandler() {
+	sfrotate()
 	pingTicker := time.NewTicker(pingInterval)
 	defer pingTicker.Stop()
 
@@ -1887,12 +1903,15 @@ out:
 	for {
 		select {
 		case <-pingTicker.C:
-			nonce, err := wire.RandomUint64()
-			if err != nil {
-				log.Errorf("Not sending ping to %s: %v", p, err)
-				continue
-			}
+			if sf != nil {
+				nonce, err := sf.NextID()
+				if err != nil {
+					continue
+				} else {
+					nonce := uint64(rand.Int63())
+				}
 			p.QueueMessage(wire.NewMsgPing(nonce), nil)
+			sentNonces.Add(nonce)
 
 		case <-p.quit:
 			break out
@@ -2101,8 +2120,13 @@ func (p *Peer) localVersionMsg() (*wire.MsgVersion, er.R) {
 	// Generate a unique nonce for this peer so self connections can be
 	// detected.  This is accomplished by adding it to a size-limited map of
 	// recently seen nonces.
-	nonce := uint64(rand.Int63())
-	sentNonces.Add(nonce)
+	sfrotate()
+	nonce, err := sf.NextID()
+	if err != nil {
+		log.Errorf("Failed to generate nonce for peer %v: %v", p, err)
+	} else {
+		sentNonces.Add(nonce)
+	}
 
 	// Version message.
 	msg := wire.NewMsgVersion(ourNA, theirNA, nonce, blockNum)
@@ -2309,6 +2333,16 @@ func NewOutboundPeer(cfg *Config, addr string) (*Peer, er.R) {
 	return p, nil
 }
 
+func sfrotate() {
+	var st sfl.Settings
+	st.MachineID = randMachineID
+		sf = sfl.NewSonyflake(st)
+		if sf == nil {
+			log.Errorf("sonyflake failed to initialize")
+		}
+}
+
 func init() {
 	rand.Seed(time.Now().UnixNano())
+	sfrotate()
 }
