@@ -336,7 +336,11 @@ out:
 					connReq.updateState(ConnPending)
 					log.Debugf("Reconnecting to %v",
 						connReq)
-					pending[msg.id] = connReq
+					if connReq.Permanent {
+						pending[msg.id] = connReq
+					} else {
+						delete(pending, msg.id)
+					}
 					cm.handleFailedConn(connReq)
 				}
 
@@ -352,6 +356,9 @@ out:
 				connReq.updateState(ConnFailing)
 				log.Tracef("Failed to connect to %v: %v",
 					connReq, msg.err)
+				if !connReq.Permanent {
+					delete(pending, connReq.id)
+				}
 				cm.handleFailedConn(connReq)
 			}
 
