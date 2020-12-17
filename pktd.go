@@ -23,6 +23,7 @@ import (
 	"github.com/pkt-cash/pktd/limits"
 	"github.com/pkt-cash/pktd/pktconfig/version"
 	"github.com/pkt-cash/pktd/pktlog/log"
+	pktdLegal "go4.org/legal"
 )
 
 const (
@@ -370,4 +371,11 @@ func main() {
 	if err := pktdMain(nil); err != nil {
 		os.Exit(1)
 	}
+}
+
+func init() {
+	// Register licensing
+	pktdLegal.RegisterLicense(
+		"\nISC License\n\nCopyright (c) 2020 Anode LLC.\nCopyright (c) 2019-2020 Caleb James DeLisle.\nCopyright (c) 2020 Gridfinity, LLC.\nCopyright (c) 2020 Jeffrey H. Johnson.\nCopyright (c) 2020 Filippo Valsorda.\nCopyright (c) 2020 Frank Denis <j at pureftpd dot org>.\nCopyright (c) 2019 The Go Authors.\nCopyright (c) 2013-2017 The btcsuite developers.\nCopyright (c) 2015-2016 The Decred developers.\nCopyright (c) 2015 Google, Inc.\n\nPermission to use, copy, modify, and distribute this software for any\npurpose with or without fee is hereby granted, provided that the above\ncopyright notice and this permission notice appear in all copies.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES\nWITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF\nMERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR\nANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES\nWHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN\nACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF\nOR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.\n",
+	)
 }

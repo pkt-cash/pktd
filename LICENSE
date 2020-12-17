@@ -1,9 +1,15 @@
 ISC License
 
-Copyright (c) 2013-2017 The btcsuite developers
-Copyright (c) 2015-2016 The Decred developers
-Copyright (c) 2019 Caleb James DeLisle
-Copyright (c) 2020 Anode LLC
+Copyright (c) 2020 Anode LLC.
+Copyright (c) 2019-2020 Caleb James DeLisle.
+Copyright (c) 2020 Gridfinity, LLC.
+Copyright (c) 2020 Jeffrey H. Johnson.
+Copyright (c) 2020 Filippo Valsorda.
+Copyright (c) 2020 Frank Denis <j at pureftpd dot org>.
+Copyright (c) 2019 The Go Authors.
+Copyright (c) 2013-2017 The btcsuite developers.
+Copyright (c) 2015-2016 The Decred developers.
+Copyright (c) 2015 Google, Inc.
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
