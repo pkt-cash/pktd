@@ -1,2 +1,3 @@
 #!/usr/bin/env sh
-go run ./contrib/build/build.go $@
+# shellcheck disable=SC2048,SC2086
+go run ./contrib/build/build.go $*
