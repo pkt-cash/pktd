@@ -287,7 +287,7 @@ out:
 				if !ok {
 					connReq, ok = pending[msg.id]
 					if !ok {
-						log.Errorf("Unknown connid=%d",
+						log.Debugf("Peer dropped or disconnected for connmgr connid=%d",
 							msg.id)
 						continue
 					}
@@ -337,7 +337,11 @@ out:
 					connReq.updateState(ConnPending)
 					log.Debugf("Reconnecting to %v",
 						connReq)
+					if connReq.Permanent {
 					pending[msg.id] = connReq
+					} else {
+						delete(pending, msg.id)
+					}
 					cm.handleFailedConn(connReq)
 				}
 
@@ -353,6 +357,9 @@ out:
 				connReq.updateState(ConnFailing)
 				log.Tracef("Failed to connect to %v: %v",
 					connReq, msg.err)
+				if !connReq.Permanent {
+					delete(pending, connReq.id)
+				}
 				cm.handleFailedConn(connReq)
 			}
 
