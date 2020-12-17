@@ -7,7 +7,7 @@ package txscript
 
 import (
 	"bytes"
-	"crypto/sha1"
+	"github.com/pkt-cash/pktd/btcutil/sha1"
 	"crypto/sha256"
 	"encoding/binary"
 	"fmt"
