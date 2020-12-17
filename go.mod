@@ -31,10 +31,8 @@ require (
 	github.com/fsnotify/fsnotify v1.4.10-0.20200417215612-7f4cf4dd2b52 // indirect
 	github.com/go-errors/errors v1.0.1
 	github.com/go-openapi/strfmt v0.19.5 // indirect
-	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.4.3
 	github.com/golang/snappy v0.0.2
-	github.com/google/btree v1.0.0 // indirect
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/gorilla/websocket v1.4.3-0.20200912193213-c3dd95aea977
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
@@ -45,6 +43,7 @@ require (
 	github.com/jackpal/go-nat-pmp v0.0.0-20170405195558-28a68d0c24ad
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
 	github.com/jessevdk/go-flags v1.4.1-0.20200711081900-c17162fe8fd7
+	github.com/johnsonjh/goc25519sm v1.4.5-0.20201217171032-0b745b266201
 	github.com/jonboulle/clockwork v0.1.0 // indirect
 	github.com/json-iterator/go v1.1.11-0.20200806011408-6821bec9fa5c
 	github.com/juju/clock v0.0.0-20190205081909-9c5c9712527c // indirect
@@ -68,19 +67,20 @@ require (
 	github.com/sethgrid/pester v1.1.1-0.20200617174401-d2ad9ec9a8b6
 	github.com/soheilhy/cmux v0.1.4 // indirect
 	github.com/sony/sonyflake v1.0.1-0.20200827011719-848d664ceea4
-	github.com/stretchr/testify v1.6.1
+	github.com/stretchr/testify v1.6.2-0.20201103103935-92707c0b2d50
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5 // indirect
 	github.com/tv42/zbase32 v0.0.0-20160707012821-501572607d02
 	github.com/urfave/cli v1.18.0
 	github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2 // indirect
 	go.etcd.io/bbolt v1.3.5
+	go.uber.org/goleak v1.1.11-0.20200902203756-89d54f0adef2
 	go.uber.org/zap v1.14.1 // indirect
+	go4.org v0.0.0-20201209231011-d4a079459e60
 	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
-	golang.org/x/net v0.0.0-20201029221708-28c70e62bb1d
-	golang.org/x/sys v0.0.0-20201029080932-201ba4db2418
-	golang.org/x/text v0.3.4 // indirect
-	golang.org/x/time v0.0.0-20180412165947-fbb02b2291d2
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	golang.org/x/net v0.0.0-20201216054612-986b41b23924
+	golang.org/x/sys v0.0.0-20201214210602-f9fddec55a1e
+	golang.org/x/text v0.3.5-0.20201208001344-75a595aef632 // indirect
+	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324
 	google.golang.org/genproto v0.0.0-20201021134325-0d71844de594 // indirect
 	google.golang.org/grpc v1.29.1
 	google.golang.org/protobuf v1.25.0 // indirect
@@ -88,6 +88,5 @@ require (
 	gopkg.in/macaroon-bakery.v2 v2.0.1
 	gopkg.in/macaroon.v2 v2.0.0
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 	sigs.k8s.io/yaml v1.1.0 // indirect
 )

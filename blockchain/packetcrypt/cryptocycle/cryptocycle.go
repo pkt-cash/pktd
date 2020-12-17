@@ -5,11 +5,13 @@
 package cryptocycle
 
 import (
+	"fmt"
+	"time"
 	"encoding/binary"
 
 	"github.com/aead/chacha20/chacha"
 
-	"golang.org/x/crypto/curve25519"
+	"github.com/johnsonjh/goc25519sm"
 	"golang.org/x/crypto/poly1305"
 
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/interpret"
@@ -92,7 +94,6 @@ func CryptoCycle(s *State) {
 		s.SetFailed(true)
 		return
 	}
-
 	c, err := chacha.NewCipher(s.Nonce(), s.Key(), 20)
 	if err != nil {
 		panic("chacha20.NewCipher()")
@@ -168,11 +169,42 @@ func Update(state *State, item []byte, contentBlock []byte, randHashCycles int, 
 
 // Smul does a scalar mult cycle
 func Smul(s *State) {
+	// while this does not overcome secret-dependent branch and memory access
+	// timing-attack possibilities, it does add a bit more noise that will
+	// make a localized or colocated adversary do more work when executing a
+	// predictive timing attack, for additional background on the subject:
+	// https://fahrplan.events.ccc.de/congress/2012/Fahrplan/attachments/2235_29c3-schinzel.pdf
+	// crypto.stanford.edu/~dabo/papers/ssl-timing.pdf ... etc.
+	time.Sleep(10 * time.Nanosecond)
+	var err error
 	var a, b, c [32]byte
 	copy(a[:], s.Bytes[32:][:32])
-	curve25519.ScalarBaseMult(&b, &a)
+	err = goc25519sm.OldScalarBaseMult(
+		&b,
+		&a,
+	)
+	if err != nil {
+		panic(
+			fmt.Sprintf(
+				"\nCryptoCycle.goc25519sm.OldScalarBaseMult failure:\n	%v",
+				err,
+			),
+		)
+	}
 	copy(a[:], s.Bytes[:32])
-	curve25519.ScalarMult(&c, &a, &b)
+	err = goc25519sm.OldScalarMult(
+		&c,
+		&a,
+		&b,
+	)
+	if err != nil {
+		panic(
+			fmt.Sprintf(
+				"\nCryptoCycle.goc25519sm.OldScalarMult failure:\n	%v",
+				err,
+			),
+		)
+	}
 	copy(s.Bytes[64:][:32], c[:])
 }
 
