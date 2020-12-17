@@ -169,7 +169,7 @@ func parseTorReply(reply string) map[string]string {
 	// to stripping whitespace and newlines in order to retrieve the
 	// individual contents of it. The -1 indicates that we want this to span
 	// across all instances of a newline.
-	contents := strings.Split(strings.Replace(reply, "\n", " ", -1), " ")
+	contents := strings.Split(strings.ReplaceAll(reply, "\n", " "), " ")
 	for _, content := range contents {
 		// Each parameter within the reply should be of the form
 		// "KEY=VALUE". If the parameter doesn't contain "=", then we
