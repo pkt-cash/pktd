@@ -1,38 +1,64 @@
 language: go
-go: 1.15.3
+go: 1.15.5
+before_install:
+  - sh -c 'export GO111MODULE="off" && go get github.com/mattn/goveralls || true' || true
+  - sh -c 'export GO111MODULE="off" && go get golang.org/x/tools/cmd/cover || true' || true
 install:
-  - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-  - git fetch --tags 
-  - git fetch --all
+  - git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+  - git -P fetch --tags
+  - git -P fetch --all --recurse-submodules=yes
+  - git -P branch -t --create-reflog --show-current
+  - git -P update-index -q --refresh --really-refresh
+  - git -P for-each-ref --count=1
 git:
   depth: false
   autocrlf: input
   symlinks: true
 env:
-    - PKT_FAIL_DIRTY=1
+  - PKT_FAIL_DIRTY=1
 jobs:
   include:
-  - os: linux
-    dist: bionic
-    addons:
-      apt:
-        packages:
-        - rpm
-    script:
-    - git diff
-    - git reset --hard
-    - ./do
-    - gem install --no-document fpm
-    - bash -x ./contrib/deb/build.sh
-    - bash -x ./contrib/rpm/build.sh
-  - os: osx
-    script:
-    - git diff
-    - git reset --hard
-    - ./do
-    - gem install --no-document fpm
-    - bash -x ./contrib/macos/build.sh
+    - os: linux
+      dist: focal
+      addons:
+        apt:
+          packages:
+          - bash
+          - rpm
+          - time
+          update: true
+      script:
+      - bash -c 'export GO111MODULE="off" && go get -u github.com/mattn/goveralls || true' || true
+      - bash -c 'export GO111MODULE="off" && go get golang.org/x/tools/cmd/cover || true' || true
+      - git -P diff --full-index --ignore-cr-at-eol --exit-code
+      - git -P reset --hard
+      - command time -v bash --noprofile --norc --posix -l -p -o pipefail -c "LONG_TESTS=1 ./do"
+      - gem i -E -N fpm
+      - bash ./contrib/deb/build.sh
+      - bash ./contrib/rpm/build.sh
+      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -tags osnetgo,osusergo,long_tests -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)" || true
+    - os: osx
+      osx_image: xcode12.2
+      addons:
+        homebrew:
+          packages:
+          - bash
+          - coreutils
+          - gnu-sed
+          - gnu-tar
+          - gnu-time
+          update: true
+      script:
+      - bash -c 'export GO111MODULE="off" && go get -u github.com/mattn/goveralls || true' || true
+      - bash -c 'export GO111MODULE="off" && go get golang.org/x/tools/cmd/cover || true' || true
+      - git -P diff --full-index --ignore-cr-at-eol --exit-code
+      - git -P reset --hard
+      - gtime -v bash --noprofile --norc --posix -l -p -o pipefail -c "LONG_TESTS=1 ./do"
+      - gem i -E -N fpm
+      - bash ./contrib/macos/build.sh
+      - $GOPATH/bin/goveralls -show -reponame=pkt-cash/pktd -service=travis-ci -tags osnetgo,osusergo,long_tests -ignore "$(printf '%s\n' $(printf '%s,' $(go list ./... | grep test | sed 's/github.com\/pkt-cash\/pktd\///g'))pktctl)" || true
 deploy:
+  edge: true
   provider: releases
   api_key:
     secure: NMxpJBSdsTzw/GptBg6Uzv6b5hoMjO9UkPChzu2ef6NZvX6BITNDxPvuTMiFGuGhIIMphkdpQMzp+PweoQxqQXmhEsTlbGMVS/14ce6+kit9n0y02uYeP5oodVFrw7l2f9wMCo2q59yGvFZxXvcnyXoPR9frCkNR/7QJPdbeKP2xgwOamXll3x+GRNZVQVYrlb86LqEF0WkHsckLQUkjcUpl3CAqH1otocdrb2E6Myafhisugidlz5Egwcmotj8PaJZgwpvSCZ6ccjW7RKT3ETBGiQRJtUEaGZmxJ5+2MZG8nr8bTuZTuNTUBZVV2BdRr5ZihM5khehhH4UhOpr76PmFT9WvnPIIMmC8LofhdInua/h/Ynwcok32+BSKBlKkIVITVIhSnRsuHHJnGB7vnWu3UU8hQoIrAX4D3+lX69f9QeXzWv+z6xN9JoCrEZfTQvWiE4jrz1V2uj6FHkmHC5k+LX454om/la9I9RZ4oOmiTjfG9oLPGsncoo34zcEPzbku4ojvMZLQ6pJ4JjfDO7qKQnQTXk4sDLNsnbf7fiow7yng3D6gfHgoX3sLcFRmH5kNDLcccEtSqqhzAEBTRJx5nmeCrKthzqy9YVyJHVkD1oVCDOf5cZmkLHUMNSXdIJYB06ZXeOr8aqfLp71O0/DinBLHgcGHqDQcdB4UcAk=
@@ -44,4 +70,3 @@ deploy:
   on:
     repo: pkt-cash/pktd
     tags: true
-  cleanup: false
