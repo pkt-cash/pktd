@@ -731,6 +731,15 @@ func (a *AddrManager) reset() {
 // If the host is not an IP address it will be resolved
 func (a *AddrManager) HostToNetAddress(host string, port uint16, services protocol.ServiceFlag) (*wire.NetAddress, er.R) {
 	var ip net.IP
+	// Silently ignore v2 onion addresses
+	if len(host) == 22 && host[16:] == ".onion" {
+		host = "onion"
+	}
+	// Silently ignore v3 onion addresses
+	if len(host) == 56 && host[49:] == "d.onion" {
+		host = "onion"
+	}
+	if host != "onion" {
 	if ip = net.ParseIP(host); ip == nil {
 		ips, err := a.lookupFunc(host)
 		if err != nil {
@@ -740,6 +749,7 @@ func (a *AddrManager) HostToNetAddress(host string, port uint16, services protoc
 			return nil, er.Errorf("no addresses found for %s", host)
 		}
 		ip = ips[0]
+	}
 	}
 
 	return wire.NewNetAddressIPPort(ip, port, services), nil
