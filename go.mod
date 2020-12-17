@@ -16,6 +16,8 @@ require (
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf // indirect
 	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
+	github.com/arl/statsviz v0.2.2-0.20201124191121-aeacce1395b7
+	github.com/btcsuite/winsvc v1.0.0
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/dchest/blake2b v1.0.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
