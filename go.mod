@@ -6,7 +6,7 @@ replace (
 	git.schwanenlied.me/yawning/bsaes.git => github.com/Yawning/bsaes v0.0.0-20180720073208-c0276d75487e
 	go.etcd.io/bbolt v1.3.5 => go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
 	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
-	google.golang.org/grpc v1.34.0 => google.golang.org/grpc v1.29.1
+	google.golang.org/grpc v1.29.1 => google.golang.org/grpc v1.34.0
 	google.golang.org/grpc/naming@latest => google.golang.org/grpc v1.29.1
 )
 
