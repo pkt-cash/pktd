@@ -6,6 +6,8 @@
 package main
 
 import (
+	crand "crypto/rand"
+	"encoding/binary"
 	"encoding/hex"
 	"fmt"
 	"io/ioutil"
@@ -669,7 +671,9 @@ func loadConfig() (*config, []string, er.R) {
 		log.Infof("Creating a new .pktcookie authorization file")
 		cookiePath := filepath.Join(defaultHomeDir, ".pktcookie")
 		var buf [32]byte
-		if _, errr := rand.Read(buf[:]); errr != nil {
+		var src cryptoSource
+		rnd := rand.New(src)
+		if _, errr := rnd.Read(buf[:]); errr != nil {
 			err := er.E(errr)
 			err.AddMessage("Unable to get random numbers")
 			return nil, nil, err
@@ -926,4 +930,20 @@ func pktdDial(addr net.Addr) (net.Conn, er.R) {
 // function depending on the configuration options.
 func pktdLookup(host string) ([]net.IP, er.R) {
 	return cfg.lookup(host)
+}
+
+type cryptoSource struct{}
+
+func (s cryptoSource) Seed(seed int64) {}
+
+func (s cryptoSource) Int63() int64 {
+    return int64(s.Uint64() & ^uint64(1<<63))
+}
+
+func (s cryptoSource) Uint64() (v uint64) {
+    err := binary.Read(crand.Reader, binary.BigEndian, &v)
+    if err != nil {
+		panic("CSPRNG failure: Could not read random numbers")
+    }
+    return v
 }
