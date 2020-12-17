@@ -4,6 +4,7 @@ go 1.14
 
 replace (
 	git.schwanenlied.me/yawning/bsaes.git => github.com/Yawning/bsaes v0.0.0-20180720073208-c0276d75487e
+	go.etcd.io/bbolt v1.3.5 => go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
 	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
 	google.golang.org/grpc v1.34.0 => google.golang.org/grpc v1.29.1
 	google.golang.org/grpc/naming@latest => google.golang.org/grpc v1.29.1
@@ -73,6 +74,9 @@ require (
 	github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2 // indirect
 	go.etcd.io/bbolt v1.3.5
 	go.uber.org/zap v1.14.1 // indirect
+	github.com/sony/sonyflake v1.0.1-0.20200827011719-848d664ceea4
+	github.com/stretchr/testify v1.6.1 // indirect
+	go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
 	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
 	golang.org/x/net v0.0.0-20201029221708-28c70e62bb1d
 	golang.org/x/sys v0.0.0-20201029080932-201ba4db2418
