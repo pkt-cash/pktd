@@ -4,9 +4,8 @@ go 1.14
 
 replace (
 	git.schwanenlied.me/yawning/bsaes.git => github.com/Yawning/bsaes v0.0.0-20180720073208-c0276d75487e
-	go.etcd.io/bbolt v1.3.5 => go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
-	github.com/coreos/bbolt => go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
-	google.golang.org/grpc v1.29.1 => google.golang.org/grpc v1.34.0
+	github.com/coreos/bbolt v1.3.5 => go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
+	google.golang.org/grpc v1.29.1 => google.golang.org/grpc v1.29.1
 	google.golang.org/grpc/naming@latest => google.golang.org/grpc v1.29.1
 )
 
@@ -19,7 +18,7 @@ require (
 	github.com/aead/siphash v1.0.1
 	github.com/arl/statsviz v0.2.2-0.20201124191121-aeacce1395b7
 	github.com/btcsuite/winsvc v1.0.0
-	github.com/coreos/bbolt v1.3.6-0.20200807205753-f6be82302843 // indirect
+	github.com/coreos/bbolt v1.3.5 // indirect
 	github.com/coreos/etcd v3.3.22+incompatible
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf // indirect
@@ -41,6 +40,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway v1.14.3
+	github.com/hdevalence/ed25519consensus v0.0.0-20201207055737-7fde80a9d5ff
 	github.com/jackpal/gateway v1.0.5
 	github.com/jackpal/go-nat-pmp v0.0.0-20170405195558-28a68d0c24ad
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
@@ -67,6 +67,7 @@ require (
 	github.com/prometheus/client_golang v0.9.3
 	github.com/sethgrid/pester v1.1.1-0.20200617174401-d2ad9ec9a8b6
 	github.com/soheilhy/cmux v0.1.4 // indirect
+	github.com/sony/sonyflake v1.0.1-0.20200827011719-848d664ceea4
 	github.com/stretchr/testify v1.6.1
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5 // indirect
 	github.com/tv42/zbase32 v0.0.0-20160707012821-501572607d02
@@ -74,9 +75,6 @@ require (
 	github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2 // indirect
 	go.etcd.io/bbolt v1.3.5
 	go.uber.org/zap v1.14.1 // indirect
-	github.com/sony/sonyflake v1.0.1-0.20200827011719-848d664ceea4
-	github.com/stretchr/testify v1.6.1 // indirect
-	go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
 	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
 	golang.org/x/net v0.0.0-20201029221708-28c70e62bb1d
 	golang.org/x/sys v0.0.0-20201029080932-201ba4db2418
@@ -84,7 +82,7 @@ require (
 	golang.org/x/time v0.0.0-20180412165947-fbb02b2291d2
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/genproto v0.0.0-20201021134325-0d71844de594 // indirect
-	google.golang.org/grpc v1.34.0
+	google.golang.org/grpc v1.29.1
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/errgo.v1 v1.0.1 // indirect
 	gopkg.in/macaroon-bakery.v2 v2.0.1
