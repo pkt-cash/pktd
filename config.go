@@ -31,6 +31,7 @@ import (
 	_ "github.com/pkt-cash/pktd/database/ffldb"
 	"github.com/pkt-cash/pktd/mempool"
 	"github.com/pkt-cash/pktd/peer"
+	"github.com/pkt-cash/pktd/pktlog/log"
 )
 
 const (
