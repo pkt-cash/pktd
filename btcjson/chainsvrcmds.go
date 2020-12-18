@@ -660,7 +660,7 @@ type SearchRawTransactionsCmd struct {
 //
 // The parameters which are pointers indicate they are optional.  Passing nil
 // for optional parameters will use the default value.
-func NewSearchRawTransactionsCmd(address string, verbose, skip, count *int, vinExtra *int, reverse *bool, filterAddrs *[]string) *SearchRawTransactionsCmd {
+func NewSearchRawTransactionsCmd(address string, verbose, skip, count, vinExtra *int, reverse *bool, filterAddrs *[]string) *SearchRawTransactionsCmd {
 	return &SearchRawTransactionsCmd{
 		Address:     address,
 		Verbose:     verbose,

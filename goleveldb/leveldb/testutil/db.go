@@ -20,7 +20,7 @@ import (
 type DB interface{}
 
 type Put interface {
-	TestPut(key []byte, value []byte) error
+	TestPut(key, value []byte) error
 }
 
 type Delete interface {

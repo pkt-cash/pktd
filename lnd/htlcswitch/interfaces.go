@@ -122,7 +122,7 @@ type ChannelLink interface {
 	// the violation. This call is intended to be used for locally initiated
 	// payments for which there is no corresponding incoming htlc.
 	CheckHtlcTransit(payHash [32]byte, amt lnwire.MilliSatoshi,
-		timeout uint32, heightNow uint32) *LinkError
+		timeout, heightNow uint32) *LinkError
 
 	// Bandwidth returns the amount of milli-satoshis which current link
 	// might pass through channel link. The value returned from this method

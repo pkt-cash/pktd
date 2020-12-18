@@ -193,7 +193,7 @@ func (m *mockChain) GetUtxo(op *wire.OutPoint, _ []byte, _ uint32,
 	return &utxo, nil
 }
 
-func (m *mockChain) addBlock(block *wire.MsgBlock, height uint32, nonce uint32) {
+func (m *mockChain) addBlock(block *wire.MsgBlock, height, nonce uint32) {
 	m.Lock()
 	block.Header.Nonce = nonce
 	hash := block.Header.BlockHash()

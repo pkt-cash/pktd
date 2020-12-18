@@ -44,7 +44,7 @@ func (p *DB) TestFindLast() (rkey, value []byte, err error) {
 	return
 }
 
-func (p *DB) TestPut(key []byte, value []byte) error {
+func (p *DB) TestPut(key, value []byte) error {
 	p.Put(key, value)
 	return nil
 }

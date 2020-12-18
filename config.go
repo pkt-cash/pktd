@@ -902,7 +902,7 @@ func loadConfig() (*config, []string, er.R) {
 	// Setup dial and DNS resolution (lookup) functions depending on the
 	// specified options.  The default is to use the standard
 	// net.DialTimeout function as well as the system DNS resolver.
-	cfg.dial = func(n string, addr string, to time.Duration) (net.Conn, er.R) {
+	cfg.dial = func(n, addr string, to time.Duration) (net.Conn, er.R) {
 		ret, errr := net.DialTimeout(n, addr, to)
 		return ret, er.E(errr)
 	}

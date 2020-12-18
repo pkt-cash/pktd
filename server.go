@@ -2511,7 +2511,7 @@ func setupRPCListeners() ([]net.Listener, er.R) {
 		}
 
 		// Change the standard net.Listen function to the tls one.
-		listenFunc = func(net string, laddr string) (net.Listener, error) {
+		listenFunc = func(net, laddr string) (net.Listener, error) {
 			return tls.Listen(net, laddr, &tlsConfig)
 		}
 	}

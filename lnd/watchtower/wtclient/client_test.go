@@ -89,7 +89,7 @@ func newMockNet(cb func(wtserver.Peer)) *mockNet {
 	}
 }
 
-func (m *mockNet) Dial(network string, address string,
+func (m *mockNet) Dial(network, address string,
 	timeout time.Duration) (net.Conn, er.R) {
 	return nil, nil
 }
@@ -98,11 +98,11 @@ func (m *mockNet) LookupHost(host string) ([]string, er.R) {
 	panic("not implemented")
 }
 
-func (m *mockNet) LookupSRV(service string, proto string, name string) (string, []*net.SRV, er.R) {
+func (m *mockNet) LookupSRV(service, proto, name string) (string, []*net.SRV, er.R) {
 	panic("not implemented")
 }
 
-func (m *mockNet) ResolveTCPAddr(network string, address string) (*net.TCPAddr, er.R) {
+func (m *mockNet) ResolveTCPAddr(network, address string) (*net.TCPAddr, er.R) {
 	panic("not implemented")
 }
 

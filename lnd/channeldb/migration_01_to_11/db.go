@@ -184,7 +184,7 @@ func (d *DB) FetchClosedChannels(pendingOnly bool) ([]*ChannelCloseSummary, er.R
 			return ErrNoClosedChannels.Default()
 		}
 
-		return closeBucket.ForEach(func(chanID []byte, summaryBytes []byte) er.R {
+		return closeBucket.ForEach(func(chanID, summaryBytes []byte) er.R {
 			summaryReader := bytes.NewReader(summaryBytes)
 			chanSummary, err := deserializeCloseChannelSummary(summaryReader)
 			if err != nil {

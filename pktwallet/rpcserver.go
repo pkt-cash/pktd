@@ -129,7 +129,7 @@ func startRPCServers(walletLoader *wallet.Loader) (*grpc.Server, *legacyrpc.Serv
 			MinVersion:   tls.VersionTLS12,
 			NextProtos:   []string{"h2"}, // HTTP/2 over TLS
 		}
-		legacyListen = func(net string, laddr string) (net.Listener, er.R) {
+		legacyListen = func(net, laddr string) (net.Listener, er.R) {
 			out, errr := tls.Listen(net, laddr, tlsConfig)
 			return out, er.E(errr)
 		}
@@ -180,7 +180,7 @@ func startRPCServers(walletLoader *wallet.Loader) (*grpc.Server, *legacyrpc.Serv
 	return server, legacyServer, nil
 }
 
-type listenFunc func(net string, laddr string) (net.Listener, er.R)
+type listenFunc func(net, laddr string) (net.Listener, er.R)
 
 // makeListeners splits the normalized listen addresses into IPv4 and IPv6
 // addresses and creates new net.Listeners for each with the passed listen func.

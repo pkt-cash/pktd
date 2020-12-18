@@ -27,7 +27,7 @@ type Init struct {
 }
 
 // NewInitMessage creates new instance of init message object.
-func NewInitMessage(gf *RawFeatureVector, f *RawFeatureVector) *Init {
+func NewInitMessage(gf, f *RawFeatureVector) *Init {
 	return &Init{
 		GlobalFeatures: gf,
 		Features:       f,

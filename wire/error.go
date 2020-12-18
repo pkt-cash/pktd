@@ -20,6 +20,6 @@ import (
 var MessageError *er.ErrorCode = er.GenericErrorType.Code("wire.MessageError")
 
 // messageError creates an error for the given function and description.
-func messageError(f string, desc string) er.R {
+func messageError(f, desc string) er.R {
 	return MessageError.New(fmt.Sprintf("%s: %s", f, desc), nil)
 }

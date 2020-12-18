@@ -78,7 +78,7 @@ func getEffectiveWorkRequirement(bnBlockHeaderWork, bnMinAnnWork *big.Int, annCo
 // GetEffectiveTarget gives the effective target to beat based on the target in the
 // block header, the minimum work (highest target) of any announcement and the number
 // of announcements which were mined with.
-func GetEffectiveTarget(blockHeaderTarget uint32, minAnnTarget uint32, annCount uint64, packetCryptVersion int) uint32 {
+func GetEffectiveTarget(blockHeaderTarget, minAnnTarget uint32, annCount uint64, packetCryptVersion int) uint32 {
 	bnBlockHeaderTarget := CompactToBig(blockHeaderTarget)
 	bnMinAnnTarget := CompactToBig(minAnnTarget)
 

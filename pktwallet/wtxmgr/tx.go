@@ -891,7 +891,7 @@ func (s *Store) GetUnspentOutputs(ns walletdb.ReadBucket) ([]Credit, er.R) {
 	return unspent, err
 }
 
-func (s *Store) Balance(ns walletdb.ReadBucket, minConf int32, syncHeight int32) (btcutil.Amount, er.R) {
+func (s *Store) Balance(ns walletdb.ReadBucket, minConf, syncHeight int32) (btcutil.Amount, er.R) {
 	// Assiming the height of the chain is syncHeight
 	// we accept all unspent outputs with at least minConf confirms
 	coinbaseMaturity := int32(s.chainParams.CoinbaseMaturity)

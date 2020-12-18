@@ -598,7 +598,7 @@ func (s *stm) Prev(prefix, startKey string) (*KV, er.R) {
 
 // Next returns the next key/value after key (with prefix). If there's no such
 // key Next will return nil.
-func (s *stm) Next(prefix string, key string) (*KV, er.R) {
+func (s *stm) Next(prefix, key string) (*KV, er.R) {
 	return s.next(prefix, key, false)
 }
 

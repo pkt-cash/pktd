@@ -16,53 +16,53 @@ func bint(x bool) int {
 	return 0
 }
 
-func add8(a uint8, b uint8) uint8 { return a + b }
-func ADD8_16(a uint16, b uint16) uint16 {
+func add8(a, b uint8) uint8 { return a + b }
+func ADD8_16(a, b uint16) uint16 {
 	return (uint16(add8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(add8(uint8(a), uint8(b)))
 }
 
-func ADD8(a uint32, b uint32) uint32 {
+func ADD8(a, b uint32) uint32 {
 	return (uint32(ADD8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(ADD8_16(uint16(a), uint16(b)))
 }
-func sub8(a uint8, b uint8) uint8 { return a - b }
-func SUB8_16(a uint16, b uint16) uint16 {
+func sub8(a, b uint8) uint8 { return a - b }
+func SUB8_16(a, b uint16) uint16 {
 	return (uint16(sub8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(sub8(uint8(a), uint8(b)))
 }
 
-func SUB8(a uint32, b uint32) uint32 {
+func SUB8(a, b uint32) uint32 {
 	return (uint32(SUB8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(SUB8_16(uint16(a), uint16(b)))
 }
 
-func shll8(a uint8, b uint8) uint8 { return a << (b & 7) }
-func SHLL8_16(a uint16, b uint16) uint16 {
+func shll8(a, b uint8) uint8 { return a << (b & 7) }
+func SHLL8_16(a, b uint16) uint16 {
 	return (uint16(shll8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(shll8(uint8(a), uint8(b)))
 }
 
-func SHLL8(a uint32, b uint32) uint32 {
+func SHLL8(a, b uint32) uint32 {
 	return (uint32(SHLL8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(SHLL8_16(uint16(a), uint16(b)))
 }
-func shrl8(a uint8, b uint8) uint8 { return a >> (b & 7) }
-func SHRL8_16(a uint16, b uint16) uint16 {
+func shrl8(a, b uint8) uint8 { return a >> (b & 7) }
+func SHRL8_16(a, b uint16) uint16 {
 	return (uint16(shrl8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(shrl8(uint8(a), uint8(b)))
 }
 
-func SHRL8(a uint32, b uint32) uint32 {
+func SHRL8(a, b uint32) uint32 {
 	return (uint32(SHRL8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(SHRL8_16(uint16(a), uint16(b)))
 }
-func shra8(a uint8, b uint8) uint8 { return uint8(int8(a) >> (b & 7)) }
-func SHRA8_16(a uint16, b uint16) uint16 {
+func shra8(a, b uint8) uint8 { return uint8(int8(a) >> (b & 7)) }
+func SHRA8_16(a, b uint16) uint16 {
 	return (uint16(shra8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(shra8(uint8(a), uint8(b)))
 }
 
-func SHRA8(a uint32, b uint32) uint32 {
+func SHRA8(a, b uint32) uint32 {
 	return (uint32(SHRA8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(SHRA8_16(uint16(a), uint16(b)))
 }
-func rotl8(a uint8, b uint8) uint8 { return shll8(a, b) | shrl8(a, 8-b) }
-func ROTL8_16(a uint16, b uint16) uint16 {
+func rotl8(a, b uint8) uint8 { return shll8(a, b) | shrl8(a, 8-b) }
+func ROTL8_16(a, b uint16) uint16 {
 	return (uint16(rotl8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(rotl8(uint8(a), uint8(b)))
 }
 
-func ROTL8(a uint32, b uint32) uint32 {
+func ROTL8(a, b uint32) uint32 {
 	return (uint32(ROTL8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(ROTL8_16(uint16(a), uint16(b)))
 }
 
@@ -74,81 +74,81 @@ func ROTL8(a uint32, b uint32) uint32 {
 // 	return (uint32(ROTR8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(ROTR8_16(uint16(a), uint16(b)))
 // }
 
-func mul8(a uint8, b uint8) uint8 { return a * b }
+func mul8(a, b uint8) uint8 { return a * b }
 
-func MUL8_16(a uint16, b uint16) uint16 {
+func MUL8_16(a, b uint16) uint16 {
 	return (uint16(mul8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(mul8(uint8(a), uint8(b)))
 }
 
-func MUL8(a uint32, b uint32) uint32 {
+func MUL8(a, b uint32) uint32 {
 	return (uint32(MUL8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(MUL8_16(uint16(a), uint16(b)))
 }
 
-func add8C(a uint8, b uint8) uint16 { return uint16(a) + uint16(b) }
-func ADD8C_16C(a uint16, b uint16) uint32 {
+func add8C(a, b uint8) uint16 { return uint16(a) + uint16(b) }
+func ADD8C_16C(a, b uint16) uint32 {
 	return (uint32(add8C(uint8(a>>8), uint8(b>>8))) << 16) | uint32(add8C(uint8(a), uint8(b)))
 }
 
-func ADD8C(a uint32, b uint32) uint64 {
+func ADD8C(a, b uint32) uint64 {
 	return (uint64(ADD8C_16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(ADD8C_16C(uint16(a), uint16(b)))
 }
-func sub8C(a uint8, b uint8) uint16 { return uint16(a) - uint16(b) }
-func SUB8C_16C(a uint16, b uint16) uint32 {
+func sub8C(a, b uint8) uint16 { return uint16(a) - uint16(b) }
+func SUB8C_16C(a, b uint16) uint32 {
 	return (uint32(sub8C(uint8(a>>8), uint8(b>>8))) << 16) | uint32(sub8C(uint8(a), uint8(b)))
 }
 
-func SUB8C(a uint32, b uint32) uint64 {
+func SUB8C(a, b uint32) uint64 {
 	return (uint64(SUB8C_16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(SUB8C_16C(uint16(a), uint16(b)))
 }
 
-func mul8C(a uint8, b uint8) uint16 { return uint16(int16(int8(a)) * int16(int8(b))) }
-func MUL8C_16C(a uint16, b uint16) uint32 {
+func mul8C(a, b uint8) uint16 { return uint16(int16(int8(a)) * int16(int8(b))) }
+func MUL8C_16C(a, b uint16) uint32 {
 	return (uint32(mul8C(uint8(a>>8), uint8(b>>8))) << 16) | uint32(mul8C(uint8(a), uint8(b)))
 }
 
-func MUL8C(a uint32, b uint32) uint64 {
+func MUL8C(a, b uint32) uint64 {
 	return (uint64(MUL8C_16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(MUL8C_16C(uint16(a), uint16(b)))
 }
-func mulu8C(a uint8, b uint8) uint16 { return uint16(a) * uint16(b) }
-func MULU8C_16C(a uint16, b uint16) uint32 {
+func mulu8C(a, b uint8) uint16 { return uint16(a) * uint16(b) }
+func MULU8C_16C(a, b uint16) uint32 {
 	return (uint32(mulu8C(uint8(a>>8), uint8(b>>8))) << 16) | uint32(mulu8C(uint8(a), uint8(b)))
 }
 
-func MULU8C(a uint32, b uint32) uint64 {
+func MULU8C(a, b uint32) uint64 {
 	return (uint64(MULU8C_16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(MULU8C_16C(uint16(a), uint16(b)))
 }
-func mulsu8C(a uint8, b uint8) uint16 { return uint16(int16(int8(a)) * int16(b)) }
-func MULSU8C_16C(a uint16, b uint16) uint32 {
+func mulsu8C(a, b uint8) uint16 { return uint16(int16(int8(a)) * int16(b)) }
+func MULSU8C_16C(a, b uint16) uint32 {
 	return (uint32(mulsu8C(uint8(a>>8), uint8(b>>8))) << 16) | uint32(mulsu8C(uint8(a), uint8(b)))
 }
 
-func MULSU8C(a uint32, b uint32) uint64 {
+func MULSU8C(a, b uint32) uint64 {
 	return (uint64(MULSU8C_16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(MULSU8C_16C(uint16(a), uint16(b)))
 }
 
-func add16(a uint16, b uint16) uint16 { return a + b }
-func ADD16(a uint32, b uint32) uint32 {
+func add16(a, b uint16) uint16 { return a + b }
+func ADD16(a, b uint32) uint32 {
 	return (uint32(add16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(add16(uint16(a), uint16(b)))
 }
-func sub16(a uint16, b uint16) uint16 { return a - b }
-func SUB16(a uint32, b uint32) uint32 {
+func sub16(a, b uint16) uint16 { return a - b }
+func SUB16(a, b uint32) uint32 {
 	return (uint32(sub16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(sub16(uint16(a), uint16(b)))
 }
 
-func shll16(a uint16, b uint16) uint16 { return a << (b & 15) }
-func SHLL16(a uint32, b uint32) uint32 {
+func shll16(a, b uint16) uint16 { return a << (b & 15) }
+func SHLL16(a, b uint32) uint32 {
 	return (uint32(shll16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(shll16(uint16(a), uint16(b)))
 }
-func shrl16(a uint16, b uint16) uint16 { return a >> (b & 15) }
-func SHRL16(a uint32, b uint32) uint32 {
+func shrl16(a, b uint16) uint16 { return a >> (b & 15) }
+func SHRL16(a, b uint32) uint32 {
 	return (uint32(shrl16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(shrl16(uint16(a), uint16(b)))
 }
-func shra16(a uint16, b uint16) uint16 { return uint16(int16(a) >> (b & 15)) }
-func SHRA16(a uint32, b uint32) uint32 {
+func shra16(a, b uint16) uint16 { return uint16(int16(a) >> (b & 15)) }
+func SHRA16(a, b uint32) uint32 {
 	return (uint32(shra16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(shra16(uint16(a), uint16(b)))
 }
-func rotl16(a uint16, b uint16) uint16 { return shll16(a, b) | shrl16(a, 16-b) }
-func ROTL16(a uint32, b uint32) uint32 {
+func rotl16(a, b uint16) uint16 { return shll16(a, b) | shrl16(a, 16-b) }
+func ROTL16(a, b uint32) uint32 {
 	return (uint32(rotl16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(rotl16(uint16(a), uint16(b)))
 }
 
@@ -157,68 +157,68 @@ func ROTL16(a uint32, b uint32) uint32 {
 // 	return (uint32(rotr16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(rotr16(uint16(a), uint16(b)))
 // }
 
-func mul16(a uint16, b uint16) uint16 { return a * b }
+func mul16(a, b uint16) uint16 { return a * b }
 
-func MUL16(a uint32, b uint32) uint32 {
+func MUL16(a, b uint32) uint32 {
 	return (uint32(mul16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(mul16(uint16(a), uint16(b)))
 }
 
-func add16C(a uint16, b uint16) uint32 { return uint32(a) + uint32(b) }
-func ADD16C(a uint32, b uint32) uint64 {
+func add16C(a, b uint16) uint32 { return uint32(a) + uint32(b) }
+func ADD16C(a, b uint32) uint64 {
 	return (uint64(add16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(add16C(uint16(a), uint16(b)))
 }
-func sub16C(a uint16, b uint16) uint32 { return uint32(a) - uint32(b) }
-func SUB16C(a uint32, b uint32) uint64 {
+func sub16C(a, b uint16) uint32 { return uint32(a) - uint32(b) }
+func SUB16C(a, b uint32) uint64 {
 	return (uint64(sub16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(sub16C(uint16(a), uint16(b)))
 }
 
-func mul16C(a uint16, b uint16) uint32 { return uint32(int32(int16(a)) * int32(int16(b))) }
-func MUL16C(a uint32, b uint32) uint64 {
+func mul16C(a, b uint16) uint32 { return uint32(int32(int16(a)) * int32(int16(b))) }
+func MUL16C(a, b uint32) uint64 {
 	return (uint64(mul16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(mul16C(uint16(a), uint16(b)))
 }
-func mulu16C(a uint16, b uint16) uint32 { return uint32(a) * uint32(b) }
-func MULU16C(a uint32, b uint32) uint64 {
+func mulu16C(a, b uint16) uint32 { return uint32(a) * uint32(b) }
+func MULU16C(a, b uint32) uint64 {
 	return (uint64(mulu16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(mulu16C(uint16(a), uint16(b)))
 }
-func mulsu16C(a uint16, b uint16) uint32 { return uint32(int32(int16(a)) * int32(b)) }
-func MULSU16C(a uint32, b uint32) uint64 {
+func mulsu16C(a, b uint16) uint32 { return uint32(int32(int16(a)) * int32(b)) }
+func MULSU16C(a, b uint32) uint64 {
 	return (uint64(mulsu16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(mulsu16C(uint16(a), uint16(b)))
 }
 
-func add32(a uint32, b uint32) uint32 { return a + b }
-func ADD32(a uint32, b uint32) uint32 { return add32(a, b) }
-func sub32(a uint32, b uint32) uint32 { return a - b }
-func SUB32(a uint32, b uint32) uint32 { return sub32(a, b) }
+func add32(a, b uint32) uint32 { return a + b }
+func ADD32(a, b uint32) uint32 { return add32(a, b) }
+func sub32(a, b uint32) uint32 { return a - b }
+func SUB32(a, b uint32) uint32 { return sub32(a, b) }
 
-func shll32(a uint32, b uint32) uint32 { return a << (b & 31) }
-func SHLL32(a uint32, b uint32) uint32 { return shll32(a, b) }
-func shrl32(a uint32, b uint32) uint32 { return a >> (b & 31) }
-func SHRL32(a uint32, b uint32) uint32 { return shrl32(a, b) }
-func shra32(a uint32, b uint32) uint32 { return uint32(int32(a) >> (b & 31)) }
-func SHRA32(a uint32, b uint32) uint32 { return shra32(a, b) }
-func rotl32(a uint32, b uint32) uint32 { return shll32(a, b) | shrl32(a, 32-b) }
-func ROTL32(a uint32, b uint32) uint32 { return rotl32(a, b) }
+func shll32(a, b uint32) uint32 { return a << (b & 31) }
+func SHLL32(a, b uint32) uint32 { return shll32(a, b) }
+func shrl32(a, b uint32) uint32 { return a >> (b & 31) }
+func SHRL32(a, b uint32) uint32 { return shrl32(a, b) }
+func shra32(a, b uint32) uint32 { return uint32(int32(a) >> (b & 31)) }
+func SHRA32(a, b uint32) uint32 { return shra32(a, b) }
+func rotl32(a, b uint32) uint32 { return shll32(a, b) | shrl32(a, 32-b) }
+func ROTL32(a, b uint32) uint32 { return rotl32(a, b) }
 
 // func rotr32(a uint32, b uint32) uint32 { return shll32(a, 32-b) | shrl32(a, b) }
 // func ROTR32(a uint32, b uint32) uint32 { return rotr32(a, b) }
 
-func mul32(a uint32, b uint32) uint32 { return a * b }
-func MUL32(a uint32, b uint32) uint32 { return mul32(a, b) }
+func mul32(a, b uint32) uint32 { return a * b }
+func MUL32(a, b uint32) uint32 { return mul32(a, b) }
 
-func add32C(a uint32, b uint32) uint64 { return uint64(a) + uint64(b) }
-func ADD32C(a uint32, b uint32) uint64 { return add32C(a, b) }
-func sub32C(a uint32, b uint32) uint64 { return uint64(a) - uint64(b) }
-func SUB32C(a uint32, b uint32) uint64 { return sub32C(a, b) }
+func add32C(a, b uint32) uint64 { return uint64(a) + uint64(b) }
+func ADD32C(a, b uint32) uint64 { return add32C(a, b) }
+func sub32C(a, b uint32) uint64 { return uint64(a) - uint64(b) }
+func SUB32C(a, b uint32) uint64 { return sub32C(a, b) }
 
-func mul32C(a uint32, b uint32) uint64   { return uint64(int64(int32(a)) * int64(int32(b))) }
-func MUL32C(a uint32, b uint32) uint64   { return mul32C(a, b) }
-func mulu32C(a uint32, b uint32) uint64  { return uint64(a) * uint64(b) }
-func MULU32C(a uint32, b uint32) uint64  { return mulu32C(a, b) }
-func mulsu32C(a uint32, b uint32) uint64 { return uint64(int64(int32(a)) * int64(b)) }
-func MULSU32C(a uint32, b uint32) uint64 { return mulsu32C(a, b) }
+func mul32C(a, b uint32) uint64   { return uint64(int64(int32(a)) * int64(int32(b))) }
+func MUL32C(a, b uint32) uint64   { return mul32C(a, b) }
+func mulu32C(a, b uint32) uint64  { return uint64(a) * uint64(b) }
+func MULU32C(a, b uint32) uint64  { return mulu32C(a, b) }
+func mulsu32C(a, b uint32) uint64 { return uint64(int64(int32(a)) * int64(b)) }
+func MULSU32C(a, b uint32) uint64 { return mulsu32C(a, b) }
 
-func add64(a uint64, b uint64) uint64 { return a + b }
-func ADD64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
+func add64(a, b uint64) uint64 { return a + b }
+func ADD64(a0, a1, b0, b1 uint32) uint64 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -227,8 +227,8 @@ func ADD64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
 	b |= uint64(b0)
 	return add64(a, b)
 }
-func sub64(a uint64, b uint64) uint64 { return a - b }
-func SUB64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
+func sub64(a, b uint64) uint64 { return a - b }
+func SUB64(a0, a1, b0, b1 uint32) uint64 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -238,8 +238,8 @@ func SUB64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
 	return sub64(a, b)
 }
 
-func shll64(a uint64, b uint64) uint64 { return a << (b & 63) }
-func SHLL64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
+func shll64(a, b uint64) uint64 { return a << (b & 63) }
+func SHLL64(a0, a1, b0, b1 uint32) uint64 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -248,8 +248,8 @@ func SHLL64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
 	b |= uint64(b0)
 	return shll64(a, b)
 }
-func shrl64(a uint64, b uint64) uint64 { return a >> (b & 63) }
-func SHRL64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
+func shrl64(a, b uint64) uint64 { return a >> (b & 63) }
+func SHRL64(a0, a1, b0, b1 uint32) uint64 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -258,8 +258,8 @@ func SHRL64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
 	b |= uint64(b0)
 	return shrl64(a, b)
 }
-func shra64(a uint64, b uint64) uint64 { return uint64(int64(a) >> (b & 63)) }
-func SHRA64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
+func shra64(a, b uint64) uint64 { return uint64(int64(a) >> (b & 63)) }
+func SHRA64(a0, a1, b0, b1 uint32) uint64 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -268,8 +268,8 @@ func SHRA64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
 	b |= uint64(b0)
 	return shra64(a, b)
 }
-func rotl64(a uint64, b uint64) uint64 { return shll64(a, b) | shrl64(a, 64-b) }
-func ROTL64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
+func rotl64(a, b uint64) uint64 { return shll64(a, b) | shrl64(a, 64-b) }
+func ROTL64(a0, a1, b0, b1 uint32) uint64 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -278,8 +278,8 @@ func ROTL64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
 	b |= uint64(b0)
 	return rotl64(a, b)
 }
-func rotr64(a uint64, b uint64) uint64 { return shll64(a, 64-b) | shrl64(a, b) }
-func ROTR64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
+func rotr64(a, b uint64) uint64 { return shll64(a, 64-b) | shrl64(a, b) }
+func ROTR64(a0, a1, b0, b1 uint32) uint64 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -289,8 +289,8 @@ func ROTR64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
 	return rotr64(a, b)
 }
 
-func mul64(a uint64, b uint64) uint64 { return a * b }
-func MUL64(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint64 {
+func mul64(a, b uint64) uint64 { return a * b }
+func MUL64(a0, a1, b0, b1 uint32) uint64 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -314,7 +314,7 @@ func U128_0(v uint128) uint32 { return binary.LittleEndian.Uint32(v.bytes[:4]) }
 func U128_1(v uint128) uint32 { return binary.LittleEndian.Uint32(v.bytes[4:8]) }
 func U128_2(v uint128) uint32 { return binary.LittleEndian.Uint32(v.bytes[8:12]) }
 func U128_3(v uint128) uint32 { return binary.LittleEndian.Uint32(v.bytes[12:16]) }
-func mulhu64(a uint64, b uint64) uint64 {
+func mulhu64(a, b uint64) uint64 {
 	a0 := uint32(a)
 	a1 := uint32((a >> 32))
 	b0 := uint32(b)
@@ -330,7 +330,7 @@ func mulhu64(a uint64, b uint64) uint64 {
 	return (uint64(r3) << 32) | uint64(r2)
 }
 
-func mulh64(a int64, b int64) uint64 {
+func mulh64(a, b int64) uint64 {
 	negate := bool(((a < 0) != (b < 0)))
 	_a := uint64(a)
 	_b := uint64(b)
@@ -375,18 +375,18 @@ func mulhsu64(a int64, b uint64) uint64 {
 	}
 	return res
 }
-func mul64C(a uint64, b uint64) uint128 { return MK128((a * b), mulh64(int64(a), int64(b))) }
+func mul64C(a, b uint64) uint128 { return MK128((a * b), mulh64(int64(a), int64(b))) }
 
-func mulsu64C(a uint64, b uint64) uint128 { return MK128((a * b), mulhsu64(int64(a), b)) }
+func mulsu64C(a, b uint64) uint128 { return MK128((a * b), mulhsu64(int64(a), b)) }
 
-func mulu64C(a uint64, b uint64) uint128 { return MK128((a * b), mulhu64(a, b)) }
+func mulu64C(a, b uint64) uint128 { return MK128((a * b), mulhu64(a, b)) }
 
-func add64C(a uint64, b uint64) uint128 {
+func add64C(a, b uint64) uint128 {
 	res := uint64((a + b))
 	return MK128(res, uint64(bint(res < b)))
 }
 
-func ADD64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
+func ADD64C(a0, a1, b0, b1 uint32) uint128 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -396,12 +396,12 @@ func ADD64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	return add64C(a, b)
 }
 
-func sub64C(a uint64, b uint64) uint128 {
+func sub64C(a, b uint64) uint128 {
 	res := uint64((a - b))
 	return MK128(res, uint64(0)-uint64(bint(a < b)))
 }
 
-func SUB64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
+func SUB64C(a0, a1, b0, b1 uint32) uint128 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -411,7 +411,7 @@ func SUB64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	return sub64C(a, b)
 }
 
-func MUL64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
+func MUL64C(a0, a1, b0, b1 uint32) uint128 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -421,7 +421,7 @@ func MUL64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	return mul64C(a, b)
 }
 
-func MULSU64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
+func MULSU64C(a0, a1, b0, b1 uint32) uint128 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -431,7 +431,7 @@ func MULSU64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	return mulsu64C(a, b)
 }
 
-func MULU64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
+func MULU64C(a0, a1, b0, b1 uint32) uint128 {
 	a := uint64(a1)
 	a <<= 32
 	a |= uint64(a0)
@@ -441,10 +441,10 @@ func MULU64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	return mulu64C(a, b)
 }
 
-func XOR(a uint32, b uint32) uint32 { return a ^ b }
-func OR(a uint32, b uint32) uint32  { return a | b }
-func AND(a uint32, b uint32) uint32 { return a & b }
-func popcnt8(a uint8) uint8         { return uint8(bits.OnesCount8(a)) }
+func XOR(a, b uint32) uint32 { return a ^ b }
+func OR(a, b uint32) uint32  { return a | b }
+func AND(a, b uint32) uint32 { return a & b }
+func popcnt8(a uint8) uint8  { return uint8(bits.OnesCount8(a)) }
 func POPCNT8_16(a uint16) uint16 {
 	return (uint16(popcnt8(uint8(a>>8))) << 8) | uint16(popcnt8(uint8(a)))
 }

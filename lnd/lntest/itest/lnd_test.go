@@ -1222,7 +1222,7 @@ func getChannelBalance(t *harnessTest,
 // then return a function closure that should be called to assert proper
 // channel closure.
 func basicChannelFundingTest(t *harnessTest, net *lntest.NetworkHarness,
-	alice *lntest.HarnessNode, bob *lntest.HarnessNode,
+	alice, bob *lntest.HarnessNode,
 	fundingShim *lnrpc.FundingShim) (*lnrpc.Channel, *lnrpc.Channel, func(), er.R) {
 	chanAmt := lnd.MaxBtcFundingAmount
 	pushAmt := btcutil.Amount(100000)
@@ -5254,7 +5254,7 @@ func assertAmountPaid(t *harnessTest, channelName string,
 // given fees and timelock delta. This function blocks until
 // listenerNode has received the policy update.
 func updateChannelPolicy(t *harnessTest, node *lntest.HarnessNode,
-	chanPoint *lnrpc.ChannelPoint, baseFee int64, feeRate int64,
+	chanPoint *lnrpc.ChannelPoint, baseFee, feeRate int64,
 	timeLockDelta uint32, maxHtlc uint64, listenerNode *lntest.HarnessNode) {
 	ctxb := context.Background()
 

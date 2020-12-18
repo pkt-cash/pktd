@@ -13,7 +13,7 @@ import (
 // NormalizeAddress returns the normalized form of the address, adding a default
 // port if necessary.  An error is returned if the address, even without a port,
 // is not valid.
-func NormalizeAddress(addr string, defaultPort string) (string, er.R) {
+func NormalizeAddress(addr, defaultPort string) (string, er.R) {
 	// If the first SplitHostPort errors because of a missing port and not
 	// for an invalid host, add the port.  If the second SplitHostPort
 	// fails, then a port is not missing and the original error should be

@@ -34,7 +34,7 @@ func WriteTxWitness(w io.Writer, wit [][]byte) er.R {
 }
 
 // writePKHWitness writes a witness for a p2wkh spending input
-func writePKHWitness(sig []byte, pub []byte) ([]byte, er.R) {
+func writePKHWitness(sig, pub []byte) ([]byte, er.R) {
 	var (
 		buf          bytes.Buffer
 		witnessItems = [][]byte{sig, pub}
@@ -50,7 +50,7 @@ func writePKHWitness(sig []byte, pub []byte) ([]byte, er.R) {
 // checkIsMultisigScript is a utility function to check whether a given
 // redeemscript fits the standard multisig template used in all P2SH based
 // multisig, given a set of pubkeys for redemption.
-func checkIsMultiSigScript(pubKeys [][]byte, sigs [][]byte,
+func checkIsMultiSigScript(pubKeys, sigs [][]byte,
 	script []byte) bool {
 	// First insist that the script type is multisig.
 	if txscript.GetScriptClass(script) != txscript.MultiSigTy {
@@ -193,7 +193,7 @@ func checkSigHashFlags(sig []byte, input *PInput) bool {
 }
 
 // serializeKVpair writes out a kv pair using a varbyte prefix for each.
-func serializeKVpair(w io.Writer, key []byte, value []byte) er.R {
+func serializeKVpair(w io.Writer, key, value []byte) er.R {
 	if err := wire.WriteVarBytes(w, 0, key); err != nil {
 		return err
 	}

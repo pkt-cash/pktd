@@ -45,7 +45,7 @@ func testSendOutputs(r *Harness, t *testing.T) {
 		return txid
 	}
 
-	assertTxMined := func(txid *chainhash.Hash, blockHash *chainhash.Hash) {
+	assertTxMined := func(txid, blockHash *chainhash.Hash) {
 		block, err := r.Node.GetBlock(blockHash)
 		if err != nil {
 			t.Fatalf("unable to get block: %v", err)
@@ -86,7 +86,7 @@ func testSendOutputs(r *Harness, t *testing.T) {
 	assertTxMined(txid, blockHashes[0])
 }
 
-func assertConnectedTo(t *testing.T, nodeA *Harness, nodeB *Harness) {
+func assertConnectedTo(t *testing.T, nodeA, nodeB *Harness) {
 	nodeAPeers, err := nodeA.Node.GetPeerInfo()
 	if err != nil {
 		t.Fatalf("unable to get nodeA's peer info")

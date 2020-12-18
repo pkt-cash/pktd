@@ -17,7 +17,7 @@ import (
 
 var _ = testutil.Defer(func() {
 	Describe("Merged iterator", func() {
-		Test := func(filled int, empty int) func() {
+		Test := func(filled, empty int) func() {
 			return func() {
 				It("Should iterates and seeks correctly", func(done Done) {
 					rnd := testutil.NewRand()

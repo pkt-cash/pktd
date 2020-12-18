@@ -161,7 +161,7 @@ func IsPrivate(addr net.Addr) bool {
 // compatible with lnd. UDP is not supported because lnd needs reliable
 // connections. We accept a custom function to resolve any TCP addresses so
 // that caller is able control exactly how resolution is performed.
-func ParseAddressString(strAddress string, defaultPort string,
+func ParseAddressString(strAddress, defaultPort string,
 	tcpResolver TCPResolver) (net.Addr, er.R) {
 	var parsedNetwork, parsedAddr string
 
@@ -232,7 +232,7 @@ func ParseAddressString(strAddress string, defaultPort string,
 // may be any address supported by ParseAddressString. If no port is specified,
 // the defaultPort will be used. Any tcp addresses that need resolving will be
 // resolved using the custom TCPResolver.
-func ParseLNAddressString(strAddress string, defaultPort string,
+func ParseLNAddressString(strAddress, defaultPort string,
 	tcpResolver TCPResolver) (*lnwire.NetAddress, er.R) {
 	// Split the address string around the @ sign.
 	parts := strings.Split(strAddress, "@")
@@ -282,7 +282,7 @@ func ParseLNAddressString(strAddress string, defaultPort string,
 // there is no port found, the default port is appended. If the address is just
 // a port, then we'll assume that the user is using the short cut to specify a
 // localhost:port address.
-func verifyPort(address string, defaultPort string) string {
+func verifyPort(address, defaultPort string) string {
 	host, port, err := net.SplitHostPort(address)
 	if err != nil {
 		// If the address itself is just an integer, then we'll assume

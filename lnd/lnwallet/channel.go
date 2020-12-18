@@ -2828,7 +2828,7 @@ func (lc *LightningChannel) fetchParent(entry *PaymentDescriptor,
 // was committed is updated. Keeping track of this inclusion height allows us to
 // later compact the log once the change is fully committed in both chains.
 func processAddEntry(htlc *PaymentDescriptor, ourBalance, theirBalance *lnwire.MilliSatoshi,
-	nextHeight uint64, remoteChain bool, isIncoming, mutateState bool) {
+	nextHeight uint64, remoteChain, isIncoming, mutateState bool) {
 	// If we're evaluating this entry for the remote chain (to create/view
 	// a new commitment), then we'll may be updating the height this entry
 	// was added to the chain. Otherwise, we may be updating the entry's
@@ -2865,7 +2865,7 @@ func processAddEntry(htlc *PaymentDescriptor, ourBalance, theirBalance *lnwire.M
 // is skipped.
 func processRemoveEntry(htlc *PaymentDescriptor, ourBalance,
 	theirBalance *lnwire.MilliSatoshi, nextHeight uint64,
-	remoteChain bool, isIncoming, mutateState bool) {
+	remoteChain, isIncoming, mutateState bool) {
 	var removeHeight *uint64
 	if remoteChain {
 		removeHeight = &htlc.removeCommitHeightRemote
@@ -2912,7 +2912,7 @@ func processRemoveEntry(htlc *PaymentDescriptor, ourBalance,
 // processFeeUpdate processes a log update that updates the current commitment
 // fee.
 func processFeeUpdate(feeUpdate *PaymentDescriptor, nextHeight uint64,
-	remoteChain bool, mutateState bool, view *htlcView) {
+	remoteChain, mutateState bool, view *htlcView) {
 	// Fee updates are applied for all commitments after they are
 	// sent/received, so we consider them being added and removed at the
 	// same height.

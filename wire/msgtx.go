@@ -1013,7 +1013,7 @@ func writeOutPoint(w io.Writer, pver uint32, version int32, op *OutPoint) er.R {
 // memory exhaustion attacks and forced panics through malformed messages.  The
 // fieldName parameter is only used for the error message so it provides more
 // context in the error.
-func readScript(r io.Reader, pver uint32, maxAllowed uint32, fieldName string) ([]byte, er.R) {
+func readScript(r io.Reader, pver, maxAllowed uint32, fieldName string) ([]byte, er.R) {
 	count, err := ReadVarInt(r, pver)
 	if err != nil {
 		return nil, err

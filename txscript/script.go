@@ -56,7 +56,7 @@ func isWitnessScriptHash(pops []parsescript.ParsedOpcode) bool {
 
 // ElectionGetVotesForAgainst gets the candidates who are voted for and voted against
 // by the provided pkScript
-func ElectionGetVotesForAgainst(pkScript []byte) (voteFor []byte, voteAgainst []byte) {
+func ElectionGetVotesForAgainst(pkScript []byte) (voteFor, voteAgainst []byte) {
 	pops, err := parsescript.ParseScript(pkScript)
 	if err != nil {
 		return nil, nil

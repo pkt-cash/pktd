@@ -77,7 +77,7 @@ func mkItem2Prog(out *mkItem2Program, seed []byte) int {
 	return 0
 }
 
-func mkItem2(itemNo int, item []byte, seed []byte, prog *mkItem2Program) int {
+func mkItem2(itemNo int, item, seed []byte, prog *mkItem2Program) int {
 	state := cryptocycle.State{}
 	cryptocycle.Init(&state, seed, uint64(itemNo))
 	memoryBeginning := itemNo % ((len(prog.memory) / 4) - interpret.RandHash_MEMORY_SZ)

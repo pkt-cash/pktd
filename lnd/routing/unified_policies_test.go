@@ -40,7 +40,7 @@ func TestUnifiedPolicies(t *testing.T) {
 	u.addPolicy(fromNode, &p2, 7)
 
 	checkPolicy := func(policy *channeldb.ChannelEdgePolicy,
-		feeBase lnwire.MilliSatoshi, feeRate lnwire.MilliSatoshi,
+		feeBase, feeRate lnwire.MilliSatoshi,
 		timeLockDelta uint16) {
 		t.Helper()
 

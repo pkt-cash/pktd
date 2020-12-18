@@ -776,7 +776,7 @@ func (s *ScopedKeyManager) AddrAccount(ns walletdb.ReadBucket,
 //
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) nextAddresses(ns walletdb.ReadWriteBucket,
-	account uint32, numAddresses uint32, internal bool) ([]ManagedAddress, er.R) {
+	account, numAddresses uint32, internal bool) ([]ManagedAddress, er.R) {
 	// The next address can only be generated for accounts that have
 	// already been created.
 	acctInfo, err := s.loadAccountInfo(ns, account)
@@ -970,7 +970,7 @@ func (s *ScopedKeyManager) nextAddresses(ns walletdb.ReadWriteBucket,
 //
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) extendAddresses(ns walletdb.ReadWriteBucket,
-	account uint32, lastIndex uint32, internal bool) er.R {
+	account, lastIndex uint32, internal bool) er.R {
 	// The next address can only be generated for accounts that have
 	// already been created.
 	acctInfo, err := s.loadAccountInfo(ns, account)
@@ -1150,7 +1150,7 @@ func (s *ScopedKeyManager) extendAddresses(ns walletdb.ReadWriteBucket,
 // NextExternalAddresses returns the specified number of next chained addresses
 // that are intended for external use from the address manager.
 func (s *ScopedKeyManager) NextExternalAddresses(ns walletdb.ReadWriteBucket,
-	account uint32, numAddresses uint32) ([]ManagedAddress, er.R) {
+	account, numAddresses uint32) ([]ManagedAddress, er.R) {
 	// Enforce maximum account number.
 	if account > MaxAccountNum {
 		return nil, ErrAccountNumTooHigh.Default()
@@ -1165,7 +1165,7 @@ func (s *ScopedKeyManager) NextExternalAddresses(ns walletdb.ReadWriteBucket,
 // NextInternalAddresses returns the specified number of next chained addresses
 // that are intended for internal use such as change from the address manager.
 func (s *ScopedKeyManager) NextInternalAddresses(ns walletdb.ReadWriteBucket,
-	account uint32, numAddresses uint32) ([]ManagedAddress, er.R) {
+	account, numAddresses uint32) ([]ManagedAddress, er.R) {
 	// Enforce maximum account number.
 	if account > MaxAccountNum {
 		return nil, ErrAccountNumTooHigh.Default()
@@ -1182,7 +1182,7 @@ func (s *ScopedKeyManager) NextInternalAddresses(ns walletdb.ReadWriteBucket,
 // wallet's persistent state catches up to a external child that was found
 // during recovery.
 func (s *ScopedKeyManager) ExtendExternalAddresses(ns walletdb.ReadWriteBucket,
-	account uint32, lastIndex uint32) er.R {
+	account, lastIndex uint32) er.R {
 	if account > MaxAccountNum {
 		return ErrAccountNumTooHigh.Default()
 	}
@@ -1198,7 +1198,7 @@ func (s *ScopedKeyManager) ExtendExternalAddresses(ns walletdb.ReadWriteBucket,
 // wallet's persistent state catches up to an internal child that was found
 // during recovery.
 func (s *ScopedKeyManager) ExtendInternalAddresses(ns walletdb.ReadWriteBucket,
-	account uint32, lastIndex uint32) er.R {
+	account, lastIndex uint32) er.R {
 	if account > MaxAccountNum {
 		return ErrAccountNumTooHigh.Default()
 	}

@@ -38,7 +38,7 @@ func makeParams(rt reflect.Type, rv reflect.Value) []interface{} {
 // is suitable for transmission to an RPC server.  The provided command type
 // must be a registered type.  All commands provided by this package are
 // registered by default.
-func MarshalCmd(id interface{}, cmd interface{}) ([]byte, er.R) {
+func MarshalCmd(id, cmd interface{}) ([]byte, er.R) {
 	// Look up the cmd type and error out if not registered.
 	rt := reflect.TypeOf(cmd)
 	registerLock.RLock()
@@ -184,7 +184,7 @@ func isNumeric(kind reflect.Kind) bool {
 // typesMaybeCompatible returns whether the source type can possibly be
 // assigned to the destination type.  This is intended as a relatively quick
 // check to weed out obviously invalid conversions.
-func typesMaybeCompatible(dest reflect.Type, src reflect.Type) bool {
+func typesMaybeCompatible(dest, src reflect.Type) bool {
 	// The same types are obviously compatible.
 	if dest == src {
 		return true
@@ -240,7 +240,7 @@ func baseType(arg reflect.Type) (reflect.Type, int) {
 // direct type assignments, indirection, conversion of numeric types, and
 // unmarshaling of strings into arrays, slices, structs, and maps via
 // jsoniter.Unmarshal.
-func assignField(paramNum int, fieldName string, dest reflect.Value, src reflect.Value) er.R {
+func assignField(paramNum int, fieldName string, dest, src reflect.Value) er.R {
 	// Just error now when the types have no chance of being compatible.
 	destBaseType, destIndirects := baseType(dest.Type())
 	srcBaseType, srcIndirects := baseType(src.Type())

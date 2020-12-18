@@ -20,7 +20,7 @@ type POutput struct {
 // NewPsbtOutput creates an instance of PsbtOutput; the three parameters
 // redeemScript, witnessScript and Bip32Derivation are all allowed to be
 // `nil`.
-func NewPsbtOutput(redeemScript []byte, witnessScript []byte,
+func NewPsbtOutput(redeemScript, witnessScript []byte,
 	bip32Derivation []*Bip32Derivation) *POutput {
 	return &POutput{
 		RedeemScript:    redeemScript,

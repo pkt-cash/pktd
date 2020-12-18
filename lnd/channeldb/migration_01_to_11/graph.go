@@ -552,7 +552,7 @@ func (c *ChannelEdgePolicy) IsDisabled() bool {
 		lnwire.ChanUpdateDisabled
 }
 
-func putLightningNode(nodeBucket kvdb.RwBucket, aliasBucket kvdb.RwBucket,
+func putLightningNode(nodeBucket, aliasBucket kvdb.RwBucket,
 	updateIndex kvdb.RwBucket, node *LightningNode) er.R {
 	var (
 		scratch [16]byte
@@ -942,7 +942,7 @@ func putChanEdgePolicy(edges, nodes kvdb.RwBucket, edge *ChannelEdgePolicy,
 // Maintaining the bucket this way allows a fast retrieval of disabled
 // channels, for example when prune is needed.
 func updateEdgePolicyDisabledIndex(edges kvdb.RwBucket, chanID uint64,
-	direction bool, disabled bool) er.R {
+	direction, disabled bool) er.R {
 	var disabledEdgeKey [8 + 1]byte
 	byteOrder.PutUint64(disabledEdgeKey[0:], chanID)
 	if direction {

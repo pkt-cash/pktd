@@ -112,7 +112,7 @@ func BenchmarkGetOverlapNonLevel0(b *testing.B) {
 	benchmarkGetOverlap(b, 1, 500000)
 }
 
-func benchmarkGetOverlap(b *testing.B, level int, size int) {
+func benchmarkGetOverlap(b *testing.B, level, size int) {
 	stor := storage.NewMemStorage()
 	defer stor.Close()
 	s, err := newSession(stor, nil)

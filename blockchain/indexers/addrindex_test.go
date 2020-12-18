@@ -44,7 +44,7 @@ func (b *addrIndexBucket) Get(key []byte) []byte {
 // Put stores the provided key/value pair to the mock address index bucket.
 //
 // This is part of the internalBucket interface.
-func (b *addrIndexBucket) Put(key []byte, value []byte) er.R {
+func (b *addrIndexBucket) Put(key, value []byte) er.R {
 	var levelKey [levelKeySize]byte
 	copy(levelKey[:], key)
 	b.levels[levelKey] = value

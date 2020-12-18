@@ -146,7 +146,7 @@ func (s *SeedEnc) computeCsum() byte {
 
 // If the passphrase is emptystring then cipher() simply copies the content
 // from one to the other.
-func cipher(outBytes *[encByteLen]byte, inBytes *[encByteLen]byte, passphrase []byte) {
+func cipher(outBytes, inBytes *[encByteLen]byte, passphrase []byte) {
 	if len(passphrase) == 0 {
 		copy(outBytes[2:], inBytes[2:])
 	}

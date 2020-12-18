@@ -637,7 +637,7 @@ func WriteVarString(w io.Writer, pver uint32, str string) er.R {
 // attacks and forced panics through malformed messages.  The fieldName
 // parameter is only used for the error message so it provides more context in
 // the error.
-func ReadVarBytes(r io.Reader, pver uint32, maxAllowed uint32,
+func ReadVarBytes(r io.Reader, pver, maxAllowed uint32,
 	fieldName string) ([]byte, er.R) {
 	count, err := ReadVarInt(r, pver)
 	if err != nil {

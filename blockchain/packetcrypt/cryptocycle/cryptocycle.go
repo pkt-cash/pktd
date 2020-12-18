@@ -147,7 +147,7 @@ func Init(s *State, seed []byte, nonce uint64) {
 	s.MakeFuzzable()
 }
 
-func Update(state *State, item []byte, contentBlock []byte, randHashCycles int, progBuf *Context) bool {
+func Update(state *State, item, contentBlock []byte, randHashCycles int, progBuf *Context) bool {
 	if randHashCycles > 0 {
 		prog, err := randgen.Generate(item[32*31:])
 		if err != nil {

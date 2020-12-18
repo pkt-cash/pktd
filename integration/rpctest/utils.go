@@ -109,7 +109,7 @@ retry:
 // harness and the "to" harness.  The connection made is flagged as persistent,
 // therefore in the case of disconnects, "from" will attempt to reestablish a
 // connection to the "to" harness.
-func ConnectNode(from *Harness, to *Harness) er.R {
+func ConnectNode(from, to *Harness) er.R {
 	peerInfo, err := from.Node.GetPeerInfo()
 	if err != nil {
 		return err

@@ -85,7 +85,7 @@ func isDeserializeErr(err er.R) bool {
 // implement these functions instead of everything a database.Bucket supports.
 type internalBucket interface {
 	Get(key []byte) []byte
-	Put(key []byte, value []byte) er.R
+	Put(key, value []byte) er.R
 	Delete(key []byte) er.R
 }
 

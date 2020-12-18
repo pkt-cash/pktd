@@ -31,7 +31,7 @@ type ChannelGraphTimeSeries interface {
 	// to catch up a remote node to the set of channel updates that they
 	// may have missed out on within the target chain.
 	UpdatesInHorizon(chain chainhash.Hash,
-		startTime time.Time, endTime time.Time) ([]lnwire.Message, er.R)
+		startTime, endTime time.Time) ([]lnwire.Message, er.R)
 
 	// FilterKnownChanIDs takes a target chain, and a set of channel ID's,
 	// and returns a filtered set of chan ID's. This filtered set of chan
@@ -102,7 +102,7 @@ func (c *ChanSeries) HighestChanID(chain chainhash.Hash) (*lnwire.ShortChannelID
 //
 // NOTE: This is part of the ChannelGraphTimeSeries interface.
 func (c *ChanSeries) UpdatesInHorizon(chain chainhash.Hash,
-	startTime time.Time, endTime time.Time) ([]lnwire.Message, er.R) {
+	startTime, endTime time.Time) ([]lnwire.Message, er.R) {
 	var updates []lnwire.Message
 
 	// First, we'll query for all the set of channels that have an update

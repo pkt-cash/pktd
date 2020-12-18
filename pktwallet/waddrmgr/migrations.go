@@ -129,7 +129,7 @@ func upgradeToVersion5(ns walletdb.ReadWriteBucket) er.R {
 	// can't be upgraded to the new version. If so, we abort and warn the
 	// user.
 	err := ns.NestedReadBucket(addrBucketName).ForEach(
-		func(k []byte, v []byte) er.R {
+		func(k, v []byte) er.R {
 			row, err := deserializeAddressRow(v)
 			if err != nil {
 				return err

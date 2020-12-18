@@ -1060,7 +1060,7 @@ func assertNumNodes(t *testing.T, graph *ChannelGraph, n int) {
 	}
 }
 
-func assertChanViewEqual(t *testing.T, a []EdgePoint, b []EdgePoint) {
+func assertChanViewEqual(t *testing.T, a, b []EdgePoint) {
 	if len(a) != len(b) {
 		_, _, line, _ := runtime.Caller(1)
 		t.Fatalf("line %v: chan views don't match", line)

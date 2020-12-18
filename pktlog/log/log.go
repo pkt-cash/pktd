@@ -239,7 +239,7 @@ func recycleBuffer(b *[]byte) {
 // From stdlib log package.
 // Cheap integer to fixed-width decimal ASCII.  Give a negative width to avoid
 // zero-padding.
-func itoa(buf *[]byte, i int, wid int) {
+func itoa(buf *[]byte, i, wid int) {
 	// Assemble decimal in reverse order.
 	var b [20]byte
 	bp := len(b) - 1

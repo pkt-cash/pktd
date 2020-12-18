@@ -251,7 +251,7 @@ func newRoute(sourceVertex route.Vertex,
 // channels with shorter time lock deltas and shorter (hops) routes in general.
 // RiskFactor controls the influence of time lock on route selection. This is
 // currently a fixed value, but might be configurable in the future.
-func edgeWeight(lockedAmt lnwire.MilliSatoshi, fee lnwire.MilliSatoshi,
+func edgeWeight(lockedAmt, fee lnwire.MilliSatoshi,
 	timeLockDelta uint16) int64 {
 	// timeLockPenalty is the penalty for the time lock delta of this channel.
 	// It is controlled by RiskFactorBillionths and scales proportional

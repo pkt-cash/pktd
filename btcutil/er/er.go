@@ -168,7 +168,7 @@ func (e *ErrorType) CodeWithDefault(info string, defaultError error) *ErrorCode 
 	return ec
 }
 
-func (e *ErrorType) CodeWithDetail(info string, detail string) *ErrorCode {
+func (e *ErrorType) CodeWithDetail(info, detail string) *ErrorCode {
 	return e.newErrorCode(0, false, info, detail)
 }
 

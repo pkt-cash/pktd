@@ -158,7 +158,7 @@ func (fs *fileStorage) Lock() (Locker, error) {
 	return fs.slock, nil
 }
 
-func itoa(buf []byte, i int, wid int) []byte {
+func itoa(buf []byte, i, wid int) []byte {
 	u := uint(i)
 	if u == 0 && wid <= 1 {
 		return append(buf, '0')

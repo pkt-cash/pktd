@@ -491,7 +491,7 @@ func fetchCoinTypeKeys(ns walletdb.ReadBucket, scope *KeyScope) ([]byte, []byte,
 // which case no value is written for the parameter. Each cointype key is
 // associated with a particular manager scope.
 func putCoinTypeKeys(ns walletdb.ReadWriteBucket, scope *KeyScope,
-	coinTypePubKeyEnc []byte, coinTypePrivKeyEnc []byte) er.R {
+	coinTypePubKeyEnc, coinTypePrivKeyEnc []byte) er.R {
 	scopedBucket, err := fetchWriteScopeBucket(ns, scope)
 	if err != nil {
 		return err
@@ -691,7 +691,7 @@ func putWatchingOnly(ns walletdb.ReadWriteBucket, watchingOnly bool) er.R {
 // deserializeAccountRow deserializes the passed serialized account information.
 // This is used as a common base for the various account types to deserialize
 // the common parts.
-func deserializeAccountRow(accountID []byte, serializedAccount []byte) (*dbAccountRow, er.R) {
+func deserializeAccountRow(accountID, serializedAccount []byte) (*dbAccountRow, er.R) {
 	// The serialized account format is:
 	//   <acctType><rdlen><rawdata>
 	//

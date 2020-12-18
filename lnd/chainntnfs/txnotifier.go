@@ -526,7 +526,7 @@ type TxNotifier struct {
 // accepted as a parameter. The different hint caches (confirm and spend) are
 // used as an optimization in order to retrieve a better starting point when
 // dispatching a recan for a historical event in the chain.
-func NewTxNotifier(startHeight uint32, reorgSafetyLimit uint32,
+func NewTxNotifier(startHeight, reorgSafetyLimit uint32,
 	confirmHintCache ConfirmHintCache,
 	spendHintCache SpendHintCache) *TxNotifier {
 	return &TxNotifier{

@@ -98,7 +98,7 @@ func (h *BlockHeader) Serialize(w io.Writer) er.R {
 // block hash, merkle root hash, difficulty bits, and nonce used to generate the
 // block with defaults for the remaining fields.
 func NewBlockHeader(version int32, prevHash, merkleRootHash *chainhash.Hash,
-	bits uint32, nonce uint32) *BlockHeader {
+	bits, nonce uint32) *BlockHeader {
 	// Limit the timestamp to one second precision since the protocol
 	// doesn't support better.
 	return &BlockHeader{

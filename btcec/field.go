@@ -535,7 +535,7 @@ func (f *fieldVal) Add(val *fieldVal) *fieldVal {
 //
 // The field value is returned to support chaining.  This enables syntax like:
 // f3.Add2(f, f2).AddInt(1) so that f3 = f + f2 + 1.
-func (f *fieldVal) Add2(val *fieldVal, val2 *fieldVal) *fieldVal {
+func (f *fieldVal) Add2(val, val2 *fieldVal) *fieldVal {
 	// Since the field representation intentionally provides overflow bits,
 	// it's ok to use carryless addition as the carry bit is safely part of
 	// each word and will be normalized out.  This could obviously be done
@@ -603,7 +603,7 @@ func (f *fieldVal) Mul(val *fieldVal) *fieldVal {
 //
 // The field value is returned to support chaining.  This enables syntax like:
 // f3.Mul2(f, f2).AddInt(1) so that f3 = (f * f2) + 1.
-func (f *fieldVal) Mul2(val *fieldVal, val2 *fieldVal) *fieldVal {
+func (f *fieldVal) Mul2(val, val2 *fieldVal) *fieldVal {
 	// This could be done with a couple of for loops and an array to store
 	// the intermediate terms, but this unrolled version is significantly
 	// faster.

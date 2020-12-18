@@ -16,7 +16,7 @@ const (
 	p2shScriptSize  = 23
 )
 
-func makeInts(value int, n int) []int {
+func makeInts(value, n int) []int {
 	v := make([]int, n)
 	for i := range v {
 		v[i] = value

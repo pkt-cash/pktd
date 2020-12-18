@@ -42,13 +42,13 @@ func makeKey(parent, key, postfix []byte) []byte {
 
 // makeBucketKey returns a bucket key from the passed parent bucket id and
 // the key.
-func makeBucketKey(parent []byte, key []byte) []byte {
+func makeBucketKey(parent, key []byte) []byte {
 	return makeKey(parent, key, bucketPostfix)
 }
 
 // makeValueKey returns a value key from the passed parent bucket id and
 // the key.
-func makeValueKey(parent []byte, key []byte) []byte {
+func makeValueKey(parent, key []byte) []byte {
 	return makeKey(parent, key, valuePostfix)
 }
 

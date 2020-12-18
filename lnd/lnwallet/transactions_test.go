@@ -761,7 +761,7 @@ func (p *mockProducer) Encode(w io.Writer) er.R {
 // createTestChannelsForVectors creates two LightningChannel instances for the
 // test channel that is used to verify the test vectors.
 func createTestChannelsForVectors(tc *testContext, chanType channeldb.ChannelType,
-	feeRate btcutil.Amount, remoteBalance, localBalance btcutil.Amount) (
+	feeRate, remoteBalance, localBalance btcutil.Amount) (
 	*LightningChannel, *LightningChannel, func()) {
 	t := tc.t
 

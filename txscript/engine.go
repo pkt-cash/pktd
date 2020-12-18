@@ -200,7 +200,7 @@ func (vm *Engine) executeOpcode(pop *parsescript.ParsedOpcode) er.R {
 // DisasmScript.  It produces the opcode prefixed by the program counter at the
 // provided position in the script.  It does no error checking and leaves that
 // to the caller to provide a valid offset.
-func (vm *Engine) disasm(scriptIdx int, scriptOff int) string {
+func (vm *Engine) disasm(scriptIdx, scriptOff int) string {
 	return fmt.Sprintf("%02x:%04x: %s", scriptIdx, scriptOff,
 		popPrint(&vm.scripts[scriptIdx][scriptOff], false))
 }
@@ -224,7 +224,7 @@ func (vm *Engine) validPC() er.R {
 
 // curPC returns either the current script and offset, or an error if the
 // position isn't valid.
-func (vm *Engine) curPC() (script int, off int, err er.R) {
+func (vm *Engine) curPC() (script, off int, err er.R) {
 	err = vm.validPC()
 	if err != nil {
 		return 0, 0, err

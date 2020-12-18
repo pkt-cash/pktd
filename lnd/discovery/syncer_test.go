@@ -77,7 +77,7 @@ func (m *mockChannelGraphTimeSeries) HighestChanID(chain chainhash.Hash) (*lnwir
 }
 
 func (m *mockChannelGraphTimeSeries) UpdatesInHorizon(chain chainhash.Hash,
-	startTime time.Time, endTime time.Time) ([]lnwire.Message, er.R) {
+	startTime, endTime time.Time) ([]lnwire.Message, er.R) {
 	m.horizonReq <- horizonQuery{
 		chain, startTime, endTime,
 	}

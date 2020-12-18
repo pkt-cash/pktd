@@ -504,7 +504,7 @@ type Store struct {
 // New creates and initializes a new Store.  name's and desc's byte length
 // must not exceed 32 and 256 bytes, respectively.  All address private keys
 // are encrypted with passphrase.  The key store is returned locked.
-func New(dir string, desc string, passphrase []byte, net *chaincfg.Params,
+func New(dir, desc string, passphrase []byte, net *chaincfg.Params,
 	createdAt *BlockStamp) (*Store, er.R) {
 	// Check sizes of inputs.
 	if len(desc) > 256 {

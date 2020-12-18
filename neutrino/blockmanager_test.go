@@ -768,7 +768,7 @@ type mockQueryAccess struct {
 func (m *mockQueryAccess) queryAllPeers(
 	queryMsg wire.Message,
 	checkResponse func(sp *ServerPeer, resp wire.Message,
-		quit chan<- struct{}, peerQuit chan<- struct{}),
+		quit, peerQuit chan<- struct{}),
 	options ...QueryOption) {
 	for p, resp := range m.answers {
 		pp, err := peer.NewOutboundPeer(&peer.Config{}, p)

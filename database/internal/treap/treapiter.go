@@ -52,7 +52,7 @@ func (iter *Iterator) limitIterator() bool {
 //
 // In all cases, the limits specified when the iterator was created are
 // respected.
-func (iter *Iterator) seek(key []byte, exactMatch bool, greater bool) bool {
+func (iter *Iterator) seek(key []byte, exactMatch, greater bool) bool {
 	iter.node = nil
 	iter.parents = parentStack{}
 	var selectedNodeDepth int

@@ -178,7 +178,7 @@ func getFilter(cs *ChainService, b *chainhash.Hash, t *testing.T) *gcs.Filter {
 	return val
 }
 
-func assertEqual(t *testing.T, a interface{}, b interface{}, message string) {
+func assertEqual(t *testing.T, a, b interface{}, message string) {
 	if a == b {
 		return
 	}

@@ -44,8 +44,8 @@ const (
 // before signing), and ensures that the right form of utxo field
 // (NonWitnessUtxo or WitnessUtxo) is included in the input so that signature
 // insertion (and then finalization) can take place.
-func (u *Updater) Sign(inIndex int, sig []byte, pubKey []byte,
-	redeemScript []byte, witnessScript []byte) (SignOutcome, er.R) {
+func (u *Updater) Sign(inIndex int, sig, pubKey []byte,
+	redeemScript, witnessScript []byte) (SignOutcome, er.R) {
 	if isFinalized(u.Upsbt, inIndex) {
 		return SignFinalized, nil
 	}

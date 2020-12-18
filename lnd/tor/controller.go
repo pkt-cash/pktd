@@ -105,7 +105,7 @@ type Controller struct {
 
 // NewController returns a new Tor controller that will be able to interact with
 // a Tor server.
-func NewController(controlAddr string, targetIPAddress string,
+func NewController(controlAddr, targetIPAddress string,
 	password string) *Controller {
 	return &Controller{
 		controlAddr:     controlAddr,

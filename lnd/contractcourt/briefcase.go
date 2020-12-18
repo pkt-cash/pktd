@@ -76,7 +76,7 @@ type ArbitratorLog interface {
 	// SwapContract performs an atomic swap of the old contract for the new
 	// contract. This method is used when after a contract has been fully
 	// resolved, it produces another contract that needs to be resolved.
-	SwapContract(old ContractResolver, new ContractResolver) er.R
+	SwapContract(old, new ContractResolver) er.R
 
 	// ResolveContract marks a contract as fully resolved. Once a contract
 	// has been fully resolved, it is deleted from persistent storage.

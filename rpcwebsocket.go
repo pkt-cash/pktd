@@ -86,7 +86,7 @@ var wsHandlersBeforeInit = map[string]wsCommandHandler{
 // server handler which runs each new connection in a new goroutine thereby
 // satisfying the requirement.
 func (s *rpcServer) WebsocketHandler(conn *websocket.Conn, remoteAddr string,
-	authenticated bool, isAdmin bool) {
+	authenticated, isAdmin bool) {
 	// Clear the read deadline that was set before the websocket hijacked
 	// the connection.
 	conn.SetReadDeadline(timeZeroVal)
@@ -1653,7 +1653,7 @@ func (c *wsClient) WaitForShutdown() {
 // incoming and outgoing messages in separate goroutines complete with queuing
 // and asynchrous handling for long-running operations.
 func newWebsocketClient(server *rpcServer, conn *websocket.Conn,
-	remoteAddr string, authenticated bool, isAdmin bool) (*wsClient, er.R) {
+	remoteAddr string, authenticated, isAdmin bool) (*wsClient, er.R) {
 	sessionID, err := wire.RandomUint64()
 	if err != nil {
 		return nil, err

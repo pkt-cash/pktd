@@ -150,7 +150,7 @@ func NewResponse(id interface{}, marshaledResult []byte, rpcErr er.R) (*Response
 
 // MarshalResponse marshals the passed id, result, and RPCError to a JSON-RPC
 // response byte slice that is suitable for transmission to a JSON-RPC client.
-func MarshalResponse(id interface{}, result interface{}, rpcErr er.R) ([]byte, er.R) {
+func MarshalResponse(id, result interface{}, rpcErr er.R) ([]byte, er.R) {
 	marshaledResult, errr := jsoniter.Marshal(result)
 	if errr != nil {
 		return nil, er.E(errr)

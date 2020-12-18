@@ -59,7 +59,7 @@ type QueryAccess interface {
 	queryAllPeers(
 		queryMsg wire.Message,
 		checkResponse func(sp *ServerPeer, resp wire.Message,
-			quit chan<- struct{}, peerQuit chan<- struct{}),
+			quit, peerQuit chan<- struct{}),
 		options ...QueryOption)
 }
 
@@ -599,7 +599,7 @@ func (s *ChainService) queryAllPeers(
 	// peers which respond quickly while continuing to wait for slower
 	// peers to respond and nonresponsive peers to time out.
 	checkResponse func(sp *ServerPeer, resp wire.Message,
-		quit chan<- struct{}, peerQuit chan<- struct{}),
+		quit, peerQuit chan<- struct{}),
 
 	// options takes functional options for executing the query.
 	options ...QueryOption) {

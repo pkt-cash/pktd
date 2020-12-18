@@ -2530,7 +2530,7 @@ func (w *Wallet) ChainParams() *chaincfg.Params {
 // Create creates an new wallet, writing it to an empty database.  If the passed
 // seed is non-nil, it is used.  Otherwise, a secure random seed of the
 // recommended length is generated.
-func Create(db walletdb.DB, pubPass, privPass []byte, seedInput []byte, seedBirthday time.Time,
+func Create(db walletdb.DB, pubPass, privPass, seedInput []byte, seedBirthday time.Time,
 	seedx *seedwords.Seed, params *chaincfg.Params) er.R {
 	// If a seed was provided, ensure that it is of valid length. Otherwise,
 	// we generate a random seed for the wallet with the recommended seed

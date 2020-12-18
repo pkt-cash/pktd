@@ -652,7 +652,7 @@ func createVoutList(mtx *wire.MsgTx, chainParams *chaincfg.Params, filterAddrMap
 // to a raw transaction JSON object.
 func createTxRawResult(chainParams *chaincfg.Params, mtx *wire.MsgTx,
 	txHash string, blkHeader *wire.BlockHeader, blkHash string,
-	blkHeight int32, chainHeight int32) (*btcjson.TxRawResult, er.R) {
+	blkHeight, chainHeight int32) (*btcjson.TxRawResult, er.R) {
 	mtxHex, err := messageToHex(mtx)
 	if err != nil {
 		return nil, err
@@ -1020,7 +1020,7 @@ func handleGetBestBlockHash(s *rpcServer, cmd interface{}, closeChan <-chan stru
 
 // getDifficultyRatio returns the proof-of-work difficulty as a multiple of the
 // minimum difficulty using the passed bits field from the header of a block.
-func getDifficultyRatio0(bits uint32, powLimitBits uint32) float64 {
+func getDifficultyRatio0(bits, powLimitBits uint32) float64 {
 	// The minimum difficulty is the max possible proof-of-work limit bits
 	// converted back to a number.  Note this is not the same as the proof of
 	// work limit directly because the block difficulty is encoded in a block

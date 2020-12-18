@@ -47,7 +47,7 @@ func TestQueryRoutes(t *testing.T) {
 	})
 }
 
-func testQueryRoutes(t *testing.T, useMissionControl bool, useMsat bool) {
+func testQueryRoutes(t *testing.T, useMissionControl, useMsat bool) {
 	ignoreNodeBytes, err := util.DecodeHex(ignoreNodeKey)
 	if err != nil {
 		t.Fatal(err)

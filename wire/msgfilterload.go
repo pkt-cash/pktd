@@ -129,7 +129,7 @@ func (msg *MsgFilterLoad) MaxPayloadLength(pver uint32) uint32 {
 
 // NewMsgFilterLoad returns a new bitcoin filterload message that conforms to
 // the Message interface.  See MsgFilterLoad for details.
-func NewMsgFilterLoad(filter []byte, hashFuncs uint32, tweak uint32, flags BloomUpdateType) *MsgFilterLoad {
+func NewMsgFilterLoad(filter []byte, hashFuncs, tweak uint32, flags BloomUpdateType) *MsgFilterLoad {
 	return &MsgFilterLoad{
 		Filter:    filter,
 		HashFuncs: hashFuncs,

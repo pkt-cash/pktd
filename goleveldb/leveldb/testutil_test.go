@@ -24,7 +24,7 @@ type testingDB struct {
 	stor *testutil.Storage
 }
 
-func (t *testingDB) TestPut(key []byte, value []byte) error {
+func (t *testingDB) TestPut(key, value []byte) error {
 	return t.Put(key, value, t.wo)
 }
 
@@ -70,7 +70,7 @@ type testingTransaction struct {
 	wo *opt.WriteOptions
 }
 
-func (t *testingTransaction) TestPut(key []byte, value []byte) error {
+func (t *testingTransaction) TestPut(key, value []byte) error {
 	return t.Put(key, value, t.wo)
 }
 

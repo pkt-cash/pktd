@@ -134,7 +134,7 @@ func (m *MockSigner) ComputeInputScript(tx *wire.MsgTx, signDesc *SignDescriptor
 // corresponding to the hashed pubkey if it can be found. The public key may
 // either correspond directly to the private key or to the private key with a
 // tweak applied.
-func (m *MockSigner) findKey(needleHash160 []byte, singleTweak []byte,
+func (m *MockSigner) findKey(needleHash160, singleTweak []byte,
 	doubleTweak *btcec.PrivateKey) *btcec.PrivateKey {
 	for _, privkey := range m.Privkeys {
 		// First check whether public key is directly derived from private key.

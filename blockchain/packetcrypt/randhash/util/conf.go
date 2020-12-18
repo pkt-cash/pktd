@@ -72,7 +72,7 @@ func Conf_RandGen_SHOULD_BRANCH(rand uint32, insnCount int) bool {
 // How much budget remains after we enter an if sub-scope
 // Technically it should be 100% because only one of the two branches will be taken
 // but reducing it a bit helps make the code more compact and convoluted.
-func Conf_RandGen_IF_BODY_BUDGET(budget int, scopes int) int {
+func Conf_RandGen_IF_BODY_BUDGET(budget, scopes int) int {
 	return (((budget) * 7) / 32)
 }
 
