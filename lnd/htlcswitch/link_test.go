@@ -5425,7 +5425,7 @@ func TestForwardingAsymmetricTimeLockPolicies(t *testing.T) {
 	// -> Bob to have a greater time lock delta than that of the link of
 	// Bob -> Carol.
 	newPolicy := n.firstBobChannelLink.cfg.FwrdingPolicy
-	newPolicy.TimeLockDelta = 9 // XXX(trn): woot
+	newPolicy.TimeLockDelta = 6 // XXX(trn): woot
 	n.firstBobChannelLink.UpdateForwardingPolicy(newPolicy)
 
 	// Now that the Alice -> Bob link has been updated, we'll craft and

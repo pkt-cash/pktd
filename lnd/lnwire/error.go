@@ -18,7 +18,7 @@ var (
 		"Number of pending channels exceed maximum")
 
 	// ErrSynchronizingChain is returned by a remote peer that receives a
-	// channel update or a funding request while their still syncing to the
+	// channel update or a funding request while it's still syncing to the
 	// latest state of the blockchain.
 	ErrSynchronizingChain = FundingError.CodeWithDetail("ErrSynchronizingChain",
 		"Synchronizing blockchain")
@@ -108,7 +108,7 @@ func (c *Error) MsgType() MessageType {
 // This is part of the lnwire.Message interface.
 func (c *Error) MaxPayloadLength(uint32) uint32 {
 	// 32 + 2 + 65501
-	return 65535
+	return MaxMessagePayload
 }
 
 // isASCII is a helper method that checks whether all bytes in `data` would be

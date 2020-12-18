@@ -230,7 +230,7 @@ func (c *Conn) Flush() (int, er.R) {
 	return c.noise.Flush(c.conn)
 }
 
-// Close closes the connection.  Any blocked Read or Write operations will be
+// Close closes the connection. Any blocked Read or Write operations will be
 // unblocked and return errors.
 //
 // Part of the net.Conn interface.
@@ -262,7 +262,7 @@ func (c *Conn) SetDeadline(t time.Time) error {
 	return c.conn.SetDeadline(t)
 }
 
-// SetReadDeadline sets the deadline for future Read calls.  A zero value for t
+// SetReadDeadline sets the deadline for future Read calls. A zero value for t
 // means Read will not time out.
 //
 // Part of the net.Conn interface.
@@ -270,9 +270,9 @@ func (c *Conn) SetReadDeadline(t time.Time) error {
 	return c.conn.SetReadDeadline(t)
 }
 
-// SetWriteDeadline sets the deadline for future Write calls.  Even if write
+// SetWriteDeadline sets the deadline for future Write calls. Even if write
 // times out, it may return n > 0, indicating that some of the data was
-// successfully written.  A zero value for t means Write will not time out.
+// successfully written. A zero value for t means Write will not time out.
 //
 // Part of the net.Conn interface.
 func (c *Conn) SetWriteDeadline(t time.Time) error {

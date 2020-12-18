@@ -21,9 +21,9 @@ var ErrUnknownAddrType = Err.CodeWithDetail("ErrUnknownAddrType",
 var ErrInvalidNodeAlias = Err.CodeWithDetail("ErrInvalidNodeAlias",
 	"node alias has non-utf8 characters")
 
-// NodeAlias a hex encoded UTF-8 string that may be displayed as an alternative
-// to the node's ID. Notice that aliases are not unique and may be freely
-// chosen by the node operators.
+// NodeAlias is a hex encoded UTF-8 string that may be displayed as an
+// alternative to the node's ID. Notice that aliases are not unique and may be
+// freely chosen by the node operators.
 type NodeAlias [32]byte
 
 // NewNodeAlias creates a new instance of a NodeAlias. Verification is

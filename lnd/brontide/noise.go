@@ -254,7 +254,7 @@ func (s *symmetricState) EncryptAndHash(plaintext []byte) []byte {
 }
 
 // DecryptAndHash returns the authenticated decryption of the passed
-// ciphertext.  When encrypting the handshake digest (h) is used as the
+// ciphertext. When encrypting the handshake digest (h) is used as the
 // associated data to the AEAD cipher.
 func (s *symmetricState) DecryptAndHash(ciphertext []byte) ([]byte, er.R) {
 	plaintext, err := s.Decrypt(s.handshakeDigest[:], nil, ciphertext)

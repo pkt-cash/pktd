@@ -72,7 +72,7 @@ func ErrUnknownShortChanIDEncoding(encoding ShortChanIDEncoding) er.R {
 // message.
 type QueryShortChanIDs struct {
 	// ChainHash denotes the target chain that we're querying for the
-	// channel channel ID's of.
+	// channel ID's of.
 	ChainHash chainhash.Hash
 
 	// EncodingType is a signal to the receiver of the message that
@@ -156,8 +156,8 @@ func decodeShortChanIDs(r io.Reader) (ShortChanIDEncoding, []ShortChannelID, er.
 	// In this encoding, we'll simply read a sort array of encoded short
 	// channel ID's from the buffer.
 	case EncodingSortedPlain:
-		// If after extracting the encoding type, then number of
-		// remaining bytes instead a whole multiple of the size of an
+		// If after extracting the encoding type, the number of
+		// remaining bytes is not a whole multiple of the size of an
 		// encoded short channel ID (8 bytes), then we'll return a
 		// parsing error.
 		if len(queryBody)%8 != 0 {
@@ -255,7 +255,7 @@ func decodeShortChanIDs(r io.Reader) (ShortChanIDEncoding, []ShortChannelID, er.
 					"ID: %v", err)
 			}
 
-			// We successfully read the next ID, so well collect
+			// We successfully read the next ID, so we'll collect
 			// that in the set of final ID's to return.
 			shortChanIDs = append(shortChanIDs, cid)
 

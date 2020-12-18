@@ -7,7 +7,7 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
-// AnnounceSignatures this is a direct message between two endpoints of a
+// AnnounceSignatures is a direct message between two endpoints of a
 // channel and serves as an opt-in mechanism to allow the announcement of
 // the channel to the rest of the network. It contains the necessary
 // signatures by the sender to construct the channel announcement message.

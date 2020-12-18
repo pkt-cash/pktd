@@ -284,14 +284,14 @@ func loadTestCredits(miner *rpctest.Harness, w *lnwallet.LightningWallet,
 	// numOutputs transactions created above. We generate 10 blocks here
 	// in order to give all the outputs a "sufficient" number of confirmations.
 	// XXX(jhj): 30X *always* works here.
-	if _, err := miner.Node.Generate(300); err != nil {
+	if _, err := miner.Node.Generate(600); err != nil {
 		return err
 	}
 
 	// Wait until the wallet has finished syncing up to the main chain.
 	// Allow additional time to avoid timeouts and get more confirmations.
-	ticker := time.NewTicker(100 * 10 * time.Millisecond)
-	timeout := time.After(30 * 5 * time.Second)
+	ticker := time.NewTicker(100 * 30 * time.Millisecond)
+	timeout := time.After(30 * 8 * time.Second)
 
 	for range ticker.C {
 		balance, err := w.ConfirmedBalance(1)

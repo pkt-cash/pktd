@@ -3667,12 +3667,12 @@ message ChannelUpdate {
     This value represents the required gap between the time locks of the
     incoming and outgoing HTLC's set to this node.
     */
-    uint32 time_lock_delta = 8; // XXX(trn): tune additionally?
+    uint32 time_lock_delta = 6; // XXX(trn): tune additionally?
 
     /*
     The minimum HTLC value which will be accepted.
     */
-    uint64 htlc_minimum_msat = 6; // XXX(trn): also?
+    uint64 htlc_minimum_msat = 4; // XXX(trn): also?
 
     /*
     The base fee that must be used for incoming HTLC's to this particular
