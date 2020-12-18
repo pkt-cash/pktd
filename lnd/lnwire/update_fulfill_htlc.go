@@ -28,7 +28,6 @@ type UpdateFulfillHTLC struct {
 // NewUpdateFulfillHTLC returns a new empty UpdateFulfillHTLC.
 func NewUpdateFulfillHTLC(chanID ChannelID, id uint64,
 	preimage [32]byte) *UpdateFulfillHTLC {
-
 	return &UpdateFulfillHTLC{
 		ChanID:          chanID,
 		ID:              id,

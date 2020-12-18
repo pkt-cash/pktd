@@ -101,7 +101,7 @@ func (kv KeyValue) Index(i int) (key, value []byte) {
 func (kv KeyValue) IndexInexact(i int) (key_, key, value []byte) {
 	key, value = kv.Index(i)
 	var key0 []byte
-	var key1 = kv.KeyAt(i)
+	key1 := kv.KeyAt(i)
 	if i > 0 {
 		key0 = kv.KeyAt(i - 1)
 	}

@@ -80,7 +80,6 @@ func (m *MockNotifier) ConfirmTx(txid *chainhash.Hash, height uint32) er.R {
 // SpendOutpoint simulates a utxo being spent.
 func (m *MockNotifier) SpendOutpoint(outpoint wire.OutPoint,
 	spendingTx wire.MsgTx) {
-
 	log.Debugf("Spending outpoint %v", outpoint)
 
 	m.mutex.Lock()
@@ -99,7 +98,6 @@ func (m *MockNotifier) SpendOutpoint(outpoint wire.OutPoint,
 func (m *MockNotifier) sendSpend(channel chan *chainntnfs.SpendDetail,
 	outpoint *wire.OutPoint,
 	spendingTx *wire.MsgTx) {
-
 	spenderTxHash := spendingTx.TxHash()
 	channel <- &chainntnfs.SpendDetail{
 		SpenderTxHash: &spenderTxHash,
@@ -112,7 +110,6 @@ func (m *MockNotifier) sendSpend(channel chan *chainntnfs.SpendDetail,
 func (m *MockNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	_ []byte, numConfs, heightHint uint32) (*chainntnfs.ConfirmationEvent,
 	er.R) {
-
 	return &chainntnfs.ConfirmationEvent{
 		Confirmed: m.getConfChannel(txid),
 	}, nil
@@ -120,7 +117,6 @@ func (m *MockNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 
 func (m *MockNotifier) getConfChannel(
 	txid *chainhash.Hash) chan *chainntnfs.TxConfirmation {
-
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
 
@@ -137,7 +133,6 @@ func (m *MockNotifier) getConfChannel(
 // RegisterBlockEpochNtfn registers a block notification.
 func (m *MockNotifier) RegisterBlockEpochNtfn(
 	bestBlock *chainntnfs.BlockEpoch) (*chainntnfs.BlockEpochEvent, er.R) {
-
 	log.Tracef("Mock block ntfn registered")
 
 	m.mutex.Lock()
@@ -188,7 +183,6 @@ func (m *MockNotifier) Stop() er.R {
 // RegisterSpendNtfn registers for spend notifications.
 func (m *MockNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 	_ []byte, heightHint uint32) (*chainntnfs.SpendEvent, er.R) {
-
 	// Add channel to global spend ntfn map.
 	m.mutex.Lock()
 

@@ -5,9 +5,9 @@ package wtwirefuzz
 import (
 	"bytes"
 	"encoding/binary"
-	"fmt"
 	"reflect"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/lnd/watchtower/wtwire"
 )
 

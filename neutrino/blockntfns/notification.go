@@ -74,7 +74,6 @@ var _ BlockNtfn = (*Disconnected)(nil)
 // NewBlockDisconnected creates a Disconnected notification for the given block.
 func NewBlockDisconnected(headerDisconnected wire.BlockHeader,
 	heightDisconnected uint32, chainTip wire.BlockHeader) *Disconnected {
-
 	return &Disconnected{
 		headerDisconnected: headerDisconnected,
 		heightDisconnected: heightDisconnected,

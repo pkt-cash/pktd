@@ -293,7 +293,6 @@ func (s *walletBirthdayStore) SetBirthdayBlock(block waddrmgr.BlockStamp) er.R {
 // been set yet.
 func birthdaySanityCheck(chainConn chainConn,
 	birthdayStore birthdayStore) (*waddrmgr.BlockStamp, er.R) {
-
 	// We'll start by fetching our wallet's birthday timestamp and block.
 	birthdayTimestamp := birthdayStore.Birthday()
 	birthdayBlock, birthdayBlockVerified, err := birthdayStore.BirthdayBlock()

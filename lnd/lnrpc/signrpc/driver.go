@@ -5,6 +5,7 @@ package signrpc
 import (
 	"fmt"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/lnd/lnrpc"
 )
 
@@ -14,7 +15,6 @@ import (
 // an error.
 func createNewSubServer(configRegistry lnrpc.SubServerConfigDispatcher) (
 	lnrpc.SubServer, lnrpc.MacaroonPerms, er.R) {
-
 	// We'll attempt to look up the config that we expect, according to our
 	// subServerName name. If we can't find this, then we'll exit with an
 	// error, as we're unable to properly initialize ourselves without this
@@ -57,7 +57,6 @@ func init() {
 		SubServerName: subServerName,
 		New: func(c lnrpc.SubServerConfigDispatcher) (
 			lnrpc.SubServer, lnrpc.MacaroonPerms, er.R) {
-
 			return createNewSubServer(c)
 		},
 	}

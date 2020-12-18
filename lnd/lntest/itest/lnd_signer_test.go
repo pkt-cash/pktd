@@ -31,7 +31,6 @@ func testDeriveSharedKey(net *lntest.NetworkHarness, t *harnessTest) {
 	// ephemeral key and the given public key.
 	assertECDHMatch := func(pub *btcec.PublicKey,
 		req *signrpc.SharedKeyRequest) {
-
 		ctxt, _ := context.WithTimeout(ctxb, defaultTimeout)
 		resp, errr := net.Alice.SignerClient.DeriveSharedKey(ctxt, req)
 		require.NoError(t.t, errr, "calling DeriveSharedKey failed")
@@ -187,7 +186,6 @@ func testDeriveSharedKey(net *lntest.NetworkHarness, t *harnessTest) {
 // the node's walletkit client.
 func deriveCustomizedKey(ctx context.Context, node *lntest.HarnessNode,
 	family, index int32) (*btcec.PublicKey, er.R) {
-
 	ctxt, _ := context.WithTimeout(ctx, defaultTimeout)
 	req := &signrpc.KeyLocator{
 		KeyFamily: family,

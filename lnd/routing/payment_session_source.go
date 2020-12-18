@@ -63,7 +63,6 @@ func (m *SessionSource) getRoutingGraph() (routingGraph, func(), er.R) {
 // payment's destination.
 func (m *SessionSource) NewPaymentSession(p *LightningPayment) (
 	PaymentSession, er.R) {
-
 	sourceNode, err := m.Graph.SourceNode()
 	if err != nil {
 		return nil, err
@@ -71,7 +70,6 @@ func (m *SessionSource) NewPaymentSession(p *LightningPayment) (
 
 	getBandwidthHints := func() (map[uint64]lnwire.MilliSatoshi,
 		er.R) {
-
 		return generateBandwidthHints(sourceNode, m.QueryBandwidth)
 	}
 
@@ -99,7 +97,6 @@ func (m *SessionSource) NewPaymentSessionEmpty() PaymentSession {
 // can be passed into pathfinding.
 func RouteHintsToEdges(routeHints [][]zpay32.HopHint, target route.Vertex) (
 	map[route.Vertex][]*channeldb.ChannelEdgePolicy, er.R) {
-
 	edges := make(map[route.Vertex][]*channeldb.ChannelEdgePolicy)
 
 	// Traverse through all of the available hop hints and include them in

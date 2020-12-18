@@ -68,7 +68,6 @@ type sweeperStore struct {
 // NewSweeperStore returns a new store instance.
 func NewSweeperStore(db kvdb.Backend, chainHash *chainhash.Hash) (
 	SweeperStore, er.R) {
-
 	err := kvdb.Update(db, func(tx kvdb.RwTx) er.R {
 		_, err := tx.CreateTopLevelBucket(
 			lastTxBucketKey,
@@ -107,7 +106,6 @@ func NewSweeperStore(db kvdb.Backend, chainHash *chainhash.Hash) (
 // is not implemented as a database migration, to keep the downgrade path open.
 func migrateTxHashes(tx kvdb.RwTx, txHashesBucket kvdb.RwBucket,
 	chainHash *chainhash.Hash) er.R {
-
 	log.Infof("Migrating UTXO nursery finalized TXIDs")
 
 	// Compose chain bucket key.

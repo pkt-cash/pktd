@@ -6,11 +6,9 @@ import (
 
 var Err er.ErrorType = er.NewErrorType("cache.Err")
 
-var (
-	// ErrElementNotFound is returned when element isn't found in the cache.
-	ErrElementNotFound = Err.CodeWithDetail("ErrElementNotFound",
-		"unable to find element")
-)
+// ErrElementNotFound is returned when element isn't found in the cache.
+var ErrElementNotFound = Err.CodeWithDetail("ErrElementNotFound",
+	"unable to find element")
 
 // Cache represents a generic cache.
 type Cache interface {

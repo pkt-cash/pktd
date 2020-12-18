@@ -8,11 +8,9 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/util"
 )
 
-var (
-	// ErrFeaturePairExists signals an error in feature vector construction
-	// where the opposing bit in a feature pair has already been set.
-	ErrFeaturePairExists = er.GenericErrorType.CodeWithDetail("ErrFeaturePairExists", "feature pair exists")
-)
+// ErrFeaturePairExists signals an error in feature vector construction
+// where the opposing bit in a feature pair has already been set.
+var ErrFeaturePairExists = er.GenericErrorType.CodeWithDetail("ErrFeaturePairExists", "feature pair exists")
 
 // FeatureBit represents a feature that can be enabled in either a local or
 // global feature vector at a specific bit position. Feature bits follow the
@@ -375,7 +373,6 @@ type FeatureVector struct {
 // new one will be constructed with no enabled features.
 func NewFeatureVector(featureVector *RawFeatureVector,
 	featureNames map[FeatureBit]string) *FeatureVector {
-
 	if featureVector == nil {
 		featureVector = NewRawFeatureVector()
 	}

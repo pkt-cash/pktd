@@ -59,7 +59,6 @@ type htlcSuccessResolver struct {
 func newSuccessResolver(res lnwallet.IncomingHtlcResolution,
 	broadcastHeight uint32, htlc channeldb.HTLC,
 	resCfg ResolverConfig) *htlcSuccessResolver {
-
 	return &htlcSuccessResolver{
 		contractResolverKit: *newContractResolverKit(resCfg),
 		htlcResolution:      res,
@@ -280,7 +279,6 @@ func (h *htlcSuccessResolver) Resolve() (ContractResolver, er.R) {
 // otherwise it will just write for the single htlc claim.
 func (h *htlcSuccessResolver) checkpointClaim(spendTx *chainhash.Hash,
 	outcome channeldb.ResolverOutcome) er.R {
-
 	// Create a resolver report for claiming of the htlc itself.
 	amt := btcutil.Amount(h.htlcResolution.SweepSignDesc.Output.Value)
 	reports := []*channeldb.ResolverReport{
@@ -365,7 +363,6 @@ func (h *htlcSuccessResolver) Encode(w io.Writer) er.R {
 // instance.
 func newSuccessResolverFromReader(r io.Reader, resCfg ResolverConfig) (
 	*htlcSuccessResolver, er.R) {
-
 	h := &htlcSuccessResolver{
 		contractResolverKit: *newContractResolverKit(resCfg),
 	}

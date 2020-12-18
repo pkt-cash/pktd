@@ -15,7 +15,6 @@ import (
 // TestCmdMethod tests the CmdMethod function to ensure it retunrs the expected
 // methods and errors.
 func TestCmdMethod(t *testing.T) {
-
 	tests := []struct {
 		name   string
 		cmd    interface{}
@@ -60,7 +59,6 @@ func TestCmdMethod(t *testing.T) {
 // TestMethodUsageFlags tests the MethodUsage function ensure it returns the
 // expected flags and errors.
 func TestMethodUsageFlags(t *testing.T) {
-
 	tests := []struct {
 		name   string
 		method string
@@ -105,7 +103,6 @@ func TestMethodUsageFlags(t *testing.T) {
 // TestMethodUsageText tests the MethodUsageText function ensure it returns the
 // expected text.
 func TestMethodUsageText(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		method   string
@@ -169,7 +166,6 @@ func TestMethodUsageText(t *testing.T) {
 // TestFieldUsage tests the internal fieldUsage function ensure it returns the
 // expected text.
 func TestFieldUsage(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		field    reflect.StructField

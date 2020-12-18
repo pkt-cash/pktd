@@ -210,7 +210,6 @@ func storeFilter(dbTx database.Tx, block *btcutil.Block, f *gcs.Filter,
 // every passed block. This is part of the Indexer interface.
 func (idx *CfIndex) ConnectBlock(dbTx database.Tx, block *btcutil.Block,
 	stxos []blockchain.SpentTxOut) er.R {
-
 	prevScripts := make([][]byte, len(stxos))
 	for i, stxo := range stxos {
 		prevScripts[i] = stxo.PkScript
@@ -229,7 +228,6 @@ func (idx *CfIndex) ConnectBlock(dbTx database.Tx, block *btcutil.Block,
 // mapping for every passed block. This is part of the Indexer interface.
 func (idx *CfIndex) DisconnectBlock(dbTx database.Tx, block *btcutil.Block,
 	_ []blockchain.SpentTxOut) er.R {
-
 	for _, key := range cfIndexKeys {
 		err := dbDeleteFilterIdxEntry(dbTx, key, block.Hash())
 		if err != nil {
@@ -258,7 +256,6 @@ func (idx *CfIndex) DisconnectBlock(dbTx database.Tx, block *btcutil.Block,
 // (eg. filter, filter header, etc) for a filter type and block hash.
 func (idx *CfIndex) entryByBlockHash(filterTypeKeys [][]byte,
 	filterType wire.FilterType, h *chainhash.Hash) ([]byte, er.R) {
-
 	if uint8(filterType) > maxFilterType {
 		return nil, er.New("unsupported filter type")
 	}
@@ -277,7 +274,6 @@ func (idx *CfIndex) entryByBlockHash(filterTypeKeys [][]byte,
 // (eg. filter, filter header, etc) for a filter type and slice of block hashes.
 func (idx *CfIndex) entriesByBlockHashes(filterTypeKeys [][]byte,
 	filterType wire.FilterType, blockHashes []*chainhash.Hash) ([][]byte, er.R) {
-
 	if uint8(filterType) > maxFilterType {
 		return nil, er.New("unsupported filter type")
 	}

@@ -29,7 +29,7 @@ func TestThrottle(t *testing.T) {
 		go func() {
 			res, err := http.Get(srv.URL)
 			if err != nil {
-				//t.Fatal(err)
+				// t.Fatal(err)
 				fmt.Println(err)
 				atomic.StoreInt32(&failed, int32(1))
 			}

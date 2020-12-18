@@ -412,8 +412,8 @@ func (s *Server) removeAllPeers() {
 // using directional prepositions to signal whether the message was sent or
 // received.
 func logMessage(peer Peer, msg wtwire.Message, read bool) {
-	var action = "Received"
-	var preposition = "from"
+	action := "Received"
+	preposition := "from"
 	if !read {
 		action = "Sending"
 		preposition = "to"

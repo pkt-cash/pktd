@@ -29,7 +29,6 @@ type Init struct {
 // vector and chain hash.
 func NewInitMessage(connFeatures *lnwire.RawFeatureVector,
 	chainHash chainhash.Hash) *Init {
-
 	return &Init{
 		ConnFeatures: connFeatures,
 		ChainHash:    chainHash,
@@ -83,7 +82,6 @@ var _ Message = (*Init)(nil)
 // bits that we don't understand.
 func (msg *Init) CheckRemoteInit(remoteInit *Init,
 	featureNames map[lnwire.FeatureBit]string) er.R {
-
 	// Check that the remote peer is on the same chain.
 	if msg.ChainHash != remoteInit.ChainHash {
 		return ErrUnknownChainHash.New(remoteInit.ChainHash.String(), nil)

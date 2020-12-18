@@ -5,6 +5,7 @@ package main
 import (
 	"context"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/lnd/lnrpc/autopilotrpc"
 	"github.com/urfave/cli"
 )

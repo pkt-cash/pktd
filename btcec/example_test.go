@@ -66,7 +66,6 @@ func Example_verifySignature() {
 	sigBytes, err := util.DecodeHex("30450220090ebfb3690a0ff115bb1b38b" +
 		"8b323a667b7653454f1bccb06d4bbdca42c2079022100ec95778b51e707" +
 		"1cb1205f8bde9af6592fc978b0452dafe599481c46d6b2e479")
-
 	if err != nil {
 		fmt.Println(err)
 		return

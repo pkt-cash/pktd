@@ -6,17 +6,20 @@ package chainrpc
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+var (
+	_ = proto.Marshal
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -60,15 +63,19 @@ func (*ConfRequest) Descriptor() ([]byte, []int) {
 func (m *ConfRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConfRequest.Unmarshal(m, b)
 }
+
 func (m *ConfRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConfRequest.Marshal(b, m, deterministic)
 }
+
 func (m *ConfRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ConfRequest.Merge(m, src)
 }
+
 func (m *ConfRequest) XXX_Size() int {
 	return xxx_messageInfo_ConfRequest.Size(m)
 }
+
 func (m *ConfRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_ConfRequest.DiscardUnknown(m)
 }
@@ -128,15 +135,19 @@ func (*ConfDetails) Descriptor() ([]byte, []int) {
 func (m *ConfDetails) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConfDetails.Unmarshal(m, b)
 }
+
 func (m *ConfDetails) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConfDetails.Marshal(b, m, deterministic)
 }
+
 func (m *ConfDetails) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ConfDetails.Merge(m, src)
 }
+
 func (m *ConfDetails) XXX_Size() int {
 	return xxx_messageInfo_ConfDetails.Size(m)
 }
+
 func (m *ConfDetails) XXX_DiscardUnknown() {
 	xxx_messageInfo_ConfDetails.DiscardUnknown(m)
 }
@@ -187,15 +198,19 @@ func (*Reorg) Descriptor() ([]byte, []int) {
 func (m *Reorg) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Reorg.Unmarshal(m, b)
 }
+
 func (m *Reorg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Reorg.Marshal(b, m, deterministic)
 }
+
 func (m *Reorg) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_Reorg.Merge(m, src)
 }
+
 func (m *Reorg) XXX_Size() int {
 	return xxx_messageInfo_Reorg.Size(m)
 }
+
 func (m *Reorg) XXX_DiscardUnknown() {
 	xxx_messageInfo_Reorg.DiscardUnknown(m)
 }
@@ -222,15 +237,19 @@ func (*ConfEvent) Descriptor() ([]byte, []int) {
 func (m *ConfEvent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConfEvent.Unmarshal(m, b)
 }
+
 func (m *ConfEvent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConfEvent.Marshal(b, m, deterministic)
 }
+
 func (m *ConfEvent) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ConfEvent.Merge(m, src)
 }
+
 func (m *ConfEvent) XXX_Size() int {
 	return xxx_messageInfo_ConfEvent.Size(m)
 }
+
 func (m *ConfEvent) XXX_DiscardUnknown() {
 	xxx_messageInfo_ConfEvent.DiscardUnknown(m)
 }
@@ -302,15 +321,19 @@ func (*Outpoint) Descriptor() ([]byte, []int) {
 func (m *Outpoint) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Outpoint.Unmarshal(m, b)
 }
+
 func (m *Outpoint) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Outpoint.Marshal(b, m, deterministic)
 }
+
 func (m *Outpoint) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_Outpoint.Merge(m, src)
 }
+
 func (m *Outpoint) XXX_Size() int {
 	return xxx_messageInfo_Outpoint.Size(m)
 }
+
 func (m *Outpoint) XXX_DiscardUnknown() {
 	xxx_messageInfo_Outpoint.DiscardUnknown(m)
 }
@@ -362,15 +385,19 @@ func (*SpendRequest) Descriptor() ([]byte, []int) {
 func (m *SpendRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SpendRequest.Unmarshal(m, b)
 }
+
 func (m *SpendRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SpendRequest.Marshal(b, m, deterministic)
 }
+
 func (m *SpendRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SpendRequest.Merge(m, src)
 }
+
 func (m *SpendRequest) XXX_Size() int {
 	return xxx_messageInfo_SpendRequest.Size(m)
 }
+
 func (m *SpendRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_SpendRequest.DiscardUnknown(m)
 }
@@ -424,15 +451,19 @@ func (*SpendDetails) Descriptor() ([]byte, []int) {
 func (m *SpendDetails) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SpendDetails.Unmarshal(m, b)
 }
+
 func (m *SpendDetails) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SpendDetails.Marshal(b, m, deterministic)
 }
+
 func (m *SpendDetails) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SpendDetails.Merge(m, src)
 }
+
 func (m *SpendDetails) XXX_Size() int {
 	return xxx_messageInfo_SpendDetails.Size(m)
 }
+
 func (m *SpendDetails) XXX_DiscardUnknown() {
 	xxx_messageInfo_SpendDetails.DiscardUnknown(m)
 }
@@ -494,15 +525,19 @@ func (*SpendEvent) Descriptor() ([]byte, []int) {
 func (m *SpendEvent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SpendEvent.Unmarshal(m, b)
 }
+
 func (m *SpendEvent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SpendEvent.Marshal(b, m, deterministic)
 }
+
 func (m *SpendEvent) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SpendEvent.Merge(m, src)
 }
+
 func (m *SpendEvent) XXX_Size() int {
 	return xxx_messageInfo_SpendEvent.Size(m)
 }
+
 func (m *SpendEvent) XXX_DiscardUnknown() {
 	xxx_messageInfo_SpendEvent.DiscardUnknown(m)
 }
@@ -574,15 +609,19 @@ func (*BlockEpoch) Descriptor() ([]byte, []int) {
 func (m *BlockEpoch) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_BlockEpoch.Unmarshal(m, b)
 }
+
 func (m *BlockEpoch) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_BlockEpoch.Marshal(b, m, deterministic)
 }
+
 func (m *BlockEpoch) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_BlockEpoch.Merge(m, src)
 }
+
 func (m *BlockEpoch) XXX_Size() int {
 	return xxx_messageInfo_BlockEpoch.Size(m)
 }
+
 func (m *BlockEpoch) XXX_DiscardUnknown() {
 	xxx_messageInfo_BlockEpoch.DiscardUnknown(m)
 }
@@ -658,8 +697,10 @@ var fileDescriptor_b10e6f8a1c9d2638 = []byte{
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
+var (
+	_ context.Context
+	_ grpc.ClientConn
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
@@ -842,9 +883,11 @@ type UnimplementedChainNotifierServer struct {
 func (*UnimplementedChainNotifierServer) RegisterConfirmationsNtfn(req *ConfRequest, srv ChainNotifier_RegisterConfirmationsNtfnServer) error {
 	return status.Errorf(codes.Unimplemented, "method RegisterConfirmationsNtfn not implemented")
 }
+
 func (*UnimplementedChainNotifierServer) RegisterSpendNtfn(req *SpendRequest, srv ChainNotifier_RegisterSpendNtfnServer) error {
 	return status.Errorf(codes.Unimplemented, "method RegisterSpendNtfn not implemented")
 }
+
 func (*UnimplementedChainNotifierServer) RegisterBlockEpochNtfn(req *BlockEpoch, srv ChainNotifier_RegisterBlockEpochNtfnServer) error {
 	return status.Errorf(codes.Unimplemented, "method RegisterBlockEpochNtfn not implemented")
 }

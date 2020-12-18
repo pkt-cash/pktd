@@ -48,7 +48,6 @@ func (p FeePreference) String() string {
 // be zero.
 func DetermineFeePerKw(feeEstimator chainfee.Estimator,
 	feePref FeePreference) (chainfee.SatPerKWeight, er.R) {
-
 	switch {
 	// If both values are set, then we'll return an error as we require a
 	// strict directive.
@@ -161,7 +160,6 @@ func CraftSweepAllTx(feeRate chainfee.SatPerKWeight, dustLimit btcutil.Amount,
 	coinSelectLocker CoinSelectionLocker, utxoSource UtxoSource,
 	outpointLocker OutpointLocker, feeEstimator chainfee.Estimator,
 	signer input.Signer) (*WalletSweepPackage, er.R) {
-
 	// TODO(roasbeef): turn off ATPL as well when available?
 
 	var allOutputs []*lnwallet.Utxo

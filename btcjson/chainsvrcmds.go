@@ -10,8 +10,8 @@ package btcjson
 
 import (
 	"fmt"
-	"github.com/json-iterator/go"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/pkt-cash/pktd/btcutil/er"
 
 	"github.com/pkt-cash/pktd/wire"
@@ -67,7 +67,6 @@ type CreateRawTransactionCmd struct {
 // Amounts are in BTC.
 func NewCreateRawTransactionCmd(inputs []TransactionInput, amounts map[string]float64,
 	lockTime *int64) *CreateRawTransactionCmd {
-
 	return &CreateRawTransactionCmd{
 		Inputs:   inputs,
 		Amounts:  amounts,

@@ -108,7 +108,6 @@ var noUpdate = func(a, b *channeldb.OpenChannel) {}
 func createTestPeer(notifier chainntnfs.ChainNotifier,
 	publTx chan *wire.MsgTx, updateChan func(a, b *channeldb.OpenChannel)) (
 	*Brontide, *lnwallet.LightningChannel, func(), er.R) {
-
 	aliceKeyPriv, aliceKeyPub := btcec.PrivKeyFromBytes(
 		btcec.S256(), alicesPrivKey,
 	)

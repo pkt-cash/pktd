@@ -72,7 +72,6 @@ func TestChannelCache(t *testing.T) {
 		c.insert(i, channelForInt(i))
 	}
 	assertHasChanEntries(t, c, 0, cacheSize)
-
 }
 
 // assertHasEntries queries the edge cache for all channels in the range [start,

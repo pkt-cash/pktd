@@ -24,12 +24,14 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = descriptor.ForMessage
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = descriptor.ForMessage
+)
 
 func request_Autopilot_Status_0(ctx context.Context, marshaler runtime.Marshaler, client AutopilotClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq StatusRequest
@@ -37,7 +39,6 @@ func request_Autopilot_Status_0(ctx context.Context, marshaler runtime.Marshaler
 
 	msg, err := client.Status(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Autopilot_Status_0(ctx context.Context, marshaler runtime.Marshaler, server AutopilotServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -46,7 +47,6 @@ func local_request_Autopilot_Status_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := server.Status(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Autopilot_ModifyStatus_0(ctx context.Context, marshaler runtime.Marshaler, client AutopilotClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -63,7 +63,6 @@ func request_Autopilot_ModifyStatus_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.ModifyStatus(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Autopilot_ModifyStatus_0(ctx context.Context, marshaler runtime.Marshaler, server AutopilotServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -80,12 +79,9 @@ func local_request_Autopilot_ModifyStatus_0(ctx context.Context, marshaler runti
 
 	msg, err := server.ModifyStatus(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Autopilot_QueryScores_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Autopilot_QueryScores_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Autopilot_QueryScores_0(ctx context.Context, marshaler runtime.Marshaler, client AutopilotClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryScoresRequest
@@ -100,7 +96,6 @@ func request_Autopilot_QueryScores_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.QueryScores(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Autopilot_QueryScores_0(ctx context.Context, marshaler runtime.Marshaler, server AutopilotServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -113,7 +108,6 @@ func local_request_Autopilot_QueryScores_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.QueryScores(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Autopilot_SetScores_0(ctx context.Context, marshaler runtime.Marshaler, client AutopilotClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -130,7 +124,6 @@ func request_Autopilot_SetScores_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.SetScores(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Autopilot_SetScores_0(ctx context.Context, marshaler runtime.Marshaler, server AutopilotServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -147,14 +140,12 @@ func local_request_Autopilot_SetScores_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.SetScores(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 // RegisterAutopilotHandlerServer registers the http handlers for service Autopilot to "mux".
 // UnaryRPC     :call AutopilotServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 func RegisterAutopilotHandlerServer(ctx context.Context, mux *runtime.ServeMux, server AutopilotServer) error {
-
 	mux.Handle("GET", pattern_Autopilot_Status_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -172,7 +163,6 @@ func RegisterAutopilotHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Autopilot_Status_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Autopilot_ModifyStatus_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -192,7 +182,6 @@ func RegisterAutopilotHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Autopilot_ModifyStatus_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Autopilot_QueryScores_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -212,7 +201,6 @@ func RegisterAutopilotHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Autopilot_QueryScores_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Autopilot_SetScores_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -232,7 +220,6 @@ func RegisterAutopilotHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Autopilot_SetScores_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
@@ -275,7 +262,6 @@ func RegisterAutopilotHandler(ctx context.Context, mux *runtime.ServeMux, conn *
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "AutopilotClient" to call the correct interceptors.
 func RegisterAutopilotHandlerClient(ctx context.Context, mux *runtime.ServeMux, client AutopilotClient) error {
-
 	mux.Handle("GET", pattern_Autopilot_Status_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -293,7 +279,6 @@ func RegisterAutopilotHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Autopilot_Status_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Autopilot_ModifyStatus_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -313,7 +298,6 @@ func RegisterAutopilotHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Autopilot_ModifyStatus_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Autopilot_QueryScores_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -333,7 +317,6 @@ func RegisterAutopilotHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Autopilot_QueryScores_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Autopilot_SetScores_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -353,7 +336,6 @@ func RegisterAutopilotHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Autopilot_SetScores_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil

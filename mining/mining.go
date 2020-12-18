@@ -161,7 +161,6 @@ func txPQByPriority(pq *txPriorityQueue, i, j int) bool {
 		return pq.items[i].feePerKB > pq.items[j].feePerKB
 	}
 	return pq.items[i].priority > pq.items[j].priority
-
 }
 
 // txPQByFee sorts a txPriorityQueue by fees per kilobyte and then transaction
@@ -261,7 +260,6 @@ func standardCoinbaseScript(nextBlockHeight int32, extraNonce uint64) ([]byte, e
 // See the comment for NewBlockTemplate for more information about why the nil
 // address handling is useful.
 func createCoinbaseTx(params *chaincfg.Params, coinbaseScript []byte, nextBlockHeight int32, addrs map[btcutil.Address]float64, taxScript []byte) (*btcutil.Tx, er.R) {
-
 	tx := wire.NewMsgTx(constants.TxVersion)
 	tx.AddTxIn(&wire.TxIn{
 		// Coinbase transactions have no inputs, so previous outpoint is
@@ -411,7 +409,6 @@ func NewBlkTmplGenerator(policy *Policy, params *chaincfg.Params,
 	timeSource blockchain.MedianTimeSource,
 	sigCache *txscript.SigCache,
 	hashCache *txscript.HashCache) *BlkTmplGenerator {
-
 	return &BlkTmplGenerator{
 		policy:      policy,
 		chainParams: params,

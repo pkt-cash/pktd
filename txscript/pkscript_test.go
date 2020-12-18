@@ -10,7 +10,6 @@ import (
 // TestParsePkScript ensures that the supported script types can be parsed
 // correctly and re-derived into its raw byte representation.
 func TestParsePkScript(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		pkScript []byte
@@ -188,7 +187,6 @@ func TestParsePkScript(t *testing.T) {
 // pkScript by looking at the input's signature script/witness attempting to
 // spend it.
 func TestComputePkScript(t *testing.T) {
-
 	tests := []struct {
 		name      string
 		sigScript []byte

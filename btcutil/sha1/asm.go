@@ -2,12 +2,6 @@
 
 package sha1
 
-import (
-	"github.com/mmcloughlin/avo/build"
-	"github.com/mmcloughlin/avo/operand"
-	"github.com/mmcloughlin/avo/reg"
-)
-
 func main() {
 	TEXT("block", 0, "func(h *[5]uint32, m []byte)")
 	h := Mem{

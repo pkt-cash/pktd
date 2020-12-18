@@ -26,12 +26,10 @@ const (
 	nodeFieldsSize = 72
 )
 
-var (
-	// emptySlice is used for keys that have no value associated with them
-	// so callers can distinguish between a key that does not exist and one
-	// that has no value associated with it.
-	emptySlice = make([]byte, 0)
-)
+// emptySlice is used for keys that have no value associated with them
+// so callers can distinguish between a key that does not exist and one
+// that has no value associated with it.
+var emptySlice = make([]byte, 0)
 
 // treapNode represents a node in the treap.
 type treapNode struct {

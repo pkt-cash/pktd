@@ -76,7 +76,7 @@ func TestPkgFilterRand(t *testing.T) {
 // exponentiation to generate all elements in [1,p).
 func checkPkgFilterRand(t *testing.T, b, p uint16) {
 	f := channeldb.NewPkgFilter(p)
-	var j = b
+	j := b
 	for i := uint16(1); i < p; i++ {
 		if f.Contains(j) {
 			t.Fatalf("pkg filter contains %d-%d "+
@@ -781,7 +781,6 @@ func assertSettleFailFilterIsFull(t *testing.T, fwdPkg *channeldb.FwdPkg, expect
 // particular packager.
 func loadFwdPkgs(t *testing.T, db kvdb.Backend,
 	packager channeldb.FwdPackager) []*channeldb.FwdPkg {
-
 	var fwdPkgs []*channeldb.FwdPkg
 	if err := kvdb.View(db, func(tx kvdb.RTx) er.R {
 		var err er.R

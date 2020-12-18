@@ -125,7 +125,6 @@ func craftSpendTransaction(outpoint wire.OutPoint, payScript []byte) (*wire.MsgT
 
 func assertFilteredBlock(t *testing.T, fb *FilteredBlock, expectedHeight int32,
 	expectedHash *chainhash.Hash, txns []*chainhash.Hash) {
-
 	_, _, line, _ := runtime.Caller(1)
 
 	if fb.Height != uint32(expectedHeight) {
@@ -154,13 +153,11 @@ func assertFilteredBlock(t *testing.T, fb *FilteredBlock, expectedHeight int32,
 	if len(expectedTxids) != 0 {
 		t.Fatalf("line %v: missing txids: %v", line, expectedTxids)
 	}
-
 }
 
 func testFilterBlockNotifications(node *rpctest.Harness,
 	chainView FilteredChainView, chainViewInit chainViewInitFunc,
 	t *testing.T) {
-
 	// To start the test, we'll create to fresh outputs paying to the
 	// private key that we generated above.
 	txid1, err := getTestTXID(node)
@@ -310,7 +307,6 @@ func testFilterBlockNotifications(node *rpctest.Harness,
 func testUpdateFilterBackTrack(node *rpctest.Harness,
 	chainView FilteredChainView, chainViewInit chainViewInitFunc,
 	t *testing.T) {
-
 	// To start, we'll create a fresh output paying to the height generated
 	// above.
 	txid, err := getTestTXID(node)
@@ -404,7 +400,6 @@ func testUpdateFilterBackTrack(node *rpctest.Harness,
 
 func testFilterSingleBlock(node *rpctest.Harness, chainView FilteredChainView,
 	chainViewInit chainViewInitFunc, t *testing.T) {
-
 	// In this test, we'll test the manual filtration of blocks, which can
 	// be used by clients to manually rescan their sub-set of the UTXO set.
 
@@ -533,7 +528,6 @@ func testFilterSingleBlock(node *rpctest.Harness, chainView FilteredChainView,
 func testFilterBlockDisconnected(node *rpctest.Harness,
 	chainView FilteredChainView, chainViewInit chainViewInitFunc,
 	t *testing.T) {
-
 	// Create a node that has a shorter chain than the main chain, so we
 	// can trigger a reorg.
 	reorgNode, err := rpctest.New(netParams, nil, []string{"--txindex"})

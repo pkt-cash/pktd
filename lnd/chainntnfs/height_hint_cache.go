@@ -94,8 +94,10 @@ type HeightHintCache struct {
 
 // Compile-time checks to ensure HeightHintCache satisfies the SpendHintCache
 // and ConfirmHintCache interfaces.
-var _ SpendHintCache = (*HeightHintCache)(nil)
-var _ ConfirmHintCache = (*HeightHintCache)(nil)
+var (
+	_ SpendHintCache   = (*HeightHintCache)(nil)
+	_ ConfirmHintCache = (*HeightHintCache)(nil)
+)
 
 // NewHeightHintCache returns a new height hint cache backed by a database.
 func NewHeightHintCache(cfg CacheConfig, db *channeldb.DB) (*HeightHintCache, er.R) {
@@ -124,7 +126,6 @@ func (c *HeightHintCache) initBuckets() er.R {
 // CommitSpendHint commits a spend hint for the outpoints to the cache.
 func (c *HeightHintCache) CommitSpendHint(height uint32,
 	spendRequests ...SpendRequest) er.R {
-
 	if len(spendRequests) == 0 {
 		return nil
 	}
@@ -225,7 +226,6 @@ func (c *HeightHintCache) PurgeSpendHint(spendRequests ...SpendRequest) er.R {
 // CommitConfirmHint commits a confirm hint for the transactions to the cache.
 func (c *HeightHintCache) CommitConfirmHint(height uint32,
 	confRequests ...ConfRequest) er.R {
-
 	if len(confRequests) == 0 {
 		return nil
 	}

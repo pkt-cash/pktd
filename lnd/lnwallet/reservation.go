@@ -173,7 +173,6 @@ func NewChannelReservation(capacity, localFundingAmt btcutil.Amount,
 	flags lnwire.FundingFlag, commitType CommitmentType,
 	fundingAssembler chanfunding.Assembler,
 	pendingChanID [32]byte, thawHeight uint32) (*ChannelReservation, er.R) {
-
 	var (
 		ourBalance   lnwire.MilliSatoshi
 		theirBalance lnwire.MilliSatoshi
@@ -561,7 +560,6 @@ func (r *ChannelReservation) TheirContribution() *ChannelContribution {
 // .ProcessContribution()
 func (r *ChannelReservation) OurSignatures() ([]*input.Script,
 	input.Signature) {
-
 	r.RLock()
 	defer r.RUnlock()
 	return r.ourFundingInputScripts, r.ourCommitmentSig
@@ -582,7 +580,6 @@ func (r *ChannelReservation) OurSignatures() ([]*input.Script,
 // returned, marking the channel available for updates.
 func (r *ChannelReservation) CompleteReservation(fundingInputScripts []*input.Script,
 	commitmentSig input.Signature) (*channeldb.OpenChannel, er.R) {
-
 	// TODO(roasbeef): add flag for watch or not?
 	errChan := make(chan er.R, 1)
 	completeChan := make(chan *channeldb.OpenChannel, 1)
@@ -609,7 +606,6 @@ func (r *ChannelReservation) CompleteReservation(fundingInputScripts []*input.Sc
 // will be populated.
 func (r *ChannelReservation) CompleteReservationSingle(fundingPoint *wire.OutPoint,
 	commitSig input.Signature) (*channeldb.OpenChannel, er.R) {
-
 	errChan := make(chan er.R, 1)
 	completeChan := make(chan *channeldb.OpenChannel, 1)
 
@@ -633,7 +629,6 @@ func (r *ChannelReservation) CompleteReservationSingle(fundingPoint *wire.OutPoi
 // .CompleteReservation().
 func (r *ChannelReservation) TheirSignatures() ([]*input.Script,
 	input.Signature) {
-
 	r.RLock()
 	defer r.RUnlock()
 	return r.theirFundingInputScripts, r.theirCommitmentSig

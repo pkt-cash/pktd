@@ -25,8 +25,10 @@ func NewExternalScoreAttachment() *ExternalScoreAttachment {
 
 // A compile time assertion to ensure ExternalScoreAttachment meets the
 // AttachmentHeuristic and ScoreSettable interfaces.
-var _ AttachmentHeuristic = (*ExternalScoreAttachment)(nil)
-var _ ScoreSettable = (*ExternalScoreAttachment)(nil)
+var (
+	_ AttachmentHeuristic = (*ExternalScoreAttachment)(nil)
+	_ ScoreSettable       = (*ExternalScoreAttachment)(nil)
+)
 
 // Name returns the name of this heuristic.
 //
@@ -44,7 +46,6 @@ func (s *ExternalScoreAttachment) Name() string {
 // NOTE: This is a part of the ScoreSettable interface.
 func (s *ExternalScoreAttachment) SetNodeScores(targetHeuristic string,
 	newScores map[NodeID]float64) (bool, er.R) {
-
 	// Return if this heuristic wasn't targeted.
 	if targetHeuristic != s.Name() {
 		return false, nil
@@ -84,7 +85,6 @@ func (s *ExternalScoreAttachment) SetNodeScores(targetHeuristic string,
 func (s *ExternalScoreAttachment) NodeScores(g ChannelGraph, chans []LocalChannel,
 	chanSize btcutil.Amount, nodes map[NodeID]struct{}) (
 	map[NodeID]*NodeScore, er.R) {
-
 	existingPeers := make(map[NodeID]struct{})
 	for _, c := range chans {
 		existingPeers[c.Node] = struct{}{}

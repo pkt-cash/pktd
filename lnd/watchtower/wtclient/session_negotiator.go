@@ -311,7 +311,6 @@ retryWithBackoff:
 // the tower has no addresses, ErrNoTowerAddrs is returned.
 func (n *sessionNegotiator) createSession(tower *wtdb.Tower,
 	keyIndex uint32) er.R {
-
 	// If the tower has no addresses, there's nothing we can do.
 	if len(tower.Addresses) == 0 {
 		return ErrNoTowerAddrs.Default()
@@ -358,7 +357,6 @@ func (n *sessionNegotiator) createSession(tower *wtdb.Tower,
 // fails otherwise.
 func (n *sessionNegotiator) tryAddress(sessionKey keychain.SingleKeyECDH,
 	keyIndex uint32, tower *wtdb.Tower, lnAddr *lnwire.NetAddress) er.R {
-
 	// Connect to the tower address using our generated session key.
 	conn, err := n.cfg.Dial(sessionKey, lnAddr)
 	if err != nil {

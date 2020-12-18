@@ -12,7 +12,6 @@ func init() {
 		SubServerName: subServerName,
 		New: func(c lnrpc.SubServerConfigDispatcher) (lnrpc.SubServer,
 			lnrpc.MacaroonPerms, er.R) {
-
 			return &Server{}, macPermissions, nil
 		},
 	}

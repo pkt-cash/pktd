@@ -107,7 +107,6 @@ type Controller struct {
 // a Tor server.
 func NewController(controlAddr string, targetIPAddress string,
 	password string) *Controller {
-
 	return &Controller{
 		controlAddr:     controlAddr,
 		targetIPAddress: targetIPAddress,

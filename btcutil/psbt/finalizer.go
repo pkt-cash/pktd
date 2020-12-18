@@ -162,7 +162,6 @@ func MaybeFinalize(p *Packet, inIndex int) (bool, er.R) {
 // MaybeFinalizeAll attempts to finalize all inputs of the psbt.Packet that are
 // not already finalized, and returns an error if it fails to do so.
 func MaybeFinalizeAll(p *Packet) er.R {
-
 	for i := range p.UnsignedTx.TxIn {
 		success, err := MaybeFinalize(p, i)
 		if err != nil || !success {
@@ -358,7 +357,6 @@ func finalizeWitnessInput(p *Packet, inIndex int) er.R {
 		sigOK := checkSigHashFlags(ps.Signature, &pInput)
 		if !sigOK {
 			return ErrInvalidSigHashFlags.Default()
-
 		}
 
 		sigs = append(sigs, ps.Signature)

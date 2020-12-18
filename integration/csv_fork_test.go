@@ -39,7 +39,6 @@ const (
 // p2pkh output with the specified amount.
 func makeTestOutput(r *rpctest.Harness, t *testing.T,
 	amt btcutil.Amount) (*btcec.PrivateKey, *wire.OutPoint, []byte, er.R) {
-
 	// Create a fresh key, then send some coins to an address spendable by
 	// that key.
 	key, err := btcec.NewPrivateKey(btcec.S256())
@@ -113,7 +112,6 @@ func makeTestOutput(r *rpctest.Harness, t *testing.T,
 //    - Transactions with final lock-times from the PoV of MTP should be
 //      accepted to the mempool and mined in future block.
 func TestBIP0113Activation(t *testing.T) {
-
 	pktdCfg := []string{"--rejectnonstd"}
 	r, err := rpctest.New(&chaincfg.SimNetParams, nil, pktdCfg)
 	if err != nil {
@@ -289,7 +287,6 @@ func TestBIP0113Activation(t *testing.T) {
 func createCSVOutput(r *rpctest.Harness, t *testing.T,
 	numSatoshis btcutil.Amount, timeLock int32,
 	isSeconds bool) ([]byte, *wire.OutPoint, *wire.MsgTx, er.R) {
-
 	// Convert the time-lock to the proper sequence lock based according to
 	// if the lock is seconds or time based.
 	sequenceLock := blockchain.LockTimeToSequence(isSeconds,
@@ -346,7 +343,6 @@ func createCSVOutput(r *rpctest.Harness, t *testing.T,
 func spendCSVOutput(redeemScript []byte, csvUTXO *wire.OutPoint,
 	sequence uint32, targetOutput *wire.TxOut,
 	txVersion int32) (*wire.MsgTx, er.R) {
-
 	tx := wire.NewMsgTx(txVersion)
 	tx.AddTxIn(&wire.TxIn{
 		PreviousOutPoint: *csvUTXO,
@@ -371,7 +367,6 @@ func spendCSVOutput(redeemScript []byte, csvUTXO *wire.OutPoint,
 // within the block with the passed block hash.
 func assertTxInBlock(r *rpctest.Harness, t *testing.T, blockHash *chainhash.Hash,
 	txid *chainhash.Hash) {
-
 	block, err := r.Node.GetBlock(blockHash)
 	if err != nil {
 		t.Fatalf("unable to get block: %v", err)
@@ -404,7 +399,6 @@ func assertTxInBlock(r *rpctest.Harness, t *testing.T, blockHash *chainhash.Hash
 //    - See the cases exercised within the table driven tests towards the end
 //    of this test.
 func TestBIP0068AndBIP0112Activation(t *testing.T) {
-
 	// We'd like the test proper evaluation and validation of the BIP 68
 	// (sequence locks) and BIP 112 rule-sets which add input-age based
 	// relative lock times.

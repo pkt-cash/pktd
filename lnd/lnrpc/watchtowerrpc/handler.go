@@ -9,6 +9,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/lnd/lnrpc"
+	"github.com/pkt-cash/pktd/pktlog/log"
 	"google.golang.org/grpc"
 	"gopkg.in/macaroon-bakery.v2/bakery"
 )
@@ -99,7 +100,6 @@ func (c *Handler) RegisterWithRootServer(grpcServer *grpc.Server) er.R {
 // NOTE: This is part of the lnrpc.SubServer interface.
 func (c *Handler) RegisterWithRestServer(ctx context.Context,
 	mux *runtime.ServeMux, dest string, opts []grpc.DialOption) er.R {
-
 	// We make sure that we register it with the main REST server to ensure
 	// all our methods are routed properly.
 	err := RegisterWatchtowerHandlerFromEndpoint(ctx, mux, dest, opts)
@@ -120,7 +120,6 @@ func (c *Handler) RegisterWithRestServer(ctx context.Context,
 // backups.
 func (c *Handler) GetInfo(ctx context.Context,
 	req *GetInfoRequest) (*GetInfoResponse, er.R) {
-
 	if err := c.isActive(); err != nil {
 		return nil, err
 	}

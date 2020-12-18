@@ -207,7 +207,6 @@ func TestCommitmentAndHTLCTransactions(t *testing.T) {
 // remote node.
 func addTestHtlcs(t *testing.T, remote,
 	local *LightningChannel) map[[20]byte]lntypes.Preimage {
-
 	hash160map := make(map[[20]byte]lntypes.Preimage)
 	for _, htlc := range testHtlcs {
 		preimage, err := lntypes.MakePreimageFromStr(htlc.preimage)
@@ -764,7 +763,6 @@ func (p *mockProducer) Encode(w io.Writer) er.R {
 func createTestChannelsForVectors(tc *testContext, chanType channeldb.ChannelType,
 	feeRate btcutil.Amount, remoteBalance, localBalance btcutil.Amount) (
 	*LightningChannel, *LightningChannel, func()) {
-
 	t := tc.t
 
 	prevOut := &wire.OutPoint{
@@ -898,7 +896,7 @@ func createTestChannelsForVectors(tc *testContext, chanType channeldb.ChannelTyp
 
 	// Subtract one because extra sig exchange will take place during setup
 	// to get to the right test point.
-	var commitHeight = tc.commitHeight - 1
+	commitHeight := tc.commitHeight - 1
 
 	remoteCommit := channeldb.ChannelCommitment{
 		CommitHeight:  commitHeight,

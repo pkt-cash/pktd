@@ -25,7 +25,6 @@ type mockPunisher struct {
 
 func (p *mockPunisher) Punish(
 	info *lookout.JusticeDescriptor, quit <-chan struct{}) er.R {
-
 	p.matches <- info
 	return nil
 }

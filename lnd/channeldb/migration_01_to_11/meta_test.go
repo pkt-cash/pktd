@@ -12,7 +12,6 @@ import (
 // which are needed to properly check the result of applying migration function.
 func applyMigration(t *testing.T, beforeMigration, afterMigration func(d *DB),
 	migrationFunc migration, shouldFail bool) {
-
 	cdb, cleanUp, err := makeTestDB()
 	defer cleanUp()
 	if err != nil {

@@ -3,12 +3,13 @@
 package walletrpc
 
 import (
-	"fmt"
 	"math"
 	"time"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/btcutil/psbt"
 	"github.com/pkt-cash/pktd/lnd/lnwallet"
+	"github.com/pkt-cash/pktd/pktlog/log"
 	"github.com/pkt-cash/pktd/pktwallet/wtxmgr"
 	"github.com/pkt-cash/pktd/wire"
 )
@@ -52,7 +53,6 @@ func verifyInputsUnspent(inputs []*wire.TxIn, utxos []*lnwallet.Utxo) er.R {
 // by using the internal, static lock ID of lnd's wallet.
 func lockInputs(w lnwallet.WalletController, packet *psbt.Packet) ([]*utxoLock,
 	error) {
-
 	locks := make([]*utxoLock, len(packet.UnsignedTx.TxIn))
 	for idx, rawInput := range packet.UnsignedTx.TxIn {
 		lock := &utxoLock{
@@ -71,7 +71,6 @@ func lockInputs(w lnwallet.WalletController, packet *psbt.Packet) ([]*utxoLock,
 				if err := w.ReleaseOutput(
 					LndInternalLockID, op,
 				); err != nil {
-
 					log.Errorf("could not release the "+
 						"lock on %v: %v", op, err)
 				}

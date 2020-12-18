@@ -208,7 +208,6 @@ func Create(ns walletdb.ReadWriteBucket) er.R {
 // after processing the given transaction record.
 func (s *Store) updateMinedBalance(ns walletdb.ReadWriteBucket, rec *TxRecord,
 	block *BlockMeta) er.R {
-
 	// Add a debit record for each unspent credit spent by this transaction.
 	// The index is set in each iteration below.
 	spender := indexedIncidence{
@@ -925,7 +924,6 @@ func (s *Store) Balance(ns walletdb.ReadBucket, minConf int32, syncHeight int32)
 // [2: +len] Label
 func (s *Store) PutTxLabel(ns walletdb.ReadWriteBucket, txid chainhash.Hash,
 	label string) er.R {
-
 	if len(label) == 0 {
 		return ErrEmptyLabel.Default()
 	}
@@ -947,7 +945,6 @@ func (s *Store) PutTxLabel(ns walletdb.ReadWriteBucket, txid chainhash.Hash,
 // an existing label for the txid.
 func PutTxLabel(labelBucket walletdb.ReadWriteBucket, txid chainhash.Hash,
 	label string) er.R {
-
 	// We expect the label length to be limited on creation, so we can
 	// store the label's length as a uint16.
 	labelLen := uint16(len(label))
@@ -1024,7 +1021,6 @@ func isKnownOutput(ns walletdb.ReadWriteBucket, op wire.OutPoint) bool {
 // returned.
 func (s *Store) LockOutput(ns walletdb.ReadWriteBucket, id LockID,
 	op wire.OutPoint) (time.Time, er.R) {
-
 	// Make sure the output is known.
 	if !isKnownOutput(ns, op) {
 		return time.Time{}, ErrUnknownOutput.Default()
@@ -1049,7 +1045,6 @@ func (s *Store) LockOutput(ns walletdb.ReadWriteBucket, id LockID,
 // originally lock the output.
 func (s *Store) UnlockOutput(ns walletdb.ReadWriteBucket, id LockID,
 	op wire.OutPoint) er.R {
-
 	// Make sure the output is known.
 	if !isKnownOutput(ns, op) {
 		return ErrUnknownOutput.Default()

@@ -12,10 +12,12 @@ import (
 	"gopkg.in/macaroon-bakery.v2/bakery"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/lnd/channeldb"
 	"github.com/pkt-cash/pktd/lnd/lnrpc"
 	"github.com/pkt-cash/pktd/lnd/lntypes"
 	"github.com/pkt-cash/pktd/lnd/macaroons"
+	"github.com/pkt-cash/pktd/pktlog/log"
 )
 
 const (
@@ -114,7 +116,7 @@ func New(cfg *Config) (*Server, lnrpc.MacaroonPerms, er.R) {
 		if err != nil {
 			return nil, nil, err
 		}
-		err = ioutil.WriteFile(macFilePath, invoicesMacBytes, 0644)
+		err = ioutil.WriteFile(macFilePath, invoicesMacBytes, 0o644)
 		if err != nil {
 			_ = os.Remove(macFilePath)
 			return nil, nil, err
@@ -176,7 +178,6 @@ func (s *Server) RegisterWithRootServer(grpcServer *grpc.Server) er.R {
 // NOTE: This is part of the lnrpc.SubServer interface.
 func (s *Server) RegisterWithRestServer(ctx context.Context,
 	mux *runtime.ServeMux, dest string, opts []grpc.DialOption) er.R {
-
 	// We make sure that we register it with the main REST server to ensure
 	// all our methods are routed properly.
 	err := RegisterInvoicesHandlerFromEndpoint(ctx, mux, dest, opts)
@@ -195,7 +196,6 @@ func (s *Server) RegisterWithRestServer(ctx context.Context,
 // for notifying the client of state changes for a specified invoice.
 func (s *Server) SubscribeSingleInvoice(req *SubscribeSingleInvoiceRequest,
 	updateStream Invoices_SubscribeSingleInvoiceServer) er.R {
-
 	hash, err := lntypes.MakeHash(req.RHash)
 	if err != nil {
 		return err
@@ -231,7 +231,6 @@ func (s *Server) SubscribeSingleInvoice(req *SubscribeSingleInvoiceRequest,
 // this call will succeed.
 func (s *Server) SettleInvoice(ctx context.Context,
 	in *SettleInvoiceMsg) (*SettleInvoiceResp, er.R) {
-
 	preimage, err := lntypes.MakePreimage(in.Preimage)
 	if err != nil {
 		return nil, err
@@ -250,7 +249,6 @@ func (s *Server) SettleInvoice(ctx context.Context,
 // fail.
 func (s *Server) CancelInvoice(ctx context.Context,
 	in *CancelInvoiceMsg) (*CancelInvoiceResp, er.R) {
-
 	paymentHash, err := lntypes.MakeHash(in.PaymentHash)
 	if err != nil {
 		return nil, err
@@ -271,7 +269,6 @@ func (s *Server) CancelInvoice(ctx context.Context,
 // unique payment hash.
 func (s *Server) AddHoldInvoice(ctx context.Context,
 	invoice *AddHoldInvoiceRequest) (*AddHoldInvoiceResp, er.R) {
-
 	addInvoiceCfg := &AddInvoiceConfig{
 		AddInvoice:         s.cfg.InvoiceRegistry.AddInvoice,
 		IsChannelActive:    s.cfg.IsChannelActive,

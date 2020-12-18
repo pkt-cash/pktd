@@ -29,7 +29,6 @@ import (
 
 func testSingleConfirmationNotification(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// We'd like to test the case of being notified once a txid reaches
 	// a *single* confirmation.
 	//
@@ -104,7 +103,6 @@ func testSingleConfirmationNotification(miner *rpctest.Harness,
 
 func testMultiConfirmationNotification(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// We'd like to test the case of being notified once a txid reaches
 	// N confirmations, where N > 1.
 	//
@@ -157,7 +155,6 @@ func testMultiConfirmationNotification(miner *rpctest.Harness,
 
 func testBatchConfirmationNotification(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// We'd like to test a case of serving notifications to multiple
 	// clients, each requesting to be notified once a txid receives
 	// various numbers of confirmations.
@@ -242,7 +239,6 @@ func testBatchConfirmationNotification(miner *rpctest.Harness,
 func checkNotificationFields(ntfn *chainntnfs.SpendDetail,
 	outpoint *wire.OutPoint, spenderSha *chainhash.Hash,
 	height int32, t *testing.T) {
-
 	t.Helper()
 
 	if *ntfn.SpentOutPoint != *outpoint {
@@ -269,7 +265,6 @@ func checkNotificationFields(ntfn *chainntnfs.SpendDetail,
 
 func testSpendNotification(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// We'd like to test the spend notifications for all ChainNotifier
 	// concrete implementations.
 	//
@@ -390,7 +385,6 @@ func testSpendNotification(miner *rpctest.Harness,
 
 func testBlockEpochNotification(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, t *testing.T) {
-
 	// We'd like to test the case of multiple registered clients receiving
 	// block epoch notifications.
 
@@ -439,7 +433,6 @@ func testBlockEpochNotification(miner *rpctest.Harness,
 
 func testMultiClientConfirmationNotification(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// We'd like to test the case of a multiple clients registered to
 	// receive a confirmation notification for the same transaction.
 	txid, pkScript, err := chainntnfs.GetTestTxidAndScript(miner)
@@ -509,7 +502,6 @@ func testMultiClientConfirmationNotification(miner *rpctest.Harness,
 // confirmation notification should be dispatched immediately.
 func testTxConfirmedBeforeNtfnRegistration(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// First, let's send some coins to "ourself", obtaining a txid.  We're
 	// spending from a coinbase output here, so we use the dedicated
 	// function.
@@ -700,7 +692,6 @@ func testTxConfirmedBeforeNtfnRegistration(miner *rpctest.Harness,
 // working
 func testLazyNtfnConsumer(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// Create a transaction to be notified about. We'll register for
 	// notifications on this transaction but won't be prompt in checking them
 	txid, pkScript, err := chainntnfs.GetTestTxidAndScript(miner)
@@ -800,7 +791,6 @@ func testLazyNtfnConsumer(miner *rpctest.Harness,
 // should be dispatched immediately.
 func testSpendBeforeNtfnRegistration(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// We'd like to test the spend notifications for all ChainNotifier
 	// concrete implementations.
 	//
@@ -918,7 +908,6 @@ func testSpendBeforeNtfnRegistration(miner *rpctest.Harness,
 
 func testCancelSpendNtfn(node *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// We'd like to test that once a spend notification is registered, it
 	// can be canceled before the notification is dispatched.
 
@@ -1016,7 +1005,6 @@ func testCancelSpendNtfn(node *rpctest.Harness,
 
 func testCancelEpochNtfn(node *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, t *testing.T) {
-
 	// We'd like to ensure that once a client cancels their block epoch
 	// notifications, no further notifications are sent over the channel
 	// if/when new blocks come in.
@@ -1066,7 +1054,6 @@ func testCancelEpochNtfn(node *rpctest.Harness,
 
 func testReorgConf(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// Set up a new miner that we can use to cause a reorg.
 	miner2, err := rpctest.New(chainntnfs.NetParams, nil, []string{"--txindex"})
 	if err != nil {
@@ -1224,7 +1211,6 @@ func testReorgConf(miner *rpctest.Harness,
 // the chain.
 func testReorgSpend(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, scriptDispatch bool, t *testing.T) {
-
 	// We'll start by creating an output and registering a spend
 	// notification for it.
 	outpoint, output, privKey := chainntnfs.CreateSpendableOutput(t, miner)
@@ -1384,7 +1370,6 @@ func testReorgSpend(miner *rpctest.Harness,
 // being out of date.
 func testCatchUpClientOnMissedBlocks(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, t *testing.T) {
-
 	const numBlocks = 10
 	const numClients = 5
 	var wg sync.WaitGroup
@@ -1440,7 +1425,6 @@ func testCatchUpClientOnMissedBlocks(miner *rpctest.Harness,
 				t.Fatalf("did not receive historical notification "+
 					"for height %d", expectedHeight)
 			}
-
 		}
 	}
 
@@ -1476,7 +1460,6 @@ func testCatchUpClientOnMissedBlocks(miner *rpctest.Harness,
 // being out of date.
 func testCatchUpOnMissedBlocks(miner *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, t *testing.T) {
-
 	const numBlocks = 10
 	const numClients = 5
 	var wg sync.WaitGroup
@@ -1580,7 +1563,6 @@ func testCatchUpOnMissedBlocks(miner *rpctest.Harness,
 // out of the chain.
 func testCatchUpOnMissedBlocksWithReorg(miner1 *rpctest.Harness,
 	notifier chainntnfs.TestChainNotifier, t *testing.T) {
-
 	// If this is the neutrino notifier, then we'll skip this test for now
 	// as we're missing functionality required to ensure the test passes
 	// reliably.

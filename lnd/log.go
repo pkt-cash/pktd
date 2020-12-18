@@ -13,7 +13,6 @@ import (
 func errorLogUnaryServerInterceptor() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo,
 		handler grpc.UnaryHandler) (interface{}, error) {
-
 		resp, err := handler(ctx, req)
 		if err != nil {
 			// TODO(roasbeef): also log request details?
@@ -30,7 +29,6 @@ func errorLogUnaryServerInterceptor() grpc.UnaryServerInterceptor {
 func errorLogStreamServerInterceptor() grpc.StreamServerInterceptor {
 	return func(srv interface{}, ss grpc.ServerStream,
 		info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
-
 		err := handler(srv, ss)
 		if err != nil {
 			log.Errorf("[%v]: %v", info.FullMethod, err)

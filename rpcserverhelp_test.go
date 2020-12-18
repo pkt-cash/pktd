@@ -17,7 +17,6 @@ func TestHelp(t *testing.T) {
 				"also specifying result types", k)
 			continue
 		}
-
 	}
 	for k := range wsHandlers {
 		if _, ok := rpcResultTypes[k]; !ok {
@@ -25,7 +24,6 @@ func TestHelp(t *testing.T) {
 				"also specifying result types", k)
 			continue
 		}
-
 	}
 
 	// Ensure the usage for every command can be generated without errors.

@@ -139,7 +139,6 @@ func ApplyPktParams(params *BitcoinNetParams) {
 // abstract over _which_ chain (or fork) the parameters are for.
 func ApplyLitecoinParams(params *BitcoinNetParams,
 	litecoinParams *LitecoinNetParams) {
-
 	params.Name = litecoinParams.Name
 	params.Net = protocol.BitcoinNet(litecoinParams.Net)
 	params.DefaultPort = litecoinParams.DefaultPort

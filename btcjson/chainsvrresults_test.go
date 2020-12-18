@@ -5,9 +5,9 @@
 package btcjson_test
 
 import (
-	"github.com/json-iterator/go"
 	"testing"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/pkt-cash/pktd/btcjson"
 )
 
@@ -15,7 +15,6 @@ import (
 // work as inteded.
 // and unmarshal code of results are as expected.
 func TestChainSvrCustomResults(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		result   interface{}

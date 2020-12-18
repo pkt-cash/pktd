@@ -76,7 +76,6 @@ func TestHtlcIncomingResolverFwdContestedTimeout(t *testing.T) {
 	reportChan := make(chan *channeldb.ResolverReport)
 	ctx.resolver.Checkpoint = func(_ ContractResolver,
 		reports ...*channeldb.ResolverReport) er.R {
-
 		// Send all of our reports into the channel.
 		for _, report := range reports {
 			reportChan <- report
@@ -193,7 +192,6 @@ func TestHtlcIncomingResolverExitTimeoutHodl(t *testing.T) {
 	reportChan := make(chan *channeldb.ResolverReport)
 	ctx.resolver.Checkpoint = func(_ ContractResolver,
 		reports ...*channeldb.ResolverReport) er.R {
-
 		// Send all of our reports into the channel.
 		for _, report := range reports {
 			reportChan <- report
@@ -230,7 +228,6 @@ func TestHtlcIncomingResolverExitCancelHodl(t *testing.T) {
 	reportChan := make(chan *channeldb.ResolverReport)
 	ctx.resolver.Checkpoint = func(_ ContractResolver,
 		reports ...*channeldb.ResolverReport) er.R {
-
 		// Send all of our reports into the channel.
 		for _, report := range reports {
 			reportChan <- report
@@ -283,7 +280,6 @@ type mockOnionProcessor struct {
 
 func (o *mockOnionProcessor) ReconstructHopIterator(r io.Reader, rHash []byte) (
 	hop.Iterator, er.R) {
-
 	data, err := ioutil.ReadAll(r)
 	if err != nil {
 		return nil, er.E(err)
@@ -328,7 +324,6 @@ func newIncomingResolverTestContext(t *testing.T, isExit bool) *incomingResolver
 		},
 		PutResolverReport: func(_ kvdb.RwTx,
 			_ *channeldb.ResolverReport) er.R {
-
 			return nil
 		},
 	}
@@ -337,7 +332,6 @@ func newIncomingResolverTestContext(t *testing.T, isExit bool) *incomingResolver
 		ChannelArbitratorConfig: chainCfg,
 		Checkpoint: func(_ ContractResolver,
 			_ ...*channeldb.ResolverReport) er.R {
-
 			checkPointChan <- struct{}{}
 			return nil
 		},

@@ -255,7 +255,7 @@ func (view *UtxoViewpoint) connectTransaction(tx *btcutil.Tx, blockHeight int32,
 		// Only create the stxo details if requested.
 		if stxos != nil {
 			// Populate the stxo details using the utxo entry.
-			var stxo = SpentTxOut{
+			stxo := SpentTxOut{
 				Amount:     entry.Amount(),
 				PkScript:   entry.PkScript(),
 				Height:     entry.BlockHeight(),

@@ -88,7 +88,6 @@ func (eft *estimateFeeTester) rollback() {
 	}
 
 	err := eft.ef.Rollback(eft.last.hash)
-
 	if err != nil {
 		eft.t.Errorf("Could not rollback: %v", err)
 	}
@@ -259,7 +258,6 @@ func TestEstimateFee(t *testing.T) {
 }
 
 func (eft *estimateFeeTester) estimates() [estimateFeeDepth]BtcPerKilobyte {
-
 	// Generate estimates
 	var estimates [estimateFeeDepth]BtcPerKilobyte
 	for i := 0; i < estimateFeeDepth; i++ {
@@ -281,7 +279,6 @@ func (eft *estimateFeeTester) estimates() [estimateFeeDepth]BtcPerKilobyte {
 func (eft *estimateFeeTester) round(txHistory [][]*TxDesc,
 	estimateHistory [][estimateFeeDepth]BtcPerKilobyte,
 	txPerRound, txPerBlock uint32) ([][]*TxDesc, [][estimateFeeDepth]BtcPerKilobyte) {
-
 	// generate new txs.
 	var newTxs []*TxDesc
 	for i := uint32(0); i < txPerRound; i++ {
@@ -370,7 +367,6 @@ func TestEstimateFeeRollback(t *testing.T) {
 
 func (eft *estimateFeeTester) checkSaveAndRestore(
 	previousEstimates [estimateFeeDepth]BtcPerKilobyte) {
-
 	// Get the save state.
 	save := eft.ef.Save()
 
@@ -399,7 +395,6 @@ func (eft *estimateFeeTester) checkSaveAndRestore(
 
 // TestSave tests saving and restoring to a []byte.
 func TestDatabase(t *testing.T) {
-
 	txPerRound := uint32(7)
 	txPerBlock := uint32(5)
 	binSize := uint32(6)

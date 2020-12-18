@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/coreos/etcd/embed"
+	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
 const (

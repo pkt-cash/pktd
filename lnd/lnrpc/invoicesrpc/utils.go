@@ -19,7 +19,6 @@ import (
 // happen with just-in-time inserted keysend invoices.
 func decodePayReq(invoice *channeldb.Invoice,
 	activeNetParams *chaincfg.Params) (*zpay32.Invoice, er.R) {
-
 	paymentRequest := string(invoice.PaymentRequest)
 	if paymentRequest == "" {
 		preimage := invoice.Terms.PaymentPreimage
@@ -38,13 +37,11 @@ func decodePayReq(invoice *channeldb.Invoice,
 			"request: %v", err)
 	}
 	return decoded, nil
-
 }
 
 // CreateRPCInvoice creates an *lnrpc.Invoice from the *channeldb.Invoice.
 func CreateRPCInvoice(invoice *channeldb.Invoice,
 	activeNetParams *chaincfg.Params) (*lnrpc.Invoice, er.R) {
-
 	decoded, err := decodePayReq(invoice, activeNetParams)
 	if err != nil {
 		return nil, err

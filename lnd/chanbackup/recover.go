@@ -44,7 +44,6 @@ type PeerConnector interface {
 // and connect to each peer in order to initiate the recovery protocol.
 func Recover(backups []Single, restorer ChannelRestorer,
 	peerConnector PeerConnector) er.R {
-
 	for i, backup := range backups {
 		log.Infof("Restoring ChannelPoint(%v) to disk: ",
 			backup.FundingOutpoint)
@@ -97,7 +96,6 @@ func Recover(backups []Single, restorer ChannelRestorer,
 func UnpackAndRecoverSingles(singles PackedSingles,
 	keyChain keychain.KeyRing, restorer ChannelRestorer,
 	peerConnector PeerConnector) er.R {
-
 	chanBackups, err := singles.Unpack(keyChain)
 	if err != nil {
 		return err
@@ -115,7 +113,6 @@ func UnpackAndRecoverSingles(singles PackedSingles,
 func UnpackAndRecoverMulti(packedMulti PackedMulti,
 	keyChain keychain.KeyRing, restorer ChannelRestorer,
 	peerConnector PeerConnector) er.R {
-
 	chanBackups, err := packedMulti.Unpack(keyChain)
 	if err != nil {
 		return err

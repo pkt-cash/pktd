@@ -42,7 +42,6 @@ func TestUnifiedPolicies(t *testing.T) {
 	checkPolicy := func(policy *channeldb.ChannelEdgePolicy,
 		feeBase lnwire.MilliSatoshi, feeRate lnwire.MilliSatoshi,
 		timeLockDelta uint16) {
-
 		t.Helper()
 
 		if policy.FeeBaseMSat != feeBase {

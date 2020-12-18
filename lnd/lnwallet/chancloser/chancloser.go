@@ -171,7 +171,6 @@ type ChanCloser struct {
 func NewChanCloser(cfg ChanCloseCfg, deliveryScript []byte,
 	idealFeePerKw chainfee.SatPerKWeight, negotiationHeight uint32,
 	closeReq *htlcswitch.ChanClose, locallyInitiated bool) *ChanCloser {
-
 	// Given the target fee-per-kw, we'll compute what our ideal _total_ fee
 	// will be starting at for this fee negotiation.
 	//
@@ -316,7 +315,6 @@ func (c *ChanCloser) NegotiationHeight() uint32 {
 // match, we use the disconnect function provided to disconnect from the peer.
 func maybeMatchScript(disconnect func() er.R, upfrontScript,
 	peerScript lnwire.DeliveryAddress) er.R {
-
 	// If no upfront shutdown script was set, return early because we do not
 	// need to enforce closure to a specific script.
 	if len(upfrontScript) == 0 {
@@ -348,7 +346,6 @@ func maybeMatchScript(disconnect func() er.R, upfrontScript,
 // means the ChanCloser can be garbage collected.
 func (c *ChanCloser) ProcessCloseMsg(msg lnwire.Message) ([]lnwire.Message,
 	bool, er.R) {
-
 	switch c.state {
 
 	// If we're in the close idle state, and we're receiving a channel closure
@@ -668,7 +665,6 @@ func ratchetFee(fee btcutil.Amount, up bool) btcutil.Amount {
 // we last proposed (if any), and the fee proposed by the peer.
 func calcCompromiseFee(chanPoint wire.OutPoint, ourIdealFee, lastSentFee,
 	remoteFee btcutil.Amount) btcutil.Amount {
-
 	// TODO(roasbeef): take in number of rounds as well?
 
 	log.Infof("ChannelPoint(%v): computing fee compromise, ideal="+
@@ -730,7 +726,6 @@ func calcCompromiseFee(chanPoint wire.OutPoint, ourIdealFee, lastSentFee,
 // address, it returns a script that pays out to the address.
 func ParseUpfrontShutdownAddress(address string,
 	params *chaincfg.Params) (lnwire.DeliveryAddress, er.R) {
-
 	if len(address) == 0 {
 		return nil, nil
 	}

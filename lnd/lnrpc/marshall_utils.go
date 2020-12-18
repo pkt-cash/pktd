@@ -25,7 +25,6 @@ var (
 // the amount of the payment.
 func CalculateFeeLimit(feeLimit *FeeLimit,
 	amount lnwire.MilliSatoshi) lnwire.MilliSatoshi {
-
 	switch feeLimit.GetLimit().(type) {
 
 	case *FeeLimit_Fixed:
@@ -83,7 +82,6 @@ func ParseConfs(min, max int32) (int32, int32, er.R) {
 // MarshalUtxos translates a []*lnwallet.Utxo into a []*lnrpc.Utxo.
 func MarshalUtxos(utxos []*lnwallet.Utxo, activeNetParams *chaincfg.Params) (
 	[]*Utxo, er.R) {
-
 	res := make([]*Utxo, 0, len(utxos))
 	for _, utxo := range utxos {
 		// Translate lnwallet address type to the proper gRPC proto

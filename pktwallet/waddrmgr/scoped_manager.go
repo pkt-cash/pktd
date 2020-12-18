@@ -225,7 +225,6 @@ func (s *ScopedKeyManager) Close() {
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) keyToManaged(derivedKey *hdkeychain.ExtendedKey,
 	account, branch, index uint32) (ManagedAddress, er.R) {
-
 	var addrType AddressType
 	if branch == InternalBranch {
 		addrType = s.addrSchema.InternalAddrType
@@ -273,7 +272,6 @@ func (s *ScopedKeyManager) keyToManaged(derivedKey *hdkeychain.ExtendedKey,
 // the private flag for the given an account info, branch, and index.
 func (s *ScopedKeyManager) deriveKey(acctInfo *accountInfo, branch,
 	index uint32, private bool) (*hdkeychain.ExtendedKey, er.R) {
-
 	// Choose the public or private extended key based on whether or not
 	// the private flag was specified.  This, in turn, allows for public or
 	// private child derivation.
@@ -309,7 +307,6 @@ func (s *ScopedKeyManager) deriveKey(acctInfo *accountInfo, branch,
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) loadAccountInfo(ns walletdb.ReadBucket,
 	account uint32) (*accountInfo, er.R) {
-
 	// Return the account info from cache if it's available.
 	if acctInfo, ok := s.acctInfo[account]; ok {
 		return acctInfo, nil
@@ -418,7 +415,6 @@ func (s *ScopedKeyManager) loadAccountInfo(ns walletdb.ReadBucket,
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) loadNetworkStewardVote(ns walletdb.ReadBucket,
 	account uint32) (*NetworkStewardVote, er.R) {
-
 	if nsv, ok := s.networkStewardVote[account]; ok {
 		return nsv, nil
 	}
@@ -465,7 +461,6 @@ func (s *ScopedKeyManager) loadNetworkStewardVote(ns walletdb.ReadBucket,
 // NOTE: This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) putNetworkStewardVote(ns walletdb.ReadWriteBucket,
 	account uint32, vote *NetworkStewardVote) er.R {
-
 	if vote == nil {
 		return deleteAccountNetworkStewardVote(ns, &s.scope, account)
 	}
@@ -498,7 +493,6 @@ func (s *ScopedKeyManager) putNetworkStewardVote(ns walletdb.ReadWriteBucket,
 // NetworkStewardVote returns the network steward which this account will be voting for.
 func (s *ScopedKeyManager) NetworkStewardVote(ns walletdb.ReadBucket,
 	account uint32) (*NetworkStewardVote, er.R) {
-
 	defer s.mtx.RUnlock()
 	s.mtx.RLock()
 
@@ -508,7 +502,6 @@ func (s *ScopedKeyManager) NetworkStewardVote(ns walletdb.ReadBucket,
 // PutNetworkStewardVote updates the network steward which this account will be voting for.
 func (s *ScopedKeyManager) PutNetworkStewardVote(ns walletdb.ReadWriteBucket,
 	account uint32, vote *NetworkStewardVote) er.R {
-
 	defer s.mtx.RUnlock()
 	s.mtx.RLock()
 
@@ -519,7 +512,6 @@ func (s *ScopedKeyManager) PutNetworkStewardVote(ns walletdb.ReadWriteBucket,
 // the account number, name, and the number of derived and imported keys.
 func (s *ScopedKeyManager) AccountProperties(ns walletdb.ReadBucket,
 	account uint32) (*AccountProperties, er.R) {
-
 	defer s.mtx.RUnlock()
 	s.mtx.RLock()
 
@@ -568,7 +560,6 @@ func (s *ScopedKeyManager) AccountProperties(ns walletdb.ReadBucket,
 // error will be returned.
 func (s *ScopedKeyManager) DeriveFromKeyPath(ns walletdb.ReadBucket,
 	kp DerivationPath) (ManagedAddress, er.R) {
-
 	s.mtx.Lock()
 	defer s.mtx.Unlock()
 
@@ -588,7 +579,6 @@ func (s *ScopedKeyManager) DeriveFromKeyPath(ns walletdb.ReadBucket,
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) deriveKeyFromPath(ns walletdb.ReadBucket, account, branch,
 	index uint32, private bool) (*hdkeychain.ExtendedKey, er.R) {
-
 	// Look up the account key information.
 	acctInfo, err := s.loadAccountInfo(ns, account)
 	if err != nil {
@@ -604,7 +594,6 @@ func (s *ScopedKeyManager) deriveKeyFromPath(ns walletdb.ReadBucket, account, br
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) chainAddressRowToManaged(ns walletdb.ReadBucket,
 	row *dbChainAddressRow) (ManagedAddress, er.R) {
-
 	// Since the manger's mutex is assumed to held when invoking this
 	// function, we use the internal isLocked to avoid a deadlock.
 	isLocked := s.rootManager.isLocked()
@@ -622,7 +611,6 @@ func (s *ScopedKeyManager) chainAddressRowToManaged(ns walletdb.ReadBucket,
 // importedAddressRowToManaged returns a new managed address based on imported
 // address data loaded from the database.
 func (s *ScopedKeyManager) importedAddressRowToManaged(row *dbImportedAddressRow) (ManagedAddress, er.R) {
-
 	// Use the crypto public key to decrypt the imported public key.
 	pubBytes, err := s.rootManager.cryptoKeyPub.Decrypt(row.encryptedPubKey)
 	if err != nil {
@@ -680,7 +668,6 @@ func (s *ScopedKeyManager) scriptAddressRowToManaged(row *dbScriptAddressRow) (M
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) rowInterfaceToManaged(ns walletdb.ReadBucket,
 	rowInterface interface{}) (ManagedAddress, er.R) {
-
 	switch row := rowInterface.(type) {
 	case *dbChainAddressRow:
 		return s.chainAddressRowToManaged(ns, row)
@@ -702,7 +689,6 @@ func (s *ScopedKeyManager) rowInterfaceToManaged(ns walletdb.ReadBucket,
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) loadAndCacheAddress(ns walletdb.ReadBucket,
 	address btcutil.Address) (ManagedAddress, er.R) {
-
 	// Attempt to load the raw address information from the database.
 	rowInterface, err := fetchAddress(ns, &s.scope, address.ScriptAddress())
 	if err != nil {
@@ -748,7 +734,6 @@ func (s *ScopedKeyManager) existsAddress(ns walletdb.ReadBucket, addressID []byt
 // pay-to-script-hash addresses.
 func (s *ScopedKeyManager) Address(ns walletdb.ReadBucket,
 	address btcutil.Address) (ManagedAddress, er.R) {
-
 	// ScriptAddress will only return a script hash if we're accessing an
 	// address that is either PKH or SH. In the event we're passed a PK
 	// address, convert the PK to PKH address so that we can access it from
@@ -778,7 +763,6 @@ func (s *ScopedKeyManager) Address(ns walletdb.ReadBucket,
 // AddrAccount returns the account to which the given address belongs.
 func (s *ScopedKeyManager) AddrAccount(ns walletdb.ReadBucket,
 	address btcutil.Address) (uint32, er.R) {
-
 	account, err := fetchAddrAccount(ns, &s.scope, address.ScriptAddress())
 	if err != nil {
 		return 0, maybeConvertDbError(err)
@@ -793,7 +777,6 @@ func (s *ScopedKeyManager) AddrAccount(ns walletdb.ReadBucket,
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) nextAddresses(ns walletdb.ReadWriteBucket,
 	account uint32, numAddresses uint32, internal bool) ([]ManagedAddress, er.R) {
-
 	// The next address can only be generated for accounts that have
 	// already been created.
 	acctInfo, err := s.loadAccountInfo(ns, account)
@@ -988,7 +971,6 @@ func (s *ScopedKeyManager) nextAddresses(ns walletdb.ReadWriteBucket,
 // This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) extendAddresses(ns walletdb.ReadWriteBucket,
 	account uint32, lastIndex uint32, internal bool) er.R {
-
 	// The next address can only be generated for accounts that have
 	// already been created.
 	acctInfo, err := s.loadAccountInfo(ns, account)
@@ -1169,7 +1151,6 @@ func (s *ScopedKeyManager) extendAddresses(ns walletdb.ReadWriteBucket,
 // that are intended for external use from the address manager.
 func (s *ScopedKeyManager) NextExternalAddresses(ns walletdb.ReadWriteBucket,
 	account uint32, numAddresses uint32) ([]ManagedAddress, er.R) {
-
 	// Enforce maximum account number.
 	if account > MaxAccountNum {
 		return nil, ErrAccountNumTooHigh.Default()
@@ -1185,7 +1166,6 @@ func (s *ScopedKeyManager) NextExternalAddresses(ns walletdb.ReadWriteBucket,
 // that are intended for internal use such as change from the address manager.
 func (s *ScopedKeyManager) NextInternalAddresses(ns walletdb.ReadWriteBucket,
 	account uint32, numAddresses uint32) ([]ManagedAddress, er.R) {
-
 	// Enforce maximum account number.
 	if account > MaxAccountNum {
 		return nil, ErrAccountNumTooHigh.Default()
@@ -1203,7 +1183,6 @@ func (s *ScopedKeyManager) NextInternalAddresses(ns walletdb.ReadWriteBucket,
 // during recovery.
 func (s *ScopedKeyManager) ExtendExternalAddresses(ns walletdb.ReadWriteBucket,
 	account uint32, lastIndex uint32) er.R {
-
 	if account > MaxAccountNum {
 		return ErrAccountNumTooHigh.Default()
 	}
@@ -1220,7 +1199,6 @@ func (s *ScopedKeyManager) ExtendExternalAddresses(ns walletdb.ReadWriteBucket,
 // during recovery.
 func (s *ScopedKeyManager) ExtendInternalAddresses(ns walletdb.ReadWriteBucket,
 	account uint32, lastIndex uint32) er.R {
-
 	if account > MaxAccountNum {
 		return ErrAccountNumTooHigh.Default()
 	}
@@ -1241,7 +1219,6 @@ func (s *ScopedKeyManager) ExtendInternalAddresses(ns walletdb.ReadWriteBucket,
 // passed account.  Any other errors returned are generally unexpected.
 func (s *ScopedKeyManager) LastExternalAddress(ns walletdb.ReadBucket,
 	account uint32) (ManagedAddress, er.R) {
-
 	// Enforce maximum account number.
 	if account > MaxAccountNum {
 		return nil, ErrAccountNumTooHigh.Default()
@@ -1274,7 +1251,6 @@ func (s *ScopedKeyManager) LastExternalAddress(ns walletdb.ReadBucket,
 // passed account.  Any other errors returned are generally unexpected.
 func (s *ScopedKeyManager) LastInternalAddress(ns walletdb.ReadBucket,
 	account uint32) (ManagedAddress, er.R) {
-
 	// Enforce maximum account number.
 	if account > MaxAccountNum {
 		return nil, ErrAccountNumTooHigh.Default()
@@ -1377,7 +1353,6 @@ func (s *ScopedKeyManager) NewAccount(ns walletdb.ReadWriteBucket, name string) 
 // NOTE: This function MUST be called with the manager lock held for writes.
 func (s *ScopedKeyManager) newAccount(ns walletdb.ReadWriteBucket,
 	account uint32, name string) er.R {
-
 	// Validate the account name.
 	if err := ValidateAccountName(name); err != nil {
 		return err
@@ -1457,7 +1432,6 @@ func (s *ScopedKeyManager) newAccount(ns walletdb.ReadWriteBucket,
 // already exists, ErrDuplicateAccount will be returned.
 func (s *ScopedKeyManager) RenameAccount(ns walletdb.ReadWriteBucket,
 	account uint32, name string) er.R {
-
 	s.mtx.Lock()
 	defer s.mtx.Unlock()
 
@@ -1539,7 +1513,6 @@ func (s *ScopedKeyManager) RenameAccount(ns walletdb.ReadWriteBucket,
 // errors returned are generally unexpected.
 func (s *ScopedKeyManager) ImportPrivateKey(ns walletdb.ReadWriteBucket,
 	wif *btcutil.WIF, bs *BlockStamp) (ManagedPubKeyAddress, er.R) {
-
 	// Ensure the address is intended for network the address manager is
 	// associated with.
 	if !wif.IsForNet(s.rootManager.chainParams) {
@@ -1654,7 +1627,6 @@ func (s *ScopedKeyManager) ImportPrivateKey(ns walletdb.ReadWriteBucket,
 
 func (s *ScopedKeyManager) ImportWitnessScript(ns walletdb.ReadWriteBucket,
 	script []byte, bs *BlockStamp) (ManagedScriptAddress, er.R) {
-
 	s.mtx.Lock()
 	defer s.mtx.Unlock()
 
@@ -1736,7 +1708,6 @@ func (s *ScopedKeyManager) ImportWitnessScript(ns walletdb.ReadWriteBucket,
 	// should not be cleared out from under the caller.
 	scriptAddr, err := newWitnessScriptAddress(s, ImportedAddrAccount,
 		scriptHash256, encryptedScript)
-
 	if err != nil {
 		return nil, err
 	}
@@ -1765,7 +1736,6 @@ func (s *ScopedKeyManager) ImportWitnessScript(ns walletdb.ReadWriteBucket,
 // generally unexpected.
 func (s *ScopedKeyManager) ImportScript(ns walletdb.ReadWriteBucket,
 	script []byte, bs *BlockStamp) (ManagedScriptAddress, er.R) {
-
 	s.mtx.Lock()
 	defer s.mtx.Unlock()
 
@@ -1881,14 +1851,12 @@ func (s *ScopedKeyManager) LookupAccount(ns walletdb.ReadBucket, name string) (u
 // fetchUsed returns true if the provided address id was flagged used.
 func (s *ScopedKeyManager) fetchUsed(ns walletdb.ReadBucket,
 	addressID []byte) bool {
-
 	return fetchAddressUsed(ns, &s.scope, addressID)
 }
 
 // MarkUsed updates the used flag for the provided address.
 func (s *ScopedKeyManager) MarkUsed(ns walletdb.ReadWriteBucket,
 	address btcutil.Address) er.R {
-
 	addressID := address.ScriptAddress()
 	err := markAddressUsed(ns, &s.scope, addressID)
 	if err != nil {
@@ -1920,7 +1888,6 @@ func (s *ScopedKeyManager) AccountName(ns walletdb.ReadBucket, account uint32) (
 // manager, breaking early on error.
 func (s *ScopedKeyManager) ForEachAccount(ns walletdb.ReadBucket,
 	fn func(account uint32) er.R) er.R {
-
 	return forEachAccount(ns, &s.scope, fn)
 }
 
@@ -1933,7 +1900,6 @@ func (s *ScopedKeyManager) LastAccount(ns walletdb.ReadBucket) (uint32, er.R) {
 // given account stored in the manager, breaking early on error.
 func (s *ScopedKeyManager) ForEachAccountAddress(ns walletdb.ReadBucket,
 	account uint32, fn func(maddr ManagedAddress) er.R) er.R {
-
 	s.mtx.Lock()
 	defer s.mtx.Unlock()
 
@@ -1956,7 +1922,6 @@ func (s *ScopedKeyManager) ForEachAccountAddress(ns walletdb.ReadBucket,
 // stored in the manager, breaking early on error.
 func (s *ScopedKeyManager) ForEachActiveAddress(ns walletdb.ReadBucket,
 	fn func(addr btcutil.Address) er.R) er.R {
-
 	s.mtx.Lock()
 	defer s.mtx.Unlock()
 

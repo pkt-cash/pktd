@@ -45,7 +45,6 @@ func newMockPreimageCache() *mockPreimageCache {
 
 func (m *mockPreimageCache) LookupPreimage(
 	hash lntypes.Hash) (lntypes.Preimage, bool) {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -76,7 +75,6 @@ type mockFeeEstimator struct {
 
 func (m *mockFeeEstimator) EstimateFeePerKW(
 	numBlocks uint32) (chainfee.SatPerKWeight, er.R) {
-
 	select {
 	case feeRate := <-m.byteFeeIn:
 		return feeRate, nil
@@ -92,6 +90,7 @@ func (m *mockFeeEstimator) RelayFeePerKW() chainfee.SatPerKWeight {
 func (m *mockFeeEstimator) Start() er.R {
 	return nil
 }
+
 func (m *mockFeeEstimator) Stop() er.R {
 	close(m.quit)
 	return nil
@@ -188,7 +187,6 @@ func initSwitchWithDB(startingHeight uint32, db *channeldb.DB) (*Switch, er.R) {
 
 func newMockServer(t testing.TB, name string, startingHeight uint32,
 	db *channeldb.DB, defaultDelta uint32) (*mockServer, er.R) {
-
 	var id [33]byte
 	h := sha256.Sum256([]byte(name))
 	copy(id[:], h[:])
@@ -291,7 +289,6 @@ func (r *mockHopIterator) ExtraOnionBlob() []byte {
 func (r *mockHopIterator) ExtractErrorEncrypter(
 	extracter hop.ErrorEncrypterExtracter) (hop.ErrorEncrypter,
 	lnwire.FailCode) {
-
 	return extracter(nil)
 }
 
@@ -365,13 +362,11 @@ func (o *mockObfuscator) Decode(r io.Reader) er.R {
 
 func (o *mockObfuscator) Reextract(
 	extracter hop.ErrorEncrypterExtracter) er.R {
-
 	return nil
 }
 
 func (o *mockObfuscator) EncryptFirstHop(failure lnwire.FailureMessage) (
 	lnwire.OpaqueReason, er.R) {
-
 	o.failure = failure
 
 	var b bytes.Buffer
@@ -398,7 +393,6 @@ func newMockDeobfuscator() ErrorDecrypter {
 }
 
 func (o *mockDeobfuscator) DecryptError(reason lnwire.OpaqueReason) (*ForwardingError, er.R) {
-
 	r := bytes.NewReader(reason)
 	failure, err := lnwire.DecodeFailure(r, 0)
 	if err != nil {
@@ -428,7 +422,6 @@ func newMockIteratorDecoder() *mockIteratorDecoder {
 
 func (p *mockIteratorDecoder) DecodeHopIterator(r io.Reader, rHash []byte,
 	cltv uint32) (hop.Iterator, lnwire.FailCode) {
-
 	var b [4]byte
 	_, err := r.Read(b[:])
 	if err != nil {
@@ -460,7 +453,6 @@ func (p *mockIteratorDecoder) DecodeHopIterator(r io.Reader, rHash []byte,
 func (p *mockIteratorDecoder) DecodeHopIterators(id []byte,
 	reqs []hop.DecodeHopIteratorRequest) (
 	[]hop.DecodeHopIteratorResponse, er.R) {
-
 	idHash := sha256.Sum256(id)
 
 	p.mu.RLock()
@@ -529,7 +521,6 @@ func (s *mockServer) intersect(f messageInterceptor) {
 }
 
 func (s *mockServer) SendMessage(sync bool, msgs ...lnwire.Message) er.R {
-
 	for _, msg := range msgs {
 		select {
 		case s.messages <- msg:
@@ -602,7 +593,6 @@ func (s *mockServer) Address() net.Addr {
 
 func (s *mockServer) AddNewChannel(channel *channeldb.OpenChannel,
 	cancel <-chan struct{}) er.R {
-
 	return nil
 }
 
@@ -689,7 +679,6 @@ func (f *mockChannelLink) deleteCircuit(pkt *htlcPacket) er.R {
 func newMockChannelLink(htlcSwitch *Switch, chanID lnwire.ChannelID,
 	shortChanID lnwire.ShortChannelID, peer lnpeer.Peer, eligible bool,
 ) *mockChannelLink {
-
 	return &mockChannelLink{
 		htlcSwitch:  htlcSwitch,
 		chanID:      chanID,
@@ -714,16 +703,15 @@ func (f *mockChannelLink) HandleChannelUpdate(lnwire.Message) {
 
 func (f *mockChannelLink) UpdateForwardingPolicy(_ ForwardingPolicy) {
 }
+
 func (f *mockChannelLink) CheckHtlcForward([32]byte, lnwire.MilliSatoshi,
 	lnwire.MilliSatoshi, uint32, uint32, uint32) *LinkError {
-
 	return f.checkHtlcForwardResult
 }
 
 func (f *mockChannelLink) CheckHtlcTransit(payHash [32]byte,
 	amt lnwire.MilliSatoshi, timeout uint32,
 	heightNow uint32) *LinkError {
-
 	return f.checkHtlcTransitResult
 }
 
@@ -813,7 +801,6 @@ func newMockRegistry(minDelta uint32) *mockInvoiceRegistry {
 
 func (i *mockInvoiceRegistry) LookupInvoice(rHash lntypes.Hash) (
 	channeldb.Invoice, er.R) {
-
 	return i.registry.LookupInvoice(rHash)
 }
 
@@ -825,7 +812,6 @@ func (i *mockInvoiceRegistry) NotifyExitHopHtlc(rhash lntypes.Hash,
 	amt lnwire.MilliSatoshi, expiry uint32, currentHeight int32,
 	circuitKey channeldb.CircuitKey, hodlChan chan<- interface{},
 	payload invoices.Payload) (invoices.HtlcResolution, er.R) {
-
 	event, err := i.registry.NotifyExitHopHtlc(
 		rhash, amt, expiry, currentHeight, circuitKey, hodlChan,
 		payload,
@@ -846,7 +832,6 @@ func (i *mockInvoiceRegistry) CancelInvoice(payHash lntypes.Hash) er.R {
 
 func (i *mockInvoiceRegistry) AddInvoice(invoice channeldb.Invoice,
 	paymentHash lntypes.Hash) er.R {
-
 	_, err := i.registry.AddInvoice(&invoice, paymentHash)
 	return err
 }
@@ -878,7 +863,6 @@ func (m *mockCircuitMap) DeleteCircuits(inKeys ...CircuitKey) er.R {
 
 func (m *mockCircuitMap) CommitCircuits(
 	circuit ...*PaymentCircuit) (*CircuitFwdActions, er.R) {
-
 	return nil, nil
 }
 
@@ -920,7 +904,6 @@ type mockOnionErrorDecryptor struct {
 
 func (m *mockOnionErrorDecryptor) DecryptError(encryptedData []byte) (
 	*sphinx.DecryptedError, er.R) {
-
 	return &sphinx.DecryptedError{
 		SenderIdx: m.sourceIdx,
 		Message:   m.message,

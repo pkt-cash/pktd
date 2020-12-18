@@ -7,12 +7,10 @@ import (
 	"github.com/pkt-cash/pktd/lnd/lnwire"
 )
 
-var (
-	// errChannelRejected is returned when the rpc channel acceptor rejects
-	// a channel due to acceptor timeout, shutdown, or because no custom
-	// error value is available when the channel was rejected.
-	errChannelRejected = er.GenericErrorType.CodeWithDetail("errChannelRejected", "channel rejected")
-)
+// errChannelRejected is returned when the rpc channel acceptor rejects
+// a channel due to acceptor timeout, shutdown, or because no custom
+// error value is available when the channel was rejected.
+var errChannelRejected = er.GenericErrorType.CodeWithDetail("errChannelRejected", "channel rejected")
 
 // ChannelAcceptRequest is a struct containing the requesting node's public key
 // along with the lnwire.OpenChannel message that they sent when requesting an
@@ -72,7 +70,6 @@ func NewChannelAcceptResponse(accept bool, acceptErr er.R,
 	upfrontShutdown lnwire.DeliveryAddress, csvDelay, htlcLimit,
 	minDepth uint16, reserve btcutil.Amount, inFlight,
 	minHtlcIn lnwire.MilliSatoshi) *ChannelAcceptResponse {
-
 	resp := &ChannelAcceptResponse{
 		UpfrontShutdown: upfrontShutdown,
 		CSVDelay:        csvDelay,

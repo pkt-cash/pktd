@@ -64,7 +64,6 @@ var (
 
 func assertCipherSeedEqual(t *testing.T, cipherSeed *CipherSeed,
 	cipherSeed2 *CipherSeed) {
-
 	if cipherSeed.InternalVersion != cipherSeed2.InternalVersion {
 		t.Fatalf("mismatched versions: expected %v, got %v",
 			cipherSeed.InternalVersion, cipherSeed2.InternalVersion)
@@ -409,7 +408,6 @@ func TestEncipherDecipher(t *testing.T) {
 	// recover the original cipherseed.
 	mainScenario := func(version uint8, entropy [EntropySize]byte,
 		nowInt int64, pass [20]byte) bool {
-
 		now := time.Unix(nowInt, 0)
 
 		cipherSeed, err := New(version, &entropy, now)
@@ -462,7 +460,6 @@ func TestSeedEncodeDecode(t *testing.T) {
 	// it precisely.
 	mainScenario := func(version uint8, nowInt int64,
 		entropy [EntropySize]byte) bool {
-
 		now := time.Unix(nowInt, 0)
 		seed := CipherSeed{
 			InternalVersion: version,

@@ -75,7 +75,6 @@ type ChangeSource func() ([]byte, er.R)
 // TODO(cjd): Fee estimation will be off when redeeming segwit multisigs, we need the redeem script...
 func NewUnsignedTransaction(outputs []*wire.TxOut, relayFeePerKb btcutil.Amount,
 	fetchInputs InputSource, fetchChange ChangeSource, partialOk bool) (*AuthoredTx, er.R) {
-
 	targetAmount := h.SumOutputValues(outputs)
 	estimatedSize := txsizes.EstimateVirtualSize(0, 1, 0, outputs, true)
 	targetFee := txrules.FeeForSerializeSize(relayFeePerKb, estimatedSize)
@@ -211,7 +210,6 @@ type SecretsSource interface {
 // inputs.  Private keys and redeem scripts are looked up using a SecretsSource
 // based on the previous output script.
 func AddAllInputScripts(tx *wire.MsgTx, secrets SecretsSource) er.R {
-
 	hashCache := txscript.NewTxSigHashes(tx)
 	chainParams := secrets.ChainParams()
 
@@ -286,7 +284,6 @@ func spendWitnessKeyHash(txIn *wire.TxIn, pkScript []byte,
 	inputValueP *int64, chainParams *chaincfg.Params, secrets txscript.KeyDB,
 	tx *wire.MsgTx, hashCache *txscript.TxSigHashes, idx int,
 	hashType params.SigHashType) er.R {
-
 	if inputValueP == nil {
 		return er.New("Unable to sign transaction because input amount is unknown")
 	}
@@ -346,7 +343,6 @@ func spendNestedWitnessPubKeyHash(txIn *wire.TxIn, pkScript []byte,
 	inputValueP *int64, chainParams *chaincfg.Params, secrets txscript.KeyDB,
 	tx *wire.MsgTx, hashCache *txscript.TxSigHashes, idx int,
 	hashType params.SigHashType) er.R {
-
 	if inputValueP == nil {
 		return er.New("Unable to sign transaction because input amount is unknown")
 	}

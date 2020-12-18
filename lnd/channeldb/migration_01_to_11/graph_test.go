@@ -13,8 +13,10 @@ import (
 )
 
 var (
-	testAddr = &net.TCPAddr{IP: (net.IP)([]byte{0xA, 0x0, 0x0, 0x1}),
-		Port: 9000}
+	testAddr = &net.TCPAddr{
+		IP:   (net.IP)([]byte{0xA, 0x0, 0x0, 0x1}),
+		Port: 9000,
+	}
 	anotherAddr, _ = net.ResolveTCPAddr("tcp",
 		"[2001:db8:85a3:0:0:8a2e:370:7334]:80")
 	testAddrs = []net.Addr{testAddr, anotherAddr}

@@ -300,7 +300,6 @@ type handshakeState struct {
 func newHandshakeState(initiator bool, prologue []byte,
 	localKey keychain.SingleKeyECDH,
 	remotePub *btcec.PublicKey) handshakeState {
-
 	h := handshakeState{
 		initiator:    initiator,
 		localStatic:  localKey,
@@ -394,7 +393,6 @@ type Machine struct {
 // initialization.
 func NewBrontideMachine(initiator bool, localKey keychain.SingleKeyECDH,
 	remotePub *btcec.PublicKey, options ...func(*Machine)) *Machine {
-
 	handshake := newHandshakeState(
 		initiator, lightningPrologue, localKey, remotePub,
 	)

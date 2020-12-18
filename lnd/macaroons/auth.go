@@ -24,7 +24,6 @@ func (m MacaroonCredential) RequireTransportSecurity() bool {
 // of the ultimate gRPC server implementation.
 func (m MacaroonCredential) GetRequestMetadata(ctx context.Context,
 	uri ...string) (map[string]string, error) {
-
 	macBytes, err := m.MarshalBinary()
 	if err != nil {
 		return nil, err

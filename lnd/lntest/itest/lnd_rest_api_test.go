@@ -422,7 +422,6 @@ func invokeGET(node *lntest.HarnessNode, url string, resp proto.Message) er.R {
 // the given response proto message.
 func invokePOST(node *lntest.HarnessNode, url string, req,
 	resp proto.Message) er.R {
-
 	// Marshal the request to JSON using the jsonpb marshaler to get correct
 	// field names.
 	var buf bytes.Buffer
@@ -443,7 +442,6 @@ func invokePOST(node *lntest.HarnessNode, url string, req,
 func makeRequest(node *lntest.HarnessNode, url, method string,
 	request io.Reader, additionalHeaders http.Header) (http.Header, []byte,
 	er.R) {
-
 	// Assemble the full URL from the node's listening address then create
 	// the request so we can set the macaroon on it.
 	fullURL := fmt.Sprintf("https://%s%s", node.Cfg.RESTAddr(), url)
@@ -475,7 +473,6 @@ func makeRequest(node *lntest.HarnessNode, url, method string,
 // appropriate macaroon headers and sends the request message over the socket.
 func openWebSocket(node *lntest.HarnessNode, url, method string,
 	req proto.Message, customHeader http.Header) (*websocket.Conn, er.R) {
-
 	// Prepare our macaroon headers and assemble the full URL from the
 	// node's listening address. WebSockets always work over GET so we need
 	// to append the target request method as a query parameter.

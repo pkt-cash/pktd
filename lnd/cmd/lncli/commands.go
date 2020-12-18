@@ -429,7 +429,7 @@ func listUnspent(ctx *cli.Context) er.R {
 	// Parse the response into the final json object that will be printed
 	// to stdout. At the moment, this filters out the raw txid bytes from
 	// each utxo's outpoint and only prints the txid string.
-	var listUnspentResp = struct {
+	listUnspentResp := struct {
 		Utxos []*Utxo `json:"utxos"`
 	}{
 		Utxos: make([]*Utxo, 0, len(resp.Utxos)),
@@ -750,7 +750,6 @@ func closeChannel(ctx *cli.Context) er.R {
 // closing transaction receives all of its required confirmations.
 func executeChannelClose(client lnrpc.LightningClient, req *lnrpc.CloseChannelRequest,
 	txidChan chan<- string, block bool) er.R {
-
 	stream, err := client.CloseChannel(context.Background(), req)
 	if err != nil {
 		return er.E(err)
@@ -2465,7 +2464,7 @@ func exportChanBackup(ctx *cli.Context) er.R {
 		return er.E(ioutil.WriteFile(
 			ctx.String("output_file"),
 			chanBackup.MultiChanBackup.MultiChanBackup,
-			0666,
+			0o666,
 		))
 	}
 

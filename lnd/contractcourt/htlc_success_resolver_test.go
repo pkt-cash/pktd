@@ -46,7 +46,6 @@ func newHtlcSuccessResolverTextContext(t *testing.T) *htlcSuccessResolverTestCon
 		},
 		PutResolverReport: func(_ kvdb.RwTx,
 			report *channeldb.ResolverReport) er.R {
-
 			return nil
 		},
 	}
@@ -55,7 +54,6 @@ func newHtlcSuccessResolverTextContext(t *testing.T) *htlcSuccessResolverTestCon
 		ChannelArbitratorConfig: chainCfg,
 		Checkpoint: func(_ ContractResolver,
 			_ ...*channeldb.ResolverReport) er.R {
-
 			checkPointChan <- struct{}{}
 			return nil
 		},
@@ -200,7 +198,6 @@ func TestSecondStageResolution(t *testing.T) {
 func testHtlcSuccess(t *testing.T, resolution lnwallet.IncomingHtlcResolution,
 	resolve func(*htlcSuccessResolverTestContext),
 	sweepTx *wire.MsgTx, reports ...*channeldb.ResolverReport) {
-
 	defer timeout(t)()
 
 	ctx := newHtlcSuccessResolverTextContext(t)
@@ -211,7 +208,6 @@ func testHtlcSuccess(t *testing.T, resolution lnwallet.IncomingHtlcResolution,
 	reportChan := make(chan *channeldb.ResolverReport)
 	ctx.resolver.Checkpoint = func(_ ContractResolver,
 		reports ...*channeldb.ResolverReport) er.R {
-
 		// Send all of our reports into the channel.
 		for _, report := range reports {
 			reportChan <- report

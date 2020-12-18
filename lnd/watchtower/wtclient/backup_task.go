@@ -56,7 +56,6 @@ type backupTask struct {
 func newBackupTask(chanID *lnwire.ChannelID,
 	breachInfo *lnwallet.BreachRetribution,
 	sweepPkScript []byte, isTweakless bool) *backupTask {
-
 	// Parse the non-dust outputs from the breach transaction,
 	// simultaneously computing the total amount contained in the inputs
 	// present. We can't compute the exact output values at this time
@@ -188,7 +187,6 @@ func (t *backupTask) bindSession(session *wtdb.ClientSessionBody) er.R {
 // a JusticeKit and encrypted using the breach transaction's key.
 func (t *backupTask) craftSessionPayload(
 	signer input.Signer) (blob.BreachHint, []byte, er.R) {
-
 	var hint blob.BreachHint
 
 	// First, copy over the sweep pkscript, the pubkeys used to derive the

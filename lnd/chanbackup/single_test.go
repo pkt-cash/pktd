@@ -425,7 +425,7 @@ func TestSinglePackStaticChanBackups(t *testing.T) {
 func TestSingleUnconfirmedChannel(t *testing.T) {
 	t.Parallel()
 
-	var fundingBroadcastHeight = uint32(1234)
+	fundingBroadcastHeight := uint32(1234)
 
 	// Let's create an open channel shell that contains all the information
 	// we need to create a static channel backup but simulate an

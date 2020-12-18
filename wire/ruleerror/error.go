@@ -331,9 +331,7 @@ var (
 		int(wire.RejectCheckpoint))
 )
 
-var (
-	ErrUnknown = Err.CodeWithDetail("ErrUnknown", "Rejected with unexpected code")
-)
+var ErrUnknown = Err.CodeWithDetail("ErrUnknown", "Rejected with unexpected code")
 
 func IsTxRuleErrorCode(ec *er.ErrorCode) bool {
 	switch ec {

@@ -266,7 +266,6 @@ func testPsbtChanFunding(net *lntest.NetworkHarness, t *harnessTest) {
 func openChannelPsbt(ctx context.Context, srcNode, destNode *lntest.HarnessNode,
 	p lntest.OpenChannelParams) (lnrpc.Lightning_OpenChannelClient, []byte,
 	er.R) {
-
 	// Wait until srcNode and destNode have the latest chain synced.
 	// Otherwise, we may run into a check within the funding manager that
 	// prevents any funding workflows from being kicked off if the chain
@@ -318,7 +317,6 @@ func openChannelPsbt(ctx context.Context, srcNode, destNode *lntest.HarnessNode,
 func receiveChanUpdate(ctx context.Context,
 	stream lnrpc.Lightning_OpenChannelClient) (*lnrpc.OpenStatusUpdate,
 	er.R) {
-
 	chanMsg := make(chan *lnrpc.OpenStatusUpdate)
 	errChan := make(chan er.R)
 	go func() {

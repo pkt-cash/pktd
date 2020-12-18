@@ -145,7 +145,6 @@ func (s *banStore) BanIPNet(ipNet *net.IPNet, reason Reason, duration time.Durat
 // addBannedIPNet adds an entry to the ban store for the given IP network.
 func addBannedIPNet(banIndex, reasonIndex walletdb.ReadWriteBucket,
 	ipNetKey []byte, reason Reason, duration time.Duration) er.R {
-
 	var v [8]byte
 	banExpiration := time.Now().Add(duration)
 	byteOrder.PutUint64(v[:], uint64(banExpiration.Unix()))
@@ -244,7 +243,6 @@ func (s *banStore) ForEachBannedAddr(f func(*net.IPNet, Reason, time.Time) er.R)
 // fetchStatus retrieves the ban status of the given IP network.
 func fetchStatus(banIndex, reasonIndex walletdb.ReadBucket,
 	ipNetKey []byte) Status {
-
 	v := banIndex.Get(ipNetKey)
 	if v == nil {
 		return Status{}
@@ -263,7 +261,6 @@ func fetchStatus(banIndex, reasonIndex walletdb.ReadBucket,
 // ban store.
 func removeBannedIPNet(banIndex, reasonIndex walletdb.ReadWriteBucket,
 	ipNetKey []byte) er.R {
-
 	if err := banIndex.Delete(ipNetKey); err != nil {
 		return err
 	}

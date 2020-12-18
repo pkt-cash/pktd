@@ -24,12 +24,14 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = descriptor.ForMessage
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = descriptor.ForMessage
+)
 
 func request_Watchtower_GetInfo_0(ctx context.Context, marshaler runtime.Marshaler, client WatchtowerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetInfoRequest
@@ -37,7 +39,6 @@ func request_Watchtower_GetInfo_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.GetInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Watchtower_GetInfo_0(ctx context.Context, marshaler runtime.Marshaler, server WatchtowerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -46,14 +47,12 @@ func local_request_Watchtower_GetInfo_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.GetInfo(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 // RegisterWatchtowerHandlerServer registers the http handlers for service Watchtower to "mux".
 // UnaryRPC     :call WatchtowerServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 func RegisterWatchtowerHandlerServer(ctx context.Context, mux *runtime.ServeMux, server WatchtowerServer) error {
-
 	mux.Handle("GET", pattern_Watchtower_GetInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -71,7 +70,6 @@ func RegisterWatchtowerHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		}
 
 		forward_Watchtower_GetInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
@@ -114,7 +112,6 @@ func RegisterWatchtowerHandler(ctx context.Context, mux *runtime.ServeMux, conn 
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "WatchtowerClient" to call the correct interceptors.
 func RegisterWatchtowerHandlerClient(ctx context.Context, mux *runtime.ServeMux, client WatchtowerClient) error {
-
 	mux.Handle("GET", pattern_Watchtower_GetInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -132,16 +129,11 @@ func RegisterWatchtowerHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 		}
 
 		forward_Watchtower_GetInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
 }
 
-var (
-	pattern_Watchtower_GetInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "watchtower", "server"}, "", runtime.AssumeColonVerbOpt(true)))
-)
+var pattern_Watchtower_GetInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v2", "watchtower", "server"}, "", runtime.AssumeColonVerbOpt(true)))
 
-var (
-	forward_Watchtower_GetInfo_0 = runtime.ForwardResponseMessage
-)
+var forward_Watchtower_GetInfo_0 = runtime.ForwardResponseMessage

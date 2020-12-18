@@ -16,8 +16,10 @@ import (
 // which don't make sense having their own error type
 var GenericErrorType = NewErrorType("er.GenericErrorType")
 
-var ErrUnexpectedEOF = GenericErrorType.CodeWithDefault("ErrUnexpectedEOF", io.ErrUnexpectedEOF)
-var EOF = GenericErrorType.CodeWithDefault("EOF", io.EOF)
+var (
+	ErrUnexpectedEOF = GenericErrorType.CodeWithDefault("ErrUnexpectedEOF", io.ErrUnexpectedEOF)
+	EOF              = GenericErrorType.CodeWithDefault("EOF", io.EOF)
+)
 
 // ErrorCode is a code for identifying a particular type of fault.
 // Error codes can have a numeric code identifier or they can not.
@@ -243,6 +245,7 @@ type R interface {
 	Native() error
 	AddMessage(m string)
 }
+
 type err struct {
 	messages []string
 	e        error
@@ -262,9 +265,11 @@ func (e err) HasStack() bool {
 	return e.bstack != nil
 }
 
-var argumentsRegex = regexp.MustCompile(`\([0-9a-fx, \.]*\)$`)
-var prefixRegex = regexp.MustCompile(`^.*/pkt-cash/pktd/`)
-var goFileRegex = regexp.MustCompile(`\.go:[0-9]+ `)
+var (
+	argumentsRegex = regexp.MustCompile(`\([0-9a-fx, \.]*\)$`)
+	prefixRegex    = regexp.MustCompile(`^.*/pkt-cash/pktd/`)
+	goFileRegex    = regexp.MustCompile(`\.go:[0-9]+ `)
+)
 
 func (e err) Stack() []string {
 	if e.stack == nil {
@@ -431,6 +436,7 @@ func equals(e, r R, fuzzy bool) bool {
 func Equals(e, r R) bool {
 	return equals(e, r, false)
 }
+
 func FuzzyEquals(e, r R) bool {
 	return equals(e, r, true)
 }

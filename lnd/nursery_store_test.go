@@ -44,7 +44,6 @@ func initIncubateTests() {
 			htlcOutputs: babyOutputs,
 		},
 	}
-
 }
 
 // TestNurseryStoreInit verifies basic properties of the nursery store before
@@ -366,7 +365,6 @@ func TestNurseryStoreGraduate(t *testing.T) {
 // of outputs.
 func assertNumChanOutputs(t *testing.T, ns NurseryStore,
 	chanPoint *wire.OutPoint, expectedNum int) {
-
 	var count int
 	err := ns.ForChanOutputs(chanPoint, func([]byte, []byte) er.R {
 		count++
@@ -421,7 +419,6 @@ func assertNumChannels(t *testing.T, ns NurseryStore, expected int) {
 // htlc outputs at a particular height are all nil.
 func assertHeightIsPurged(t *testing.T, ns NurseryStore,
 	height uint32) {
-
 	kndrOutputs, cribOutputs, err := ns.FetchClass(height)
 	if err != nil {
 		t.Fatalf("unable to retrieve class at height=%d: %v",
@@ -441,7 +438,6 @@ func assertHeightIsPurged(t *testing.T, ns NurseryStore,
 // that the given htlc output is one of the crib outputs.
 func assertCribAtExpiryHeight(t *testing.T, ns NurseryStore,
 	htlcOutput *babyOutput) {
-
 	expiryHeight := htlcOutput.expiry
 	_, cribOutputs, err := ns.FetchClass(expiryHeight)
 	if err != nil {
@@ -463,7 +459,6 @@ func assertCribAtExpiryHeight(t *testing.T, ns NurseryStore,
 // that the given htlc output is not one of the crib outputs.
 func assertCribNotAtExpiryHeight(t *testing.T, ns NurseryStore,
 	htlcOutput *babyOutput) {
-
 	expiryHeight := htlcOutput.expiry
 	_, cribOutputs, err := ns.FetchClass(expiryHeight)
 	if err != nil {
@@ -484,7 +479,6 @@ func assertCribNotAtExpiryHeight(t *testing.T, ns NurseryStore,
 // returned.
 func assertKndrAtMaturityHeight(t *testing.T, ns NurseryStore,
 	kndrOutput *kidOutput) {
-
 	maturityHeight := kndrOutput.ConfHeight() +
 		kndrOutput.BlocksToMaturity()
 	kndrOutputs, _, err := ns.FetchClass(maturityHeight)
@@ -508,7 +502,6 @@ func assertKndrAtMaturityHeight(t *testing.T, ns NurseryStore,
 // returned.
 func assertKndrNotAtMaturityHeight(t *testing.T, ns NurseryStore,
 	kndrOutput *kidOutput) {
-
 	maturityHeight := kndrOutput.ConfHeight() +
 		kndrOutput.BlocksToMaturity()
 
@@ -530,7 +523,6 @@ func assertKndrNotAtMaturityHeight(t *testing.T, ns NurseryStore,
 // channel, failing if the result does not match the expectedMaturity.
 func assertChannelMaturity(t *testing.T, ns NurseryStore,
 	chanPoint *wire.OutPoint, expectedMaturity bool) {
-
 	isMature, err := ns.IsMatureChannel(chanPoint)
 	if err != nil {
 		t.Fatalf("unable to fetch channel maturity: %v", err)
@@ -546,7 +538,6 @@ func assertChannelMaturity(t *testing.T, ns NurseryStore,
 // failing if the result does match expected canRemove.
 func assertCanRemoveChannel(t *testing.T, ns NurseryStore,
 	chanPoint *wire.OutPoint, canRemove bool) {
-
 	err := ns.RemoveChannel(chanPoint)
 	if canRemove && err != nil {
 		t.Fatalf("expected nil when removing active channel, got: %v",

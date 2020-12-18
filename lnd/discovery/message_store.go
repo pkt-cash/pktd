@@ -136,7 +136,6 @@ func (s *MessageStore) AddMessage(msg lnwire.Message, peerPubKey [33]byte) er.R 
 // DeleteMessage deletes a message from the store for this peer.
 func (s *MessageStore) DeleteMessage(msg lnwire.Message,
 	peerPubKey [33]byte) er.R {
-
 	// Construct the key for which we'll find this message with in the
 	// store.
 	msgKey, err := messageStoreKey(msg, peerPubKey)
@@ -237,7 +236,6 @@ func (s *MessageStore) Messages() (map[[33]byte][]lnwire.Message, er.R) {
 // the given peer.
 func (s *MessageStore) MessagesForPeer(
 	peerPubKey [33]byte) ([]lnwire.Message, er.R) {
-
 	var msgs []lnwire.Message
 	err := kvdb.View(s.db, func(tx kvdb.RTx) er.R {
 		messageStore := tx.ReadBucket(messageStoreBucket)

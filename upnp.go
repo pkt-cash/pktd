@@ -392,7 +392,6 @@ func (n *upnpNAT) AddPortMapping(protocol string, externalPort, internalPort int
 // DeletePortMapping implements the NAT interface by removing up a port forwarding
 // from the UPnP router to the local machine with the given ports and.
 func (n *upnpNAT) DeletePortMapping(protocol string, externalPort, internalPort int) (err er.R) {
-
 	message := "<u:DeletePortMapping xmlns:u=\"urn:schemas-upnp-org:service:WANIPConnection:1\">\r\n" +
 		"<NewRemoteHost></NewRemoteHost><NewExternalPort>" + strconv.Itoa(externalPort) +
 		"</NewExternalPort><NewProtocol>" + strings.ToUpper(protocol) + "</NewProtocol>" +

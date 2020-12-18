@@ -140,7 +140,6 @@ type InvoiceRegistry struct {
 // which are volatile yet available system wide within the daemon.
 func NewRegistry(cdb *channeldb.DB, expiryWatcher *InvoiceExpiryWatcher,
 	cfg *RegistryConfig) *InvoiceRegistry {
-
 	return &InvoiceRegistry{
 		cdb:                       cdb,
 		notificationClients:       make(map[uint32]*InvoiceSubscription),
@@ -178,7 +177,6 @@ func (i *InvoiceRegistry) scanInvoicesOnStart() er.R {
 
 	scanFunc := func(
 		paymentHash lntypes.Hash, invoice *channeldb.Invoice) er.R {
-
 		if invoice.IsPending() {
 			expiryRef := makeInvoiceExpiry(paymentHash, invoice)
 			if expiryRef != nil {
@@ -227,7 +225,6 @@ func (i *InvoiceRegistry) Start() er.R {
 	// Start InvoiceExpiryWatcher and prepopulate it with existing active
 	// invoices.
 	err := i.expiryWatcher.Start(i.cancelInvoiceImpl)
-
 	if err != nil {
 		return err
 	}
@@ -512,7 +509,6 @@ func (i *InvoiceRegistry) deliverBacklogEvents(client *InvoiceSubscription) er.R
 // yet.
 func (i *InvoiceRegistry) deliverSingleBacklogEvents(
 	client *SingleInvoiceSubscription) er.R {
-
 	invoice, err := i.cdb.LookupInvoice(client.invoiceRef)
 
 	// It is possible that the invoice does not exist yet, but the client is
@@ -547,7 +543,6 @@ func (i *InvoiceRegistry) deliverSingleBacklogEvents(
 // AddIndex on the invoice argument.
 func (i *InvoiceRegistry) AddInvoice(invoice *channeldb.Invoice,
 	paymentHash lntypes.Hash) (uint64, er.R) {
-
 	i.Lock()
 
 	ref := channeldb.InvoiceRefByHash(paymentHash)
@@ -581,7 +576,6 @@ func (i *InvoiceRegistry) AddInvoice(invoice *channeldb.Invoice,
 // TODO(roasbeef): ignore if settled?
 func (i *InvoiceRegistry) LookupInvoice(rHash lntypes.Hash) (channeldb.Invoice,
 	er.R) {
-
 	// We'll check the database to see if there's an existing matching
 	// invoice.
 	ref := channeldb.InvoiceRefByHash(rHash)
@@ -592,7 +586,6 @@ func (i *InvoiceRegistry) LookupInvoice(rHash lntypes.Hash) (channeldb.Invoice,
 // cancels a single htlc on an invoice when the htlc hold duration has passed.
 func (i *InvoiceRegistry) startHtlcTimer(invoiceRef channeldb.InvoiceRef,
 	key channeldb.CircuitKey, acceptTime time.Time) er.R {
-
 	releaseTime := acceptTime.Add(i.cfg.HtlcHoldDuration)
 	event := &htlcReleaseEvent{
 		invoiceRef:  invoiceRef,
@@ -614,13 +607,11 @@ func (i *InvoiceRegistry) startHtlcTimer(invoiceRef channeldb.InvoiceRef,
 // resolvers of the details of the htlc cancellation.
 func (i *InvoiceRegistry) cancelSingleHtlc(invoiceRef channeldb.InvoiceRef,
 	key channeldb.CircuitKey, result FailResolutionResult) er.R {
-
 	i.Lock()
 	defer i.Unlock()
 
 	updateInvoice := func(invoice *channeldb.Invoice) (
 		*channeldb.InvoiceUpdateDesc, er.R) {
-
 		// Only allow individual htlc cancelation on open invoices.
 		if invoice.State != channeldb.ContractOpen {
 			log.Debugf("cancelSingleHtlc: invoice %v no longer "+
@@ -665,7 +656,6 @@ func (i *InvoiceRegistry) cancelSingleHtlc(invoiceRef channeldb.InvoiceRef,
 	invoice, err := i.cdb.UpdateInvoice(invoiceRef,
 		func(invoice *channeldb.Invoice) (
 			*channeldb.InvoiceUpdateDesc, er.R) {
-
 			updateDesc, err := updateInvoice(invoice)
 			if err != nil {
 				return nil, err
@@ -792,7 +782,6 @@ func (i *InvoiceRegistry) NotifyExitHopHtlc(rHash lntypes.Hash,
 	amtPaid lnwire.MilliSatoshi, expiry uint32, currentHeight int32,
 	circuitKey channeldb.CircuitKey, hodlChan chan<- interface{},
 	payload Payload) (HtlcResolution, er.R) {
-
 	// Create the update context containing the relevant details of the
 	// incoming htlc.
 	ctx := invoiceUpdateCtx{
@@ -862,7 +851,6 @@ func (i *InvoiceRegistry) NotifyExitHopHtlc(rHash lntypes.Hash,
 func (i *InvoiceRegistry) notifyExitHopHtlcLocked(
 	ctx *invoiceUpdateCtx, hodlChan chan<- interface{}) (
 	HtlcResolution, er.R) {
-
 	// We'll attempt to settle an invoice matching this rHash on disk (if
 	// one exists). The callback will update the invoice state and/or htlcs.
 	var (
@@ -873,7 +861,6 @@ func (i *InvoiceRegistry) notifyExitHopHtlcLocked(
 		ctx.invoiceRef(),
 		func(inv *channeldb.Invoice) (
 			*channeldb.InvoiceUpdateDesc, er.R) {
-
 			updateDesc, res, err := updateInvoice(ctx, inv)
 			if err != nil {
 				return nil, err
@@ -1005,7 +992,6 @@ func (i *InvoiceRegistry) SettleHodlInvoice(preimage lntypes.Preimage) er.R {
 
 	updateInvoice := func(invoice *channeldb.Invoice) (
 		*channeldb.InvoiceUpdateDesc, er.R) {
-
 		switch invoice.State {
 		case channeldb.ContractOpen:
 			return nil, channeldb.ErrInvoiceStillOpen.Default()
@@ -1070,7 +1056,6 @@ func (i *InvoiceRegistry) CancelInvoice(payHash lntypes.Hash) er.R {
 // the associated htlcs were canceled if they change state.
 func (i *InvoiceRegistry) cancelInvoiceImpl(payHash lntypes.Hash,
 	cancelAccepted bool) er.R {
-
 	i.Lock()
 	defer i.Unlock()
 
@@ -1079,7 +1064,6 @@ func (i *InvoiceRegistry) cancelInvoiceImpl(payHash lntypes.Hash,
 
 	updateInvoice := func(invoice *channeldb.Invoice) (
 		*channeldb.InvoiceUpdateDesc, er.R) {
-
 		// Only cancel the invoice in ContractAccepted state if explicitly
 		// requested to do so.
 		if invoice.State == channeldb.ContractAccepted && !cancelAccepted {
@@ -1170,7 +1154,6 @@ func (i *InvoiceRegistry) cancelInvoiceImpl(payHash lntypes.Hash,
 func (i *InvoiceRegistry) notifyClients(hash lntypes.Hash,
 	invoice *channeldb.Invoice,
 	state channeldb.ContractState) {
-
 	event := &invoiceEvent{
 		invoice: invoice,
 		hash:    hash,
@@ -1273,7 +1256,6 @@ func (i *invoiceSubscriptionKit) notify(event *invoiceEvent) er.R {
 // this value. Afterwards, we'll send out real-time notifications.
 func (i *InvoiceRegistry) SubscribeNotifications(
 	addIndex, settleIndex uint64) (*InvoiceSubscription, er.R) {
-
 	client := &InvoiceSubscription{
 		NewInvoices:     make(chan *channeldb.Invoice),
 		SettledInvoices: make(chan *channeldb.Invoice),
@@ -1365,7 +1347,6 @@ func (i *InvoiceRegistry) SubscribeNotifications(
 // caller to receive async notifications for a specific invoice.
 func (i *InvoiceRegistry) SubscribeSingleInvoice(
 	hash lntypes.Hash) (*SingleInvoiceSubscription, er.R) {
-
 	client := &SingleInvoiceSubscription{
 		Updates: make(chan *channeldb.Invoice),
 		invoiceSubscriptionKit: invoiceSubscriptionKit{
@@ -1467,7 +1448,6 @@ func (i *InvoiceRegistry) notifyHodlSubscribers(htlcResolution HtlcResolution) {
 // hodlSubscribe adds a new invoice subscription.
 func (i *InvoiceRegistry) hodlSubscribe(subscriber chan<- interface{},
 	circuitKey channeldb.CircuitKey) {
-
 	log.Debugf("Hodl subscribe for %v", circuitKey)
 
 	subscriptions, ok := i.hodlSubscriptions[circuitKey]

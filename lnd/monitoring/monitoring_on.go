@@ -8,8 +8,10 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/grpc-ecosystem/go-grpc-prometheus"
+	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/lnd/lncfg"
+	"github.com/pkt-cash/pktd/pktlog/log"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 

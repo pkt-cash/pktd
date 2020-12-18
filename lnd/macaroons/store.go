@@ -357,7 +357,6 @@ func (r *RootKeyStorage) Close() er.R {
 // Any previously set key will be overwritten.
 func generateAndStoreNewRootKey(bucket walletdb.ReadWriteBucket, id []byte,
 	key *snacl.SecretKey) ([]byte, er.R) {
-
 	rootKey := make([]byte, RootKeyLen)
 	if _, err := util.ReadFull(rand.Reader, rootKey); err != nil {
 		return nil, err
@@ -386,7 +385,6 @@ func (r *RootKeyStorage) ListMacaroonIDs(_ context.Context) ([][]byte, er.R) {
 	// Read all the items in the bucket and append the keys, which are the
 	// root key IDs we want.
 	err := kvdb.View(r, func(tx kvdb.RTx) er.R {
-
 		// appendRootKey is a function closure that appends root key ID
 		// to rootKeySlice.
 		appendRootKey := func(k, _ []byte) er.R {
@@ -412,7 +410,6 @@ func (r *RootKeyStorage) ListMacaroonIDs(_ context.Context) ([][]byte, er.R) {
 // found and deleted, it will be returned.
 func (r *RootKeyStorage) DeleteMacaroonID(
 	_ context.Context, rootKeyID []byte) ([]byte, er.R) {
-
 	r.encKeyMtx.RLock()
 	defer r.encKeyMtx.RUnlock()
 

@@ -99,7 +99,6 @@ func NewPaymentControl(db *DB) *PaymentControl {
 // state.
 func (p *PaymentControl) InitPayment(paymentHash lntypes.Hash,
 	info *PaymentCreationInfo) er.R {
-
 	var b bytes.Buffer
 	if err := serializePaymentCreationInfo(&b, info); err != nil {
 		return err
@@ -221,7 +220,6 @@ const paymentIndexTypeHash paymentIndexType = 0
 // signal different payment index types) and the payment hash.
 func createPaymentIndexEntry(tx kvdb.RwTx, sequenceNumber []byte,
 	hash lntypes.Hash) er.R {
-
 	var b bytes.Buffer
 	if err := WriteElements(&b, paymentIndexTypeHash, hash[:]); err != nil {
 		return err
@@ -264,7 +262,6 @@ func deserializePaymentIndex(r io.Reader) (lntypes.Hash, er.R) {
 // DB.
 func (p *PaymentControl) RegisterAttempt(paymentHash lntypes.Hash,
 	attempt *HTLCAttemptInfo) (*MPPayment, er.R) {
-
 	// Serialize the information before opening the db transaction.
 	var a bytes.Buffer
 	err := serializeHTLCAttemptInfo(&a, attempt)
@@ -385,7 +382,6 @@ func (p *PaymentControl) RegisterAttempt(paymentHash lntypes.Hash,
 // provided preimage is atomically saved to the DB for record keeping.
 func (p *PaymentControl) SettleAttempt(hash lntypes.Hash,
 	attemptID uint64, settleInfo *HTLCSettleInfo) (*MPPayment, er.R) {
-
 	var b bytes.Buffer
 	if err := serializeHTLCSettleInfo(&b, settleInfo); err != nil {
 		return nil, err
@@ -398,7 +394,6 @@ func (p *PaymentControl) SettleAttempt(hash lntypes.Hash,
 // FailAttempt marks the given payment attempt failed.
 func (p *PaymentControl) FailAttempt(hash lntypes.Hash,
 	attemptID uint64, failInfo *HTLCFailInfo) (*MPPayment, er.R) {
-
 	var b bytes.Buffer
 	if err := serializeHTLCFailInfo(&b, failInfo); err != nil {
 		return nil, err
@@ -411,7 +406,6 @@ func (p *PaymentControl) FailAttempt(hash lntypes.Hash,
 // updateHtlcKey updates a database key for the specified htlc.
 func (p *PaymentControl) updateHtlcKey(paymentHash lntypes.Hash,
 	attemptID uint64, key, value []byte) (*MPPayment, er.R) {
-
 	htlcIDBytes := make([]byte, 8)
 	binary.BigEndian.PutUint64(htlcIDBytes, attemptID)
 
@@ -479,7 +473,6 @@ func (p *PaymentControl) updateHtlcKey(paymentHash lntypes.Hash,
 // subsequent payment.
 func (p *PaymentControl) Fail(paymentHash lntypes.Hash,
 	reason FailureReason) (*MPPayment, er.R) {
-
 	var (
 		updateErr er.R
 		payment   *MPPayment
@@ -537,7 +530,6 @@ func (p *PaymentControl) Fail(paymentHash lntypes.Hash,
 // FetchPayment returns information about a payment from the database.
 func (p *PaymentControl) FetchPayment(paymentHash lntypes.Hash) (
 	*MPPayment, er.R) {
-
 	var payment *MPPayment
 	err := kvdb.View(p.db, func(tx kvdb.RTx) er.R {
 		bucket, err := fetchPaymentBucket(tx, paymentHash)
@@ -562,7 +554,6 @@ func (p *PaymentControl) FetchPayment(paymentHash lntypes.Hash) (
 // payment hash.
 func createPaymentBucket(tx kvdb.RwTx, paymentHash lntypes.Hash) (
 	kvdb.RwBucket, er.R) {
-
 	payments, err := tx.CreateTopLevelBucket(paymentsRootBucket)
 	if err != nil {
 		return nil, err
@@ -575,7 +566,6 @@ func createPaymentBucket(tx kvdb.RwTx, paymentHash lntypes.Hash) (
 // the bucket does not exist, it returns ErrPaymentNotInitiated.
 func fetchPaymentBucket(tx kvdb.RTx, paymentHash lntypes.Hash) (
 	kvdb.RBucket, er.R) {
-
 	payments := tx.ReadBucket(paymentsRootBucket)
 	if payments == nil {
 		return nil, ErrPaymentNotInitiated.Default()
@@ -587,14 +577,12 @@ func fetchPaymentBucket(tx kvdb.RTx, paymentHash lntypes.Hash) (
 	}
 
 	return bucket, nil
-
 }
 
 // fetchPaymentBucketUpdate is identical to fetchPaymentBucket, but it returns a
 // bucket that can be written to.
 func fetchPaymentBucketUpdate(tx kvdb.RwTx, paymentHash lntypes.Hash) (
 	kvdb.RwBucket, er.R) {
-
 	payments := tx.ReadWriteBucket(paymentsRootBucket)
 	if payments == nil {
 		return nil, ErrPaymentNotInitiated.Default()

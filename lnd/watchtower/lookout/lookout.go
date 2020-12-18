@@ -151,7 +151,6 @@ func (l *Lookout) watchBlocks(epochs *chainntnfs.BlockEpochEvent) {
 // justice transaction.
 func (l *Lookout) processEpoch(epoch *chainntnfs.BlockEpoch,
 	block *wire.MsgBlock) er.R {
-
 	numTxnsInBlock := len(block.Transactions)
 
 	log.Debugf("Scanning %d transaction in block (height=%d, hash=%s) "+

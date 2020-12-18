@@ -5,12 +5,12 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"github.com/json-iterator/go"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktconfig/version"
 

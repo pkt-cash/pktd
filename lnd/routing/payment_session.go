@@ -45,12 +45,10 @@ const (
 	errMissingDependentFeature
 )
 
-var (
-	// DefaultShardMinAmt is the default amount beyond which we won't try to
-	// further split the payment if no route is found. It is the minimum
-	// amount that we use as the shard size when splitting.
-	DefaultShardMinAmt = lnwire.NewMSatFromSatoshis(10000)
-)
+// DefaultShardMinAmt is the default amount beyond which we won't try to
+// further split the payment if no route is found. It is the minimum
+// amount that we use as the shard size when splitting.
+var DefaultShardMinAmt = lnwire.NewMSatFromSatoshis(10000)
 
 // Error returns the string representation of the noRouteError
 func (e noRouteError) Error() string {
@@ -160,7 +158,6 @@ func newPaymentSession(p *LightningPayment,
 	getRoutingGraph func() (routingGraph, func(), er.R),
 	missionControl MissionController, pathFindingConfig PathFindingConfig) (
 	*paymentSession, er.R) {
-
 	edges, err := RouteHintsToEdges(p.RouteHints, p.Target)
 	if err != nil {
 		return nil, err
@@ -189,7 +186,6 @@ func newPaymentSession(p *LightningPayment,
 // NOTE: Part of the PaymentSession interface.
 func (p *paymentSession) RequestRoute(maxAmt, feeLimit lnwire.MilliSatoshi,
 	activeShards, height uint32) (*route.Route, er.R) {
-
 	if p.empty {
 		return nil, er.E(errEmptyPaySession)
 	}

@@ -60,7 +60,6 @@ type GCQueue struct {
 // bursts in attempts to return items to the GCQUeue.
 func NewGCQueue(newItem func() interface{}, returnQueueSize int,
 	gcInterval, expiryInterval time.Duration) *GCQueue {
-
 	q := &GCQueue{
 		takeBuffer:     make(chan interface{}),
 		returnBuffer:   make(chan interface{}, returnQueueSize),

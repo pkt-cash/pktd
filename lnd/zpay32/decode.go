@@ -53,7 +53,7 @@ func Decode(invoice string, net *chaincfg.Params) (*Invoice, er.R) {
 
 	// Optionally, if there's anything left of the HRP after ln + the segwit
 	// prefix, we try to decode this as the payment amount.
-	var netPrefixLength = len(net.Bech32HRPSegwit) + 2
+	netPrefixLength := len(net.Bech32HRPSegwit) + 2
 	if len(hrp) > netPrefixLength {
 		amount, err := decodeAmount(hrp[netPrefixLength:])
 		if err != nil {

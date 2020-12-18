@@ -41,7 +41,6 @@ func BlankPacketFiller(_ *btcec.PrivateKey, _ *[routingInfoSize]byte) er.R {
 // key.
 func DeterministicPacketFiller(sessionKey *btcec.PrivateKey,
 	mixHeader *[routingInfoSize]byte) er.R {
-
 	// First, we'll generate a new key that'll be used to generate some
 	// random bytes for our padding purposes. To derive this new key, we
 	// essentially calculate: HMAC("pad", sessionKey).

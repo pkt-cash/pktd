@@ -1256,7 +1256,7 @@ func (p *Peer) maybeAddDeadline(pendingResponses map[string]time.Time, msgCmd st
 			// our own, so they might not reply.
 
 			// Expects an inv message.
-			//pendingResponses[wire.CmdInv] = deadline
+			// pendingResponses[wire.CmdInv] = deadline
 		}
 
 	case wire.CmdGetData:
@@ -1934,7 +1934,6 @@ func (p *Peer) QueueMessage(msg wire.Message, doneChan chan<- struct{}) {
 // This function is safe for concurrent access.
 func (p *Peer) QueueMessageWithEncoding(msg wire.Message, doneChan chan<- struct{},
 	encoding wire.MessageEncoding) {
-
 	// Avoid risk of deadlock if goroutine already exited.  The goroutine
 	// we will be sending to hangs around until it knows for a fact that
 	// it is marked as disconnected and *then* it drains the channels.

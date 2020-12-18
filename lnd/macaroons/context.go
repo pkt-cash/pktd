@@ -24,7 +24,6 @@ type contextKey struct {
 // ContextWithRootKeyID passes the root key ID value to context.
 func ContextWithRootKeyID(ctx context.Context,
 	value interface{}) context.Context {
-
 	return context.WithValue(ctx, RootKeyIDContextKey, value)
 }
 

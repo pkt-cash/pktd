@@ -834,7 +834,6 @@ func logWatchList(chain ChainSource, ro *rescanOptions, scanning bool) {
 func notifyBlock(chain ChainSource, ro *rescanOptions,
 	curHeader wire.BlockHeader, curStamp waddrmgr.BlockStamp,
 	scanning bool) er.R {
-
 	// Find relevant transactions based on watch list. If scanning is
 	// false, we can safely assume this block has no relevant transactions.
 	var relevantTxs []*btcutil.Tx
@@ -876,7 +875,6 @@ func notifyBlock(chain ChainSource, ro *rescanOptions,
 // out any relevant transactions found within the block.
 func extractBlockMatches(chain ChainSource, ro *rescanOptions,
 	curStamp *waddrmgr.BlockStamp) ([]*btcutil.Tx, er.R) {
-
 	// We've matched. Now we actually get the block and cycle through the
 	// transactions to see which ones are relevant.
 	block, err := chain.GetBlock(curStamp.Hash, ro.queryOptions...)
@@ -939,7 +937,6 @@ func extractBlockMatches(chain ChainSource, ro *rescanOptions,
 func notifyBlockWithFilter(chain ChainSource, ro *rescanOptions,
 	curHeader *wire.BlockHeader, curStamp *waddrmgr.BlockStamp,
 	filter *gcs.Filter) er.R {
-
 	// Based on what we find within the block or the filter, we'll be
 	// sending out a set of notifications with transactions that are
 	// relevant to the rescan.
@@ -986,7 +983,6 @@ func notifyBlockWithFilter(chain ChainSource, ro *rescanOptions,
 // network.
 func matchBlockFilter(ro *rescanOptions, filter *gcs.Filter,
 	blockHash *chainhash.Hash) (bool, er.R) {
-
 	// Now that we have the filter as well as the block hash of the block
 	// used to construct the filter, we'll check to see if the block
 	// matches any items in our watch list.
@@ -1004,7 +1000,6 @@ func matchBlockFilter(ro *rescanOptions, filter *gcs.Filter,
 // to us.
 func blockFilterMatches(chain ChainSource, ro *rescanOptions,
 	blockHash *chainhash.Hash) (bool, er.R) {
-
 	// TODO(roasbeef): need to ENSURE always get filter
 
 	// Since this method is called when we are not current, and from the
@@ -1035,7 +1030,6 @@ func blockFilterMatches(chain ChainSource, ro *rescanOptions,
 // height if not 0.
 func (ro *rescanOptions) updateFilter(chain ChainSource, update *updateOptions,
 	curStamp *waddrmgr.BlockStamp, curHeader *wire.BlockHeader) (bool, er.R) {
-
 	ro.watchAddrs = append(ro.watchAddrs, update.addrs...)
 	ro.watchInputs = append(ro.watchInputs, update.inputs...)
 
@@ -1295,7 +1289,6 @@ func DisableDisconnectedNtfns(disabled bool) UpdateOption {
 
 // Update sends an update to a long-running rescan/notification goroutine.
 func (r *Rescan) Update(options ...UpdateOption) er.R {
-
 	ro := defaultRescanOptions()
 	for _, option := range r.options {
 		option(ro)

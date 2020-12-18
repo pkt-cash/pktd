@@ -20,7 +20,7 @@ func HashExpand(out, key []byte, counter uint32) {
 	for i := range out {
 		out[i] = 0
 	}
-	//chacha20.XORKeyStream(out, out, &nonce, &key)
+	// chacha20.XORKeyStream(out, out, &nonce, &key)
 	chacha20.XORKeyStream(out, out, nonce, key)
 }
 

@@ -353,7 +353,6 @@ type testChannelEnd struct {
 
 func symmetricTestChannel(alias1, alias2 string, capacity btcutil.Amount,
 	policy *testChannelPolicy, chanID ...uint64) *testChannel {
-
 	// Leaving id zero will result in auto-generation of a channel id during
 	// graph construction.
 	var id uint64
@@ -370,7 +369,6 @@ func symmetricTestChannel(alias1, alias2 string, capacity btcutil.Amount,
 
 func asymmetricTestChannel(alias1, alias2 string, capacity btcutil.Amount,
 	policy1, policy2 *testChannelPolicy, id uint64) *testChannel {
-
 	return &testChannel{
 		Capacity: capacity,
 		Node1: &testChannelEnd{
@@ -413,7 +411,6 @@ type testGraphInstance struct {
 // instantiating a test channel graph as light weight as possible.
 func createTestGraphFromChannels(testChannels []*testChannel, source string) (
 	*testGraphInstance, er.R) {
-
 	// We'll use this fake address for the IP address of all the nodes in
 	// our tests. This value isn't needed for path finding so it doesn't
 	// need to be unique.
@@ -436,7 +433,6 @@ func createTestGraphFromChannels(testChannels []*testChannel, source string) (
 	nodeIndex := byte(0)
 	addNodeWithAlias := func(alias string, features *lnwire.FeatureVector) (
 		*channeldb.LightningNode, er.R) {
-
 		keyBytes := []byte{
 			0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0, 0, 0, 0,
@@ -492,7 +488,8 @@ func createTestGraphFromChannels(testChannels []*testChannel, source string) (
 
 	for _, testChannel := range testChannels {
 		for _, node := range []*testChannelEnd{
-			testChannel.Node1, testChannel.Node2} {
+			testChannel.Node1, testChannel.Node2,
+		} {
 
 			_, exists := aliasMap[node.Alias]
 			if !exists {
@@ -700,7 +697,6 @@ func TestFindLowestFeePath(t *testing.T) {
 
 func getAliasFromPubKey(pubKey route.Vertex,
 	aliases map[string]route.Vertex) string {
-
 	for alias, key := range aliases {
 		if key == pubKey {
 			return alias
@@ -728,46 +724,56 @@ type basicGraphPathFindingTestCase struct {
 
 var basicGraphPathFindingTests = []basicGraphPathFindingTestCase{
 	// Basic route with one intermediate hop.
-	{target: "sophon", paymentAmt: 100, feeLimit: noFeeLimit,
+	{
+		target: "sophon", paymentAmt: 100, feeLimit: noFeeLimit,
 		expectedTotalTimeLock: 102, expectedTotalAmt: 100110,
 		expectedHops: []expectedHop{
 			{alias: "songoku", fwdAmount: 100000, fee: 110, timeLock: 101},
 			{alias: "sophon", fwdAmount: 100000, fee: 0, timeLock: 101},
-		}},
+		},
+	},
 
 	// Basic direct (one hop) route.
-	{target: "luoji", paymentAmt: 100, feeLimit: noFeeLimit,
+	{
+		target: "luoji", paymentAmt: 100, feeLimit: noFeeLimit,
 		expectedTotalTimeLock: 101, expectedTotalAmt: 100000,
 		expectedHops: []expectedHop{
 			{alias: "luoji", fwdAmount: 100000, fee: 0, timeLock: 101},
-		}},
+		},
+	},
 
 	// Three hop route where fees need to be added in to the forwarding amount.
 	// The high fee hop phamnewun should be avoided.
-	{target: "elst", paymentAmt: 50000, feeLimit: noFeeLimit,
+	{
+		target: "elst", paymentAmt: 50000, feeLimit: noFeeLimit,
 		expectedTotalTimeLock: 103, expectedTotalAmt: 50050210,
 		expectedHops: []expectedHop{
 			{alias: "songoku", fwdAmount: 50000200, fee: 50010, timeLock: 102},
 			{alias: "sophon", fwdAmount: 50000000, fee: 200, timeLock: 101},
 			{alias: "elst", fwdAmount: 50000000, fee: 0, timeLock: 101},
-		}},
+		},
+	},
 	// Three hop route where fees need to be added in to the forwarding amount.
 	// However this time the fwdAmount becomes too large for the roasbeef <->
 	// songoku channel. Then there is no other option than to choose the
 	// expensive phamnuwen channel. This test case was failing before
 	// the route search was executed backwards.
-	{target: "elst", paymentAmt: 100000, feeLimit: noFeeLimit,
+	{
+		target: "elst", paymentAmt: 100000, feeLimit: noFeeLimit,
 		expectedTotalTimeLock: 103, expectedTotalAmt: 110010220,
 		expectedHops: []expectedHop{
 			{alias: "phamnuwen", fwdAmount: 100000200, fee: 10010020, timeLock: 102},
 			{alias: "sophon", fwdAmount: 100000000, fee: 200, timeLock: 101},
 			{alias: "elst", fwdAmount: 100000000, fee: 0, timeLock: 101},
-		}},
+		},
+	},
 
 	// Basic route with fee limit.
-	{target: "sophon", paymentAmt: 100, feeLimit: 50,
+	{
+		target: "sophon", paymentAmt: 100, feeLimit: 50,
 		expectFailureNoPath: true,
-	}}
+	},
+}
 
 func TestBasicGraphPathFinding(t *testing.T) {
 	t.Parallel()
@@ -792,7 +798,6 @@ func TestBasicGraphPathFinding(t *testing.T) {
 
 func testBasicGraphPathFindingCase(t *testing.T, graphInstance *testGraphInstance,
 	test *basicGraphPathFindingTestCase) {
-
 	aliases := graphInstance.aliasMap
 	expectedHops := test.expectedHops
 	expectedHopCount := len(expectedHops)
@@ -851,7 +856,6 @@ func testBasicGraphPathFindingCase(t *testing.T, graphInstance *testGraphInstanc
 	// Check hop nodes
 	for i := 0; i < len(expectedHops); i++ {
 		if route.Hops[i].PubKeyBytes != aliases[expectedHops[i].alias] {
-
 			t.Fatalf("%v-th hop should be %v, is instead: %v",
 				i, expectedHops[i],
 				getAliasFromPubKey(route.Hops[i].PubKeyBytes,
@@ -1001,7 +1005,6 @@ func TestPathFindingWithAdditionalEdges(t *testing.T) {
 
 	find := func(r *RestrictParams) (
 		[]*channeldb.ChannelEdgePolicy, er.R) {
-
 		return dbFindPath(
 			graph.graph, additionalEdges, nil,
 			r, testPathFindingConfig,
@@ -1053,7 +1056,6 @@ func TestPathFindingWithAdditionalEdges(t *testing.T) {
 // TestNewRoute tests whether the construction of hop payloads by newRoute
 // is executed correctly.
 func TestNewRoute(t *testing.T) {
-
 	var sourceKey [33]byte
 	sourceVertex := route.Vertex(sourceKey)
 
@@ -1068,7 +1070,6 @@ func TestNewRoute(t *testing.T) {
 		feeRate lnwire.MilliSatoshi,
 		bandwidth lnwire.MilliSatoshi,
 		timeLockDelta uint16) *channeldb.ChannelEdgePolicy {
-
 		return &channeldb.ChannelEdgePolicy{
 			Node: &channeldb.LightningNode{
 				Features: lnwire.NewFeatureVector(
@@ -1246,7 +1247,8 @@ func TestNewRoute(t *testing.T) {
 			expectedTotalAmount:   101101,
 			expectedTimeLocks:     []uint32{4, 1, 1},
 			expectedTotalTimeLock: 9,
-		}}
+		},
+	}
 
 	for _, testCase := range testCases {
 		testCase := testCase
@@ -1269,7 +1271,6 @@ func TestNewRoute(t *testing.T) {
 			for i := 0; i < len(testCase.expectedFees); i++ {
 				fee := route.HopFee(i)
 				if testCase.expectedFees[i] != fee {
-
 					t.Errorf("Expected fee for hop %v to "+
 						"be %v, but got %v instead",
 						i, testCase.expectedFees[i],
@@ -1281,7 +1282,6 @@ func TestNewRoute(t *testing.T) {
 				testCase.expectedTotalTimeLock
 
 			if route.TotalTimeLock != expectedTimeLockHeight {
-
 				t.Errorf("Expected total time lock to be %v"+
 					", but got %v instead",
 					expectedTimeLockHeight,
@@ -1478,12 +1478,10 @@ func TestDestTLVGraphFallback(t *testing.T) {
 	sourceNode, err := ctx.graph.SourceNode()
 	if err != nil {
 		t.Fatalf("unable to fetch source node: %v", err)
-
 	}
 
 	find := func(r *RestrictParams,
 		target route.Vertex) ([]*channeldb.ChannelEdgePolicy, er.R) {
-
 		return dbFindPath(
 			ctx.graph, nil, nil,
 			r, testPathFindingConfig,
@@ -2220,7 +2218,6 @@ func TestPathFindSpecExample(t *testing.T) {
 
 func assertExpectedPath(t *testing.T, aliasMap map[string]route.Vertex,
 	path []*channeldb.ChannelEdgePolicy, nodeAliases ...string) {
-
 	if len(path) != len(nodeAliases) {
 		t.Fatal("number of hops and number of aliases do not match")
 	}
@@ -2557,7 +2554,6 @@ func TestProbabilityRouting(t *testing.T) {
 
 func testProbabilityRouting(t *testing.T, paymentAmt btcutil.Amount,
 	p10, p11, p20, minProbability float64, expectedChan uint64) {
-
 	t.Parallel()
 
 	// Set up a test graph with two possible paths to the target: a three
@@ -2593,7 +2589,6 @@ func testProbabilityRouting(t *testing.T, paymentAmt btcutil.Amount,
 	// Configure a probability source with the test parameters.
 	ctx.restrictParams.ProbabilitySource = func(fromNode, toNode route.Vertex,
 		amt lnwire.MilliSatoshi) float64 {
-
 		if amt == 0 {
 			t.Fatal("expected non-zero amount")
 		}
@@ -2676,7 +2671,6 @@ func TestEqualCostRouteSelection(t *testing.T) {
 
 	ctx.restrictParams.ProbabilitySource = func(fromNode, toNode route.Vertex,
 		amt lnwire.MilliSatoshi) float64 {
-
 		switch {
 		case fromNode == alias["source"] && toNode == alias["a"]:
 			return 0.25
@@ -2836,7 +2830,6 @@ type pathFindingTestContext struct {
 
 func newPathFindingTestContext(t *testing.T, testChannels []*testChannel,
 	source string) *pathFindingTestContext {
-
 	testGraphInstance, err := createTestGraphFromChannels(
 		testChannels, source,
 	)
@@ -2881,7 +2874,6 @@ func (c *pathFindingTestContext) cleanup() {
 func (c *pathFindingTestContext) findPath(target route.Vertex,
 	amt lnwire.MilliSatoshi) ([]*channeldb.ChannelEdgePolicy,
 	er.R) {
-
 	return dbFindPath(
 		c.graph, nil, c.bandwidthHints, &c.restrictParams,
 		&c.pathFindingConfig, c.source, target, amt, 0,
@@ -2910,7 +2902,6 @@ func dbFindPath(graph *channeldb.ChannelGraph,
 	r *RestrictParams, cfg *PathFindingConfig,
 	source, target route.Vertex, amt lnwire.MilliSatoshi,
 	finalHtlcExpiry int32) ([]*channeldb.ChannelEdgePolicy, er.R) {
-
 	routingTx, err := newDbRoutingTx(graph)
 	if err != nil {
 		return nil, err

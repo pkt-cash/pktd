@@ -67,7 +67,6 @@ func (s *channelStates) markDisabled(outpoint wire.OutPoint) {
 // and sets the ChannelState's SendDisableTime to sendDisableTime.
 func (s *channelStates) markPendingDisabled(outpoint wire.OutPoint,
 	sendDisableTime time.Time) {
-
 	(*s)[outpoint] = ChannelState{
 		Status:          ChanStatusPendingDisabled,
 		SendDisableTime: sendDisableTime,

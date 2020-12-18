@@ -115,7 +115,6 @@ func rpcInfo(info htlcswitch.HtlcInfo) *HtlcInfo {
 // failure code and detail.
 func rpcFailReason(linkErr *htlcswitch.LinkError) (lnrpc.Failure_FailureCode,
 	FailureDetail, er.R) {
-
 	wireErr, err := marshalError(er.E(linkErr))
 	if err != nil {
 		return 0, 0, err
@@ -141,7 +140,6 @@ func rpcFailReason(linkErr *htlcswitch.LinkError) (lnrpc.Failure_FailureCode,
 			"detail type: %T", linkErr.FailureDetail)
 
 	}
-
 }
 
 // rpcFailureResolution maps an invoice failure resolution to a rpc failure
@@ -150,7 +148,6 @@ func rpcFailReason(linkErr *htlcswitch.LinkError) (lnrpc.Failure_FailureCode,
 // type.
 func rpcFailureResolution(invoiceFailure invoices.FailResolutionResult) (
 	FailureDetail, er.R) {
-
 	switch invoiceFailure {
 	case invoices.ResultReplayToCanceled:
 		return FailureDetail_INVOICE_CANCELED, nil
@@ -206,7 +203,6 @@ func rpcFailureResolution(invoiceFailure invoices.FailResolutionResult) (
 // detail failure detail to indicate that there was no additional information.
 func rpcOutgoingFailure(failureDetail htlcswitch.OutgoingFailure) (
 	FailureDetail, er.R) {
-
 	switch failureDetail {
 	case htlcswitch.OutgoingFailureNone:
 		return FailureDetail_NO_DETAIL, nil

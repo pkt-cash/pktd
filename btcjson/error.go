@@ -10,7 +10,7 @@ import (
 
 // ErrorCode identifies a kind of error.  These error codes are NOT used for
 // JSON-RPC response errors.
-//type ErrorCode int
+// type ErrorCode int
 
 // InternalErr is a type for the json errors which are not response types
 var InternalErr er.ErrorType = er.NewErrorType("btcjson.InternalErr")

@@ -8,9 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var (
-	testTime = time.Date(2009, time.January, 3, 12, 0, 0, 0, time.UTC)
-)
+var testTime = time.Date(2009, time.January, 3, 12, 0, 0, 0, time.UTC)
 
 func TestNow(t *testing.T) {
 	c := NewTestClock(testTime)

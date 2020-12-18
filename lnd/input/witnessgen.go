@@ -195,10 +195,8 @@ func (wt StandardWitnessType) String() string {
 // NOTE: This is part of the WitnessType interface.
 func (wt StandardWitnessType) WitnessGenerator(signer Signer,
 	descriptor *SignDescriptor) WitnessGenerator {
-
 	return func(tx *wire.MsgTx, hc *txscript.TxSigHashes,
 		inputIndex int) (*Script, er.R) {
-
 		desc := descriptor
 		desc.SigHashes = hc
 		desc.InputIndex = inputIndex

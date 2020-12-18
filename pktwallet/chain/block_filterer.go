@@ -71,7 +71,6 @@ type BlockFilterer struct {
 // can be reused until the first call from `FitlerBlock` returns true.
 func NewBlockFilterer(params *chaincfg.Params,
 	req *FilterBlocksRequest) *BlockFilterer {
-
 	// Construct a reverse index by address string for the requested
 	// external addresses.
 	nExAddrs := len(req.ExternalAddrs)

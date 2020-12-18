@@ -70,7 +70,7 @@ func assertEngineExecution(t *testing.T, testNum int, valid bool,
 		}
 
 		debugBuf.WriteString(fmt.Sprintf("Stack: %v", vm.GetStack()))
-		//debugBuf.WriteString(fmt.Sprintf("AltStack: %v", vm.GetAltStack()))
+		// debugBuf.WriteString(fmt.Sprintf("AltStack: %v", vm.GetAltStack()))
 	}
 
 	// If we get to this point the unexpected case was not reached
@@ -148,7 +148,6 @@ func TestTweakKeyDerivation(t *testing.T) {
 // constructing the witness, the test fails fatally.
 func makeWitnessTestCase(t *testing.T,
 	f func() (wire.TxWitness, er.R)) func() wire.TxWitness {
-
 	return func() wire.TxWitness {
 		witness, err := f()
 		if err != nil {
@@ -746,7 +745,6 @@ func TestHTLCReceiverSpendValidation(t *testing.T) {
 					bytes.Repeat([]byte{1}, 45), bobSigner,
 					signDesc, sweepTx,
 				)
-
 			}),
 			false,
 		},

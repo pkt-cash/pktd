@@ -163,6 +163,5 @@ func testValidateDeps(t *testing.T, test depTest) {
 	if !reflect.DeepEqual(er.Wrapped(err), test.expErr) {
 		t.Fatalf("validation mismatch, want: %v, got: %v",
 			test.expErr, err)
-
 	}
 }

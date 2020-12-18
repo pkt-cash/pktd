@@ -262,7 +262,6 @@ func (c *Client) trackRegisteredNtfns(cmd interface{}) {
 			c.ntfnState.notifyNewTxVerbose = true
 		} else {
 			c.ntfnState.notifyNewTx = true
-
 		}
 
 	case *btcjson.NotifySpentCmd:
@@ -780,7 +779,6 @@ cleanup:
 	}
 	c.wg.Done()
 	log.Tracef("RPC client send handler done for %s", c.config.Host)
-
 }
 
 // sendPostRequest sends the passed HTTP request to the RPC server using the
@@ -1151,7 +1149,7 @@ func newHTTPClient(config *ConnConfig) (*http.Client, er.R) {
 func dial(config *ConnConfig) (*websocket.Conn, er.R) {
 	// Setup TLS if not disabled.
 	var tlsConfig *tls.Config
-	var scheme = "ws"
+	scheme := "ws"
 	if !config.DisableTLS {
 		tlsConfig = &tls.Config{
 			MinVersion: tls.VersionTLS12,

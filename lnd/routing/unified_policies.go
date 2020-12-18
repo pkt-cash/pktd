@@ -29,7 +29,6 @@ type unifiedPolicies struct {
 // policies can be added to this object.
 func newUnifiedPolicies(sourceNode, toNode route.Vertex,
 	outChanRestr map[uint64]struct{}) *unifiedPolicies {
-
 	return &unifiedPolicies{
 		policies:     make(map[route.Vertex]*unifiedPolicy),
 		toNode:       toNode,
@@ -42,7 +41,6 @@ func newUnifiedPolicies(sourceNode, toNode route.Vertex,
 // (light clients).
 func (u *unifiedPolicies) addPolicy(fromNode route.Vertex,
 	edge *channeldb.ChannelEdgePolicy, capacity btcutil.Amount) {
-
 	localChan := fromNode == u.sourceNode
 
 	// Skip channels if there is an outgoing channel restriction.
@@ -72,7 +70,6 @@ func (u *unifiedPolicies) addPolicy(fromNode route.Vertex,
 func (u *unifiedPolicies) addGraphPolicies(g routingGraph) er.R {
 	cb := func(edgeInfo *channeldb.ChannelEdgeInfo, _,
 		inEdge *channeldb.ChannelEdgePolicy) er.R {
-
 		// If there is no edge policy for this candidate node, skip.
 		// Note that we are searching backwards so this node would have
 		// come prior to the pivot node in the route.
@@ -141,7 +138,6 @@ type unifiedPolicy struct {
 // channels.
 func (u *unifiedPolicy) getPolicy(amt lnwire.MilliSatoshi,
 	bandwidthHints map[uint64]lnwire.MilliSatoshi) *channeldb.ChannelEdgePolicy {
-
 	if u.localChan {
 		return u.getPolicyLocal(amt, bandwidthHints)
 	}
@@ -153,7 +149,6 @@ func (u *unifiedPolicy) getPolicy(amt lnwire.MilliSatoshi,
 // given a specific amount to send.
 func (u *unifiedPolicy) getPolicyLocal(amt lnwire.MilliSatoshi,
 	bandwidthHints map[uint64]lnwire.MilliSatoshi) *channeldb.ChannelEdgePolicy {
-
 	var (
 		bestPolicy   *channeldb.ChannelEdgePolicy
 		maxBandwidth lnwire.MilliSatoshi
@@ -208,7 +203,6 @@ func (u *unifiedPolicy) getPolicyLocal(amt lnwire.MilliSatoshi,
 // probability of a successful forward in a non-strict forwarding context.
 func (u *unifiedPolicy) getPolicyNetwork(
 	amt lnwire.MilliSatoshi) *channeldb.ChannelEdgePolicy {
-
 	var (
 		bestPolicy  *channeldb.ChannelEdgePolicy
 		maxFee      lnwire.MilliSatoshi

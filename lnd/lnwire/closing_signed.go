@@ -33,7 +33,6 @@ type ClosingSigned struct {
 // NewClosingSigned creates a new empty ClosingSigned message.
 func NewClosingSigned(cid ChannelID, fs btcutil.Amount,
 	sig Sig) *ClosingSigned {
-
 	return &ClosingSigned{
 		ChannelID:   cid,
 		FeeSatoshis: fs,

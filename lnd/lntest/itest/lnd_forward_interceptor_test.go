@@ -230,7 +230,6 @@ type interceptorTestContext struct {
 
 func newInterceptorTestContext(t *harnessTest,
 	net *lntest.NetworkHarness) *interceptorTestContext {
-
 	ctxb := context.Background()
 
 	// Create a three-node context consisting of Alice, Bob and Carol
@@ -269,16 +268,23 @@ func newInterceptorTestContext(t *harnessTest,
 // 4. held htlc that is resumed later.
 func (c *interceptorTestContext) prepareTestCases() (
 	[]*interceptorTestCase, er.R) {
-
 	cases := []*interceptorTestCase{
-		{amountMsat: 1000, shouldHold: false,
-			interceptorAction: routerrpc.ResolveHoldForwardAction_FAIL},
-		{amountMsat: 1000, shouldHold: false,
-			interceptorAction: routerrpc.ResolveHoldForwardAction_RESUME},
-		{amountMsat: 1000, shouldHold: false,
-			interceptorAction: routerrpc.ResolveHoldForwardAction_SETTLE},
-		{amountMsat: 1000, shouldHold: true,
-			interceptorAction: routerrpc.ResolveHoldForwardAction_RESUME},
+		{
+			amountMsat: 1000, shouldHold: false,
+			interceptorAction: routerrpc.ResolveHoldForwardAction_FAIL,
+		},
+		{
+			amountMsat: 1000, shouldHold: false,
+			interceptorAction: routerrpc.ResolveHoldForwardAction_RESUME,
+		},
+		{
+			amountMsat: 1000, shouldHold: false,
+			interceptorAction: routerrpc.ResolveHoldForwardAction_SETTLE,
+		},
+		{
+			amountMsat: 1000, shouldHold: true,
+			interceptorAction: routerrpc.ResolveHoldForwardAction_RESUME,
+		},
 	}
 
 	for _, t := range cases {
@@ -366,7 +372,6 @@ func (c *interceptorTestContext) waitForChannels() {
 // attempt to pay. The lnrpc.HTLCAttempt is returned.
 func (c *interceptorTestContext) sendAliceToCarolPayment(ctx context.Context,
 	amtMsat int64, paymentHash []byte) (*lnrpc.HTLCAttempt, er.R) {
-
 	// Build a route from alice to carol.
 	route, err := c.buildRoute(ctx, amtMsat, []*lntest.HarnessNode{c.bob, c.carol})
 	if err != nil {
@@ -393,7 +398,6 @@ func (c *interceptorTestContext) sendAliceToCarolPayment(ctx context.Context,
 // buildRoute is a helper function to build a route with given hops.
 func (c *interceptorTestContext) buildRoute(ctx context.Context, amtMsat int64, hops []*lntest.HarnessNode) (
 	*lnrpc.Route, er.R) {
-
 	rpcHops := make([][]byte, 0, len(hops))
 	for _, hop := range hops {
 		k := hop.PubKeyStr

@@ -54,8 +54,10 @@ func IsSorted(tx *wire.MsgTx) bool {
 	return true
 }
 
-type sortableInputSlice []*wire.TxIn
-type sortableOutputSlice []*wire.TxOut
+type (
+	sortableInputSlice  []*wire.TxIn
+	sortableOutputSlice []*wire.TxOut
+)
 
 // For SortableInputSlice and SortableOutputSlice, three functions are needed
 // to make it sortable with sort.Sort() -- Len, Less, and Swap

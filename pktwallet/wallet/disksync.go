@@ -16,7 +16,7 @@ func checkCreateDir(path string) er.R {
 	if fi, err := os.Stat(path); err != nil {
 		if os.IsNotExist(err) {
 			// Attempt data directory creation
-			if err = os.MkdirAll(path, 0700); err != nil {
+			if err = os.MkdirAll(path, 0o700); err != nil {
 				return er.Errorf("cannot create directory: %s", err)
 			}
 		} else {

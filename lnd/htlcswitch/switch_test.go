@@ -1605,7 +1605,6 @@ func TestSkipIneligibleLinksMultiHopForward(t *testing.T) {
 // to forward any HTLC's.
 func testSkipIneligibleLinksMultiHopForward(t *testing.T,
 	testCase *multiHopFwdTest) {
-
 	t.Parallel()
 
 	var packet *htlcPacket
@@ -1737,7 +1736,6 @@ func TestSkipPolicyUnsatisfiedLinkLocalForward(t *testing.T) {
 
 func testSkipLinkLocalForward(t *testing.T, eligible bool,
 	policyResult lnwire.FailureMessage) {
-
 	// We'll create a single link for this test, marking it as being unable
 	// to forward form the get go.
 	alicePeer, err := newMockServer(
@@ -2799,7 +2797,6 @@ func TestHtlcNotifier(t *testing.T) {
 				htlc *lnwire.UpdateAddHTLC,
 				hops []*hop.Payload) ([]interface{},
 				[]interface{}, []interface{}) {
-
 				return getThreeHopEvents(
 					channels, htlcID, ts, htlc, hops, nil,
 				)
@@ -2818,7 +2815,6 @@ func TestHtlcNotifier(t *testing.T) {
 				htlc *lnwire.UpdateAddHTLC,
 				hops []*hop.Payload) ([]interface{},
 				[]interface{}, []interface{}) {
-
 				return getThreeHopEvents(
 					channels, htlcID, ts, htlc, hops,
 					&LinkError{
@@ -2846,7 +2842,6 @@ func TestHtlcNotifier(t *testing.T) {
 // testHtcNotifier runs a htlc notifier test.
 func testHtcNotifier(t *testing.T, testOpts []serverOption, iterations int,
 	getEvents htlcNotifierEvents) {
-
 	t.Parallel()
 
 	// First, we'll create our traditional three hop
@@ -2952,7 +2947,6 @@ func testHtcNotifier(t *testing.T, testOpts []serverOption, iterations int,
 // we expect it to have.
 func checkHtlcEvents(t *testing.T, events <-chan interface{},
 	expectedEvents []interface{}) {
-
 	t.Helper()
 
 	for _, expected := range expectedEvents {
@@ -2974,7 +2968,6 @@ func checkHtlcEvents(t *testing.T, events <-chan interface{},
 // and the remainder of the hops.
 func (n *threeHopNetwork) sendThreeHopPayment(t *testing.T) (*lnwire.UpdateAddHTLC,
 	[]*hop.Payload) {
-
 	amount := lnwire.NewMSatFromSatoshis(btcutil.UnitsPerCoin())
 
 	htlcAmt, totalTimelock, hops := generateHops(amount, testStartingHeight,
@@ -3010,7 +3003,6 @@ func (n *threeHopNetwork) sendThreeHopPayment(t *testing.T) (*lnwire.UpdateAddHT
 func getThreeHopEvents(channels *clusterChannels, htlcID uint64,
 	ts time.Time, htlc *lnwire.UpdateAddHTLC, hops []*hop.Payload,
 	linkError *LinkError) ([]interface{}, []interface{}, []interface{}) {
-
 	aliceKey := HtlcKey{
 		IncomingCircuit: zeroCircuit,
 		OutgoingCircuit: channeldb.CircuitKey{
@@ -3124,7 +3116,6 @@ type mockForwardInterceptor struct {
 }
 
 func (m *mockForwardInterceptor) InterceptForwardHtlc(intercepted InterceptedForward) bool {
-
 	m.intercepted = intercepted
 	return true
 }
@@ -3152,7 +3143,6 @@ func assertNumCircuits(t *testing.T, s *Switch, pending, opened int) {
 
 func assertOutgoingLinkReceive(t *testing.T, targetLink *mockChannelLink,
 	expectReceive bool) {
-
 	// Pull packet from targetLink link.
 	select {
 	case packet := <-targetLink.packets:

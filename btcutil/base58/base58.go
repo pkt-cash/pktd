@@ -24,8 +24,10 @@ var bigRadix = [...]*big.Int{
 	bigRadix10,
 }
 
-var bigRadix10 = big.NewInt(58 * 58 * 58 * 58 * 58 * 58 * 58 * 58 * 58 * 58) // 58^10
-var bigZero = big.NewInt(0)
+var (
+	bigRadix10 = big.NewInt(58 * 58 * 58 * 58 * 58 * 58 * 58 * 58 * 58 * 58) // 58^10
+	bigZero    = big.NewInt(0)
+)
 
 // Decode decodes a modified base58 string to a byte slice.
 func Decode(b string) []byte {

@@ -15,12 +15,10 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-var (
-	// DefaultMaxInputsPerTx specifies the default maximum number of inputs
-	// allowed in a single sweep tx. If more need to be swept, multiple txes
-	// are created and published.
-	DefaultMaxInputsPerTx = 100
-)
+// DefaultMaxInputsPerTx specifies the default maximum number of inputs
+// allowed in a single sweep tx. If more need to be swept, multiple txes
+// are created and published.
+var DefaultMaxInputsPerTx = 100
 
 // txInput is an interface that provides the input data required for tx
 // generation.
@@ -41,7 +39,6 @@ type inputSet []input.Input
 func generateInputPartitionings(sweepableInputs []txInput,
 	relayFeePerKW, feePerKW chainfee.SatPerKWeight,
 	maxInputsPerTx int, wallet Wallet) ([]inputSet, er.R) {
-
 	// Sort input by yield. We will start constructing input sets starting
 	// with the highest yield inputs. This is to prevent the construction
 	// of a set with an output below the dust limit, causing the sweep
@@ -137,7 +134,6 @@ func generateInputPartitionings(sweepableInputs []txInput,
 func createSweepTx(inputs []input.Input, outputPkScript []byte,
 	currentBlockHeight uint32, feePerKw chainfee.SatPerKWeight,
 	dustLimit btcutil.Amount, signer input.Signer) (*wire.MsgTx, er.R) {
-
 	inputs, estimator := getWeightEstimate(inputs, feePerKw)
 
 	txFee := estimator.fee()
@@ -282,7 +278,6 @@ func createSweepTx(inputs []input.Input, outputPkScript []byte,
 // Additionally, it returns counts for the number of csv and cltv inputs.
 func getWeightEstimate(inputs []input.Input, feeRate chainfee.SatPerKWeight) (
 	[]input.Input, *weightEstimator) {
-
 	// We initialize a weight estimator so we can accurately asses the
 	// amount of fees we need to pay for this sweep transaction.
 	//

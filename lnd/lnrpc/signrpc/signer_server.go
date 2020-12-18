@@ -5,19 +5,20 @@ package signrpc
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/pkt-cash/pktd/btcec"
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/lnd/input"
 	"github.com/pkt-cash/pktd/lnd/keychain"
 	"github.com/pkt-cash/pktd/lnd/lnrpc"
 	"github.com/pkt-cash/pktd/lnd/lnwire"
 	"github.com/pkt-cash/pktd/lnd/macaroons"
+	"github.com/pkt-cash/pktd/pktlog/log"
 	"github.com/pkt-cash/pktd/txscript"
 	"github.com/pkt-cash/pktd/txscript/params"
 	"github.com/pkt-cash/pktd/wire"
@@ -127,7 +128,7 @@ func New(cfg *Config) (*Server, lnrpc.MacaroonPerms, er.R) {
 		if err != nil {
 			return nil, nil, err
 		}
-		err = ioutil.WriteFile(macFilePath, signerMacBytes, 0644)
+		err = ioutil.WriteFile(macFilePath, signerMacBytes, 0o644)
 		if err != nil {
 			_ = os.Remove(macFilePath)
 			return nil, nil, err
@@ -187,7 +188,6 @@ func (s *Server) RegisterWithRootServer(grpcServer *grpc.Server) er.R {
 // NOTE: This is part of the lnrpc.SubServer interface.
 func (s *Server) RegisterWithRestServer(ctx context.Context,
 	mux *runtime.ServeMux, dest string, opts []grpc.DialOption) er.R {
-
 	// We make sure that we register it with the main REST server to ensure
 	// all our methods are routed properly.
 	err := RegisterSignerHandlerFromEndpoint(ctx, mux, dest, opts)
@@ -210,7 +210,6 @@ func (s *Server) RegisterWithRestServer(ctx context.Context,
 //
 // NOTE: The resulting signature should be void of a sighash byte.
 func (s *Server) SignOutputRaw(ctx context.Context, in *SignReq) (*SignResp, er.R) {
-
 	switch {
 	// If the client doesn't specify a transaction, then there's nothing to
 	// sign, so we'll exit early.
@@ -349,7 +348,6 @@ func (s *Server) SignOutputRaw(ctx context.Context, in *SignReq) (*SignResp, er.
 // the TxOut field, the value in that same field, and finally the input index.
 func (s *Server) ComputeInputScript(ctx context.Context,
 	in *SignReq) (*InputScriptResp, er.R) {
-
 	switch {
 	// If the client doesn't specify a transaction, then there's nothing to
 	// sign, so we'll exit early.
@@ -419,7 +417,6 @@ func (s *Server) ComputeInputScript(ctx context.Context,
 // returned signature is fixed-size LN wire format encoded.
 func (s *Server) SignMessage(ctx context.Context,
 	in *SignMessageReq) (*SignMessageResp, er.R) {
-
 	if in.Msg == nil {
 		return nil, er.Errorf("a message to sign MUST be passed in")
 	}
@@ -458,7 +455,6 @@ func (s *Server) SignMessage(ctx context.Context,
 // provided. The signature must be fixed-size LN wire format encoded.
 func (s *Server) VerifyMessage(ctx context.Context,
 	in *VerifyMessageReq) (*VerifyMessageResp, er.R) {
-
 	if in.Msg == nil {
 		return nil, er.Errorf("a message to verify MUST be passed in")
 	}
@@ -503,7 +499,6 @@ func (s *Server) VerifyMessage(ctx context.Context,
 // hashed with sha256, resulting in the final key length of 256bit.
 func (s *Server) DeriveSharedKey(_ context.Context, in *SharedKeyRequest) (
 	*SharedKeyResponse, er.R) {
-
 	// Check that EphemeralPubkey is valid.
 	ephemeralPubkey, err := parseRawKeyBytes(in.EphemeralPubkey)
 	if err != nil {

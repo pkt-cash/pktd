@@ -30,7 +30,6 @@ func genPreimage() ([32]byte, er.R) {
 
 func genInfo() (*PaymentCreationInfo, *HTLCAttemptInfo,
 	lntypes.Preimage, er.R) {
-
 	preimage, err := genPreimage()
 	if err != nil {
 		return nil, nil, preimage, er.Errorf("unable to "+
@@ -358,7 +357,7 @@ func TestPaymentControlDeleteNonInFligt(t *testing.T) {
 	// Create a sequence number for duplicate payments that will not collide
 	// with the sequence numbers for the payments we create. These values
 	// start at 1, so 9999 is a safe bet for this test.
-	var duplicateSeqNr = 9999
+	duplicateSeqNr := 9999
 
 	pControl := NewPaymentControl(db)
 
@@ -878,7 +877,6 @@ func TestPaymentControlMPPRecordValidation(t *testing.T) {
 // and compares it with the expected state.
 func assertPaymentStatus(t *testing.T, p *PaymentControl,
 	hash lntypes.Hash, expStatus PaymentStatus) {
-
 	t.Helper()
 
 	payment, err := p.FetchPayment(hash)
@@ -905,7 +903,6 @@ type htlcStatus struct {
 // expected values.
 func assertPaymentInfo(t *testing.T, p *PaymentControl, hash lntypes.Hash,
 	c *PaymentCreationInfo, f *FailureReason, a *htlcStatus) {
-
 	t.Helper()
 
 	payment, err := p.FetchPayment(hash)
@@ -972,7 +969,6 @@ func assertPaymentInfo(t *testing.T, p *PaymentControl, hash lntypes.Hash,
 // from our payment indexes bucket.
 func fetchPaymentIndexEntry(_ *testing.T, p *PaymentControl,
 	sequenceNumber uint64) (*lntypes.Hash, er.R) {
-
 	var hash lntypes.Hash
 
 	if err := kvdb.View(p.db, func(tx walletdb.ReadTx) er.R {
@@ -1003,7 +999,6 @@ func fetchPaymentIndexEntry(_ *testing.T, p *PaymentControl,
 // that its payment hash matches the expected hash passed in.
 func assertPaymentIndex(t *testing.T, p *PaymentControl,
 	expectedHash lntypes.Hash) {
-
 	// Lookup the payment so that we have its sequence number and check
 	// that is has correctly been indexed in the payment indexes bucket.
 	pmt, err := p.FetchPayment(expectedHash)

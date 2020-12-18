@@ -51,11 +51,9 @@ const (
 	bytePerKb = 1000
 )
 
-var (
-	// EstimateFeeDatabaseKey is the key that we use to
-	// store the fee estimator in the database.
-	EstimateFeeDatabaseKey = []byte("estimatefee")
-)
+// EstimateFeeDatabaseKey is the key that we use to
+// store the fee estimator in the database.
+var EstimateFeeDatabaseKey = []byte("estimatefee")
 
 // SatoshiPerByte is number with units of satoshis per byte.
 type SatoshiPerByte float64
@@ -385,7 +383,7 @@ func (ef *FeeEstimator) rollback() {
 
 		bin := ef.bin[blocksToConfirm]
 
-		var counter = replacementCounters[blocksToConfirm]
+		counter := replacementCounters[blocksToConfirm]
 
 		// Continue to go through that bin where we left off.
 		for {

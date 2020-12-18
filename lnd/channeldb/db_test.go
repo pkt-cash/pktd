@@ -738,5 +738,4 @@ func TestFetchHistoricalChannel(t *testing.T) {
 	if !ErrChannelNotFound.Is(err) {
 		t.Fatalf("expected chan not found, got: %v", err)
 	}
-
 }

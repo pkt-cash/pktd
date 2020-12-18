@@ -40,7 +40,6 @@ type paymentState struct {
 // to act on every iteration of the payment loop.
 func (p *paymentLifecycle) paymentState(payment *channeldb.MPPayment) (
 	*paymentState, er.R) {
-
 	// Fetch the total amount and fees that has already been sent in
 	// settled and still in-flight shards.
 	sentAmt, fees := payment.SentAmt()
@@ -361,7 +360,6 @@ type launchOutcome struct {
 // for it.
 func (p *shardHandler) launchShard(rt *route.Route) (*channeldb.HTLCAttemptInfo,
 	*launchOutcome, er.R) {
-
 	// Using the route received from the payment session, create a new
 	// shard to send.
 	firstHop, htlcAdd, attempt, err := p.createNewPaymentAttempt(
@@ -465,7 +463,6 @@ func (p *shardHandler) collectResultAsync(attempt *channeldb.HTLCAttemptInfo) {
 // shardResult is returned, indicating the final outcome of this HTLC attempt.
 func (p *shardHandler) collectResult(attempt *channeldb.HTLCAttemptInfo) (
 	*shardResult, er.R) {
-
 	// Regenerate the circuit for this attempt.
 	_, circuit, err := generateSphinxPacket(
 		&attempt.Route, p.paymentHash[:],
@@ -586,7 +583,6 @@ func (p *shardHandler) collectResult(attempt *channeldb.HTLCAttemptInfo) (
 func (p *shardHandler) createNewPaymentAttempt(rt *route.Route) (
 	lnwire.ShortChannelID, *lnwire.UpdateAddHTLC,
 	*channeldb.HTLCAttemptInfo, er.R) {
-
 	// Generate a new key to be used for this attempt.
 	sessionKey, err := generateNewSessionKey()
 	if err != nil {
@@ -643,7 +639,6 @@ func (p *shardHandler) createNewPaymentAttempt(rt *route.Route) (
 func (p *shardHandler) sendPaymentAttempt(
 	attempt *channeldb.HTLCAttemptInfo, firstHop lnwire.ShortChannelID,
 	htlcAdd *lnwire.UpdateAddHTLC) er.R {
-
 	log.Tracef("Attempting to send payment %v (pid=%v), "+
 		"using route: %v", p.paymentHash, attempt.AttemptID,
 		log.C(func() string {
@@ -677,7 +672,6 @@ func (p *shardHandler) sendPaymentAttempt(
 // control tower.
 func (p *shardHandler) handleSendError(attempt *channeldb.HTLCAttemptInfo,
 	sendErr er.R) er.R {
-
 	reason := p.router.processSendError(
 		attempt.AttemptID, &attempt.Route, sendErr,
 	)
@@ -699,7 +693,6 @@ func (p *shardHandler) handleSendError(attempt *channeldb.HTLCAttemptInfo,
 // failAttempt calls control tower to fail the current payment attempt.
 func (p *shardHandler) failAttempt(attempt *channeldb.HTLCAttemptInfo,
 	sendError er.R) (*channeldb.HTLCAttempt, er.R) {
-
 	log.Warnf("Attempt %v for payment %v failed: %v", attempt.AttemptID,
 		p.paymentHash, sendError)
 

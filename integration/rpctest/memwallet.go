@@ -23,17 +23,15 @@ import (
 	"github.com/pkt-cash/pktd/wire/constants"
 )
 
-var (
-	// hdSeed is the BIP 32 seed used by the memWallet to initialize it's
-	// HD root key. This value is hard coded in order to ensure
-	// deterministic behavior across test runs.
-	hdSeed = [chainhash.HashSize]byte{
-		0x79, 0xa6, 0x1a, 0xdb, 0xc6, 0xe5, 0xa2, 0xe1,
-		0x39, 0xd2, 0x71, 0x3a, 0x54, 0x6e, 0xc7, 0xc8,
-		0x75, 0x63, 0x2e, 0x75, 0xf1, 0xdf, 0x9c, 0x3f,
-		0xa6, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	}
-)
+// hdSeed is the BIP 32 seed used by the memWallet to initialize it's
+// HD root key. This value is hard coded in order to ensure
+// deterministic behavior across test runs.
+var hdSeed = [chainhash.HashSize]byte{
+	0x79, 0xa6, 0x1a, 0xdb, 0xc6, 0xe5, 0xa2, 0xe1,
+	0x39, 0xd2, 0x71, 0x3a, 0x54, 0x6e, 0xc7, 0xc8,
+	0x75, 0x63, 0x2e, 0x75, 0xf1, 0xdf, 0x9c, 0x3f,
+	0xa6, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+}
 
 // utxo represents an unspent output spendable by the memWallet. The maturity
 // height of the transaction is recorded in order to properly observe the
@@ -185,8 +183,10 @@ func (m *memWallet) IngestBlock(height int32, header *wire.BlockHeader, filtered
 	// Append this new chain update to the end of the queue of new chain
 	// updates.
 	m.chainMtx.Lock()
-	m.chainUpdates = append(m.chainUpdates, &chainUpdate{height,
-		filteredTxns, true})
+	m.chainUpdates = append(m.chainUpdates, &chainUpdate{
+		height,
+		filteredTxns, true,
+	})
 	m.chainMtx.Unlock()
 
 	// Launch a goroutine to signal the chainSyncer that a new update is
@@ -251,7 +251,6 @@ func (m *memWallet) chainSyncer() {
 // utxo within the wallet if we're able to spend the output.
 func (m *memWallet) evalOutputs(outputs []*wire.TxOut, txHash *chainhash.Hash,
 	isCoinbase bool, undo *undoEntry) {
-
 	for i, output := range outputs {
 		pkScript := output.PkScript
 
@@ -305,8 +304,10 @@ func (m *memWallet) UnwindBlock(height int32, header *wire.BlockHeader) {
 	// Append this new chain update to the end of the queue of new chain
 	// updates.
 	m.chainMtx.Lock()
-	m.chainUpdates = append(m.chainUpdates, &chainUpdate{height,
-		nil, false})
+	m.chainUpdates = append(m.chainUpdates, &chainUpdate{
+		height,
+		nil, false,
+	})
 	m.chainMtx.Unlock()
 
 	// Launch a goroutine to signal the chainSyncer that a new update is
@@ -384,7 +385,6 @@ func (m *memWallet) NewAddress() (btcutil.Address, er.R) {
 // NOTE: The memWallet's mutex must be held when this function is called.
 func (m *memWallet) fundTx(tx *wire.MsgTx, amt btcutil.Amount,
 	feeRate btcutil.Amount, change bool) er.R {
-
 	const (
 		// spendSize is the largest number of bytes of a sigScript
 		// which spends a p2pkh output: OP_DATA_73 <sig> OP_DATA_33 <pubkey>
@@ -453,7 +453,6 @@ func (m *memWallet) fundTx(tx *wire.MsgTx, amt btcutil.Amount,
 // in satoshis-per-byte.
 func (m *memWallet) SendOutputs(outputs []*wire.TxOut,
 	feeRate btcutil.Amount) (*chainhash.Hash, er.R) {
-
 	tx, err := m.CreateTransaction(outputs, feeRate, true)
 	if err != nil {
 		return nil, err
@@ -467,7 +466,6 @@ func (m *memWallet) SendOutputs(outputs []*wire.TxOut,
 // output. The passed fee rate should be expressed in sat/b.
 func (m *memWallet) SendOutputsWithoutChange(outputs []*wire.TxOut,
 	feeRate btcutil.Amount) (*chainhash.Hash, er.R) {
-
 	tx, err := m.CreateTransaction(outputs, feeRate, false)
 	if err != nil {
 		return nil, err
@@ -484,7 +482,6 @@ func (m *memWallet) SendOutputsWithoutChange(outputs []*wire.TxOut,
 // This function is safe for concurrent access.
 func (m *memWallet) CreateTransaction(outputs []*wire.TxOut,
 	feeRate btcutil.Amount, change bool) (*wire.MsgTx, er.R) {
-
 	m.Lock()
 	defer m.Unlock()
 

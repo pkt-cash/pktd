@@ -41,7 +41,6 @@ func createTx(t *testing.T, numOutputs int, inputs ...wire.OutPoint) *wire.MsgTx
 // TestBroadcaster ensures that we can broadcast transactions while it is
 // active.
 func TestBroadcaster(t *testing.T) {
-
 	cfg := &Config{
 		Broadcast: func(*wire.MsgTx) er.R {
 			return nil
@@ -76,7 +75,6 @@ func TestBroadcaster(t *testing.T) {
 // TestRebroadcast ensures that we properly rebroadcast transactions upon every
 // new block. Transactions that have confirmed should no longer be broadcast.
 func TestRebroadcast(t *testing.T) {
-
 	const numTxs = 1
 
 	// We'll start by setting up the broadcaster with channels to mock the

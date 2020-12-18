@@ -216,7 +216,7 @@ func testMacaroonAuthentication(net *lntest.NetworkHarness, ht *harnessTest) {
 // in the request must be set correctly, and the baked macaroon has the intended
 // permissions.
 func testBakeMacaroon(net *lntest.NetworkHarness, t *harnessTest) {
-	var testNode = net.Alice
+	testNode := net.Alice
 
 	testCases := []struct {
 		name string
@@ -228,7 +228,6 @@ func testBakeMacaroon(net *lntest.NetworkHarness, t *harnessTest) {
 		name: "no permission list",
 		run: func(ctxt context.Context, t *testing.T,
 			adminClient lnrpc.LightningClient) {
-
 			req := &lnrpc.BakeMacaroonRequest{}
 			_, errr := adminClient.BakeMacaroon(ctxt, req)
 			require.Error(t, errr)
@@ -243,7 +242,6 @@ func testBakeMacaroon(net *lntest.NetworkHarness, t *harnessTest) {
 		name: "invalid permission list",
 		run: func(ctxt context.Context, t *testing.T,
 			adminClient lnrpc.LightningClient) {
-
 			req := &lnrpc.BakeMacaroonRequest{
 				Permissions: []*lnrpc.MacaroonPermission{{
 					Entity: "macaroon",
@@ -262,7 +260,6 @@ func testBakeMacaroon(net *lntest.NetworkHarness, t *harnessTest) {
 		name: "invalid permission entity",
 		run: func(ctxt context.Context, t *testing.T,
 			adminClient lnrpc.LightningClient) {
-
 			req := &lnrpc.BakeMacaroonRequest{
 				Permissions: []*lnrpc.MacaroonPermission{{
 					Entity: "invalid123",
@@ -281,7 +278,6 @@ func testBakeMacaroon(net *lntest.NetworkHarness, t *harnessTest) {
 		name: "default root key ID",
 		run: func(ctxt context.Context, t *testing.T,
 			adminClient lnrpc.LightningClient) {
-
 			req := &lnrpc.BakeMacaroonRequest{
 				Permissions: []*lnrpc.MacaroonPermission{{
 					Entity: "macaroon",
@@ -301,7 +297,6 @@ func testBakeMacaroon(net *lntest.NetworkHarness, t *harnessTest) {
 		name: "custom root key ID",
 		run: func(ctxt context.Context, t *testing.T,
 			adminClient lnrpc.LightningClient) {
-
 			rootKeyID := uint64(4200)
 			req := &lnrpc.BakeMacaroonRequest{
 				RootKeyId: rootKeyID,
@@ -334,7 +329,6 @@ func testBakeMacaroon(net *lntest.NetworkHarness, t *harnessTest) {
 		name: "custom macaroon permissions",
 		run: func(ctxt context.Context, t *testing.T,
 			adminClient lnrpc.LightningClient) {
-
 			rootKeyID := uint64(4200)
 			req := &lnrpc.BakeMacaroonRequest{
 				RootKeyId: rootKeyID,
@@ -601,7 +595,6 @@ func readMacaroonFromHex(macHex string) (*macaroon.Macaroon, er.R) {
 
 func macaroonClient(t *testing.T, testNode *lntest.HarnessNode,
 	mac *macaroon.Macaroon) (func(), lnrpc.LightningClient) {
-
 	conn, err := testNode.ConnectRPCWithMacaroon(mac)
 	util.RequireNoErr(t, err, "connect to alice")
 

@@ -109,7 +109,6 @@ type ForwardingPolicy struct {
 // func
 func ExpectedFee(f ForwardingPolicy,
 	htlcAmt lnwire.MilliSatoshi) lnwire.MilliSatoshi {
-
 	return f.BaseFee + (htlcAmt*f.FeeRate)/1000000
 }
 
@@ -396,7 +395,6 @@ type hodlHtlc struct {
 // and active channel that will be used to verify/apply updates to.
 func NewChannelLink(cfg ChannelLinkConfig,
 	channel *lnwallet.LightningChannel) ChannelLink {
-
 	return &channelLink{
 		cfg:         cfg,
 		channel:     channel,
@@ -614,7 +612,6 @@ func shouldAdjustCommitFee(netFee, chanFee chainfee.SatPerKWeight) bool {
 // passes it into the callback. It expects a fully populated failure message.
 func (l *channelLink) createFailureWithUpdate(
 	cb func(update *lnwire.ChannelUpdate) lnwire.FailureMessage) lnwire.FailureMessage {
-
 	update, err := l.cfg.FetchLastChannelUpdate(l.ShortChanID())
 	if err != nil {
 		return &lnwire.FailTemporaryNodeFailure{}
@@ -1170,7 +1167,6 @@ func (l *channelLink) htlcManager() {
 // returns without an error, the commit tx should be updated.
 func (l *channelLink) processHodlQueue(
 	firstResolution invoices.HtlcResolution) er.R {
-
 	// Try to read all waiting resolution messages, so that they can all be
 	// processed in a single commitment tx update.
 	htlcResolution := firstResolution
@@ -1212,7 +1208,6 @@ loop:
 // updated.
 func (l *channelLink) processHtlcResolution(resolution invoices.HtlcResolution,
 	htlc hodlHtlc) er.R {
-
 	circuitKey := resolution.CircuitKey()
 
 	// Determine required action for the resolution based on the type of
@@ -1253,7 +1248,6 @@ func (l *channelLink) processHtlcResolution(resolution invoices.HtlcResolution,
 // be failed with.
 func getResolutionFailure(resolution *invoices.HtlcFailResolution,
 	amount lnwire.MilliSatoshi) *LinkError {
-
 	// If the resolution has been resolved as part of a MPP timeout,
 	// we need to fail the htlc with lnwire.FailMppTimeout.
 	if resolution.Outcome == invoices.ResultMppTimeout {
@@ -1916,7 +1910,6 @@ func (l *channelLink) handleUpstreamMsg(msg lnwire.Message) {
 	default:
 		log.Warnf("received unknown message of type %T", msg)
 	}
-
 }
 
 // ackDownStreamPackets is responsible for removing htlcs from a link's mailbox
@@ -2187,7 +2180,6 @@ func (l *channelLink) CheckHtlcForward(payHash [32]byte,
 	incomingHtlcAmt, amtToForward lnwire.MilliSatoshi,
 	incomingTimeout, outgoingTimeout uint32,
 	heightNow uint32) *LinkError {
-
 	l.RLock()
 	policy := l.cfg.FwrdingPolicy
 	l.RUnlock()
@@ -2261,7 +2253,6 @@ func (l *channelLink) CheckHtlcForward(payHash [32]byte,
 func (l *channelLink) CheckHtlcTransit(payHash [32]byte,
 	amt lnwire.MilliSatoshi, timeout uint32,
 	heightNow uint32) *LinkError {
-
 	l.RLock()
 	policy := l.cfg.FwrdingPolicy
 	l.RUnlock()
@@ -2276,7 +2267,6 @@ func (l *channelLink) CheckHtlcTransit(payHash [32]byte,
 func (l *channelLink) canSendHtlc(policy ForwardingPolicy,
 	payHash [32]byte, amt lnwire.MilliSatoshi, timeout uint32,
 	heightNow uint32) *LinkError {
-
 	// As our first sanity check, we'll ensure that the passed HTLC isn't
 	// too small for the next hop. If so, then we'll cancel the HTLC
 	// directly.
@@ -2420,7 +2410,6 @@ func (l *channelLink) HandleChannelUpdate(message lnwire.Message) {
 // updateChannelFee updates the commitment fee-per-kw on this channel by
 // committing to an update_fee message.
 func (l *channelLink) updateChannelFee(feePerKw chainfee.SatPerKWeight) er.R {
-
 	log.Infof("updating commit fee to %v sat/kw", feePerKw)
 
 	// We skip sending the UpdateFee message if the channel is not
@@ -2451,7 +2440,6 @@ func (l *channelLink) updateChannelFee(feePerKw chainfee.SatPerKWeight) er.R {
 // the switch.
 func (l *channelLink) processRemoteSettleFails(fwdPkg *channeldb.FwdPkg,
 	settleFails []*lnwallet.PaymentDescriptor) {
-
 	if len(settleFails) == 0 {
 		return
 	}
@@ -2559,7 +2547,6 @@ func (l *channelLink) processRemoteSettleFails(fwdPkg *channeldb.FwdPkg,
 // have already been acknowledged in the forwarding package will be ignored.
 func (l *channelLink) processRemoteAdds(fwdPkg *channeldb.FwdPkg,
 	lockedInHtlcs []*lnwallet.PaymentDescriptor) {
-
 	log.Tracef("processing %d remote adds for height %d",
 		len(lockedInHtlcs), fwdPkg.Height)
 
@@ -2568,7 +2555,6 @@ func (l *channelLink) processRemoteAdds(fwdPkg *channeldb.FwdPkg,
 	)
 	for _, pd := range lockedInHtlcs {
 		switch pd.EntryType {
-
 		// TODO(conner): remove type switch?
 		case lnwallet.Add:
 			// Before adding the new htlc to the state machine,
@@ -2861,7 +2847,6 @@ func (l *channelLink) processRemoteAdds(fwdPkg *channeldb.FwdPkg,
 func (l *channelLink) processExitHop(pd *lnwallet.PaymentDescriptor,
 	obfuscator hop.ErrorEncrypter, fwdInfo hop.ForwardingInfo,
 	heightNow uint32, payload invoices.Payload) er.R {
-
 	// If hodl.ExitSettle is requested, we will not validate the final hop's
 	// ADD, nor will we settle the corresponding invoice or respond with the
 	// preimage.
@@ -2941,7 +2926,6 @@ func (l *channelLink) processExitHop(pd *lnwallet.PaymentDescriptor,
 // settleHTLC settles the HTLC on the channel.
 func (l *channelLink) settleHTLC(preimage lntypes.Preimage,
 	pd *lnwallet.PaymentDescriptor) er.R {
-
 	hash := preimage.Hash()
 
 	log.Infof("settling htlc %v as exit hop", hash)
@@ -2990,7 +2974,7 @@ func (l *channelLink) forwardBatch(packets ...*htlcPacket) {
 	// Don't forward packets for which we already have a response in our
 	// mailbox. This could happen if a packet fails and is buffered in the
 	// mailbox, and the incoming link flaps.
-	var filteredPkts = make([]*htlcPacket, 0, len(packets))
+	filteredPkts := make([]*htlcPacket, 0, len(packets))
 	for _, pkt := range packets {
 		if l.mailBox.HasPacket(pkt.inKey()) {
 			continue
@@ -3009,7 +2993,6 @@ func (l *channelLink) forwardBatch(packets ...*htlcPacket) {
 // peer from which HTLC was received.
 func (l *channelLink) sendHTLCError(pd *lnwallet.PaymentDescriptor,
 	failure *LinkError, e hop.ErrorEncrypter, isReceive bool) {
-
 	reason, err := e.EncryptFirstHop(failure.WireMessage())
 	if err != nil {
 		log.Errorf("unable to obfuscate error: %v", err)
@@ -3059,7 +3042,6 @@ func (l *channelLink) sendHTLCError(pd *lnwallet.PaymentDescriptor,
 // to the payment sender.
 func (l *channelLink) sendMalformedHTLCError(htlcIndex uint64,
 	code lnwire.FailCode, onionBlob []byte, sourceRef *channeldb.AddRef) {
-
 	shaOnionBlob := sha256.Sum256(onionBlob)
 	err := l.channel.MalformedFailHTLC(htlcIndex, code, shaOnionBlob, sourceRef)
 	if err != nil {

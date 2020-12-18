@@ -603,7 +603,6 @@ func (g *GossipSyncer) replyHandler() {
 // syncer and sends it to the remote peer.
 func (g *GossipSyncer) sendGossipTimestampRange(firstTimestamp time.Time,
 	timestampRange uint32) er.R {
-
 	endTimestamp := firstTimestamp.Add(
 		time.Duration(timestampRange) * time.Second,
 	)
@@ -685,7 +684,6 @@ func (g *GossipSyncer) synchronizeChanIDs() (bool, er.R) {
 // communicating with a legacy node so we can properly sync with them.
 func isLegacyReplyChannelRange(query *lnwire.QueryChannelRange,
 	reply *lnwire.ReplyChannelRange) bool {
-
 	return reply.QueryChannelRange == *query
 }
 
@@ -812,7 +810,6 @@ func (g *GossipSyncer) processChanRangeReply(msg *lnwire.ReplyChannelRange) er.R
 // the genesis block of the chain.
 func (g *GossipSyncer) genChanRangeQuery(
 	historicalQuery bool) (*lnwire.QueryChannelRange, er.R) {
-
 	// First, we'll query our channel graph time series for its highest
 	// known channel ID.
 	newestChan, err := g.cfg.channelSeries.HighestChanID(g.cfg.chainHash)

@@ -85,7 +85,7 @@ func (m *mruInventoryMap) Add(iv *wire.InvVect) {
 		node := m.invList.Back()
 		lru, ok := node.Value.(*wire.InvVect)
 
-		//Don't panic if assertion failed
+		// Don't panic if assertion failed
 		if !ok {
 			return
 		}

@@ -51,9 +51,11 @@ var allWords = make(map[string]*wordsDesc)
  * Birthday (encrypted): when the wallet was created, unix time divided by 60*60*24, big endian
  * Seed (encrypted): 32 byte seed content
  */
-const seedVersion = 0
-const wordCount = 15
-const encByteLen = 21
+const (
+	seedVersion = 0
+	wordCount   = 15
+	encByteLen  = 21
+)
 
 // The salt is fixed because:
 // 1. The password should normally be a strong one
@@ -61,9 +63,11 @@ const encByteLen = 21
 // 3. The resulting seed must be compact
 var argonSalt = []byte("pktwallet seed 0")
 
-const argonIterations = 32
-const argonMemory = 256 * 1024 // 256MB
-const argonThreads = 8
+const (
+	argonIterations = 32
+	argonMemory     = 256 * 1024 // 256MB
+	argonThreads    = 8
+)
 
 // The value of the unused section should be 1 after decoding
 const expectUnused = 1
@@ -84,6 +88,7 @@ func (s *SeedEnc) putBday(bday time.Time) {
 	day := uint16(bday.Unix() / (60 * 60 * 24))
 	binary.BigEndian.PutUint16(s.Bytes[2:4], day)
 }
+
 func (s *SeedEnc) getBday() time.Time {
 	day := binary.BigEndian.Uint16(s.Bytes[2:4])
 	return time.Unix(int64(day)*(60*60*24), 0)
@@ -92,6 +97,7 @@ func (s *SeedEnc) getBday() time.Time {
 func (s *SeedEnc) putVer(ver byte) {
 	s.Bytes[0] = (s.Bytes[0] & 0x01) | ((ver & 0x0f) << 1)
 }
+
 func (s *SeedEnc) getVer() byte {
 	return (s.Bytes[0] >> 1) & 0x0f
 }
@@ -102,6 +108,7 @@ func (s *SeedEnc) putE(e bool) {
 		s.Bytes[0] |= 0x01
 	}
 }
+
 func (s *SeedEnc) getE() bool {
 	return s.Bytes[0]&0x01 == 0x01
 }
@@ -109,6 +116,7 @@ func (s *SeedEnc) getE() bool {
 func (s *SeedEnc) putCsum(csum byte) {
 	s.Bytes[1] = csum
 }
+
 func (s *SeedEnc) getCsum() byte {
 	return s.Bytes[1]
 }

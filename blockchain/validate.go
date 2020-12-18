@@ -116,7 +116,6 @@ func IsCoinBase(tx *btcutil.Tx) bool {
 // height or time sufficient for their relative lock-time maturity.
 func SequenceLockActive(sequenceLock *SequenceLock, blockHeight int32,
 	medianTimePast time.Time) bool {
-
 	// If either the seconds, or height relative-lock time has not yet
 	// reached, then the transaction is not yet mature according to its
 	// sequence locks.

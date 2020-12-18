@@ -3,8 +3,7 @@
 package lntest
 
 import (
-	"fmt"
-
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
 )
 
@@ -45,7 +44,6 @@ func (b NeutrinoBackendConfig) Name() string {
 // NewBackend starts and returns a NeutrinoBackendConfig for the node.
 func NewBackend(miner string, _ *chaincfg.Params) (
 	*NeutrinoBackendConfig, func() error, er.R) {
-
 	bd := &NeutrinoBackendConfig{
 		minerAddr: miner,
 	}

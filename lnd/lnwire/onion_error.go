@@ -2,12 +2,11 @@ package lnwire
 
 import (
 	"bufio"
+	"bytes"
 	"crypto/sha256"
 	"encoding/binary"
 	"fmt"
 	"io"
-
-	"bytes"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -352,7 +351,6 @@ type FailIncorrectDetails struct {
 // error bound to the specified HTLC amount and acceptance height.
 func NewFailIncorrectDetails(amt MilliSatoshi,
 	height uint32) *FailIncorrectDetails {
-
 	return &FailIncorrectDetails{
 		amount: amt,
 		height: height,
@@ -582,7 +580,6 @@ func (f *FailInvalidOnionKey) Error() string {
 // regular parsing mechanism which includes the length prefix an NO type byte.
 func parseChannelUpdateCompatabilityMode(r *bufio.Reader,
 	chanUpdate *ChannelUpdate, pver uint32) er.R {
-
 	// We'll peek out two bytes from the buffer without advancing the
 	// buffer so we can decide how to parse the remainder of it.
 	maybeTypeBytes, err := r.Peek(2)
@@ -706,7 +703,6 @@ type FailAmountBelowMinimum struct {
 // NewAmountBelowMinimum creates new instance of the FailAmountBelowMinimum.
 func NewAmountBelowMinimum(htlcMsat MilliSatoshi,
 	update ChannelUpdate) *FailAmountBelowMinimum {
-
 	return &FailAmountBelowMinimum{
 		HtlcMsat: htlcMsat,
 		Update:   update,
@@ -845,7 +841,6 @@ type FailIncorrectCltvExpiry struct {
 // NewIncorrectCltvExpiry creates new instance of the FailIncorrectCltvExpiry.
 func NewIncorrectCltvExpiry(cltvExpiry uint32,
 	update ChannelUpdate) *FailIncorrectCltvExpiry {
-
 	return &FailIncorrectCltvExpiry{
 		CltvExpiry: cltvExpiry,
 		Update:     update,
@@ -1404,7 +1399,6 @@ func makeEmptyOnionError(code FailCode) (FailureMessage, er.R) {
 // the channel update, followed by the serialized channel update itself.
 func writeOnionErrorChanUpdate(w io.Writer, chanUpdate *ChannelUpdate,
 	pver uint32) er.R {
-
 	// First, we encode the channel update in a temporary buffer in order
 	// to get the exact serialized size.
 	var b bytes.Buffer

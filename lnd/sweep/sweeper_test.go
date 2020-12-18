@@ -63,9 +63,11 @@ var (
 )
 
 func createTestInput(value int64, witnessType input.WitnessType) input.BaseInput {
-	hash := chainhash.Hash{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	hash := chainhash.Hash{
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		byte(testInputCount + 1)}
+		byte(testInputCount + 1),
+	}
 
 	input := input.MakeBaseInput(
 		&wire.OutPoint{
@@ -304,7 +306,6 @@ func (ctx *sweeperTestContext) assertPendingInputs(inputs ...input.Input) {
 // received from resultChan spends the given inputs.
 func assertTxSweepsInputs(t *testing.T, sweepTx *wire.MsgTx,
 	inputs ...input.Input) {
-
 	t.Helper()
 
 	if len(sweepTx.TxIn) != len(inputs) {
@@ -330,7 +331,6 @@ func assertTxSweepsInputs(t *testing.T, sweepTx *wire.MsgTx,
 // only type of transaction the UtxoSweeper can create at the moment.
 func assertTxFeeRate(t *testing.T, tx *wire.MsgTx,
 	expectedFeeRate chainfee.SatPerKWeight, inputs ...input.Input) {
-
 	t.Helper()
 
 	if len(tx.TxIn) != len(inputs) {
@@ -836,7 +836,6 @@ func TestRestart(t *testing.T) {
 // TestRestartRemoteSpend asserts that the sweeper picks up sweeping properly after
 // a restart with remote spend.
 func TestRestartRemoteSpend(t *testing.T) {
-
 	ctx := createSweeperTestContext(t)
 
 	// Sweep input.
@@ -1772,7 +1771,6 @@ func TestRequiredTxOuts(t *testing.T) {
 			assertSweeps: func(t *testing.T,
 				_ map[wire.OutPoint]*testInput,
 				txs []*wire.MsgTx) {
-
 				require.Equal(t, 1, len(txs))
 
 				tx := txs[0]
@@ -1809,7 +1807,6 @@ func TestRequiredTxOuts(t *testing.T) {
 			assertSweeps: func(t *testing.T,
 				_ map[wire.OutPoint]*testInput,
 				txs []*wire.MsgTx) {
-
 				require.Equal(t, 1, len(txs))
 
 				tx := txs[0]
@@ -1843,7 +1840,6 @@ func TestRequiredTxOuts(t *testing.T) {
 			assertSweeps: func(t *testing.T,
 				_ map[wire.OutPoint]*testInput,
 				txs []*wire.MsgTx) {
-
 				require.Equal(t, 1, len(txs))
 
 				tx := txs[0]
@@ -1890,7 +1886,6 @@ func TestRequiredTxOuts(t *testing.T) {
 			assertSweeps: func(t *testing.T,
 				testInputs map[wire.OutPoint]*testInput,
 				txs []*wire.MsgTx) {
-
 				require.Equal(t, 1, len(txs))
 
 				tx := txs[0]
@@ -1978,7 +1973,6 @@ func TestRequiredTxOuts(t *testing.T) {
 			assertSweeps: func(t *testing.T,
 				testInputs map[wire.OutPoint]*testInput,
 				txs []*wire.MsgTx) {
-
 				require.Equal(t, 3, len(txs))
 
 				for _, tx := range txs {

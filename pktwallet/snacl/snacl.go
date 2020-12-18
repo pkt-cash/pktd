@@ -19,9 +19,7 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/internal/zero"
 )
 
-var (
-	prng = rand.Reader
-)
+var prng = rand.Reader
 
 var Err er.ErrorType = er.NewErrorType("snacl.Err")
 

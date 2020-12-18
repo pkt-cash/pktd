@@ -52,6 +52,6 @@ func (h *headerStore) singleTruncate() er.R {
 	}
 
 	fileFlags := os.O_RDWR | os.O_APPEND | os.O_CREATE
-	h.file, err = os.OpenFile(fileName, fileFlags, 0644)
+	h.file, err = os.OpenFile(fileName, fileFlags, 0o644)
 	return er.E(err)
 }

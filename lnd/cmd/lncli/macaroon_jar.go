@@ -42,7 +42,6 @@ type macaroonEntry struct {
 // result in the user being prompted for the password in the terminal.
 func (e *macaroonEntry) loadMacaroon(
 	pwCallback getPasswordFn) (*macaroon.Macaroon, er.R) {
-
 	if len(strings.TrimSpace(e.Data)) == 0 {
 		return nil, er.Errorf("macaroon data is empty")
 	}

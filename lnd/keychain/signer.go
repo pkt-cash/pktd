@@ -7,7 +7,6 @@ import (
 
 func NewPubKeyDigestSigner(keyDesc KeyDescriptor,
 	signer DigestSignerRing) *PubKeyDigestSigner {
-
 	return &PubKeyDigestSigner{
 		keyDesc:      keyDesc,
 		digestSigner: signer,
@@ -25,13 +24,11 @@ func (p *PubKeyDigestSigner) PubKey() *btcec.PublicKey {
 
 func (p *PubKeyDigestSigner) SignDigest(digest [32]byte) (*btcec.Signature,
 	er.R) {
-
 	return p.digestSigner.SignDigest(p.keyDesc, digest)
 }
 
 func (p *PubKeyDigestSigner) SignDigestCompact(digest [32]byte) ([]byte,
 	er.R) {
-
 	return p.digestSigner.SignDigestCompact(p.keyDesc, digest)
 }
 
@@ -45,15 +42,15 @@ func (p *PrivKeyDigestSigner) PubKey() *btcec.PublicKey {
 
 func (p *PrivKeyDigestSigner) SignDigest(digest [32]byte) (*btcec.Signature,
 	er.R) {
-
 	return p.PrivKey.Sign(digest[:])
 }
 
 func (p *PrivKeyDigestSigner) SignDigestCompact(digest [32]byte) ([]byte,
 	er.R) {
-
 	return btcec.SignCompact(btcec.S256(), p.PrivKey, digest[:], true)
 }
 
-var _ SingleKeyDigestSigner = (*PubKeyDigestSigner)(nil)
-var _ SingleKeyDigestSigner = (*PrivKeyDigestSigner)(nil)
+var (
+	_ SingleKeyDigestSigner = (*PubKeyDigestSigner)(nil)
+	_ SingleKeyDigestSigner = (*PrivKeyDigestSigner)(nil)
+)

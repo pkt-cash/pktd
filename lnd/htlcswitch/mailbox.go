@@ -210,7 +210,6 @@ func (m *memoryMailBox) ResetPackets() er.R {
 // until receiving a response that the mailbox has processed a reset.
 func (m *memoryMailBox) signalUntilReset(cType courierType,
 	done chan struct{}) er.R {
-
 	for {
 
 		switch cType {
@@ -772,7 +771,6 @@ func (mo *mailOrchestrator) Stop() {
 // creates and returns a new mailbox if none is found.
 func (mo *mailOrchestrator) GetOrCreateMailBox(chanID lnwire.ChannelID,
 	shortChanID lnwire.ShortChannelID) MailBox {
-
 	// First, try lookup the mailbox directly using only the shared mutex.
 	mo.mu.RLock()
 	mailbox, ok := mo.mailboxes[chanID]
@@ -798,7 +796,6 @@ func (mo *mailOrchestrator) GetOrCreateMailBox(chanID lnwire.ChannelID,
 // NOTE: This method MUST be invoked with the mailOrchestrator's exclusive lock.
 func (mo *mailOrchestrator) exclusiveGetOrCreateMailBox(
 	chanID lnwire.ChannelID, shortChanID lnwire.ShortChannelID) MailBox {
-
 	mailbox, ok := mo.mailboxes[chanID]
 	if !ok {
 		mailbox = newMemoryMailBox(&mailBoxConfig{
@@ -822,7 +819,6 @@ func (mo *mailOrchestrator) exclusiveGetOrCreateMailBox(
 // mailbox and removed (marked as claimed).
 func (mo *mailOrchestrator) BindLiveShortChanID(mailbox MailBox,
 	cid lnwire.ChannelID, sid lnwire.ShortChannelID) {
-
 	mo.mu.Lock()
 	// Update the mapping from short channel id to mailbox's channel id.
 	mo.liveIndex[sid] = cid
@@ -844,7 +840,6 @@ func (mo *mailOrchestrator) BindLiveShortChanID(mailbox MailBox,
 // mailbox upon the subsequent call to BindLiveShortChanID.
 func (mo *mailOrchestrator) Deliver(
 	sid lnwire.ShortChannelID, pkt *htlcPacket) er.R {
-
 	var (
 		mailbox MailBox
 		found   bool

@@ -15,7 +15,6 @@ import (
 
 // TestIsValidIDType ensures the IsValidIDType function behaves as expected.
 func TestIsValidIDType(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		id      interface{}
@@ -99,7 +98,6 @@ func TestMarshalResponse(t *testing.T) {
 
 // TestMiscErrors tests a few error conditions not covered elsewhere.
 func TestMiscErrors(t *testing.T) {
-
 	// Force an error in NewRequest by giving it a parameter type that is
 	// not supported.
 	_, err := btcjson.NewRequest(nil, "test", []interface{}{make(chan int)})
@@ -131,7 +129,6 @@ func TestMiscErrors(t *testing.T) {
 
 // TestRPCError tests the error output for the RPCError type.
 func TestRPCError(t *testing.T) {
-
 	tests := []struct {
 		in   er.R
 		want string

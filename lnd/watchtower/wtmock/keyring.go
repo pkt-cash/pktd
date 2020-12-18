@@ -29,7 +29,6 @@ func NewSecretKeyRing() *SecretKeyRing {
 // NOTE: This is part of the wtclient.ECDHKeyRing interface.
 func (m *SecretKeyRing) DeriveKey(
 	keyLoc keychain.KeyLocator) (keychain.KeyDescriptor, er.R) {
-
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -64,7 +63,6 @@ func (m *SecretKeyRing) DeriveKey(
 // NOTE: This is part of the wtclient.ECDHKeyRing interface.
 func (m *SecretKeyRing) ECDH(keyDesc keychain.KeyDescriptor,
 	pub *btcec.PublicKey) ([32]byte, er.R) {
-
 	_, err := m.DeriveKey(keyDesc.KeyLocator)
 	if err != nil {
 		return [32]byte{}, err

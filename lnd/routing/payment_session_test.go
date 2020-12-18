@@ -28,7 +28,6 @@ func TestRequestRoute(t *testing.T) {
 		payment,
 		func() (map[uint64]lnwire.MilliSatoshi,
 			er.R) {
-
 			return nil, nil
 		},
 		func() (routingGraph, func(), er.R) {
@@ -46,7 +45,6 @@ func TestRequestRoute(t *testing.T) {
 		g *graphParams, r *RestrictParams, cfg *PathFindingConfig,
 		source, target route.Vertex, amt lnwire.MilliSatoshi,
 		finalHtlcExpiry int32) ([]*channeldb.ChannelEdgePolicy, er.R) {
-
 		// We expect find path to receive a cltv limit excluding the
 		// final cltv delta (including the block padding).
 		if r.CltvLimit != 22-uint32(BlockPadding) {

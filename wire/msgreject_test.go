@@ -42,7 +42,6 @@ func TestRejectCodeStringer(t *testing.T) {
 			continue
 		}
 	}
-
 }
 
 // TestRejectLatest tests the MsgPong API against the latest protocol version.

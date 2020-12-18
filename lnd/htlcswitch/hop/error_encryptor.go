@@ -107,7 +107,6 @@ func NewSphinxErrorEncrypter() *SphinxErrorEncrypter {
 // NOTE: Part of the ErrorEncrypter interface.
 func (s *SphinxErrorEncrypter) EncryptFirstHop(
 	failure lnwire.FailureMessage) (lnwire.OpaqueReason, er.R) {
-
 	var b bytes.Buffer
 	if err := lnwire.EncodeFailure(&b, failure, 0); err != nil {
 		return nil, err
@@ -127,7 +126,6 @@ func (s *SphinxErrorEncrypter) EncryptFirstHop(
 // NOTE: Part of the ErrorEncrypter interface.
 func (s *SphinxErrorEncrypter) EncryptMalformedError(
 	reason lnwire.OpaqueReason) lnwire.OpaqueReason {
-
 	return s.EncryptError(true, reason)
 }
 
@@ -140,7 +138,6 @@ func (s *SphinxErrorEncrypter) EncryptMalformedError(
 // NOTE: Part of the ErrorEncrypter interface.
 func (s *SphinxErrorEncrypter) IntermediateEncrypt(
 	reason lnwire.OpaqueReason) lnwire.OpaqueReason {
-
 	return s.EncryptError(false, reason)
 }
 
@@ -179,7 +176,6 @@ func (s *SphinxErrorEncrypter) Decode(r io.Reader) er.R {
 // SphinxErrorEncrypter.
 func (s *SphinxErrorEncrypter) Reextract(
 	extract ErrorEncrypterExtracter) er.R {
-
 	obfuscator, failcode := extract(s.EphemeralKey)
 	if failcode != lnwire.CodeNone {
 		// This should never happen, since we already validated that
@@ -198,7 +194,6 @@ func (s *SphinxErrorEncrypter) Reextract(
 	s.OnionErrorEncrypter = sphinxEncrypter.OnionErrorEncrypter
 
 	return nil
-
 }
 
 // A compile time check to ensure SphinxErrorEncrypter implements the

@@ -7,7 +7,7 @@ import "testing"
 func TestNodeAliasValidation(t *testing.T) {
 	t.Parallel()
 
-	var testCases = []struct {
+	testCases := []struct {
 		alias string
 		valid bool
 	}{

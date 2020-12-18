@@ -23,11 +23,9 @@ var (
 // witnesses on disk, and also to know how to map a witness to its look up key.
 type WitnessType uint8
 
-var (
-	// Sha256HashWitness is a witness that is simply the pre image to a
-	// hash image. In order to map to its key, we'll use sha256.
-	Sha256HashWitness WitnessType = 1
-)
+// Sha256HashWitness is a witness that is simply the pre image to a
+// hash image. In order to map to its key, we'll use sha256.
+var Sha256HashWitness WitnessType = 1
 
 // toDBKey is a helper method that maps a witness type to the key that we'll
 // use to store it within the database.
@@ -42,12 +40,10 @@ func (w WitnessType) toDBKey() ([]byte, er.R) {
 	}
 }
 
-var (
-	// witnessBucketKey is the name of the bucket that we use to store all
-	// witnesses encountered. Within this bucket, we'll create a sub-bucket for
-	// each witness type.
-	witnessBucketKey = []byte("byte")
-)
+// witnessBucketKey is the name of the bucket that we use to store all
+// witnesses encountered. Within this bucket, we'll create a sub-bucket for
+// each witness type.
+var witnessBucketKey = []byte("byte")
 
 // WitnessCache is a persistent cache of all witnesses we've encountered on the
 // network. In the case of multi-hop, multi-step contracts, a cache of all
@@ -101,7 +97,6 @@ func (w *WitnessCache) AddSha256Witnesses(preimages ...lntypes.Preimage) er.R {
 // witness types.
 func (w *WitnessCache) addWitnessEntries(wType WitnessType,
 	entries []witnessEntry) er.R {
-
 	// Exit early if there are no witnesses to add.
 	if len(entries) == 0 {
 		return nil

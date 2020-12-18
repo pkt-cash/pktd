@@ -32,7 +32,6 @@ type LiveChannelSource interface {
 // reconnect to them to initiate the protocol.
 func assembleChanBackup(chanSource LiveChannelSource,
 	openChan *channeldb.OpenChannel) (*Single, er.R) {
-
 	log.Debugf("Crafting backup for ChannelPoint(%v)",
 		openChan.FundingOutpoint)
 
@@ -53,7 +52,6 @@ func assembleChanBackup(chanSource LiveChannelSource,
 // the target channel, then an error will be returned.
 func FetchBackupForChan(chanPoint wire.OutPoint,
 	chanSource LiveChannelSource) (*Single, er.R) {
-
 	// First, we'll query the channel source to see if the channel is known
 	// and open within the database.
 	targetChan, err := chanSource.FetchChannel(chanPoint)

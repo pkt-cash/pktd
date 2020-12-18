@@ -49,7 +49,6 @@ func (b *BtcWallet) FetchInputInfo(prevOut *wire.OutPoint) (*lnwallet.Utxo, er.R
 func deriveFromKeyLoc(scopedMgr *waddrmgr.ScopedKeyManager,
 	addrmgrNs walletdb.ReadWriteBucket,
 	keyLoc keychain.KeyLocator) (*btcec.PrivateKey, er.R) {
-
 	path := waddrmgr.DerivationPath{
 		Account: uint32(keyLoc.Family),
 		Branch:  0,
@@ -149,7 +148,6 @@ func (b *BtcWallet) fetchPrivKey(keyDesc *keychain.KeyDescriptor) (*btcec.Privat
 // in order to utilize the tweaks, if populated.
 func maybeTweakPrivKey(signDesc *input.SignDescriptor,
 	privKey *btcec.PrivateKey) (*btcec.PrivateKey, er.R) {
-
 	var retPriv *btcec.PrivateKey
 	switch {
 
@@ -174,7 +172,6 @@ func maybeTweakPrivKey(signDesc *input.SignDescriptor,
 // This is a part of the WalletController interface.
 func (b *BtcWallet) SignOutputRaw(tx *wire.MsgTx,
 	signDesc *input.SignDescriptor) (input.Signature, er.R) {
-
 	witnessScript := signDesc.WitnessScript
 
 	// First attempt to fetch the private key which corresponds to the
@@ -215,7 +212,6 @@ func (b *BtcWallet) SignOutputRaw(tx *wire.MsgTx,
 // This is a part of the WalletController interface.
 func (b *BtcWallet) ComputeInputScript(tx *wire.MsgTx,
 	signDesc *input.SignDescriptor) (*input.Script, er.R) {
-
 	// If a tweak (single or double) is specified, then we'll need to use
 	// this tweak to derive the final private key to be used for signing
 	// this output.
@@ -250,7 +246,6 @@ var _ input.Signer = (*BtcWallet)(nil)
 // NOTE: This is a part of the MessageSigner interface.
 func (b *BtcWallet) SignMessage(pubKey *btcec.PublicKey,
 	msg []byte) (input.Signature, er.R) {
-
 	// First attempt to fetch the private key which corresponds to the
 	// specified public key.
 	privKey, err := b.fetchPrivKey(&keychain.KeyDescriptor{

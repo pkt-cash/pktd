@@ -326,7 +326,6 @@ type boltArbitratorLog struct {
 // an arbitrator config, and the items needed to create its log scope.
 func newBoltArbitratorLog(db kvdb.Backend, cfg ChannelArbitratorConfig,
 	chainHash chainhash.Hash, chanPoint wire.OutPoint) (*boltArbitratorLog, er.R) {
-
 	scope, err := newLogScope(chainHash, chanPoint)
 	if err != nil {
 		return nil, err
@@ -377,7 +376,6 @@ func fetchContractWriteBucket(tx kvdb.RwTx, scopeKey []byte) (kvdb.RwBucket, er.
 // it it within the passed contractBucket using its unique resolutionsKey key.
 func (b *boltArbitratorLog) writeResolver(contractBucket kvdb.RwBucket,
 	res ContractResolver) er.R {
-
 	// Only persist resolvers that are stateful. Stateless resolvers don't
 	// expose a resolver key.
 	resKey := res.ResolverKey()
@@ -559,7 +557,6 @@ func (b *boltArbitratorLog) FetchUnresolvedContracts() ([]ContractResolver, er.R
 // NOTE: Part of the ContractResolver interface.
 func (b *boltArbitratorLog) InsertUnresolvedContracts(reports []*channeldb.ResolverReport,
 	resolvers ...ContractResolver) er.R {
-
 	return kvdb.Batch(b.db, func(tx kvdb.RwTx) er.R {
 		contractBucket, err := fetchContractWriteBucket(tx, b.scopeKey[:])
 		if err != nil {
@@ -895,7 +892,6 @@ func (b *boltArbitratorLog) FetchConfirmedCommitSet(tx kvdb.RTx) (*CommitSet, er
 }
 
 func (b *boltArbitratorLog) fetchConfirmedCommitSet(tx kvdb.RTx) (*CommitSet, er.R) {
-
 	scopeBucket := tx.ReadBucket(b.scopeKey[:])
 	if scopeBucket == nil {
 		return nil, errScopeBucketNoExist.Default()
@@ -958,7 +954,6 @@ func (b *boltArbitratorLog) WipeHistory() er.R {
 // it should also be recorded.
 func (b *boltArbitratorLog) checkpointContract(c ContractResolver,
 	reports ...*channeldb.ResolverReport) er.R {
-
 	return kvdb.Update(b.db, func(tx kvdb.RwTx) er.R {
 		contractBucket, err := fetchContractWriteBucket(tx, b.scopeKey[:])
 		if err != nil {
@@ -1114,7 +1109,6 @@ func decodeOutgoingResolution(r io.Reader, o *lnwallet.OutgoingHtlcResolution) e
 
 func encodeCommitResolution(w io.Writer,
 	c *lnwallet.CommitOutputResolution) er.R {
-
 	if _, err := util.Write(w, c.SelfOutPoint.Hash[:]); err != nil {
 		return err
 	}
@@ -1133,7 +1127,6 @@ func encodeCommitResolution(w io.Writer,
 
 func decodeCommitResolution(r io.Reader,
 	c *lnwallet.CommitOutputResolution) er.R {
-
 	_, err := util.ReadFull(r, c.SelfOutPoint.Hash[:])
 	if err != nil {
 		return err
@@ -1153,7 +1146,6 @@ func decodeCommitResolution(r io.Reader,
 
 func encodeAnchorResolution(w io.Writer,
 	a *lnwallet.AnchorResolution) er.R {
-
 	if _, err := util.Write(w, a.CommitAnchor.Hash[:]); err != nil {
 		return err
 	}
@@ -1167,7 +1159,6 @@ func encodeAnchorResolution(w io.Writer,
 
 func decodeAnchorResolution(r io.Reader,
 	a *lnwallet.AnchorResolution) er.R {
-
 	_, err := util.ReadFull(r, a.CommitAnchor.Hash[:])
 	if err != nil {
 		return err

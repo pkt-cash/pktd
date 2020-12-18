@@ -143,12 +143,10 @@ func NewMsgTxWithInputCoins(txVersion int32, inputCoins Coins) *wire.MsgTx {
 	return msgTx
 }
 
-var (
-	// ErrCoinsNoSelectionAvailable is returned when a CoinSelector believes there is no
-	// possible combination of coins which can meet the requirements provided to the selector.
-	ErrCoinsNoSelectionAvailable = er.GenericErrorType.CodeWithDetail("ErrCoinsNoSelectionAvailable",
-		"no coin selection possible")
-)
+// ErrCoinsNoSelectionAvailable is returned when a CoinSelector believes there is no
+// possible combination of coins which can meet the requirements provided to the selector.
+var ErrCoinsNoSelectionAvailable = er.GenericErrorType.CodeWithDetail("ErrCoinsNoSelectionAvailable",
+	"no coin selection possible")
 
 // satisfiesTargetValue checks that the totalValue is either exactly the targetValue
 // or is greater than the targetValue by at least the minChange amount.
@@ -296,7 +294,6 @@ func (s MinPriorityCoinSelector) CoinSelect(targetValue btcutil.Amount, coins []
 					MinChangeAmount:        s.MinChangeAmount,
 					MinAvgValueAgePerInput: newMinAvgValueAge,
 				}).CoinSelect(newTargetValue, possibleCoins[0:cutoffIndex])
-
 				if err != nil {
 					continue
 				}

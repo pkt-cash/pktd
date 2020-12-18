@@ -121,7 +121,6 @@ func newMockUtxoSource(utxos []*lnwallet.Utxo) *mockUtxoSource {
 
 func (m *mockUtxoSource) ListUnspentWitness(minConfs int32,
 	maxConfs int32) ([]*lnwallet.Utxo, er.R) {
-
 	return m.outputs, nil
 }
 
@@ -139,7 +138,6 @@ func (m *mockCoinSelectionLocker) WithCoinSelectLock(f func() er.R) er.R {
 	}
 
 	return nil
-
 }
 
 type mockOutpointLocker struct {
@@ -159,6 +157,7 @@ func newMockOutpointLocker() *mockOutpointLocker {
 func (m *mockOutpointLocker) LockOutpoint(o wire.OutPoint) {
 	m.lockedOutpoints[o] = struct{}{}
 }
+
 func (m *mockOutpointLocker) UnlockOutpoint(o wire.OutPoint) {
 	m.unlockedOutpoints[o] = struct{}{}
 }
@@ -227,7 +226,6 @@ var testUtxos = []*lnwallet.Utxo{
 
 func assertUtxosLocked(t *testing.T, utxoLocker *mockOutpointLocker,
 	utxos []*lnwallet.Utxo) {
-
 	t.Helper()
 
 	for _, utxo := range utxos {
@@ -235,12 +233,10 @@ func assertUtxosLocked(t *testing.T, utxoLocker *mockOutpointLocker,
 			t.Fatalf("utxo %v was never locked", utxo.OutPoint)
 		}
 	}
-
 }
 
 func assertNoUtxosUnlocked(t *testing.T, utxoLocker *mockOutpointLocker,
 	utxos []*lnwallet.Utxo) {
-
 	t.Helper()
 
 	if len(utxoLocker.unlockedOutpoints) != 0 {
@@ -250,7 +246,6 @@ func assertNoUtxosUnlocked(t *testing.T, utxoLocker *mockOutpointLocker,
 
 func assertUtxosUnlocked(t *testing.T, utxoLocker *mockOutpointLocker,
 	utxos []*lnwallet.Utxo) {
-
 	t.Helper()
 
 	for _, utxo := range utxos {
@@ -262,7 +257,6 @@ func assertUtxosUnlocked(t *testing.T, utxoLocker *mockOutpointLocker,
 
 func assertUtxosLockedAndUnlocked(t *testing.T, utxoLocker *mockOutpointLocker,
 	utxos []*lnwallet.Utxo) {
-
 	t.Helper()
 
 	for _, utxo := range utxos {

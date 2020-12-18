@@ -168,7 +168,6 @@ func MakePrimitiveRecord(typ Type, val interface{}) Record {
 // MakeStaticRecord creates a record for a field of fixed-size
 func MakeStaticRecord(typ Type, val interface{}, size uint64, encoder Encoder,
 	decoder Decoder) Record {
-
 	return Record{
 		value:      val,
 		typ:        typ,
@@ -182,7 +181,6 @@ func MakeStaticRecord(typ Type, val interface{}, size uint64, encoder Encoder,
 // determined at the time of encoding via sizeFunc.
 func MakeDynamicRecord(typ Type, val interface{}, sizeFunc SizeFunc,
 	encoder Encoder, decoder Decoder) Record {
-
 	return Record{
 		value:    val,
 		typ:      typ,

@@ -24,7 +24,6 @@ func PcpHash(
 	annIndexes *[4]uint64,
 	pcp *wire.PacketCryptProof,
 ) (*[32]byte, er.R) {
-
 	// We need to bump the numbers to account for the zero entry
 	var annIdxs [4]uint64
 	for i := 0; i < 4; i++ {

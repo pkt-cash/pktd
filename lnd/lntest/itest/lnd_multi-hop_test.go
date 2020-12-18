@@ -16,7 +16,6 @@ import (
 )
 
 func testMultiHopHtlcClaims(net *lntest.NetworkHarness, t *harnessTest) {
-
 	type testCase struct {
 		name string
 		test func(net *lntest.NetworkHarness, t *harnessTest, alice,
@@ -122,7 +121,6 @@ func testMultiHopHtlcClaims(net *lntest.NetworkHarness, t *harnessTest) {
 // accepted state by the node.
 func waitForInvoiceAccepted(t *harnessTest, node *lntest.HarnessNode,
 	payHash lntypes.Hash) {
-
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 	invoiceUpdates, err := node.SubscribeSingleInvoice(ctx,
@@ -149,7 +147,6 @@ func waitForInvoiceAccepted(t *harnessTest, node *lntest.HarnessNode,
 // preimage has the expected status.
 func checkPaymentStatus(ctxt context.Context, node *lntest.HarnessNode,
 	preimage lntypes.Preimage, status lnrpc.Payment_PaymentStatus) er.R {
-
 	req := &lnrpc.ListPaymentsRequest{
 		IncludeIncomplete: true,
 	}
@@ -202,7 +199,6 @@ func checkPaymentStatus(ctxt context.Context, node *lntest.HarnessNode,
 func createThreeHopNetwork(t *harnessTest, net *lntest.NetworkHarness,
 	alice, bob *lntest.HarnessNode, carolHodl bool, c commitType) (
 	*lnrpc.ChannelPoint, *lnrpc.ChannelPoint, *lntest.HarnessNode) {
-
 	ctxb := context.Background()
 
 	ctxt, _ := context.WithTimeout(ctxb, defaultTimeout)
@@ -309,7 +305,6 @@ func createThreeHopNetwork(t *harnessTest, net *lntest.NetworkHarness,
 // tx.
 func assertAllTxesSpendFrom(t *harnessTest, txes []*wire.MsgTx,
 	prevTxid chainhash.Hash) {
-
 	for _, tx := range txes {
 		if tx.TxIn[0].PreviousOutPoint.Hash != prevTxid {
 			t.Fatalf("tx %v did not spend from %v",

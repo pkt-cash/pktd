@@ -208,7 +208,6 @@ func TestSphinxCorrectness(t *testing.T) {
 				t.Fatalf("Processing error, node %v is the last hop in "+
 					"the path, yet it doesn't recognize so", i)
 			}
-
 		} else {
 			// If this isn't the last node in the path, then the
 			// returned action should indicate that there are more
@@ -444,7 +443,6 @@ func TestSphinxAssocData(t *testing.T) {
 	if err == nil {
 		t.Fatalf("we should fail when associated data changes")
 	}
-
 }
 
 func TestSphinxEncodeDecode(t *testing.T) {
@@ -478,7 +476,6 @@ func TestSphinxEncodeDecode(t *testing.T) {
 
 func newEOBRoute(numHops uint32,
 	eobMapping map[int]HopPayload) (*OnionPacket, []*Router, er.R) {
-
 	nodes := make([]*Router, numHops)
 
 	if uint32(len(eobMapping)) != numHops {
@@ -545,7 +542,7 @@ func mustNewHopPayload(hopData *HopData, eob []byte) HopPayload {
 func TestSphinxHopVariableSizedPayloads(t *testing.T) {
 	t.Parallel()
 
-	var testCases = []struct {
+	testCases := []struct {
 		numNodes      uint32
 		eobMapping    map[int]HopPayload
 		expectedError *er.ErrorCode

@@ -37,7 +37,6 @@ var _ net.Conn = (*Conn)(nil)
 // a non-nil error is returned.
 func Dial(local keychain.SingleKeyECDH, netAddr *lnwire.NetAddress,
 	timeout time.Duration, dialer tor.DialFunc) (*Conn, er.R) {
-
 	ipAddr := netAddr.Address.String()
 	var conn net.Conn
 	var err er.R

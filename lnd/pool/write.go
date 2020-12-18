@@ -22,7 +22,6 @@ type Write struct {
 // workers.
 func NewWrite(writeBufferPool *WriteBuffer, numWorkers int,
 	workerTimeout time.Duration) *Write {
-
 	w := &Write{
 		bufferPool: writeBufferPool,
 	}

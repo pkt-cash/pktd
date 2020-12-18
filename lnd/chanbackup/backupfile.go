@@ -53,7 +53,6 @@ type MultiFile struct {
 // NewMultiFile create a new multi-file instance at the target location on the
 // file system.
 func NewMultiFile(fileName string) *MultiFile {
-
 	// We'll our temporary backup file in the very same directory as the
 	// main backup file.
 	backupFileDir := filepath.Dir(fileName)

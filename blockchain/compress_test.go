@@ -25,7 +25,6 @@ func hexToBytes(s string) []byte {
 // TestVLQ ensures the variable length quantity serialization, deserialization,
 // and size calculation works as expected.
 func TestVLQ(t *testing.T) {
-
 	tests := []struct {
 		val        uint64
 		serialized []byte
@@ -104,7 +103,6 @@ func TestVLQ(t *testing.T) {
 // TestScriptCompression ensures the domain-specific script compression and
 // decompression works as expected.
 func TestScriptCompression(t *testing.T) {
-
 	tests := []struct {
 		name         string
 		uncompressed []byte
@@ -227,7 +225,6 @@ func TestScriptCompression(t *testing.T) {
 // TestScriptCompressionErrors ensures calling various functions related to
 // script compression with incorrect data returns the expected results.
 func TestScriptCompressionErrors(t *testing.T) {
-
 	// A nil script must result in a decoded size of 0.
 	if gotSize := decodeCompressedScriptSize(nil); gotSize != 0 {
 		t.Fatalf("decodeCompressedScriptSize with nil script did not "+
@@ -254,7 +251,6 @@ func TestScriptCompressionErrors(t *testing.T) {
 // TestAmountCompression ensures the domain-specific transaction output amount
 // compression and decompression works as expected.
 func TestAmountCompression(t *testing.T) {
-
 	tests := []struct {
 		name         string
 		uncompressed uint64
@@ -331,7 +327,6 @@ func TestAmountCompression(t *testing.T) {
 // TestCompressedTxOut ensures the transaction output serialization and
 // deserialization works as expected.
 func TestCompressedTxOut(t *testing.T) {
-
 	tests := []struct {
 		name       string
 		amount     uint64
@@ -420,7 +415,6 @@ func TestCompressedTxOut(t *testing.T) {
 // TestTxOutCompressionErrors ensures calling various functions related to
 // txout compression with incorrect data returns the expected results.
 func TestTxOutCompressionErrors(t *testing.T) {
-
 	// A compressed txout with missing compressed script must error.
 	compressedTxOut := hexToBytes("00")
 	_, _, _, err := decodeCompressedTxOut(compressedTxOut)

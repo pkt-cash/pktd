@@ -16,7 +16,6 @@ import (
 // TestBlockFilterCaches tests that we can put and retrieve elements from all
 // implementations of the filter and block caches.
 func TestBlockFilterCaches(t *testing.T) {
-
 	const filterType = filterdb.RegularFilter
 
 	// Create a cache large enough to not evict any item. We do this so we

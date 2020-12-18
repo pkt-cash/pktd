@@ -1152,7 +1152,6 @@ func fetchUnminedInputSpendTxHashes(ns walletdb.ReadBucket, k []byte) []chainhas
 // spending transactions for a given input.
 func deleteRawUnminedInput(ns walletdb.ReadWriteBucket, outPointKey []byte,
 	targetSpendHash chainhash.Hash) er.R {
-
 	// We'll start by fetching all of the possible spending transactions.
 	unminedInputs := ns.NestedReadWriteBucket(bucketUnminedInputs)
 	spendHashes := unminedInputs.Get(outPointKey)
@@ -1210,7 +1209,6 @@ func deserializeLockedOutput(v []byte) (LockID, time.Time) {
 // unlocked.
 func isLockedOutput(ns walletdb.ReadBucket, op wire.OutPoint,
 	timeNow time.Time) (LockID, time.Time, bool) {
-
 	// The bucket may not exist, indicating that no outputs have ever been
 	// locked, so we can just return now.
 	lockedOutputs := ns.NestedReadBucket(bucketLockedOutputs)
@@ -1238,7 +1236,6 @@ func isLockedOutput(ns walletdb.ReadBucket, op wire.OutPoint,
 // preventing it from becoming eligible for coin selection.
 func lockOutput(ns walletdb.ReadWriteBucket, id LockID, op wire.OutPoint,
 	expiry time.Time) er.R {
-
 	// Create the corresponding bucket if necessary.
 	lockedOutputs, err := ns.CreateBucketIfNotExists(bucketLockedOutputs)
 	if err != nil {
@@ -1284,7 +1281,6 @@ func unlockOutput(ns walletdb.ReadWriteBucket, op wire.OutPoint) er.R {
 // callback `f` for each.
 func forEachLockedOutput(ns walletdb.ReadBucket,
 	f func(wire.OutPoint, LockID, time.Time)) er.R {
-
 	// The bucket may not exist, indicating that no outputs have ever been
 	// locked, so we can just return now.
 	lockedOutputs := ns.NestedReadBucket(bucketLockedOutputs)

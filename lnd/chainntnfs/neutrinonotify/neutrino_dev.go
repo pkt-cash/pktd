@@ -21,7 +21,6 @@ import (
 func (n *NeutrinoNotifier) UnsafeStart(bestHeight int32,
 	bestHash *chainhash.Hash, syncHeight int32,
 	generateBlocks func() er.R) er.R {
-
 	// We'll obtain the latest block height of the p2p node. We'll
 	// start the auto-rescan from this point. Once a caller actually wishes
 	// to register a chain view, the rescan state will be rewound

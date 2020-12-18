@@ -24,12 +24,14 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = descriptor.ForMessage
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = descriptor.ForMessage
+)
 
 func request_Lightning_WalletBalance_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq WalletBalanceRequest
@@ -37,7 +39,6 @@ func request_Lightning_WalletBalance_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.WalletBalance(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_WalletBalance_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -46,7 +47,6 @@ func local_request_Lightning_WalletBalance_0(ctx context.Context, marshaler runt
 
 	msg, err := server.WalletBalance(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_ChannelBalance_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -55,7 +55,6 @@ func request_Lightning_ChannelBalance_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.ChannelBalance(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ChannelBalance_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -64,12 +63,9 @@ func local_request_Lightning_ChannelBalance_0(ctx context.Context, marshaler run
 
 	msg, err := server.ChannelBalance(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_GetTransactions_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_GetTransactions_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_GetTransactions_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetTransactionsRequest
@@ -84,7 +80,6 @@ func request_Lightning_GetTransactions_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.GetTransactions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_GetTransactions_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -97,12 +92,9 @@ func local_request_Lightning_GetTransactions_0(ctx context.Context, marshaler ru
 
 	msg, err := server.GetTransactions(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_EstimateFee_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_EstimateFee_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_EstimateFee_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq EstimateFeeRequest
@@ -117,7 +109,6 @@ func request_Lightning_EstimateFee_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.EstimateFee(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_EstimateFee_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -130,7 +121,6 @@ func local_request_Lightning_EstimateFee_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.EstimateFee(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_SendCoins_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -147,7 +137,6 @@ func request_Lightning_SendCoins_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.SendCoins(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_SendCoins_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -164,12 +153,9 @@ func local_request_Lightning_SendCoins_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.SendCoins(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_ListUnspent_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_ListUnspent_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_ListUnspent_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListUnspentRequest
@@ -184,7 +170,6 @@ func request_Lightning_ListUnspent_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.ListUnspent(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ListUnspent_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -197,12 +182,9 @@ func local_request_Lightning_ListUnspent_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.ListUnspent(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_SubscribeTransactions_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_SubscribeTransactions_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_SubscribeTransactions_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (Lightning_SubscribeTransactionsClient, runtime.ServerMetadata, error) {
 	var protoReq GetTransactionsRequest
@@ -225,7 +207,6 @@ func request_Lightning_SubscribeTransactions_0(ctx context.Context, marshaler ru
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 func request_Lightning_SendMany_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -242,7 +223,6 @@ func request_Lightning_SendMany_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.SendMany(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_SendMany_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -259,12 +239,9 @@ func local_request_Lightning_SendMany_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.SendMany(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_NewAddress_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_NewAddress_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_NewAddress_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq NewAddressRequest
@@ -279,7 +256,6 @@ func request_Lightning_NewAddress_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.NewAddress(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_NewAddress_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -292,7 +268,6 @@ func local_request_Lightning_NewAddress_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.NewAddress(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_SignMessage_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -309,7 +284,6 @@ func request_Lightning_SignMessage_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.SignMessage(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_SignMessage_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -326,7 +300,6 @@ func local_request_Lightning_SignMessage_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.SignMessage(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_VerifyMessage_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -343,7 +316,6 @@ func request_Lightning_VerifyMessage_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.VerifyMessage(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_VerifyMessage_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -360,7 +332,6 @@ func local_request_Lightning_VerifyMessage_0(ctx context.Context, marshaler runt
 
 	msg, err := server.VerifyMessage(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_ConnectPeer_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -377,7 +348,6 @@ func request_Lightning_ConnectPeer_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.ConnectPeer(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ConnectPeer_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -394,7 +364,6 @@ func local_request_Lightning_ConnectPeer_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.ConnectPeer(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_DisconnectPeer_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -421,7 +390,6 @@ func request_Lightning_DisconnectPeer_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.DisconnectPeer(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_DisconnectPeer_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -448,12 +416,9 @@ func local_request_Lightning_DisconnectPeer_0(ctx context.Context, marshaler run
 
 	msg, err := server.DisconnectPeer(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_ListPeers_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_ListPeers_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_ListPeers_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListPeersRequest
@@ -468,7 +433,6 @@ func request_Lightning_ListPeers_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.ListPeers(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ListPeers_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -481,7 +445,6 @@ func local_request_Lightning_ListPeers_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.ListPeers(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_SubscribePeerEvents_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (Lightning_SubscribePeerEventsClient, runtime.ServerMetadata, error) {
@@ -498,7 +461,6 @@ func request_Lightning_SubscribePeerEvents_0(ctx context.Context, marshaler runt
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 func request_Lightning_GetInfo_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -507,7 +469,6 @@ func request_Lightning_GetInfo_0(ctx context.Context, marshaler runtime.Marshale
 
 	msg, err := client.GetInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_GetInfo_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -516,7 +477,6 @@ func local_request_Lightning_GetInfo_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := server.GetInfo(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_GetRecoveryInfo_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -525,7 +485,6 @@ func request_Lightning_GetRecoveryInfo_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.GetRecoveryInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_GetRecoveryInfo_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -534,7 +493,6 @@ func local_request_Lightning_GetRecoveryInfo_0(ctx context.Context, marshaler ru
 
 	msg, err := server.GetRecoveryInfo(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_PendingChannels_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -543,7 +501,6 @@ func request_Lightning_PendingChannels_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.PendingChannels(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_PendingChannels_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -552,12 +509,9 @@ func local_request_Lightning_PendingChannels_0(ctx context.Context, marshaler ru
 
 	msg, err := server.PendingChannels(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_ListChannels_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_ListChannels_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_ListChannels_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListChannelsRequest
@@ -572,7 +526,6 @@ func request_Lightning_ListChannels_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.ListChannels(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ListChannels_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -585,7 +538,6 @@ func local_request_Lightning_ListChannels_0(ctx context.Context, marshaler runti
 
 	msg, err := server.ListChannels(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_SubscribeChannelEvents_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (Lightning_SubscribeChannelEventsClient, runtime.ServerMetadata, error) {
@@ -602,12 +554,9 @@ func request_Lightning_SubscribeChannelEvents_0(ctx context.Context, marshaler r
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
-var (
-	filter_Lightning_ClosedChannels_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_ClosedChannels_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_ClosedChannels_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ClosedChannelsRequest
@@ -622,7 +571,6 @@ func request_Lightning_ClosedChannels_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.ClosedChannels(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ClosedChannels_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -635,7 +583,6 @@ func local_request_Lightning_ClosedChannels_0(ctx context.Context, marshaler run
 
 	msg, err := server.ClosedChannels(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_OpenChannelSync_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -652,7 +599,6 @@ func request_Lightning_OpenChannelSync_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.OpenChannelSync(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_OpenChannelSync_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -669,7 +615,6 @@ func local_request_Lightning_OpenChannelSync_0(ctx context.Context, marshaler ru
 
 	msg, err := server.OpenChannelSync(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_OpenChannel_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (Lightning_OpenChannelClient, runtime.ServerMetadata, error) {
@@ -694,7 +639,6 @@ func request_Lightning_OpenChannel_0(ctx context.Context, marshaler runtime.Mars
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 func request_Lightning_FundingStateStep_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -711,7 +655,6 @@ func request_Lightning_FundingStateStep_0(ctx context.Context, marshaler runtime
 
 	msg, err := client.FundingStateStep(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_FundingStateStep_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -728,12 +671,9 @@ func local_request_Lightning_FundingStateStep_0(ctx context.Context, marshaler r
 
 	msg, err := server.FundingStateStep(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_CloseChannel_0 = &utilities.DoubleArray{Encoding: map[string]int{"channel_point": 0, "funding_txid_str": 1, "output_index": 2}, Base: []int{1, 1, 1, 2, 0, 0}, Check: []int{0, 1, 2, 2, 3, 4}}
-)
+var filter_Lightning_CloseChannel_0 = &utilities.DoubleArray{Encoding: map[string]int{"channel_point": 0, "funding_txid_str": 1, "output_index": 2}, Base: []int{1, 1, 1, 2, 0, 0}, Check: []int{0, 1, 2, 2, 3, 4}}
 
 func request_Lightning_CloseChannel_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (Lightning_CloseChannelClient, runtime.ServerMetadata, error) {
 	var protoReq CloseChannelRequest
@@ -785,12 +725,9 @@ func request_Lightning_CloseChannel_0(ctx context.Context, marshaler runtime.Mar
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
-var (
-	filter_Lightning_AbandonChannel_0 = &utilities.DoubleArray{Encoding: map[string]int{"channel_point": 0, "funding_txid_str": 1, "output_index": 2}, Base: []int{1, 1, 1, 2, 0, 0}, Check: []int{0, 1, 2, 2, 3, 4}}
-)
+var filter_Lightning_AbandonChannel_0 = &utilities.DoubleArray{Encoding: map[string]int{"channel_point": 0, "funding_txid_str": 1, "output_index": 2}, Base: []int{1, 1, 1, 2, 0, 0}, Check: []int{0, 1, 2, 2, 3, 4}}
 
 func request_Lightning_AbandonChannel_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq AbandonChannelRequest
@@ -834,7 +771,6 @@ func request_Lightning_AbandonChannel_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.AbandonChannel(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_AbandonChannel_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -876,7 +812,6 @@ func local_request_Lightning_AbandonChannel_0(ctx context.Context, marshaler run
 
 	msg, err := server.AbandonChannel(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_SendPaymentSync_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -893,7 +828,6 @@ func request_Lightning_SendPaymentSync_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.SendPaymentSync(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_SendPaymentSync_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -910,7 +844,6 @@ func local_request_Lightning_SendPaymentSync_0(ctx context.Context, marshaler ru
 
 	msg, err := server.SendPaymentSync(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_SendToRouteSync_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -927,7 +860,6 @@ func request_Lightning_SendToRouteSync_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.SendToRouteSync(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_SendToRouteSync_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -944,7 +876,6 @@ func local_request_Lightning_SendToRouteSync_0(ctx context.Context, marshaler ru
 
 	msg, err := server.SendToRouteSync(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_AddInvoice_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -961,7 +892,6 @@ func request_Lightning_AddInvoice_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.AddInvoice(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_AddInvoice_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -978,12 +908,9 @@ func local_request_Lightning_AddInvoice_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.AddInvoice(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_ListInvoices_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_ListInvoices_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_ListInvoices_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListInvoiceRequest
@@ -998,7 +925,6 @@ func request_Lightning_ListInvoices_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.ListInvoices(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ListInvoices_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1011,12 +937,9 @@ func local_request_Lightning_ListInvoices_0(ctx context.Context, marshaler runti
 
 	msg, err := server.ListInvoices(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_LookupInvoice_0 = &utilities.DoubleArray{Encoding: map[string]int{"r_hash_str": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
-)
+var filter_Lightning_LookupInvoice_0 = &utilities.DoubleArray{Encoding: map[string]int{"r_hash_str": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 
 func request_Lightning_LookupInvoice_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq PaymentHash
@@ -1049,7 +972,6 @@ func request_Lightning_LookupInvoice_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.LookupInvoice(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_LookupInvoice_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1080,12 +1002,9 @@ func local_request_Lightning_LookupInvoice_0(ctx context.Context, marshaler runt
 
 	msg, err := server.LookupInvoice(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_SubscribeInvoices_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_SubscribeInvoices_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_SubscribeInvoices_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (Lightning_SubscribeInvoicesClient, runtime.ServerMetadata, error) {
 	var protoReq InvoiceSubscription
@@ -1108,7 +1027,6 @@ func request_Lightning_SubscribeInvoices_0(ctx context.Context, marshaler runtim
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 func request_Lightning_DecodePayReq_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1135,7 +1053,6 @@ func request_Lightning_DecodePayReq_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.DecodePayReq(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_DecodePayReq_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1162,12 +1079,9 @@ func local_request_Lightning_DecodePayReq_0(ctx context.Context, marshaler runti
 
 	msg, err := server.DecodePayReq(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_ListPayments_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_ListPayments_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_ListPayments_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListPaymentsRequest
@@ -1182,7 +1096,6 @@ func request_Lightning_ListPayments_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.ListPayments(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ListPayments_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1195,7 +1108,6 @@ func local_request_Lightning_ListPayments_0(ctx context.Context, marshaler runti
 
 	msg, err := server.ListPayments(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_DeleteAllPayments_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1204,7 +1116,6 @@ func request_Lightning_DeleteAllPayments_0(ctx context.Context, marshaler runtim
 
 	msg, err := client.DeleteAllPayments(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_DeleteAllPayments_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1213,12 +1124,9 @@ func local_request_Lightning_DeleteAllPayments_0(ctx context.Context, marshaler 
 
 	msg, err := server.DeleteAllPayments(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_DescribeGraph_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_DescribeGraph_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_DescribeGraph_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ChannelGraphRequest
@@ -1233,7 +1141,6 @@ func request_Lightning_DescribeGraph_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.DescribeGraph(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_DescribeGraph_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1246,12 +1153,9 @@ func local_request_Lightning_DescribeGraph_0(ctx context.Context, marshaler runt
 
 	msg, err := server.DescribeGraph(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_GetNodeMetrics_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Lightning_GetNodeMetrics_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Lightning_GetNodeMetrics_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq NodeMetricsRequest
@@ -1266,7 +1170,6 @@ func request_Lightning_GetNodeMetrics_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.GetNodeMetrics(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_GetNodeMetrics_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1279,7 +1182,6 @@ func local_request_Lightning_GetNodeMetrics_0(ctx context.Context, marshaler run
 
 	msg, err := server.GetNodeMetrics(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_GetChanInfo_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1306,7 +1208,6 @@ func request_Lightning_GetChanInfo_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.GetChanInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_GetChanInfo_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1333,12 +1234,9 @@ func local_request_Lightning_GetChanInfo_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.GetChanInfo(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_GetNodeInfo_0 = &utilities.DoubleArray{Encoding: map[string]int{"pub_key": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
-)
+var filter_Lightning_GetNodeInfo_0 = &utilities.DoubleArray{Encoding: map[string]int{"pub_key": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 
 func request_Lightning_GetNodeInfo_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq NodeInfoRequest
@@ -1371,7 +1269,6 @@ func request_Lightning_GetNodeInfo_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.GetNodeInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_GetNodeInfo_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1402,12 +1299,9 @@ func local_request_Lightning_GetNodeInfo_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.GetNodeInfo(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_QueryRoutes_0 = &utilities.DoubleArray{Encoding: map[string]int{"pub_key": 0, "amt": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
-)
+var filter_Lightning_QueryRoutes_0 = &utilities.DoubleArray{Encoding: map[string]int{"pub_key": 0, "amt": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 
 func request_Lightning_QueryRoutes_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryRoutesRequest
@@ -1451,7 +1345,6 @@ func request_Lightning_QueryRoutes_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.QueryRoutes(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_QueryRoutes_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1493,7 +1386,6 @@ func local_request_Lightning_QueryRoutes_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.QueryRoutes(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_GetNetworkInfo_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1502,7 +1394,6 @@ func request_Lightning_GetNetworkInfo_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.GetNetworkInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_GetNetworkInfo_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1511,7 +1402,6 @@ func local_request_Lightning_GetNetworkInfo_0(ctx context.Context, marshaler run
 
 	msg, err := server.GetNetworkInfo(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_StopDaemon_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1528,7 +1418,6 @@ func request_Lightning_StopDaemon_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.StopDaemon(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_StopDaemon_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1545,7 +1434,6 @@ func local_request_Lightning_StopDaemon_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.StopDaemon(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_SubscribeChannelGraph_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (Lightning_SubscribeChannelGraphClient, runtime.ServerMetadata, error) {
@@ -1562,7 +1450,6 @@ func request_Lightning_SubscribeChannelGraph_0(ctx context.Context, marshaler ru
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 func request_Lightning_DebugLevel_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1579,7 +1466,6 @@ func request_Lightning_DebugLevel_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.DebugLevel(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_DebugLevel_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1596,7 +1482,6 @@ func local_request_Lightning_DebugLevel_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.DebugLevel(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_FeeReport_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1605,7 +1490,6 @@ func request_Lightning_FeeReport_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.FeeReport(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_FeeReport_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1614,7 +1498,6 @@ func local_request_Lightning_FeeReport_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.FeeReport(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_UpdateChannelPolicy_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1631,7 +1514,6 @@ func request_Lightning_UpdateChannelPolicy_0(ctx context.Context, marshaler runt
 
 	msg, err := client.UpdateChannelPolicy(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_UpdateChannelPolicy_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1648,7 +1530,6 @@ func local_request_Lightning_UpdateChannelPolicy_0(ctx context.Context, marshale
 
 	msg, err := server.UpdateChannelPolicy(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_ForwardingHistory_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1665,7 +1546,6 @@ func request_Lightning_ForwardingHistory_0(ctx context.Context, marshaler runtim
 
 	msg, err := client.ForwardingHistory(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ForwardingHistory_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1682,12 +1562,9 @@ func local_request_Lightning_ForwardingHistory_0(ctx context.Context, marshaler 
 
 	msg, err := server.ForwardingHistory(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Lightning_ExportChannelBackup_0 = &utilities.DoubleArray{Encoding: map[string]int{"chan_point": 0, "funding_txid_str": 1, "output_index": 2}, Base: []int{1, 1, 1, 2, 0, 0}, Check: []int{0, 1, 2, 2, 3, 4}}
-)
+var filter_Lightning_ExportChannelBackup_0 = &utilities.DoubleArray{Encoding: map[string]int{"chan_point": 0, "funding_txid_str": 1, "output_index": 2}, Base: []int{1, 1, 1, 2, 0, 0}, Check: []int{0, 1, 2, 2, 3, 4}}
 
 func request_Lightning_ExportChannelBackup_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ExportChannelBackupRequest
@@ -1731,7 +1608,6 @@ func request_Lightning_ExportChannelBackup_0(ctx context.Context, marshaler runt
 
 	msg, err := client.ExportChannelBackup(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ExportChannelBackup_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1773,7 +1649,6 @@ func local_request_Lightning_ExportChannelBackup_0(ctx context.Context, marshale
 
 	msg, err := server.ExportChannelBackup(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_ExportAllChannelBackups_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1782,7 +1657,6 @@ func request_Lightning_ExportAllChannelBackups_0(ctx context.Context, marshaler 
 
 	msg, err := client.ExportAllChannelBackups(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ExportAllChannelBackups_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1791,7 +1665,6 @@ func local_request_Lightning_ExportAllChannelBackups_0(ctx context.Context, mars
 
 	msg, err := server.ExportAllChannelBackups(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_VerifyChanBackup_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1808,7 +1681,6 @@ func request_Lightning_VerifyChanBackup_0(ctx context.Context, marshaler runtime
 
 	msg, err := client.VerifyChanBackup(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_VerifyChanBackup_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1825,7 +1697,6 @@ func local_request_Lightning_VerifyChanBackup_0(ctx context.Context, marshaler r
 
 	msg, err := server.VerifyChanBackup(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_RestoreChannelBackups_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1842,7 +1713,6 @@ func request_Lightning_RestoreChannelBackups_0(ctx context.Context, marshaler ru
 
 	msg, err := client.RestoreChannelBackups(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_RestoreChannelBackups_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1859,7 +1729,6 @@ func local_request_Lightning_RestoreChannelBackups_0(ctx context.Context, marsha
 
 	msg, err := server.RestoreChannelBackups(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_SubscribeChannelBackups_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (Lightning_SubscribeChannelBackupsClient, runtime.ServerMetadata, error) {
@@ -1876,7 +1745,6 @@ func request_Lightning_SubscribeChannelBackups_0(ctx context.Context, marshaler 
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 func request_Lightning_BakeMacaroon_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1893,7 +1761,6 @@ func request_Lightning_BakeMacaroon_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.BakeMacaroon(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_BakeMacaroon_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1910,7 +1777,6 @@ func local_request_Lightning_BakeMacaroon_0(ctx context.Context, marshaler runti
 
 	msg, err := server.BakeMacaroon(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_ListMacaroonIDs_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1919,7 +1785,6 @@ func request_Lightning_ListMacaroonIDs_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.ListMacaroonIDs(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ListMacaroonIDs_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1928,7 +1793,6 @@ func local_request_Lightning_ListMacaroonIDs_0(ctx context.Context, marshaler ru
 
 	msg, err := server.ListMacaroonIDs(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_DeleteMacaroonID_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1955,7 +1819,6 @@ func request_Lightning_DeleteMacaroonID_0(ctx context.Context, marshaler runtime
 
 	msg, err := client.DeleteMacaroonID(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_DeleteMacaroonID_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1982,7 +1845,6 @@ func local_request_Lightning_DeleteMacaroonID_0(ctx context.Context, marshaler r
 
 	msg, err := server.DeleteMacaroonID(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Lightning_ListPermissions_0(ctx context.Context, marshaler runtime.Marshaler, client LightningClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1991,7 +1853,6 @@ func request_Lightning_ListPermissions_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.ListPermissions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Lightning_ListPermissions_0(ctx context.Context, marshaler runtime.Marshaler, server LightningServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2000,14 +1861,12 @@ func local_request_Lightning_ListPermissions_0(ctx context.Context, marshaler ru
 
 	msg, err := server.ListPermissions(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 // RegisterLightningHandlerServer registers the http handlers for service Lightning to "mux".
 // UnaryRPC     :call LightningServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, server LightningServer) error {
-
 	mux.Handle("GET", pattern_Lightning_WalletBalance_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -2025,7 +1884,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_WalletBalance_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ChannelBalance_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2045,7 +1903,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ChannelBalance_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetTransactions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2065,7 +1922,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetTransactions_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_EstimateFee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2085,7 +1941,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_EstimateFee_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_SendCoins_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2105,7 +1960,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SendCoins_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListUnspent_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2125,7 +1979,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListUnspent_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribeTransactions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2152,7 +2005,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SendMany_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_NewAddress_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2172,7 +2024,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_NewAddress_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_SignMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2192,7 +2043,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SignMessage_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_VerifyMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2212,7 +2062,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_VerifyMessage_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_ConnectPeer_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2232,7 +2081,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ConnectPeer_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("DELETE", pattern_Lightning_DisconnectPeer_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2252,7 +2100,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DisconnectPeer_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListPeers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2272,7 +2119,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListPeers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribePeerEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2299,7 +2145,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetRecoveryInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2319,7 +2164,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetRecoveryInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_PendingChannels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2339,7 +2183,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_PendingChannels_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListChannels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2359,7 +2202,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListChannels_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribeChannelEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2386,7 +2228,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ClosedChannels_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_OpenChannelSync_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2406,7 +2247,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_OpenChannelSync_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_OpenChannel_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2433,7 +2273,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_FundingStateStep_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("DELETE", pattern_Lightning_CloseChannel_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2460,7 +2299,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_AbandonChannel_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_SendPaymentSync_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2480,7 +2318,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SendPaymentSync_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_SendToRouteSync_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2500,7 +2337,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SendToRouteSync_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_AddInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2520,7 +2356,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_AddInvoice_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListInvoices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2540,7 +2375,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListInvoices_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_LookupInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2560,7 +2394,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_LookupInvoice_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribeInvoices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2587,7 +2420,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DecodePayReq_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListPayments_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2607,7 +2439,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListPayments_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("DELETE", pattern_Lightning_DeleteAllPayments_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2627,7 +2458,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DeleteAllPayments_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_DescribeGraph_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2647,7 +2477,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DescribeGraph_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetNodeMetrics_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2667,7 +2496,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetNodeMetrics_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetChanInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2687,7 +2515,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetChanInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetNodeInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2707,7 +2534,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetNodeInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_QueryRoutes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2727,7 +2553,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_QueryRoutes_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetNetworkInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2747,7 +2572,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetNetworkInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_StopDaemon_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2767,7 +2591,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_StopDaemon_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribeChannelGraph_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2794,7 +2617,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DebugLevel_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_FeeReport_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2814,7 +2636,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_FeeReport_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_UpdateChannelPolicy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2834,7 +2655,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_UpdateChannelPolicy_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_ForwardingHistory_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2854,7 +2674,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ForwardingHistory_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ExportChannelBackup_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2874,7 +2693,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ExportChannelBackup_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ExportAllChannelBackups_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2894,7 +2712,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ExportAllChannelBackups_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_VerifyChanBackup_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2914,7 +2731,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_VerifyChanBackup_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_RestoreChannelBackups_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2934,7 +2750,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_RestoreChannelBackups_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribeChannelBackups_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2961,7 +2776,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_BakeMacaroon_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListMacaroonIDs_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2981,7 +2795,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListMacaroonIDs_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("DELETE", pattern_Lightning_DeleteMacaroonID_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3001,7 +2814,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DeleteMacaroonID_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListPermissions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3021,7 +2833,6 @@ func RegisterLightningHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListPermissions_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
@@ -3064,7 +2875,6 @@ func RegisterLightningHandler(ctx context.Context, mux *runtime.ServeMux, conn *
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "LightningClient" to call the correct interceptors.
 func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, client LightningClient) error {
-
 	mux.Handle("GET", pattern_Lightning_WalletBalance_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -3082,7 +2892,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_WalletBalance_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ChannelBalance_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3102,7 +2911,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ChannelBalance_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetTransactions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3122,7 +2930,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetTransactions_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_EstimateFee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3142,7 +2949,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_EstimateFee_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_SendCoins_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3162,7 +2968,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SendCoins_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListUnspent_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3182,7 +2987,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListUnspent_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribeTransactions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3202,7 +3006,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SubscribeTransactions_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_SendMany_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3222,7 +3025,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SendMany_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_NewAddress_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3242,7 +3044,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_NewAddress_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_SignMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3262,7 +3063,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SignMessage_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_VerifyMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3282,7 +3082,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_VerifyMessage_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_ConnectPeer_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3302,7 +3101,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ConnectPeer_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("DELETE", pattern_Lightning_DisconnectPeer_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3322,7 +3120,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DisconnectPeer_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListPeers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3342,7 +3139,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListPeers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribePeerEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3362,7 +3158,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SubscribePeerEvents_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3382,7 +3177,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetRecoveryInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3402,7 +3196,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetRecoveryInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_PendingChannels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3422,7 +3215,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_PendingChannels_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListChannels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3442,7 +3234,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListChannels_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribeChannelEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3462,7 +3253,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SubscribeChannelEvents_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ClosedChannels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3482,7 +3272,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ClosedChannels_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_OpenChannelSync_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3502,7 +3291,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_OpenChannelSync_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_OpenChannel_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3522,7 +3310,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_OpenChannel_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_FundingStateStep_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3542,7 +3329,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_FundingStateStep_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("DELETE", pattern_Lightning_CloseChannel_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3562,7 +3348,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_CloseChannel_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("DELETE", pattern_Lightning_AbandonChannel_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3582,7 +3367,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_AbandonChannel_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_SendPaymentSync_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3602,7 +3386,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SendPaymentSync_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_SendToRouteSync_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3622,7 +3405,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SendToRouteSync_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_AddInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3642,7 +3424,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_AddInvoice_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListInvoices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3662,7 +3443,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListInvoices_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_LookupInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3682,7 +3462,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_LookupInvoice_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribeInvoices_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3702,7 +3481,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SubscribeInvoices_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_DecodePayReq_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3722,7 +3500,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DecodePayReq_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListPayments_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3742,7 +3519,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListPayments_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("DELETE", pattern_Lightning_DeleteAllPayments_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3762,7 +3538,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DeleteAllPayments_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_DescribeGraph_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3782,7 +3557,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DescribeGraph_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetNodeMetrics_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3802,7 +3576,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetNodeMetrics_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetChanInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3822,7 +3595,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetChanInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetNodeInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3842,7 +3614,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetNodeInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_QueryRoutes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3862,7 +3633,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_QueryRoutes_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_GetNetworkInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3882,7 +3652,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_GetNetworkInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_StopDaemon_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3902,7 +3671,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_StopDaemon_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribeChannelGraph_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3922,7 +3690,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SubscribeChannelGraph_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_DebugLevel_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3942,7 +3709,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DebugLevel_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_FeeReport_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3962,7 +3728,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_FeeReport_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_UpdateChannelPolicy_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -3982,7 +3747,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_UpdateChannelPolicy_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_ForwardingHistory_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4002,7 +3766,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ForwardingHistory_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ExportChannelBackup_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4022,7 +3785,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ExportChannelBackup_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ExportAllChannelBackups_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4042,7 +3804,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ExportAllChannelBackups_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_VerifyChanBackup_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4062,7 +3823,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_VerifyChanBackup_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_RestoreChannelBackups_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4082,7 +3842,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_RestoreChannelBackups_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_SubscribeChannelBackups_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4102,7 +3861,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_SubscribeChannelBackups_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Lightning_BakeMacaroon_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4122,7 +3880,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_BakeMacaroon_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListMacaroonIDs_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4142,7 +3899,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListMacaroonIDs_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("DELETE", pattern_Lightning_DeleteMacaroonID_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4162,7 +3918,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_DeleteMacaroonID_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Lightning_ListPermissions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4182,7 +3937,6 @@ func RegisterLightningHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_Lightning_ListPermissions_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil

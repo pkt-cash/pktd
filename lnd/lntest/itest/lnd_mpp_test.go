@@ -78,7 +78,6 @@ func testSendToRouteMultiPath(net *lntest.NetworkHarness, t *harnessTest) {
 	// Helper function for Alice to build a route from pubkeys.
 	buildRoute := func(amt btcutil.Amount, hops []*lntest.HarnessNode) (
 		*lnrpc.Route, er.R) {
-
 		rpcHops := make([][]byte, 0, len(hops))
 		for _, hop := range hops {
 			k := hop.PubKeyStr
@@ -208,7 +207,6 @@ func testSendToRouteMultiPath(net *lntest.NetworkHarness, t *harnessTest) {
 	// hash is settled, and has been paid using num HTLCs.
 	assertSettledInvoice := func(node *lntest.HarnessNode, rhash []byte,
 		num int) {
-
 		found := false
 		offset := uint64(0)
 		for !found {
@@ -285,7 +283,6 @@ type mppTestContext struct {
 
 func newMppTestContext(t *harnessTest,
 	net *lntest.NetworkHarness) *mppTestContext {
-
 	ctxb := context.Background()
 
 	// Create a five-node context consisting of Alice, Bob and three new

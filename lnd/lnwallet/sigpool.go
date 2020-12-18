@@ -289,7 +289,6 @@ func (s *SigPool) SubmitSignBatch(signJobs []SignJob) {
 // bail early.
 func (s *SigPool) SubmitVerifyBatch(verifyJobs []VerifyJob,
 	cancelChan chan struct{}) <-chan *HtlcIndexErr {
-
 	errChan := make(chan *HtlcIndexErr, len(verifyJobs))
 
 	for _, job := range verifyJobs {

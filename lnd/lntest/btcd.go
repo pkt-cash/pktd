@@ -74,7 +74,6 @@ func (b BtcdBackendConfig) Name() string {
 // to.
 func NewBackend(miner string, netParams *chaincfg.Params) (
 	*BtcdBackendConfig, func() er.R, er.R) {
-
 	baseLogDir := fmt.Sprintf(logDirPattern, GetLogDir())
 	args := []string{
 		"--rejectnonstd",

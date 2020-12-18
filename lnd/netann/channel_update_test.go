@@ -20,7 +20,6 @@ type mockSigner struct {
 
 func (m *mockSigner) SignMessage(pk *btcec.PublicKey,
 	msg []byte) (input.Signature, er.R) {
-
 	if m.err != nil {
 		return nil, m.err.Default()
 	}

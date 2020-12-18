@@ -111,7 +111,6 @@ func (c *ChannelNotifier) SubscribeChannelEvents() (*subscribe.Client, er.R) {
 // remote peer.
 func (c *ChannelNotifier) NotifyPendingOpenChannelEvent(chanPoint wire.OutPoint,
 	pendingChan *channeldb.OpenChannel) {
-
 	event := PendingOpenChannelEvent{
 		ChannelPoint:   &chanPoint,
 		PendingChannel: pendingChan,
@@ -125,7 +124,6 @@ func (c *ChannelNotifier) NotifyPendingOpenChannelEvent(chanPoint wire.OutPoint,
 // NotifyOpenChannelEvent notifies the channelEventNotifier goroutine that a
 // channel has gone from pending open to open.
 func (c *ChannelNotifier) NotifyOpenChannelEvent(chanPoint wire.OutPoint) {
-
 	// Fetch the relevant channel from the database.
 	channel, err := c.chanDB.FetchChannel(chanPoint)
 	if err != nil {

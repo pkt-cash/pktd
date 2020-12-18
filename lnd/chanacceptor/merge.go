@@ -49,7 +49,6 @@ func mergeInt64(name string, current, new int64) (int64, er.R) {
 // non-zero values.
 func mergeMillisatoshi(name string, current,
 	new lnwire.MilliSatoshi) (lnwire.MilliSatoshi, er.R) {
-
 	switch {
 	case current == 0:
 		return new, nil
@@ -69,7 +68,6 @@ func mergeMillisatoshi(name string, current,
 // different non-zero values.
 func mergeDeliveryAddress(name string, current,
 	new lnwire.DeliveryAddress) (lnwire.DeliveryAddress, er.R) {
-
 	switch {
 	case current == nil:
 		return new, nil
@@ -90,7 +88,6 @@ func mergeDeliveryAddress(name string, current,
 // returns a new response that has all the merged fields in it.
 func mergeResponse(current, new ChannelAcceptResponse) (ChannelAcceptResponse,
 	er.R) {
-
 	csv, err := mergeInt64(
 		fieldCSV, int64(current.CSVDelay), int64(new.CSVDelay),
 	)

@@ -7,7 +7,6 @@ import (
 	"image/color"
 	"io"
 	"math"
-
 	"net"
 
 	"github.com/pkt-cash/pktd/btcec"

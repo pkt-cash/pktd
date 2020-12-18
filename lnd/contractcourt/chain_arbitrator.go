@@ -215,7 +215,6 @@ type ChainArbitrator struct {
 // passed config struct, and backing persistent database.
 func NewChainArbitrator(cfg ChainArbitratorConfig,
 	db *channeldb.DB) *ChainArbitrator {
-
 	return &ChainArbitrator{
 		cfg:            cfg,
 		activeChannels: make(map[wire.OutPoint]*ChannelArbitrator),
@@ -242,7 +241,6 @@ type arbChannel struct {
 // NOTE: Part of the ArbChannel interface.
 func (a *arbChannel) NewAnchorResolutions() ([]*lnwallet.AnchorResolution,
 	er.R) {
-
 	// Get a fresh copy of the database state to base the anchor resolutions
 	// on. Unfortunately the channel instance that we have here isn't the
 	// same instance that is used by the link.
@@ -311,7 +309,6 @@ func (a *arbChannel) ForceCloseChan() (*lnwallet.LocalForceCloseSummary, er.R) {
 // arbitrator given the state of the target channel.
 func newActiveChannelArbitrator(channel *channeldb.OpenChannel,
 	c *ChainArbitrator, chanEvents *ChainEventSubscription) (*ChannelArbitrator, er.R) {
-
 	log.Tracef("Creating ChannelArbitrator for ChannelPoint(%v)",
 		channel.FundingOutpoint)
 
@@ -330,7 +327,6 @@ func newActiveChannelArbitrator(channel *channeldb.OpenChannel,
 		MarkCommitmentBroadcasted: channel.MarkCommitmentBroadcasted,
 		MarkChannelClosed: func(summary *channeldb.ChannelCloseSummary,
 			statuses ...channeldb.ChannelStatus) er.R {
-
 			err := channel.CloseChannel(summary, statuses...)
 			if err != nil {
 				return err
@@ -343,7 +339,6 @@ func newActiveChannelArbitrator(channel *channeldb.OpenChannel,
 		ChainEvents:           chanEvents,
 		PutResolverReport: func(tx kvdb.RwTx,
 			report *channeldb.ResolverReport) er.R {
-
 			return c.chanSource.PutResolverReport(
 				tx, c.cfg.ChainHash, &channel.FundingOutpoint,
 				report,
@@ -392,7 +387,6 @@ func newActiveChannelArbitrator(channel *channeldb.OpenChannel,
 // getArbChannel returns an open channel wrapper for use by channel arbitrators.
 func (c *ChainArbitrator) getArbChannel(
 	channel *channeldb.OpenChannel) *arbChannel {
-
 	return &arbChannel{
 		channel: channel,
 		c:       c,
@@ -403,7 +397,6 @@ func (c *ChainArbitrator) getArbChannel(
 // This is only to be done once all contracts which were live on the channel
 // before hitting the chain have been resolved.
 func (c *ChainArbitrator) ResolveContract(chanPoint wire.OutPoint) er.R {
-
 	log.Infof("Marking ChannelPoint(%v) fully resolved", chanPoint)
 
 	// First, we'll we'll mark the channel as fully closed from the PoV of
@@ -548,7 +541,6 @@ func (c *ChainArbitrator) Start() er.R {
 			CloseType:             closeChanInfo.CloseType,
 			PutResolverReport: func(tx kvdb.RwTx,
 				report *channeldb.ResolverReport) er.R {
-
 				return c.chanSource.PutResolverReport(
 					tx, c.cfg.ChainHash, &chanPoint, report,
 				)
@@ -699,7 +691,6 @@ type blockRecipient struct {
 // must be run in a goroutine.
 func (c *ChainArbitrator) dispatchBlocks(
 	blockEpoch *chainntnfs.BlockEpochEvent) {
-
 	// getRecipients is a helper function which acquires the chain arb
 	// lock and returns a set of block recipients which can be used to
 	// dispatch blocks.
@@ -781,7 +772,6 @@ func (c *ChainArbitrator) dispatchBlocks(
 // transactions in the event that prior publications failed.
 func (c *ChainArbitrator) publishClosingTxs(
 	channel *channeldb.OpenChannel) er.R {
-
 	// If the channel has had its unilateral close broadcasted already,
 	// republish it in case it didn't propagate.
 	if channel.HasChanStatus(channeldb.ChanStatusCommitBroadcasted) {
@@ -814,7 +804,6 @@ func (c *ChainArbitrator) publishClosingTxs(
 // CommimentBroadcasted or CoopBroadcasted, but the logs will be misleading.
 func (c *ChainArbitrator) rebroadcast(channel *channeldb.OpenChannel,
 	state channeldb.ChannelStatus) er.R {
-
 	chanPoint := channel.FundingOutpoint
 
 	var (
@@ -949,7 +938,6 @@ type ContractSignals struct {
 // the passed channel point.
 func (c *ChainArbitrator) UpdateContractSignals(chanPoint wire.OutPoint,
 	signals *ContractSignals) er.R {
-
 	log.Infof("Attempting to update ContractSignals for ChannelPoint(%v)",
 		chanPoint)
 
@@ -969,7 +957,6 @@ func (c *ChainArbitrator) UpdateContractSignals(chanPoint wire.OutPoint,
 // channel outpoint.
 func (c *ChainArbitrator) GetChannelArbitrator(chanPoint wire.OutPoint) (
 	*ChannelArbitrator, er.R) {
-
 	c.Lock()
 	arbitrator, ok := c.activeChannels[chanPoint]
 	c.Unlock()
@@ -1118,7 +1105,6 @@ func (c *ChainArbitrator) WatchNewChannel(newChan *channeldb.OpenChannel) er.R {
 // channel on-chain occurs.
 func (c *ChainArbitrator) SubscribeChannelEvents(
 	chanPoint wire.OutPoint) (*ChainEventSubscription, er.R) {
-
 	// First, we'll attempt to look up the active watcher for this channel.
 	// If we can't find it, then we'll return an error back to the caller.
 	watcher, ok := c.activeWatchers[chanPoint]

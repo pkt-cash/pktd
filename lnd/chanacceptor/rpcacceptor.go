@@ -155,7 +155,6 @@ func (r *RPCAcceptor) Accept(req *ChannelAcceptRequest) *ChannelAcceptResponse {
 func NewRPCAcceptor(receive func() (*lnrpc.ChannelAcceptResponse, error),
 	send func(*lnrpc.ChannelAcceptRequest) error, timeout time.Duration,
 	params *chaincfg.Params, quit chan struct{}) *RPCAcceptor {
-
 	return &RPCAcceptor{
 		receive:  receive,
 		send:     send,
@@ -200,7 +199,6 @@ func (r *RPCAcceptor) Run() er.R {
 // occur into the error channel provided.
 func (r *RPCAcceptor) receiveResponses(errChan chan er.R,
 	responses chan lnrpc.ChannelAcceptResponse) {
-
 	for {
 		resp, err := r.receive()
 		if err != nil {
@@ -243,7 +241,6 @@ func (r *RPCAcceptor) receiveResponses(errChan chan er.R,
 // return of responses to their callers.
 func (r *RPCAcceptor) sendAcceptRequests(errChan chan er.R,
 	responses chan lnrpc.ChannelAcceptResponse) er.R {
-
 	// Close the done channel to indicate that the acceptor is no longer
 	// listening and any in-progress requests should be terminated.
 	defer close(r.done)
@@ -340,7 +337,6 @@ func (r *RPCAcceptor) sendAcceptRequests(errChan chan er.R,
 func (r *RPCAcceptor) validateAcceptorResponse(dustLimit btcutil.Amount,
 	req lnrpc.ChannelAcceptResponse) (bool, er.R, lnwire.DeliveryAddress,
 	er.R) {
-
 	channelStr := hex.EncodeToString(req.PendingChanId)
 
 	// Check that the max htlc count is within the BOLT 2 hard-limit of 483.
@@ -382,7 +378,7 @@ func (r *RPCAcceptor) validateAcceptorResponse(dustLimit btcutil.Amount,
 		return false, errChannelRejected.Default(), nil, errCustomLength.Default()
 	}
 
-	var haveCustomError = len(req.Error) != 0
+	haveCustomError := len(req.Error) != 0
 
 	switch {
 	// If accept is true, but we also have an error specified, we fail

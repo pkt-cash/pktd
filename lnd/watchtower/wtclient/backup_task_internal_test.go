@@ -95,7 +95,6 @@ func genTaskTest(
 	expRewardAmt int64,
 	bindErr *er.ErrorCode,
 	tweakless bool) backupTaskTest {
-
 	// Parse the key pairs for all keys used in the test.
 	revSK, revPK := btcec.PrivKeyFromBytes(
 		btcec.S256(), revPrivBytes,
@@ -521,7 +520,7 @@ func testBackupTask(t *testing.T, test backupTaskTest) {
 	}
 
 	// Compute the expected outputs on the justice transaction.
-	var expOutputs = []*wire.TxOut{
+	expOutputs := []*wire.TxOut{
 		{
 			PkScript: test.expSweepScript,
 			Value:    test.expSweepAmt,

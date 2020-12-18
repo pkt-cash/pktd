@@ -7,8 +7,10 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
-const DefaultWorkerCount = 6
-const DefaultBacklog = 10
+const (
+	DefaultWorkerCount = 6
+	DefaultBacklog     = 10
+)
 
 type threadCtx struct {
 	ff  *WorkQueue

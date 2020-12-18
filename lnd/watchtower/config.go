@@ -28,11 +28,9 @@ const (
 	DefaultWriteTimeout = 15 * time.Second
 )
 
-var (
-	// DefaultListenAddr is the default watchtower address listening on all
-	// interfaces.
-	DefaultListenAddr = fmt.Sprintf(":%d", DefaultPeerPort)
-)
+// DefaultListenAddr is the default watchtower address listening on all
+// interfaces.
+var DefaultListenAddr = fmt.Sprintf(":%d", DefaultPeerPort)
 
 // Config defines the resources and parameters used to configure a Watchtower.
 // All nil-able elements besides tor-related ones must be set in order for the

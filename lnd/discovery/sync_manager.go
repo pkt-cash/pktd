@@ -25,12 +25,10 @@ const (
 	DefaultHistoricalSyncInterval = time.Hour
 )
 
-var (
-	// ErrSyncManagerExiting is an error returned when we attempt to
-	// start/stop a gossip syncer for a connected/disconnected peer, but the
-	// SyncManager has already been stopped.
-	ErrSyncManagerExiting = Err.CodeWithDetail("ErrSyncManagerExiting", "sync manager exiting")
-)
+// ErrSyncManagerExiting is an error returned when we attempt to
+// start/stop a gossip syncer for a connected/disconnected peer, but the
+// SyncManager has already been stopped.
+var ErrSyncManagerExiting = Err.CodeWithDetail("ErrSyncManagerExiting", "sync manager exiting")
 
 // newSyncer in an internal message we'll use within the SyncManager to signal
 // that we should create a GossipSyncer for a newly connected peer.
@@ -564,7 +562,6 @@ func (m *SyncManager) forceHistoricalSync() *GossipSyncer {
 // candidate syncers.
 func chooseRandomSyncer(syncers map[route.Vertex]*GossipSyncer,
 	action func(*GossipSyncer) er.R) *GossipSyncer {
-
 	for _, s := range syncers {
 		// Only syncers in a chansSynced state are viable for sync
 		// transitions, so skip any that aren't.

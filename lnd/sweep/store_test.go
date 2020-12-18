@@ -13,7 +13,6 @@ import (
 // able to retrieve it again.
 func TestStore(t *testing.T) {
 	t.Run("bolt", func(t *testing.T) {
-
 		// Create new store.
 		cdb, cleanUp, err := channeldb.MakeTestDB()
 		if err != nil {

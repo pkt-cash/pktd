@@ -317,7 +317,6 @@ func initDB() (*channeldb.DB, er.R) {
 
 func genInfo() (*channeldb.PaymentCreationInfo, *channeldb.HTLCAttemptInfo,
 	lntypes.Preimage, er.R) {
-
 	preimage, err := genPreimage()
 	if err != nil {
 		return nil, nil, preimage, er.Errorf("unable to "+

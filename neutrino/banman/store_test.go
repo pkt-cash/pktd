@@ -48,7 +48,6 @@ func createTestBanStore(t *testing.T) (banman.Store, func()) {
 // TestBanStore ensures that the BanStore's state correctly reflects the
 // BanStatus of IP networks.
 func TestBanStore(t *testing.T) {
-
 	// We'll start by creating our test BanStore backed by a boltdb
 	// instance.
 	banStore, cleanUp := createTestBanStore(t)
@@ -58,7 +57,6 @@ func TestBanStore(t *testing.T) {
 	// status is correctly reflected within the BanStore.
 	checkBanStore := func(ipNet *net.IPNet, banned bool,
 		reason banman.Reason, duration time.Duration) {
-
 		t.Helper()
 
 		banStatus, err := banStore.Status(ipNet)

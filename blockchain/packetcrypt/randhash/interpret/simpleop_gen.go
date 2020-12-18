@@ -11,7 +11,6 @@ import (
 )
 
 func doOp(ctx *Context, insn uint32, op opcodes.OpCode) {
-
 	switch op {
 
 	case opcodes.OpCode_POPCNT8:

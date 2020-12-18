@@ -34,7 +34,6 @@ func TstAppDataDir(goos, appName string, roaming bool) string {
 // unexported fields with the parameters hash and netID.
 func TstAddressPubKeyHash(hash [Hash160Size]byte,
 	netID byte) *AddressPubKeyHash {
-
 	return &AddressPubKeyHash{
 		hash:  hash,
 		netID: netID,
@@ -45,7 +44,6 @@ func TstAddressPubKeyHash(hash [Hash160Size]byte,
 // unexported fields with the parameters hash and netID.
 func TstAddressScriptHash(hash [Hash160Size]byte,
 	netID byte) *AddressScriptHash {
-
 	return &AddressScriptHash{
 		hash:  hash,
 		netID: netID,
@@ -56,7 +54,6 @@ func TstAddressScriptHash(hash [Hash160Size]byte,
 // the fields as given.
 func TstAddressWitnessPubKeyHash(version byte, program [20]byte,
 	hrp string) *AddressWitnessPubKeyHash {
-
 	return &AddressWitnessPubKeyHash{
 		hrp:            hrp,
 		witnessVersion: version,
@@ -68,7 +65,6 @@ func TstAddressWitnessPubKeyHash(version byte, program [20]byte,
 // the fields as given.
 func TstAddressWitnessScriptHash(version byte, program [32]byte,
 	hrp string) *AddressWitnessScriptHash {
-
 	return &AddressWitnessScriptHash{
 		hrp:            hrp,
 		witnessVersion: version,
@@ -80,7 +76,6 @@ func TstAddressWitnessScriptHash(version byte, program [32]byte,
 // the parameters.
 func TstAddressPubKey(serializedPubKey []byte, pubKeyFormat PubKeyFormat,
 	netID byte) *AddressPubKey {
-
 	pubKey, _ := btcec.ParsePubKey(serializedPubKey, btcec.S256())
 	return &AddressPubKey{
 		pubKeyFormat: pubKeyFormat,

@@ -66,7 +66,6 @@ func (p *preimageBeacon) SubscribeUpdates() *contractcourt.WitnessSubscription {
 // returned for the second argument if the preimage is found.
 func (p *preimageBeacon) LookupPreimage(
 	payHash lntypes.Hash) (lntypes.Preimage, bool) {
-
 	p.RLock()
 	defer p.RUnlock()
 

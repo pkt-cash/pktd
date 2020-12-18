@@ -24,17 +24,15 @@ const (
 	maxStateHint uint64 = (1 << 48) - 1
 )
 
-var (
-	// TimelockShift is used to make sure the commitment transaction is
-	// spendable by setting the locktime with it so that it is larger than
-	// 500,000,000, thus interpreting it as Unix epoch timestamp and not
-	// a block height. It is also smaller than the current timestamp which
-	// has bit (1 << 30) set, so there is no risk of having the commitment
-	// transaction be rejected. This way we can safely use the lower 24 bits
-	// of the locktime field for part of the obscured commitment transaction
-	// number.
-	TimelockShift = uint32(1 << 29)
-)
+// TimelockShift is used to make sure the commitment transaction is
+// spendable by setting the locktime with it so that it is larger than
+// 500,000,000, thus interpreting it as Unix epoch timestamp and not
+// a block height. It is also smaller than the current timestamp which
+// has bit (1 << 30) set, so there is no risk of having the commitment
+// transaction be rejected. This way we can safely use the lower 24 bits
+// of the locktime field for part of the obscured commitment transaction
+// number.
+var TimelockShift = uint32(1 << 29)
 
 // createHtlcSuccessTx creates a transaction that spends the output on the
 // commitment transaction of the peer that receives an HTLC. This transaction
@@ -49,7 +47,6 @@ var (
 func createHtlcSuccessTx(chanType channeldb.ChannelType,
 	htlcOutput wire.OutPoint, htlcAmt btcutil.Amount, csvDelay uint32,
 	revocationKey, delayKey *btcec.PublicKey) (*wire.MsgTx, er.R) {
-
 	// Create a version two transaction (as the success version of this
 	// spends an output with a CSV timeout).
 	successTx := wire.NewMsgTx(2)
@@ -106,7 +103,6 @@ func createHtlcTimeoutTx(chanType channeldb.ChannelType,
 	htlcOutput wire.OutPoint, htlcAmt btcutil.Amount,
 	cltvExpiry, csvDelay uint32,
 	revocationKey, delayKey *btcec.PublicKey) (*wire.MsgTx, er.R) {
-
 	// Create a version two transaction (as the success version of this
 	// spends an output with a CSV timeout), and set the lock-time to the
 	// specified absolute lock-time in blocks.
@@ -155,7 +151,6 @@ func createHtlcTimeoutTx(chanType channeldb.ChannelType,
 // state number from the PoV of outside parties.
 func SetStateNumHint(commitTx *wire.MsgTx, stateNum uint64,
 	obfuscator [StateHintSize]byte) er.R {
-
 	// With the current schema we are only able to encode state num
 	// hints up to 2^48. Therefore if the passed height is greater than our
 	// state hint ceiling, then exit early.

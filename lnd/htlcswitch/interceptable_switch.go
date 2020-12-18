@@ -10,11 +10,9 @@ import (
 	"github.com/pkt-cash/pktd/lnd/lnwire"
 )
 
-var (
-	// ErrFwdNotExists is an error returned when the caller tries to resolve
-	// a forward that doesn't exist anymore.
-	ErrFwdNotExists = Err.CodeWithDetail("ErrFwdNotExists", "forward does not exist")
-)
+// ErrFwdNotExists is an error returned when the caller tries to resolve
+// a forward that doesn't exist anymore.
+var ErrFwdNotExists = Err.CodeWithDetail("ErrFwdNotExists", "forward does not exist")
 
 // InterceptableSwitch is an implementation of ForwardingSwitch interface.
 // This implementation is used like a proxy that wraps the switch and
@@ -43,7 +41,6 @@ func NewInterceptableSwitch(s *Switch) *InterceptableSwitch {
 // SetInterceptor sets the ForwardInterceptor to be used.
 func (s *InterceptableSwitch) SetInterceptor(
 	interceptor ForwardInterceptor) {
-
 	s.Lock()
 	defer s.Unlock()
 	s.fwdInterceptor = interceptor
@@ -55,7 +52,6 @@ func (s *InterceptableSwitch) SetInterceptor(
 // cancellation of forwarding during link shutdown.
 func (s *InterceptableSwitch) ForwardPackets(linkQuit chan struct{},
 	packets ...*htlcPacket) er.R {
-
 	var interceptor ForwardInterceptor
 	s.Lock()
 	interceptor = s.fwdInterceptor
@@ -81,7 +77,6 @@ func (s *InterceptableSwitch) ForwardPackets(linkQuit chan struct{},
 // the right use case.
 func (s *InterceptableSwitch) interceptForward(packet *htlcPacket,
 	interceptor ForwardInterceptor, linkQuit chan struct{}) bool {
-
 	switch htlc := packet.htlc.(type) {
 	case *lnwire.UpdateAddHTLC:
 		// We are not interested in intercepting initated payments.

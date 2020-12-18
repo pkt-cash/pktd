@@ -127,7 +127,6 @@ func newThresholdCaches(numCaches uint32) []thresholdStateCache {
 //
 // This function MUST be called with the chain state lock held (for writes).
 func (b *BlockChain) thresholdState(prevNode *blockNode, checker thresholdConditionChecker, cache *thresholdStateCache) (ThresholdState, er.R) {
-
 	// Handle the case where it's hard-wired in the parameters
 	if checker.BeginTime() == math.MaxInt64 && checker.EndTime() == math.MaxInt64 {
 		return ThresholdActive, nil

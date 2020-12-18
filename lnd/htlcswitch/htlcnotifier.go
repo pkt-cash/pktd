@@ -295,7 +295,6 @@ type SettleEvent struct {
 // Note this is part of the htlcNotifier interface.
 func (h *HtlcNotifier) NotifyForwardingEvent(key HtlcKey, info HtlcInfo,
 	eventType HtlcEventType) {
-
 	event := &ForwardingEvent{
 		HtlcKey:       key,
 		HtlcInfo:      info,
@@ -317,7 +316,6 @@ func (h *HtlcNotifier) NotifyForwardingEvent(key HtlcKey, info HtlcInfo,
 // Note this is part of the htlcNotifier interface.
 func (h *HtlcNotifier) NotifyLinkFailEvent(key HtlcKey, info HtlcInfo,
 	eventType HtlcEventType, linkErr *LinkError, incoming bool) {
-
 	event := &LinkFailEvent{
 		HtlcKey:       key,
 		HtlcInfo:      info,
@@ -341,7 +339,6 @@ func (h *HtlcNotifier) NotifyLinkFailEvent(key HtlcKey, info HtlcInfo,
 // Note this is part of the htlcNotifier interface.
 func (h *HtlcNotifier) NotifyForwardingFailEvent(key HtlcKey,
 	eventType HtlcEventType) {
-
 	event := &ForwardingFailEvent{
 		HtlcKey:       key,
 		HtlcEventType: eventType,

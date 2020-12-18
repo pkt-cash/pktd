@@ -54,7 +54,6 @@ type MockSigner struct {
 // the data within the passed SignDescriptor.
 func (m *MockSigner) SignOutputRaw(tx *wire.MsgTx,
 	signDesc *SignDescriptor) (Signature, er.R) {
-
 	pubkey := signDesc.KeyDesc.PubKey
 	switch {
 	case signDesc.SingleTweak != nil:
@@ -137,7 +136,6 @@ func (m *MockSigner) ComputeInputScript(tx *wire.MsgTx, signDesc *SignDescriptor
 // tweak applied.
 func (m *MockSigner) findKey(needleHash160 []byte, singleTweak []byte,
 	doubleTweak *btcec.PrivateKey) *btcec.PrivateKey {
-
 	for _, privkey := range m.Privkeys {
 		// First check whether public key is directly derived from private key.
 		hash160 := btcutil.Hash160(privkey.PubKey().SerializeCompressed())
@@ -179,7 +177,6 @@ func privkeyFromHex(keyHex string) (*btcec.PrivateKey, er.R) {
 	}
 	key, _ := btcec.PrivKeyFromBytes(btcec.S256(), bytes)
 	return key, nil
-
 }
 
 // pubkeyToHex serializes a Bitcoin public key to a hex encoded string.

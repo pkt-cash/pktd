@@ -87,7 +87,7 @@ func chainSetup(dbName string, params *chaincfg.Params) (*blockchain.BlockChain,
 	} else {
 		// Create the root directory for test databases.
 		if !fileExists(testDbRoot) {
-			if err := os.MkdirAll(testDbRoot, 0700); err != nil {
+			if err := os.MkdirAll(testDbRoot, 0o700); err != nil {
 				err := er.Errorf("unable to create test db "+
 					"root: %v", err)
 				return nil, nil, err

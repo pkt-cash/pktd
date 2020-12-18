@@ -2,6 +2,8 @@
 
 package etcd
 
+import "github.com/pkt-cash/pktd/btcutil/er"
+
 // readWriteCursor holds a reference to the cursors bucket, the value
 // prefix and the current key used while iterating.
 type readWriteCursor struct {

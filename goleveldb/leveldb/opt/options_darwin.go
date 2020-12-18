@@ -2,6 +2,4 @@
 
 package opt
 
-var (
-	DefaultOpenFilesCacheCapacity = 200
-)
+var DefaultOpenFilesCacheCapacity = 200

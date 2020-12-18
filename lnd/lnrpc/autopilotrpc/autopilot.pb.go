@@ -6,17 +6,20 @@ package autopilotrpc
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+var (
+	_ = proto.Marshal
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -40,15 +43,19 @@ func (*StatusRequest) Descriptor() ([]byte, []int) {
 func (m *StatusRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_StatusRequest.Unmarshal(m, b)
 }
+
 func (m *StatusRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_StatusRequest.Marshal(b, m, deterministic)
 }
+
 func (m *StatusRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_StatusRequest.Merge(m, src)
 }
+
 func (m *StatusRequest) XXX_Size() int {
 	return xxx_messageInfo_StatusRequest.Size(m)
 }
+
 func (m *StatusRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_StatusRequest.DiscardUnknown(m)
 }
@@ -73,15 +80,19 @@ func (*StatusResponse) Descriptor() ([]byte, []int) {
 func (m *StatusResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_StatusResponse.Unmarshal(m, b)
 }
+
 func (m *StatusResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_StatusResponse.Marshal(b, m, deterministic)
 }
+
 func (m *StatusResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_StatusResponse.Merge(m, src)
 }
+
 func (m *StatusResponse) XXX_Size() int {
 	return xxx_messageInfo_StatusResponse.Size(m)
 }
+
 func (m *StatusResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_StatusResponse.DiscardUnknown(m)
 }
@@ -113,15 +124,19 @@ func (*ModifyStatusRequest) Descriptor() ([]byte, []int) {
 func (m *ModifyStatusRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ModifyStatusRequest.Unmarshal(m, b)
 }
+
 func (m *ModifyStatusRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ModifyStatusRequest.Marshal(b, m, deterministic)
 }
+
 func (m *ModifyStatusRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ModifyStatusRequest.Merge(m, src)
 }
+
 func (m *ModifyStatusRequest) XXX_Size() int {
 	return xxx_messageInfo_ModifyStatusRequest.Size(m)
 }
+
 func (m *ModifyStatusRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_ModifyStatusRequest.DiscardUnknown(m)
 }
@@ -151,15 +166,19 @@ func (*ModifyStatusResponse) Descriptor() ([]byte, []int) {
 func (m *ModifyStatusResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ModifyStatusResponse.Unmarshal(m, b)
 }
+
 func (m *ModifyStatusResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ModifyStatusResponse.Marshal(b, m, deterministic)
 }
+
 func (m *ModifyStatusResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ModifyStatusResponse.Merge(m, src)
 }
+
 func (m *ModifyStatusResponse) XXX_Size() int {
 	return xxx_messageInfo_ModifyStatusResponse.Size(m)
 }
+
 func (m *ModifyStatusResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_ModifyStatusResponse.DiscardUnknown(m)
 }
@@ -185,15 +204,19 @@ func (*QueryScoresRequest) Descriptor() ([]byte, []int) {
 func (m *QueryScoresRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_QueryScoresRequest.Unmarshal(m, b)
 }
+
 func (m *QueryScoresRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_QueryScoresRequest.Marshal(b, m, deterministic)
 }
+
 func (m *QueryScoresRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryScoresRequest.Merge(m, src)
 }
+
 func (m *QueryScoresRequest) XXX_Size() int {
 	return xxx_messageInfo_QueryScoresRequest.Size(m)
 }
+
 func (m *QueryScoresRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryScoresRequest.DiscardUnknown(m)
 }
@@ -231,15 +254,19 @@ func (*QueryScoresResponse) Descriptor() ([]byte, []int) {
 func (m *QueryScoresResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_QueryScoresResponse.Unmarshal(m, b)
 }
+
 func (m *QueryScoresResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_QueryScoresResponse.Marshal(b, m, deterministic)
 }
+
 func (m *QueryScoresResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryScoresResponse.Merge(m, src)
 }
+
 func (m *QueryScoresResponse) XXX_Size() int {
 	return xxx_messageInfo_QueryScoresResponse.Size(m)
 }
+
 func (m *QueryScoresResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryScoresResponse.DiscardUnknown(m)
 }
@@ -271,15 +298,19 @@ func (*QueryScoresResponse_HeuristicResult) Descriptor() ([]byte, []int) {
 func (m *QueryScoresResponse_HeuristicResult) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_QueryScoresResponse_HeuristicResult.Unmarshal(m, b)
 }
+
 func (m *QueryScoresResponse_HeuristicResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_QueryScoresResponse_HeuristicResult.Marshal(b, m, deterministic)
 }
+
 func (m *QueryScoresResponse_HeuristicResult) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryScoresResponse_HeuristicResult.Merge(m, src)
 }
+
 func (m *QueryScoresResponse_HeuristicResult) XXX_Size() int {
 	return xxx_messageInfo_QueryScoresResponse_HeuristicResult.Size(m)
 }
+
 func (m *QueryScoresResponse_HeuristicResult) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryScoresResponse_HeuristicResult.DiscardUnknown(m)
 }
@@ -322,15 +353,19 @@ func (*SetScoresRequest) Descriptor() ([]byte, []int) {
 func (m *SetScoresRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SetScoresRequest.Unmarshal(m, b)
 }
+
 func (m *SetScoresRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SetScoresRequest.Marshal(b, m, deterministic)
 }
+
 func (m *SetScoresRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SetScoresRequest.Merge(m, src)
 }
+
 func (m *SetScoresRequest) XXX_Size() int {
 	return xxx_messageInfo_SetScoresRequest.Size(m)
 }
+
 func (m *SetScoresRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_SetScoresRequest.DiscardUnknown(m)
 }
@@ -367,15 +402,19 @@ func (*SetScoresResponse) Descriptor() ([]byte, []int) {
 func (m *SetScoresResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SetScoresResponse.Unmarshal(m, b)
 }
+
 func (m *SetScoresResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SetScoresResponse.Marshal(b, m, deterministic)
 }
+
 func (m *SetScoresResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SetScoresResponse.Merge(m, src)
 }
+
 func (m *SetScoresResponse) XXX_Size() int {
 	return xxx_messageInfo_SetScoresResponse.Size(m)
 }
+
 func (m *SetScoresResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_SetScoresResponse.DiscardUnknown(m)
 }
@@ -433,8 +472,10 @@ var fileDescriptor_e0b9dc347a92e084 = []byte{
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
+var (
+	_ context.Context
+	_ grpc.ClientConn
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
@@ -533,12 +574,15 @@ type UnimplementedAutopilotServer struct {
 func (*UnimplementedAutopilotServer) Status(ctx context.Context, req *StatusRequest) (*StatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Status not implemented")
 }
+
 func (*UnimplementedAutopilotServer) ModifyStatus(ctx context.Context, req *ModifyStatusRequest) (*ModifyStatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ModifyStatus not implemented")
 }
+
 func (*UnimplementedAutopilotServer) QueryScores(ctx context.Context, req *QueryScoresRequest) (*QueryScoresResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryScores not implemented")
 }
+
 func (*UnimplementedAutopilotServer) SetScores(ctx context.Context, req *SetScoresRequest) (*SetScoresResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetScores not implemented")
 }

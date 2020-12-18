@@ -43,7 +43,6 @@ func TestComputeInputScript(t *testing.T) {
 
 func runTestCase(t *testing.T, w *Wallet, scope waddrmgr.KeyScope,
 	scriptLen int) {
-
 	// Create an address we can use to send some coins to.
 	addr, err := w.CurrentAddress(0, scope)
 	if err != nil {

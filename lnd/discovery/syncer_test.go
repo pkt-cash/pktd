@@ -19,15 +19,14 @@ const (
 	latestKnownHeight = 1337
 )
 
-var (
-	defaultChunkSize = encodingTypeToChunkSize[defaultEncoding]
-)
+var defaultChunkSize = encodingTypeToChunkSize[defaultEncoding]
 
 type horizonQuery struct {
 	chain chainhash.Hash
 	start time.Time
 	end   time.Time
 }
+
 type filterRangeReq struct {
 	startHeight, endHeight uint32
 }
@@ -53,7 +52,6 @@ type mockChannelGraphTimeSeries struct {
 
 func newMockChannelGraphTimeSeries(
 	hID lnwire.ShortChannelID) *mockChannelGraphTimeSeries {
-
 	return &mockChannelGraphTimeSeries{
 		highestID: hID,
 
@@ -77,39 +75,39 @@ func newMockChannelGraphTimeSeries(
 func (m *mockChannelGraphTimeSeries) HighestChanID(chain chainhash.Hash) (*lnwire.ShortChannelID, er.R) {
 	return &m.highestID, nil
 }
+
 func (m *mockChannelGraphTimeSeries) UpdatesInHorizon(chain chainhash.Hash,
 	startTime time.Time, endTime time.Time) ([]lnwire.Message, er.R) {
-
 	m.horizonReq <- horizonQuery{
 		chain, startTime, endTime,
 	}
 
 	return <-m.horizonResp, nil
 }
+
 func (m *mockChannelGraphTimeSeries) FilterKnownChanIDs(chain chainhash.Hash,
 	superSet []lnwire.ShortChannelID) ([]lnwire.ShortChannelID, er.R) {
-
 	m.filterReq <- superSet
 
 	return <-m.filterResp, nil
 }
+
 func (m *mockChannelGraphTimeSeries) FilterChannelRange(chain chainhash.Hash,
 	startHeight, endHeight uint32) ([]lnwire.ShortChannelID, er.R) {
-
 	m.filterRangeReqs <- filterRangeReq{startHeight, endHeight}
 
 	return <-m.filterRangeResp, nil
 }
+
 func (m *mockChannelGraphTimeSeries) FetchChanAnns(chain chainhash.Hash,
 	shortChanIDs []lnwire.ShortChannelID) ([]lnwire.Message, er.R) {
-
 	m.annReq <- shortChanIDs
 
 	return <-m.annResp, nil
 }
+
 func (m *mockChannelGraphTimeSeries) FetchChanUpdates(chain chainhash.Hash,
 	shortChanID lnwire.ShortChannelID) ([]*lnwire.ChannelUpdate, er.R) {
-
 	m.updateReq <- shortChanID
 
 	return <-m.updateResp, nil
@@ -130,7 +128,6 @@ func newTestSyncer(hID lnwire.ShortChannelID,
 	encodingType lnwire.ShortChanIDEncoding, chunkSize int32,
 	flags ...bool) (chan []lnwire.Message,
 	*GossipSyncer, *mockChannelGraphTimeSeries) {
-
 	syncChannels := true
 	replyQueries := true
 	if len(flags) > 0 {
@@ -1609,7 +1606,6 @@ func queryBatch(t *testing.T,
 	chanSeries *mockChannelGraphTimeSeries,
 	expDelayResponse bool,
 	delayedQueryInterval, delayTolerance time.Duration) {
-
 	t.Helper()
 
 	// First, we'll assert that syncer1 sends a QueryShortChanIDs message to
@@ -2088,7 +2084,6 @@ func TestGossipSyncerSyncTransitions(t *testing.T) {
 
 	assertMsgSent := func(t *testing.T, msgChan chan []lnwire.Message,
 		msg lnwire.Message) {
-
 		t.Helper()
 
 		var msgSent lnwire.Message
@@ -2122,7 +2117,6 @@ func TestGossipSyncerSyncTransitions(t *testing.T) {
 			finalSyncType: PassiveSync,
 			assert: func(t *testing.T, msgChan chan []lnwire.Message,
 				g *GossipSyncer) {
-
 				// When transitioning from active to passive, we
 				// should expect to see a new local update
 				// horizon sent to the remote peer indicating
@@ -2146,7 +2140,6 @@ func TestGossipSyncerSyncTransitions(t *testing.T) {
 			finalSyncType: ActiveSync,
 			assert: func(t *testing.T, msgChan chan []lnwire.Message,
 				g *GossipSyncer) {
-
 				// When transitioning from historical to active,
 				// we should expect to see a new local update
 				// horizon sent to the remote peer indicating

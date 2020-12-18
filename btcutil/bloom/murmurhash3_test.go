@@ -13,7 +13,7 @@ import (
 // TestMurmurHash3 ensure the MurmurHash3 function produces the correct hash
 // when given various seeds and data.
 func TestMurmurHash3(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
 		seed uint32
 		data []byte
 		out  uint32

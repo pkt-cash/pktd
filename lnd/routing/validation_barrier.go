@@ -54,7 +54,6 @@ type ValidationBarrier struct {
 // to know when to kill pending, but unfilled jobs.
 func NewValidationBarrier(numActiveReqs int,
 	quitChan chan struct{}) *ValidationBarrier {
-
 	v := &ValidationBarrier{
 		chanAnnFinSignal:     make(map[lnwire.ShortChannelID]chan struct{}),
 		chanEdgeDependencies: make(map[lnwire.ShortChannelID]chan struct{}),
@@ -160,7 +159,6 @@ func (v *ValidationBarrier) CompleteJob() {
 // based on any pending uncompleted dependent jobs. If this job doesn't have an
 // active dependent, then this function will return immediately.
 func (v *ValidationBarrier) WaitForDependants(job interface{}) er.R {
-
 	var (
 		signal chan struct{}
 		ok     bool

@@ -56,7 +56,6 @@ type FullIntent struct {
 // been executed will CompileFundingTx succeed.
 func (f *FullIntent) BindKeys(localKey *keychain.KeyDescriptor,
 	remoteKey *btcec.PublicKey) {
-
 	f.localKey = localKey
 	f.remoteKey = remoteKey
 }
@@ -68,7 +67,6 @@ func (f *FullIntent) BindKeys(localKey *keychain.KeyDescriptor,
 // at any point.
 func (f *FullIntent) CompileFundingTx(extraInputs []*wire.TxIn,
 	extraOutputs []*wire.TxOut) (*wire.MsgTx, er.R) {
-
 	// Create a blank, fresh transaction. Soon to be a complete funding
 	// transaction which will allow opening a lightning channel.
 	fundingTx := wire.NewMsgTx(2)

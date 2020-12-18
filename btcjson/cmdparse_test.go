@@ -19,7 +19,6 @@ import (
 // TestAssignField tests the assignField function handles supported combinations
 // properly.
 func TestAssignField(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		dest     interface{}
@@ -193,7 +192,6 @@ func TestAssignField(t *testing.T) {
 
 // TestAssignFieldErrors tests the assignField function error paths.
 func TestAssignFieldErrors(t *testing.T) {
-
 	tests := []struct {
 		name string
 		dest interface{}
@@ -343,7 +341,6 @@ func TestAssignFieldErrors(t *testing.T) {
 
 // TestNewCmdErrors ensures the error paths of NewCmd behave as expected.
 func TestNewCmdErrors(t *testing.T) {
-
 	tests := []struct {
 		name   string
 		method string
@@ -389,7 +386,6 @@ func TestNewCmdErrors(t *testing.T) {
 
 // TestMarshalCmdErrors  tests the error paths of the MarshalCmd function.
 func TestMarshalCmdErrors(t *testing.T) {
-
 	tests := []struct {
 		name string
 		id   interface{}
@@ -429,7 +425,6 @@ func TestMarshalCmdErrors(t *testing.T) {
 
 // TestUnmarshalCmdErrors  tests the error paths of the UnmarshalCmd function.
 func TestUnmarshalCmdErrors(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		request btcjson.Request

@@ -117,7 +117,6 @@ func (s secretSource) GetScript(addr btcutil.Address) ([]byte, er.R) {
 // the database. A tx created with this set to true will intentionally have no
 // input scripts added and SHOULD NOT be broadcasted.
 func (w *Wallet) txToOutputs(txr CreateTxReq) (tx *txauthor.AuthoredTx, err er.R) {
-
 	chainClient, err := w.requireChainClient()
 	if err != nil {
 		return nil, err
@@ -413,7 +412,6 @@ func (w *Wallet) findEligibleOutputs(
 	var winner *amountCount
 
 	if err := w.TxStore.ForEachUnspentOutput(txmgrNs, nil, func(_ []byte, output *wtxmgr.Credit) er.R {
-
 		// Verify that the output is coming from one of the addresses which we accept to spend from
 		// This is inherently expensive to filter at this level and ideally it would be moved into
 		// the database by storing address->credit mappings directly, but after each transaction
@@ -617,7 +615,6 @@ func (w *Wallet) findEligibleOutputs(
 // source function that returns change addresses from said address manager.
 func (w *Wallet) addrMgrWithChangeSource(dbtx walletdb.ReadWriteTx,
 	account uint32) (walletdb.ReadWriteBucket, txauthor.ChangeSource) {
-
 	addrmgrNs := dbtx.ReadWriteBucket(waddrmgrNamespaceKey)
 	changeSource := func() ([]byte, er.R) {
 		// Derive the change output script. We'll use the default key

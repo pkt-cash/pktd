@@ -26,7 +26,6 @@ type mockFeeEstimator struct {
 
 func newMockFeeEstimator(feePerKW,
 	relayFee chainfee.SatPerKWeight) *mockFeeEstimator {
-
 	return &mockFeeEstimator{
 		feePerKW:    feePerKW,
 		relayFee:    relayFee,
@@ -36,7 +35,6 @@ func newMockFeeEstimator(feePerKW,
 
 func (e *mockFeeEstimator) updateFees(feePerKW,
 	relayFee chainfee.SatPerKWeight) {
-
 	e.lock.Lock()
 	defer e.lock.Unlock()
 
@@ -46,7 +44,6 @@ func (e *mockFeeEstimator) updateFees(feePerKW,
 
 func (e *mockFeeEstimator) EstimateFeePerKW(numBlocks uint32) (
 	chainfee.SatPerKWeight, er.R) {
-
 	e.lock.Lock()
 	defer e.lock.Unlock()
 

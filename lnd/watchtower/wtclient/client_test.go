@@ -91,7 +91,6 @@ func newMockNet(cb func(wtserver.Peer)) *mockNet {
 
 func (m *mockNet) Dial(network string, address string,
 	timeout time.Duration) (net.Conn, er.R) {
-
 	return nil, nil
 }
 
@@ -110,7 +109,6 @@ func (m *mockNet) ResolveTCPAddr(network string, address string) (*net.TCPAddr, 
 func (m *mockNet) AuthDial(local keychain.SingleKeyECDH,
 	netAddr *lnwire.NetAddress,
 	dialer tor.DialFunc) (wtserver.Peer, er.R) {
-
 	localPk := local.PubKey()
 	localAddr := &net.TCPAddr{
 		IP:   net.IP{0x32, 0x31, 0x30, 0x29},
@@ -157,7 +155,6 @@ type mockChannel struct {
 
 func newMockChannel(t *testing.T, signer *wtmock.MockSigner,
 	localAmt, remoteAmt lnwire.MilliSatoshi) *mockChannel {
-
 	// Generate the revocation, to-local, and to-remote keypairs.
 	revSK := randPrivKey(t)
 	revPK := revSK.PubKey()
@@ -555,7 +552,6 @@ func chanIDFromInt(id uint64) lnwire.ChannelID {
 // NOTE: The method fails if channel for id already exists.
 func (h *testHarness) makeChannel(id uint64,
 	localAmt, remoteAmt lnwire.MilliSatoshi) {
-
 	h.t.Helper()
 
 	chanID := chanIDFromInt(id)
@@ -649,7 +645,6 @@ func (h *testHarness) backupState(id, i uint64, expErr *er.ErrorCode) {
 // [from, to).
 func (h *testHarness) sendPayments(id, from, to uint64,
 	amt lnwire.MilliSatoshi) []blob.BreachHint {
-
 	h.t.Helper()
 
 	channel := h.channel(id)
@@ -670,7 +665,6 @@ func (h *testHarness) sendPayments(id, from, to uint64,
 // states [from, to).
 func (h *testHarness) recvPayments(id, from, to uint64,
 	amt lnwire.MilliSatoshi) []blob.BreachHint {
-
 	h.t.Helper()
 
 	channel := h.channel(id)
@@ -691,7 +685,6 @@ func (h *testHarness) recvPayments(id, from, to uint64,
 // client in fact sends the updates to the server, even if it is offline.
 func (h *testHarness) waitServerUpdates(hints []blob.BreachHint,
 	timeout time.Duration) {
-
 	h.t.Helper()
 
 	// If no breach hints are provided, we will wait out the full timeout to
@@ -766,7 +759,6 @@ func (h *testHarness) waitServerUpdates(hints []blob.BreachHint,
 // policy.
 func (h *testHarness) assertUpdatesForPolicy(hints []blob.BreachHint,
 	expPolicy wtpolicy.Policy) {
-
 	// Query for matches on the provided hints.
 	matches, err := h.serverDB.QueryMatches(hints)
 	if err != nil {
@@ -1036,7 +1028,6 @@ var clientTests = []clientTest{
 			// Wait for all of the updates to be populated in the
 			// server's database.
 			h.waitServerUpdates(hints, time.Second)
-
 		},
 	},
 	{

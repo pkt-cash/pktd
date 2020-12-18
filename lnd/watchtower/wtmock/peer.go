@@ -29,7 +29,6 @@ type MockPeer struct {
 // NewMockPeer returns a fresh MockPeer.
 func NewMockPeer(lpk, rpk *btcec.PublicKey, addr net.Addr,
 	bufferSize int) *MockPeer {
-
 	return &MockPeer{
 		remotePub:  rpk,
 		remoteAddr: addr,
@@ -48,7 +47,6 @@ func NewMockPeer(lpk, rpk *btcec.PublicKey, addr net.Addr,
 func NewMockConn(localPk, remotePk *btcec.PublicKey,
 	localAddr, remoteAddr net.Addr,
 	bufferSize int) (*MockPeer, *MockPeer) {
-
 	localPeer := &MockPeer{
 		remotePub:    remotePk,
 		remoteAddr:   remoteAddr,

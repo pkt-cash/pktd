@@ -171,7 +171,7 @@ func New(cfg *Config) (*Server, lnrpc.MacaroonPerms, er.R) {
 		if errr != nil {
 			return nil, nil, er.E(errr)
 		}
-		errr = ioutil.WriteFile(macFilePath, routerMacBytes, 0644)
+		errr = ioutil.WriteFile(macFilePath, routerMacBytes, 0o644)
 		if errr != nil {
 			_ = os.Remove(macFilePath)
 			return nil, nil, er.E(errr)
@@ -240,7 +240,6 @@ func (s *Server) RegisterWithRootServer(grpcServer *grpc.Server) er.R {
 // NOTE: This is part of the lnrpc.SubServer interface.
 func (s *Server) RegisterWithRestServer(ctx context.Context,
 	mux *runtime.ServeMux, dest string, opts []grpc.DialOption) er.R {
-
 	// We make sure that we register it with the main REST server to ensure
 	// all our methods are routed properly.
 	errr := RegisterRouterHandlerFromEndpoint(ctx, mux, dest, opts)
@@ -262,7 +261,6 @@ func (s *Server) RegisterWithRestServer(ctx context.Context,
 // pre-image, along with the final route will be returned.
 func (s *Server) SendPaymentV2(req *SendPaymentRequest,
 	stream Router_SendPaymentV2Server) error {
-
 	payment, err := s.cfg.RouterBackend.extractIntentFromSendRequest(req)
 	if err != nil {
 		return er.Native(err)
@@ -295,7 +293,6 @@ func (s *Server) SendPaymentV2(req *SendPaymentRequest,
 // may cost to send an HTLC to the target end destination.
 func (s *Server) EstimateRouteFee(ctx context.Context,
 	req *RouteFeeRequest) (*RouteFeeResponse, error) {
-
 	if len(req.Dest) != 33 {
 		return nil, er.Native(er.New("invalid length destination key"))
 	}
@@ -338,7 +335,6 @@ func (s *Server) EstimateRouteFee(ctx context.Context,
 // call contains structured error information.
 func (s *Server) SendToRouteV2(ctx context.Context,
 	req *SendToRouteRequest) (*lnrpc.HTLCAttempt, error) {
-
 	if req.Route == nil {
 		return nil, er.Native(er.Errorf("unable to send, no routes provided"))
 	}
@@ -384,7 +380,6 @@ func (s *Server) SendToRouteV2(ctx context.Context,
 // slate.
 func (s *Server) ResetMissionControl(ctx context.Context,
 	req *ResetMissionControlRequest) (*ResetMissionControlResponse, error) {
-
 	err := s.cfg.RouterBackend.MissionControl.ResetHistory()
 	if err != nil {
 		return nil, er.Native(err)
@@ -397,7 +392,6 @@ func (s *Server) ResetMissionControl(ctx context.Context,
 // is a development feature.
 func (s *Server) QueryMissionControl(ctx context.Context,
 	req *QueryMissionControlRequest) (*QueryMissionControlResponse, error) {
-
 	snapshot := s.cfg.RouterBackend.MissionControl.GetHistorySnapshot()
 
 	rpcPairs := make([]*PairHistory, 0, len(snapshot.Pairs))
@@ -445,7 +439,6 @@ func toRPCPairData(data *routing.TimedPairResult) *PairData {
 // given node pair and amount.
 func (s *Server) QueryProbability(ctx context.Context,
 	req *QueryProbabilityRequest) (*QueryProbabilityResponse, error) {
-
 	fromNode, err := route.NewVertexFromBytes(req.FromNode)
 	if err != nil {
 		return nil, er.Native(err)
@@ -472,7 +465,6 @@ func (s *Server) QueryProbability(ctx context.Context,
 // closed when the payment completes.
 func (s *Server) TrackPaymentV2(request *TrackPaymentRequest,
 	stream Router_TrackPaymentV2Server) error {
-
 	paymentHash, err := lntypes.MakeHash(request.PaymentHash)
 	if err != nil {
 		return er.Native(err)
@@ -486,7 +478,6 @@ func (s *Server) TrackPaymentV2(request *TrackPaymentRequest,
 // trackPayment writes payment status updates to the provided stream.
 func (s *Server) trackPayment(paymentHash lntypes.Hash,
 	stream Router_TrackPaymentV2Server, noInflightUpdates bool) error {
-
 	router := s.cfg.RouterBackend
 
 	// Subscribe to the outcome of this payment.
@@ -543,7 +534,6 @@ func (s *Server) trackPayment(paymentHash lntypes.Hash,
 // BuildRoute builds a route from a list of hop addresses.
 func (s *Server) BuildRoute(ctx context.Context,
 	req *BuildRouteRequest) (*BuildRouteResponse, error) {
-
 	// Unmarshal hop list.
 	hops := make([]route.Vertex, len(req.HopPubkeys))
 	for i, pubkeyBytes := range req.HopPubkeys {
@@ -590,7 +580,6 @@ func (s *Server) BuildRoute(ctx context.Context,
 // the client which delivers a stream of htlc events.
 func (s *Server) SubscribeHtlcEvents(req *SubscribeHtlcEventsRequest,
 	stream Router_SubscribeHtlcEventsServer) error {
-
 	htlcClient, err := s.cfg.RouterBackend.SubscribeHtlcEvents()
 	if err != nil {
 		return er.Native(err)

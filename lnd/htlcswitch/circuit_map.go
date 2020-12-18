@@ -331,7 +331,6 @@ func (cm *circuitMap) restoreMemState() er.R {
 		}
 
 		return nil
-
 	}, func() {
 		opened = make(map[CircuitKey]*PaymentCircuit)
 		pending = make(map[CircuitKey]*PaymentCircuit)
@@ -361,7 +360,7 @@ func (cm *circuitMap) restoreMemState() er.R {
 // method. If the decoding is successful, the onion obfuscator will be
 // reextracted, since it is not stored in plaintext on disk.
 func (cm *circuitMap) decodeCircuit(v []byte) (*PaymentCircuit, er.R) {
-	var circuit = &PaymentCircuit{}
+	circuit := &PaymentCircuit{}
 
 	circuitReader := bytes.NewReader(v)
 	if err := circuit.Decode(circuitReader); err != nil {
@@ -441,7 +440,6 @@ func (cm *circuitMap) trimAllOpenCircuits() er.R {
 // failures.
 func (cm *circuitMap) TrimOpenCircuits(chanID lnwire.ShortChannelID,
 	start uint64) er.R {
-
 	log.Infof("Trimming open circuits for chan_id=%v, start_htlc_id=%v",
 		chanID, start)
 
@@ -538,7 +536,6 @@ func (cm *circuitMap) LookupByPaymentHash(hash [32]byte) []*PaymentCircuit {
 // be realized if it is called concurrently from separate goroutines.
 func (cm *circuitMap) CommitCircuits(circuits ...*PaymentCircuit) (
 	*CircuitFwdActions, er.R) {
-
 	inKeys := make([]CircuitKey, 0, len(circuits))
 	for _, circuit := range circuits {
 		inKeys = append(inKeys, circuit.Incoming)
@@ -614,7 +611,7 @@ func (cm *circuitMap) CommitCircuits(circuits ...*PaymentCircuit) (
 	}
 
 	// Now, optimistically serialize the circuits to add.
-	var bs = make([]bytes.Buffer, len(adds))
+	bs := make([]bytes.Buffer, len(adds))
 	for i, circuit := range adds {
 		if err := circuit.Encode(&bs[i]); err != nil {
 			actions.Drops = drops
@@ -735,7 +732,6 @@ func (cm *circuitMap) OpenCircuits(keystones ...Keystone) er.R {
 
 		return nil
 	}, func() {})
-
 	if err != nil {
 		return err
 	}
@@ -772,7 +768,6 @@ func (cm *circuitMap) addCircuitToHashIndex(c *PaymentCircuit) {
 // FailCircuit marks the circuit identified by `inKey` as closing in-memory,
 // which prevents duplicate settles/fails from completing an open circuit twice.
 func (cm *circuitMap) FailCircuit(inKey CircuitKey) (*PaymentCircuit, er.R) {
-
 	cm.mtx.Lock()
 	defer cm.mtx.Unlock()
 
@@ -795,7 +790,6 @@ func (cm *circuitMap) FailCircuit(inKey CircuitKey) (*PaymentCircuit, er.R) {
 // which prevents duplicate settles/fails from completing an open
 // circuit twice.
 func (cm *circuitMap) CloseCircuit(outKey CircuitKey) (*PaymentCircuit, er.R) {
-
 	cm.mtx.Lock()
 	defer cm.mtx.Unlock()
 
@@ -821,7 +815,6 @@ func (cm *circuitMap) CloseCircuit(outKey CircuitKey) (*PaymentCircuit, er.R) {
 // will be ignored from the query. This would typically indicate that the
 // circuit was already cleaned up at a different point in time.
 func (cm *circuitMap) DeleteCircuits(inKeys ...CircuitKey) er.R {
-
 	log.Tracef("Deleting resolved circuits: %v", log.C(func() string {
 		return spew.Sdump(inKeys)
 	}))

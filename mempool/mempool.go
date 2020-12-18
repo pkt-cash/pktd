@@ -620,7 +620,6 @@ func (mp *TxPool) checkPoolDoubleSpend(tx *btcutil.Tx) (bool, er.R) {
 // This function MUST be called with the mempool lock held (for reads).
 func (mp *TxPool) signalsReplacement(tx *btcutil.Tx,
 	cache map[chainhash.Hash]struct{}) bool {
-
 	// If a cache was not provided, we'll initialize one now to use for the
 	// recursive calls.
 	if cache == nil {
@@ -666,7 +665,6 @@ func (mp *TxPool) signalsReplacement(tx *btcutil.Tx,
 // This function MUST be called with the mempool lock held (for reads).
 func (mp *TxPool) txAncestors(tx *btcutil.Tx,
 	cache map[chainhash.Hash]map[chainhash.Hash]*btcutil.Tx) map[chainhash.Hash]*btcutil.Tx {
-
 	// If a cache was not provided, we'll initialize one now to use for the
 	// recursive calls.
 	if cache == nil {
@@ -707,7 +705,6 @@ func (mp *TxPool) txAncestors(tx *btcutil.Tx,
 // This function MUST be called with the mempool lock held (for reads).
 func (mp *TxPool) txDescendants(tx *btcutil.Tx,
 	cache map[chainhash.Hash]map[chainhash.Hash]*btcutil.Tx) map[chainhash.Hash]*btcutil.Tx {
-
 	// If a cache was not provided, we'll initialize one now to use for the
 	// recursive calls.
 	if cache == nil {
@@ -835,7 +832,6 @@ func (mp *TxPool) FetchTransaction(txHash *chainhash.Hash) (*btcutil.Tx, er.R) {
 // This function MUST be called with the mempool lock held (for reads).
 func (mp *TxPool) validateReplacement(tx *btcutil.Tx,
 	txFee int64) (map[chainhash.Hash]*btcutil.Tx, er.R) {
-
 	// First, we'll make sure the set of conflicting transactions doesn't
 	// exceed the maximum allowed.
 	conflicts := mp.txConflicts(tx)

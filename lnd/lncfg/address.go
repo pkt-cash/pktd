@@ -14,9 +14,7 @@ import (
 	"github.com/pkt-cash/pktd/lnd/tor"
 )
 
-var (
-	loopBackAddrs = []string{"localhost", "127.0.0.1", "[::1]"}
-)
+var loopBackAddrs = []string{"localhost", "127.0.0.1", "[::1]"}
 
 // TCPResolver is a function signature that resolves an address on a given
 // network.
@@ -26,7 +24,6 @@ type TCPResolver = func(network, addr string) (*net.TCPAddr, er.R)
 // normalized with the given default port and all duplicates removed.
 func NormalizeAddresses(addrs []string, defaultPort string,
 	tcpResolver TCPResolver) ([]net.Addr, er.R) {
-
 	result := make([]net.Addr, 0, len(addrs))
 	seen := map[string]struct{}{}
 
@@ -54,7 +51,6 @@ func NormalizeAddresses(addrs []string, defaultPort string,
 // listening on a public interface.
 func EnforceSafeAuthentication(addrs []net.Addr, macaroonsActive,
 	tlsActive bool) er.R {
-
 	// We'll now examine all addresses that this RPC server is listening
 	// on. If it's a localhost address or a private address, we'll skip it,
 	// otherwise, we'll return an error if macaroons are inactive.
@@ -167,7 +163,6 @@ func IsPrivate(addr net.Addr) bool {
 // that caller is able control exactly how resolution is performed.
 func ParseAddressString(strAddress string, defaultPort string,
 	tcpResolver TCPResolver) (net.Addr, er.R) {
-
 	var parsedNetwork, parsedAddr string
 
 	// Addresses can either be in network://address:port format,
@@ -239,7 +234,6 @@ func ParseAddressString(strAddress string, defaultPort string,
 // resolved using the custom TCPResolver.
 func ParseLNAddressString(strAddress string, defaultPort string,
 	tcpResolver TCPResolver) (*lnwire.NetAddress, er.R) {
-
 	// Split the address string around the @ sign.
 	parts := strings.Split(strAddress, "@")
 
@@ -326,7 +320,6 @@ func ResolveTCPAddr(n, a string) (*net.TCPAddr, er.R) {
 // ClientAddressDialer creates a gRPC dialer that can also dial unix socket
 // addresses instead of just TCP addresses.
 func ClientAddressDialer(defaultPort string) func(context.Context, string) (net.Conn, error) {
-
 	return func(ctx context.Context, addr string) (net.Conn, error) {
 		parsedAddr, err := ParseAddressString(
 			addr, defaultPort, ResolveTCPAddr,

@@ -137,10 +137,9 @@ func returnAll(q *queue.GCQueue, items map[interface{}]struct{}) {
 // This method fails if the set's cardinality is smaller than n.
 func returnN(t *testing.T, q *queue.GCQueue,
 	items map[interface{}]struct{}, n int) map[interface{}]struct{} {
-
 	t.Helper()
 
-	var remainingItems = make(map[interface{}]struct{})
+	remainingItems := make(map[interface{}]struct{})
 	var numReturned int
 	for item := range items {
 		if numReturned < n {

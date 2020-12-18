@@ -116,7 +116,7 @@ func TestStartStop(t *testing.T) {
 func TestAddAddressByIP(t *testing.T) {
 	fmtErr := fmt.Errorf("")
 	addrErr := &net.AddrError{}
-	var tests = []struct {
+	tests := []struct {
 		addrIP string
 		err    error
 	}{
@@ -158,7 +158,7 @@ func TestAddAddressByIP(t *testing.T) {
 }
 
 func TestAddLocalAddress(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
 		address  wire.NetAddress
 		priority addrmgr.AddressPriority
 		valid    bool
@@ -361,7 +361,7 @@ func TestGetBestLocalAddress(t *testing.T) {
 		{IP: net.ParseIP("2001:470::1")},
 	}
 
-	var tests = []struct {
+	tests := []struct {
 		remoteAddr wire.NetAddress
 		want0      wire.NetAddress
 		want1      wire.NetAddress
@@ -446,5 +446,4 @@ func TestNetAddressKey(t *testing.T) {
 			continue
 		}
 	}
-
 }

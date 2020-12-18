@@ -341,7 +341,6 @@ func openChannel(ctx *cli.Context) er.R {
 //     |                                    |
 func openChannelPsbt(ctx *cli.Context, client lnrpc.LightningClient,
 	req *lnrpc.OpenChannelRequest) er.R {
-
 	var (
 		pendingChanID [32]byte
 		shimPending   = true
@@ -684,7 +683,6 @@ func checkPsbtFlags(req *lnrpc.OpenChannelRequest) er.R {
 // connection.
 func sendFundingState(cancelCtx context.Context, cliCtx *cli.Context,
 	msg *lnrpc.FundingTransitionMsg) er.R {
-
 	client, cleanUp := getClient(cliCtx)
 	defer cleanUp()
 
@@ -697,7 +695,6 @@ func sendFundingState(cancelCtx context.Context, cliCtx *cli.Context,
 // packet.
 func finalizeMsgFromString(tx string,
 	pendingChanID []byte) (*lnrpc.FundingTransitionMsg_PsbtFinalize, er.R) {
-
 	rawTx, err := util.DecodeHex(strings.TrimSpace(tx))
 	if err == nil {
 		// Hex decoding succeeded so we assume we have a raw wire format

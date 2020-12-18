@@ -13,13 +13,11 @@ import (
 	"github.com/pkt-cash/pktd/wire/protocol"
 )
 
-var (
-	// nodeInfoBucket stores metadata pertaining to nodes that we've had
-	// direct channel-based correspondence with. This bucket allows one to
-	// query for all open channels pertaining to the node by exploring each
-	// node's sub-bucket within the openChanBucket.
-	nodeInfoBucket = []byte("nib")
-)
+// nodeInfoBucket stores metadata pertaining to nodes that we've had
+// direct channel-based correspondence with. This bucket allows one to
+// query for all open channels pertaining to the node by exploring each
+// node's sub-bucket within the openChanBucket.
+var nodeInfoBucket = []byte("nib")
 
 // LinkNode stores metadata related to node's that we have/had a direct
 // channel open with. Information such as the Bitcoin network the node
@@ -65,7 +63,6 @@ type LinkNode struct {
 // backed by an instance of channeldb.
 func (db *DB) NewLinkNode(bitNet protocol.BitcoinNet, pub *btcec.PublicKey,
 	addrs ...net.Addr) *LinkNode {
-
 	return &LinkNode{
 		Network:     bitNet,
 		IdentityPub: pub,
@@ -100,7 +97,6 @@ func (l *LinkNode) AddAddress(addr net.Addr) er.R {
 // Sync performs a full database sync which writes the current up-to-date data
 // within the struct to the database.
 func (l *LinkNode) Sync() er.R {
-
 	// Finally update the database by storing the link node and updating
 	// any relevant indexes.
 	return kvdb.Update(l.db, func(tx kvdb.RwTx) er.R {

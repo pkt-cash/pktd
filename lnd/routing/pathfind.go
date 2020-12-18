@@ -105,7 +105,6 @@ type finalHopParams struct {
 func newRoute(sourceVertex route.Vertex,
 	pathEdges []*channeldb.ChannelEdgePolicy, currentHeight uint32,
 	finalHop finalHopParams) (*route.Route, er.R) {
-
 	var (
 		hops []*route.Hop
 
@@ -349,11 +348,9 @@ type PathFindingConfig struct {
 func getOutgoingBalance(node route.Vertex, outgoingChans map[uint64]struct{},
 	bandwidthHints map[uint64]lnwire.MilliSatoshi,
 	g routingGraph) (lnwire.MilliSatoshi, lnwire.MilliSatoshi, er.R) {
-
 	var max, total lnwire.MilliSatoshi
 	cb := func(edgeInfo *channeldb.ChannelEdgeInfo, outEdge,
 		_ *channeldb.ChannelEdgePolicy) er.R {
-
 		if outEdge == nil {
 			return nil
 		}
@@ -409,7 +406,6 @@ func getOutgoingBalance(node route.Vertex, outgoingChans map[uint64]struct{},
 func findPath(g *graphParams, r *RestrictParams, cfg *PathFindingConfig,
 	source, target route.Vertex, amt lnwire.MilliSatoshi,
 	finalHtlcExpiry int32) ([]*channeldb.ChannelEdgePolicy, er.R) {
-
 	// Pathfinding can be a significant portion of the total payment
 	// latency, especially on low-powered devices. Log several metrics to
 	// aid in the analysis performance problems in this area.
@@ -580,7 +576,6 @@ func findPath(g *graphParams, r *RestrictParams, cfg *PathFindingConfig,
 	processEdge := func(fromVertex route.Vertex,
 		fromFeatures *lnwire.FeatureVector,
 		edge *channeldb.ChannelEdgePolicy, toNodeDist *nodeWithDist) {
-
 		edgesExpanded++
 
 		// Calculate amount that the candidate node would have to send
@@ -759,7 +754,6 @@ func findPath(g *graphParams, r *RestrictParams, cfg *PathFindingConfig,
 	// getGraphFeatures returns (cached) node features from the graph.
 	getGraphFeatures := func(node route.Vertex) (*lnwire.FeatureVector,
 		er.R) {
-
 		// Check cache for features of the fromNode.
 		fromFeatures, ok := featureCache[node]
 		if ok {

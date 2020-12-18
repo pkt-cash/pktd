@@ -286,7 +286,6 @@ func (b *breachArbiter) contractObserver() {
 // party has already attempted to take it to the second level
 func convertToSecondLevelRevoke(bo *breachedOutput, breachInfo *retributionInfo,
 	spendDetails *chainntnfs.SpendDetail) {
-
 	// In this case, we'll modify the witness type of this output to
 	// actually prepare for a second level revoke.
 	bo.witnessType = input.HtlcSecondLevelRevoke
@@ -326,7 +325,6 @@ func convertToSecondLevelRevoke(bo *breachedOutput, breachInfo *retributionInfo,
 // subscriptions, in case we must call this method multiple times.
 func (b *breachArbiter) waitForSpendEvent(breachInfo *retributionInfo,
 	spendNtfns map[wire.OutPoint]*chainntnfs.SpendEvent) er.R {
-
 	inputs := breachInfo.breachedOutputs
 
 	// spend is used to wrap the index of the output that gets spent
@@ -504,7 +502,6 @@ func (b *breachArbiter) waitForSpendEvent(breachInfo *retributionInfo,
 // NOTE: This MUST be run as a goroutine.
 func (b *breachArbiter) exactRetribution(confChan *chainntnfs.ConfirmationEvent,
 	breachInfo *retributionInfo) {
-
 	defer b.wg.Done()
 
 	// TODO(roasbeef): state needs to be checkpointed here
@@ -844,7 +841,6 @@ func makeBreachedOutput(outpoint *wire.OutPoint,
 	secondLevelScript []byte,
 	signDescriptor *input.SignDescriptor,
 	confHeight uint32) breachedOutput {
-
 	amount := signDescriptor.Output.Value
 
 	return breachedOutput{
@@ -900,7 +896,6 @@ func (bo *breachedOutput) SignDesc() *input.SignDescriptor {
 // this function on the first and subsequent calls.
 func (bo *breachedOutput) CraftInputScript(signer input.Signer, txn *wire.MsgTx,
 	hashCache *txscript.TxSigHashes, txinIdx int) (*input.Script, er.R) {
-
 	// First, we ensure that the witness generation function has been
 	// initialized for this breached output.
 	bo.witnessFunc = bo.witnessType.WitnessGenerator(signer, bo.SignDesc())
@@ -960,7 +955,6 @@ type retributionInfo struct {
 // delivered by the wallet when it detects a channel breach.
 func newRetributionInfo(chanPoint *wire.OutPoint,
 	breachInfo *lnwallet.BreachRetribution) *retributionInfo {
-
 	// Determine the number of second layer HTLCs we will attempt to sweep.
 	nHtlcs := len(breachInfo.HtlcRetributions)
 
@@ -1061,7 +1055,6 @@ func newRetributionInfo(chanPoint *wire.OutPoint,
 // signed transaction with the witness for each input fully in place.
 func (b *breachArbiter) createJusticeTx(
 	r *retributionInfo) (*wire.MsgTx, er.R) {
-
 	// We will assemble the breached outputs into a slice of spendable
 	// outputs, while simultaneously computing the estimated weight of the
 	// transaction.
@@ -1112,7 +1105,6 @@ func (b *breachArbiter) createJusticeTx(
 // spendable outputs by sweeping the funds into a single p2wkh output.
 func (b *breachArbiter) sweepSpendableOutputsTxn(txWeight int64,
 	inputs ...input.Input) (*wire.MsgTx, er.R) {
-
 	// First, we obtain a new public key script from the wallet which we'll
 	// sweep the funds to.
 	// TODO(roasbeef): possibly create many outputs to minimize change in
@@ -1313,7 +1305,6 @@ func (rs *retributionStore) Finalize(chanPoint *wire.OutPoint,
 // be called for this channel point.
 func (rs *retributionStore) GetFinalizedTxn(
 	chanPoint *wire.OutPoint) (*wire.MsgTx, er.R) {
-
 	var finalTxBytes []byte
 	if err := kvdb.View(rs.db, func(tx kvdb.RTx) er.R {
 		justiceBkt := tx.ReadBucket(justiceTxnBucket)
@@ -1418,7 +1409,6 @@ func (rs *retributionStore) Remove(chanPoint *wire.OutPoint) er.R {
 // callback function on each retribution.
 func (rs *retributionStore) ForAll(cb func(*retributionInfo) er.R,
 	reset func()) er.R {
-
 	return kvdb.View(rs.db, func(tx kvdb.RTx) er.R {
 		// If the bucket does not exist, then there are no pending
 		// retributions.

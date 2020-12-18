@@ -5,15 +5,18 @@ package lnclipb
 
 import (
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	verrpc "github.com/pkt-cash/pktd/lnd/lnrpc/verrpc"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+var (
+	_ = proto.Marshal
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -41,15 +44,19 @@ func (*VersionResponse) Descriptor() ([]byte, []int) {
 func (m *VersionResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_VersionResponse.Unmarshal(m, b)
 }
+
 func (m *VersionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_VersionResponse.Marshal(b, m, deterministic)
 }
+
 func (m *VersionResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VersionResponse.Merge(m, src)
 }
+
 func (m *VersionResponse) XXX_Size() int {
 	return xxx_messageInfo_VersionResponse.Size(m)
 }
+
 func (m *VersionResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_VersionResponse.DiscardUnknown(m)
 }

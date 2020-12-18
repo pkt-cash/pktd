@@ -59,7 +59,6 @@ func genEncryptionKey(keyRing keychain.KeyRing) ([]byte, er.R) {
 // for further details.
 func encryptPayloadToWriter(payload bytes.Buffer, w io.Writer,
 	keyRing keychain.KeyRing) er.R {
-
 	// First, we'll derive the key that we'll use to encrypt the payload
 	// for safe storage without giving away the details of any of our
 	// channels.  The final operation is:
@@ -103,7 +102,6 @@ func encryptPayloadToWriter(payload bytes.Buffer, w io.Writer,
 // genEncryptionKey method.
 func decryptPayloadFromReader(payload io.Reader,
 	keyRing keychain.KeyRing) ([]byte, er.R) {
-
 	// First, we'll re-generate the encryption key that we use for all the
 	// SCBs.
 	encryptionKey, err := genEncryptionKey(keyRing)

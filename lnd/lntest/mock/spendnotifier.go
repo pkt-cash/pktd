@@ -34,7 +34,6 @@ func MakeMockSpendNotifier() *SpendNotifier {
 // RegisterSpendNtfn registers a spend notification for a specified outpoint.
 func (s *SpendNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 	_ []byte, heightHint uint32) (*chainntnfs.SpendEvent, er.R) {
-
 	s.mtx.Lock()
 	defer s.mtx.Unlock()
 
@@ -64,7 +63,6 @@ func (s *SpendNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 // will includethe transaction and height provided by the caller.
 func (s *SpendNotifier) Spend(outpoint *wire.OutPoint, height int32,
 	txn *wire.MsgTx) {
-
 	s.mtx.Lock()
 	defer s.mtx.Unlock()
 

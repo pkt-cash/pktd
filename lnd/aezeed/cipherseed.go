@@ -123,14 +123,12 @@ var (
 	defaultPassphrase = []byte("aezeed")
 )
 
-var (
-	// BitcoinGenesisDate is the timestamp of Bitcoin's genesis block.
-	// We'll use this value in order to create a compact birthday for the
-	// seed. The birthday will be interested as the number of days since
-	// the genesis date. We refer to this time period as ABE (after Bitcoin
-	// era).
-	BitcoinGenesisDate = time.Unix(1231006505, 0)
-)
+// BitcoinGenesisDate is the timestamp of Bitcoin's genesis block.
+// We'll use this value in order to create a compact birthday for the
+// seed. The birthday will be interested as the number of days since
+// the genesis date. We refer to this time period as ABE (after Bitcoin
+// era).
+var BitcoinGenesisDate = time.Unix(1231006505, 0)
 
 // CipherSeed is a fully decoded instance of the aezeed scheme. At a high
 // level, the encoded cipherseed is the enciphering of: a version byte, a set
@@ -181,7 +179,6 @@ type CipherSeed struct {
 // place. The final argument should be the time at which the seed was created.
 func New(internalVersion uint8, entropy *[EntropySize]byte,
 	now time.Time) (*CipherSeed, er.R) {
-
 	// TODO(roasbeef): pass randomness source? to make fully determinsitc?
 
 	// If a set of entropy wasn't provided, then we'll read a set of bytes
@@ -450,7 +447,6 @@ func (m *Mnemonic) ToCipherSeed(pass []byte) (*CipherSeed, er.R) {
 // the encipher method.
 func decipherCipherSeed(cipherSeedBytes [EncipheredCipherSeedSize]byte,
 	pass []byte) ([DecipheredCipherSeedSize]byte, er.R) {
-
 	var plainSeed [DecipheredCipherSeedSize]byte
 
 	// Before we do anything, we'll ensure that the version is one that we
@@ -497,14 +493,12 @@ func decipherCipherSeed(cipherSeedBytes [EncipheredCipherSeedSize]byte,
 	copy(plainSeed[:], plainSeedBytes)
 
 	return plainSeed, nil
-
 }
 
 // Decipher attempts to decipher the encoded mnemonic by first mapping to the
 // original chipertext, then applying our deciphering scheme. ErrInvalidPass
 // will be returned if the passphrase is incorrect.
 func (m *Mnemonic) Decipher(pass []byte) ([DecipheredCipherSeedSize]byte, er.R) {
-
 	// Before we attempt to map the mnemonic back to the original
 	// ciphertext, we'll ensure that all the word are actually a part of
 	// the current default word list.

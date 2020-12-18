@@ -10,7 +10,6 @@ package psbt
 import (
 	"bytes"
 	"encoding/base64"
-
 	"io"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -21,16 +20,15 @@ import (
 // a serialized PSBT packet.
 const psbtMagicLength = 5
 
-var (
-	// psbtMagic is the separator
-	psbtMagic = [psbtMagicLength]byte{0x70,
-		0x73, 0x62, 0x74, 0xff, // = "psbt" + 0xff sep
-	}
-)
+// psbtMagic is the separator
+var psbtMagic = [psbtMagicLength]byte{
+	0x70,
+	0x73, 0x62, 0x74, 0xff, // = "psbt" + 0xff sep
+}
 
 // MaxPsbtValueLength is the size of the largest transaction serialization
 // that could be passed in a NonWitnessUtxo field. This is definitely
-//less than 4M.
+// less than 4M.
 const MaxPsbtValueLength = 4000000
 
 // MaxPsbtKeyLength is the length of the largest key that we'll successfully
@@ -151,7 +149,6 @@ func validateUnsignedTX(tx *wire.MsgTx) bool {
 // NewFromUnsignedTx creates a new Psbt struct, without any signatures (i.e.
 // only the global section is non-empty) using the passed unsigned transaction.
 func NewFromUnsignedTx(tx *wire.MsgTx) (*Packet, er.R) {
-
 	if !validateUnsignedTX(tx) {
 		return nil, ErrInvalidRawTxSigned.Default()
 	}
@@ -178,7 +175,6 @@ func NewFromUnsignedTx(tx *wire.MsgTx) (*Packet, er.R) {
 // NOTE: To create a Packet from one's own data, rather than reading in a
 // serialization from a counterparty, one should use a psbt.New.
 func NewFromRawBytes(r io.Reader, b64 bool) (*Packet, er.R) {
-
 	// If the PSBT is encoded in bas64, then we'll create a new wrapper
 	// reader that'll allow us to incrementally decode the contents of the
 	// io.Reader.
@@ -311,7 +307,6 @@ func NewFromRawBytes(r io.Reader, b64 bool) (*Packet, er.R) {
 // Serialize creates a binary serialization of the referenced Packet struct
 // with lexicographical ordering (by key) of the subsections.
 func (p *Packet) Serialize(w io.Writer) er.R {
-
 	// First we write out the precise set of magic bytes that identify a
 	// valid PSBT transaction.
 	if _, err := w.Write(psbtMagic[:]); err != nil {
@@ -395,7 +390,6 @@ func (p *Packet) IsComplete() bool {
 // SanityCheck checks conditions on a PSBT to ensure that it obeys the
 // rules of BIP174, and returns true if so, false if not.
 func (p *Packet) SanityCheck() er.R {
-
 	if !validateUnsignedTX(p.UnsignedTx) {
 		return ErrInvalidRawTxSigned.Default()
 	}

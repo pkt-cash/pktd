@@ -404,7 +404,6 @@ func testRescan(harness *neutrinoHarness, t *testing.T) {
 		t.Fatalf("UTXO's script doesn't match expected script for %s",
 			ourOutPoint)
 	}
-
 }
 
 func testStartRescan(harness *neutrinoHarness, t *testing.T) {

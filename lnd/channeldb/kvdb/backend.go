@@ -25,9 +25,7 @@ const (
 	LastCompactionFileNameSuffix = ".last-compacted"
 )
 
-var (
-	byteOrder = binary.BigEndian
-)
+var byteOrder = binary.BigEndian
 
 // fileExists returns true if the file exists, and false otherwise.
 func fileExists(path string) bool {
@@ -76,7 +74,7 @@ func GetBoltBackend(cfg *BoltBackendConfig) (Backend, er.R) {
 	// Is this a new database?
 	if !fileExists(dbFilePath) {
 		if !fileExists(cfg.DBPath) {
-			if err := os.MkdirAll(cfg.DBPath, 0700); err != nil {
+			if err := os.MkdirAll(cfg.DBPath, 0o700); err != nil {
 				return nil, er.E(err)
 			}
 		}
@@ -220,7 +218,7 @@ func updateLastCompactionDate(dbFile string) er.R {
 	byteOrder.PutUint64(tsBytes[:], uint64(time.Now().UnixNano()))
 
 	tsFile := fmt.Sprintf("%s%s", dbFile, LastCompactionFileNameSuffix)
-	return er.E(ioutil.WriteFile(tsFile, tsBytes[:], 0600))
+	return er.E(ioutil.WriteFile(tsFile, tsBytes[:], 0o600))
 }
 
 // GetTestBackend opens (or creates if doesn't exist) a bbolt or etcd

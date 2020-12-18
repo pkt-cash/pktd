@@ -190,7 +190,6 @@ func WithCommitStatsCallback(cb func(bool, CommitStats)) STMOptionFunc {
 // isolation, passing it to the apply and handling commit errors and retries.
 func RunSTM(cli *v3.Client, apply func(STM) error, txQueue *commitQueue,
 	so ...STMOptionFunc) er.R {
-
 	return runSTM(makeSTM(cli, false, txQueue, so...), apply)
 }
 
@@ -203,7 +202,6 @@ func NewSTM(cli *v3.Client, txQueue *commitQueue, so ...STMOptionFunc) STM {
 // options then creates the stm object and resets it before returning.
 func makeSTM(cli *v3.Client, manual bool, txQueue *commitQueue,
 	so ...STMOptionFunc) *stm {
-
 	opts := &STMOptions{
 		ctx: cli.Ctx(),
 	}

@@ -437,7 +437,7 @@ func loadConfig() (*config, []string, er.R) {
 
 	// Create the home directory if it doesn't already exist.
 	funcName := "loadConfig"
-	errr = os.MkdirAll(cfg.HomeDir, 0700)
+	errr = os.MkdirAll(cfg.HomeDir, 0o700)
 	if errr != nil {
 		// Show a nicer error message if it's because a symlink is
 		// linked to a directory that does not exist (probably because
@@ -682,7 +682,7 @@ func loadConfig() (*config, []string, er.R) {
 		cfg.RPCUser = "__PKT_COOKIE__"
 		cfg.RPCPass = hex.EncodeToString(buf[:])
 		cookie := cfg.RPCUser + ":" + cfg.RPCPass
-		if errr := ioutil.WriteFile(cookiePath, []byte(cookie), 0600); errr != nil {
+		if errr := ioutil.WriteFile(cookiePath, []byte(cookie), 0o600); errr != nil {
 			err := er.E(errr)
 			err.AddMessage("Could not write .pktcookie file")
 			return nil, nil, err

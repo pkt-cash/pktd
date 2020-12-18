@@ -646,7 +646,6 @@ func TestScanInvoices(t *testing.T) {
 		invoices = make(map[lntypes.Hash]*Invoice)
 		callCount = 0
 		resetCount++
-
 	}
 
 	scanFunc := func(paymentHash lntypes.Hash, invoice *Invoice) er.R {

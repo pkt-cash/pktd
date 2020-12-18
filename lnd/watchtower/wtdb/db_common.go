@@ -11,7 +11,7 @@ import (
 
 const (
 	// dbFilePermission requests read+write access to the db file.
-	dbFilePermission = 0600
+	dbFilePermission = 0o600
 )
 
 var (
@@ -57,7 +57,7 @@ func createDBIfNotExist(dbPath, name string) (kvdb.Backend, bool, er.R) {
 	firstInit := !fileExists(path)
 	if firstInit {
 		// Ensure all parent directories are initialized.
-		err := os.MkdirAll(dbPath, 0700)
+		err := os.MkdirAll(dbPath, 0o700)
 		if err != nil {
 			return nil, false, er.E(err)
 		}

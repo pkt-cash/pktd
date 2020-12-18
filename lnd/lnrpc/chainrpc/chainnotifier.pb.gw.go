@@ -24,12 +24,14 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = descriptor.ForMessage
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = descriptor.ForMessage
+)
 
 func request_ChainNotifier_RegisterConfirmationsNtfn_0(ctx context.Context, marshaler runtime.Marshaler, client ChainNotifierClient, req *http.Request, pathParams map[string]string) (ChainNotifier_RegisterConfirmationsNtfnClient, runtime.ServerMetadata, error) {
 	var protoReq ConfRequest
@@ -53,7 +55,6 @@ func request_ChainNotifier_RegisterConfirmationsNtfn_0(ctx context.Context, mars
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 func request_ChainNotifier_RegisterSpendNtfn_0(ctx context.Context, marshaler runtime.Marshaler, client ChainNotifierClient, req *http.Request, pathParams map[string]string) (ChainNotifier_RegisterSpendNtfnClient, runtime.ServerMetadata, error) {
@@ -78,7 +79,6 @@ func request_ChainNotifier_RegisterSpendNtfn_0(ctx context.Context, marshaler ru
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 func request_ChainNotifier_RegisterBlockEpochNtfn_0(ctx context.Context, marshaler runtime.Marshaler, client ChainNotifierClient, req *http.Request, pathParams map[string]string) (ChainNotifier_RegisterBlockEpochNtfnClient, runtime.ServerMetadata, error) {
@@ -103,14 +103,12 @@ func request_ChainNotifier_RegisterBlockEpochNtfn_0(ctx context.Context, marshal
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 // RegisterChainNotifierHandlerServer registers the http handlers for service ChainNotifier to "mux".
 // UnaryRPC     :call ChainNotifierServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 func RegisterChainNotifierHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ChainNotifierServer) error {
-
 	mux.Handle("POST", pattern_ChainNotifier_RegisterConfirmationsNtfn_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -172,7 +170,6 @@ func RegisterChainNotifierHandler(ctx context.Context, mux *runtime.ServeMux, co
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "ChainNotifierClient" to call the correct interceptors.
 func RegisterChainNotifierHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ChainNotifierClient) error {
-
 	mux.Handle("POST", pattern_ChainNotifier_RegisterConfirmationsNtfn_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -190,7 +187,6 @@ func RegisterChainNotifierHandlerClient(ctx context.Context, mux *runtime.ServeM
 		}
 
 		forward_ChainNotifier_RegisterConfirmationsNtfn_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_ChainNotifier_RegisterSpendNtfn_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -210,7 +206,6 @@ func RegisterChainNotifierHandlerClient(ctx context.Context, mux *runtime.ServeM
 		}
 
 		forward_ChainNotifier_RegisterSpendNtfn_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_ChainNotifier_RegisterBlockEpochNtfn_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -230,7 +225,6 @@ func RegisterChainNotifierHandlerClient(ctx context.Context, mux *runtime.ServeM
 		}
 
 		forward_ChainNotifier_RegisterBlockEpochNtfn_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil

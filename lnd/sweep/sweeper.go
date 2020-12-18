@@ -424,7 +424,6 @@ func (s *UtxoSweeper) Stop() er.R {
 // cannot make a local copy in sweeper.
 func (s *UtxoSweeper) SweepInput(input input.Input,
 	params Params) (chan Result, er.R) {
-
 	if input == nil || input.OutPoint() == nil || input.SignDesc() == nil {
 		return nil, er.New("nil input received")
 	}
@@ -459,7 +458,6 @@ func (s *UtxoSweeper) SweepInput(input input.Input,
 // ensures that the fee rate respects the bounds of the UtxoSweeper.
 func (s *UtxoSweeper) feeRateForPreference(
 	feePreference FeePreference) (chainfee.SatPerKWeight, er.R) {
-
 	// Ensure a type of fee preference is specified to prevent using a
 	// default below.
 	if feePreference.FeeRate == 0 && feePreference.ConfTarget == 0 {
@@ -714,7 +712,6 @@ func (s *UtxoSweeper) removeExclusiveGroup(group uint64) {
 // sweepCluster tries to sweep the given input cluster.
 func (s *UtxoSweeper) sweepCluster(cluster inputCluster,
 	currentHeight int32) er.R {
-
 	// Execute the sweep within a coin select lock. Otherwise the coins that
 	// we are going to spend may be selected for other transactions like
 	// funding of a channel.
@@ -742,7 +739,6 @@ func (s *UtxoSweeper) sweepCluster(cluster inputCluster,
 // in order to batch inputs with similar fee rates together.
 func (s *UtxoSweeper) bucketForFeeRate(
 	feeRate chainfee.SatPerKWeight) int {
-
 	// Create an isolated bucket for sweeps at the minimum fee rate. This is
 	// to prevent very small outputs (anchors) from becoming uneconomical if
 	// their fee rate would be averaged with higher fee rate inputs in a
@@ -782,7 +778,6 @@ func (s *UtxoSweeper) createInputClusters() []inputCluster {
 // required lock time are returned.
 func (s *UtxoSweeper) clusterByLockTime(inputs pendingInputs) ([]inputCluster,
 	pendingInputs) {
-
 	locktimes := make(map[uint32]pendingInputs)
 	inputFeeRates := make(map[wire.OutPoint]chainfee.SatPerKWeight)
 	rem := make(pendingInputs)
@@ -1092,7 +1087,6 @@ func (s *UtxoSweeper) signalAndRemove(outpoint *wire.OutPoint, result Result) {
 // be bundled with future inputs if possible.
 func (s *UtxoSweeper) getInputLists(cluster inputCluster,
 	currentHeight int32) ([]inputSet, er.R) {
-
 	// Filter for inputs that need to be swept. Create two lists: all
 	// sweepable inputs and a list containing only the new, never tried
 	// inputs.
@@ -1155,7 +1149,6 @@ func (s *UtxoSweeper) getInputLists(cluster inputCluster,
 // tx. The output address is only marked as used if the publish succeeds.
 func (s *UtxoSweeper) sweep(inputs inputSet, feeRate chainfee.SatPerKWeight,
 	currentHeight int32) er.R {
-
 	// Generate an output script if there isn't an unused script available.
 	if s.currentOutputScript == nil {
 		pkScript, err := s.cfg.GenSweepScript()
@@ -1252,7 +1245,6 @@ func (s *UtxoSweeper) sweep(inputs inputSet, feeRate chainfee.SatPerKWeight,
 // returns a cancel function that can be used to cancel the registration.
 func (s *UtxoSweeper) waitForSpend(outpoint wire.OutPoint,
 	script []byte, heightHint uint32) (func(), er.R) {
-
 	log.Debugf("Wait for spend of %v", outpoint)
 
 	spendEvent, err := s.cfg.Notifier.RegisterSpendNtfn(
@@ -1313,7 +1305,6 @@ func (s *UtxoSweeper) PendingInputs() (map[wire.OutPoint]*PendingInput, er.R) {
 // UtxoSweeper is attempting to sweep.
 func (s *UtxoSweeper) handlePendingSweepsReq(
 	req *pendingSweepsReq) map[wire.OutPoint]*PendingInput {
-
 	pendingInputs := make(map[wire.OutPoint]*PendingInput, len(s.pendingInputs))
 	for _, pendingInput := range s.pendingInputs {
 		// Only the exported fields are set, as we expect the response
@@ -1346,7 +1337,6 @@ func (s *UtxoSweeper) handlePendingSweepsReq(
 // the caller.
 func (s *UtxoSweeper) UpdateParams(input wire.OutPoint,
 	params ParamsUpdate) (chan Result, er.R) {
-
 	// Ensure the client provided a sane fee preference.
 	if _, err := s.feeRateForPreference(params.Fee); err != nil {
 		return nil, err
@@ -1384,7 +1374,6 @@ func (s *UtxoSweeper) UpdateParams(input wire.OutPoint,
 //     replacement transaction.
 func (s *UtxoSweeper) handleUpdateReq(req *updateReq, bestHeight int32) (
 	chan Result, er.R) {
-
 	// If the UtxoSweeper is already trying to sweep this input, then we can
 	// simply just increase its fee rate. This will allow the input to be
 	// batched with others which also have a similar fee rate, creating a
@@ -1445,7 +1434,6 @@ func (s *UtxoSweeper) handleUpdateReq(req *updateReq, bestHeight int32) (
 // - Make us blend in with the bitcoind wallet.
 func (s *UtxoSweeper) CreateSweepTx(inputs []input.Input, feePref FeePreference,
 	currentBlockHeight uint32) (*wire.MsgTx, er.R) {
-
 	feePerKw, err := DetermineFeePerKw(s.cfg.FeeEstimator, feePref)
 	if err != nil {
 		return nil, err

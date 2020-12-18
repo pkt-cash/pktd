@@ -59,7 +59,6 @@ type OutPointChanLocator struct {
 // NOTE: Part of the ChanLocator interface.
 func (o *OutPointChanLocator) Locate(fundingTx *wire.MsgTx) (
 	*wire.TxOut, *wire.OutPoint, er.R) {
-
 	// If the expected index is greater than the amount of output in the
 	// transaction, then we'll reject this channel as it's invalid.
 	if int(o.ChanPoint.Index) >= len(fundingTx.TxOut) {
@@ -89,7 +88,6 @@ type ShortChanIDChanLocator struct {
 // NOTE: Part of the ChanLocator interface.
 func (s *ShortChanIDChanLocator) Locate(fundingTx *wire.MsgTx) (
 	*wire.TxOut, *wire.OutPoint, er.R) {
-
 	// If the expected index is greater than the amount of output in the
 	// transaction, then we'll reject this channel as it's invalid.
 	outputIndex := s.ID.TxPosition

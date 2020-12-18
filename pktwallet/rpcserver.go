@@ -60,11 +60,11 @@ func generateRPCKeyPair(writeKey bool) (tls.Certificate, er.R) {
 	// Create directories for cert and key files if they do not yet exist.
 	certDir, _ := filepath.Split(cfg.RPCCert.Value)
 	keyDir, _ := filepath.Split(cfg.RPCKey.Value)
-	errr := os.MkdirAll(certDir, 0700)
+	errr := os.MkdirAll(certDir, 0o700)
 	if errr != nil {
 		return tls.Certificate{}, er.E(errr)
 	}
-	errr = os.MkdirAll(keyDir, 0700)
+	errr = os.MkdirAll(keyDir, 0o700)
 	if errr != nil {
 		return tls.Certificate{}, er.E(errr)
 	}
@@ -82,12 +82,12 @@ func generateRPCKeyPair(writeKey bool) (tls.Certificate, er.R) {
 	}
 
 	// Write cert and (potentially) the key files.
-	errr = ioutil.WriteFile(cfg.RPCCert.Value, cert, 0600)
+	errr = ioutil.WriteFile(cfg.RPCCert.Value, cert, 0o600)
 	if errr != nil {
 		return tls.Certificate{}, er.E(errr)
 	}
 	if writeKey {
-		errr = ioutil.WriteFile(cfg.RPCKey.Value, key, 0600)
+		errr = ioutil.WriteFile(cfg.RPCKey.Value, key, 0o600)
 		if errr != nil {
 			rmErr := os.Remove(cfg.RPCCert.Value)
 			if rmErr != nil {

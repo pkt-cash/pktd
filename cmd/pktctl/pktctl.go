@@ -162,7 +162,7 @@ func main() {
 
 	// Choose how to display the result based on its type.
 	strResult := string(result.Result)
-	//fmt.Printf("raw result %v", strResult)
+	// fmt.Printf("raw result %v", strResult)
 	if strings.HasPrefix(strResult, "{") || strings.HasPrefix(strResult, "[") {
 		var dst bytes.Buffer
 		if err := json.Indent(&dst, result.Result, "", "  "); err != nil {

@@ -21,8 +21,10 @@ const Conf_AnnHash_MEMOHASH_CYCLES = 2
 // RandHash rules, if a program requires fewer than MIN_OPS
 // or more than MAX_OPS cycles to complete, it will be deemed invalid
 // and the hashing attempt is failed.
-const Conf_RandHash_MIN_OPS = 0
-const Conf_RandHash_MAX_OPS = 20000
+const (
+	Conf_RandHash_MIN_OPS = 0
+	Conf_RandHash_MAX_OPS = 20000
+)
 
 // How complex of a program do we want to create ?
 // Most operations have a "cost" equal to the number of inputs to the
@@ -33,13 +35,17 @@ const Conf_RandGen_INITIAL_BUDGET = 20000
 
 // Programs which are created with fewer than MIN_INSNS or more than
 // MAX_INSNS are deemed invalid and the hash attempt is failed.
-const Conf_RandGen_MIN_INSNS = 0
-const Conf_RandGen_MAX_INSNS = 2048
+const (
+	Conf_RandGen_MIN_INSNS = 0
+	Conf_RandGen_MAX_INSNS = 2048
+)
 
 // Some operations are more complicated than normal and have particular costs.
-const Conf_RandGen_MEMORY_COST = 20
-const Conf_RandGen_INPUT_COST = 2
-const Conf_RandGen_BRANCH_COST = 50
+const (
+	Conf_RandGen_MEMORY_COST = 20
+	Conf_RandGen_INPUT_COST  = 2
+	Conf_RandGen_BRANCH_COST = 50
+)
 
 // Loops have random numbers of cycles, these are the bounds of the random
 // numbers. The max cycles become more as the scope depth grows, this helps
@@ -58,6 +64,7 @@ func Conf_RandGen_LOOP_MAX_CYCLES(scopeDepth int) int {
 func Conf_RandGen_SHOULD_LOOP(rand uint32) bool {
 	return (((rand) % 32) < 23)
 }
+
 func Conf_RandGen_SHOULD_BRANCH(rand uint32, insnCount int) bool {
 	return ((int((rand)%64) + (insnCount * 25 / Conf_RandGen_MAX_INSNS)) < 50)
 }

@@ -187,7 +187,6 @@ func testBlobJusticeKitEncryptDecrypt(t *testing.T, test descriptorTest) {
 	if len(ctxt) != blob.Size(test.encVersion) {
 		t.Fatalf("expected blob to have size %d, got %d instead",
 			blob.Size(test.encVersion), len(ctxt))
-
 	}
 
 	// Decrypt the encrypted blob, reconstructing the original
@@ -256,7 +255,6 @@ func TestJusticeKitRemoteWitnessConstruction(t *testing.T) {
 
 func testJusticeKitRemoteWitnessConstruction(
 	t *testing.T, test remoteWitnessTest) {
-
 	// Generate the to-remote pubkey.
 	toRemotePrivKey, err := btcec.NewPrivateKey(btcec.S256())
 	require.Nil(t, err)

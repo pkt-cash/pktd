@@ -106,7 +106,6 @@ type SubSwapper struct {
 // storage location.
 func NewSubSwapper(startingChans []Single, chanNotifier ChannelNotifier,
 	keyRing keychain.KeyRing, backupSwapper Swapper) (*SubSwapper, er.R) {
-
 	// First, we'll subscribe to the latest set of channel updates given
 	// the set of channels we already know of.
 	knownChans := make(map[wire.OutPoint]struct{})

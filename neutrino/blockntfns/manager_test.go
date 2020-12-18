@@ -28,7 +28,6 @@ func (s *mockNtfnSource) Notifications() <-chan blockntfns.BlockNtfn {
 
 func (s *mockNtfnSource) NotificationsSinceHeight(
 	height uint32) ([]blockntfns.BlockNtfn, uint32, er.R) {
-
 	if s.blocksSinceHeight != nil {
 		return s.blocksSinceHeight(height)
 	}
@@ -39,7 +38,6 @@ func (s *mockNtfnSource) NotificationsSinceHeight(
 // TestManagerNewSubscription ensures that a client properly receives new
 // block notifications once it successfully registers for a subscription.
 func TestManagerNewSubscription(t *testing.T) {
-
 	// We'll start by creating a subscription manager backed by our mocked
 	// block source.
 	blockSource := newMockBlockSource()
@@ -121,7 +119,6 @@ func TestManagerNewSubscription(t *testing.T) {
 // their subscription, that they are no longer delivered any new notifications
 // after the fact.
 func TestManagerCancelSubscription(t *testing.T) {
-
 	// We'll start by creating a subscription manager backed by our mocked
 	// block source.
 	blockSource := newMockBlockSource()
@@ -199,7 +196,6 @@ func TestManagerCancelSubscription(t *testing.T) {
 // chain, that a historical backlog of notifications is delivered from that
 // point forwards.
 func TestManagerHistoricalBacklog(t *testing.T) {
-
 	// We'll start by creating a subscription manager backed by our mocked
 	// block source.
 	blockSource := newMockBlockSource()
@@ -211,7 +207,6 @@ func TestManagerHistoricalBacklog(t *testing.T) {
 	// client registration fails if it returns an error.
 	blockSource.blocksSinceHeight = func(uint32) ([]blockntfns.BlockNtfn,
 		uint32, er.R) {
-
 		return nil, 0, er.New("")
 	}
 	_, err := subMgr.NewSubscription(0)
@@ -229,7 +224,6 @@ func TestManagerHistoricalBacklog(t *testing.T) {
 	numBacklog := chainTip - subCurrentHeight
 	blockSource.blocksSinceHeight = func(uint32) ([]blockntfns.BlockNtfn,
 		uint32, er.R) {
-
 		blocks := make([]blockntfns.BlockNtfn, 0, numBacklog)
 		for i := uint32(subCurrentHeight + 1); i <= chainTip; i++ {
 			blocks = append(blocks, blockntfns.NewBlockConnected(

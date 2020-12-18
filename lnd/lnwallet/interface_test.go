@@ -104,7 +104,6 @@ var (
 // balance, or the assertion fails, the test will halt with a fatal error.
 func assertProperBalance(t *testing.T, lw *lnwallet.LightningWallet,
 	numConfirms int32, amount float64) {
-
 	balance, err := lw.ConfirmedBalance(numConfirms)
 	if err != nil {
 		t.Fatalf("unable to query for balance: %v", err)
@@ -125,7 +124,6 @@ func assertReservationDeleted(res *lnwallet.ChannelReservation, t *testing.T) {
 // block mined.
 func mineAndAssertTxInBlock(t *testing.T, miner *rpctest.Harness,
 	txid chainhash.Hash) {
-
 	t.Helper()
 
 	// First, we'll wait for the transaction to arrive in the mempool.
@@ -158,7 +156,6 @@ func mineAndAssertTxInBlock(t *testing.T, miner *rpctest.Harness,
 // newPkScript generates a new public key script of the given address type.
 func newPkScript(t *testing.T, w *lnwallet.LightningWallet,
 	addrType lnwallet.AddressType) []byte {
-
 	t.Helper()
 
 	addr, err := w.NewAddress(addrType, false)
@@ -206,7 +203,6 @@ func sendCoins(t *testing.T, miner *rpctest.Harness,
 // expected confirmation status.
 func assertTxInWallet(t *testing.T, w *lnwallet.LightningWallet,
 	txHash chainhash.Hash, confirmed bool) {
-
 	t.Helper()
 
 	// We'll fetch all of our transaction and go through each one until
@@ -241,7 +237,6 @@ func assertTxInWallet(t *testing.T, w *lnwallet.LightningWallet,
 
 func loadTestCredits(miner *rpctest.Harness, w *lnwallet.LightningWallet,
 	numOutputs int, btcPerOutput float64) er.R {
-
 	// For initial neutrino connection, wait a second.
 	// TODO(aakselrod): Eliminate the need for this.
 	switch w.BackEnd() {
@@ -327,7 +322,6 @@ func createTestWallet(tempTestDir string, miningNode *rpctest.Harness,
 	netParams *chaincfg.Params, notifier chainntnfs.ChainNotifier,
 	wc lnwallet.WalletController, keyRing keychain.SecretKeyRing,
 	signer input.Signer, bio lnwallet.BlockChainIO) (*lnwallet.LightningWallet, er.R) {
-
 	dbDir := filepath.Join(tempTestDir, "cdb")
 	cdb, err := channeldb.Open(dbDir)
 	if err != nil {
@@ -371,7 +365,6 @@ func createTestWallet(tempTestDir string, miningNode *rpctest.Harness,
 
 func testGetRecoveryInfo(miner *rpctest.Harness,
 	alice, bob *lnwallet.LightningWallet, t *testing.T) {
-
 	// alice's wallet is in recovery mode
 	expectedRecoveryMode := true
 	expectedProgress := float64(1)
@@ -416,7 +409,6 @@ func testGetRecoveryInfo(miner *rpctest.Harness,
 
 func testDualFundingReservationWorkflow(miner *rpctest.Harness,
 	alice, bob *lnwallet.LightningWallet, t *testing.T) {
-
 	fundingAmount, err := btcutil.NewAmount(5)
 	if err != nil {
 		t.Fatalf("unable to create amt: %v", err)
@@ -629,7 +621,6 @@ func testDualFundingReservationWorkflow(miner *rpctest.Harness,
 
 func testFundingTransactionLockedOutputs(miner *rpctest.Harness,
 	alice, _ *lnwallet.LightningWallet, t *testing.T) {
-
 	// Create a single channel asking for 16 BTC total.
 	fundingAmount, err := btcutil.NewAmount(8)
 	if err != nil {
@@ -689,7 +680,6 @@ func testFundingTransactionLockedOutputs(miner *rpctest.Harness,
 
 func testFundingCancellationNotEnoughFunds(miner *rpctest.Harness,
 	alice, _ *lnwallet.LightningWallet, t *testing.T) {
-
 	feePerKw, err := alice.Cfg.FeeEstimator.EstimateFeePerKW(1)
 	if err != nil {
 		t.Fatalf("unable to query fee estimator: %v", err)
@@ -757,7 +747,6 @@ func testFundingCancellationNotEnoughFunds(miner *rpctest.Harness,
 
 func testCancelNonExistentReservation(miner *rpctest.Harness,
 	alice, _ *lnwallet.LightningWallet, t *testing.T) {
-
 	feePerKw, err := alice.Cfg.FeeEstimator.EstimateFeePerKW(1)
 	if err != nil {
 		t.Fatalf("unable to query fee estimator: %v", err)
@@ -782,7 +771,6 @@ func testCancelNonExistentReservation(miner *rpctest.Harness,
 
 func testReservationInitiatorBalanceBelowDustCancel(miner *rpctest.Harness,
 	alice, _ *lnwallet.LightningWallet, t *testing.T) {
-
 	// We'll attempt to create a new reservation with an extremely high
 	// commitment fee rate. This should push our balance into the negative
 	// and result in a failure to create the reservation.
@@ -864,7 +852,6 @@ func testSingleFunderReservationWorkflow(miner *rpctest.Harness,
 	commitType lnwallet.CommitmentType,
 	aliceChanFunder chanfunding.Assembler, fetchFundingTx func() *wire.MsgTx,
 	pendingChanID [32]byte, thawHeight uint32) {
-
 	// For this scenario, Alice will be the channel initiator while bob
 	// will act as the responder to the workflow.
 
@@ -1140,7 +1127,6 @@ func testSingleFunderReservationWorkflow(miner *rpctest.Harness,
 
 func testListTransactionDetails(miner *rpctest.Harness,
 	alice, _ *lnwallet.LightningWallet, t *testing.T) {
-
 	// Create 5 new outputs spendable by the wallet.
 	const numTxns = 5
 	outputAmt := btcutil.UnitsPerCoinI64()
@@ -1425,7 +1411,6 @@ func testListTransactionDetails(miner *rpctest.Harness,
 
 func testTransactionSubscriptions(miner *rpctest.Harness,
 	alice, _ *lnwallet.LightningWallet, t *testing.T) {
-
 	// First, check to see if this wallet meets the TransactionNotifier
 	// interface, if not then we'll skip this test for this particular
 	// implementation of the WalletController.
@@ -1646,7 +1631,6 @@ func mineAndAssert(r *rpctest.Harness, tx *wire.MsgTx) er.R {
 func txFromOutput(tx *wire.MsgTx, signer input.Signer, fromPubKey,
 	payToPubKey *btcec.PublicKey, txFee btcutil.Amount,
 	rbf bool) (*wire.MsgTx, er.R) {
-
 	// Generate the script we want to spend from.
 	keyScript, err := scriptFromKey(fromPubKey)
 	if err != nil {
@@ -1780,7 +1764,6 @@ func newTx(t *testing.T, r *rpctest.Harness, pubKey *btcec.PublicKey,
 // current mempool or chain.
 func testPublishTransaction(r *rpctest.Harness,
 	alice, _ *lnwallet.LightningWallet, t *testing.T) {
-
 	// Generate a pubkey, and pay-to-addr script.
 	keyDesc, err := alice.DeriveNextKey(keychain.KeyFamilyMultiSig)
 	if err != nil {
@@ -1967,7 +1950,6 @@ func testPublishTransaction(r *rpctest.Harness,
 			tx3, alice.Cfg.Signer, keyDesc.PubKey,
 			pubKey4.PubKey, txFee, false,
 		)
-
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -1982,7 +1964,6 @@ func testPublishTransaction(r *rpctest.Harness,
 
 func testSignOutputUsingTweaks(r *rpctest.Harness,
 	alice, _ *lnwallet.LightningWallet, t *testing.T) {
-
 	// We'd like to test the ability of the wallet's Signer implementation
 	// to be able to sign with a private key derived from tweaking the
 	// specific public key. This scenario exercises the case when the
@@ -2128,7 +2109,6 @@ func testSignOutputUsingTweaks(r *rpctest.Harness,
 
 func testReorgWalletBalance(r *rpctest.Harness, w *lnwallet.LightningWallet,
 	_ *lnwallet.LightningWallet, t *testing.T) {
-
 	// We first mine a few blocks to ensure any transactions still in the
 	// mempool confirm, and then get the original balance, before a
 	// reorganization that doesn't invalidate any existing transactions or
@@ -2308,7 +2288,6 @@ func testReorgWalletBalance(r *rpctest.Harness, w *lnwallet.LightningWallet,
 // once included in the chain.
 func testChangeOutputSpendConfirmation(r *rpctest.Harness,
 	alice, bob *lnwallet.LightningWallet, t *testing.T) {
-
 	// In order to test that we see the confirmation of a transaction that
 	// spends an output created by SendOutputs, we'll start by emptying
 	// Alice's wallet so that no other UTXOs can be picked. To do so, we'll
@@ -2390,7 +2369,6 @@ func testChangeOutputSpendConfirmation(r *rpctest.Harness,
 // testSpendUnconfirmed ensures that when can spend unconfirmed outputs.
 func testSpendUnconfirmed(miner *rpctest.Harness,
 	alice, bob *lnwallet.LightningWallet, t *testing.T) {
-
 	bobPkScript := newPkScript(t, bob, lnwallet.WitnessPubKey)
 	alicePkScript := newPkScript(t, alice, lnwallet.WitnessPubKey)
 	txFeeRate := chainfee.SatPerKWeight(2500)
@@ -2487,7 +2465,6 @@ func testSpendUnconfirmed(miner *rpctest.Harness,
 // properly rotated.
 func testLastUnusedAddr(miner *rpctest.Harness,
 	alice, bob *lnwallet.LightningWallet, t *testing.T) {
-
 	if _, err := miner.Node.Generate(1); err != nil {
 		t.Fatalf("unable to generate block: %v", err)
 	}
@@ -2543,7 +2520,6 @@ func testLastUnusedAddr(miner *rpctest.Harness,
 // a subsequent call.
 func testCreateSimpleTx(r *rpctest.Harness, w *lnwallet.LightningWallet,
 	_ *lnwallet.LightningWallet, t *testing.T) {
-
 	// Send some money from the miner to the wallet
 	err := loadTestCredits(r, w, 20, 4)
 	if err != nil {
@@ -2589,8 +2565,10 @@ func testCreateSimpleTx(r *rpctest.Harness, w *lnwallet.LightningWallet,
 			valid:   true,
 		},
 		{
-			outVals: []int64{1e8, 2e8, 1e8, 2e7, 3e5, 1e8, 2e8,
-				1e8, 2e7, 3e5},
+			outVals: []int64{
+				1e8, 2e8, 1e8, 2e7, 3e5, 1e8, 2e8,
+				1e8, 2e7, 3e5,
+			},
 			feeRate: 44250,
 			valid:   true,
 		},
@@ -2733,7 +2711,6 @@ func testCreateSimpleTx(r *rpctest.Harness, w *lnwallet.LightningWallet,
 // we'll create the account, then sign.
 func testSignOutputCreateAccount(r *rpctest.Harness, w *lnwallet.LightningWallet,
 	_ *lnwallet.LightningWallet, t *testing.T) {
-
 	// First, we'll create a sign desc that references a non-default key
 	// family. Under the hood, key families are actually accounts, so this
 	// should force create of the account so we can sign with it.
@@ -2796,7 +2773,6 @@ var walletTests = []walletTestCase{
 		name: "single funding workflow",
 		test: func(miner *rpctest.Harness, alice,
 			bob *lnwallet.LightningWallet, t *testing.T) {
-
 			testSingleFunderReservationWorkflow(
 				miner, alice, bob, t,
 				lnwallet.CommitmentTypeLegacy, nil,
@@ -2808,7 +2784,6 @@ var walletTests = []walletTestCase{
 		name: "single funding workflow tweakless",
 		test: func(miner *rpctest.Harness, alice,
 			bob *lnwallet.LightningWallet, t *testing.T) {
-
 			testSingleFunderReservationWorkflow(
 				miner, alice, bob, t,
 				lnwallet.CommitmentTypeTweakless, nil,
@@ -2966,7 +2941,6 @@ func waitForWalletSync(r *rpctest.Harness, w *lnwallet.LightningWallet) er.R {
 // outside the wallet.
 func testSingleFunderExternalFundingTx(miner *rpctest.Harness,
 	alice, bob *lnwallet.LightningWallet, t *testing.T) {
-
 	// First, we'll obtain multi-sig keys from both Alice and Bob which
 	// simulates them exchanging keys on a higher level.
 	aliceFundingKey, err := alice.DeriveNextKey(keychain.KeyFamilyMultiSig)
@@ -3162,7 +3136,6 @@ func runTests(t *testing.T, walletDriver *lnwallet.WalletDriver,
 	backEnd string, miningNode *rpctest.Harness,
 	rpcConfig rpcclient.ConnConfig,
 	chainNotifier chainntnfs.ChainNotifier) bool {
-
 	var (
 		bio lnwallet.BlockChainIO
 

@@ -187,7 +187,6 @@ func TestHostAnnouncerUpdates(t *testing.T) {
 			},
 			AnnounceNewIPs: func(newAddrs []net.Addr,
 				removeAddrs map[string]struct{}) er.R {
-
 				annReqs <- annReq{
 					newAddrs:     newAddrs,
 					removedAddrs: removeAddrs,

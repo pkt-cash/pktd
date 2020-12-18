@@ -203,7 +203,6 @@ type blockManager struct {
 // processing asynchronous block and inv updates.
 func newBlockManager(s *ChainService,
 	firstPeerSignal <-chan struct{}) (*blockManager, er.R) {
-
 	targetTimespan := int64(s.chainParams.TargetTimespan / time.Second)
 	targetTimePerBlock := int64(s.chainParams.TargetTimePerBlock / time.Second)
 	adjustmentFactor := s.chainParams.RetargetAdjustmentFactor
@@ -725,7 +724,6 @@ waitForHeaders:
 // any verified headers to the store.
 func (b *blockManager) getUncheckpointedCFHeaders(
 	store *headerfs.FilterHeaderStore, fType wire.FilterType) er.R {
-
 	// Get the filter header store's chain tip.
 	filterTip, filtHeight, err := store.ChainTip()
 	if err != nil {
@@ -839,7 +837,6 @@ func (b *blockManager) getUncheckpointedCFHeaders(
 // matches the checkpoints up to the tip of the store.
 func (b *blockManager) getCheckpointedCFHeaders(checkpoints []*chainhash.Hash,
 	store *headerfs.FilterHeaderStore, fType wire.FilterType) {
-
 	// We keep going until we've caught up the filter header store with the
 	// latest known checkpoint.
 	curHeader, curHeight, err := store.ChainTip()
@@ -933,7 +930,6 @@ func (b *blockManager) getCheckpointedCFHeaders(checkpoints []*chainhash.Hash,
 		// to worry about synchronization.
 		func(sp *ServerPeer, query wire.Message,
 			resp wire.Message) bool {
-
 			r, ok := resp.(*wire.MsgCFHeaders)
 			if !ok {
 				// We are only looking for cfheaders messages.
@@ -966,7 +962,6 @@ func (b *blockManager) getCheckpointedCFHeaders(checkpoints []*chainhash.Hash,
 			prevCheckpoint := &b.genesisHeader
 			if checkPointIndex > 0 {
 				prevCheckpoint = checkpoints[checkPointIndex-1]
-
 			}
 			nextCheckpoint := checkpoints[checkPointIndex]
 
@@ -1114,7 +1109,6 @@ func (b *blockManager) getCheckpointedCFHeaders(checkpoints []*chainhash.Hash,
 // filter header field in the next message range before writing to disk.
 func (b *blockManager) writeCFHeadersMsg(msg *wire.MsgCFHeaders,
 	store *headerfs.FilterHeaderStore) (*chainhash.Hash, uint32, er.R) {
-
 	// Check that the PrevFilterHeader is the same as the last stored so we
 	// can prevent misalignment.
 	tip, tipHeight, err := store.ChainTip()
@@ -1227,7 +1221,6 @@ func minCheckpointHeight(checkpoints map[string][]*chainhash.Hash) uint32 {
 // type and stop hash matches, and returns true if matching and false if not.
 func verifyCheckpoint(prevCheckpoint, nextCheckpoint *chainhash.Hash,
 	cfheaders *wire.MsgCFHeaders) bool {
-
 	if *prevCheckpoint != cfheaders.PrevFilterHeader {
 		return false
 	}
@@ -1249,7 +1242,6 @@ func (b *blockManager) resolveConflict(
 	checkpoints map[string][]*chainhash.Hash,
 	store *headerfs.FilterHeaderStore, fType wire.FilterType) (
 	[]*chainhash.Hash, er.R) {
-
 	// First check the served checkpoints against the hardcoded ones.
 	for peer, cp := range checkpoints {
 		for i, header := range cp {
@@ -1414,7 +1406,6 @@ func (b *blockManager) resolveConflict(
 // and detects a mismatch. It returns true if a mismatch has occurred.
 func checkForCFHeaderMismatch(headers map[string]*wire.MsgCFHeaders,
 	idx int) bool {
-
 	// First, see if we have a mismatch.
 	hash := zeroHash
 	for _, msg := range headers {
@@ -1441,7 +1432,6 @@ func checkForCFHeaderMismatch(headers map[string]*wire.MsgCFHeaders,
 func (b *blockManager) detectBadPeers(headers map[string]*wire.MsgCFHeaders,
 	targetHeight, filterIndex uint32,
 	fType wire.FilterType) ([]string, er.R) {
-
 	log.Warnf("Detected cfheader mismatch at height=%v!!!", targetHeight)
 
 	// Get the block header for this height.
@@ -1524,7 +1514,6 @@ func (b *blockManager) detectBadPeers(headers map[string]*wire.MsgCFHeaders,
 func resolveFilterMismatchFromBlock(block *wire.MsgBlock,
 	fType wire.FilterType, filtersFromPeers map[string]*gcs.Filter,
 	threshold int) ([]string, er.R) {
-
 	badPeers := make(map[string]struct{})
 
 	blockHash := block.BlockHash()
@@ -1738,7 +1727,6 @@ peerVerification:
 // number for cfheaders in each response.
 func (b *blockManager) getCFHeadersForAllPeers(height uint32,
 	fType wire.FilterType) (map[string]*wire.MsgCFHeaders, int) {
-
 	// Create the map we're returning.
 	headers := make(map[string]*wire.MsgCFHeaders)
 
@@ -1798,7 +1786,6 @@ func (b *blockManager) getCFHeadersForAllPeers(height uint32,
 func (b *blockManager) fetchFilterFromAllPeers(
 	height uint32, blockHash chainhash.Hash,
 	filterType wire.FilterType) map[string]*gcs.Filter {
-
 	// We'll use this map to collate all responses we receive from each
 	// peer.
 	filterResponses := make(map[string]*gcs.Filter)
@@ -1810,7 +1797,6 @@ func (b *blockManager) fetchFilterFromAllPeers(
 		fitlerReqMsg,
 		func(sp *ServerPeer, resp wire.Message, quit chan<- struct{},
 			peerQuit chan<- struct{}) {
-
 			switch response := resp.(type) {
 			// We're only interested in "cfilter" messages.
 			case *wire.MsgCFilter:
@@ -1851,7 +1837,6 @@ func (b *blockManager) fetchFilterFromAllPeers(
 // of responses.
 func (b *blockManager) getCheckpts(lastHash *chainhash.Hash,
 	fType wire.FilterType) map[string][]*chainhash.Hash {
-
 	checkpoints := make(map[string][]*chainhash.Hash)
 	getCheckptMsg := wire.NewMsgGetCFCheckpt(fType, lastHash)
 	b.queries.queryAllPeers(
@@ -1878,7 +1863,6 @@ func (b *blockManager) getCheckpts(lastHash *chainhash.Hash,
 // the store doesn't, the height at which the mismatch occurs is returned.
 func checkCFCheckptSanity(cp map[string][]*chainhash.Hash,
 	headerStore *headerfs.FilterHeaderStore) (int, er.R) {
-
 	// Get the known best header to compare against checkpoints.
 	_, storeTip, err := headerStore.ChainTip()
 	if err != nil {
@@ -2333,6 +2317,7 @@ type provenHeadersMsg struct {
 	hmsg   *headersMsg
 	proofs map[int32]*btcutil.Block
 }
+
 type hashHeight struct {
 	hash   chainhash.Hash
 	height int32
@@ -2401,7 +2386,7 @@ func (b *blockManager) handleHeadersMsg(hmsg *headersMsg) {
 	proofs := make(map[int32]*btcutil.Block)
 	s := b.server
 	go func() {
-		var sem = make(chan int, 4)
+		sem := make(chan int, 4)
 		for _, hash := range needProofs {
 			sem <- 1
 			go func(hh hashHeight) {
@@ -2915,7 +2900,6 @@ func (b *blockManager) checkHeaderSanity(blockHeader *wire.BlockHeader,
 // after the passed previous block node based on the difficulty retarget rules.
 func (b *blockManager) calcNextRequiredDifficulty(newBlockTime time.Time,
 	reorgAttempt bool) (uint32, er.R) {
-
 	hList := b.headerList
 	if reorgAttempt {
 		hList = b.reorgList
@@ -3074,7 +3058,6 @@ func (b *blockManager) onBlockConnected(header wire.BlockHeader, height uint32) 
 // chain.
 func (b *blockManager) onBlockDisconnected(headerDisconnected wire.BlockHeader,
 	heightDisconnected uint32, newChainTip wire.BlockHeader) {
-
 	select {
 	case b.blockNtfnChan <- blockntfns.NewBlockDisconnected(
 		headerDisconnected, heightDisconnected, newChainTip,
@@ -3094,7 +3077,6 @@ func (b *blockManager) Notifications() <-chan blockntfns.BlockNtfn {
 // a backlog will not be delivered.
 func (b *blockManager) NotificationsSinceHeight(
 	height uint32) ([]blockntfns.BlockNtfn, uint32, er.R) {
-
 	b.newFilterHeadersMtx.RLock()
 	bestHeight := b.filterHeaderTip
 	b.newFilterHeadersMtx.RUnlock()

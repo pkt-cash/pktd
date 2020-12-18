@@ -36,6 +36,7 @@ func (s *State) SetBitRange(offset, width, _v byte) {
 	x |= (v << offset)
 	binary.LittleEndian.PutUint32(s.Data(), x)
 }
+
 func (s *State) GetBitRange(offset, width byte) byte {
 	return byte(binary.LittleEndian.Uint32(s.Data()) >> offset & ((1 << width) - 1))
 }
@@ -74,8 +75,10 @@ type Context struct {
 	Progbuf [2048]uint32
 }
 
-const hdrSz int = 48
-const authTrailerSz int = 16
+const (
+	hdrSz         int = 48
+	authTrailerSz int = 16
+)
 
 func getLengthAndTruncate(s *State) int {
 	l := int(s.GetLength())
@@ -163,7 +166,7 @@ func Update(state *State, item []byte, contentBlock []byte, randHashCycles int, 
 	if state.IsFailed() {
 		panic("CryptoCycle went into a failed state, should not happen")
 	}
-	//fmt.Printf("%v.\n", hex.EncodeToString(state.Bytes[0:64]))
+	// fmt.Printf("%v.\n", hex.EncodeToString(state.Bytes[0:64]))
 	return true
 }
 

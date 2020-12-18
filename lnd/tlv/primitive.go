@@ -45,7 +45,6 @@ type ErrTypeForDecoding struct {
 // val and expected type, or the mismatch in their expected lengths.
 func NewTypeForDecodingErr(val interface{}, expType string,
 	valLength, expLength uint64) er.R {
-
 	return er.E(ErrTypeForDecoding{
 		val:       val,
 		expType:   expType,
@@ -61,9 +60,7 @@ func (e ErrTypeForDecoding) Error() string {
 		e.valLength)
 }
 
-var (
-	byteOrder = binary.BigEndian
-)
+var byteOrder = binary.BigEndian
 
 // EUint8 is an Encoder for uint8 values. An error is returned if val is not a
 // *uint8.

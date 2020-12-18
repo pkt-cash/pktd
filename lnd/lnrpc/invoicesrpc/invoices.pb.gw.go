@@ -24,12 +24,14 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = descriptor.ForMessage
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = descriptor.ForMessage
+)
 
 func request_Invoices_SubscribeSingleInvoice_0(ctx context.Context, marshaler runtime.Marshaler, client InvoicesClient, req *http.Request, pathParams map[string]string) (Invoices_SubscribeSingleInvoiceClient, runtime.ServerMetadata, error) {
 	var protoReq SubscribeSingleInvoiceRequest
@@ -63,7 +65,6 @@ func request_Invoices_SubscribeSingleInvoice_0(ctx context.Context, marshaler ru
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 func request_Invoices_CancelInvoice_0(ctx context.Context, marshaler runtime.Marshaler, client InvoicesClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -80,7 +81,6 @@ func request_Invoices_CancelInvoice_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.CancelInvoice(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Invoices_CancelInvoice_0(ctx context.Context, marshaler runtime.Marshaler, server InvoicesServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -97,7 +97,6 @@ func local_request_Invoices_CancelInvoice_0(ctx context.Context, marshaler runti
 
 	msg, err := server.CancelInvoice(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Invoices_AddHoldInvoice_0(ctx context.Context, marshaler runtime.Marshaler, client InvoicesClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -114,7 +113,6 @@ func request_Invoices_AddHoldInvoice_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.AddHoldInvoice(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Invoices_AddHoldInvoice_0(ctx context.Context, marshaler runtime.Marshaler, server InvoicesServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -131,7 +129,6 @@ func local_request_Invoices_AddHoldInvoice_0(ctx context.Context, marshaler runt
 
 	msg, err := server.AddHoldInvoice(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Invoices_SettleInvoice_0(ctx context.Context, marshaler runtime.Marshaler, client InvoicesClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -148,7 +145,6 @@ func request_Invoices_SettleInvoice_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.SettleInvoice(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Invoices_SettleInvoice_0(ctx context.Context, marshaler runtime.Marshaler, server InvoicesServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -165,14 +161,12 @@ func local_request_Invoices_SettleInvoice_0(ctx context.Context, marshaler runti
 
 	msg, err := server.SettleInvoice(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 // RegisterInvoicesHandlerServer registers the http handlers for service Invoices to "mux".
 // UnaryRPC     :call InvoicesServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 func RegisterInvoicesHandlerServer(ctx context.Context, mux *runtime.ServeMux, server InvoicesServer) error {
-
 	mux.Handle("GET", pattern_Invoices_SubscribeSingleInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -197,7 +191,6 @@ func RegisterInvoicesHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		}
 
 		forward_Invoices_CancelInvoice_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Invoices_AddHoldInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -217,7 +210,6 @@ func RegisterInvoicesHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		}
 
 		forward_Invoices_AddHoldInvoice_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Invoices_SettleInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -237,7 +229,6 @@ func RegisterInvoicesHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		}
 
 		forward_Invoices_SettleInvoice_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
@@ -280,7 +271,6 @@ func RegisterInvoicesHandler(ctx context.Context, mux *runtime.ServeMux, conn *g
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "InvoicesClient" to call the correct interceptors.
 func RegisterInvoicesHandlerClient(ctx context.Context, mux *runtime.ServeMux, client InvoicesClient) error {
-
 	mux.Handle("GET", pattern_Invoices_SubscribeSingleInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -298,7 +288,6 @@ func RegisterInvoicesHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		}
 
 		forward_Invoices_SubscribeSingleInvoice_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Invoices_CancelInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -318,7 +307,6 @@ func RegisterInvoicesHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		}
 
 		forward_Invoices_CancelInvoice_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Invoices_AddHoldInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -338,7 +326,6 @@ func RegisterInvoicesHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		}
 
 		forward_Invoices_AddHoldInvoice_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Invoices_SettleInvoice_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -358,7 +345,6 @@ func RegisterInvoicesHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		}
 
 		forward_Invoices_SettleInvoice_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil

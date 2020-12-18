@@ -160,7 +160,6 @@ func (a *NodeAnnouncement) MaxPayloadLength(pver uint32) uint32 {
 
 // DataToSign returns the part of the message that should be signed.
 func (a *NodeAnnouncement) DataToSign() ([]byte, er.R) {
-
 	// We should not include the signatures itself.
 	var w bytes.Buffer
 	err := WriteElements(&w,

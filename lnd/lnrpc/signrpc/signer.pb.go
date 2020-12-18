@@ -6,17 +6,20 @@ package signrpc
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+var (
+	_ = proto.Marshal
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -44,15 +47,19 @@ func (*KeyLocator) Descriptor() ([]byte, []int) {
 func (m *KeyLocator) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_KeyLocator.Unmarshal(m, b)
 }
+
 func (m *KeyLocator) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_KeyLocator.Marshal(b, m, deterministic)
 }
+
 func (m *KeyLocator) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_KeyLocator.Merge(m, src)
 }
+
 func (m *KeyLocator) XXX_Size() int {
 	return xxx_messageInfo_KeyLocator.Size(m)
 }
+
 func (m *KeyLocator) XXX_DiscardUnknown() {
 	xxx_messageInfo_KeyLocator.DiscardUnknown(m)
 }
@@ -97,15 +104,19 @@ func (*KeyDescriptor) Descriptor() ([]byte, []int) {
 func (m *KeyDescriptor) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_KeyDescriptor.Unmarshal(m, b)
 }
+
 func (m *KeyDescriptor) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_KeyDescriptor.Marshal(b, m, deterministic)
 }
+
 func (m *KeyDescriptor) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_KeyDescriptor.Merge(m, src)
 }
+
 func (m *KeyDescriptor) XXX_Size() int {
 	return xxx_messageInfo_KeyDescriptor.Size(m)
 }
+
 func (m *KeyDescriptor) XXX_DiscardUnknown() {
 	xxx_messageInfo_KeyDescriptor.DiscardUnknown(m)
 }
@@ -146,15 +157,19 @@ func (*TxOut) Descriptor() ([]byte, []int) {
 func (m *TxOut) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TxOut.Unmarshal(m, b)
 }
+
 func (m *TxOut) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_TxOut.Marshal(b, m, deterministic)
 }
+
 func (m *TxOut) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_TxOut.Merge(m, src)
 }
+
 func (m *TxOut) XXX_Size() int {
 	return xxx_messageInfo_TxOut.Size(m)
 }
+
 func (m *TxOut) XXX_DiscardUnknown() {
 	xxx_messageInfo_TxOut.DiscardUnknown(m)
 }
@@ -233,15 +248,19 @@ func (*SignDescriptor) Descriptor() ([]byte, []int) {
 func (m *SignDescriptor) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SignDescriptor.Unmarshal(m, b)
 }
+
 func (m *SignDescriptor) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SignDescriptor.Marshal(b, m, deterministic)
 }
+
 func (m *SignDescriptor) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SignDescriptor.Merge(m, src)
 }
+
 func (m *SignDescriptor) XXX_Size() int {
 	return xxx_messageInfo_SignDescriptor.Size(m)
 }
+
 func (m *SignDescriptor) XXX_DiscardUnknown() {
 	xxx_messageInfo_SignDescriptor.DiscardUnknown(m)
 }
@@ -317,15 +336,19 @@ func (*SignReq) Descriptor() ([]byte, []int) {
 func (m *SignReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SignReq.Unmarshal(m, b)
 }
+
 func (m *SignReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SignReq.Marshal(b, m, deterministic)
 }
+
 func (m *SignReq) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SignReq.Merge(m, src)
 }
+
 func (m *SignReq) XXX_Size() int {
 	return xxx_messageInfo_SignReq.Size(m)
 }
+
 func (m *SignReq) XXX_DiscardUnknown() {
 	xxx_messageInfo_SignReq.DiscardUnknown(m)
 }
@@ -366,15 +389,19 @@ func (*SignResp) Descriptor() ([]byte, []int) {
 func (m *SignResp) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SignResp.Unmarshal(m, b)
 }
+
 func (m *SignResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SignResp.Marshal(b, m, deterministic)
 }
+
 func (m *SignResp) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SignResp.Merge(m, src)
 }
+
 func (m *SignResp) XXX_Size() int {
 	return xxx_messageInfo_SignResp.Size(m)
 }
+
 func (m *SignResp) XXX_DiscardUnknown() {
 	xxx_messageInfo_SignResp.DiscardUnknown(m)
 }
@@ -410,15 +437,19 @@ func (*InputScript) Descriptor() ([]byte, []int) {
 func (m *InputScript) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_InputScript.Unmarshal(m, b)
 }
+
 func (m *InputScript) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_InputScript.Marshal(b, m, deterministic)
 }
+
 func (m *InputScript) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_InputScript.Merge(m, src)
 }
+
 func (m *InputScript) XXX_Size() int {
 	return xxx_messageInfo_InputScript.Size(m)
 }
+
 func (m *InputScript) XXX_DiscardUnknown() {
 	xxx_messageInfo_InputScript.DiscardUnknown(m)
 }
@@ -457,15 +488,19 @@ func (*InputScriptResp) Descriptor() ([]byte, []int) {
 func (m *InputScriptResp) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_InputScriptResp.Unmarshal(m, b)
 }
+
 func (m *InputScriptResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_InputScriptResp.Marshal(b, m, deterministic)
 }
+
 func (m *InputScriptResp) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_InputScriptResp.Merge(m, src)
 }
+
 func (m *InputScriptResp) XXX_Size() int {
 	return xxx_messageInfo_InputScriptResp.Size(m)
 }
+
 func (m *InputScriptResp) XXX_DiscardUnknown() {
 	xxx_messageInfo_InputScriptResp.DiscardUnknown(m)
 }
@@ -499,15 +534,19 @@ func (*SignMessageReq) Descriptor() ([]byte, []int) {
 func (m *SignMessageReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SignMessageReq.Unmarshal(m, b)
 }
+
 func (m *SignMessageReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SignMessageReq.Marshal(b, m, deterministic)
 }
+
 func (m *SignMessageReq) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SignMessageReq.Merge(m, src)
 }
+
 func (m *SignMessageReq) XXX_Size() int {
 	return xxx_messageInfo_SignMessageReq.Size(m)
 }
+
 func (m *SignMessageReq) XXX_DiscardUnknown() {
 	xxx_messageInfo_SignMessageReq.DiscardUnknown(m)
 }
@@ -547,15 +586,19 @@ func (*SignMessageResp) Descriptor() ([]byte, []int) {
 func (m *SignMessageResp) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SignMessageResp.Unmarshal(m, b)
 }
+
 func (m *SignMessageResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SignMessageResp.Marshal(b, m, deterministic)
 }
+
 func (m *SignMessageResp) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SignMessageResp.Merge(m, src)
 }
+
 func (m *SignMessageResp) XXX_Size() int {
 	return xxx_messageInfo_SignMessageResp.Size(m)
 }
+
 func (m *SignMessageResp) XXX_DiscardUnknown() {
 	xxx_messageInfo_SignMessageResp.DiscardUnknown(m)
 }
@@ -593,15 +636,19 @@ func (*VerifyMessageReq) Descriptor() ([]byte, []int) {
 func (m *VerifyMessageReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_VerifyMessageReq.Unmarshal(m, b)
 }
+
 func (m *VerifyMessageReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_VerifyMessageReq.Marshal(b, m, deterministic)
 }
+
 func (m *VerifyMessageReq) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VerifyMessageReq.Merge(m, src)
 }
+
 func (m *VerifyMessageReq) XXX_Size() int {
 	return xxx_messageInfo_VerifyMessageReq.Size(m)
 }
+
 func (m *VerifyMessageReq) XXX_DiscardUnknown() {
 	xxx_messageInfo_VerifyMessageReq.DiscardUnknown(m)
 }
@@ -647,15 +694,19 @@ func (*VerifyMessageResp) Descriptor() ([]byte, []int) {
 func (m *VerifyMessageResp) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_VerifyMessageResp.Unmarshal(m, b)
 }
+
 func (m *VerifyMessageResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_VerifyMessageResp.Marshal(b, m, deterministic)
 }
+
 func (m *VerifyMessageResp) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VerifyMessageResp.Merge(m, src)
 }
+
 func (m *VerifyMessageResp) XXX_Size() int {
 	return xxx_messageInfo_VerifyMessageResp.Size(m)
 }
+
 func (m *VerifyMessageResp) XXX_DiscardUnknown() {
 	xxx_messageInfo_VerifyMessageResp.DiscardUnknown(m)
 }
@@ -697,15 +748,19 @@ func (*SharedKeyRequest) Descriptor() ([]byte, []int) {
 func (m *SharedKeyRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SharedKeyRequest.Unmarshal(m, b)
 }
+
 func (m *SharedKeyRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SharedKeyRequest.Marshal(b, m, deterministic)
 }
+
 func (m *SharedKeyRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SharedKeyRequest.Merge(m, src)
 }
+
 func (m *SharedKeyRequest) XXX_Size() int {
 	return xxx_messageInfo_SharedKeyRequest.Size(m)
 }
+
 func (m *SharedKeyRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_SharedKeyRequest.DiscardUnknown(m)
 }
@@ -752,15 +807,19 @@ func (*SharedKeyResponse) Descriptor() ([]byte, []int) {
 func (m *SharedKeyResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SharedKeyResponse.Unmarshal(m, b)
 }
+
 func (m *SharedKeyResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SharedKeyResponse.Marshal(b, m, deterministic)
 }
+
 func (m *SharedKeyResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SharedKeyResponse.Merge(m, src)
 }
+
 func (m *SharedKeyResponse) XXX_Size() int {
 	return xxx_messageInfo_SharedKeyResponse.Size(m)
 }
+
 func (m *SharedKeyResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_SharedKeyResponse.DiscardUnknown(m)
 }
@@ -847,8 +906,10 @@ var fileDescriptor_4ecd772f6c7ffacf = []byte{
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
+var (
+	_ context.Context
+	_ grpc.ClientConn
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
@@ -1016,15 +1077,19 @@ type UnimplementedSignerServer struct {
 func (*UnimplementedSignerServer) SignOutputRaw(ctx context.Context, req *SignReq) (*SignResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignOutputRaw not implemented")
 }
+
 func (*UnimplementedSignerServer) ComputeInputScript(ctx context.Context, req *SignReq) (*InputScriptResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ComputeInputScript not implemented")
 }
+
 func (*UnimplementedSignerServer) SignMessage(ctx context.Context, req *SignMessageReq) (*SignMessageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignMessage not implemented")
 }
+
 func (*UnimplementedSignerServer) VerifyMessage(ctx context.Context, req *VerifyMessageReq) (*VerifyMessageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyMessage not implemented")
 }
+
 func (*UnimplementedSignerServer) DeriveSharedKey(ctx context.Context, req *SharedKeyRequest) (*SharedKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeriveSharedKey not implemented")
 }

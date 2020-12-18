@@ -80,7 +80,6 @@ func fetchDuplicatePaymentStatus(bucket kvdb.RBucket) PaymentStatus {
 
 func deserializeDuplicateHTLCAttemptInfo(r io.Reader) (
 	*duplicateHTLCAttemptInfo, er.R) {
-
 	a := &duplicateHTLCAttemptInfo{}
 	err := ReadElements(r, &a.attemptID, &a.sessionKey)
 	if err != nil {
@@ -95,7 +94,6 @@ func deserializeDuplicateHTLCAttemptInfo(r io.Reader) (
 
 func deserializeDuplicatePaymentCreationInfo(r io.Reader) (
 	*PaymentCreationInfo, er.R) {
-
 	var scratch [8]byte
 
 	c := &PaymentCreationInfo{}
@@ -151,7 +149,6 @@ func fetchDuplicatePayment(bucket kvdb.RBucket) (*MPPayment, er.R) {
 	creationInfo, err := deserializeDuplicatePaymentCreationInfo(r)
 	if err != nil {
 		return nil, err
-
 	}
 
 	// Get failure reason if available.
@@ -212,7 +209,6 @@ func fetchDuplicatePayment(bucket kvdb.RBucket) (*MPPayment, er.R) {
 
 func fetchDuplicatePayments(paymentHashBucket kvdb.RBucket) ([]*MPPayment,
 	er.R) {
-
 	var payments []*MPPayment
 
 	// For older versions of lnd, duplicate payments to a payment has was

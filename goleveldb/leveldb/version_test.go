@@ -346,8 +346,8 @@ func TestVersionReference(t *testing.T) {
 	}
 
 	// Test version task overflow
-	var longV = s.version() // This version is held by some long-time operation
-	var exp = map[int64]int{0: 1, maxCachedNumber: 1}
+	longV := s.version() // This version is held by some long-time operation
+	exp := map[int64]int{0: 1, maxCachedNumber: 1}
 	for i := 1; i <= maxCachedNumber; i++ {
 		rec := &sessionRecord{}
 		rec.addTable(0, int64(i), 1, mik(uint64(i)), mik(uint64(i)))

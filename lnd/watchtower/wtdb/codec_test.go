@@ -129,7 +129,6 @@ type dbObject interface {
 // the codec understands all of the required field types. The test also asserts
 // that decoding an object into another results in an equivalent object.
 func TestCodec(tt *testing.T) {
-
 	var t *testing.T
 	mainScenario := func(obj dbObject) bool {
 		// Ensure encoding the object succeeds.

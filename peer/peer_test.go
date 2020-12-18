@@ -578,7 +578,6 @@ func TestPeerListeners(t *testing.T) {
 
 // TestOutboundPeer tests that the outbound peer works as expected.
 func TestOutboundPeer(t *testing.T) {
-
 	peerCfg := &peer.Config{
 		NewestBlock: func() (*chainhash.Hash, int32, er.R) {
 			return nil, 0, er.New("newest block not found")
@@ -638,7 +637,7 @@ func TestOutboundPeer(t *testing.T) {
 	p.Disconnect()
 
 	// Test NewestBlock
-	var newestBlock = func() (*chainhash.Hash, int32, er.R) {
+	newestBlock := func() (*chainhash.Hash, int32, er.R) {
 		hashStr := "14a0810ac680a3eb3f82edc878cea25ec41d6b790744e5daeef"
 		hash, err := chainhash.NewHashFromStr(hashStr)
 		if err != nil {

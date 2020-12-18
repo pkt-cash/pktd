@@ -91,7 +91,6 @@ func (p *WebsocketProxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 // server quit the connection.
 func (p *WebsocketProxy) upgradeToWebSocketProxy(w http.ResponseWriter,
 	r *http.Request) {
-
 	conn, err := p.upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Errorf("error upgrading websocket:", err)

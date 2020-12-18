@@ -17,14 +17,12 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-var (
-	// TODO(roasbeef): remove these and use the one's defined in txscript
-	// within testnet-L.
+// TODO(roasbeef): remove these and use the one's defined in txscript
+// within testnet-L.
 
-	// SequenceLockTimeSeconds is the 22nd bit which indicates the lock
-	// time is in seconds.
-	SequenceLockTimeSeconds = uint32(1 << 22)
-)
+// SequenceLockTimeSeconds is the 22nd bit which indicates the lock
+// time is in seconds.
+var SequenceLockTimeSeconds = uint32(1 << 22)
 
 // Signature is an interface for objects that can populate signatures during
 // witness construction.
@@ -101,7 +99,6 @@ func GenFundingPkScript(aPub, bPub []byte, amt int64) ([]byte, *wire.TxOut, er.R
 // multi-sig output.
 func SpendMultiSig(witnessScript, pubA []byte, sigA Signature,
 	pubB []byte, sigB Signature) [][]byte {
-
 	witness := make([][]byte, 4)
 
 	// When spending a p2wsh multi-sig script, rather than an OP_0, we add
@@ -192,7 +189,6 @@ func Ripemd160H(d []byte) []byte {
 func SenderHTLCScript(senderHtlcKey, receiverHtlcKey,
 	revocationKey *btcec.PublicKey, paymentHash []byte,
 	confirmedSpend bool) ([]byte, er.R) {
-
 	builder := scriptbuilder.NewScriptBuilder()
 
 	// The opening operations are used to determine if this is the receiver
@@ -287,7 +283,6 @@ func SenderHTLCScript(senderHtlcKey, receiverHtlcKey,
 // key.
 func SenderHtlcSpendRevokeWithKey(signer Signer, signDesc *SignDescriptor,
 	revokeKey *btcec.PublicKey, sweepTx *wire.MsgTx) (wire.TxWitness, er.R) {
-
 	sweepSig, err := signer.SignOutputRaw(sweepTx, signDesc)
 	if err != nil {
 		return nil, err
@@ -315,7 +310,6 @@ func SenderHtlcSpendRevokeWithKey(signer Signer, signDesc *SignDescriptor,
 // respectively.
 func SenderHtlcSpendRevoke(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx) (wire.TxWitness, er.R) {
-
 	if signDesc.KeyDesc.PubKey == nil {
 		return nil, er.Errorf("cannot generate witness with nil " +
 			"KeyDesc pubkey")
@@ -338,7 +332,6 @@ func SenderHtlcSpendRevoke(signer Signer, signDesc *SignDescriptor,
 // public key.
 func SenderHtlcSpendRedeem(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx, paymentPreimage []byte) (wire.TxWitness, er.R) {
-
 	sweepSig, err := signer.SignOutputRaw(sweepTx, signDesc)
 	if err != nil {
 		return nil, err
@@ -363,7 +356,6 @@ func SenderHtlcSpendTimeout(receiverSig Signature,
 	receiverSigHash params.SigHashType, signer Signer,
 	signDesc *SignDescriptor, htlcTimeoutTx *wire.MsgTx) (
 	wire.TxWitness, er.R) {
-
 	sweepSig, err := signer.SignOutputRaw(htlcTimeoutTx, signDesc)
 	if err != nil {
 		return nil, err
@@ -420,7 +412,6 @@ func SenderHtlcSpendTimeout(receiverSig Signature,
 func ReceiverHTLCScript(cltvExpiry uint32, senderHtlcKey,
 	receiverHtlcKey, revocationKey *btcec.PublicKey,
 	paymentHash []byte, confirmedSpend bool) ([]byte, er.R) {
-
 	builder := scriptbuilder.NewScriptBuilder()
 
 	// The opening operations are used to determine if this is the sender
@@ -528,7 +519,6 @@ func ReceiverHtlcSpendRedeem(senderSig Signature,
 	senderSigHash params.SigHashType, paymentPreimage []byte,
 	signer Signer, signDesc *SignDescriptor, htlcSuccessTx *wire.MsgTx) (
 	wire.TxWitness, er.R) {
-
 	// First, we'll generate a signature for the HTLC success transaction.
 	// The signDesc should be signing with the public key used as the
 	// receiver's public key and also the correct single tweak.
@@ -557,7 +547,6 @@ func ReceiverHtlcSpendRedeem(senderSig Signature,
 // commitment transaction.
 func ReceiverHtlcSpendRevokeWithKey(signer Signer, signDesc *SignDescriptor,
 	revokeKey *btcec.PublicKey, sweepTx *wire.MsgTx) (wire.TxWitness, er.R) {
-
 	// First, we'll generate a signature for the sweep transaction.  The
 	// signDesc should be signing with the public key used as the fully
 	// derived revocation public key and also the correct double tweak
@@ -587,7 +576,6 @@ func ReceiverHtlcSpendRevokeWithKey(signer Signer, signDesc *SignDescriptor,
 // respectively.
 func ReceiverHtlcSpendRevoke(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx) (wire.TxWitness, er.R) {
-
 	if signDesc.KeyDesc.PubKey == nil {
 		return nil, er.Errorf("cannot generate witness with nil " +
 			"KeyDesc pubkey")
@@ -614,7 +602,6 @@ func ReceiverHtlcSpendRevoke(signer Signer, signDesc *SignDescriptor,
 // sequence number. Otherwise, the OP_CHECKLOCKTIMEVERIFY check will fail.
 func ReceiverHtlcSpendTimeout(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx, cltvExpiry int32) (wire.TxWitness, er.R) {
-
 	// If the caller set a proper timeout value, then we'll apply it
 	// directly to the transaction.
 	if cltvExpiry != -1 {
@@ -671,7 +658,6 @@ func ReceiverHtlcSpendTimeout(signer Signer, signDesc *SignDescriptor,
 //  * covenant output
 func SecondLevelHtlcScript(revocationKey, delayKey *btcec.PublicKey,
 	csvDelay uint32) ([]byte, er.R) {
-
 	builder := scriptbuilder.NewScriptBuilder()
 
 	// If this is the revocation clause for this script is to be executed,
@@ -714,7 +700,6 @@ func SecondLevelHtlcScript(revocationKey, delayKey *btcec.PublicKey,
 // or the receiver of the HTLC to claim on-chain with the pre-image.
 func HtlcSpendSuccess(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx, csvDelay uint32) (wire.TxWitness, er.R) {
-
 	// We're required to wait a relative period of time before we can sweep
 	// the output in order to allow the other party to contest our claim of
 	// validity to this version of the commitment transaction.
@@ -753,7 +738,6 @@ func HtlcSpendSuccess(signer Signer, signDesc *SignDescriptor,
 // commitment transaction was broadcast.
 func HtlcSpendRevoke(signer Signer, signDesc *SignDescriptor,
 	revokeTx *wire.MsgTx) (wire.TxWitness, er.R) {
-
 	// We don't need any spacial modifications to the transaction as this
 	// is just sweeping a revoked HTLC output. So we'll generate a regular
 	// witness signature.
@@ -783,7 +767,6 @@ func HtlcSpendRevoke(signer Signer, signDesc *SignDescriptor,
 // descriptor's sig hash cache before invocation.
 func HtlcSecondLevelSpend(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx) (wire.TxWitness, er.R) {
-
 	// With the proper sequence and version set, we'll now sign the timeout
 	// transaction using the passed signed descriptor. In order to generate
 	// a valid signature, then signDesc should be using the base delay
@@ -881,7 +864,6 @@ func CommitScriptToSelf(csvTimeout uint32, selfKey, revokeKey *btcec.PublicKey) 
 // transaction spending a pkscript with OP_CSV within it *must* be >= 2.
 func CommitSpendTimeout(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx) (wire.TxWitness, er.R) {
-
 	// Ensure the transaction version supports the validation of sequence
 	// locks and CSV semantics.
 	if sweepTx.Version < 2 {
@@ -917,7 +899,6 @@ func CommitSpendTimeout(signer Signer, signDesc *SignDescriptor,
 // value based on the commitment secret of the revoked commitment.
 func CommitSpendRevoke(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx) (wire.TxWitness, er.R) {
-
 	sweepSig, err := signer.SignOutputRaw(sweepTx, signDesc)
 	if err != nil {
 		return nil, err
@@ -943,7 +924,6 @@ func CommitSpendRevoke(signer Signer, signDesc *SignDescriptor,
 // current commitment point.
 func CommitSpendNoDelay(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx, tweakless bool) (wire.TxWitness, er.R) {
-
 	if signDesc.KeyDesc.PubKey == nil {
 		return nil, er.Errorf("cannot generate witness with nil " +
 			"KeyDesc pubkey")
@@ -1022,7 +1002,6 @@ func CommitScriptToRemoteConfirmed(key *btcec.PublicKey) ([]byte, er.R) {
 // spending key will always be non-tweaked for this output type.
 func CommitSpendToRemoteConfirmed(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx) (wire.TxWitness, er.R) {
-
 	if signDesc.KeyDesc.PubKey == nil {
 		return nil, er.Errorf("cannot generate witness with nil " +
 			"KeyDesc pubkey")
@@ -1079,7 +1058,6 @@ func CommitScriptAnchor(key *btcec.PublicKey) ([]byte, er.R) {
 // used for the anchor channel type.
 func CommitSpendAnchor(signer Signer, signDesc *SignDescriptor,
 	sweepTx *wire.MsgTx) (wire.TxWitness, er.R) {
-
 	if signDesc.KeyDesc.PubKey == nil {
 		return nil, er.Errorf("cannot generate witness with nil " +
 			"KeyDesc pubkey")
@@ -1220,7 +1198,6 @@ func TweakPrivKey(basePriv *btcec.PrivateKey, commitTweak []byte) *btcec.Private
 //
 // Where N is the order of the sub-group.
 func DeriveRevocationPubkey(revokeBase, commitPoint *btcec.PublicKey) *btcec.PublicKey {
-
 	// R = revokeBase * sha256(revocationBase || commitPoint)
 	revokeTweakBytes := SingleTweakBytes(revokeBase, commitPoint)
 	rX, rY := btcec.S256().ScalarMult(revokeBase.X, revokeBase.Y,
@@ -1256,7 +1233,6 @@ func DeriveRevocationPubkey(revokeBase, commitPoint *btcec.PublicKey) *btcec.Pub
 // Where N is the order of the sub-group.
 func DeriveRevocationPrivKey(revokeBasePriv *btcec.PrivateKey,
 	commitSecret *btcec.PrivateKey) *btcec.PrivateKey {
-
 	// r = sha256(revokeBasePub || commitPoint)
 	revokeTweakBytes := SingleTweakBytes(revokeBasePriv.PubKey(),
 		commitSecret.PubKey())

@@ -221,7 +221,6 @@ type ChainControl struct {
 // backed by a running neutrino light client instance. When running with a
 // neutrino light client instance, `neutrinoCS` must be non-nil.
 func NewChainControl(cfg *Config) (*ChainControl, er.R) {
-
 	// Set the RPC config from the "home" chain. Multi-chain isn't yet
 	// active, so we'll restrict usage to a particular chain for now.
 	homeChainConfig := cfg.Bitcoin
@@ -654,7 +653,6 @@ func NewChainRegistry() *ChainRegistry {
 // identified by its ChainCode.
 func (c *ChainRegistry) RegisterChain(newChain ChainCode,
 	cc *ChainControl) {
-
 	c.Lock()
 	c.activeChains[newChain] = cc
 	c.Unlock()
@@ -664,7 +662,6 @@ func (c *ChainRegistry) RegisterChain(newChain ChainCode,
 // target chain.
 func (c *ChainRegistry) LookupChain(targetChain ChainCode) (
 	*ChainControl, bool) {
-
 	c.RLock()
 	cc, ok := c.activeChains[targetChain]
 	c.RUnlock()

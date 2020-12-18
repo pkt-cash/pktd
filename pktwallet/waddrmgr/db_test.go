@@ -13,7 +13,6 @@ import (
 // TestStoreMaxReorgDepth ensures that we can only store up to MaxReorgDepth
 // blocks at any given time.
 func TestStoreMaxReorgDepth(t *testing.T) {
-
 	teardown, db, _ := setupManager(t)
 	defer teardown()
 

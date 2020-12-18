@@ -20,8 +20,10 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-const announceMerkleDepth int = 13
-const announceTableSz uint64 = 1 << uint(announceMerkleDepth)
+const (
+	announceMerkleDepth int    = 13
+	announceTableSz     uint64 = 1 << uint(announceMerkleDepth)
+)
 
 type context struct {
 	itemBytes [1024]byte
@@ -177,7 +179,7 @@ func CheckAnn(pcAnn *wire.PacketCryptAnn, parentBlockHash *chainhash.Hash, packe
 		pcAnn = annDecrypt(pcAnn, &ctx.ccState)
 	}
 
-	//fmt.Printf("%s\n", hex.EncodeToString(pcAnn.Header[:]))
+	// fmt.Printf("%s\n", hex.EncodeToString(pcAnn.Header[:]))
 
 	if version > 0 {
 		if !pcutil.IsZero(pcAnn.GetItem4Prefix()) {

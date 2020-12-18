@@ -166,7 +166,6 @@ func (m *Manager) StartAgent() er.R {
 				return
 			}
 		}
-
 	}()
 
 	// We'll also launch a goroutine to provide the agent with
@@ -269,7 +268,6 @@ func (m *Manager) StopAgent() er.R {
 // QueryHeuristics queries the available autopilot heuristics for node scores.
 func (m *Manager) QueryHeuristics(nodes []NodeID, localState bool) (
 	HeuristicScores, er.R) {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -292,7 +290,6 @@ type HeuristicScores map[string]map[NodeID]float64
 // NOTE: Must be called with the manager's lock.
 func (m *Manager) queryHeuristics(nodes map[NodeID]struct{}, localState bool) (
 	HeuristicScores, er.R) {
-
 	// If we want to take the local state into action when querying the
 	// heuristics, we fetch it. If not we'll just pass an emply slice to
 	// the heuristic.

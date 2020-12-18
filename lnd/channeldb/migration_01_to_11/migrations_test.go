@@ -372,7 +372,6 @@ func TestMigrateOptionalChannelCloseSummaryFields(t *testing.T) {
 
 		// Before the migration we must add the old format to the DB.
 		beforeMigrationFunc := func(d *DB) {
-
 			// Get the old serialization format for this test's
 			// close summary, and it to the closed channel bucket.
 			old := test.oldSerialization(test.closeSummary)
@@ -445,7 +444,6 @@ func TestMigrateOptionalChannelCloseSummaryFields(t *testing.T) {
 					spew.Sdump(dbChan),
 					spew.Sdump(test.closeSummary))
 			}
-
 		}
 
 		applyMigration(t,

@@ -76,7 +76,6 @@ func (c *commitStatsCollector) PrintStats() string {
 // updateStatsMap updatess commit stats map for a caller.
 func updateStatMap(
 	caller string, stats CommitStats, m map[string]*callerStats) {
-
 	if _, ok := m[caller]; !ok {
 		m[caller] = &callerStats{}
 	}
@@ -185,7 +184,6 @@ func newEtcdBackend(config BackendConfig) (*db, er.R) {
 		TLS:                tlsConfig,
 		MaxCallSendMsgSize: 16384*1024 - 1,
 	})
-
 	if err != nil {
 		return nil, err
 	}

@@ -14,33 +14,31 @@ import (
 	"golang.org/x/net/proxy"
 )
 
-var (
-	// dnsCodes maps the DNS response codes to a friendly description. This
-	// does not include the BADVERS code because of duplicate keys and the
-	// underlying DNS (miekg/dns) package not using it. For more info, see
-	// https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml.
-	dnsCodes = map[int]string{
-		0:  "no error",
-		1:  "format error",
-		2:  "server failure",
-		3:  "non-existent domain",
-		4:  "not implemented",
-		5:  "query refused",
-		6:  "name exists when it should not",
-		7:  "RR set exists when it should not",
-		8:  "RR set that should exist does not",
-		9:  "server not authoritative for zone",
-		10: "name not contained in zone",
-		16: "TSIG signature failure",
-		17: "key not recognized",
-		18: "signature out of time window",
-		19: "bad TKEY mode",
-		20: "duplicate key name",
-		21: "algorithm not supported",
-		22: "bad truncation",
-		23: "bad/missing server cookie",
-	}
-)
+// dnsCodes maps the DNS response codes to a friendly description. This
+// does not include the BADVERS code because of duplicate keys and the
+// underlying DNS (miekg/dns) package not using it. For more info, see
+// https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml.
+var dnsCodes = map[int]string{
+	0:  "no error",
+	1:  "format error",
+	2:  "server failure",
+	3:  "non-existent domain",
+	4:  "not implemented",
+	5:  "query refused",
+	6:  "name exists when it should not",
+	7:  "RR set exists when it should not",
+	8:  "RR set that should exist does not",
+	9:  "server not authoritative for zone",
+	10: "name not contained in zone",
+	16: "TSIG signature failure",
+	17: "key not recognized",
+	18: "signature out of time window",
+	19: "bad TKEY mode",
+	20: "duplicate key name",
+	21: "algorithm not supported",
+	22: "bad truncation",
+	23: "bad/missing server cookie",
+}
 
 // proxyConn is a wrapper around net.Conn that allows us to expose the actual
 // remote address we're dialing, rather than the proxy's address.
@@ -58,7 +56,6 @@ func (c *proxyConn) RemoteAddr() net.Addr {
 // rather than the proxy's address.
 func Dial(address, socksAddr string, streamIsolation bool,
 	timeout time.Duration) (net.Conn, er.R) {
-
 	conn, err := dial(address, socksAddr, streamIsolation, timeout)
 	if err != nil {
 		return nil, err
@@ -85,7 +82,6 @@ func Dial(address, socksAddr string, streamIsolation bool,
 // an existing circuit.
 func dial(address, socksAddr string, streamIsolation bool,
 	timeout time.Duration) (net.Conn, er.R) {
-
 	// If we were requested to force stream isolation for this connection,
 	// we'll populate the authentication credentials with random data as
 	// Tor will create a new circuit for each set of credentials.
@@ -132,7 +128,6 @@ func LookupHost(host, socksAddr string) ([]string, er.R) {
 func LookupSRV(service, proto, name, socksAddr,
 	dnsServer string, streamIsolation bool,
 	timeout time.Duration) (string, []*net.SRV, er.R) {
-
 	// Connect to the DNS server we'll be using to query SRV records.
 	conn, err := dial(dnsServer, socksAddr, streamIsolation, timeout)
 	if err != nil {

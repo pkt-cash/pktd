@@ -81,7 +81,6 @@ func ValidateChannelAnn(a *lnwire.ChannelAnnouncement) er.R {
 	}
 
 	return nil
-
 }
 
 // ValidateNodeAnn validates the node announcement by ensuring that the
@@ -127,7 +126,6 @@ func ValidateNodeAnn(a *lnwire.NodeAnnouncement) er.R {
 // flags and optional fields are sane.
 func ValidateChannelUpdateAnn(pubKey *btcec.PublicKey, capacity btcutil.Amount,
 	a *lnwire.ChannelUpdate) er.R {
-
 	if err := validateOptionalFields(capacity, a); err != nil {
 		return err
 	}
@@ -139,7 +137,6 @@ func ValidateChannelUpdateAnn(pubKey *btcec.PublicKey, capacity btcutil.Amount,
 // signed by the party with the given node public key.
 func VerifyChannelUpdateSignature(msg *lnwire.ChannelUpdate,
 	pubKey *btcec.PublicKey) er.R {
-
 	data, err := msg.DataToSign()
 	if err != nil {
 		return er.Errorf("unable to reconstruct message data: %v", err)
@@ -163,7 +160,6 @@ func VerifyChannelUpdateSignature(msg *lnwire.ChannelUpdate,
 // corresponding update fields.
 func validateOptionalFields(capacity btcutil.Amount,
 	msg *lnwire.ChannelUpdate) er.R {
-
 	if msg.MessageFlags.HasMaxHtlc() {
 		maxHtlc := msg.HtlcMaximumMsat
 		if maxHtlc == 0 || maxHtlc < msg.HtlcMinimumMsat {

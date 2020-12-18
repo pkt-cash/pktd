@@ -140,7 +140,6 @@ func NewChanStatusManager(cfg *ChanStatusConfig) (*ChanStatusManager, er.R) {
 	if cfg.ChanEnableTimeout+cfg.ChanStatusSampleInterval >
 		cfg.ChanDisableTimeout {
 		return nil, ErrInvalidTimeoutConstraints.Default()
-
 	}
 
 	return &ChanStatusManager{
@@ -241,7 +240,6 @@ type statusRequest struct {
 // disableRequests channels.
 func (m *ChanStatusManager) submitRequest(reqChan chan statusRequest,
 	outpoint wire.OutPoint) er.R {
-
 	req := statusRequest{
 		outpoint: outpoint,
 		errChan:  make(chan er.R, 1),
@@ -519,7 +517,6 @@ func (m *ChanStatusManager) fetchChannels() ([]*channeldb.OpenChannel, er.R) {
 // the new update will be sent out on the network.
 func (m *ChanStatusManager) signAndSendNextUpdate(outpoint wire.OutPoint,
 	disabled bool) er.R {
-
 	// Retrieve the latest update for this channel. We'll use this
 	// as our starting point to send the new update.
 	chanUpdate, err := m.fetchLastChanUpdateByOutPoint(outpoint)
@@ -543,7 +540,6 @@ func (m *ChanStatusManager) signAndSendNextUpdate(outpoint wire.OutPoint,
 // in case our ChannelEdgePolicy is not found in the database.
 func (m *ChanStatusManager) fetchLastChanUpdateByOutPoint(op wire.OutPoint) (
 	*lnwire.ChannelUpdate, er.R) {
-
 	// Get the edge info and policies for this channel from the graph.
 	info, edge1, edge2, err := m.cfg.Graph.FetchChannelEdgesByOutpoint(&op)
 	if err != nil {
@@ -560,7 +556,6 @@ func (m *ChanStatusManager) fetchLastChanUpdateByOutPoint(op wire.OutPoint) (
 // not be retrieved.
 func (m *ChanStatusManager) loadInitialChanState(
 	outpoint *wire.OutPoint) (ChannelState, er.R) {
-
 	lastUpdate, err := m.fetchLastChanUpdateByOutPoint(*outpoint)
 	if err != nil {
 		return ChannelState{}, err
@@ -586,7 +581,6 @@ func (m *ChanStatusManager) loadInitialChanState(
 // computed and updated in the chanStates map before being returned.
 func (m *ChanStatusManager) getOrInitChanStatus(
 	outpoint wire.OutPoint) (ChannelState, er.R) {
-
 	// Return the current ChannelState from the chanStates map if it is
 	// already known to the ChanStatusManager.
 	if curState, ok := m.chanStates[outpoint]; ok {

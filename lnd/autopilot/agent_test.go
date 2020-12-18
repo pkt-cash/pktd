@@ -30,7 +30,6 @@ type mockConstraints struct {
 
 func (m *mockConstraints) ChannelBudget(chans []LocalChannel,
 	balance btcutil.Amount) (btcutil.Amount, uint32) {
-
 	if m.moreChanArgs != nil {
 		moreChan := moreChanArg{
 			chans:   chans,
@@ -59,6 +58,7 @@ func (m *mockConstraints) MaxPendingOpens() uint16 {
 func (m *mockConstraints) MinChanSize() btcutil.Amount {
 	return 1e7
 }
+
 func (m *mockConstraints) MaxChanSize() btcutil.Amount {
 	return 1e8
 }
@@ -86,7 +86,6 @@ func (m *mockHeuristic) Name() string {
 func (m *mockHeuristic) NodeScores(g ChannelGraph, chans []LocalChannel,
 	chanSize btcutil.Amount, nodes map[NodeID]struct{}) (
 	map[NodeID]*NodeScore, er.R) {
-
 	if m.nodeScoresArgs != nil {
 		directive := directiveArg{
 			graph: g,
@@ -125,7 +124,6 @@ type mockChanController struct {
 
 func (m *mockChanController) OpenChannel(target *btcec.PublicKey,
 	amt btcutil.Amount) er.R {
-
 	m.openChanSignals <- openChanIntent{
 		target:  target,
 		amt:     amt,
@@ -407,7 +405,7 @@ func TestAgentChannelFailureSignal(t *testing.T) {
 	// At this point, the agent should now be querying the heuristic to
 	// request attachment directives, return a fake so the agent will
 	// attempt to open a channel.
-	var fakeDirective = &NodeScore{
+	fakeDirective := &NodeScore{
 		NodeID: NewNodeID(node),
 		Score:  0.5,
 	}
@@ -1132,7 +1130,6 @@ func TestAgentQuitWhenPendingConns(t *testing.T) {
 func respondWithScores(t *testing.T, testCtx *testContext,
 	channelBudget btcutil.Amount, existingChans, newChans int,
 	nodeScores map[NodeID]*NodeScore) {
-
 	t.Helper()
 
 	select {
@@ -1184,7 +1181,6 @@ func respondWithScores(t *testing.T, testCtx *testContext,
 // number of channels we expect, and with the exact total allocation.
 func checkChannelOpens(t *testing.T, testCtx *testContext,
 	allocation btcutil.Amount, numChans int) []NodeID {
-
 	var nodes []NodeID
 
 	// The agent should attempt to open channels, totaling what we expect.

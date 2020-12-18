@@ -9,8 +9,11 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/pkt-cash/pktd/btcec"
+	"github.com/pkt-cash/pktd/btcutil/er"
+	"github.com/pkt-cash/pktd/btcutil/util"
 	"github.com/pkt-cash/pktd/lnd/autopilot"
 	"github.com/pkt-cash/pktd/lnd/lnrpc"
+	"github.com/pkt-cash/pktd/pktlog/log"
 	"google.golang.org/grpc"
 	"gopkg.in/macaroon-bakery.v2/bakery"
 )
@@ -23,33 +26,31 @@ const (
 	subServerName = "AutopilotRPC"
 )
 
-var (
-	// macPermissions maps RPC calls to the permissions they require.
-	macPermissions = map[string][]bakery.Op{
-		"/autopilotrpc.Autopilot/Status": {{
-			Entity: "info",
-			Action: "read",
-		}},
-		"/autopilotrpc.Autopilot/ModifyStatus": {{
-			Entity: "onchain",
-			Action: "write",
-		}, {
-			Entity: "offchain",
-			Action: "write",
-		}},
-		"/autopilotrpc.Autopilot/QueryScores": {{
-			Entity: "info",
-			Action: "read",
-		}},
-		"/autopilotrpc.Autopilot/SetScores": {{
-			Entity: "onchain",
-			Action: "write",
-		}, {
-			Entity: "offchain",
-			Action: "write",
-		}},
-	}
-)
+// macPermissions maps RPC calls to the permissions they require.
+var macPermissions = map[string][]bakery.Op{
+	"/autopilotrpc.Autopilot/Status": {{
+		Entity: "info",
+		Action: "read",
+	}},
+	"/autopilotrpc.Autopilot/ModifyStatus": {{
+		Entity: "onchain",
+		Action: "write",
+	}, {
+		Entity: "offchain",
+		Action: "write",
+	}},
+	"/autopilotrpc.Autopilot/QueryScores": {{
+		Entity: "info",
+		Action: "read",
+	}},
+	"/autopilotrpc.Autopilot/SetScores": {{
+		Entity: "onchain",
+		Action: "write",
+	}, {
+		Entity: "offchain",
+		Action: "write",
+	}},
+}
 
 // Server is a sub-server of the main RPC server: the autopilot RPC. This sub
 // RPC server allows external callers to access the status of the autopilot
@@ -137,7 +138,6 @@ func (s *Server) RegisterWithRootServer(grpcServer *grpc.Server) er.R {
 // NOTE: This is part of the lnrpc.SubServer interface.
 func (s *Server) RegisterWithRestServer(ctx context.Context,
 	mux *runtime.ServeMux, dest string, opts []grpc.DialOption) er.R {
-
 	// We make sure that we register it with the main REST server to ensure
 	// all our methods are routed properly.
 	err := RegisterAutopilotHandlerFromEndpoint(ctx, mux, dest, opts)
@@ -157,7 +157,6 @@ func (s *Server) RegisterWithRestServer(ctx context.Context,
 // NOTE: Part of the AutopilotServer interface.
 func (s *Server) Status(ctx context.Context,
 	in *StatusRequest) (*StatusResponse, er.R) {
-
 	return &StatusResponse{
 		Active: s.manager.IsActive(),
 	}, nil
@@ -168,7 +167,6 @@ func (s *Server) Status(ctx context.Context,
 // NOTE: Part of the AutopilotServer interface.
 func (s *Server) ModifyStatus(ctx context.Context,
 	in *ModifyStatusRequest) (*ModifyStatusResponse, er.R) {
-
 	log.Debugf("Setting agent enabled=%v", in.Enable)
 
 	var err error
@@ -187,7 +185,6 @@ func (s *Server) ModifyStatus(ctx context.Context,
 // NOTE: Part of the AutopilotServer interface.
 func (s *Server) QueryScores(ctx context.Context, in *QueryScoresRequest) (
 	*QueryScoresResponse, er.R) {
-
 	var nodes []autopilot.NodeID
 	for _, pubStr := range in.Pubkeys {
 		pubHex, err := util.DecodeHex(pubStr)
@@ -244,7 +241,6 @@ func (s *Server) QueryScores(ctx context.Context, in *QueryScoresRequest) (
 // NOTE: Part of the AutopilotServer interface.
 func (s *Server) SetScores(ctx context.Context,
 	in *SetScoresRequest) (*SetScoresResponse, er.R) {
-
 	scores := make(map[autopilot.NodeID]float64)
 	for pubStr, score := range in.Scores {
 		pubHex, err := util.DecodeHex(pubStr)

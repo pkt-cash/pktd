@@ -57,7 +57,6 @@ func getRateLimit(flapCount int) time.Duration {
 // flapped for a long time.
 func cooldownFlapCount(now time.Time, flapCount int,
 	lastFlap time.Time) int {
-
 	// Calculate time since our last flap, and the number of times we need
 	// to apply our cooldown factor.
 	timeSinceFlap := now.Sub(lastFlap)

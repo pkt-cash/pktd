@@ -153,7 +153,6 @@ type CannedAssembler struct {
 func NewCannedAssembler(thawHeight uint32, chanPoint wire.OutPoint,
 	fundingAmt btcutil.Amount, localKey *keychain.KeyDescriptor,
 	remoteKey *btcec.PublicKey, initiator bool) *CannedAssembler {
-
 	return &CannedAssembler{
 		initiator:  initiator,
 		localKey:   localKey,

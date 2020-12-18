@@ -6,17 +6,20 @@ package lnrpc
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+var (
+	_ = proto.Marshal
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -50,15 +53,19 @@ func (*GenSeedRequest) Descriptor() ([]byte, []int) {
 func (m *GenSeedRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_GenSeedRequest.Unmarshal(m, b)
 }
+
 func (m *GenSeedRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_GenSeedRequest.Marshal(b, m, deterministic)
 }
+
 func (m *GenSeedRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_GenSeedRequest.Merge(m, src)
 }
+
 func (m *GenSeedRequest) XXX_Size() int {
 	return xxx_messageInfo_GenSeedRequest.Size(m)
 }
+
 func (m *GenSeedRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_GenSeedRequest.DiscardUnknown(m)
 }
@@ -106,15 +113,19 @@ func (*GenSeedResponse) Descriptor() ([]byte, []int) {
 func (m *GenSeedResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_GenSeedResponse.Unmarshal(m, b)
 }
+
 func (m *GenSeedResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_GenSeedResponse.Marshal(b, m, deterministic)
 }
+
 func (m *GenSeedResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_GenSeedResponse.Merge(m, src)
 }
+
 func (m *GenSeedResponse) XXX_Size() int {
 	return xxx_messageInfo_GenSeedResponse.Size(m)
 }
+
 func (m *GenSeedResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_GenSeedResponse.DiscardUnknown(m)
 }
@@ -188,15 +199,19 @@ func (*InitWalletRequest) Descriptor() ([]byte, []int) {
 func (m *InitWalletRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_InitWalletRequest.Unmarshal(m, b)
 }
+
 func (m *InitWalletRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_InitWalletRequest.Marshal(b, m, deterministic)
 }
+
 func (m *InitWalletRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_InitWalletRequest.Merge(m, src)
 }
+
 func (m *InitWalletRequest) XXX_Size() int {
 	return xxx_messageInfo_InitWalletRequest.Size(m)
 }
+
 func (m *InitWalletRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_InitWalletRequest.DiscardUnknown(m)
 }
@@ -268,15 +283,19 @@ func (*InitWalletResponse) Descriptor() ([]byte, []int) {
 func (m *InitWalletResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_InitWalletResponse.Unmarshal(m, b)
 }
+
 func (m *InitWalletResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_InitWalletResponse.Marshal(b, m, deterministic)
 }
+
 func (m *InitWalletResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_InitWalletResponse.Merge(m, src)
 }
+
 func (m *InitWalletResponse) XXX_Size() int {
 	return xxx_messageInfo_InitWalletResponse.Size(m)
 }
+
 func (m *InitWalletResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_InitWalletResponse.DiscardUnknown(m)
 }
@@ -330,15 +349,19 @@ func (*UnlockWalletRequest) Descriptor() ([]byte, []int) {
 func (m *UnlockWalletRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UnlockWalletRequest.Unmarshal(m, b)
 }
+
 func (m *UnlockWalletRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_UnlockWalletRequest.Marshal(b, m, deterministic)
 }
+
 func (m *UnlockWalletRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_UnlockWalletRequest.Merge(m, src)
 }
+
 func (m *UnlockWalletRequest) XXX_Size() int {
 	return xxx_messageInfo_UnlockWalletRequest.Size(m)
 }
+
 func (m *UnlockWalletRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_UnlockWalletRequest.DiscardUnknown(m)
 }
@@ -389,15 +412,19 @@ func (*UnlockWalletResponse) Descriptor() ([]byte, []int) {
 func (m *UnlockWalletResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UnlockWalletResponse.Unmarshal(m, b)
 }
+
 func (m *UnlockWalletResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_UnlockWalletResponse.Marshal(b, m, deterministic)
 }
+
 func (m *UnlockWalletResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_UnlockWalletResponse.Merge(m, src)
 }
+
 func (m *UnlockWalletResponse) XXX_Size() int {
 	return xxx_messageInfo_UnlockWalletResponse.Size(m)
 }
+
 func (m *UnlockWalletResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_UnlockWalletResponse.DiscardUnknown(m)
 }
@@ -439,15 +466,19 @@ func (*ChangePasswordRequest) Descriptor() ([]byte, []int) {
 func (m *ChangePasswordRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChangePasswordRequest.Unmarshal(m, b)
 }
+
 func (m *ChangePasswordRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChangePasswordRequest.Marshal(b, m, deterministic)
 }
+
 func (m *ChangePasswordRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ChangePasswordRequest.Merge(m, src)
 }
+
 func (m *ChangePasswordRequest) XXX_Size() int {
 	return xxx_messageInfo_ChangePasswordRequest.Size(m)
 }
+
 func (m *ChangePasswordRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_ChangePasswordRequest.DiscardUnknown(m)
 }
@@ -506,15 +537,19 @@ func (*ChangePasswordResponse) Descriptor() ([]byte, []int) {
 func (m *ChangePasswordResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChangePasswordResponse.Unmarshal(m, b)
 }
+
 func (m *ChangePasswordResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ChangePasswordResponse.Marshal(b, m, deterministic)
 }
+
 func (m *ChangePasswordResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ChangePasswordResponse.Merge(m, src)
 }
+
 func (m *ChangePasswordResponse) XXX_Size() int {
 	return xxx_messageInfo_ChangePasswordResponse.Size(m)
 }
+
 func (m *ChangePasswordResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_ChangePasswordResponse.DiscardUnknown(m)
 }
@@ -584,8 +619,10 @@ var fileDescriptor_76e3ed10ed53e4fd = []byte{
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
+var (
+	_ context.Context
+	_ grpc.ClientConn
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
@@ -620,12 +657,12 @@ type WalletUnlockerClient interface {
 	//the seed can be fed into this RPC in order to commit the new wallet.
 	InitWallet(ctx context.Context, in *InitWalletRequest, opts ...grpc.CallOption) (*InitWalletResponse, error)
 	// lncli: `unlock`
-	//UnlockWallet is used at startup of lnd to provide a password to unlock
-	//the wallet database.
+	// UnlockWallet is used at startup of lnd to provide a password to unlock
+	// the wallet database.
 	UnlockWallet(ctx context.Context, in *UnlockWalletRequest, opts ...grpc.CallOption) (*UnlockWalletResponse, error)
 	// lncli: `changepassword`
-	//ChangePassword changes the password of the encrypted wallet. This will
-	//automatically unlock the wallet database if successful.
+	// ChangePassword changes the password of the encrypted wallet. This will
+	// automatically unlock the wallet database if successful.
 	ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*ChangePasswordResponse, error)
 }
 
@@ -700,12 +737,12 @@ type WalletUnlockerServer interface {
 	//the seed can be fed into this RPC in order to commit the new wallet.
 	InitWallet(context.Context, *InitWalletRequest) (*InitWalletResponse, error)
 	// lncli: `unlock`
-	//UnlockWallet is used at startup of lnd to provide a password to unlock
-	//the wallet database.
+	// UnlockWallet is used at startup of lnd to provide a password to unlock
+	// the wallet database.
 	UnlockWallet(context.Context, *UnlockWalletRequest) (*UnlockWalletResponse, error)
 	// lncli: `changepassword`
-	//ChangePassword changes the password of the encrypted wallet. This will
-	//automatically unlock the wallet database if successful.
+	// ChangePassword changes the password of the encrypted wallet. This will
+	// automatically unlock the wallet database if successful.
 	ChangePassword(context.Context, *ChangePasswordRequest) (*ChangePasswordResponse, error)
 }
 
@@ -716,12 +753,15 @@ type UnimplementedWalletUnlockerServer struct {
 func (*UnimplementedWalletUnlockerServer) GenSeed(ctx context.Context, req *GenSeedRequest) (*GenSeedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GenSeed not implemented")
 }
+
 func (*UnimplementedWalletUnlockerServer) InitWallet(ctx context.Context, req *InitWalletRequest) (*InitWalletResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InitWallet not implemented")
 }
+
 func (*UnimplementedWalletUnlockerServer) UnlockWallet(ctx context.Context, req *UnlockWalletRequest) (*UnlockWalletResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnlockWallet not implemented")
 }
+
 func (*UnimplementedWalletUnlockerServer) ChangePassword(ctx context.Context, req *ChangePasswordRequest) (*ChangePasswordResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangePassword not implemented")
 }

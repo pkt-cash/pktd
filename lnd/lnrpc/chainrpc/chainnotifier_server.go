@@ -16,6 +16,7 @@ import (
 	"github.com/pkt-cash/pktd/lnd/chainntnfs"
 	"github.com/pkt-cash/pktd/lnd/lnrpc"
 	"github.com/pkt-cash/pktd/lnd/macaroons"
+	"github.com/pkt-cash/pktd/pktlog/log"
 	"github.com/pkt-cash/pktd/wire"
 	"google.golang.org/grpc"
 	"gopkg.in/macaroon-bakery.v2/bakery"
@@ -124,7 +125,7 @@ func New(cfg *Config) (*Server, lnrpc.MacaroonPerms, er.R) {
 		if err != nil {
 			return nil, nil, err
 		}
-		err = ioutil.WriteFile(macFilePath, chainNotifierMacBytes, 0644)
+		err = ioutil.WriteFile(macFilePath, chainNotifierMacBytes, 0o644)
 		if err != nil {
 			_ = os.Remove(macFilePath)
 			return nil, nil, err
@@ -139,8 +140,10 @@ func New(cfg *Config) (*Server, lnrpc.MacaroonPerms, er.R) {
 
 // Compile-time checks to ensure that Server fully implements the
 // ChainNotifierServer gRPC service and lnrpc.SubServer interface.
-var _ ChainNotifierServer = (*Server)(nil)
-var _ lnrpc.SubServer = (*Server)(nil)
+var (
+	_ ChainNotifierServer = (*Server)(nil)
+	_ lnrpc.SubServer     = (*Server)(nil)
+)
 
 // Start launches any helper goroutines required for the server to function.
 //
@@ -191,7 +194,6 @@ func (s *Server) RegisterWithRootServer(grpcServer *grpc.Server) er.R {
 // NOTE: This is part of the lnrpc.SubServer interface.
 func (s *Server) RegisterWithRestServer(ctx context.Context,
 	mux *runtime.ServeMux, dest string, opts []grpc.DialOption) er.R {
-
 	// We make sure that we register it with the main REST server to ensure
 	// all our methods are routed properly.
 	err := RegisterChainNotifierHandlerFromEndpoint(ctx, mux, dest, opts)
@@ -217,7 +219,6 @@ func (s *Server) RegisterWithRestServer(ctx context.Context,
 // NOTE: This is part of the chainrpc.ChainNotifierService interface.
 func (s *Server) RegisterConfirmationsNtfn(in *ConfRequest,
 	confStream ChainNotifier_RegisterConfirmationsNtfnServer) er.R {
-
 	if !s.cfg.ChainNotifier.Started() {
 		return ErrChainNotifierServerNotActive.Default()
 	}
@@ -317,7 +318,6 @@ func (s *Server) RegisterConfirmationsNtfn(in *ConfRequest,
 // NOTE: This is part of the chainrpc.ChainNotifierService interface.
 func (s *Server) RegisterSpendNtfn(in *SpendRequest,
 	spendStream ChainNotifier_RegisterSpendNtfnServer) er.R {
-
 	if !s.cfg.ChainNotifier.Started() {
 		return ErrChainNotifierServerNotActive.Default()
 	}
@@ -428,7 +428,6 @@ func (s *Server) RegisterSpendNtfn(in *SpendRequest,
 // NOTE: This is part of the chainrpc.ChainNotifierService interface.
 func (s *Server) RegisterBlockEpochNtfn(in *BlockEpoch,
 	epochStream ChainNotifier_RegisterBlockEpochNtfnServer) er.R {
-
 	if !s.cfg.ChainNotifier.Started() {
 		return ErrChainNotifierServerNotActive.Default()
 	}

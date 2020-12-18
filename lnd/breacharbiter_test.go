@@ -69,7 +69,8 @@ var (
 	}
 
 	breachKeys = [][]byte{
-		{0x04, 0x11, 0xdb, 0x93, 0xe1, 0xdc, 0xdb, 0x8a,
+		{
+			0x04, 0x11, 0xdb, 0x93, 0xe1, 0xdc, 0xdb, 0x8a,
 			0x01, 0x6b, 0x49, 0x84, 0x0f, 0x8c, 0x53, 0xbc, 0x1e,
 			0xb6, 0x8a, 0x38, 0x2e, 0x97, 0xb1, 0x48, 0x2e, 0xca,
 			0xd7, 0xb1, 0x48, 0xa6, 0x90, 0x9a, 0x5c, 0xb2, 0xe0,
@@ -78,7 +79,8 @@ var (
 			0xd4, 0xc0, 0x3f, 0x99, 0x9b, 0x86, 0x43, 0xf6, 0x56,
 			0xb4, 0x12, 0xa3,
 		},
-		{0x07, 0x11, 0xdb, 0x93, 0xe1, 0xdc, 0xdb, 0x8a,
+		{
+			0x07, 0x11, 0xdb, 0x93, 0xe1, 0xdc, 0xdb, 0x8a,
 			0x01, 0x6b, 0x49, 0x84, 0x0f, 0x8c, 0x53, 0xbc, 0x1e,
 			0xb6, 0x8a, 0x38, 0x2e, 0x97, 0xb1, 0x48, 0x2e, 0xca,
 			0xd7, 0xb1, 0x48, 0xa6, 0x90, 0x9a, 0x5c, 0xb2, 0xe0,
@@ -87,12 +89,14 @@ var (
 			0xd4, 0xc0, 0x3f, 0x99, 0x9b, 0x86, 0x43, 0xf6, 0x56,
 			0xb4, 0x12, 0xa3,
 		},
-		{0x02, 0xce, 0x0b, 0x14, 0xfb, 0x84, 0x2b, 0x1b,
+		{
+			0x02, 0xce, 0x0b, 0x14, 0xfb, 0x84, 0x2b, 0x1b,
 			0xa5, 0x49, 0xfd, 0xd6, 0x75, 0xc9, 0x80, 0x75, 0xf1,
 			0x2e, 0x9c, 0x51, 0x0f, 0x8e, 0xf5, 0x2b, 0xd0, 0x21,
 			0xa9, 0xa1, 0xf4, 0x80, 0x9d, 0x3b, 0x4d,
 		},
-		{0x02, 0xce, 0x0b, 0x14, 0xfb, 0x84, 0x2b, 0x1b,
+		{
+			0x02, 0xce, 0x0b, 0x14, 0xfb, 0x84, 0x2b, 0x1b,
 			0x2e, 0x9c, 0x51, 0x0f, 0x8e, 0xf5, 0x2b, 0xd0, 0x21,
 			0xa5, 0x49, 0xfd, 0xd6, 0x75, 0xc9, 0x80, 0x75, 0xf1,
 			0xa3, 0xa1, 0xf4, 0x80, 0x9d, 0x3b, 0x4d,
@@ -358,7 +362,6 @@ type failingRetributionStore struct {
 // persistent source.
 func newFailingRetributionStore(
 	restart func() RetributionStore) *failingRetributionStore {
-
 	return &failingRetributionStore{
 		mu:      sync.Mutex{},
 		rs:      restart(),
@@ -408,7 +411,6 @@ func (frs *failingRetributionStore) IsBreached(chanPoint *wire.OutPoint) (bool, 
 
 func (frs *failingRetributionStore) Finalize(chanPoint *wire.OutPoint,
 	finalTx *wire.MsgTx) er.R {
-
 	frs.mu.Lock()
 	defer frs.mu.Unlock()
 
@@ -417,7 +419,6 @@ func (frs *failingRetributionStore) Finalize(chanPoint *wire.OutPoint,
 
 func (frs *failingRetributionStore) GetFinalizedTxn(
 	chanPoint *wire.OutPoint) (*wire.MsgTx, er.R) {
-
 	frs.mu.Lock()
 	defer frs.mu.Unlock()
 
@@ -433,7 +434,6 @@ func (frs *failingRetributionStore) Remove(key *wire.OutPoint) er.R {
 
 func (frs *failingRetributionStore) ForAll(cb func(*retributionInfo) er.R,
 	reset func()) er.R {
-
 	frs.mu.Lock()
 	defer frs.mu.Unlock()
 
@@ -567,7 +567,6 @@ func (rs *mockRetributionStore) IsBreached(chanPoint *wire.OutPoint) (bool, er.R
 
 func (rs *mockRetributionStore) Finalize(chanPoint *wire.OutPoint,
 	finalTx *wire.MsgTx) er.R {
-
 	rs.mu.Lock()
 	rs.finalTxs[*chanPoint] = finalTx
 	rs.mu.Unlock()
@@ -577,7 +576,6 @@ func (rs *mockRetributionStore) Finalize(chanPoint *wire.OutPoint,
 
 func (rs *mockRetributionStore) GetFinalizedTxn(
 	chanPoint *wire.OutPoint) (*wire.MsgTx, er.R) {
-
 	rs.mu.Lock()
 	finalTx := rs.finalTxs[*chanPoint]
 	rs.mu.Unlock()
@@ -596,7 +594,6 @@ func (rs *mockRetributionStore) Remove(key *wire.OutPoint) er.R {
 
 func (rs *mockRetributionStore) ForAll(cb func(*retributionInfo) er.R,
 	reset func()) er.R {
-
 	rs.mu.Lock()
 	defer rs.mu.Unlock()
 
@@ -820,7 +817,6 @@ func testRetributionStoreAdds(
 	frs FailingRetributionStore,
 	t *testing.T,
 	failing bool) {
-
 	// Iterate over retributions, adding each from the store. If we are
 	// testing the store under failures, we restart the store and verify
 	// that the contents are the same.
@@ -861,7 +857,6 @@ func testRetributionStoreRemoves(
 	frs FailingRetributionStore,
 	t *testing.T,
 	failing bool) {
-
 	// Iterate over retributions, removing each from the store. If we are
 	// testing the store under failures, we restart the store and verify
 	// that the contents are the same.
@@ -913,7 +908,6 @@ func testRetributionStoreForAll(
 	frs FailingRetributionStore,
 	t *testing.T,
 	failing bool) {
-
 	// nrets is the number of retributions in the test vector
 	nrets := len(retributions)
 
@@ -1262,7 +1256,6 @@ var breachTests = []breachTest{
 		whenNonZeroInputs: func(t *testing.T,
 			inputs map[wire.OutPoint]*wire.MsgTx,
 			publTx chan *wire.MsgTx) {
-
 			var tx *wire.MsgTx
 			select {
 			case tx = <-publTx:
@@ -1283,12 +1276,10 @@ var breachTests = []breachTest{
 			for in := range inputs {
 				findInputIndex(t, in, tx)
 			}
-
 		},
 		whenZeroInputs: func(t *testing.T,
 			inputs map[wire.OutPoint]*wire.MsgTx,
 			publTx chan *wire.MsgTx) {
-
 			// Sanity check to ensure the brar doesn't try to
 			// broadcast another sweep, since all outputs have been
 			// spent externally.
@@ -1306,7 +1297,6 @@ var breachTests = []breachTest{
 		whenNonZeroInputs: func(t *testing.T,
 			inputs map[wire.OutPoint]*wire.MsgTx,
 			publTx chan *wire.MsgTx) {
-
 			select {
 			case <-publTx:
 			case <-time.After(5 * time.Second):
@@ -1316,7 +1306,6 @@ var breachTests = []breachTest{
 		whenZeroInputs: func(t *testing.T,
 			inputs map[wire.OutPoint]*wire.MsgTx,
 			publTx chan *wire.MsgTx) {
-
 			// Now a transaction attempting to spend from the second
 			// level tx should be published instead. Let this
 			// publish succeed by setting the publishing error to
@@ -1552,7 +1541,6 @@ func findInputIndex(t *testing.T, op wire.OutPoint, tx *wire.MsgTx) int {
 // information for a particular channel.
 func assertArbiterBreach(t *testing.T, brar *breachArbiter,
 	chanPoint *wire.OutPoint) {
-
 	t.Helper()
 
 	isBreached, err := brar.IsBreached(chanPoint)
@@ -1565,14 +1553,12 @@ func assertArbiterBreach(t *testing.T, brar *breachArbiter,
 		t.Fatalf("channel %v was never marked breached",
 			chanPoint)
 	}
-
 }
 
 // assertNoArbiterBreach checks that the breach arbiter has not persisted the
 // breach information for a particular channel.
 func assertNoArbiterBreach(t *testing.T, brar *breachArbiter,
 	chanPoint *wire.OutPoint) {
-
 	t.Helper()
 
 	isBreached, err := brar.IsBreached(chanPoint)
@@ -1591,7 +1577,6 @@ func assertNoArbiterBreach(t *testing.T, brar *breachArbiter,
 // retribution store and the channel is fully closed in the database.
 func assertBrarCleanup(t *testing.T, brar *breachArbiter,
 	chanPoint *wire.OutPoint, db *channeldb.DB) {
-
 	t.Helper()
 
 	err := wait.NoError(func() er.R {
@@ -1627,7 +1612,6 @@ func assertBrarCleanup(t *testing.T, brar *breachArbiter,
 		}
 
 		return er.Errorf("channel %v not closed", chanPoint)
-
 	}, time.Second)
 	if err != nil {
 		t.Fatalf(err.String())
@@ -1675,7 +1659,6 @@ func assertNotPendingClosed(t *testing.T, c *lnwallet.LightningChannel) {
 // store, so that controlled failures can be tested.
 func createTestArbiter(t *testing.T, contractBreaches chan *ContractBreachEvent,
 	db *channeldb.DB) (*breachArbiter, func(), er.R) {
-
 	// Create a failing retribution store, that wraps a normal one.
 	store := newFailingRetributionStore(func() RetributionStore {
 		return newRetributionStore(db)
@@ -1715,7 +1698,6 @@ func createTestArbiter(t *testing.T, contractBreaches chan *ContractBreachEvent,
 // with 5 BTC allocated to each side. Within the channel, Alice is the
 // initiator.
 func createInitChannels(revocationWindow int) (*lnwallet.LightningChannel, *lnwallet.LightningChannel, func(), er.R) {
-
 	aliceKeyPriv, aliceKeyPub := btcec.PrivKeyFromBytes(btcec.S256(),
 		alicesPrivKey)
 	bobKeyPriv, bobKeyPub := btcec.PrivKeyFromBytes(btcec.S256(),

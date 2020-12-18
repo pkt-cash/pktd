@@ -344,7 +344,6 @@ func fetchPayment(bucket kvdb.RBucket) (*Payment, er.R) {
 	p.Info, err = deserializePaymentCreationInfo(r)
 	if err != nil {
 		return nil, err
-
 	}
 
 	// Get the PaymentAttemptInfo. This can be unset.

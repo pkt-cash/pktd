@@ -54,7 +54,6 @@ type MsgBlock struct {
 func (msg *MsgBlock) AddTransaction(tx *MsgTx) er.R {
 	msg.Transactions = append(msg.Transactions, tx)
 	return nil
-
 }
 
 // ClearTransactions removes all transactions from the message.
@@ -190,7 +189,6 @@ func (msg *MsgBlock) DeserializeTxLoc(r *bytes.Buffer) ([]TxLoc, er.R) {
 // See Serialize for encoding blocks to be stored to disk, such as in a
 // database, as opposed to encoding blocks for the wire.
 func (msg *MsgBlock) BtcEncode(w io.Writer, pver uint32, enc MessageEncoding) er.R {
-
 	err := writeBlockHeader(w, pver, &msg.Header)
 	if err != nil {
 		return err

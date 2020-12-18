@@ -152,7 +152,6 @@ func (s *Server) Subscribe() (*Client, er.R) {
 // SendUpdate is called to send the passed update to all currently active
 // subscription clients.
 func (s *Server) SendUpdate(update interface{}) er.R {
-
 	select {
 	case s.updates <- update:
 		return nil

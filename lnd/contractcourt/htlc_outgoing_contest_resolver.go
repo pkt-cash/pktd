@@ -26,7 +26,6 @@ type htlcOutgoingContestResolver struct {
 func newOutgoingContestResolver(res lnwallet.OutgoingHtlcResolution,
 	broadcastHeight uint32, htlc channeldb.HTLC,
 	resCfg ResolverConfig) *htlcOutgoingContestResolver {
-
 	timeout := newTimeoutResolver(
 		res, broadcastHeight, htlc, resCfg,
 	)
@@ -204,7 +203,6 @@ func (h *htlcOutgoingContestResolver) Encode(w io.Writer) er.R {
 // instance.
 func newOutgoingContestResolverFromReader(r io.Reader, resCfg ResolverConfig) (
 	*htlcOutgoingContestResolver, er.R) {
-
 	h := &htlcOutgoingContestResolver{}
 	timeoutResolver, err := newTimeoutResolverFromReader(r, resCfg)
 	if err != nil {

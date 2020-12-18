@@ -72,7 +72,6 @@ func TestRejectCache(t *testing.T) {
 		c.insert(i, entryForInt(i))
 	}
 	assertHasEntries(t, c, 0, cacheSize)
-
 }
 
 // assertHasEntries queries the reject cache for all channels in the range [start,

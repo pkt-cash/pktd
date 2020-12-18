@@ -26,7 +26,6 @@ type WeightedCombAttachment struct {
 // NewWeightedCombAttachment creates a new instance of a WeightedCombAttachment.
 func NewWeightedCombAttachment(h ...*WeightedHeuristic) (
 	*WeightedCombAttachment, er.R) {
-
 	// The sum of weights given to the sub-heuristics must sum to exactly
 	// 1.0.
 	var sum float64
@@ -45,8 +44,10 @@ func NewWeightedCombAttachment(h ...*WeightedHeuristic) (
 
 // A compile time assertion to ensure WeightedCombAttachment meets the
 // AttachmentHeuristic and ScoreSettable interfaces.
-var _ AttachmentHeuristic = (*WeightedCombAttachment)(nil)
-var _ ScoreSettable = (*WeightedCombAttachment)(nil)
+var (
+	_ AttachmentHeuristic = (*WeightedCombAttachment)(nil)
+	_ ScoreSettable       = (*WeightedCombAttachment)(nil)
+)
 
 // Name returns the name of this heuristic.
 //
@@ -73,7 +74,6 @@ func (c *WeightedCombAttachment) Name() string {
 func (c *WeightedCombAttachment) NodeScores(g ChannelGraph, chans []LocalChannel,
 	chanSize btcutil.Amount, nodes map[NodeID]struct{}) (
 	map[NodeID]*NodeScore, er.R) {
-
 	// We now query each heuristic to determine the score they give to the
 	// nodes for the given channel size.
 	var subScores []map[NodeID]*NodeScore
@@ -152,7 +152,6 @@ func (c *WeightedCombAttachment) NodeScores(g ChannelGraph, chans []LocalChannel
 // NOTE: This is a part of the ScoreSettable interface.
 func (c *WeightedCombAttachment) SetNodeScores(targetHeuristic string,
 	newScores map[NodeID]float64) (bool, er.R) {
-
 	found := false
 	for _, h := range c.heuristics {
 		// It must be ScoreSettable to be available for external

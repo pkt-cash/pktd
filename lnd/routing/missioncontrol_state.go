@@ -30,7 +30,6 @@ type missionControlState struct {
 // newMissionControlState instantiates a new mission control state object.
 func newMissionControlState(
 	minFailureRelaxInterval time.Duration) *missionControlState {
-
 	return &missionControlState{
 		lastPairResult:          make(map[route.Vertex]NodeResults),
 		lastSecondChance:        make(map[DirectedNodePair]time.Time),
@@ -41,7 +40,6 @@ func newMissionControlState(
 // getLastPairResult returns the current state for connections to the given node.
 func (m *missionControlState) getLastPairResult(node route.Vertex) (NodeResults,
 	bool) {
-
 	result, ok := m.lastPairResult[node]
 	return result, ok
 }
@@ -56,7 +54,6 @@ func (m *missionControlState) resetHistory() {
 // setLastPairResult stores a result for a node pair.
 func (m *missionControlState) setLastPairResult(fromNode, toNode route.Vertex,
 	timestamp time.Time, result *pairResult) {
-
 	nodePairs, ok := m.lastPairResult[fromNode]
 	if !ok {
 		nodePairs = make(NodeResults)
@@ -140,7 +137,6 @@ func (m *missionControlState) setLastPairResult(fromNode, toNode route.Vertex,
 // given node.
 func (m *missionControlState) setAllFail(node route.Vertex,
 	timestamp time.Time) {
-
 	for fromNode, nodePairs := range m.lastPairResult {
 		for toNode := range nodePairs {
 			if fromNode == node || toNode == node {
@@ -156,7 +152,6 @@ func (m *missionControlState) setAllFail(node route.Vertex,
 // at providing a channel update for its channel with toNode.
 func (m *missionControlState) requestSecondChance(timestamp time.Time,
 	fromNode, toNode route.Vertex) bool {
-
 	// Look up previous second chance time.
 	pair := DirectedNodePair{
 		From: fromNode,

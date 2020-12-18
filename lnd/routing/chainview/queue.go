@@ -135,7 +135,6 @@ func (b *blockEventQueue) queueCoordinator() {
 // queue to read form the other end, making it safe to call from the
 // FilteredChainView's onBlockConnected/onBlockDisconnected.
 func (b *blockEventQueue) Add(event *blockEvent) {
-
 	// Lock the condition, and add the event to the end of queue.
 	b.queueCond.L.Lock()
 	b.queue = append(b.queue, event)

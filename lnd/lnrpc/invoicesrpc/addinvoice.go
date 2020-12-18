@@ -109,7 +109,6 @@ type AddInvoiceData struct {
 // unique payment preimage.
 func AddInvoice(ctx context.Context, cfg *AddInvoiceConfig,
 	invoice *AddInvoiceData) (*lntypes.Hash, *channeldb.Invoice, er.R) {
-
 	var (
 		paymentPreimage *lntypes.Preimage
 		paymentHash     lntypes.Hash
@@ -374,7 +373,6 @@ func AddInvoice(ctx context.Context, cfg *AddInvoiceConfig,
 // hint.
 func chanCanBeHopHint(channel *channeldb.OpenChannel, cfg *AddInvoiceConfig) (
 	*channeldb.ChannelEdgePolicy, bool) {
-
 	// Since we're only interested in our private channels, we'll skip
 	// public ones.
 	isPublic := channel.ChannelFlags&lnwire.FFAnnounceChannel != 0
@@ -440,7 +438,6 @@ func chanCanBeHopHint(channel *channeldb.OpenChannel, cfg *AddInvoiceConfig) (
 // The new hop hint is appended to the passed slice.
 func addHopHint(hopHints *[]func(*zpay32.Invoice),
 	channel *channeldb.OpenChannel, chanPolicy *channeldb.ChannelEdgePolicy) {
-
 	hopHint := zpay32.HopHint{
 		NodeID:      channel.IdentityPub,
 		ChannelID:   channel.ShortChanID().ToUint64(),
@@ -463,7 +460,6 @@ func addHopHint(hopHints *[]func(*zpay32.Invoice),
 func selectHopHints(amtMSat lnwire.MilliSatoshi, cfg *AddInvoiceConfig,
 	openChannels []*channeldb.OpenChannel,
 	numMaxHophints int) []func(*zpay32.Invoice) {
-
 	// We'll add our hop hints in two passes, first we'll add all channels
 	// that are eligible to be hop hints, and also have a local balance
 	// above the payment amount.

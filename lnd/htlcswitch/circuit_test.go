@@ -101,7 +101,6 @@ func newOnionProcessor(t *testing.T) *hop.OnionProcessor {
 // fresh sphinx router.
 func newCircuitMap(t *testing.T) (*htlcswitch.CircuitMapConfig,
 	htlcswitch.CircuitMap) {
-
 	onionProcessor := newOnionProcessor(t)
 
 	circuitMapCfg := &htlcswitch.CircuitMapConfig{
@@ -546,7 +545,6 @@ func TestCircuitMapPersistence(t *testing.T) {
 // circuit.
 func assertHasKeystone(t *testing.T, cm htlcswitch.CircuitMap,
 	outKey htlcswitch.CircuitKey, c *htlcswitch.PaymentCircuit) {
-
 	circuit := cm.LookupOpenCircuit(outKey)
 	if !equalIgnoreLFD(circuit, c) {
 		t.Fatalf("unexpected circuit, want: %v, got %v", c, circuit)
@@ -557,7 +555,6 @@ func assertHasKeystone(t *testing.T, cm htlcswitch.CircuitMap,
 // of circuits for the given hash.
 func assertHasCircuitForHash(t *testing.T, cm htlcswitch.CircuitMap, hash [32]byte,
 	circuit *htlcswitch.PaymentCircuit) {
-
 	circuits := cm.LookupByPaymentHash(hash)
 	for _, c := range circuits {
 		if equalIgnoreLFD(c, circuit) {
@@ -572,7 +569,6 @@ func assertHasCircuitForHash(t *testing.T, cm htlcswitch.CircuitMap, hash [32]by
 // circuits, indexed by the given hash.
 func assertNumCircuitsWithHash(t *testing.T, cm htlcswitch.CircuitMap,
 	hash [32]byte, expectedNum int) {
-
 	circuits := cm.LookupByPaymentHash(hash)
 	if len(circuits) != expectedNum {
 		t.Fatalf("LookupByPaymentHash returned wrong number of circuits for "+
@@ -585,7 +581,6 @@ func assertNumCircuitsWithHash(t *testing.T, cm htlcswitch.CircuitMap,
 // key, and fails if the returned half-circuit differs from the provided one.
 func assertHasCircuit(t *testing.T, cm htlcswitch.CircuitMap,
 	c *htlcswitch.PaymentCircuit) {
-
 	c2 := cm.LookupCircuit(c.Incoming)
 	if !equalIgnoreLFD(c, c2) {
 		t.Fatalf("expected circuit: %v, got %v", c, c2)
@@ -634,7 +629,6 @@ func makeCircuitDB(t *testing.T, path string) *channeldb.DB {
 // channeldb is closed in order to simulate a complete restart.
 func restartCircuitMap(t *testing.T, cfg *htlcswitch.CircuitMapConfig) (
 	*htlcswitch.CircuitMapConfig, htlcswitch.CircuitMap) {
-
 	// Record the current temp path and close current db.
 	dbPath := cfg.DB.Path()
 	cfg.DB.Close()
@@ -880,7 +874,6 @@ func assertCircuitsOpenedPreRestart(t *testing.T,
 	circuitMap htlcswitch.CircuitMap,
 	circuits []*htlcswitch.PaymentCircuit,
 	keystones []htlcswitch.Keystone) {
-
 	for i, circuit := range circuits {
 		keystone := keystones[i]
 
@@ -905,7 +898,6 @@ func assertCircuitsOpenedPostRestart(t *testing.T,
 	circuitMap htlcswitch.CircuitMap,
 	circuits []*htlcswitch.PaymentCircuit,
 	keystones []htlcswitch.Keystone) {
-
 	for i, circuit := range circuits {
 		keystone := keystones[i]
 
@@ -931,7 +923,6 @@ func assertCircuitsNotOpenedPreRestart(t *testing.T,
 	circuits []*htlcswitch.PaymentCircuit,
 	keystones []htlcswitch.Keystone,
 	offset int) {
-
 	for i := range circuits {
 		keystone := keystones[i]
 

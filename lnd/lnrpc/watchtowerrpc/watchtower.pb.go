@@ -6,17 +6,20 @@ package watchtowerrpc
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+var (
+	_ = proto.Marshal
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -40,15 +43,19 @@ func (*GetInfoRequest) Descriptor() ([]byte, []int) {
 func (m *GetInfoRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_GetInfoRequest.Unmarshal(m, b)
 }
+
 func (m *GetInfoRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_GetInfoRequest.Marshal(b, m, deterministic)
 }
+
 func (m *GetInfoRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_GetInfoRequest.Merge(m, src)
 }
+
 func (m *GetInfoRequest) XXX_Size() int {
 	return xxx_messageInfo_GetInfoRequest.Size(m)
 }
+
 func (m *GetInfoRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_GetInfoRequest.DiscardUnknown(m)
 }
@@ -77,15 +84,19 @@ func (*GetInfoResponse) Descriptor() ([]byte, []int) {
 func (m *GetInfoResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_GetInfoResponse.Unmarshal(m, b)
 }
+
 func (m *GetInfoResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_GetInfoResponse.Marshal(b, m, deterministic)
 }
+
 func (m *GetInfoResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_GetInfoResponse.Merge(m, src)
 }
+
 func (m *GetInfoResponse) XXX_Size() int {
 	return xxx_messageInfo_GetInfoResponse.Size(m)
 }
+
 func (m *GetInfoResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_GetInfoResponse.DiscardUnknown(m)
 }
@@ -139,8 +150,10 @@ var fileDescriptor_9f019c0e859ad3d6 = []byte{
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
+var (
+	_ context.Context
+	_ grpc.ClientConn
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
@@ -151,9 +164,9 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type WatchtowerClient interface {
 	// lncli: tower info
-	//GetInfo returns general information concerning the companion watchtower
-	//including its public key and URIs where the server is currently
-	//listening for clients.
+	// GetInfo returns general information concerning the companion watchtower
+	// including its public key and URIs where the server is currently
+	// listening for clients.
 	GetInfo(ctx context.Context, in *GetInfoRequest, opts ...grpc.CallOption) (*GetInfoResponse, error)
 }
 
@@ -177,9 +190,9 @@ func (c *watchtowerClient) GetInfo(ctx context.Context, in *GetInfoRequest, opts
 // WatchtowerServer is the server API for Watchtower service.
 type WatchtowerServer interface {
 	// lncli: tower info
-	//GetInfo returns general information concerning the companion watchtower
-	//including its public key and URIs where the server is currently
-	//listening for clients.
+	// GetInfo returns general information concerning the companion watchtower
+	// including its public key and URIs where the server is currently
+	// listening for clients.
 	GetInfo(context.Context, *GetInfoRequest) (*GetInfoResponse, error)
 }
 

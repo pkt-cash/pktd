@@ -20,6 +20,7 @@ func add8(a uint8, b uint8) uint8 { return a + b }
 func ADD8_16(a uint16, b uint16) uint16 {
 	return (uint16(add8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(add8(uint8(a), uint8(b)))
 }
+
 func ADD8(a uint32, b uint32) uint32 {
 	return (uint32(ADD8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(ADD8_16(uint16(a), uint16(b)))
 }
@@ -27,6 +28,7 @@ func sub8(a uint8, b uint8) uint8 { return a - b }
 func SUB8_16(a uint16, b uint16) uint16 {
 	return (uint16(sub8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(sub8(uint8(a), uint8(b)))
 }
+
 func SUB8(a uint32, b uint32) uint32 {
 	return (uint32(SUB8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(SUB8_16(uint16(a), uint16(b)))
 }
@@ -35,6 +37,7 @@ func shll8(a uint8, b uint8) uint8 { return a << (b & 7) }
 func SHLL8_16(a uint16, b uint16) uint16 {
 	return (uint16(shll8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(shll8(uint8(a), uint8(b)))
 }
+
 func SHLL8(a uint32, b uint32) uint32 {
 	return (uint32(SHLL8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(SHLL8_16(uint16(a), uint16(b)))
 }
@@ -42,6 +45,7 @@ func shrl8(a uint8, b uint8) uint8 { return a >> (b & 7) }
 func SHRL8_16(a uint16, b uint16) uint16 {
 	return (uint16(shrl8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(shrl8(uint8(a), uint8(b)))
 }
+
 func SHRL8(a uint32, b uint32) uint32 {
 	return (uint32(SHRL8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(SHRL8_16(uint16(a), uint16(b)))
 }
@@ -49,6 +53,7 @@ func shra8(a uint8, b uint8) uint8 { return uint8(int8(a) >> (b & 7)) }
 func SHRA8_16(a uint16, b uint16) uint16 {
 	return (uint16(shra8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(shra8(uint8(a), uint8(b)))
 }
+
 func SHRA8(a uint32, b uint32) uint32 {
 	return (uint32(SHRA8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(SHRA8_16(uint16(a), uint16(b)))
 }
@@ -56,6 +61,7 @@ func rotl8(a uint8, b uint8) uint8 { return shll8(a, b) | shrl8(a, 8-b) }
 func ROTL8_16(a uint16, b uint16) uint16 {
 	return (uint16(rotl8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(rotl8(uint8(a), uint8(b)))
 }
+
 func ROTL8(a uint32, b uint32) uint32 {
 	return (uint32(ROTL8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(ROTL8_16(uint16(a), uint16(b)))
 }
@@ -69,9 +75,11 @@ func ROTL8(a uint32, b uint32) uint32 {
 // }
 
 func mul8(a uint8, b uint8) uint8 { return a * b }
+
 func MUL8_16(a uint16, b uint16) uint16 {
 	return (uint16(mul8(uint8(a>>8), uint8(b>>8))) << 8) | uint16(mul8(uint8(a), uint8(b)))
 }
+
 func MUL8(a uint32, b uint32) uint32 {
 	return (uint32(MUL8_16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(MUL8_16(uint16(a), uint16(b)))
 }
@@ -80,6 +88,7 @@ func add8C(a uint8, b uint8) uint16 { return uint16(a) + uint16(b) }
 func ADD8C_16C(a uint16, b uint16) uint32 {
 	return (uint32(add8C(uint8(a>>8), uint8(b>>8))) << 16) | uint32(add8C(uint8(a), uint8(b)))
 }
+
 func ADD8C(a uint32, b uint32) uint64 {
 	return (uint64(ADD8C_16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(ADD8C_16C(uint16(a), uint16(b)))
 }
@@ -87,6 +96,7 @@ func sub8C(a uint8, b uint8) uint16 { return uint16(a) - uint16(b) }
 func SUB8C_16C(a uint16, b uint16) uint32 {
 	return (uint32(sub8C(uint8(a>>8), uint8(b>>8))) << 16) | uint32(sub8C(uint8(a), uint8(b)))
 }
+
 func SUB8C(a uint32, b uint32) uint64 {
 	return (uint64(SUB8C_16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(SUB8C_16C(uint16(a), uint16(b)))
 }
@@ -95,6 +105,7 @@ func mul8C(a uint8, b uint8) uint16 { return uint16(int16(int8(a)) * int16(int8(
 func MUL8C_16C(a uint16, b uint16) uint32 {
 	return (uint32(mul8C(uint8(a>>8), uint8(b>>8))) << 16) | uint32(mul8C(uint8(a), uint8(b)))
 }
+
 func MUL8C(a uint32, b uint32) uint64 {
 	return (uint64(MUL8C_16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(MUL8C_16C(uint16(a), uint16(b)))
 }
@@ -102,6 +113,7 @@ func mulu8C(a uint8, b uint8) uint16 { return uint16(a) * uint16(b) }
 func MULU8C_16C(a uint16, b uint16) uint32 {
 	return (uint32(mulu8C(uint8(a>>8), uint8(b>>8))) << 16) | uint32(mulu8C(uint8(a), uint8(b)))
 }
+
 func MULU8C(a uint32, b uint32) uint64 {
 	return (uint64(MULU8C_16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(MULU8C_16C(uint16(a), uint16(b)))
 }
@@ -109,6 +121,7 @@ func mulsu8C(a uint8, b uint8) uint16 { return uint16(int16(int8(a)) * int16(b))
 func MULSU8C_16C(a uint16, b uint16) uint32 {
 	return (uint32(mulsu8C(uint8(a>>8), uint8(b>>8))) << 16) | uint32(mulsu8C(uint8(a), uint8(b)))
 }
+
 func MULSU8C(a uint32, b uint32) uint64 {
 	return (uint64(MULSU8C_16C(uint16(a>>16), uint16(b>>16))) << 32) | uint64(MULSU8C_16C(uint16(a), uint16(b)))
 }
@@ -145,6 +158,7 @@ func ROTL16(a uint32, b uint32) uint32 {
 // }
 
 func mul16(a uint16, b uint16) uint16 { return a * b }
+
 func MUL16(a uint32, b uint32) uint32 {
 	return (uint32(mul16(uint16(a>>16), uint16(b>>16))) << 16) | uint32(mul16(uint16(a), uint16(b)))
 }
@@ -315,6 +329,7 @@ func mulhu64(a uint64, b uint64) uint64 {
 	r3 := uint32(((c >> 32) + (r11 >> 32)))
 	return (uint64(r3) << 32) | uint64(r2)
 }
+
 func mulh64(a int64, b int64) uint64 {
 	negate := bool(((a < 0) != (b < 0)))
 	_a := uint64(a)
@@ -340,6 +355,7 @@ func mulh64(a int64, b int64) uint64 {
 	}
 	return res
 }
+
 func mulhsu64(a int64, b uint64) uint64 {
 	negate := bool((a < 0))
 	_a := uint64(a)
@@ -369,6 +385,7 @@ func add64C(a uint64, b uint64) uint128 {
 	res := uint64((a + b))
 	return MK128(res, uint64(bint(res < b)))
 }
+
 func ADD64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	a := uint64(a1)
 	a <<= 32
@@ -378,10 +395,12 @@ func ADD64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	b |= uint64(b0)
 	return add64C(a, b)
 }
+
 func sub64C(a uint64, b uint64) uint128 {
 	res := uint64((a - b))
 	return MK128(res, uint64(0)-uint64(bint(a < b)))
 }
+
 func SUB64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	a := uint64(a1)
 	a <<= 32
@@ -391,6 +410,7 @@ func SUB64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	b |= uint64(b0)
 	return sub64C(a, b)
 }
+
 func MUL64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	a := uint64(a1)
 	a <<= 32
@@ -400,6 +420,7 @@ func MUL64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	b |= uint64(b0)
 	return mul64C(a, b)
 }
+
 func MULSU64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	a := uint64(a1)
 	a <<= 32
@@ -409,6 +430,7 @@ func MULSU64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	b |= uint64(b0)
 	return mulsu64C(a, b)
 }
+
 func MULU64C(a0 uint32, a1 uint32, b0 uint32, b1 uint32) uint128 {
 	a := uint64(a1)
 	a <<= 32
@@ -426,6 +448,7 @@ func popcnt8(a uint8) uint8         { return uint8(bits.OnesCount8(a)) }
 func POPCNT8_16(a uint16) uint16 {
 	return (uint16(popcnt8(uint8(a>>8))) << 8) | uint16(popcnt8(uint8(a)))
 }
+
 func POPCNT8(a uint32) uint32 {
 	return (uint32(POPCNT8_16(uint16(a>>16))) << 16) | uint32(POPCNT8_16(uint16(a)))
 }

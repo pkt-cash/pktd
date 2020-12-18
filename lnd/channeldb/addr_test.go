@@ -14,8 +14,10 @@ type unknownAddrType struct{}
 func (t unknownAddrType) Network() string { return "unknown" }
 func (t unknownAddrType) String() string  { return "unknown" }
 
-var testIP4 = net.ParseIP("192.168.1.1")
-var testIP6 = net.ParseIP("2001:0db8:0000:0000:0000:ff00:0042:8329")
+var (
+	testIP4 = net.ParseIP("192.168.1.1")
+	testIP6 = net.ParseIP("2001:0db8:0000:0000:0000:ff00:0042:8329")
+)
 
 var addrTests = []struct {
 	expAddr net.Addr

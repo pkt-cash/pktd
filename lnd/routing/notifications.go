@@ -212,7 +212,6 @@ type ClosedChanSummary struct {
 // height and creates a slice of summaries which of each channel closure.
 func createCloseSummaries(blockHeight uint32,
 	closedChans ...*channeldb.ChannelEdgeInfo) []*ClosedChanSummary {
-
 	closeSummaries := make([]*ClosedChanSummary, len(closedChans))
 	for i, closedChan := range closedChans {
 		closeSummaries[i] = &ClosedChanSummary{
@@ -309,7 +308,6 @@ type ChannelEdgeUpdate struct {
 // database.
 func addToTopologyChange(graph *channeldb.ChannelGraph, update *TopologyChange,
 	msg interface{}) er.R {
-
 	switch m := msg.(type) {
 
 	// Any node announcement maps directly to a NetworkNodeUpdate struct.

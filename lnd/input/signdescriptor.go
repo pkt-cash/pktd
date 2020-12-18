@@ -13,12 +13,10 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-var (
-	// ErrTweakOverdose signals a SignDescriptor is invalid because both of its
-	// SingleTweak and DoubleTweak are non-nil.
-	ErrTweakOverdose = er.GenericErrorType.CodeWithDetail("ErrTweakOverdose",
-		"sign descriptor should only have one tweak")
-)
+// ErrTweakOverdose signals a SignDescriptor is invalid because both of its
+// SingleTweak and DoubleTweak are non-nil.
+var ErrTweakOverdose = er.GenericErrorType.CodeWithDetail("ErrTweakOverdose",
+	"sign descriptor should only have one tweak")
 
 // SignDescriptor houses the necessary information required to successfully
 // sign a given segwit output. This struct is used by the Signer interface in

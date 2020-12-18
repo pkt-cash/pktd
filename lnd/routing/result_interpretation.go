@@ -79,7 +79,6 @@ type interpretedResult struct {
 // contains information required to update mission control.
 func interpretResult(rt *route.Route, success bool, failureSrcIdx *int,
 	failure lnwire.FailureMessage) *interpretedResult {
-
 	i := &interpretedResult{
 		pairResults: make(map[DirectedNodePair]pairResult),
 	}
@@ -103,7 +102,6 @@ func (i *interpretedResult) processSuccess(route *route.Route) {
 func (i *interpretedResult) processFail(
 	rt *route.Route, errSourceIdx *int,
 	failure lnwire.FailureMessage) {
-
 	if errSourceIdx == nil {
 		i.processPaymentOutcomeUnknown(rt)
 		return
@@ -133,7 +131,6 @@ func (i *interpretedResult) processFail(
 // processPaymentOutcomeSelf handles failures sent by ourselves.
 func (i *interpretedResult) processPaymentOutcomeSelf(
 	rt *route.Route, failure lnwire.FailureMessage) {
-
 	switch failure.(type) {
 
 	// We receive a malformed htlc failure from our peer. We trust ourselves
@@ -162,7 +159,6 @@ func (i *interpretedResult) processPaymentOutcomeSelf(
 // processPaymentOutcomeFinal handles failures sent by the final hop.
 func (i *interpretedResult) processPaymentOutcomeFinal(
 	route *route.Route, failure lnwire.FailureMessage) {
-
 	n := len(route.Hops)
 
 	// If a failure from the final node is received, we will fail the
@@ -240,7 +236,6 @@ func (i *interpretedResult) processPaymentOutcomeFinal(
 func (i *interpretedResult) processPaymentOutcomeIntermediate(
 	route *route.Route, errorSourceIdx int,
 	failure lnwire.FailureMessage) {
-
 	reportOutgoing := func() {
 		i.failPair(
 			route, errorSourceIdx,
@@ -437,7 +432,6 @@ func (i *interpretedResult) failNode(rt *route.Route, idx int) {
 // in both direction.
 func (i *interpretedResult) failPairRange(
 	rt *route.Route, fromIdx, toIdx int) {
-
 	for idx := fromIdx; idx <= toIdx; idx++ {
 		i.failPair(rt, idx)
 	}
@@ -446,7 +440,6 @@ func (i *interpretedResult) failPairRange(
 // failPair marks a pair as failed in both directions.
 func (i *interpretedResult) failPair(
 	rt *route.Route, idx int) {
-
 	pair, _ := getPair(rt, idx)
 
 	// Report pair in both directions without a minimum penalization amount.
@@ -457,7 +450,6 @@ func (i *interpretedResult) failPair(
 // failPairBalance marks a pair as failed with a minimum penalization amount.
 func (i *interpretedResult) failPairBalance(
 	rt *route.Route, channelIdx int) {
-
 	pair, amt := getPair(rt, channelIdx)
 
 	i.pairResults[pair] = failPairResult(amt)
@@ -467,7 +459,6 @@ func (i *interpretedResult) failPairBalance(
 // succeeded.
 func (i *interpretedResult) successPairRange(
 	rt *route.Route, fromIdx, toIdx int) {
-
 	for idx := fromIdx; idx <= toIdx; idx++ {
 		pair, amt := getPair(rt, idx)
 
@@ -479,7 +470,6 @@ func (i *interpretedResult) successPairRange(
 // pair.
 func getPair(rt *route.Route, channelIdx int) (DirectedNodePair,
 	lnwire.MilliSatoshi) {
-
 	nodeTo := rt.Hops[channelIdx].PubKeyBytes
 	var (
 		nodeFrom route.Vertex

@@ -33,8 +33,10 @@ import (
 )
 
 var (
-	testAddr = &net.TCPAddr{IP: (net.IP)([]byte{0xA, 0x0, 0x0, 0x1}),
-		Port: 9000}
+	testAddr = &net.TCPAddr{
+		IP:   (net.IP)([]byte{0xA, 0x0, 0x0, 0x1}),
+		Port: 9000,
+	}
 	testAddrs    = []net.Addr{testAddr}
 	testFeatures = lnwire.NewRawFeatureVector()
 	testSig      = &btcec.Signature{
@@ -155,7 +157,6 @@ func (r *mockGraphSource) CurrentBlockHeight() (uint32, er.R) {
 
 func (r *mockGraphSource) AddProof(chanID lnwire.ShortChannelID,
 	proof *channeldb.ChannelAuthProof) er.R {
-
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -177,7 +178,6 @@ func (r *mockGraphSource) ForEachNode(func(node *channeldb.LightningNode) er.R) 
 
 func (r *mockGraphSource) ForAllOutgoingChannels(cb func(i *channeldb.ChannelEdgeInfo,
 	c *channeldb.ChannelEdgePolicy) er.R) er.R {
-
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -213,7 +213,6 @@ func (r *mockGraphSource) GetChannelByID(chanID lnwire.ShortChannelID) (
 	*channeldb.ChannelEdgeInfo,
 	*channeldb.ChannelEdgePolicy,
 	*channeldb.ChannelEdgePolicy, er.R) {
-
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -251,7 +250,6 @@ func (r *mockGraphSource) GetChannelByID(chanID lnwire.ShortChannelID) (
 
 func (r *mockGraphSource) FetchLightningNode(
 	nodePub route.Vertex) (*channeldb.LightningNode, er.R) {
-
 	for _, node := range r.nodes {
 		if bytes.Equal(nodePub[:], node.PubKeyBytes[:]) {
 			return &node, nil
@@ -320,7 +318,6 @@ func (r *mockGraphSource) IsKnownEdge(chanID lnwire.ShortChannelID) bool {
 // the passed channel ID (and flags) that have a more recent timestamp.
 func (r *mockGraphSource) IsStaleEdgePolicy(chanID lnwire.ShortChannelID,
 	timestamp time.Time, flags lnwire.ChanUpdateChanFlags) bool {
-
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -369,7 +366,6 @@ func (r *mockGraphSource) MarkEdgeLive(chanID lnwire.ShortChannelID) er.R {
 // MarkEdgeZombie marks an edge as a zombie within our zombie index.
 func (r *mockGraphSource) MarkEdgeZombie(chanID lnwire.ShortChannelID, pubKey1,
 	pubKey2 [33]byte) er.R {
-
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	r.zombies[chanID.ToUint64()] = [][33]byte{pubKey1, pubKey2}
@@ -391,7 +387,6 @@ func newMockNotifier() *mockNotifier {
 
 func (m *mockNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	_ []byte, numConfs, _ uint32) (*chainntnfs.ConfirmationEvent, er.R) {
-
 	return nil, nil
 }
 
@@ -510,12 +505,10 @@ func createAnnouncements(blockHeight uint32) (*annBatch, er.R) {
 	}
 
 	return &batch, nil
-
 }
 
 func createNodeAnnouncement(priv *btcec.PrivateKey,
 	timestamp uint32, extraBytes ...[]byte) (*lnwire.NodeAnnouncement, er.R) {
-
 	var err er.R
 	k := hex.EncodeToString(priv.Serialize())
 	alias, err := lnwire.NewNodeAlias("kek" + k[:10])
@@ -552,7 +545,6 @@ func createUpdateAnnouncement(blockHeight uint32,
 	flags lnwire.ChanUpdateChanFlags,
 	nodeKey *btcec.PrivateKey, timestamp uint32,
 	extraBytes ...[]byte) (*lnwire.ChannelUpdate, er.R) {
-
 	var err er.R
 
 	htlcMinMsat := lnwire.MilliSatoshi(prand.Int63())
@@ -602,7 +594,6 @@ func signUpdate(nodeKey *btcec.PrivateKey, a *lnwire.ChannelUpdate) er.R {
 
 func createAnnouncementWithoutProof(blockHeight uint32,
 	extraBytes ...[]byte) *lnwire.ChannelAnnouncement {
-
 	a := &lnwire.ChannelAnnouncement{
 		ShortChannelID: lnwire.ShortChannelID{
 			BlockHeight: blockHeight,
@@ -624,7 +615,6 @@ func createAnnouncementWithoutProof(blockHeight uint32,
 
 func createRemoteChannelAnnouncement(blockHeight uint32,
 	extraBytes ...[]byte) (*lnwire.ChannelAnnouncement, er.R) {
-
 	a := createAnnouncementWithoutProof(blockHeight, extraBytes...)
 
 	pub := nodeKeyPriv1.PubKey()
@@ -705,7 +695,6 @@ func createTestCtx(startHeight uint32) (*testCtx, func(), er.R) {
 		Notifier: notifier,
 		Broadcast: func(senders map[route.Vertex]struct{},
 			msgs ...lnwire.Message) er.R {
-
 			for _, msg := range msgs {
 				broadcastedMessage <- msgWithSenders{
 					msg:     msg,
@@ -717,7 +706,6 @@ func createTestCtx(startHeight uint32) (*testCtx, func(), er.R) {
 		},
 		NotifyWhenOnline: func(target [33]byte,
 			peerChan chan<- lnpeer.Peer) {
-
 			pk, _ := btcec.ParsePubKey(target[:], btcec.S256())
 			peerChan <- &mockPeer{pk, nil, nil}
 		},
@@ -975,7 +963,6 @@ func TestSignatureAnnouncementLocalFirst(t *testing.T) {
 	sentMsgs := make(chan lnwire.Message, 10)
 	ctx.gossiper.reliableSender.cfg.NotifyWhenOnline = func(target [33]byte,
 		peerChan chan<- lnpeer.Peer) {
-
 		pk, _ := btcec.ParsePubKey(target[:], btcec.S256())
 
 		select {
@@ -1180,7 +1167,6 @@ func TestOrphanSignatureAnnouncement(t *testing.T) {
 	sentMsgs := make(chan lnwire.Message, 10)
 	ctx.gossiper.reliableSender.cfg.NotifyWhenOnline = func(target [33]byte,
 		peerChan chan<- lnpeer.Peer) {
-
 		pk, _ := btcec.ParsePubKey(target[:], btcec.S256())
 
 		select {
@@ -1631,7 +1617,6 @@ func TestSignatureAnnouncementFullProofWhenRemoteProof(t *testing.T) {
 	// meesages to be sent to.
 	ctx.gossiper.reliableSender.cfg.NotifyWhenOnline = func(peer [33]byte,
 		peerChan chan<- lnpeer.Peer) {
-
 		peerChan <- remotePeer
 	}
 
@@ -2468,7 +2453,6 @@ func TestReceiveRemoteChannelUpdateFirst(t *testing.T) {
 	// meesages to be sent to.
 	ctx.gossiper.reliableSender.cfg.NotifyWhenOnline = func(peer [33]byte,
 		peerChan chan<- lnpeer.Peer) {
-
 		peerChan <- remotePeer
 	}
 
@@ -2903,7 +2887,6 @@ func TestRetransmit(t *testing.T) {
 	// announcements + channel updates + node announcements are broadcast.
 	checkAnnouncements := func(t *testing.T, chanAnns, chanUpds,
 		nodeAnns int) {
-
 		t.Helper()
 
 		num := chanAnns + chanUpds + nodeAnns
@@ -3180,13 +3163,11 @@ func TestSendChannelUpdateReliably(t *testing.T) {
 	notifyOnline := make(chan chan<- lnpeer.Peer, 1)
 	ctx.gossiper.reliableSender.cfg.NotifyWhenOnline = func(_ [33]byte,
 		peerChan chan<- lnpeer.Peer) {
-
 		notifyOnline <- peerChan
 	}
 	notifyOffline := make(chan chan struct{}, 1)
 	ctx.gossiper.reliableSender.cfg.NotifyWhenOffline = func(
 		_ [33]byte) <-chan struct{} {
-
 		c := make(chan struct{}, 1)
 		notifyOffline <- c
 		return c
@@ -3463,7 +3444,6 @@ func TestSendChannelUpdateReliably(t *testing.T) {
 
 func sendLocalMsg(t *testing.T, ctx *testCtx, msg lnwire.Message,
 	localPub *btcec.PublicKey, optionalMsgFields ...OptionalMsgField) {
-
 	t.Helper()
 
 	var err er.R
@@ -3481,7 +3461,6 @@ func sendLocalMsg(t *testing.T, ctx *testCtx, msg lnwire.Message,
 
 func sendRemoteMsg(t *testing.T, ctx *testCtx, msg lnwire.Message,
 	remotePeer lnpeer.Peer) {
-
 	t.Helper()
 
 	select {
@@ -3496,7 +3475,6 @@ func sendRemoteMsg(t *testing.T, ctx *testCtx, msg lnwire.Message,
 
 func assertBroadcastMsg(t *testing.T, ctx *testCtx,
 	predicate func(lnwire.Message) er.R) {
-
 	t.Helper()
 
 	// We don't care about the order of the broadcast, only that our target
@@ -3556,7 +3534,6 @@ func TestPropagateChanPolicyUpdate(t *testing.T) {
 	notifyErr := make(chan er.R, 1)
 	ctx.gossiper.reliableSender.cfg.NotifyWhenOnline = func(
 		targetPub [33]byte, peerChan chan<- lnpeer.Peer) {
-
 		if !bytes.Equal(targetPub[:], remoteKey.SerializeCompressed()) {
 			notifyErr <- er.Errorf("reliableSender attempted to send the "+
 				"message to the wrong peer: expected %x got %x",
@@ -3618,7 +3595,6 @@ out:
 	err = ctx.router.ForAllOutgoingChannels(func(
 		info *channeldb.ChannelEdgeInfo,
 		edge *channeldb.ChannelEdgePolicy) er.R {
-
 		edge.TimeLockDelta = uint16(newTimeLockDelta)
 		edgesToUpdate = append(edgesToUpdate, EdgeWithInfo{
 			Info: info,
@@ -3722,7 +3698,6 @@ func TestProcessChannelAnnouncementOptionalMsgFields(t *testing.T) {
 	// message fields were set as intended.
 	assertOptionalMsgFields := func(chanID lnwire.ShortChannelID,
 		capacity btcutil.Amount, channelPoint wire.OutPoint) {
-
 		t.Helper()
 
 		edge, _, _, err := ctx.router.GetChannelByID(chanID)
@@ -3783,7 +3758,7 @@ func TestSplitAnnouncementsCorrectSubBatches(t *testing.T) {
 	}
 
 	for testIndex := range announcementBatchSizes {
-		var batchSize = announcementBatchSizes[testIndex]
+		batchSize := announcementBatchSizes[testIndex]
 		announcementBatch := make([]msgWithSenders, batchSize)
 
 		splitAnnouncementBatch := splitAnnouncementBatches(
@@ -3801,7 +3776,6 @@ func TestSplitAnnouncementsCorrectSubBatches(t *testing.T) {
 
 func assertCorrectSubBatchSize(t *testing.T, expectedSubBatchSize,
 	actualSubBatchSize int) {
-
 	t.Helper()
 
 	if actualSubBatchSize != expectedSubBatchSize {
@@ -3878,7 +3852,6 @@ func TestBroadcastAnnsAfterGraphSynced(t *testing.T) {
 
 	assertBroadcast := func(msg lnwire.Message, isRemote bool,
 		shouldBroadcast bool) {
-
 		t.Helper()
 
 		nodePeer := &mockPeer{nodeKeyPriv1.PubKey(), nil, nil}

@@ -369,7 +369,6 @@ type EdgeWithInfo struct {
 // used to update the forwarding policies of the underlying links.
 func (d *AuthenticatedGossiper) PropagateChanPolicyUpdate(
 	edgesToUpdate []EdgeWithInfo) er.R {
-
 	errChan := make(chan er.R, 1)
 	policyUpdate := &chanPolicyUpdateRequest{
 		edgesToUpdate: edgesToUpdate,
@@ -458,7 +457,6 @@ func (d *AuthenticatedGossiper) stop() {
 // and be fully validated.
 func (d *AuthenticatedGossiper) ProcessRemoteAnnouncement(msg lnwire.Message,
 	peer lnpeer.Peer) chan er.R {
-
 	errChan := make(chan er.R, 1)
 
 	// For messages in the known set of channel series queries, we'll
@@ -543,7 +541,6 @@ func (d *AuthenticatedGossiper) ProcessRemoteAnnouncement(msg lnwire.Message,
 // broadcast to the rest of the network.
 func (d *AuthenticatedGossiper) ProcessLocalAnnouncement(msg lnwire.Message,
 	source *btcec.PublicKey, optionalFields ...OptionalMsgField) chan er.R {
-
 	optionalMsgFields := &optionalMsgFields{}
 	optionalMsgFields.apply(optionalFields...)
 
@@ -1019,7 +1016,6 @@ func (d *AuthenticatedGossiper) networkHandler() {
 						"announcements received " +
 						"during initial graph sync")
 				}
-
 			}()
 
 		// A new block has arrived, so we can re-process the previously
@@ -1182,7 +1178,6 @@ func (d *AuthenticatedGossiper) retransmitStaleAnns(now time.Time) er.R {
 	err := d.cfg.Router.ForAllOutgoingChannels(func(
 		info *channeldb.ChannelEdgeInfo,
 		edge *channeldb.ChannelEdgePolicy) er.R {
-
 		// If there's no auth proof attached to this edge, it means
 		// that it is a private channel not meant to be announced to
 		// the greater network, so avoid sending channel updates for
@@ -1313,7 +1308,6 @@ func (d *AuthenticatedGossiper) retransmitStaleAnns(now time.Time) er.R {
 // provided list of edges and updates the backing ChannelGraphSource.
 func (d *AuthenticatedGossiper) processChanPolicyUpdate(
 	edgesToUpdate []EdgeWithInfo) ([]networkMsg, er.R) {
-
 	var chanUpdates []networkMsg
 	for _, edgeInfo := range edgesToUpdate {
 		// Now that we've collected all the channels we need to update,
@@ -1361,7 +1355,6 @@ func (d *AuthenticatedGossiper) processChanPolicyUpdate(
 // ChannelEdgeInfo that describe a channel we have with them.
 func remotePubFromChanInfo(chanInfo *channeldb.ChannelEdgeInfo,
 	chanFlags lnwire.ChanUpdateChanFlags) [33]byte {
-
 	var remotePubKey [33]byte
 	switch {
 	case chanFlags&lnwire.ChanUpdateDirection == 0:
@@ -1383,7 +1376,6 @@ func remotePubFromChanInfo(chanInfo *channeldb.ChannelEdgeInfo,
 func (d *AuthenticatedGossiper) processRejectedEdge(
 	chanAnnMsg *lnwire.ChannelAnnouncement,
 	proof *channeldb.ChannelAuthProof) ([]networkMsg, er.R) {
-
 	// First, we'll fetch the state of the channel as we know if from the
 	// database.
 	chanInfo, e1, e2, err := d.cfg.Router.GetChannelByID(
@@ -1453,7 +1445,6 @@ func (d *AuthenticatedGossiper) processRejectedEdge(
 			source: d.selfKey,
 			msg:    e2Ann,
 		})
-
 	}
 
 	return announcements, nil
@@ -1491,7 +1482,6 @@ func (d *AuthenticatedGossiper) addNode(msg *lnwire.NodeAnnouncement) er.R {
 // be returned which should be broadcasted to the rest of the network.
 func (d *AuthenticatedGossiper) processNetworkAnnouncement(
 	nMsg *networkMsg) []networkMsg {
-
 	// isPremature *MUST* be called with the gossiper's lock held.
 	isPremature := func(chanID lnwire.ShortChannelID, delta uint32) bool {
 		// TODO(roasbeef) make height delta 6
@@ -2375,7 +2365,6 @@ func (d *AuthenticatedGossiper) processNetworkAnnouncement(
 // view for the node with the given public key.
 func (d *AuthenticatedGossiper) fetchNodeAnn(
 	pubKey [33]byte) (*lnwire.NodeAnnouncement, er.R) {
-
 	node, err := d.cfg.Router.FetchLightningNode(pubKey)
 	if err != nil {
 		return nil, err
@@ -2456,7 +2445,6 @@ func (d *AuthenticatedGossiper) isMsgStale(msg lnwire.Message) bool {
 func (d *AuthenticatedGossiper) updateChannel(info *channeldb.ChannelEdgeInfo,
 	edge *channeldb.ChannelEdgePolicy) (*lnwire.ChannelAnnouncement,
 	*lnwire.ChannelUpdate, er.R) {
-
 	// Parse the unsigned edge into a channel update.
 	chanUpdate := netann.UnsignedChannelUpdateFromEdge(info, edge)
 

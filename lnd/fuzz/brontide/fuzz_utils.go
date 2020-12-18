@@ -3,11 +3,10 @@
 package brontidefuzz
 
 import (
-	"encoding/hex"
-	"fmt"
-
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkt-cash/pktd/btcec"
+	"github.com/pkt-cash/pktd/btcutil/er"
+	"github.com/pkt-cash/pktd/btcutil/util"
 	"github.com/pkt-cash/pktd/lnd/brontide"
 	"github.com/pkt-cash/pktd/lnd/keychain"
 )

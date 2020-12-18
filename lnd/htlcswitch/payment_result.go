@@ -71,9 +71,7 @@ func serializeNetworkResult(w io.Writer, n *networkResult) er.R {
 
 // deserializeNetworkResult deserializes the networkResult.
 func deserializeNetworkResult(r io.Reader) (*networkResult, er.R) {
-	var (
-		err er.R
-	)
+	var err er.R
 
 	n := &networkResult{}
 
@@ -122,7 +120,6 @@ func newNetworkResultStore(db *channeldb.DB) *networkResultStore {
 // notifies any subscribers.
 func (store *networkResultStore) storeResult(paymentID uint64,
 	result *networkResult) er.R {
-
 	// We get a mutex for this payment ID. This is needed to ensure
 	// consistency between the database state and the subscribers in case
 	// of concurrent calls.
@@ -169,7 +166,6 @@ func (store *networkResultStore) storeResult(paymentID uint64,
 // ready.
 func (store *networkResultStore) subscribeResult(paymentID uint64) (
 	<-chan *networkResult, er.R) {
-
 	// We get a mutex for this payment ID. This is needed to ensure
 	// consistency between the database state and the subscribers in case
 	// of concurrent calls.
@@ -227,7 +223,6 @@ func (store *networkResultStore) subscribeResult(paymentID uint64) (
 // the store. If no result is available, ErrPaymentIDNotFound is returned.
 func (store *networkResultStore) getResult(pid uint64) (
 	*networkResult, er.R) {
-
 	var result *networkResult
 	err := kvdb.View(store.db, func(tx kvdb.RTx) er.R {
 		var err er.R

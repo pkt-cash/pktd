@@ -14,11 +14,9 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-var (
-	// ErrChainNotifierShuttingDown is used when we are trying to
-	// measure a spend notification when notifier is already stopped.
-	ErrChainNotifierShuttingDown = Err.CodeWithDetail("ErrChainNotifierShuttingDown", "chain notifier shutting down")
-)
+// ErrChainNotifierShuttingDown is used when we are trying to
+// measure a spend notification when notifier is already stopped.
+var ErrChainNotifierShuttingDown = Err.CodeWithDetail("ErrChainNotifierShuttingDown", "chain notifier shutting down")
 
 // TxConfStatus denotes the status of a transaction's lookup.
 type TxConfStatus uint8
@@ -415,7 +413,6 @@ type ChainConn interface {
 // or an error
 func GetCommonBlockAncestorHeight(chainConn ChainConn, reorgHash,
 	chainHash chainhash.Hash) (int32, er.R) {
-
 	for reorgHash != chainHash {
 		reorgHeader, err := chainConn.GetBlockHeader(&reorgHash)
 		if err != nil {
@@ -449,7 +446,6 @@ func GetCommonBlockAncestorHeight(chainConn ChainConn, reorgHash,
 // and return blocks starting right after the common ancestor.
 func GetClientMissedBlocks(chainConn ChainConn, clientBestBlock *BlockEpoch,
 	notifierBestHeight int32, backendStoresReorgs bool) ([]BlockEpoch, er.R) {
-
 	startingHeight := clientBestBlock.Height
 	if backendStoresReorgs {
 		// If a reorg causes the client's best hash to be incorrect,
@@ -488,7 +484,6 @@ func GetClientMissedBlocks(chainConn ChainConn, clientBestBlock *BlockEpoch,
 // known height. It returns the new best block for the notifier.
 func RewindChain(chainConn ChainConn, txNotifier *TxNotifier,
 	currBestBlock BlockEpoch, targetHeight int32) (BlockEpoch, er.R) {
-
 	newBestBlock := BlockEpoch{
 		Height: currBestBlock.Height,
 		Hash:   currBestBlock.Hash,
@@ -530,7 +525,6 @@ func RewindChain(chainConn ChainConn, txNotifier *TxNotifier,
 func HandleMissedBlocks(chainConn ChainConn, txNotifier *TxNotifier,
 	currBestBlock BlockEpoch, newHeight int32,
 	backendStoresReorgs bool) (BlockEpoch, []BlockEpoch, er.R) {
-
 	startingHeight := currBestBlock.Height
 
 	if backendStoresReorgs {
@@ -576,7 +570,6 @@ func HandleMissedBlocks(chainConn ChainConn, txNotifier *TxNotifier,
 // fetched from the chain.
 func getMissedBlocks(chainConn ChainConn, startingHeight,
 	endingHeight int32) ([]BlockEpoch, er.R) {
-
 	numMissedBlocks := endingHeight - startingHeight
 	if numMissedBlocks < 0 {
 		return nil, er.Errorf("starting height %d is greater than "+
@@ -617,7 +610,6 @@ type TxIndexConn interface {
 // in a block its confirmation details are also returned.
 func ConfDetailsFromTxIndex(chainConn TxIndexConn, r ConfRequest,
 	txNotFoundErr string) (*TxConfirmation, TxConfStatus, er.R) {
-
 	// If the transaction has some or all of its confirmations required,
 	// then we may be able to dispatch it immediately.
 	rawTxRes, err := chainConn.GetRawTransactionVerbose(&r.TxID)

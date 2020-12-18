@@ -74,10 +74,8 @@ const (
 	baseVersion = 0
 )
 
-var (
-	ErrMaxRoutingInfoSizeExceeded = Err.CodeWithDetail("ErrMaxRoutingInfoSizeExceeded",
-		fmt.Sprintf("max routing info size of %v bytes exceeded", routingInfoSize))
-)
+var ErrMaxRoutingInfoSizeExceeded = Err.CodeWithDetail("ErrMaxRoutingInfoSizeExceeded",
+	fmt.Sprintf("max routing info size of %v bytes exceeded", routingInfoSize))
 
 // OnionPacket is the onion wrapped hop-to-hop routing information necessary to
 // propagate a message through the mix-net without intermediate nodes having
@@ -118,7 +116,6 @@ type OnionPacket struct {
 // secrets.
 func generateSharedSecrets(paymentPath []*btcec.PublicKey,
 	sessionKey *btcec.PrivateKey) ([]Hash256, er.R) {
-
 	// Each hop performs ECDH with our ephemeral key pair to arrive at a
 	// shared secret. Additionally, each hop randomizes the group element
 	// for the next hop by multiplying it by the blinding factor. This way
@@ -198,7 +195,6 @@ func generateSharedSecrets(paymentPath []*btcec.PublicKey,
 // routing a message through the mix-net path outline by 'paymentPath'.
 func NewOnionPacket(paymentPath *PaymentPath, sessionKey *btcec.PrivateKey,
 	assocData []byte, pktFiller PacketFiller) (*OnionPacket, er.R) {
-
 	// Check whether total payload size doesn't exceed the hard maximum.
 	if paymentPath.TotalPayloadSize() > routingInfoSize {
 		return nil, ErrMaxRoutingInfoSizeExceeded.Default()
@@ -538,7 +534,6 @@ func (r *Router) Stop() {
 // what to do next.
 func (r *Router) ProcessOnionPacket(onionPkt *OnionPacket,
 	assocData []byte, incomingCltv uint32) (*ProcessedPacket, er.R) {
-
 	// Compute the shared secret for this onion packet.
 	sharedSecret, err := r.generateSharedSecret(onionPkt.EphemeralKey)
 	if err != nil {
@@ -572,7 +567,6 @@ func (r *Router) ProcessOnionPacket(onionPkt *OnionPacket,
 // be used to reconstruct packets that were successfully processed previously.
 func (r *Router) ReconstructOnionPacket(onionPkt *OnionPacket,
 	assocData []byte) (*ProcessedPacket, er.R) {
-
 	// Compute the shared secret for this onion packet.
 	sharedSecret, err := r.generateSharedSecret(onionPkt.EphemeralKey)
 	if err != nil {
@@ -589,7 +583,6 @@ func (r *Router) ReconstructOnionPacket(onionPkt *OnionPacket,
 // the hop data extracted from the outer onion packet.
 func unwrapPacket(onionPkt *OnionPacket, sharedSecret *Hash256,
 	assocData []byte) (*OnionPacket, *HopPayload, er.R) {
-
 	dhKey := onionPkt.EphemeralKey
 	routeInfo := onionPkt.RoutingInfo
 	headerMac := onionPkt.HeaderMAC
@@ -648,7 +641,6 @@ func unwrapPacket(onionPkt *OnionPacket, sharedSecret *Hash256,
 func processOnionPacket(onionPkt *OnionPacket, sharedSecret *Hash256,
 	assocData []byte,
 	sharedSecretGen sharedSecretGenerator) (*ProcessedPacket, er.R) {
-
 	// First, we'll unwrap an initial layer of the onion packet. Typically,
 	// we'll only have a single layer to unwrap, However, if the sender has
 	// additional data for us within the Extra Onion Blobs (EOBs), then we
@@ -733,7 +725,6 @@ func (r *Router) BeginTxn(id []byte, nels int) *Tx {
 // what to do next.
 func (t *Tx) ProcessOnionPacket(seqNum uint16, onionPkt *OnionPacket,
 	assocData []byte, incomingCltv uint32) er.R {
-
 	// Compute the shared secret for this onion packet.
 	sharedSecret, err := t.router.generateSharedSecret(
 		onionPkt.EphemeralKey,

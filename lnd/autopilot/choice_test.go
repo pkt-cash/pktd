@@ -140,7 +140,6 @@ func assertChoice(w []float64, iterations int) bool {
 
 	// The sum of choices must be exactly iterations of course.
 	return totalChoices == iterations
-
 }
 
 // TestWeightedChoiceDistribution asserts that the weighted choice algorithm
@@ -244,7 +243,6 @@ func TestChooseNMinimum(t *testing.T) {
 
 		if len(res) != min {
 			return false
-
 		}
 		return true
 	}

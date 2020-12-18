@@ -280,7 +280,6 @@ func PaymentAddr(addr [32]byte) func(*Invoice) {
 // to be considered valid.
 func NewInvoice(net *chaincfg.Params, paymentHash [32]byte,
 	timestamp time.Time, options ...func(*Invoice)) (*Invoice, er.R) {
-
 	invoice := &Invoice{
 		Net:         net,
 		PaymentHash: &paymentHash,

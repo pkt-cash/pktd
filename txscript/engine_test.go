@@ -16,7 +16,6 @@ import (
 // TestBadPC sets the pc to a deliberately bad result then confirms that Step()
 // and Disasm fail correctly.
 func TestBadPC(t *testing.T) {
-
 	tests := []struct {
 		script, off int
 	}{
@@ -81,7 +80,6 @@ func TestBadPC(t *testing.T) {
 // TestCheckErrorCondition tests the execute early test in CheckErrorCondition()
 // since most code paths are tested elsewhere.
 func TestCheckErrorCondition(t *testing.T) {
-
 	// tx with almost empty scripts.
 	tx := &wire.MsgTx{
 		Version: 1,
@@ -148,7 +146,6 @@ func TestCheckErrorCondition(t *testing.T) {
 // TestInvalidFlagCombinations ensures the script engine returns the expected
 // error when disallowed flag combinations are specified.
 func TestInvalidFlagCombinations(t *testing.T) {
-
 	tests := []ScriptFlags{
 		ScriptVerifyCleanStack,
 	}
@@ -197,7 +194,6 @@ func TestInvalidFlagCombinations(t *testing.T) {
 // TestCheckPubKeyEncoding ensures the internal checkPubKeyEncoding function
 // works as expected.
 func TestCheckPubKeyEncoding(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		key     []byte
@@ -250,13 +246,11 @@ func TestCheckPubKeyEncoding(t *testing.T) {
 				"when it should have failed", test.name)
 		}
 	}
-
 }
 
 // TestCheckSignatureEncoding ensures the internal checkSignatureEncoding
 // function works as expected.
 func TestCheckSignatureEncoding(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		sig     []byte

@@ -181,7 +181,6 @@ type paymentResult struct {
 // NewMissionControl returns a new instance of missionControl.
 func NewMissionControl(db kvdb.Backend, cfg *MissionControlConfig) (
 	*MissionControl, er.R) {
-
 	log.Debugf("Instantiating mission control with config: "+
 		"PenaltyHalfLife=%v, AprioriHopProbability=%v, "+
 		"AprioriWeight=%v", cfg.PenaltyHalfLife,
@@ -256,7 +255,6 @@ func (m *MissionControl) ResetHistory() er.R {
 // from fromNode along edge.
 func (m *MissionControl) GetProbability(fromNode, toNode route.Vertex,
 	amt lnwire.MilliSatoshi) float64 {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -285,7 +283,6 @@ func (m *MissionControl) GetHistorySnapshot() *MissionControlSnapshot {
 // GetPairHistorySnapshot returns the stored history for a given node pair.
 func (m *MissionControl) GetPairHistorySnapshot(
 	fromNode, toNode route.Vertex) TimedPairResult {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -310,7 +307,6 @@ func (m *MissionControl) GetPairHistorySnapshot(
 func (m *MissionControl) ReportPaymentFail(paymentID uint64, rt *route.Route,
 	failureSourceIdx *int, failure lnwire.FailureMessage) (
 	*channeldb.FailureReason, er.R) {
-
 	timestamp := m.now()
 
 	result := &paymentResult{
@@ -330,7 +326,6 @@ func (m *MissionControl) ReportPaymentFail(paymentID uint64, rt *route.Route,
 // for future probability estimates.
 func (m *MissionControl) ReportPaymentSuccess(paymentID uint64,
 	rt *route.Route) er.R {
-
 	timestamp := m.now()
 
 	result := &paymentResult{
@@ -349,7 +344,6 @@ func (m *MissionControl) ReportPaymentSuccess(paymentID uint64,
 // updates mission control's in-memory state.
 func (m *MissionControl) processPaymentResult(result *paymentResult) (
 	*channeldb.FailureReason, er.R) {
-
 	// Store complete result in database.
 	if err := m.store.AddResult(result); err != nil {
 		return nil, err
@@ -366,7 +360,6 @@ func (m *MissionControl) processPaymentResult(result *paymentResult) (
 // and no further payment attempts need to be made.
 func (m *MissionControl) applyPaymentResult(
 	result *paymentResult) *channeldb.FailureReason {
-
 	// Interpret result.
 	i := interpretResult(
 		result.route, result.success, result.failureSourceIdx,

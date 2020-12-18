@@ -12,12 +12,10 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-var (
-	// ErrNotMine is an error denoting that a Wallet instance is unable to
-	// spend a specified output.
-	ErrNotMine = er.GenericErrorType.CodeWithDetail("ErrNotMine",
-		"the passed output does not belong to the wallet")
-)
+// ErrNotMine is an error denoting that a Wallet instance is unable to
+// spend a specified output.
+var ErrNotMine = er.GenericErrorType.CodeWithDetail("ErrNotMine",
+	"the passed output does not belong to the wallet")
 
 // FetchInputInfo queries for the wallet's knowledge of the passed outpoint. If
 // the wallet determines this output is under its control, then the original
@@ -25,7 +23,6 @@ var (
 // returned. Otherwise, a non-nil error value of ErrNotMine is returned instead.
 func (w *Wallet) FetchInputInfo(prevOut *wire.OutPoint) (*wire.MsgTx,
 	*wire.TxOut, int64, er.R) {
-
 	// We manually look up the output within the tx store.
 	txid := &prevOut.Hash
 	txDetail, err := UnstableAPI(w).TxDetails(txid)

@@ -56,13 +56,11 @@ func createTestWallet(t *testing.T, dir string, netParams *chaincfg.Params) {
 
 func createTestWalletWithPw(t *testing.T, pubPw, privPw []byte, dir string,
 	netParams *chaincfg.Params) {
-
 	// Instruct waddrmgr to use the cranked down scrypt parameters when
 	// creating new wallet encryption keys.
 	fastScrypt := waddrmgr.FastScryptOptions
 	keyGen := func(passphrase *[]byte, config *waddrmgr.ScryptOptions) (
 		*snacl.SecretKey, er.R) {
-
 		return snacl.NewSecretKey(
 			passphrase, fastScrypt.N, fastScrypt.R, fastScrypt.P,
 		)
@@ -99,9 +97,8 @@ func createSeedAndMnemonic(t *testing.T,
 // process.
 func openOrCreateTestMacStore(tempDir string, pw *[]byte,
 	netParams *chaincfg.Params) (*macaroons.RootKeyStorage, er.R) {
-
 	netDir := btcwallet.NetworkDir(tempDir, netParams)
-	errr := os.MkdirAll(netDir, 0700)
+	errr := os.MkdirAll(netDir, 0o700)
 	if errr != nil {
 		return nil, er.E(errr)
 	}
@@ -617,7 +614,6 @@ func TestChangeWalletPasswordStateless(t *testing.T) {
 
 func doChangePassword(service *walletunlocker.UnlockerService, testDir string,
 	req *lnrpc.ChangePasswordRequest, errChan chan er.R) {
-
 	// When providing the correct wallet's current password and a
 	// new password that meets the length requirement, the password
 	// change should succeed.

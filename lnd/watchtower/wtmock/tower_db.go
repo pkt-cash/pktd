@@ -126,7 +126,6 @@ func (db *TowerDB) DeleteSession(target wtdb.SessionID) er.R {
 // they exist in the database.
 func (db *TowerDB) QueryMatches(
 	breachHints []blob.BreachHint) ([]wtdb.Match, er.R) {
-
 	db.mu.Lock()
 	defer db.mu.Unlock()
 

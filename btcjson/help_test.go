@@ -16,7 +16,6 @@ import (
 // TestHelpReflectInternals ensures the various help functions which deal with
 // reflect types work as expected for various Go types.
 func TestHelpReflectInternals(t *testing.T) {
-
 	tests := []struct {
 		name        string
 		reflectType reflect.Type
@@ -213,7 +212,8 @@ func TestHelpReflectInternals(t *testing.T) {
 			name:        "map",
 			reflectType: reflect.TypeOf(map[string]string{}),
 			key:         "json-type-object",
-			examples: []string{"{",
+			examples: []string{
+				"{",
 				" \"fdk--key\": fdk--value, (json-type-object) fdk--desc",
 				" ...", "}",
 			},
@@ -292,7 +292,6 @@ func TestHelpReflectInternals(t *testing.T) {
 // TestResultStructHelp ensures the expected help text format is returned for
 // various Go struct types.
 func TestResultStructHelp(t *testing.T) {
-
 	tests := []struct {
 		name        string
 		reflectType reflect.Type
@@ -433,7 +432,6 @@ func TestResultStructHelp(t *testing.T) {
 // TestHelpArgInternals ensures the various help functions which deal with
 // arguments work as expected for various argument types.
 func TestHelpArgInternals(t *testing.T) {
-
 	tests := []struct {
 		name        string
 		method      string
@@ -577,7 +575,6 @@ func TestHelpArgInternals(t *testing.T) {
 // TestMethodHelp ensures the method help function works as expected for various
 // command structs.
 func TestMethodHelp(t *testing.T) {
-
 	tests := []struct {
 		name        string
 		method      string
@@ -669,7 +666,6 @@ func TestMethodHelp(t *testing.T) {
 // TestGenerateHelpErrors ensures the GenerateHelp function returns the expected
 // errors.
 func TestGenerateHelpErrors(t *testing.T) {
-
 	tests := []struct {
 		name        string
 		method      string
@@ -717,7 +713,6 @@ func TestGenerateHelpErrors(t *testing.T) {
 // as expected.  The internal are testd much more thoroughly in other tests, so
 // there is no need to add more tests here.
 func TestGenerateHelp(t *testing.T) {
-
 	descs := map[string]string{
 		"help--synopsis": "test",
 		"help-command":   "test",

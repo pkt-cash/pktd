@@ -92,7 +92,6 @@ func serializeTx(tx *btcutil.Tx) []byte {
 }
 
 func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
-
 	// Create a double spend of the received blockchain transaction.
 	dupRecvTx, _ := btcutil.NewTxFromBytes(TstRecvSerializedTx)
 	// Switch txout amount to 1 BTC.  Transaction store doesn't
@@ -115,7 +114,7 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 	spendingTx.AddTxOut(spendingTxOut2)
 	TstSpendingTx := btcutil.NewTx(spendingTx)
 	TstSpendingSerializedTx := serializeTx(TstSpendingTx)
-	var _ = TstSpendingTx
+	_ = TstSpendingTx
 
 	tests := []struct {
 		name     string
@@ -547,7 +546,6 @@ func TestInsertsCreditsDebitsRollbacks(t *testing.T) {
 }
 
 func TestFindingSpentCredits(t *testing.T) {
-
 	s, db, teardown, err := testStore()
 	if err != nil {
 		t.Fatal(err)
@@ -653,7 +651,6 @@ func spendOutputs(outputs []wire.OutPoint, outputValues ...int64) *wire.MsgTx {
 }
 
 func TestCoinbases(t *testing.T) {
-
 	s, db, teardown, err := testStore()
 	if err != nil {
 		t.Fatal(err)
@@ -1058,7 +1055,6 @@ func TestCoinbases(t *testing.T) {
 
 // Test moving multiple transactions from unmined buckets to the same block.
 func TestMoveMultipleToSameBlock(t *testing.T) {
-
 	s, db, teardown, err := testStore()
 	if err != nil {
 		t.Fatal(err)
@@ -1234,7 +1230,6 @@ func TestMoveMultipleToSameBlock(t *testing.T) {
 // NewTxRecord and NewTxRecordFromMsgTx both save the serialized transaction, so
 // manually strip it out to test this code path.
 func TestInsertUnserializedTx(t *testing.T) {
-
 	s, db, teardown, err := testStore()
 	if err != nil {
 		t.Fatal(err)
@@ -1300,7 +1295,6 @@ func TestInsertUnserializedTx(t *testing.T) {
 // descendants. Any balance modifications due to the unmined transaction should
 // be revered.
 func TestRemoveUnminedTx(t *testing.T) {
-
 	store, db, teardown, err := testStore()
 	if err != nil {
 		t.Fatal(err)
@@ -1342,7 +1336,6 @@ func TestRemoveUnminedTx(t *testing.T) {
 	// balance.
 	checkBalance := func(expectedBalance btcutil.Amount,
 		includeUnconfirmed bool) {
-
 		t.Helper()
 
 		minConfs := int32(1)
@@ -1448,7 +1441,6 @@ func TestRemoveUnminedTx(t *testing.T) {
 // TestInsertMempoolTxAlreadyConfirmed ensures that transactions that already
 // exist within the store as confirmed cannot be added as unconfirmed.
 func TestInsertMempoolTxAlreadyConfirmed(t *testing.T) {
-
 	store, db, teardown, err := testStore()
 	if err != nil {
 		t.Fatal(err)
@@ -1510,7 +1502,6 @@ func TestInsertMempoolTxAlreadyConfirmed(t *testing.T) {
 // that double spends an existing output within the wallet, it doesn't remove
 // any other spending transactions of the same output.
 func TestOutputsAfterRemoveDoubleSpend(t *testing.T) {
-
 	store, db, teardown, err := testStore()
 	if err != nil {
 		t.Fatal(err)
@@ -1623,7 +1614,6 @@ func TestOutputsAfterRemoveDoubleSpend(t *testing.T) {
 // on a specific database's bucket as a single atomic operation.
 func commitDBTx(t *testing.T, store *Store, db walletdb.DB,
 	f func(walletdb.ReadWriteBucket)) {
-
 	t.Helper()
 
 	dbTx, err := db.BeginReadWriteTx()
@@ -1798,7 +1788,6 @@ func TestInsertMempoolDoubleSpendConfirmSecondTx(t *testing.T) {
 // then the unconfirmed double spends within the mempool should be removed from
 // the wallet's store.
 func TestInsertConfirmedDoubleSpendTx(t *testing.T) {
-
 	store, db, teardown, err := testStore()
 	if err != nil {
 		t.Fatal(err)
@@ -1971,7 +1960,6 @@ func TestInsertConfirmedDoubleSpendTx(t *testing.T) {
 // confirmed. This can lead to outputs being duplicated in the store, which can
 // lead to creating double spends when querying the wallet's UTXO set.
 func TestAddDuplicateCreditAfterConfirm(t *testing.T) {
-
 	store, db, teardown, err := testStore()
 	if err != nil {
 		t.Fatal(err)
@@ -2262,7 +2250,6 @@ func TestTxLabel(t *testing.T) {
 
 func assertBalance(t *testing.T, s *Store, ns walletdb.ReadWriteBucket,
 	confirmed bool, blockHeight int32, exp btcutil.Amount) {
-
 	t.Helper()
 
 	minConf := int32(0)
@@ -2280,7 +2267,6 @@ func assertBalance(t *testing.T, s *Store, ns walletdb.ReadWriteBucket,
 
 func assertUtxos(t *testing.T, s *Store, ns walletdb.ReadWriteBucket,
 	exp []wire.OutPoint) {
-
 	t.Helper()
 
 	utxos, err := s.GetUnspentOutputs(ns)
@@ -2303,7 +2289,6 @@ func assertUtxos(t *testing.T, s *Store, ns walletdb.ReadWriteBucket,
 
 func assertLocked(t *testing.T, ns walletdb.ReadWriteBucket, op wire.OutPoint,
 	timeNow time.Time, exp bool) {
-
 	t.Helper()
 
 	_, _, locked := isLockedOutput(ns, op, timeNow)
@@ -2317,7 +2302,6 @@ func assertLocked(t *testing.T, ns walletdb.ReadWriteBucket, op wire.OutPoint,
 
 func assertOutputLocksExist(t *testing.T, s *Store, ns walletdb.ReadBucket,
 	exp ...wire.OutPoint) {
-
 	t.Helper()
 
 	var found []wire.OutPoint
@@ -2345,7 +2329,6 @@ func assertOutputLocksExist(t *testing.T, s *Store, ns walletdb.ReadBucket,
 
 func lock(t *testing.T, s *Store, ns walletdb.ReadWriteBucket,
 	id LockID, op wire.OutPoint, exp *er.ErrorCode) time.Time {
-
 	t.Helper()
 
 	expiry, err := s.LockOutput(ns, id, op)
@@ -2362,7 +2345,6 @@ func lock(t *testing.T, s *Store, ns walletdb.ReadWriteBucket,
 
 func unlock(t *testing.T, s *Store, ns walletdb.ReadWriteBucket,
 	id LockID, op wire.OutPoint, exp *er.ErrorCode) {
-
 	t.Helper()
 
 	err := s.UnlockOutput(ns, id, op)
@@ -2378,14 +2360,12 @@ func unlock(t *testing.T, s *Store, ns walletdb.ReadWriteBucket,
 
 func insertUnconfirmedCredit(t *testing.T, store *Store, db walletdb.DB,
 	tx *wire.MsgTx, idx uint32) {
-
 	t.Helper()
 	insertConfirmedCredit(t, store, db, tx, idx, nil)
 }
 
 func insertConfirmedCredit(t *testing.T, store *Store, db walletdb.DB,
 	tx *wire.MsgTx, idx uint32, block *BlockMeta) {
-
 	t.Helper()
 
 	commitDBTx(t, store, db, func(ns walletdb.ReadWriteBucket) {

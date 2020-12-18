@@ -91,7 +91,6 @@ func (m *MigrationManager) CurrentVersion(ns walletdb.ReadBucket) (uint32, er.R)
 // NOTE: This method is part of the migration.Manager interface.
 func (m *MigrationManager) SetVersion(ns walletdb.ReadWriteBucket,
 	version uint32) er.R {
-
 	if ns == nil {
 		ns = m.ns
 	}

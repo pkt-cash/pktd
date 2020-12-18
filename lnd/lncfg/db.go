@@ -69,7 +69,6 @@ type DatabaseBackends struct {
 // be populated if etcd is specified.
 func (db *DB) GetBackends(ctx context.Context, dbPath string,
 	networkName string) (*DatabaseBackends, er.R) {
-
 	var (
 		localDB, remoteDB kvdb.Backend
 		err               er.R

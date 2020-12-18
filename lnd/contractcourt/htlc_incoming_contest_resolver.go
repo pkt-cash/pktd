@@ -38,7 +38,6 @@ type htlcIncomingContestResolver struct {
 func newIncomingContestResolver(
 	res lnwallet.IncomingHtlcResolution, broadcastHeight uint32,
 	htlc channeldb.HTLC, resCfg ResolverConfig) *htlcIncomingContestResolver {
-
 	success := newSuccessResolver(
 		res, broadcastHeight, htlc, resCfg,
 	)
@@ -176,7 +175,6 @@ func (h *htlcIncomingContestResolver) Resolve() (ContractResolver, er.R) {
 	// triggered by future notifications.
 	processHtlcResolution := func(e invoices.HtlcResolution) (
 		ContractResolver, er.R) {
-
 		// Take action based on the type of resolution we have
 		// received.
 		switch resolution := e.(type) {
@@ -407,7 +405,6 @@ func (h *htlcIncomingContestResolver) Encode(w io.Writer) er.R {
 // instance.
 func newIncomingContestResolverFromReader(r io.Reader, resCfg ResolverConfig) (
 	*htlcIncomingContestResolver, er.R) {
-
 	h := &htlcIncomingContestResolver{}
 
 	// We'll first read the one field unique to this resolver.
@@ -435,7 +432,6 @@ func (h *htlcIncomingContestResolver) Supplement(htlc channeldb.HTLC) {
 
 // decodePayload (re)decodes the hop payload of a received htlc.
 func (h *htlcIncomingContestResolver) decodePayload() (*hop.Payload, er.R) {
-
 	onionReader := bytes.NewReader(h.htlc.OnionBlob)
 	iterator, err := h.OnionProcessor.ReconstructHopIterator(
 		onionReader, h.htlc.RHash[:],

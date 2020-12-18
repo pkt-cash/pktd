@@ -59,7 +59,6 @@ func selectInputs(amt btcutil.Amount, coins []Coin) (btcutil.Amount, []Coin, er.
 // function properly.
 func CoinSelect(feeRate chainfee.SatPerKWeight, amt btcutil.Amount,
 	coins []Coin) ([]Coin, btcutil.Amount, er.R) {
-
 	amtNeeded := amt
 	for {
 		// First perform an initial round of coin selection to estimate
@@ -127,7 +126,6 @@ func CoinSelect(feeRate chainfee.SatPerKWeight, amt btcutil.Amount,
 func CoinSelectSubtractFees(feeRate chainfee.SatPerKWeight, amt,
 	dustLimit btcutil.Amount, coins []Coin) ([]Coin, btcutil.Amount,
 	btcutil.Amount, er.R) {
-
 	// First perform an initial round of coin selection to estimate
 	// the required fee.
 	totalSat, selectedUtxos, err := selectInputs(amt, coins)

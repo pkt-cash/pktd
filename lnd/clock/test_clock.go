@@ -27,7 +27,6 @@ func NewTestClock(startTime time.Time) *TestClock {
 // like to wait for that to happen before advancing the test case.
 func NewTestClockWithTickSignal(startTime time.Time,
 	tickSignal chan time.Duration) *TestClock {
-
 	testClock := NewTestClock(startTime)
 	testClock.tickSignal = tickSignal
 

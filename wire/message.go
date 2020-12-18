@@ -282,7 +282,6 @@ func WriteMessage(w io.Writer, msg Message, pver uint32, btcnet protocol.Bitcoin
 // messages.
 func WriteMessageWithEncodingN(w io.Writer, msg Message, pver uint32,
 	btcnet protocol.BitcoinNet, encoding MessageEncoding) (int, er.R) {
-
 	totalBytes := 0
 
 	// Enforce max command size.
@@ -355,7 +354,6 @@ func WriteMessageWithEncodingN(w io.Writer, msg Message, pver uint32,
 // decoding wire messages.
 func ReadMessageWithEncodingN(r io.Reader, pver uint32, btcnet protocol.BitcoinNet,
 	enc MessageEncoding) (int, Message, []byte, er.R) {
-
 	totalBytes := 0
 	n, hdr, err := readMessageHeader(r)
 	totalBytes += n

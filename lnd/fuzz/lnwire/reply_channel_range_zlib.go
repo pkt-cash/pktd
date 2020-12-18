@@ -12,7 +12,6 @@ import (
 
 // Fuzz_reply_channel_range_zlib is used by go-fuzz.
 func Fuzz_reply_channel_range_zlib(data []byte) int {
-
 	var buf bytes.Buffer
 	zlibWriter := zlib.NewWriter(&buf)
 	_, err := zlibWriter.Write(data)

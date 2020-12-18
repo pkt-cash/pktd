@@ -87,7 +87,6 @@ func TestChainWatcherRemoteUnilateralClose(t *testing.T) {
 
 func addFakeHTLC(t *testing.T, htlcAmount lnwire.MilliSatoshi, id uint64,
 	aliceChannel, bobChannel *lnwallet.LightningChannel) {
-
 	preimage := bytes.Repeat([]byte{byte(id)}, 32)
 	paymentHash := sha256.Sum256(preimage)
 	var returnPreimage [32]byte
@@ -208,7 +207,6 @@ type dlpTestCase struct {
 func executeStateTransitions(t *testing.T, htlcAmount lnwire.MilliSatoshi,
 	aliceChannel, bobChannel *lnwallet.LightningChannel,
 	numUpdates uint8) er.R {
-
 	for i := 0; i < int(numUpdates); i++ {
 		addFakeHTLC(
 			t, htlcAmount, uint64(i), aliceChannel, bobChannel,
@@ -265,7 +263,6 @@ func TestChainWatcherDataLossProtect(t *testing.T) {
 			signer:    aliceChannel.Signer,
 			extractStateNumHint: func(*wire.MsgTx,
 				[lnwallet.StateHintSize]byte) uint64 {
-
 				// We'll return the "fake" broadcast commitment
 				// number so we can simulate broadcast of an
 				// arbitrary state.
@@ -411,7 +408,6 @@ func TestChainWatcherLocalForceCloseDetect(t *testing.T) {
 	// we're able to properly detect a local force close.
 	localForceCloseScenario := func(t *testing.T, numUpdates uint8,
 		remoteOutputOnly, localOutputOnly bool) bool {
-
 		// First, we'll create two channels which already have
 		// established a commitment contract between themselves.
 		aliceChannel, bobChannel, cleanUp, err := lnwallet.CreateTestChannels(

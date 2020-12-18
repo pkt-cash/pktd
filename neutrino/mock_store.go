@@ -35,8 +35,8 @@ func newMockBlockHeaderStore() *mockBlockHeaderStore {
 func (m *mockBlockHeaderStore) ChainTip() (*wire.BlockHeader,
 	uint32, er.R) {
 	return nil, 0, nil
-
 }
+
 func (m *mockBlockHeaderStore) LatestBlockLocator() (
 	blockchain.BlockLocator, er.R) {
 	return nil, nil
@@ -44,7 +44,6 @@ func (m *mockBlockHeaderStore) LatestBlockLocator() (
 
 func (m *mockBlockHeaderStore) FetchHeaderByHeight(height uint32) (
 	*wire.BlockHeader, er.R) {
-
 	if header, ok := m.heights[height]; ok {
 		return &header, nil
 	}
@@ -54,13 +53,13 @@ func (m *mockBlockHeaderStore) FetchHeaderByHeight(height uint32) (
 
 func (m *mockBlockHeaderStore) FetchHeaderAncestors(uint32,
 	*chainhash.Hash) ([]wire.BlockHeader, uint32, er.R) {
-
 	return nil, 0, nil
 }
+
 func (m *mockBlockHeaderStore) HeightFromHash(*chainhash.Hash) (uint32, er.R) {
 	return 0, nil
-
 }
+
 func (m *mockBlockHeaderStore) RollbackLastBlock() (*waddrmgr.BlockStamp,
 	er.R) {
 	return nil, nil

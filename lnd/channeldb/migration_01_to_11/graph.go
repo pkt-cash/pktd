@@ -276,7 +276,6 @@ func updateEdgePolicy(tx kvdb.RwTx, edge *ChannelEdgePolicy) (bool, er.R) {
 	edges, err := tx.CreateTopLevelBucket(edgeBucket)
 	if err != nil {
 		return false, ErrEdgeNotFound.Default()
-
 	}
 	edgeIndex := edges.NestedReadWriteBucket(edgeIndexBucket)
 	if edgeIndex == nil {
@@ -555,7 +554,6 @@ func (c *ChannelEdgePolicy) IsDisabled() bool {
 
 func putLightningNode(nodeBucket kvdb.RwBucket, aliasBucket kvdb.RwBucket,
 	updateIndex kvdb.RwBucket, node *LightningNode) er.R {
-
 	var (
 		scratch [16]byte
 		b       bytes.Buffer
@@ -684,7 +682,6 @@ func putLightningNode(nodeBucket kvdb.RwBucket, aliasBucket kvdb.RwBucket,
 
 func fetchLightningNode(nodeBucket kvdb.RBucket,
 	nodePub []byte) (LightningNode, er.R) {
-
 	nodeBytes := nodeBucket.Get(nodePub)
 	if nodeBytes == nil {
 		return LightningNode{}, ErrGraphNodeNotFound.Default()
@@ -867,7 +864,6 @@ func deserializeChanEdgeInfo(r io.Reader) (ChannelEdgeInfo, er.R) {
 
 func putChanEdgePolicy(edges, nodes kvdb.RwBucket, edge *ChannelEdgePolicy,
 	from, to []byte) er.R {
-
 	var edgeKey [33 + 8]byte
 	copy(edgeKey[:], from)
 	byteOrder.PutUint64(edgeKey[33:], edge.ChannelID)
@@ -947,7 +943,6 @@ func putChanEdgePolicy(edges, nodes kvdb.RwBucket, edge *ChannelEdgePolicy,
 // channels, for example when prune is needed.
 func updateEdgePolicyDisabledIndex(edges kvdb.RwBucket, chanID uint64,
 	direction bool, disabled bool) er.R {
-
 	var disabledEdgeKey [8 + 1]byte
 	byteOrder.PutUint64(disabledEdgeKey[0:], chanID)
 	if direction {
@@ -972,7 +967,6 @@ func updateEdgePolicyDisabledIndex(edges kvdb.RwBucket, chanID uint64,
 // in the edges bucket.
 func putChanEdgePolicyUnknown(edges kvdb.RwBucket, channelID uint64,
 	from []byte) er.R {
-
 	var edgeKey [33 + 8]byte
 	copy(edgeKey[:], from)
 	byteOrder.PutUint64(edgeKey[33:], channelID)
@@ -987,7 +981,6 @@ func putChanEdgePolicyUnknown(edges kvdb.RwBucket, channelID uint64,
 
 func fetchChanEdgePolicy(edges kvdb.RBucket, chanID []byte,
 	nodePub []byte, nodes kvdb.RBucket) (*ChannelEdgePolicy, er.R) {
-
 	var edgeKey [33 + 8]byte
 	copy(edgeKey[:], nodePub)
 	copy(edgeKey[33:], chanID[:])
@@ -1020,7 +1013,6 @@ func fetchChanEdgePolicy(edges kvdb.RBucket, chanID []byte,
 
 func serializeChanEdgePolicy(w io.Writer, edge *ChannelEdgePolicy,
 	to []byte) er.R {
-
 	err := wire.WriteVarBytes(w, 0, edge.SigBytes)
 	if err != nil {
 		return err
@@ -1087,7 +1079,6 @@ func serializeChanEdgePolicy(w io.Writer, edge *ChannelEdgePolicy,
 
 func deserializeChanEdgePolicy(r io.Reader,
 	nodes kvdb.RBucket) (*ChannelEdgePolicy, er.R) {
-
 	edge := &ChannelEdgePolicy{}
 
 	var err er.R

@@ -48,7 +48,6 @@ type anchorResolver struct {
 func newAnchorResolver(anchorSignDescriptor input.SignDescriptor,
 	anchor wire.OutPoint, broadcastHeight uint32,
 	chanPoint wire.OutPoint, resCfg ResolverConfig) *anchorResolver {
-
 	amt := btcutil.Amount(anchorSignDescriptor.Output.Value)
 
 	report := ContractReport{

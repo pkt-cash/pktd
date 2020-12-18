@@ -72,7 +72,6 @@ func testNetworkConnectionTimeout(net *lntest.NetworkHarness, t *harnessTest) {
 // times out, instead a network connection timeout will be returned.
 func assertTimeoutError(ctxt context.Context, t *harnessTest,
 	node *lntest.HarnessNode, req *lnrpc.ConnectPeerRequest) {
-
 	t.t.Helper()
 
 	// Create a context with a timeout value.
@@ -94,7 +93,6 @@ func assertTimeoutError(ctxt context.Context, t *harnessTest,
 
 func connect(ctxt context.Context, node *lntest.HarnessNode,
 	req *lnrpc.ConnectPeerRequest) er.R {
-
 	syncTimeout := time.After(15 * time.Second)
 	ticker := time.NewTicker(time.Millisecond * 100)
 	defer ticker.Stop()

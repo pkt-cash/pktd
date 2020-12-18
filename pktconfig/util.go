@@ -21,7 +21,7 @@ import (
 // and populates it with some randomly generated RPC username and password.
 func CreateDefaultConfigFile(destinationPath, sampleFile string) er.R {
 	// Create the destination directory if it does not exists
-	errr := os.MkdirAll(filepath.Dir(destinationPath), 0700)
+	errr := os.MkdirAll(filepath.Dir(destinationPath), 0o700)
 	if errr != nil {
 		return er.E(errr)
 	}
@@ -38,7 +38,7 @@ func CreateDefaultConfigFile(destinationPath, sampleFile string) er.R {
 	}
 
 	dest, errr := os.OpenFile(destinationPath,
-		os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
+		os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0o600)
 	if errr != nil {
 		return er.E(errr)
 	}

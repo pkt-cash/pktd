@@ -23,7 +23,6 @@ var _ PaymentAttemptDispatcher = (*mockPaymentAttemptDispatcher)(nil)
 func (m *mockPaymentAttemptDispatcher) SendHTLC(firstHop lnwire.ShortChannelID,
 	pid uint64,
 	_ *lnwire.UpdateAddHTLC) er.R {
-
 	if m.onPayment == nil {
 		return nil
 	}
@@ -56,7 +55,6 @@ func (m *mockPaymentAttemptDispatcher) SendHTLC(firstHop lnwire.ShortChannelID,
 func (m *mockPaymentAttemptDispatcher) GetPaymentResult(paymentID uint64,
 	_ lntypes.Hash, _ htlcswitch.ErrorDecrypter) (
 	<-chan *htlcswitch.PaymentResult, er.R) {
-
 	c := make(chan *htlcswitch.PaymentResult, 1)
 
 	m.Lock()
@@ -69,15 +67,14 @@ func (m *mockPaymentAttemptDispatcher) GetPaymentResult(paymentID uint64,
 	c <- res
 
 	return c, nil
-
 }
+
 func (m *mockPaymentAttemptDispatcher) CleanStore(map[uint64]struct{}) er.R {
 	return nil
 }
 
 func (m *mockPaymentAttemptDispatcher) setPaymentResult(
 	f func(firstHop lnwire.ShortChannelID) ([32]byte, er.R)) {
-
 	m.onPayment = f
 }
 
@@ -89,7 +86,6 @@ var _ PaymentSessionSource = (*mockPaymentSessionSource)(nil)
 
 func (m *mockPaymentSessionSource) NewPaymentSession(
 	_ *LightningPayment) (PaymentSession, er.R) {
-
 	return &mockPaymentSession{m.routes}, nil
 }
 
@@ -110,7 +106,6 @@ var _ MissionController = (*mockMissionControl)(nil)
 func (m *mockMissionControl) ReportPaymentFail(paymentID uint64, rt *route.Route,
 	failureSourceIdx *int, failure lnwire.FailureMessage) (
 	*channeldb.FailureReason, er.R) {
-
 	// Report a permanent failure if this is an error caused
 	// by incorrect details.
 	if failure.Code() == lnwire.CodeIncorrectOrUnknownPaymentDetails {
@@ -123,13 +118,11 @@ func (m *mockMissionControl) ReportPaymentFail(paymentID uint64, rt *route.Route
 
 func (m *mockMissionControl) ReportPaymentSuccess(paymentID uint64,
 	rt *route.Route) er.R {
-
 	return nil
 }
 
 func (m *mockMissionControl) GetProbability(fromNode, toNode route.Vertex,
 	amt lnwire.MilliSatoshi) float64 {
-
 	return 0
 }
 
@@ -141,7 +134,6 @@ var _ PaymentSession = (*mockPaymentSession)(nil)
 
 func (m *mockPaymentSession) RequestRoute(_, _ lnwire.MilliSatoshi,
 	_, height uint32) (*route.Route, er.R) {
-
 	if len(m.routes) == 0 {
 		return nil, er.E(errNoPathFound)
 	}
@@ -164,19 +156,16 @@ var _ PaymentAttemptDispatcher = (*mockPayer)(nil)
 func (m *mockPayer) SendHTLC(_ lnwire.ShortChannelID,
 	paymentID uint64,
 	_ *lnwire.UpdateAddHTLC) er.R {
-
 	select {
 	case res := <-m.sendResult:
 		return res
 	case <-m.quit:
 		return er.Errorf("test quitting")
 	}
-
 }
 
 func (m *mockPayer) GetPaymentResult(paymentID uint64, _ lntypes.Hash,
 	_ htlcswitch.ErrorDecrypter) (<-chan *htlcswitch.PaymentResult, er.R) {
-
 	select {
 	case res := <-m.paymentResult:
 		resChan := make(chan *htlcswitch.PaymentResult, 1)
@@ -245,7 +234,6 @@ func makeMockControlTower() *mockControlTower {
 
 func (m *mockControlTower) InitPayment(phash lntypes.Hash,
 	c *channeldb.PaymentCreationInfo) er.R {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -276,7 +264,6 @@ func (m *mockControlTower) InitPayment(phash lntypes.Hash,
 
 func (m *mockControlTower) RegisterAttempt(phash lntypes.Hash,
 	a *channeldb.HTLCAttemptInfo) er.R {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -309,7 +296,6 @@ func (m *mockControlTower) RegisterAttempt(phash lntypes.Hash,
 func (m *mockControlTower) SettleAttempt(phash lntypes.Hash,
 	pid uint64, settleInfo *channeldb.HTLCSettleInfo) (
 	*channeldb.HTLCAttempt, er.R) {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -350,7 +336,6 @@ func (m *mockControlTower) SettleAttempt(phash lntypes.Hash,
 
 func (m *mockControlTower) FailAttempt(phash lntypes.Hash, pid uint64,
 	failInfo *channeldb.HTLCFailInfo) (*channeldb.HTLCAttempt, er.R) {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -388,7 +373,6 @@ func (m *mockControlTower) FailAttempt(phash lntypes.Hash, pid uint64,
 
 func (m *mockControlTower) Fail(phash lntypes.Hash,
 	reason channeldb.FailureReason) er.R {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -408,7 +392,6 @@ func (m *mockControlTower) Fail(phash lntypes.Hash,
 
 func (m *mockControlTower) FetchPayment(phash lntypes.Hash) (
 	*channeldb.MPPayment, er.R) {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -434,7 +417,6 @@ func (m *mockControlTower) FetchPayment(phash lntypes.Hash) (
 
 func (m *mockControlTower) FetchInFlightPayments() (
 	[]*channeldb.InFlightPayment, er.R) {
-
 	m.Lock()
 	defer m.Unlock()
 
@@ -464,6 +446,5 @@ func (m *mockControlTower) FetchInFlightPayments() (
 
 func (m *mockControlTower) SubscribePayment(paymentHash lntypes.Hash) (
 	*ControlTowerSubscriber, er.R) {
-
 	return nil, er.New("not implemented")
 }

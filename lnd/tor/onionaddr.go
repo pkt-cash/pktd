@@ -32,11 +32,9 @@ const (
 	V3Len = 62
 )
 
-var (
-	// Base32Encoding represents the Tor's base32-encoding scheme for v2 and
-	// v3 onion addresses.
-	Base32Encoding = base32.NewEncoding(base32Alphabet)
-)
+// Base32Encoding represents the Tor's base32-encoding scheme for v2 and
+// v3 onion addresses.
+var Base32Encoding = base32.NewEncoding(base32Alphabet)
 
 // OnionAddr represents a Tor network end point onion address.
 type OnionAddr struct {

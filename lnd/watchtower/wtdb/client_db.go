@@ -602,7 +602,6 @@ func (c *ClientDB) ListClientSessions(id *TowerID) (map[SessionID]*ClientSession
 // response that do not correspond to this tower.
 func listClientSessions(sessions kvdb.RBucket,
 	id *TowerID) (map[SessionID]*ClientSession, er.R) {
-
 	clientSessions := make(map[SessionID]*ClientSession)
 	err := sessions.ForEach(func(k, _ []byte) er.R {
 		// We'll load the full client session since the client will need
@@ -672,7 +671,6 @@ func (c *ClientDB) FetchChanSummaries() (ChannelSummaries, er.R) {
 // states to be backed up under the client's active policy.
 func (c *ClientDB) RegisterChannel(chanID lnwire.ChannelID,
 	sweepPkScript []byte) er.R {
-
 	return kvdb.Update(c.db, func(tx kvdb.RwTx) er.R {
 		chanSummaries := tx.ReadWriteBucket(cChanSummaryBkt)
 		if chanSummaries == nil {
@@ -707,7 +705,6 @@ func (c *ClientDB) RegisterChannel(chanID lnwire.ChannelID,
 // policy. This state can be retried later under a different policy.
 func (c *ClientDB) MarkBackupIneligible(chanID lnwire.ChannelID,
 	commitHeight uint64) er.R {
-
 	return nil
 }
 
@@ -715,7 +712,6 @@ func (c *ClientDB) MarkBackupIneligible(chanID lnwire.ChannelID,
 // seqNum). This allows the client to retransmit this update on startup.
 func (c *ClientDB) CommitUpdate(id *SessionID,
 	update *CommittedUpdate) (uint16, er.R) {
-
 	var lastApplied uint16
 	err := kvdb.Update(c.db, func(tx kvdb.RwTx) er.R {
 		sessions := tx.ReadWriteBucket(cSessionBkt)
@@ -806,7 +802,6 @@ func (c *ClientDB) CommitUpdate(id *SessionID,
 		lastApplied = session.TowerLastApplied
 
 		return nil
-
 	}, func() {
 		lastApplied = 0
 	})
@@ -822,7 +817,6 @@ func (c *ClientDB) CommitUpdate(id *SessionID,
 // lastApplied value returned from the tower.
 func (c *ClientDB) AckUpdate(id *SessionID, seqNum uint16,
 	lastApplied uint16) er.R {
-
 	return kvdb.Update(c.db, func(tx kvdb.RwTx) er.R {
 		sessions := tx.ReadWriteBucket(cSessionBkt)
 		if sessions == nil {
@@ -923,7 +917,6 @@ func (c *ClientDB) AckUpdate(id *SessionID, seqNum uint16,
 // requires this info, use getClientSession.
 func getClientSessionBody(sessions kvdb.RBucket,
 	idBytes []byte) (*ClientSession, er.R) {
-
 	sessionBkt := sessions.NestedReadBucket(idBytes)
 	if sessionBkt == nil {
 		return nil, ErrClientSessionNotFound.Default()
@@ -951,7 +944,6 @@ func getClientSessionBody(sessions kvdb.RBucket,
 // addition to the ClientSession's body.
 func getClientSession(sessions kvdb.RBucket,
 	idBytes []byte) (*ClientSession, er.R) {
-
 	session, err := getClientSessionBody(sessions, idBytes)
 	if err != nil {
 		return nil, err
@@ -979,7 +971,6 @@ func getClientSession(sessions kvdb.RBucket,
 // identified by the serialized session id.
 func getClientSessionCommits(sessions kvdb.RBucket,
 	idBytes []byte) ([]CommittedUpdate, er.R) {
-
 	// Can't fail because client session body has already been read.
 	sessionBkt := sessions.NestedReadBucket(idBytes)
 
@@ -1015,7 +1006,6 @@ func getClientSessionCommits(sessions kvdb.RBucket,
 // by the serialized session id.
 func getClientSessionAcks(sessions kvdb.RBucket,
 	idBytes []byte) (map[uint16]BackupID, er.R) {
-
 	// Can't fail because client session body has already been read.
 	sessionBkt := sessions.NestedReadBucket(idBytes)
 
@@ -1052,7 +1042,6 @@ func getClientSessionAcks(sessions kvdb.RBucket,
 // CommittedUpdates and AckedUpdates).
 func putClientSessionBody(sessions kvdb.RwBucket,
 	session *ClientSession) er.R {
-
 	sessionBkt, err := sessions.CreateBucketIfNotExists(session.ID[:])
 	if err != nil {
 		return err
@@ -1071,7 +1060,6 @@ func putClientSessionBody(sessions kvdb.RwBucket,
 // status.
 func markSessionStatus(sessions kvdb.RwBucket, session *ClientSession,
 	status CSessionStatus) er.R {
-
 	session.Status = status
 	return putClientSessionBody(sessions, session)
 }
@@ -1079,7 +1067,6 @@ func markSessionStatus(sessions kvdb.RwBucket, session *ClientSession,
 // getChanSummary loads a ClientChanSummary for the passed chanID.
 func getChanSummary(chanSummaries kvdb.RBucket,
 	chanID lnwire.ChannelID) (*ClientChanSummary, er.R) {
-
 	chanSummaryBytes := chanSummaries.Get(chanID[:])
 	if chanSummaryBytes == nil {
 		return nil, ErrChannelNotRegistered.Default()
@@ -1097,7 +1084,6 @@ func getChanSummary(chanSummaries kvdb.RBucket,
 // putChanSummary stores a ClientChanSummary for the passed chanID.
 func putChanSummary(chanSummaries kvdb.RwBucket, chanID lnwire.ChannelID,
 	summary *ClientChanSummary) er.R {
-
 	var b bytes.Buffer
 	err := summary.Encode(&b)
 	if err != nil {

@@ -35,7 +35,6 @@ func (s *Server) handleDeleteSession(peer Peer, id *wtdb.SessionID) er.R {
 // error code resulting from processes a DeleteSession request.
 func (s *Server) replyDeleteSession(peer Peer, id *wtdb.SessionID,
 	code wtwire.DeleteSessionCode) er.R {
-
 	msg := &wtwire.DeleteSessionReply{
 		Code: code,
 	}

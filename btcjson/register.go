@@ -6,13 +6,13 @@ package btcjson
 
 import (
 	"fmt"
-	"github.com/json-iterator/go"
 	"reflect"
 	"sort"
 	"strconv"
 	"strings"
 	"sync"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/pkt-cash/pktd/btcutil/er"
 )
 

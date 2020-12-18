@@ -195,7 +195,6 @@ func newTxValidator(utxoView *UtxoViewpoint, flags txscript.ScriptFlags,
 func ValidateTransactionScripts(tx *btcutil.Tx, utxoView *UtxoViewpoint,
 	flags txscript.ScriptFlags, sigCache *txscript.SigCache,
 	hashCache *txscript.HashCache) er.R {
-
 	// First determine if segwit is active according to the scriptFlags. If
 	// it isn't then we don't need to interact with the HashCache.
 	segwitActive := flags&txscript.ScriptVerifyWitness == txscript.ScriptVerifyWitness
@@ -247,7 +246,6 @@ func ValidateTransactionScripts(tx *btcutil.Tx, utxoView *UtxoViewpoint,
 func checkBlockScripts(block *btcutil.Block, utxoView *UtxoViewpoint,
 	scriptFlags txscript.ScriptFlags, sigCache *txscript.SigCache,
 	hashCache *txscript.HashCache) er.R {
-
 	// First determine if segwit is active according to the scriptFlags. If
 	// it isn't then we don't need to interact with the HashCache.
 	segwitActive := scriptFlags&txscript.ScriptVerifyWitness == txscript.ScriptVerifyWitness

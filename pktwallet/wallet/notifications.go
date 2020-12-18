@@ -76,7 +76,6 @@ func lookupInputAccount(dbtx walletdb.ReadTx, w *Wallet, details *wtxmgr.TxDetai
 
 func lookupOutputChain(dbtx walletdb.ReadTx, w *Wallet, details *wtxmgr.TxDetails,
 	cred wtxmgr.CreditRecord) (account uint32, internal bool) {
-
 	addrmgrNs := dbtx.ReadBucket(waddrmgrNamespaceKey)
 
 	output := details.MsgTx.TxOut[cred.Index]

@@ -22,7 +22,6 @@ import (
 // WeightedHeuristics that can be combined for use with the autopilot agent.
 func validateAtplCfg(cfg *lncfg.AutoPilot) ([]*autopilot.WeightedHeuristic,
 	er.R) {
-
 	var (
 		heuristicsStr string
 		sum           float64
@@ -86,7 +85,6 @@ type chanController struct {
 // funding transaction that marks the channel open has been broadcast.
 func (c *chanController) OpenChannel(target *btcec.PublicKey,
 	amt btcutil.Amount) er.R {
-
 	// With the connection established, we'll now establish our connection
 	// to the target peer, waiting for the first update before we exit.
 	feePerKw, err := c.server.cc.FeeEstimator.EstimateFeePerKW(
@@ -138,7 +136,6 @@ var _ autopilot.ChannelController = (*chanController)(nil)
 func initAutoPilot(svr *server, cfg *lncfg.AutoPilot,
 	chainCfg *lncfg.Chain, netParams chainreg.BitcoinNetParams) (
 	*autopilot.ManagerCfg, er.R) {
-
 	log.Infof("Instantiating autopilot with active=%v, "+
 		"max_channels=%d, allocation=%f, min_chan_size=%d, "+
 		"max_chan_size=%d, private=%t, min_confs=%d, conf_target=%d",
@@ -278,7 +275,6 @@ func initAutoPilot(svr *server, cfg *lncfg.AutoPilot,
 		},
 		ChannelInfo: func(chanPoint wire.OutPoint) (
 			*autopilot.LocalChannel, er.R) {
-
 			channel, err := svr.remoteChanDB.FetchChannel(chanPoint)
 			if err != nil {
 				return nil, err

@@ -274,7 +274,6 @@ func (e *expectedHtlcSuccess) equals(a htlcAttempt) bool {
 // matches the given expectation.
 func assertSuccessAttempts(t *testing.T, attempts []htlcAttempt,
 	expected []expectedHtlcSuccess) {
-
 	successCount := 0
 loop:
 	for _, a := range attempts {

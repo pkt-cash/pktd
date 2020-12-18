@@ -195,7 +195,6 @@ func getCircuitKey(htlcID uint64) channeldb.CircuitKey {
 
 func newTestInvoice(t *testing.T, preimage lntypes.Preimage,
 	timestamp time.Time, expiry time.Duration) *channeldb.Invoice {
-
 	if expiry == 0 {
 		expiry = time.Hour
 	}
@@ -219,7 +218,6 @@ func newTestInvoice(t *testing.T, preimage lntypes.Preimage,
 	}
 
 	paymentRequest, err := rawInvoice.Encode(testMessageSigner)
-
 	if err != nil {
 		t.Fatalf("Error while encoding payment request: %v", err)
 	}
@@ -269,7 +267,6 @@ type invoiceExpiryTestData struct {
 func generateInvoiceExpiryTestData(
 	t *testing.T, now time.Time,
 	offset, numExpired, numPending int) invoiceExpiryTestData {
-
 	var testData invoiceExpiryTestData
 
 	testData.expiredInvoices = make(map[lntypes.Hash]*channeldb.Invoice)

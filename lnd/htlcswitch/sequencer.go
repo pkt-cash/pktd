@@ -60,7 +60,6 @@ func NewPersistentSequencer(db *channeldb.DB) (Sequencer, er.R) {
 // NextID returns a unique sequence number for every invocation, persisting the
 // assignment to avoid reuse.
 func (s *persistentSequencer) NextID() (uint64, er.R) {
-
 	// nextID will be the unique sequence number returned if no errors are
 	// encountered.
 	var nextID uint64

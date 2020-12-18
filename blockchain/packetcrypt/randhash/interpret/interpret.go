@@ -22,8 +22,10 @@ type Uint64 struct {
 // keep these powers of 2 because there is unsigned modulo using &
 // Also be careful not to change these without also checking the buffers
 // which are passed to RandHash_execute()
-const RandHash_MEMORY_SZ int = 256
-const RandHash_INOUT_SZ int64 = 256
+const (
+	RandHash_MEMORY_SZ int   = 256
+	RandHash_INOUT_SZ  int64 = 256
+)
 
 func getReg(stack []uint32, index uint32) uint32 {
 	if index > uint32(len(stack)) {
@@ -31,21 +33,25 @@ func getReg(stack []uint32, index uint32) uint32 {
 	}
 	return stack[index]
 }
+
 func getA(ctx *Context, insn uint32) uint32 {
 	return getReg(ctx.stack, util.DecodeInsn_REGA(insn))
 }
+
 func getB(ctx *Context, insn uint32) uint32 {
 	if util.DecodeInsn_HAS_IMM(insn) {
 		return uint32(util.DecodeInsn_immLo(insn))
 	}
 	return getReg(ctx.stack, util.DecodeInsn_REGB(insn))
 }
+
 func getA2(ctx *Context, insn uint32) Uint64 {
 	return Uint64{
 		lo: getReg(ctx.stack, util.DecodeInsn_REGA(insn)-1),
 		hi: getReg(ctx.stack, util.DecodeInsn_REGA(insn)),
 	}
 }
+
 func getB2(ctx *Context, insn uint32) Uint64 {
 	if util.DecodeInsn_HAS_IMM(insn) {
 		imm := util.DecodeInsn_imm(insn)
@@ -64,10 +70,12 @@ func out1(ctx *Context, val uint32) {
 	ctx.varCount++
 	ctx.stack = append(ctx.stack, val)
 }
+
 func out2(ctx *Context, a uint64) {
 	ctx.varCount += 2
 	ctx.stack = append(ctx.stack, uint32(a), uint32(a>>32))
 }
+
 func out4(ctx *Context, a uint128) {
 	ctx.varCount += 4
 	ctx.stack = append(ctx.stack, U128_0(a), U128_1(a), U128_2(a), U128_3(a))
@@ -208,10 +216,10 @@ func interpret(ctx *Context, pc int) int {
 			if len(ctx.stack)-ctx.varCount <= 0 {
 				panic("insane varcount")
 			}
-			//printf("xx %d\n", ctx->vars.count);
+			// printf("xx %d\n", ctx->vars.count);
 			for i := len(ctx.stack) - ctx.varCount; i < len(ctx.stack); i++ {
-				//printf("// out1(%08x) %d\n", ctx->vars.elems[i], ctx->hashctr);
-				//DEBUGF("out1 %08x (%d)\n", ctx->vars.elems[i], ctx->hashctr);
+				// printf("// out1(%08x) %d\n", ctx->vars.elems[i], ctx->hashctr);
+				// DEBUGF("out1 %08x (%d)\n", ctx->vars.elems[i], ctx->hashctr);
 				if debug {
 					pad(ctx)
 					fmt.Printf("OUTPUT %08x (%d)\n", ctx.stack[i], ctx.hashctr)

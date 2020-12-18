@@ -18,7 +18,6 @@ import (
 // with an outdated best block and miss sending ntfns. Used for testing.
 func (b *BtcdNotifier) UnsafeStart(bestHeight int32, bestHash *chainhash.Hash,
 	syncHeight int32, generateBlocks func() er.R) er.R {
-
 	// Connect to btcd, and register for notifications on connected, and
 	// disconnected blocks.
 	if err := b.chainConn.Connect(20); err != nil {

@@ -152,7 +152,6 @@ func (p Policy) Validate() er.R {
 // policy's fee rate.
 func (p *Policy) ComputeAltruistOutput(totalAmt btcutil.Amount,
 	txWeight int64) (btcutil.Amount, er.R) {
-
 	txFee := p.SweepFeeRate.FeeForWeight(txWeight)
 	if txFee > totalAmt {
 		return 0, ErrFeeExceedsInputs.Default()
@@ -177,7 +176,6 @@ func (p *Policy) ComputeAltruistOutput(totalAmt btcutil.Amount,
 // splitting the remaining balance amongst the victim and fees.
 func (p *Policy) ComputeRewardOutputs(totalAmt btcutil.Amount,
 	txWeight int64) (btcutil.Amount, btcutil.Amount, er.R) {
-
 	txFee := p.SweepFeeRate.FeeForWeight(txWeight)
 	if txFee > totalAmt {
 		return 0, 0, ErrFeeExceedsInputs.Default()
@@ -240,7 +238,6 @@ func ComputeRewardAmount(total btcutil.Amount, base, rate uint32) btcutil.Amount
 // ignored if the blob type does not specify a reward.
 func (p *Policy) ComputeJusticeTxOuts(totalAmt btcutil.Amount, txWeight int64,
 	sweepPkScript, rewardPkScript []byte) ([]*wire.TxOut, er.R) {
-
 	var outputs []*wire.TxOut
 
 	// If the policy specifies a reward for the tower, compute a split of

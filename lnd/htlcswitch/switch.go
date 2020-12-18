@@ -342,7 +342,6 @@ type resolutionMsg struct {
 // didn't need to go to the chain in order to fulfill a contract. We'll process
 // this message just as if it came from an active outgoing channel.
 func (s *Switch) ProcessContractResolution(msg contractcourt.ResolutionMsg) er.R {
-
 	done := make(chan struct{})
 
 	select {
@@ -371,7 +370,6 @@ func (s *Switch) ProcessContractResolution(msg contractcourt.ResolutionMsg) er.R
 // paymentID is unknown, ErrPaymentIDNotFound will be returned.
 func (s *Switch) GetPaymentResult(paymentID uint64, paymentHash lntypes.Hash,
 	deobfuscator ErrorDecrypter) (<-chan *PaymentResult, er.R) {
-
 	var (
 		nChan  <-chan *networkResult
 		err    er.R
@@ -453,7 +451,6 @@ func (s *Switch) CleanStore(keepPids map[uint64]struct{}) er.R {
 // it.
 func (s *Switch) SendHTLC(firstHop lnwire.ShortChannelID, paymentID uint64,
 	htlc *lnwire.UpdateAddHTLC) er.R {
-
 	// Generate and send new update packet, if error will be received on
 	// this stage it means that packet haven't left boundaries of our
 	// system and something wrong happened.
@@ -515,7 +512,6 @@ func (s *Switch) SendHTLC(firstHop lnwire.ShortChannelID, paymentID uint64,
 // down.
 func (s *Switch) UpdateForwardingPolicies(
 	chanPolicies map[wire.OutPoint]ForwardingPolicy) {
-
 	log.Tracef("Updating link policies: %v", log.C(func() string {
 		return spew.Sdump(chanPolicies)
 	}))
@@ -543,7 +539,6 @@ func (s *Switch) UpdateForwardingPolicies(
 // to an opened circuit that represents a forwarded payment.
 func (s *Switch) IsForwardedHTLC(chanID lnwire.ShortChannelID,
 	htlcIndex uint64) bool {
-
 	circuit := s.circuits.LookupOpenCircuit(channeldb.CircuitKey{
 		ChanID: chanID,
 		HtlcID: htlcIndex,
@@ -559,7 +554,6 @@ func (s *Switch) IsForwardedHTLC(chanID lnwire.ShortChannelID,
 // forwarding.
 func (s *Switch) ForwardPackets(linkQuit chan struct{},
 	packets ...*htlcPacket) er.R {
-
 	var (
 		// fwdChan is a buffered channel used to receive err msgs from
 		// the htlcPlex when forwarding this batch.
@@ -721,7 +715,6 @@ func (s *Switch) logFwdErrs(num *int, wg *sync.WaitGroup, fwdChan chan er.R) {
 // the htlcForwarder before returning.
 func (s *Switch) routeAsync(packet *htlcPacket, errChan chan er.R,
 	linkQuit chan struct{}) er.R {
-
 	command := &plexPacket{
 		pkt: packet,
 		err: errChan,
@@ -742,7 +735,6 @@ func (s *Switch) routeAsync(packet *htlcPacket, errChan chan er.R,
 // and a link error if the htlc cannot be forwarded.
 func (s *Switch) getLocalLink(pkt *htlcPacket, htlc *lnwire.UpdateAddHTLC) (
 	ChannelLink, *LinkError) {
-
 	// Try to find links by node destination.
 	s.indexMtx.RLock()
 	link, err := s.getLinkByShortID(pkt.outgoingChanID)
@@ -856,7 +848,6 @@ func (s *Switch) handleLocalResponse(pkt *htlcPacket) {
 // the given network message.
 func (s *Switch) extractResult(deobfuscator ErrorDecrypter, n *networkResult,
 	paymentID uint64, paymentHash lntypes.Hash) (*PaymentResult, er.R) {
-
 	switch htlc := n.msg.(type) {
 
 	// We've received a settle update which means we can finalize the user
@@ -894,7 +885,6 @@ func (s *Switch) extractResult(deobfuscator ErrorDecrypter, n *networkResult,
 func (s *Switch) parseFailedPayment(deobfuscator ErrorDecrypter,
 	paymentID uint64, paymentHash lntypes.Hash, unencrypted,
 	isResolution bool, htlc *lnwire.UpdateFailHTLC) er.R {
-
 	switch {
 
 	// The payment never cleared the link, so we don't need to
@@ -1205,7 +1195,6 @@ func (s *Switch) handlePacketForward(packet *htlcPacket) er.R {
 // configured to disallow this behavior.
 func checkCircularForward(incoming, outgoing lnwire.ShortChannelID,
 	allowCircular bool, paymentHash lntypes.Hash) *LinkError {
-
 	// If the route is not circular we do not need to perform any further
 	// checks.
 	if incoming != outgoing {
@@ -1450,7 +1439,6 @@ func (s *Switch) teardownCircuit(pkt *htlcPacket) er.R {
 func (s *Switch) CloseLink(chanPoint *wire.OutPoint,
 	closeType ChannelCloseType, targetFeePerKw chainfee.SatPerKWeight,
 	deliveryScript lnwire.DeliveryAddress) (chan interface{}, chan er.R) {
-
 	// TODO(roasbeef) abstract out the close updates.
 	updateChan := make(chan interface{}, 2)
 	errChan := make(chan er.R, 1)
@@ -1826,7 +1814,6 @@ func (s *Switch) reforwardResponses() er.R {
 // loadChannelFwdPkgs loads all forwarding packages owned by the `source` short
 // channel identifier.
 func (s *Switch) loadChannelFwdPkgs(source lnwire.ShortChannelID) ([]*channeldb.FwdPkg, er.R) {
-
 	var fwdPkgs []*channeldb.FwdPkg
 	if err := kvdb.View(s.cfg.DB, func(tx kvdb.RTx) er.R {
 		var err er.R
@@ -2198,7 +2185,6 @@ func (s *Switch) CircuitLookup() CircuitLookup {
 // commitCircuits persistently adds a circuit to the switch's circuit map.
 func (s *Switch) commitCircuits(circuits ...*PaymentCircuit) (
 	*CircuitFwdActions, er.R) {
-
 	return s.circuits.CommitCircuits(circuits...)
 }
 

@@ -8,10 +8,11 @@ package btcjson_test
 import (
 	"bytes"
 	"fmt"
-	"github.com/json-iterator/go"
-	"github.com/pkt-cash/pktd/btcutil/er"
 	"reflect"
 	"testing"
+
+	jsoniter "github.com/json-iterator/go"
+	"github.com/pkt-cash/pktd/btcutil/er"
 
 	"github.com/pkt-cash/pktd/btcjson"
 )
@@ -21,7 +22,6 @@ import (
 // marshaled command, while optional fields with defaults have the default
 // assigned on unmarshaled commands.
 func TestBtcdExtCmds(t *testing.T) {
-
 	testID := int(1)
 	tests := []struct {
 		name        string

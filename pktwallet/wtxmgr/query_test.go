@@ -65,7 +65,6 @@ func deepCopyTxDetails(d *TxDetails) *TxDetails {
 
 func (q *queryState) compare(s *Store, ns walletdb.ReadBucket,
 	changeDesc string) er.R {
-
 	fwdBlocks := q.blocks
 	revBlocks := make([][]TxDetails, len(q.blocks))
 	copy(revBlocks, q.blocks)
@@ -239,7 +238,6 @@ func makeBlockMeta(height int32) BlockMeta {
 }
 
 func TestStoreQueries(t *testing.T) {
-
 	type queryTest struct {
 		desc    string
 		updates func(ns walletdb.ReadWriteBucket) er.R
@@ -533,7 +531,6 @@ func TestStoreQueries(t *testing.T) {
 }
 
 func TestPreviousPkScripts(t *testing.T) {
-
 	s, db, teardown, err := testStore()
 	defer teardown()
 	if err != nil {

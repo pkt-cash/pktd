@@ -778,7 +778,7 @@ func testMetadataManualTxInterface(tc *testContext) bool {
 
 	// keyValues holds the keys and values to use when putting values into a
 	// bucket.
-	var keyValues = []keyPair{
+	keyValues := []keyPair{
 		{[]byte("umtxkey1"), []byte("foo1")},
 		{[]byte("umtxkey2"), []byte("foo2")},
 		{[]byte("umtxkey3"), []byte("foo3")},
@@ -2009,7 +2009,7 @@ func testConcurrecy(tc *testContext) bool {
 	// sleepTime is how long each of the concurrent readers should sleep to
 	// aid in detection of whether or not the data is actually being read
 	// concurrently.  It starts with a sane lower bound.
-	var sleepTime = time.Millisecond * 250
+	sleepTime := time.Millisecond * 250
 
 	// Determine about how long it takes for a single block read.  When it's
 	// longer than the default minimum sleep time, adjust the sleep time to

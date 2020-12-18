@@ -566,7 +566,6 @@ func removeSessionHintBkt(updateIndex kvdb.RwBucket, id *SessionID) er.R {
 // ErrNoSessionHintIndex.
 func getHintsForSession(updateIndex kvdb.RBucket,
 	id *SessionID) ([]blob.BreachHint, er.R) {
-
 	sessionHints := updateIndex.NestedReadBucket(id[:])
 	if sessionHints == nil {
 		return nil, ErrNoSessionHintIndex.Default()
@@ -597,7 +596,6 @@ func getHintsForSession(updateIndex kvdb.RBucket,
 // ErrNoSessionHintIndex.
 func putHintForSession(updateIndex kvdb.RwBucket, id *SessionID,
 	hint blob.BreachHint) er.R {
-
 	sessionHints := updateIndex.NestedReadWriteBucket(id[:])
 	if sessionHints == nil {
 		return ErrNoSessionHintIndex.Default()

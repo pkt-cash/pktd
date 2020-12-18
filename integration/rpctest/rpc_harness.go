@@ -109,7 +109,6 @@ type Harness struct {
 // NOTE: This function is safe for concurrent access.
 func New(activeNet *chaincfg.Params, handlers *rpcclient.NotificationHandlers,
 	extraArgs []string) (*Harness, er.R) {
-
 	harnessStateMtx.Lock()
 	defer harnessStateMtx.Unlock()
 
@@ -353,7 +352,6 @@ func (h *Harness) connectRPCClient() er.R {
 // This function is safe for concurrent access.
 func (h *Harness) CreateTransaction(targetOutputs []*wire.TxOut,
 	feeRate btcutil.Amount, change bool) (*wire.MsgTx, er.R) {
-
 	return h.wallet.CreateTransaction(targetOutputs, feeRate, change)
 }
 
@@ -401,7 +399,6 @@ func (h *Harness) NewAddress() (btcutil.Address, er.R) {
 // This function is safe for concurrent access.
 func (h *Harness) SendOutputs(targetOutputs []*wire.TxOut,
 	feeRate btcutil.Amount) (*chainhash.Hash, er.R) {
-
 	return h.wallet.SendOutputs(targetOutputs, feeRate)
 }
 
@@ -412,7 +409,6 @@ func (h *Harness) SendOutputs(targetOutputs []*wire.TxOut,
 // This function is safe for concurrent access.
 func (h *Harness) SendOutputsWithoutChange(targetOutputs []*wire.TxOut,
 	feeRate btcutil.Amount) (*chainhash.Hash, er.R) {
-
 	return h.wallet.SendOutputsWithoutChange(targetOutputs, feeRate)
 }
 
@@ -433,7 +429,6 @@ func (h *Harness) SendOutputsWithoutChange(targetOutputs []*wire.TxOut,
 func (h *Harness) GenerateAndSubmitBlockWithCustomCoinbaseOutputs(
 	txns []*btcutil.Tx, blockVersion int32, blockTime time.Time,
 	mineTo []wire.TxOut) (*btcutil.Block, er.R) {
-
 	h.Lock()
 	defer h.Unlock()
 
@@ -490,6 +485,6 @@ func generateListeningAddresses() (string, string) {
 // baseDir is the directory path of the temp directory for all rpctest files.
 func baseDir() (string, er.R) {
 	dirPath := filepath.Join(os.TempDir(), "pktd", "rpctest")
-	errr := os.MkdirAll(dirPath, 0755)
+	errr := os.MkdirAll(dirPath, 0o755)
 	return dirPath, er.E(errr)
 }

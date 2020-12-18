@@ -406,7 +406,6 @@ mnemonicCheck:
 // using a password.
 func capturePassword(instruction string, optional bool,
 	validate func([]byte) er.R) ([]byte, er.R) {
-
 	for {
 		password, err := readPassword(instruction)
 		if err != nil {
@@ -654,7 +653,7 @@ func storeOrPrintAdminMac(ctx *cli.Context, adminMac []byte) er.R {
 	// macaroon to that file.
 	if ctx.IsSet("save_to") {
 		macSavePath := lncfg.CleanAndExpandPath(ctx.String("save_to"))
-		err := ioutil.WriteFile(macSavePath, adminMac, 0644)
+		err := ioutil.WriteFile(macSavePath, adminMac, 0o644)
 		if err != nil {
 			_ = os.Remove(macSavePath)
 			return er.E(err)

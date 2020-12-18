@@ -16,11 +16,9 @@ import (
 	"github.com/pkt-cash/pktd/database"
 )
 
-var (
-	// indexTipsBucketName is the name of the db bucket used to house the
-	// current tip of each index.
-	indexTipsBucketName = []byte("idxtips")
-)
+// indexTipsBucketName is the name of the db bucket used to house the
+// current tip of each index.
+var indexTipsBucketName = []byte("idxtips")
 
 // -----------------------------------------------------------------------------
 // The index manager tracks the current tip of each index by using a parent
@@ -68,7 +66,6 @@ func dbFetchIndexerTip(dbTx database.Tx, idxKey []byte) (*chainhash.Hash, int32,
 // not the previous block for the passed block.
 func dbIndexConnectBlock(dbTx database.Tx, indexer Indexer, block *btcutil.Block,
 	stxo []blockchain.SpentTxOut) er.R {
-
 	// Assert that the block being connected properly connects to the
 	// current tip of the index.
 	idxKey := indexer.Key()
@@ -98,7 +95,6 @@ func dbIndexConnectBlock(dbTx database.Tx, indexer Indexer, block *btcutil.Block
 // not the passed block.
 func dbIndexDisconnectBlock(dbTx database.Tx, indexer Indexer, block *btcutil.Block,
 	stxo []blockchain.SpentTxOut) er.R {
-
 	// Assert that the block being disconnected is the current tip of the
 	// index.
 	idxKey := indexer.Key()
@@ -471,7 +467,6 @@ func indexNeedsInputs(index Indexer) bool {
 // This is part of the blockchain.IndexManager interface.
 func (m *Manager) ConnectBlock(dbTx database.Tx, block *btcutil.Block,
 	stxos []blockchain.SpentTxOut) er.R {
-
 	// Call each of the currently active optional indexes with the block
 	// being connected so they can update accordingly.
 	for _, index := range m.enabledIndexes {
@@ -491,7 +486,6 @@ func (m *Manager) ConnectBlock(dbTx database.Tx, block *btcutil.Block,
 // This is part of the blockchain.IndexManager interface.
 func (m *Manager) DisconnectBlock(dbTx database.Tx, block *btcutil.Block,
 	stxo []blockchain.SpentTxOut) er.R {
-
 	// Call each of the currently active optional indexes with the block
 	// being disconnected so they can update accordingly.
 	for _, index := range m.enabledIndexes {

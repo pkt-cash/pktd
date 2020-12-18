@@ -20,7 +20,6 @@ func serializeUint32(ui uint32) []byte {
 
 // TestParentStack ensures the treapParentStack functionality works as intended.
 func TestParentStack(t *testing.T) {
-
 	tests := []struct {
 		numNodes int
 	}{

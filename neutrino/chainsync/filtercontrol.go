@@ -43,7 +43,6 @@ var filterHeaderCheckpoints = map[protocol.BitcoinNet]map[uint32]*chainhash.Hash
 // given height, and it doesn't match.
 func ControlCFHeader(params chaincfg.Params, fType wire.FilterType,
 	height uint32, filterHeader *chainhash.Hash) er.R {
-
 	if fType != wire.GCSFilterRegular {
 		return er.Errorf("unsupported filter type %v", fType)
 	}

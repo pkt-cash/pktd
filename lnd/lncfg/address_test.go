@@ -130,7 +130,8 @@ func testInvalidAddress(t *testing.T, invalidAddr string) {
 }
 
 var (
-	pubKeyBytes = []byte{0x03,
+	pubKeyBytes = []byte{
+		0x03,
 		0xc7, 0x82, 0x86, 0xd0, 0xbf, 0xe0, 0xb2, 0x33,
 		0x77, 0xe3, 0x47, 0xd7, 0xd9, 0x63, 0x94, 0x3c,
 		0x4f, 0x57, 0x5d, 0xdd, 0xd5, 0x7e, 0x2f, 0x1d,
@@ -235,7 +236,6 @@ func testInvalidLNAddress(t *testing.T, invalidAddr string) {
 // respectively. Further, we test the IsLoopback and IsUnix detection methods
 // against addr and assert that they match the expected values in the test case.
 func validateAddr(t *testing.T, addr net.Addr, test addressTest) {
-
 	t.Helper()
 
 	// Assert that the parsed network and address match what we expect.

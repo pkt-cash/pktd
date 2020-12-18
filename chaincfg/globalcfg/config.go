@@ -40,8 +40,10 @@ type Config struct {
 	Amounts              []CoinAmount
 }
 
-var gConf Config
-var registered bool
+var (
+	gConf      Config
+	registered bool
+)
 
 // BitcoinDefaults creates a new config with the default values for bitcoin
 func BitcoinDefaults() Config {

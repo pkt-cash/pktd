@@ -132,7 +132,6 @@ func (m *mockGraph) addNode(node *mockNode) {
 // nolint:unparam
 func (m *mockGraph) addChannel(id uint64, node1id, node2id byte,
 	capacity btcutil.Amount) {
-
 	node1pubkey := createPubkey(node1id)
 	node2pubkey := createPubkey(node2id)
 
@@ -161,7 +160,6 @@ func (m *mockGraph) addChannel(id uint64, node1id, node2id byte,
 func (m *mockGraph) forEachNodeChannel(nodePub route.Vertex,
 	cb func(*channeldb.ChannelEdgeInfo, *channeldb.ChannelEdgePolicy,
 		*channeldb.ChannelEdgePolicy) er.R) er.R {
-
 	// Look up the mock node.
 	node, ok := m.nodes[nodePub]
 	if !ok {
@@ -222,7 +220,6 @@ func (m *mockGraph) sourceNode() route.Vertex {
 // NOTE: Part of the routingGraph interface.
 func (m *mockGraph) fetchNodeFeatures(nodePub route.Vertex) (
 	*lnwire.FeatureVector, er.R) {
-
 	return lnwire.EmptyFeatureVector(), nil
 }
 

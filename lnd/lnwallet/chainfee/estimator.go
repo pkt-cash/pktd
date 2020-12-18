@@ -76,7 +76,6 @@ type StaticEstimator struct {
 
 // NewStaticEstimator returns a new static fee estimator instance.
 func NewStaticEstimator(feePerKW, relayFee SatPerKWeight) *StaticEstimator {
-
 	return &StaticEstimator{
 		feePerKW: feePerKW,
 		relayFee: relayFee,
@@ -143,7 +142,6 @@ type BtcdEstimator struct {
 // fee estimate.
 func NewBtcdEstimator(rpcConfig rpcclient.ConnConfig,
 	fallBackFeeRate SatPerKWeight) (*BtcdEstimator, er.R) {
-
 	rpcConfig.DisableConnectOnNew = true
 	rpcConfig.DisableAutoReconnect = false
 	chainConn, err := rpcclient.New(&rpcConfig, nil)
@@ -303,7 +301,6 @@ type BitcoindEstimator struct {
 // for a fee estimate.
 func NewBitcoindEstimator(rpcConfig rpcclient.ConnConfig, feeMode string,
 	fallBackFeeRate SatPerKWeight) (*BitcoindEstimator, er.R) {
-
 	rpcConfig.DisableConnectOnNew = true
 	rpcConfig.DisableAutoReconnect = false
 	rpcConfig.DisableTLS = true
@@ -616,7 +613,6 @@ func (w *WebAPIEstimator) Start() er.R {
 
 		w.wg.Add(1)
 		go w.feeUpdateManager()
-
 	})
 	return err
 }

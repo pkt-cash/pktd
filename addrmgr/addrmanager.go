@@ -446,7 +446,6 @@ func (a *AddrManager) loadPeers() {
 }
 
 func (a *AddrManager) deserializePeers(filePath string) er.R {
-
 	_, errr := os.Stat(filePath)
 	if os.IsNotExist(errr) {
 		return nil
@@ -556,7 +555,6 @@ func (a *AddrManager) deserializePeers(filePath string) er.R {
 // DeserializeNetAddress converts a given address string to a *wire.NetAddress.
 func (a *AddrManager) DeserializeNetAddress(addr string,
 	services protocol.ServiceFlag) (*wire.NetAddress, er.R) {
-
 	host, portStr, err := net.SplitHostPort(addr)
 	if err != nil {
 		return nil, er.E(err)
@@ -711,7 +709,6 @@ func (a *AddrManager) getAddresses() []*wire.NetAddress {
 // reset resets the address manager by reinitialising the random source
 // and allocating fresh empty bucket storage.
 func (a *AddrManager) reset() {
-
 	a.addrIndex = make(map[string]*KnownAddress)
 
 	// fill key with bytes from a good random source.

@@ -567,7 +567,7 @@ func ValidateConfig(cfg Config, usageMessage string) (*Config, er.R) {
 
 	funcName := "loadConfig"
 	makeDirectory := func(dir string) er.R {
-		errr := os.MkdirAll(dir, 0700)
+		errr := os.MkdirAll(dir, 0o700)
 		if errr != nil {
 			// Show a nicer error message if it's because a symlink
 			// is linked to a directory that does not exist
@@ -1481,7 +1481,6 @@ func extractBtcdRPCParams(btcdConfigPath string) (string, string, er.R) {
 // the bitcoin.conf. If it doesn't find one, it looks for rpcuser/rpcpassword.
 func extractBitcoindRPCParams(networkName string,
 	bitcoindConfigPath string) (string, string, string, string, er.R) {
-
 	// First, we'll open up the bitcoind configuration file found at the
 	// target destination.
 	bitcoindConfigFile, errr := os.Open(bitcoindConfigPath)

@@ -58,7 +58,6 @@ func assertAddr(t *testing.T, got, expected *wire.NetAddress) {
 // expected addresses.
 func assertAddrs(t *testing.T, addrMgr *AddrManager,
 	expectedAddrs map[string]*wire.NetAddress) {
-
 	t.Helper()
 
 	// NOTE: In the following tests, we specifically allow a set deviation.
@@ -102,7 +101,6 @@ func assertAddrs(t *testing.T, addrMgr *AddrManager,
 // commits. In short, this is a known fault which will eventually be fixed;
 // until then, failing here provides no benefit.
 func TestAddrManagerSerialization(t *testing.T) {
-
 	// We'll start by creating our address manager backed by a temporary
 	// directory.
 	tempDir, err := ioutil.TempDir("", "addrmgr")
@@ -141,7 +139,6 @@ func TestAddrManagerSerialization(t *testing.T) {
 // TestAddrManagerV1ToV2 ensures that we can properly upgrade the serialized
 // version of the address manager from v1 to v2.
 func TestAddrManagerV1ToV2(t *testing.T) {
-
 	// We'll start by creating our address manager backed by a temporary
 	// directory.
 	tempDir, err := ioutil.TempDir("", "addrmgr")

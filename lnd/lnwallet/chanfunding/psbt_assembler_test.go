@@ -281,7 +281,6 @@ func TestPsbtVerify(t *testing.T) {
 			expectedErr: "PSBT is nil",
 			doVerify: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				return i.Verify(nil)
 			},
 		},
@@ -291,7 +290,6 @@ func TestPsbtVerify(t *testing.T) {
 				"expected output_known",
 			doVerify: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				i.State = PsbtInitiatorCanceled
 				return i.Verify(p)
 			},
@@ -301,7 +299,6 @@ func TestPsbtVerify(t *testing.T) {
 			expectedErr: "funding output not found in PSBT",
 			doVerify: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				p.UnsignedTx.TxOut[0].Value = 123
 				return i.Verify(p)
 			},
@@ -311,7 +308,6 @@ func TestPsbtVerify(t *testing.T) {
 			expectedErr: "funding output not found in PSBT",
 			doVerify: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				p.UnsignedTx.TxOut[0].PkScript = []byte{1, 2, 3}
 				return i.Verify(p)
 			},
@@ -321,7 +317,6 @@ func TestPsbtVerify(t *testing.T) {
 			expectedErr: "PSBT has no inputs",
 			doVerify: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				return i.Verify(p)
 			},
 		},
@@ -331,7 +326,6 @@ func TestPsbtVerify(t *testing.T) {
 				"output amount sum",
 			doVerify: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				p.UnsignedTx.TxIn = []*wire.TxIn{{}}
 				p.Inputs = []psbt.PInput{{
 					WitnessUtxo: &wire.TxOut{
@@ -346,7 +340,6 @@ func TestPsbtVerify(t *testing.T) {
 			expectedErr: "",
 			doVerify: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				txOut := &wire.TxOut{
 					Value: int64(chanCapacity/2) + 1,
 				}
@@ -368,7 +361,8 @@ func TestPsbtVerify(t *testing.T) {
 								txOut,
 							},
 						},
-					}}
+					},
+				}
 				return i.Verify(p)
 			},
 		},
@@ -428,7 +422,6 @@ func TestPsbtFinalize(t *testing.T) {
 			expectedErr: "PSBT is nil",
 			doFinalize: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				return i.Finalize(nil)
 			},
 		},
@@ -438,7 +431,6 @@ func TestPsbtFinalize(t *testing.T) {
 				"expected verified",
 			doFinalize: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				i.State = PsbtInitiatorCanceled
 				return i.Finalize(p)
 			},
@@ -448,7 +440,6 @@ func TestPsbtFinalize(t *testing.T) {
 			expectedErr: "PSBT was not verified first",
 			doFinalize: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				i.State = PsbtVerified
 				i.PendingPsbt = nil
 				return i.Finalize(p)
@@ -459,7 +450,6 @@ func TestPsbtFinalize(t *testing.T) {
 			expectedErr: "output 0 is different",
 			doFinalize: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				p.UnsignedTx.TxOut[0].Value = 123
 				return i.Finalize(p)
 			},
@@ -469,7 +459,6 @@ func TestPsbtFinalize(t *testing.T) {
 			expectedErr: "output 0 is different",
 			doFinalize: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				p.UnsignedTx.TxOut[0].PkScript = []byte{3, 2, 1}
 				return i.Finalize(p)
 			},
@@ -479,7 +468,6 @@ func TestPsbtFinalize(t *testing.T) {
 			expectedErr: "previous outpoint of input 0 is different",
 			doFinalize: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				p.UnsignedTx.TxIn[0].PreviousOutPoint.Index = 0
 				return i.Finalize(p)
 			},
@@ -489,7 +477,6 @@ func TestPsbtFinalize(t *testing.T) {
 			expectedErr: "previous outpoint of input 0 is different",
 			doFinalize: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				prevout := &p.UnsignedTx.TxIn[0].PreviousOutPoint
 				prevout.Hash = chainhash.Hash{77, 88, 99, 11}
 				return i.Finalize(p)
@@ -500,7 +487,6 @@ func TestPsbtFinalize(t *testing.T) {
 			expectedErr: "raw transaction is nil",
 			doFinalize: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				return i.FinalizeRawTX(nil)
 			},
 		},
@@ -510,7 +496,6 @@ func TestPsbtFinalize(t *testing.T) {
 				"signature data attached",
 			doFinalize: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				rawTx, err := psbt.Extract(p)
 				util.RequireNoErr(t, err)
 				rawTx.TxIn[0].Witness = nil
@@ -523,7 +508,6 @@ func TestPsbtFinalize(t *testing.T) {
 			expectedErr: "",
 			doFinalize: func(amt int64, p *psbt.Packet,
 				i *PsbtIntent) er.R {
-
 				err := i.Finalize(p)
 				util.RequireNoErr(t, err)
 

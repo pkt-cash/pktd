@@ -43,7 +43,6 @@ func newTestReliableSender(t *testing.T) *reliableSender {
 // msgChan.
 func assertMsgsSent(t *testing.T, msgChan chan lnwire.Message,
 	msgs ...lnwire.Message) {
-
 	t.Helper()
 
 	m := make(map[lnwire.Message]struct{}, len(msgs))

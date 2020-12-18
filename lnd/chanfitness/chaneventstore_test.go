@@ -156,14 +156,12 @@ func TestMonitorChannelEvents(t *testing.T) {
 
 		testEventStore(t, gen, peer1, 1)
 	})
-
 }
 
 // testEventStore creates a new test contexts, generates a set of events for it
 // and tests that it has the number of channels we expect.
 func testEventStore(t *testing.T, generateEvents func(*chanEventStoreTestCtx),
 	peer route.Vertex, expectedChannels int) {
-
 	testCtx := newChanEventStoreTestCtx(t)
 	testCtx.start()
 

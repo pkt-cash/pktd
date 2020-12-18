@@ -1,8 +1,9 @@
 package leveldb
 
 import (
-	"github.com/pkt-cash/pktd/goleveldb/leveldb/storage"
 	"sync/atomic"
+
+	"github.com/pkt-cash/pktd/goleveldb/leveldb/storage"
 )
 
 type iStorage struct {

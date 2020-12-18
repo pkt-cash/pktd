@@ -74,9 +74,7 @@ func BenchmarkProcessPacket(b *testing.B) {
 	defer path[0].log.Stop()
 	b.StartTimer()
 
-	var (
-		pkt *ProcessedPacket
-	)
+	var pkt *ProcessedPacket
 	for i := 0; i < b.N; i++ {
 		pkt, err = path[0].ProcessOnionPacket(sphinxPacket, nil, uint32(i))
 		if err != nil {

@@ -2057,6 +2057,7 @@ var words_english = [2048]string{
 	"zone",
 	"zoo",
 }
+
 var rwords_english = map[string]int16{
 	"abandon":  0,
 	"ability":  1,

@@ -70,8 +70,10 @@ type BtcWallet struct {
 
 // A compile time check to ensure that BtcWallet implements the
 // WalletController and BlockChainIO interfaces.
-var _ lnwallet.WalletController = (*BtcWallet)(nil)
-var _ lnwallet.BlockChainIO = (*BtcWallet)(nil)
+var (
+	_ lnwallet.WalletController = (*BtcWallet)(nil)
+	_ lnwallet.BlockChainIO     = (*BtcWallet)(nil)
+)
 
 // New returns a new fully initialized instance of BtcWallet given a valid
 // configuration struct.
@@ -88,7 +90,7 @@ func New(cfg Config) (*BtcWallet, er.R) {
 	// Maybe the wallet has already been opened and unlocked by the
 	// WalletUnlocker. So if we get a non-nil value from the config,
 	// we assume everything is in order.
-	var wallet = cfg.Wallet
+	wallet := cfg.Wallet
 	if wallet == nil {
 		// No ready wallet was passed, so try to open an existing one.
 		var pubPass []byte
@@ -264,7 +266,6 @@ func (b *BtcWallet) NewAddress(t lnwallet.AddressType, change bool) (btcutil.Add
 // change address.
 func (b *BtcWallet) LastUnusedAddress(addrType lnwallet.AddressType) (
 	btcutil.Address, er.R) {
-
 	var keyScope waddrmgr.KeyScope
 
 	switch addrType {
@@ -296,7 +297,6 @@ func (b *BtcWallet) IsOurAddress(a btcutil.Address) bool {
 // This is a part of the WalletController interface.
 func (b *BtcWallet) SendOutputs(outputs []*wire.TxOut,
 	feeRate chainfee.SatPerKWeight, minconf int32, label string) (*wire.MsgTx, er.R) {
-
 	// Convert our fee rate from sat/kw to sat/kb since it's required by
 	// SendOutputs.
 	feeSatPerKB := btcutil.Amount(feeRate.FeePerKVByte())
@@ -345,7 +345,6 @@ func (b *BtcWallet) SendOutputs(outputs []*wire.TxOut,
 // This is a part of the WalletController interface.
 func (b *BtcWallet) CreateSimpleTx(outputs []*wire.TxOut,
 	feeRate chainfee.SatPerKWeight, dryRun bool) (*txauthor.AuthoredTx, er.R) {
-
 	// The fee rate is passed in using units of sat/kw, so we'll convert
 	// this to sat/KB as the CreateSimpleTx method requires this unit.
 	feeSatPerKB := btcutil.Amount(feeRate.FeePerKVByte())
@@ -418,7 +417,6 @@ func (b *BtcWallet) UnlockOutpoint(o wire.OutPoint) {
 // NOTE: This method requires the global coin selection lock to be held.
 func (b *BtcWallet) LeaseOutput(id wtxmgr.LockID, op wire.OutPoint) (time.Time,
 	er.R) {
-
 	// Make sure we don't attempt to double lock an output that's been
 	// locked by the in-memory implementation.
 	if b.wallet.LockedOutpoint(op) {
@@ -520,7 +518,6 @@ func (b *BtcWallet) PublishTransaction(tx *wire.MsgTx, label string) er.R {
 // Note: it is part of the WalletController interface.
 func (b *BtcWallet) LabelTransaction(hash chainhash.Hash, label string,
 	overwrite bool) er.R {
-
 	return b.wallet.LabelTransaction(hash, label, overwrite)
 }
 
@@ -551,7 +548,6 @@ func minedTransactionsToDetails(
 	block base.Block,
 	chainParams *chaincfg.Params,
 ) ([]*lnwallet.TransactionDetail, er.R) {
-
 	details := make([]*lnwallet.TransactionDetail, 0, len(block.Transactions))
 	for _, tx := range block.Transactions {
 		wireTx := &wire.MsgTx{}
@@ -605,7 +601,6 @@ func unminedTransactionsToDetail(
 	summary base.TransactionSummary,
 	chainParams *chaincfg.Params,
 ) (*lnwallet.TransactionDetail, er.R) {
-
 	wireTx := &wire.MsgTx{}
 	txReader := bytes.NewReader(summary.Transaction)
 
@@ -652,7 +647,6 @@ func unminedTransactionsToDetail(
 // This is a part of the WalletController interface.
 func (b *BtcWallet) ListTransactionDetails(startHeight,
 	endHeight int32) ([]*lnwallet.TransactionDetail, er.R) {
-
 	// Grab the best block the wallet knows of, we'll use this to calculate
 	// # of confirmations shortly below.
 	bestBlock := b.wallet.Manager.SyncedTo()
@@ -712,7 +706,6 @@ func (b *BtcWallet) ListTransactionDetails(startHeight,
 // This is a part of the WalletController interface.
 func (b *BtcWallet) FundPsbt(packet *psbt.Packet,
 	feeRate chainfee.SatPerKWeight) (int32, er.R) {
-
 	// The fee rate is passed in using units of sat/kw, so we'll convert
 	// this to sat/KB as the CreateSimpleTx method requires this unit.
 	feeSatPerKB := btcutil.Amount(feeRate.FeePerKVByte())
@@ -810,7 +803,6 @@ out:
 						}
 					}
 				}
-
 			}()
 
 			// Launch a goroutine to re-package and send
@@ -940,7 +932,6 @@ func (b *BtcWallet) GetRecoveryInfo() (bool, float64, er.R) {
 		}
 		return nil
 	})
-
 	if err != nil {
 		// The wallet won't start until the backend is synced, thus the birthday
 		// block won't be set and this particular error will be returned. We'll

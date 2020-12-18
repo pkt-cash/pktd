@@ -20,7 +20,6 @@ func (c *ChainIO) GetBestBlock() (*chainhash.Hash, int32, er.R) {
 // GetUtxo currently returns dummy values.
 func (c *ChainIO) GetUtxo(op *wire.OutPoint, _ []byte,
 	heightHint uint32, _ <-chan struct{}) (*wire.TxOut, er.R) {
-
 	return nil, nil
 }
 

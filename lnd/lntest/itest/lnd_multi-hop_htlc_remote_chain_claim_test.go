@@ -24,7 +24,6 @@ import (
 // lose any funds.
 func testMultiHopHtlcRemoteChainClaim(net *lntest.NetworkHarness, t *harnessTest,
 	alice, bob *lntest.HarnessNode, c commitType) {
-
 	ctxb := context.Background()
 
 	// First, we'll create a three hop network: Alice -> Bob -> Carol, with

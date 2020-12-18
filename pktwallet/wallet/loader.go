@@ -64,7 +64,6 @@ type Loader struct {
 // starting from the last SyncedTo height.
 func NewLoader(chainParams *chaincfg.Params, dbDirPath, walletName string,
 	noFreelistSync bool, recoveryWindow uint32) *Loader {
-
 	// TODO(cjd): noFreeListSync ?
 	return &Loader{
 		chainParams:    chainParams,
@@ -119,7 +118,6 @@ func WalletDbPath(netDir, walletName string) string {
 // this seed.  If nil, a secure random seed is generated.
 func (l *Loader) CreateNewWallet(pubPassphrase, privPassphrase []byte,
 	seedInput []byte, seedBirthday time.Time, seed *seedwords.Seed) (*Wallet, er.R) {
-
 	defer l.mu.Unlock()
 	l.mu.Lock()
 
@@ -137,7 +135,7 @@ func (l *Loader) CreateNewWallet(pubPassphrase, privPassphrase []byte,
 	}
 
 	// Create the wallet database backed by bolt db.
-	err = er.E(os.MkdirAll(l.dbDirPath, 0700))
+	err = er.E(os.MkdirAll(l.dbDirPath, 0o700))
 	if err != nil {
 		return nil, err
 	}

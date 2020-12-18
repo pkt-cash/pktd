@@ -109,7 +109,6 @@ type MissionControl interface {
 // PR to send based on well formatted route
 func (r *RouterBackend) QueryRoutes(ctx context.Context,
 	in *lnrpc.QueryRoutesRequest) (*lnrpc.QueryRoutesResponse, er.R) {
-
 	parsePubKey := func(key string) (route.Vertex, er.R) {
 		pubKeyBytes, err := util.DecodeHex(key)
 		if err != nil {
@@ -218,7 +217,6 @@ func (r *RouterBackend) QueryRoutes(ctx context.Context,
 		FeeLimit: feeLimit,
 		ProbabilitySource: func(fromNode, toNode route.Vertex,
 			amt lnwire.MilliSatoshi) float64 {
-
 			if _, ok := ignoredNodes[fromNode]; ok {
 				return 0
 			}
@@ -337,7 +335,6 @@ func (r *RouterBackend) getSuccessProbability(rt *route.Route) float64 {
 // as a directed pair.
 func (r *RouterBackend) rpcEdgeToPair(e *lnrpc.EdgeLocator) (
 	routing.DirectedNodePair, er.R) {
-
 	a, b, err := r.FetchChannelEndpoints(e.ChannelId)
 	if err != nil {
 		return routing.DirectedNodePair{}, err
@@ -413,7 +410,6 @@ func (r *RouterBackend) MarshalRoute(route *route.Route) (*lnrpc.Route, er.R) {
 // UnmarshalHopWithPubkey unmarshals an rpc hop for which the pubkey has
 // already been extracted.
 func UnmarshalHopWithPubkey(rpcHop *lnrpc.Hop, pubkey route.Vertex) (*route.Hop, er.R) {
-
 	customRecords := record.CustomSet(rpcHop.CustomRecords)
 	if err := customRecords.Validate(); err != nil {
 		return nil, err
@@ -439,7 +435,6 @@ func UnmarshalHopWithPubkey(rpcHop *lnrpc.Hop, pubkey route.Vertex) (*route.Hop,
 // pubkey.
 func (r *RouterBackend) UnmarshalHop(rpcHop *lnrpc.Hop,
 	prevNodePubKey [33]byte) (*route.Hop, er.R) {
-
 	var pubKeyBytes [33]byte
 	if rpcHop.PubKey != "" {
 		// Unmarshal the provided hop pubkey.
@@ -476,7 +471,6 @@ func (r *RouterBackend) UnmarshalHop(rpcHop *lnrpc.Hop,
 // pubkey, the channel graph is queried.
 func (r *RouterBackend) UnmarshalRoute(rpcroute *lnrpc.Route) (
 	*route.Route, er.R) {
-
 	prevNodePubKey := r.SelfNode
 
 	hops := make([]*route.Hop, len(rpcroute.Hops))
@@ -509,7 +503,6 @@ func (r *RouterBackend) UnmarshalRoute(rpcroute *lnrpc.Route) (
 // client.
 func (r *RouterBackend) extractIntentFromSendRequest(
 	rpcPayReq *SendPaymentRequest) (*routing.LightningPayment, er.R) {
-
 	payIntent := &routing.LightningPayment{}
 
 	// Pass along restrictions on the outgoing channels that may be used.
@@ -709,7 +702,6 @@ func (r *RouterBackend) extractIntentFromSendRequest(
 // unmarshalRouteHints unmarshals a list of route hints.
 func unmarshalRouteHints(rpcRouteHints []*lnrpc.RouteHint) (
 	[][]zpay32.HopHint, er.R) {
-
 	routeHints := make([][]zpay32.HopHint, 0, len(rpcRouteHints))
 	for _, rpcRouteHint := range rpcRouteHints {
 		routeHint := make(
@@ -755,7 +747,6 @@ func unmarshalHopHint(rpcHint *lnrpc.HopHint) (zpay32.HopHint, er.R) {
 // validates transitive dependencies.
 func UnmarshalFeatures(
 	rpcFeatures []lnrpc.FeatureBit) (*lnwire.FeatureVector, er.R) {
-
 	// If no destination features are specified we'll return nil to signal
 	// that the router should try to use the graph as a fallback.
 	if rpcFeatures == nil {
@@ -845,7 +836,6 @@ func UnmarshalMPP(reqMPP *lnrpc.MPPRecord) (*record.MPP, er.R) {
 // MarshalHTLCAttempt constructs an RPC HTLCAttempt from the db representation.
 func (r *RouterBackend) MarshalHTLCAttempt(
 	htlc channeldb.HTLCAttempt) (*lnrpc.HTLCAttempt, er.R) {
-
 	route, err := r.MarshalRoute(&htlc.Route)
 	if err != nil {
 		return nil, err
@@ -885,7 +875,6 @@ func (r *RouterBackend) MarshalHTLCAttempt(
 // marshalHtlcFailure marshals htlc fail info from the database to its rpc
 // representation.
 func marshalHtlcFailure(failure *channeldb.HTLCFailInfo) (*lnrpc.Failure, er.R) {
-
 	rpcFailure := &lnrpc.Failure{
 		FailureSourceIndex: failure.FailureSourceIndex,
 	}
@@ -970,7 +959,6 @@ func marshalError(sendError er.R) (*lnrpc.Failure, er.R) {
 // failure messages with some fields left empty depending on the failure type.
 func marshalWireError(msg lnwire.FailureMessage,
 	response *lnrpc.Failure) er.R {
-
 	switch onionErr := msg.(type) {
 
 	case *lnwire.FailIncorrectDetails:
@@ -1094,7 +1082,6 @@ func marshalChannelUpdate(update *lnwire.ChannelUpdate) *lnrpc.ChannelUpdate {
 // MarshalPayment marshal a payment to its rpc representation.
 func (r *RouterBackend) MarshalPayment(payment *channeldb.MPPayment) (
 	*lnrpc.Payment, er.R) {
-
 	// Fetch the payment's preimage and the total paid in fees.
 	var (
 		fee      lnwire.MilliSatoshi
@@ -1160,7 +1147,6 @@ func (r *RouterBackend) MarshalPayment(payment *channeldb.MPPayment) (
 // by the RPC.
 func convertPaymentStatus(dbStatus channeldb.PaymentStatus) (
 	lnrpc.Payment_PaymentStatus, er.R) {
-
 	switch dbStatus {
 	case channeldb.StatusUnknown:
 		return lnrpc.Payment_UNKNOWN, nil
@@ -1183,7 +1169,6 @@ func convertPaymentStatus(dbStatus channeldb.PaymentStatus) (
 // type.
 func marshalPaymentFailureReason(reason *channeldb.FailureReason) (
 	lnrpc.PaymentFailureReason, er.R) {
-
 	if reason == nil {
 		return lnrpc.PaymentFailureReason_FAILURE_REASON_NONE, nil
 	}

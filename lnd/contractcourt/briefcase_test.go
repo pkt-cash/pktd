@@ -128,7 +128,6 @@ func makeTestDB() (kvdb.Backend, func(), er.R) {
 
 func newTestBoltArbLog(chainhash chainhash.Hash,
 	op wire.OutPoint) (ArbitratorLog, func(), er.R) {
-
 	testDB, cleanUp, err := makeTestDB()
 	if err != nil {
 		return nil, nil, err
@@ -158,7 +157,6 @@ func randOutPoint() wire.OutPoint {
 
 func assertResolversEqual(t *testing.T, originalResolver ContractResolver,
 	diskResolver ContractResolver) {
-
 	assertTimeoutResEqual := func(ogRes, diskRes *htlcTimeoutResolver) {
 		if !reflect.DeepEqual(ogRes.htlcResolution, diskRes.htlcResolution) {
 			t.Fatalf("resolution mismatch: expected %#v, got %v#",
@@ -764,7 +762,6 @@ func TestCommitSetStorage(t *testing.T) {
 			}
 		}
 	}
-
 }
 
 func init() {

@@ -391,7 +391,6 @@ func (msg *MsgTx) Copy() *MsgTx {
 // See Deserialize for decoding transactions stored to disk, such as in a
 // database, as opposed to decoding transactions from the wire.
 func (msg *MsgTx) BtcDecode(r io.Reader, pver uint32, enc MessageEncoding) er.R {
-
 	version, err := binarySerializer.Uint32(r, littleEndian)
 	if err != nil {
 		return err
@@ -725,7 +724,6 @@ func write64(w io.Writer, x uint64) er.R {
 // See Serialize for encoding transactions to be stored to disk, such as in a
 // database, as opposed to encoding transactions for the wire.
 func (msg *MsgTx) BtcEncode(w io.Writer, pver uint32, enc MessageEncoding) er.R {
-
 	eptf := false
 	if enc&EptfEncoding != 0 && len(msg.Additional) > 0 {
 		if len(msg.Additional) < len(msg.TxIn) {

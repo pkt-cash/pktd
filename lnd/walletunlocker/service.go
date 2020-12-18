@@ -18,12 +18,10 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/wallet"
 )
 
-var (
-	// ErrUnlockTimeout signals that we did not get the expected unlock
-	// message before the timeout occurred.
-	ErrUnlockTimeout = er.GenericErrorType.CodeWithDetail("ErrUnlockTimeout",
-		"got no unlock message before timeout")
-)
+// ErrUnlockTimeout signals that we did not get the expected unlock
+// message before the timeout occurred.
+var ErrUnlockTimeout = er.GenericErrorType.CodeWithDetail("ErrUnlockTimeout",
+	"got no unlock message before timeout")
 
 // ChannelsToRecover wraps any set of packed (serialized+encrypted) channel
 // back ups together. These can be passed in when unlocking the wallet, or
@@ -136,7 +134,6 @@ var _ lnrpc.WalletUnlockerServer = (*UnlockerService)(nil)
 // New creates and returns a new UnlockerService.
 func New(chainDir string, params *chaincfg.Params, noFreelistSync bool,
 	macaroonFiles []string) *UnlockerService {
-
 	return &UnlockerService{
 		InitMsgs:   make(chan *WalletInitMsg, 1),
 		UnlockMsgs: make(chan *WalletUnlockMsg, 1),
@@ -166,7 +163,6 @@ func (u *UnlockerService) GenSeed(_ context.Context,
 // wallet.
 func (u *UnlockerService) GenSeed0(_ context.Context,
 	in *lnrpc.GenSeedRequest) (*lnrpc.GenSeedResponse, er.R) {
-
 	// Before we start, we'll ensure that the wallet hasn't already created
 	// so we don't show a *new* seed to the user if one already exists.
 	netDir := btcwallet.NetworkDir(u.chainDir, u.netParams)
@@ -288,7 +284,6 @@ func (u *UnlockerService) InitWallet(ctx context.Context,
 // the seed can be fed into this RPC in order to commit the new wallet.
 func (u *UnlockerService) InitWallet0(ctx context.Context,
 	in *lnrpc.InitWalletRequest) (*lnrpc.InitWalletResponse, er.R) {
-
 	// Make sure the password meets our constraints.
 	password := in.WalletPassword
 	if err := ValidatePassword(password); err != nil {
@@ -382,7 +377,6 @@ func (u *UnlockerService) UnlockWallet(ctx context.Context,
 // wallet found in the chain's wallet database directory.
 func (u *UnlockerService) UnlockWallet0(ctx context.Context,
 	in *lnrpc.UnlockWalletRequest) (*lnrpc.UnlockWalletResponse, er.R) {
-
 	password := in.WalletPassword
 	recoveryWindow := uint32(in.RecoveryWindow)
 
@@ -459,7 +453,6 @@ func (u *UnlockerService) ChangePassword(ctx context.Context,
 // successful.
 func (u *UnlockerService) ChangePassword0(ctx context.Context,
 	in *lnrpc.ChangePasswordRequest) (*lnrpc.ChangePasswordResponse, er.R) {
-
 	netDir := btcwallet.NetworkDir(u.chainDir, u.netParams)
 	loader := wallet.NewLoader(u.netParams, netDir, "wallet.db", u.noFreelistSync, 0)
 

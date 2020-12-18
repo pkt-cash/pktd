@@ -335,7 +335,6 @@ type dummySigner struct {
 // the data within the passed SignDescriptor.
 func (s *dummySigner) SignOutputRaw(tx *wire.MsgTx,
 	signDesc *input.SignDescriptor) (input.Signature, er.R) {
-
 	return &maxDERSignature{}, nil
 }
 
@@ -718,7 +717,6 @@ var witnessSizeTests = []witnessSizeTest{
 		name:    "accepted htlc timeout",
 		expSize: input.AcceptedHtlcTimeoutWitnessSize - 3,
 		genWitness: func(t *testing.T) wire.TxWitness {
-
 			witScript, err := input.ReceiverHTLCScript(
 				testCLTVExpiry, testPubkey, testPubkey,
 				testPubkey, testHash160, false,

@@ -54,7 +54,6 @@ type htlcTimeoutResolver struct {
 func newTimeoutResolver(res lnwallet.OutgoingHtlcResolution,
 	broadcastHeight uint32, htlc channeldb.HTLC,
 	resCfg ResolverConfig) *htlcTimeoutResolver {
-
 	return &htlcTimeoutResolver{
 		contractResolverKit: *newContractResolverKit(resCfg),
 		htlcResolution:      res,
@@ -105,7 +104,6 @@ const (
 // and finally send the appropriate clean up message.
 func (h *htlcTimeoutResolver) claimCleanUp(
 	commitSpend *chainntnfs.SpendDetail) (ContractResolver, er.R) {
-
 	// Depending on if this is our commitment or not, then we'll be looking
 	// for a different witness pattern.
 	spenderIndex := commitSpend.SpenderInputIndex
@@ -464,7 +462,6 @@ func (h *htlcTimeoutResolver) Encode(w io.Writer) er.R {
 // instance.
 func newTimeoutResolverFromReader(r io.Reader, resCfg ResolverConfig) (
 	*htlcTimeoutResolver, er.R) {
-
 	h := &htlcTimeoutResolver{
 		contractResolverKit: *newContractResolverKit(resCfg),
 	}

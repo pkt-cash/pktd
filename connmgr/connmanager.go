@@ -23,7 +23,7 @@ import (
 const maxFailedAttempts = 15
 
 var (
-	//ErrDialNil is used to indicate that Dial cannot be nil in the configuration.
+	// ErrDialNil is used to indicate that Dial cannot be nil in the configuration.
 	ErrDialNil = errors.New("Config: Dial cannot be nil")
 
 	// maxRetryDuration is the max duration of time retrying of a persistent
@@ -236,7 +236,6 @@ func (cm *ConnManager) handleFailedConn(c *ConnReq) {
 // connections so that we remain connected to the network.  Connection requests
 // are processed and mapped by their assigned ids.
 func (cm *ConnManager) connHandler() {
-
 	var (
 		// pending holds all registered conn requests that have yet to
 		// succeed.

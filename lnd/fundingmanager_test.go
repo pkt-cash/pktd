@@ -116,7 +116,6 @@ type mockNotifier struct {
 
 func (m *mockNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	_ []byte, numConfs, heightHint uint32) (*chainntnfs.ConfirmationEvent, er.R) {
-
 	if numConfs == 6 {
 		return &chainntnfs.ConfirmationEvent{
 			Confirmed: m.sixConfChannel,
@@ -166,7 +165,6 @@ func (m *mockChanEvent) NotifyOpenChannelEvent(outpoint wire.OutPoint) {
 
 func (m *mockChanEvent) NotifyPendingOpenChannelEvent(outpoint wire.OutPoint,
 	pendingChannel *channeldb.OpenChannel) {
-
 	m.pendingOpenEvent <- channelnotifier.PendingOpenChannelEvent{
 		ChannelPoint:   &outpoint,
 		PendingChannel: pendingChannel,
@@ -236,7 +234,6 @@ func (n *testNode) RemoteFeatures() *lnwire.FeatureVector {
 
 func (n *testNode) AddNewChannel(channel *channeldb.OpenChannel,
 	quit <-chan struct{}) er.R {
-
 	errChan := make(chan er.R)
 	msg := &newChannelMsg{
 		channel: channel,
@@ -262,7 +259,6 @@ func createTestWallet(cdb *channeldb.DB, netParams *chaincfg.Params,
 	signer input.Signer, keyRing keychain.SecretKeyRing,
 	bio lnwallet.BlockChainIO,
 	estimator chainfee.Estimator) (*lnwallet.LightningWallet, er.R) {
-
 	wallet, err := lnwallet.NewLightningWallet(lnwallet.Config{
 		Database:           cdb,
 		Notifier:           notifier,
@@ -288,7 +284,6 @@ func createTestWallet(cdb *channeldb.DB, netParams *chaincfg.Params,
 func createTestFundingManager(t *testing.T, privKey *btcec.PrivateKey,
 	addr *lnwire.NetAddress, tempTestDir string,
 	options ...cfgOption) (*testNode, er.R) {
-
 	netParams := fundingNetParams.Params
 	estimator := chainfee.NewStaticEstimator(62500, 0)
 
@@ -353,12 +348,10 @@ func createTestFundingManager(t *testing.T, privKey *btcec.PrivateKey,
 		FeeEstimator: estimator,
 		SignMessage: func(pubKey *btcec.PublicKey,
 			msg []byte) (input.Signature, er.R) {
-
 			return testSig, nil
 		},
 		SendAnnouncement: func(msg lnwire.Message,
 			_ ...discovery.OptionalMsgField) chan er.R {
-
 			errChan := make(chan er.R, 1)
 			select {
 			case sentAnnouncements <- msg:
@@ -403,7 +396,6 @@ func createTestFundingManager(t *testing.T, privKey *btcec.PrivateKey,
 		},
 		RequiredRemoteChanReserve: func(chanAmt,
 			dustLimit btcutil.Amount) btcutil.Amount {
-
 			reserve := chanAmt / 100
 			if reserve < dustLimit {
 				reserve = dustLimit
@@ -470,7 +462,6 @@ func createTestFundingManager(t *testing.T, privKey *btcec.PrivateKey,
 
 	f.cfg.NotifyWhenOnline = func(peer [33]byte,
 		connectedChan chan<- lnpeer.Peer) {
-
 		connectedChan <- testNode.remotePeer
 	}
 
@@ -504,7 +495,6 @@ func recreateAliceFundingManager(t *testing.T, alice *testNode) {
 		},
 		SendAnnouncement: func(msg lnwire.Message,
 			_ ...discovery.OptionalMsgField) chan er.R {
-
 			errChan := make(chan er.R, 1)
 			select {
 			case aliceAnnounceChan <- msg:
@@ -519,7 +509,6 @@ func recreateAliceFundingManager(t *testing.T, alice *testNode) {
 		},
 		NotifyWhenOnline: func(peer [33]byte,
 			connectedChan chan<- lnpeer.Peer) {
-
 			connectedChan <- alice.remotePeer
 		},
 		TempChanIDSeed: oldCfg.TempChanIDSeed,
@@ -562,7 +551,6 @@ type cfgOption func(*fundingConfig)
 
 func setupFundingManagers(t *testing.T,
 	options ...cfgOption) (*testNode, *testNode) {
-
 	aliceTestDir, errr := ioutil.TempDir("", "alicelnwallet")
 	if errr != nil {
 		t.Fatalf("unable to create temp directory: %v", errr)
@@ -636,7 +624,6 @@ func openChannel(t *testing.T, alice, bob *testNode, localFundingAmt,
 	pushAmt btcutil.Amount, numConfs uint32,
 	updateChan chan *lnrpc.OpenStatusUpdate, announceChan bool) (
 	*wire.OutPoint, *wire.MsgTx) {
-
 	publ := fundChannel(
 		t, alice, bob, localFundingAmt, pushAmt, false, numConfs,
 		updateChan, announceChan,
@@ -653,7 +640,6 @@ func openChannel(t *testing.T, alice, bob *testNode, localFundingAmt,
 func fundChannel(t *testing.T, alice, bob *testNode, localFundingAmt,
 	pushAmt btcutil.Amount, subtractFees bool, numConfs uint32,
 	updateChan chan *lnrpc.OpenStatusUpdate, announceChan bool) *wire.MsgTx {
-
 	// Create a funding request and start the workflow.
 	errChan := make(chan er.R, 1)
 	initReq := &openChanReq{
@@ -897,7 +883,6 @@ func assertNumPendingChannelsRemains(t *testing.T, node *testNode, expectedNum i
 
 		numPendingChans = len(pendingChannels)
 		if numPendingChans != expectedNum {
-
 			t.Fatalf("Expected node to have %d pending channels, had %v",
 				expectedNum, numPendingChans)
 		}
@@ -1510,7 +1495,6 @@ func TestFundingManagerRestartBehavior(t *testing.T) {
 	// Intentionally make the channel announcements fail
 	alice.fundingMgr.cfg.SendAnnouncement = func(msg lnwire.Message,
 		_ ...discovery.OptionalMsgField) chan er.R {
-
 		errChan := make(chan er.R, 1)
 		errChan <- er.Errorf("intentional error in SendAnnouncement")
 		return errChan
@@ -1607,7 +1591,6 @@ func TestFundingManagerOfflinePeer(t *testing.T) {
 	conChan := make(chan chan<- lnpeer.Peer, 1)
 	alice.fundingMgr.cfg.NotifyWhenOnline = func(peer [33]byte,
 		connected chan<- lnpeer.Peer) {
-
 		peerChan <- peer
 		conChan <- connected
 	}
@@ -2686,7 +2669,6 @@ func TestFundingManagerCustomChannelParameters(t *testing.T) {
 	// Helper method for checking the CSV delay stored for a reservation.
 	assertDelay := func(resCtx *reservationWithCtx,
 		ourDelay, theirDelay uint16) er.R {
-
 		ourCsvDelay := resCtx.reservation.OurContribution().CsvDelay
 		if ourCsvDelay != ourDelay {
 			return er.Errorf("expected our CSV delay to be %v, "+
@@ -2705,7 +2687,6 @@ func TestFundingManagerCustomChannelParameters(t *testing.T) {
 	// reservation.
 	assertMinHtlc := func(resCtx *reservationWithCtx,
 		expOurMinHtlc, expTheirMinHtlc lnwire.MilliSatoshi) er.R {
-
 		ourMinHtlc := resCtx.reservation.OurContribution().MinHTLC
 		if ourMinHtlc != expOurMinHtlc {
 			return er.Errorf("expected our minHtlc to be %v, "+
@@ -2724,7 +2705,6 @@ func TestFundingManagerCustomChannelParameters(t *testing.T) {
 	// reservation.
 	assertMaxHtlc := func(resCtx *reservationWithCtx,
 		expOurMaxValue, expTheirMaxValue lnwire.MilliSatoshi) er.R {
-
 		ourMaxValue :=
 			resCtx.reservation.OurContribution().MaxPendingAmount
 		if ourMaxValue != expOurMaxValue {
@@ -3340,7 +3320,6 @@ func TestGetUpfrontShutdownScript(t *testing.T) {
 				t.Fatalf("expected address: %x, got: %x",
 					test.expectedScript, addr)
 			}
-
 		})
 	}
 }

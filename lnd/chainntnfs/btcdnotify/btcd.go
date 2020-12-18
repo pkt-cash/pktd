@@ -95,7 +95,6 @@ var _ chainntnfs.ChainNotifier = (*BtcdNotifier)(nil)
 func New(config *rpcclient.ConnConfig, chainParams *chaincfg.Params,
 	spendHintCache chainntnfs.SpendHintCache,
 	confirmHintCache chainntnfs.ConfirmHintCache) (*BtcdNotifier, er.R) {
-
 	notifier := &BtcdNotifier{
 		chainParams: chainParams,
 
@@ -497,7 +496,6 @@ out:
 func (b *BtcdNotifier) historicalConfDetails(confRequest chainntnfs.ConfRequest,
 	startHeight, endHeight uint32) (*chainntnfs.TxConfirmation,
 	chainntnfs.TxConfStatus, er.R) {
-
 	// If a txid was not provided, then we should dispatch upon seeing the
 	// script on-chain, so we'll short-circuit straight to scanning manually
 	// as there doesn't exist a script index to query.
@@ -557,7 +555,6 @@ func (b *BtcdNotifier) historicalConfDetails(confRequest chainntnfs.ConfRequest,
 func (b *BtcdNotifier) confDetailsManually(confRequest chainntnfs.ConfRequest,
 	startHeight, endHeight uint32) (*chainntnfs.TxConfirmation,
 	chainntnfs.TxConfStatus, er.R) {
-
 	// Begin scanning blocks at every height to determine where the
 	// transaction was included in.
 	for height := endHeight; height >= startHeight && height > 0; height-- {
@@ -663,7 +660,6 @@ func (b *BtcdNotifier) notifyBlockEpochs(newHeight int32, newSha *chainhash.Hash
 // about a specific block.
 func (b *BtcdNotifier) notifyBlockEpochClient(epochClient *blockEpochRegistration,
 	height int32, sha *chainhash.Hash) {
-
 	epoch := &chainntnfs.BlockEpoch{
 		Height: height,
 		Hash:   sha,
@@ -686,7 +682,6 @@ func (b *BtcdNotifier) notifyBlockEpochClient(epochClient *blockEpochRegistratio
 // sent across the 'Spend' channel.
 func (b *BtcdNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 	pkScript []byte, heightHint uint32) (*chainntnfs.SpendEvent, er.R) {
-
 	// Register the conf notification with the TxNotifier. A non-nil value
 	// for `dispatch` will be returned if we are required to perform a
 	// manual scan for the confirmation. Otherwise the notifier will begin
@@ -875,7 +870,6 @@ func (b *BtcdNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 func (b *BtcdNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	pkScript []byte,
 	numConfs, heightHint uint32) (*chainntnfs.ConfirmationEvent, er.R) {
-
 	// Register the conf notification with the TxNotifier. A non-nil value
 	// for `dispatch` will be returned if we are required to perform a
 	// manual scan for the confirmation. Otherwise the notifier will begin
@@ -931,7 +925,6 @@ type epochCancel struct {
 // for the current tip of the chain upon a successful registration.
 func (b *BtcdNotifier) RegisterBlockEpochNtfn(
 	bestBlock *chainntnfs.BlockEpoch) (*chainntnfs.BlockEpochEvent, er.R) {
-
 	reg := &blockEpochRegistration{
 		epochQueue: queue.NewConcurrentQueue(20),
 		epochChan:  make(chan *chainntnfs.BlockEpoch, 20),

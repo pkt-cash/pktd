@@ -52,7 +52,6 @@ func weightedChoice(w []float64) (int, er.R) {
 // a probability weighted by their score.
 func chooseN(n uint32, s map[NodeID]*NodeScore) (
 	map[NodeID]*NodeScore, er.R) {
-
 	// Keep track of the number of nodes not yet chosen, in addition to
 	// their scores and NodeIDs.
 	rem := len(s)

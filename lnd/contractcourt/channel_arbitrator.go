@@ -22,12 +22,10 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-var (
-	// errAlreadyForceClosed is an error returned when we attempt to force
-	// close a channel that's already in the process of doing so.
-	errAlreadyForceClosed = Err.CodeWithDetail("errAlreadyForceClosed",
-		"channel is already in the process of being force closed")
-)
+// errAlreadyForceClosed is an error returned when we attempt to force
+// close a channel that's already in the process of doing so.
+var errAlreadyForceClosed = Err.CodeWithDetail("errAlreadyForceClosed",
+	"channel is already in the process of being force closed")
 
 const (
 	// anchorSweepConfTarget is the conf target used when sweeping
@@ -214,7 +212,6 @@ type ContractReport struct {
 func (c *ContractReport) resolverReport(spendTx *chainhash.Hash,
 	resolverType channeldb.ResolverType,
 	outcome channeldb.ResolverOutcome) *channeldb.ResolverReport {
-
 	return &channeldb.ResolverReport{
 		OutPoint:        c.Outpoint,
 		Amount:          c.Amount,
@@ -365,7 +362,6 @@ type ChannelArbitrator struct {
 // the passed config struct.
 func NewChannelArbitrator(cfg ChannelArbitratorConfig,
 	htlcSets map[HtlcSetKey]htlcSet, log ArbitratorLog) *ChannelArbitrator {
-
 	return &ChannelArbitrator{
 		log:              log,
 		blocks:           make(chan int32, arbitratorBlockBufferSize),
@@ -390,7 +386,6 @@ type chanArbStartState struct {
 // requires to start.
 func (c *ChannelArbitrator) getStartState(tx kvdb.RTx) (*chanArbStartState,
 	er.R) {
-
 	// First, we'll read our last state from disk, so our internal state
 	// machine can act accordingly.
 	state, err := c.log.CurrentState(tx)
@@ -546,7 +541,6 @@ func (c *ChannelArbitrator) Start(state *chanArbStartState) er.R {
 // migration.
 func (c *ChannelArbitrator) relaunchResolvers(commitSet *CommitSet,
 	heightHint uint32) er.R {
-
 	// We'll now query our log to see if there are any active unresolved
 	// contracts. If this is the case, then we'll relaunch all contract
 	// resolvers.
@@ -755,7 +749,6 @@ func (t transitionTrigger) String() string {
 func (c *ChannelArbitrator) stateStep(
 	triggerHeight uint32, trigger transitionTrigger,
 	confCommitSet *CommitSet) (ArbitratorState, *wire.MsgTx, er.R) {
-
 	var (
 		nextState ArbitratorState
 		closeTx   *wire.MsgTx
@@ -1089,7 +1082,6 @@ func (c *ChannelArbitrator) stateStep(
 // user via the BumpFee rpc.
 func (c *ChannelArbitrator) sweepAnchors(anchors []*lnwallet.AnchorResolution,
 	heightHint uint32) er.R {
-
 	// Use the chan id as the exclusive group. This prevents any of the
 	// anchors from being batched together.
 	exclusiveGroup := c.cfg.ShortChanID.ToUint64()
@@ -1157,7 +1149,6 @@ func (c *ChannelArbitrator) launchResolvers(resolvers []ContractResolver) {
 func (c *ChannelArbitrator) advanceState(
 	triggerHeight uint32, trigger transitionTrigger,
 	confCommitSet *CommitSet) (ArbitratorState, *wire.MsgTx, er.R) {
-
 	var (
 		priorState   ArbitratorState
 		forceCloseTx *wire.MsgTx
@@ -1287,7 +1278,6 @@ func (c ChainActionMap) Merge(actions ChainActionMap) {
 // sweep, the commitment is already confirmed.
 func (c *ChannelArbitrator) shouldGoOnChain(htlc channeldb.HTLC,
 	broadcastDelta, currentHeight uint32) bool {
-
 	// We'll calculate the broadcast cut off for this HTLC. This is the
 	// height that (based on our current fee estimation) we should
 	// broadcast in order to ensure the commitment transaction is confirmed
@@ -1338,7 +1328,6 @@ func (c *ChannelArbitrator) shouldGoOnChain(htlc channeldb.HTLC,
 // redeemed HTLC's, we should send the pre-image back to the incoming link.
 func (c *ChannelArbitrator) checkCommitChainActions(height uint32,
 	trigger transitionTrigger, htlcs htlcSet) (ChainActionMap, er.R) {
-
 	// TODO(roasbeef): would need to lock channel? channel totem?
 	//  * race condition if adding and we broadcast, etc
 	//  * or would make each instance sync?
@@ -1498,7 +1487,6 @@ func (c *ChannelArbitrator) checkCommitChainActions(height uint32,
 // the preimage cache or the invoice database.
 func (c *ChannelArbitrator) isPreimageAvailable(hash lntypes.Hash) (bool,
 	er.R) {
-
 	// Start by checking the preimage cache for preimages of
 	// forwarded HTLCs.
 	_, preimageAvailable := c.cfg.PreimageDB.LookupPreimage(
@@ -1536,7 +1524,6 @@ func (c *ChannelArbitrator) checkLocalChainActions(
 	height uint32, trigger transitionTrigger,
 	activeHTLCs map[HtlcSetKey]htlcSet,
 	commitsConfirmed bool) (ChainActionMap, er.R) {
-
 	// First, we'll check our local chain actions as normal. This will only
 	// examine HTLCs on our local commitment (timeout or settle).
 	localCommitActions, err := c.checkCommitChainActions(
@@ -1566,7 +1553,6 @@ func (c *ChannelArbitrator) checkLocalChainActions(
 func (c *ChannelArbitrator) checkRemoteDanglingActions(
 	height uint32, activeHTLCs map[HtlcSetKey]htlcSet,
 	commitsConfirmed bool) ChainActionMap {
-
 	var (
 		pendingRemoteHTLCs []channeldb.HTLC
 		localHTLCs         = make(map[uint64]struct{})
@@ -1639,7 +1625,6 @@ func (c *ChannelArbitrator) checkRemoteChainActions(
 	height uint32, trigger transitionTrigger,
 	activeHTLCs map[HtlcSetKey]htlcSet,
 	pendingConf bool) (ChainActionMap, er.R) {
-
 	// First, we'll examine all the normal chain actions on the remote
 	// commitment that confirmed.
 	confHTLCs := activeHTLCs[RemoteHtlcSet]
@@ -1673,7 +1658,6 @@ func (c *ChannelArbitrator) checkRemoteChainActions(
 func (c *ChannelArbitrator) checkRemoteDiffActions(height uint32,
 	activeHTLCs map[HtlcSetKey]htlcSet,
 	pendingConf bool) ChainActionMap {
-
 	// First, we'll partition the HTLCs into those that are present on the
 	// confirmed commitment, and those on the dangling commitment.
 	confHTLCs := activeHTLCs[RemoteHtlcSet]
@@ -1715,7 +1699,6 @@ func (c *ChannelArbitrator) checkRemoteDiffActions(height uint32,
 // closure.
 func (c *ChannelArbitrator) constructChainActions(confCommitSet *CommitSet,
 	height uint32, trigger transitionTrigger) (ChainActionMap, er.R) {
-
 	// If we've reached this point and have not confirmed commitment set,
 	// then this is an older node that had a pending close channel before
 	// the CommitSet was introduced. In this case, we'll just return the
@@ -1765,7 +1748,6 @@ func (c *ChannelArbitrator) prepContractResolutions(
 	contractResolutions *ContractResolutions, height uint32,
 	trigger transitionTrigger,
 	confCommitSet *CommitSet) ([]ContractResolver, []ResolutionMsg, er.R) {
-
 	// First, we'll reconstruct a fresh set of chain actions as the set of
 	// actions we need to act on may differ based on if it was our
 	// commitment, or they're commitment that hit the chain.
@@ -1805,7 +1787,6 @@ func (c *ChannelArbitrator) prepContractResolutions(
 		ChannelArbitratorConfig: c.cfg,
 		Checkpoint: func(res ContractResolver,
 			reports ...*channeldb.ResolverReport) er.R {
-
 			return c.log.InsertUnresolvedContracts(reports, res)
 		},
 	}
@@ -1971,7 +1952,6 @@ func (c *ChannelArbitrator) prepContractResolutions(
 // to be replaced is not found, it returns an error.
 func (c *ChannelArbitrator) replaceResolver(oldResolver,
 	newResolver ContractResolver) er.R {
-
 	c.activeResolversLock.Lock()
 	defer c.activeResolversLock.Unlock()
 
@@ -2136,7 +2116,6 @@ func (c *ChannelArbitrator) UpdateContractSignals(newSignals *ContractSignals) {
 //
 // NOTE: This MUST be run as a goroutine.
 func (c *ChannelArbitrator) channelAttendant(bestHeight int32) {
-
 	// TODO(roasbeef): tell top chain arb we're done
 	defer func() {
 		c.wg.Done()

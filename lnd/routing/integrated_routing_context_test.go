@@ -91,7 +91,6 @@ func (h htlcAttempt) String() string {
 // the expected number of attempts.
 func (c *integratedRoutingContext) testPayment(maxParts uint32) ([]htlcAttempt,
 	er.R) {
-
 	var (
 		nextPid  uint64
 		attempts []htlcAttempt

@@ -197,7 +197,6 @@ func NewCustomRecords(parsedTypes tlv.TypeMap) record.CustomSet {
 // requirements for this method are described in BOLT 04.
 func ValidateParsedPayloadTypes(parsedTypes tlv.TypeMap,
 	nextHop lnwire.ShortChannelID) er.R {
-
 	isFinalHop := nextHop == Exit
 
 	_, hasAmt := parsedTypes[record.AmtOnionType]

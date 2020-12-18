@@ -68,7 +68,6 @@ func (b *mockArbitratorLog) CommitState(s ArbitratorState) er.R {
 
 func (b *mockArbitratorLog) FetchUnresolvedContracts() ([]ContractResolver,
 	er.R) {
-
 	b.Lock()
 	v := make([]ContractResolver, len(b.resolvers))
 	idx := 0
@@ -83,7 +82,6 @@ func (b *mockArbitratorLog) FetchUnresolvedContracts() ([]ContractResolver,
 
 func (b *mockArbitratorLog) InsertUnresolvedContracts(_ []*channeldb.ResolverReport,
 	resolvers ...ContractResolver) er.R {
-
 	b.Lock()
 	for _, resolver := range resolvers {
 		resKey := resolver.ResolverKey()
@@ -99,7 +97,6 @@ func (b *mockArbitratorLog) InsertUnresolvedContracts(_ []*channeldb.ResolverRep
 
 func (b *mockArbitratorLog) SwapContract(oldContract,
 	newContract ContractResolver) er.R {
-
 	b.Lock()
 	delete(b.resolvers, oldContract)
 	b.resolvers[newContract] = struct{}{}
@@ -291,7 +288,6 @@ type testChanArbOption func(cfg *ChannelArbitratorConfig)
 // Channel Arbitrator's config.
 func withMarkClosed(markClosed func(*channeldb.ChannelCloseSummary,
 	...channeldb.ChannelStatus) er.R) testChanArbOption {
-
 	return func(cfg *ChannelArbitratorConfig) {
 		cfg.MarkChannelClosed = markClosed
 	}
@@ -302,7 +298,6 @@ func withMarkClosed(markClosed func(*channeldb.ChannelCloseSummary,
 // changed by providing options which overwrite the default config.
 func createTestChannelArbitrator(t *testing.T, log ArbitratorLog,
 	opts ...testChanArbOption) (*chanArbTestCtx, er.R) {
-
 	chanPoint := wire.OutPoint{}
 	shortChanID := lnwire.ShortChannelID{}
 	chanEvents := &ChainEventSubscription{
@@ -336,14 +331,12 @@ func createTestChannelArbitrator(t *testing.T, log ArbitratorLog,
 		IncubateOutputs: func(wire.OutPoint,
 			*lnwallet.OutgoingHtlcResolution,
 			*lnwallet.IncomingHtlcResolution, uint32) er.R {
-
 			incubateChan <- struct{}{}
 			return nil
 		},
 		OnionProcessor: &mockOnionProcessor{},
 		IsForwardedHTLC: func(chanID lnwire.ShortChannelID,
 			htlcIndex uint64) bool {
-
 			return true
 		},
 		Clock:   clock.NewDefaultClock(),
@@ -376,7 +369,6 @@ func createTestChannelArbitrator(t *testing.T, log ArbitratorLog,
 		ChainEvents:           chanEvents,
 		PutResolverReport: func(_ kvdb.RwTx,
 			_ *channeldb.ResolverReport) er.R {
-
 			return nil
 		},
 	}
@@ -462,7 +454,6 @@ func TestChannelArbitratorCooperativeClose(t *testing.T) {
 	chanArbCtx.chanArb.cfg.MarkChannelClosed = func(
 		closeInfo *channeldb.ChannelCloseSummary,
 		statuses ...channeldb.ChannelStatus) er.R {
-
 		closeInfos <- closeInfo
 		return nil
 	}
@@ -1245,7 +1236,6 @@ func TestChannelArbitratorPersistence(t *testing.T) {
 	log.failLog = false
 	chanArb.cfg.MarkChannelClosed = func(*channeldb.ChannelCloseSummary,
 		...channeldb.ChannelStatus) er.R {
-
 		return er.Errorf("intentional close error")
 	}
 
@@ -1411,7 +1401,6 @@ func TestChannelArbitratorForceCloseBreachedChannel(t *testing.T) {
 // TestChannelArbitratorCommitFailure tests that the channel arbitrator is able
 // to recover from a failed CommitState call at restart.
 func TestChannelArbitratorCommitFailure(t *testing.T) {
-
 	testCases := []struct {
 
 		// closeType is the type of channel close we want ot test.
@@ -1890,7 +1879,6 @@ func TestChannelArbitratorPendingExpiredHTLC(t *testing.T) {
 	chanArb.cfg.PaymentsExpirationGracePeriod = time.Second * 15
 	chanArb.cfg.IsForwardedHTLC = func(chanID lnwire.ShortChannelID,
 		htlcIndex uint64) bool {
-
 		return false
 	}
 
@@ -1989,7 +1977,6 @@ func TestRemoteCloseInitiator(t *testing.T) {
 			name: "force close",
 			notifyClose: func(sub *ChainEventSubscription,
 				channel *channeldb.OpenChannel) {
-
 				s := getCloseSummary(channel)
 				sub.RemoteUnilateralClosure <- s
 			},
@@ -2260,7 +2247,6 @@ func TestChannelArbitratorAnchors(t *testing.T) {
 // reports into the channel provided.
 func putResolverReportInChannel(reports chan *channeldb.ResolverReport) func(
 	_ kvdb.RwTx, report *channeldb.ResolverReport) er.R {
-
 	return func(_ kvdb.RwTx, report *channeldb.ResolverReport) er.R {
 		reports <- report
 		return nil
@@ -2271,7 +2257,6 @@ func putResolverReportInChannel(reports chan *channeldb.ResolverReport) func(
 // report, and that it is equal to the expected report passed in.
 func assertResolverReport(t *testing.T, reports chan *channeldb.ResolverReport,
 	expected *channeldb.ResolverReport) {
-
 	select {
 	case report := <-reports:
 		if !reflect.DeepEqual(report, expected) {
@@ -2289,7 +2274,6 @@ type mockChannel struct {
 
 func (m *mockChannel) NewAnchorResolutions() ([]*lnwallet.AnchorResolution,
 	er.R) {
-
 	return m.anchorResolutions, nil
 }
 

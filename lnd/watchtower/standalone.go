@@ -171,7 +171,7 @@ func (w *Standalone) createNewHiddenService() er.R {
 	onionCfg := tor.AddOnionConfig{
 		VirtualPort: DefaultPeerPort,
 		TargetPorts: listenPorts,
-		Store:       tor.NewOnionFile(w.cfg.WatchtowerKeyPath, 0600),
+		Store:       tor.NewOnionFile(w.cfg.WatchtowerKeyPath, 0o600),
 		Type:        w.cfg.Type,
 	}
 

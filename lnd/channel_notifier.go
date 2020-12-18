@@ -46,7 +46,6 @@ type channelNotifier struct {
 // NOTE: This is part of the chanbackup.ChannelNotifier interface.
 func (c *channelNotifier) SubscribeChans(startingChans map[wire.OutPoint]struct{}) (
 	*chanbackup.ChannelSubscription, er.R) {
-
 	log.Infof("Channel backup proxy channel notifier starting")
 
 	// TODO(roasbeef): read existing set of chans and diff

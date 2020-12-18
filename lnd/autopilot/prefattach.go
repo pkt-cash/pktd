@@ -83,7 +83,6 @@ func (p *PrefAttachment) Name() string {
 func (p *PrefAttachment) NodeScores(g ChannelGraph, chans []LocalChannel,
 	chanSize btcutil.Amount, nodes map[NodeID]struct{}) (
 	map[NodeID]*NodeScore, er.R) {
-
 	// We first run though the graph once in order to find the median
 	// channel size.
 	var (

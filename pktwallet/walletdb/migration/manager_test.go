@@ -42,7 +42,6 @@ func (m *mockMigrationManager) Versions() []migration.Version {
 // TestGetLatestVersion ensures that we can properly retrieve the latest version
 // from a slice of versions.
 func TestGetLatestVersion(t *testing.T) {
-
 	tests := []struct {
 		versions      []migration.Version
 		latestVersion uint32
@@ -104,7 +103,6 @@ func TestGetLatestVersion(t *testing.T) {
 // TestVersionsToApply ensures that the proper versions that needs to be applied
 // are returned given the current version.
 func TestVersionsToApply(t *testing.T) {
-
 	tests := []struct {
 		currentVersion  uint32
 		versions        []migration.Version
@@ -222,7 +220,6 @@ func TestUpgradeRevert(t *testing.T) {
 // TestUpgradeSameVersion ensures that no upgrades happen if the current version
 // matches the latest.
 func TestUpgradeSameVersion(t *testing.T) {
-
 	m := &mockMigrationManager{
 		currentVersion: 1,
 		versions: []migration.Version{
@@ -249,7 +246,6 @@ func TestUpgradeSameVersion(t *testing.T) {
 // TestUpgradeNewVersion ensures that we can properly upgrade to a newer version
 // if available.
 func TestUpgradeNewVersion(t *testing.T) {
-
 	versions := []migration.Version{
 		{
 			Number:    0,
@@ -283,7 +279,6 @@ func TestUpgradeNewVersion(t *testing.T) {
 // TestUpgradeMultipleVersions ensures that we can go through multiple upgrades
 // in-order to reach the latest version.
 func TestUpgradeMultipleVersions(t *testing.T) {
-
 	previousVersion := uint32(0)
 	versions := []migration.Version{
 		{

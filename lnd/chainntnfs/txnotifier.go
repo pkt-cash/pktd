@@ -529,7 +529,6 @@ type TxNotifier struct {
 func NewTxNotifier(startHeight uint32, reorgSafetyLimit uint32,
 	confirmHintCache ConfirmHintCache,
 	spendHintCache SpendHintCache) *TxNotifier {
-
 	return &TxNotifier{
 		currentHeight:        startHeight,
 		reorgSafetyLimit:     reorgSafetyLimit,
@@ -548,7 +547,6 @@ func NewTxNotifier(startHeight uint32, reorgSafetyLimit uint32,
 // and register a confirmation notification.
 func (n *TxNotifier) newConfNtfn(txid *chainhash.Hash,
 	pkScript []byte, numConfs, heightHint uint32) (*ConfNtfn, er.R) {
-
 	// An accompanying output script must always be provided.
 	if len(pkScript) == 0 {
 		return nil, ErrNoScript.Default()
@@ -594,7 +592,6 @@ func (n *TxNotifier) newConfNtfn(txid *chainhash.Hash,
 // script to confirm even though it already has.
 func (n *TxNotifier) RegisterConf(txid *chainhash.Hash, pkScript []byte,
 	numConfs, heightHint uint32) (*ConfRegistration, er.R) {
-
 	select {
 	case <-n.quit:
 		return nil, ErrTxNotifierExiting.Default()
@@ -778,7 +775,6 @@ func (n *TxNotifier) CancelConf(confRequest ConfRequest, confID uint64) {
 // dispatched correctly.
 func (n *TxNotifier) UpdateConfDetails(confRequest ConfRequest,
 	details *TxConfirmation) er.R {
-
 	select {
 	case <-n.quit:
 		return ErrTxNotifierExiting.Default()
@@ -873,7 +869,6 @@ func (n *TxNotifier) UpdateConfDetails(confRequest ConfRequest,
 // provided details are nil, this method will be a no-op.
 func (n *TxNotifier) dispatchConfDetails(
 	ntfn *ConfNtfn, details *TxConfirmation) er.R {
-
 	// If no details are provided, return early as we can't dispatch.
 	if details == nil {
 		log.Debugf("Unable to dispatch %v, no details provided",
@@ -949,7 +944,6 @@ func (n *TxNotifier) dispatchConfDetails(
 // and register a spend notification.
 func (n *TxNotifier) newSpendNtfn(outpoint *wire.OutPoint,
 	pkScript []byte, heightHint uint32) (*SpendNtfn, er.R) {
-
 	// An accompanying output script must always be provided.
 	if len(pkScript) == 0 {
 		return nil, ErrNoScript.Default()
@@ -988,7 +982,6 @@ func (n *TxNotifier) newSpendNtfn(outpoint *wire.OutPoint,
 // script to be spent at tip, even though it already has.
 func (n *TxNotifier) RegisterSpend(outpoint *wire.OutPoint, pkScript []byte,
 	heightHint uint32) (*SpendRegistration, er.R) {
-
 	select {
 	case <-n.quit:
 		return nil, ErrTxNotifierExiting.Default()
@@ -1150,7 +1143,6 @@ func (n *TxNotifier) CancelSpend(spendRequest SpendRequest, spendID uint64) {
 // for. If it is relevant, spend notifications will be dispatched to the caller.
 func (n *TxNotifier) ProcessRelevantSpendTx(tx *btcutil.Tx,
 	blockHeight uint32) er.R {
-
 	select {
 	case <-n.quit:
 		return ErrTxNotifierExiting.Default()
@@ -1198,7 +1190,6 @@ func (n *TxNotifier) ProcessRelevantSpendTx(tx *btcutil.Tx,
 // registered first to ensure notifications are delivered.
 func (n *TxNotifier) UpdateSpendDetails(spendRequest SpendRequest,
 	details *SpendDetail) er.R {
-
 	select {
 	case <-n.quit:
 		return ErrTxNotifierExiting.Default()
@@ -1221,7 +1212,6 @@ func (n *TxNotifier) UpdateSpendDetails(spendRequest SpendRequest,
 // NOTE: This method must be called with the TxNotifier's lock held.
 func (n *TxNotifier) updateSpendDetails(spendRequest SpendRequest,
 	details *SpendDetail) er.R {
-
 	// Mark the ongoing historical rescan for this request as finished. This
 	// will allow us to update the spend hints for it at tip.
 	spendSet, ok := n.spendNotifications[spendRequest]
@@ -1348,7 +1338,6 @@ func (n *TxNotifier) dispatchSpendDetails(ntfn *SpendNtfn, details *SpendDetail)
 // maintain correctness.
 func (n *TxNotifier) ConnectTip(blockHash *chainhash.Hash, blockHeight uint32,
 	txns []*btcutil.Tx) er.R {
-
 	select {
 	case <-n.quit:
 		return ErrTxNotifierExiting.Default()
@@ -1427,7 +1416,6 @@ func (n *TxNotifier) ConnectTip(blockHash *chainhash.Hash, blockHeight uint32,
 func (n *TxNotifier) filterTx(tx *btcutil.Tx, blockHash *chainhash.Hash,
 	blockHeight uint32, onConf func(ConfRequest, *TxConfirmation),
 	onSpend func(SpendRequest, *SpendDetail)) {
-
 	// In order to determine if this transaction is relevant to the
 	// notifier, we'll check its inputs for any outstanding spend
 	// requests.
@@ -1438,7 +1426,6 @@ func (n *TxNotifier) filterTx(tx *btcutil.Tx, blockHash *chainhash.Hash,
 		// callback.
 		notifyDetails := func(spendRequest SpendRequest,
 			prevOut wire.OutPoint, inputIdx uint32) {
-
 			log.Debugf("Found spend of %v: spend_tx=%v, "+
 				"block_height=%d", spendRequest, txHash,
 				blockHeight)
@@ -1535,7 +1522,6 @@ func (n *TxNotifier) filterTx(tx *btcutil.Tx, blockHash *chainhash.Hash,
 // future registered clients.
 func (n *TxNotifier) handleConfDetailsAtTip(confRequest ConfRequest,
 	details *TxConfirmation) {
-
 	// TODO(wilmer): cancel pending historical rescans if any?
 	confSet := n.confNotifications[confRequest]
 
@@ -1587,7 +1573,6 @@ func (n *TxNotifier) handleConfDetailsAtTip(confRequest ConfRequest,
 // registered clients.
 func (n *TxNotifier) handleSpendDetailsAtTip(spendRequest SpendRequest,
 	details *SpendDetail) {
-
 	// TODO(wilmer): cancel pending historical rescans if any?
 	spendSet := n.spendNotifications[spendRequest]
 	spendSet.rescanStatus = rescanComplete
@@ -1883,7 +1868,6 @@ func (n *TxNotifier) unspentRequests() []SpendRequest {
 // NOTE: This must be called with the TxNotifier's lock held.
 func (n *TxNotifier) dispatchConfReorg(ntfn *ConfNtfn,
 	heightDisconnected uint32) er.R {
-
 	// If the request's confirmation notification has yet to be dispatched,
 	// we'll need to clear its entry within the ntfnsByConfirmHeight index
 	// to prevent from notifying the client once the notifier reaches the

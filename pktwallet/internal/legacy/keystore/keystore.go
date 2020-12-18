@@ -258,8 +258,10 @@ type version struct {
 
 // Enforce that version satisifies the io.ReaderFrom and
 // io.WriterTo interfaces.
-var _ io.ReaderFrom = &version{}
-var _ io.WriterTo = &version{}
+var (
+	_ io.ReaderFrom = &version{}
+	_ io.WriterTo   = &version{}
+)
 
 // readerFromVersion is an io.ReaderFrom and io.WriterTo that
 // can specify any particular key store file format for reading
@@ -504,7 +506,6 @@ type Store struct {
 // are encrypted with passphrase.  The key store is returned locked.
 func New(dir string, desc string, passphrase []byte, net *chaincfg.Params,
 	createdAt *BlockStamp) (*Store, er.R) {
-
 	// Check sizes of inputs.
 	if len(desc) > 256 {
 		return nil, er.New("desc exceeds 256 byte maximum size")
@@ -706,7 +707,7 @@ func (s *Store) WriteTo(w io.Writer) (n int64, errr error) {
 func (s *Store) writeTo(w io.Writer) (n int64, err er.R) {
 	var errr error
 	var wts []io.WriterTo
-	var chainedAddrs = make([]io.WriterTo, len(s.chainIdxMap)-1)
+	chainedAddrs := make([]io.WriterTo, len(s.chainIdxMap)-1)
 	var importedAddrs []io.WriterTo
 	for _, wAddr := range s.addrMap {
 		switch btcAddr := wAddr.(type) {
@@ -1985,7 +1986,6 @@ func newBtcAddressWithoutPrivkey(s *Store, pubkey, iv []byte, bs *BlockStamp) (a
 // address.
 func newRootBtcAddress(s *Store, privKey, iv, chaincode []byte,
 	bs *BlockStamp) (addr *btcAddress, err er.R) {
-
 	if len(chaincode) != 32 {
 		return nil, er.New("chaincode is not 32 bytes")
 	}
@@ -2128,7 +2128,7 @@ func (a *btcAddress) WriteTo(w io.Writer) (int64, error) {
 	datas := []interface{}{
 		&hash,
 		walletHash(hash),
-		make([]byte, 4), //version
+		make([]byte, 4), // version
 		&a.flags,
 		&a.chaincode,
 		walletHash(a.chaincode[:]),
@@ -2492,7 +2492,7 @@ type p2SHScript []byte
 // ReadFrom implements the ReaderFrom interface by reading the P2SH script from
 // r in the format <4 bytes little endian length><script bytes>
 func (a *p2SHScript) ReadFrom(r io.Reader) (n int64, err error) {
-	//read length
+	// read length
 	var lenBytes [4]byte
 
 	read, errr := io.ReadFull(r, lenBytes[:])
@@ -2687,7 +2687,7 @@ func (sa *scriptAddress) WriteTo(w io.Writer) (int64, error) {
 	datas := []interface{}{
 		&hash,
 		walletHash(hash),
-		make([]byte, 4), //version
+		make([]byte, 4), // version
 		&sa.flags,
 		&sa.script,
 		walletHash(sa.script),

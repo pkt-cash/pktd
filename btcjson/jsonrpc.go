@@ -6,7 +6,8 @@ package btcjson
 
 import (
 	"fmt"
-	"github.com/json-iterator/go"
+
+	jsoniter "github.com/json-iterator/go"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktconfig/version"
@@ -125,7 +126,6 @@ func SerializeError(err er.R) *RPCErr {
 		Message: version.Version() + " " + err.Message(),
 		Stack:   st,
 	}
-
 }
 
 // NewResponse returns a new JSON-RPC response object given the provided id,

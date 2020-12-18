@@ -89,7 +89,6 @@ type peerLog struct {
 // record of historical flap count for the peer.
 func newPeerLog(clock clock.Clock, flapCount int,
 	lastFlap *time.Time) *peerLog {
-
 	return &peerLog{
 		clock:     clock,
 		flapCount: flapCount,
@@ -234,7 +233,6 @@ func (p *peerLog) channelCount() int {
 // channel has been monitored for and its uptime over this period.
 func (p *peerLog) channelUptime(channelPoint wire.OutPoint) (time.Duration,
 	time.Duration, er.R) {
-
 	channel, ok := p.channels[channelPoint]
 	if !ok {
 		return 0, 0, ErrChannelNotFound.Default()

@@ -52,7 +52,6 @@ func newEstimatorTestContext(t *testing.T) *estimatorTestContext {
 // correct.
 func (c *estimatorTestContext) assertPairProbability(now time.Time,
 	toNode byte, amt lnwire.MilliSatoshi, expectedProb float64) {
-
 	c.t.Helper()
 
 	results := make(NodeResults)

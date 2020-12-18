@@ -9,12 +9,10 @@ import (
 	"github.com/pkt-cash/pktd/pktlog/log"
 )
 
-var (
-	// ErrSubscriptionManagerStopped is an error returned when we attempt to
-	// register a new block subscription but the manager has been stopped.
-	ErrSubscriptionManagerStopped = er.GenericErrorType.CodeWithDetail("ErrSubscriptionManagerStopped",
-		"subscription manager was stopped")
-)
+// ErrSubscriptionManagerStopped is an error returned when we attempt to
+// register a new block subscription but the manager has been stopped.
+var ErrSubscriptionManagerStopped = er.GenericErrorType.CodeWithDetail("ErrSubscriptionManagerStopped",
+	"subscription manager was stopped")
 
 // newSubscription is an internal message used within the SubscriptionManager to
 // denote a new client's intent to receive block notifications.
@@ -196,7 +194,6 @@ func (m *SubscriptionManager) subscriptionHandler() {
 // wishes to no longer receive any notifications.
 func (m *SubscriptionManager) NewSubscription(bestHeight uint32) (*Subscription,
 	er.R) {
-
 	// We'll start by constructing the internal messages that the
 	// subscription handler will use to register the new client.
 	sub := &newSubscription{
@@ -343,7 +340,6 @@ func (m *SubscriptionManager) notifySubscribers(ntfn BlockNtfn) {
 // notifySubscriber notifies a single subscriber about the block.
 func (m *SubscriptionManager) notifySubscriber(sub *newSubscription,
 	block BlockNtfn) {
-
 	select {
 	case sub.ntfnQueue.ChanIn() <- block:
 	case <-sub.quit:

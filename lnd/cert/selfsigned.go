@@ -123,7 +123,6 @@ func dnsNames(tlsExtraDomains []string, tlsDisableAutofill bool) (string, []stri
 // created with _exactly_ the IPs and domains given.
 func IsOutdated(cert *x509.Certificate, tlsExtraIPs,
 	tlsExtraDomains []string, tlsDisableAutofill bool) (bool, er.R) {
-
 	// Parse the slice of IP strings.
 	ips, err := ipAddresses(tlsExtraIPs, tlsDisableAutofill)
 	if err != nil {
@@ -206,7 +205,6 @@ func IsOutdated(cert *x509.Certificate, tlsExtraIPs,
 func GenCertPair(org, certFile, keyFile string, tlsExtraIPs,
 	tlsExtraDomains []string, tlsDisableAutofill bool,
 	certValidity time.Duration) er.R {
-
 	now := time.Now()
 	validUntil := now.Add(certValidity)
 
@@ -262,8 +260,10 @@ func GenCertPair(org, certFile, keyFile string, tlsExtraIPs,
 	}
 
 	certBuf := &bytes.Buffer{}
-	errr = pem.Encode(certBuf, &pem.Block{Type: "CERTIFICATE",
-		Bytes: derBytes})
+	errr = pem.Encode(certBuf, &pem.Block{
+		Type:  "CERTIFICATE",
+		Bytes: derBytes,
+	})
 	if errr != nil {
 		return er.Errorf("failed to encode certificate: %v", errr)
 	}
@@ -273,17 +273,19 @@ func GenCertPair(org, certFile, keyFile string, tlsExtraIPs,
 		return er.Errorf("unable to encode privkey: %v", errr)
 	}
 	keyBuf := &bytes.Buffer{}
-	errr = pem.Encode(keyBuf, &pem.Block{Type: "EC PRIVATE KEY",
-		Bytes: keybytes})
+	errr = pem.Encode(keyBuf, &pem.Block{
+		Type:  "EC PRIVATE KEY",
+		Bytes: keybytes,
+	})
 	if errr != nil {
 		return er.Errorf("failed to encode private key: %v", errr)
 	}
 
 	// Write cert and key files.
-	if errr = ioutil.WriteFile(certFile, certBuf.Bytes(), 0644); errr != nil {
+	if errr = ioutil.WriteFile(certFile, certBuf.Bytes(), 0o644); errr != nil {
 		return er.E(errr)
 	}
-	if errr = ioutil.WriteFile(keyFile, keyBuf.Bytes(), 0600); errr != nil {
+	if errr = ioutil.WriteFile(keyFile, keyBuf.Bytes(), 0o600); errr != nil {
 		os.Remove(certFile)
 		return er.E(errr)
 	}

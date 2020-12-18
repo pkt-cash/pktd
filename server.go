@@ -1292,7 +1292,7 @@ func randomUint16Number(max uint16) uint16 {
 	// from a random source that has a range limited to a multiple of the
 	// modulus.
 	var randomNumber uint16
-	var limitRange = (math.MaxUint16 / max) * max
+	limitRange := (math.MaxUint16 / max) * max
 	for {
 		errr := binary.Read(rand.Reader, binary.LittleEndian, &randomNumber)
 		if errr != nil {
@@ -1367,7 +1367,6 @@ func (s *server) TransactionConfirmed(tx *btcutil.Tx) {
 // connected peer.  An error is returned if the transaction hash is not known.
 func (s *server) pushTxMsg(sp *serverPeer, hash *chainhash.Hash, doneChan chan<- struct{},
 	waitChan <-chan struct{}, encoding wire.MessageEncoding) er.R {
-
 	// Attempt to fetch the requested transaction from the pool.  A
 	// call could be made to check for existence first, but simply trying
 	// to fetch a missing transaction results in the same behavior.
@@ -1396,7 +1395,6 @@ func (s *server) pushTxMsg(sp *serverPeer, hash *chainhash.Hash, doneChan chan<-
 // connected peer.  An error is returned if the block hash is not known.
 func (s *server) pushBlockMsg(sp *serverPeer, hash *chainhash.Hash, doneChan chan<- struct{},
 	waitChan <-chan struct{}, encoding wire.MessageEncoding) er.R {
-
 	// Fetch the raw block bytes from the database.
 	var blockBytes []byte
 	err := sp.server.db.View(func(dbTx database.Tx) er.R {
@@ -1464,7 +1462,6 @@ func (s *server) pushBlockMsg(sp *serverPeer, hash *chainhash.Hash, doneChan cha
 // error is returned if the block hash is not known.
 func (s *server) pushMerkleBlockMsg(sp *serverPeer, hash *chainhash.Hash,
 	doneChan chan<- struct{}, waitChan <-chan struct{}, encoding wire.MessageEncoding) er.R {
-
 	// Do not send a response if the peer doesn't have a filter loaded.
 	if !sp.filter.IsLoaded() {
 		if doneChan != nil {
@@ -2543,7 +2540,6 @@ func setupRPCListeners() ([]net.Listener, er.R) {
 func newServer(listenAddrs, agentBlacklist, agentWhitelist []string,
 	db database.DB, chainParams *chaincfg.Params,
 	interrupt <-chan struct{}) (*server, er.R) {
-
 	services := defaultServices
 	if cfg.NoPeerBloomFilters {
 		services &^= protocol.SFNodeBloom
@@ -3142,7 +3138,6 @@ func mergeCheckpoints(defaultCheckpoints, additional []chaincfg.Checkpoint) []ch
 // 4) Reject all other peers.
 func (sp *serverPeer) HasUndesiredUserAgent(blacklistedAgents,
 	whitelistedAgents []string) bool {
-
 	agent := sp.UserAgent()
 
 	// First, if peer's user agent contains any blacklisted substring, we

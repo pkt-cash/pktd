@@ -66,7 +66,6 @@ func TestEstimateSerializeSize(t *testing.T) {
 }
 
 func TestEstimateVirtualSize(t *testing.T) {
-
 	type estimateVSizeTest struct {
 		tx              func() (*wire.MsgTx, er.R)
 		p2wpkhIns       int

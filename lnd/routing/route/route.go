@@ -366,7 +366,6 @@ func (r *Route) FinalHop() *Hop {
 // node, chan and prev/next hop maps.
 func NewRouteFromHops(amtToSend lnwire.MilliSatoshi, timeLock uint32,
 	sourceVertex Vertex, hops []*Hop) (*Route, er.R) {
-
 	if len(hops) == 0 {
 		return nil, ErrNoRouteHopsProvided.Default()
 	}

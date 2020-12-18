@@ -281,10 +281,10 @@ func genCertPair(certFile, keyFile string) er.R {
 	}
 
 	// Write cert and key files.
-	if err = er.E(ioutil.WriteFile(certFile, cert, 0666)); err != nil {
+	if err = er.E(ioutil.WriteFile(certFile, cert, 0o666)); err != nil {
 		return err
 	}
-	if err = er.E(ioutil.WriteFile(keyFile, key, 0600)); err != nil {
+	if err = er.E(ioutil.WriteFile(keyFile, key, 0o600)); err != nil {
 		os.Remove(certFile)
 		return err
 	}

@@ -67,7 +67,6 @@ func (s *Server) RegisterWithRootServer(grpcServer *grpc.Server) er.R {
 // NOTE: This is part of the lnrpc.SubServer interface.
 func (s *Server) RegisterWithRestServer(ctx context.Context,
 	mux *runtime.ServeMux, dest string, opts []grpc.DialOption) er.R {
-
 	// We make sure that we register it with the main REST server to ensure
 	// all our methods are routed properly.
 	err := RegisterVersionerHandlerFromEndpoint(ctx, mux, dest, opts)
@@ -85,7 +84,6 @@ func (s *Server) RegisterWithRestServer(ctx context.Context,
 // GetVersion returns information about the compiled binary.
 func (s *Server) GetVersion(_ context.Context,
 	_ *VersionRequest) (*Version, error) {
-
 	return &Version{
 		Version:  version.Version(),
 		AppMajor: uint32(version.AppMajorVersion()),

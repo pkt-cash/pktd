@@ -13,13 +13,11 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-var (
-	// ErrBroadcasterStopped is an error returned when we attempt to process a
-	// request to broadcast a transaction but the Broadcaster has already
-	// been stopped.
-	ErrBroadcasterStopped = er.GenericErrorType.CodeWithDetail("pushtx.ErrBroadcasterStopped",
-		"broadcaster has been stopped")
-)
+// ErrBroadcasterStopped is an error returned when we attempt to process a
+// request to broadcast a transaction but the Broadcaster has already
+// been stopped.
+var ErrBroadcasterStopped = er.GenericErrorType.CodeWithDetail("pushtx.ErrBroadcasterStopped",
+	"broadcaster has been stopped")
 
 const (
 	// DefaultRebroadcastInterval is the default period that we'll wait
@@ -158,7 +156,6 @@ func (b *Broadcaster) broadcastHandler(sub *blockntfns.Subscription) {
 			b.rebroadcast(txs, confChan)
 			rebroadcastSem <- struct{}{}
 		}()
-
 	}
 
 	reBroadcastTicker := time.NewTicker(b.cfg.RebroadcastInterval)
@@ -210,7 +207,6 @@ func (b *Broadcaster) broadcastHandler(sub *blockntfns.Subscription) {
 // broadcasting them before their pending dependencies.
 func (b *Broadcaster) rebroadcast(txs map[chainhash.Hash]*wire.MsgTx,
 	confChan chan<- chainhash.Hash) {
-
 	// Return immediately if there are no transactions to re-broadcast.
 	if len(txs) == 0 {
 		return

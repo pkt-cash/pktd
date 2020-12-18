@@ -27,7 +27,6 @@ const dbType = "ffldb"
 // TestCreateOpenFail ensures that errors related to creating and opening a
 // database are handled properly.
 func TestCreateOpenFail(t *testing.T) {
-
 	// Ensure that attempting to open a database that doesn't exist returns
 	// the expected error.
 	wantErrCode := database.ErrDbDoesNotExist
@@ -152,7 +151,6 @@ func TestCreateOpenFail(t *testing.T) {
 // TestPersistence ensures that values stored are still valid after closing and
 // reopening the database.
 func TestPersistence(t *testing.T) {
-
 	// Create a new database to run tests against.
 	dbPath := filepath.Join(os.TempDir(), "ffldb-persistencetest")
 	_ = os.RemoveAll(dbPath)
@@ -257,7 +255,6 @@ func TestPersistence(t *testing.T) {
 
 // TestInterface performs all interfaces tests for this database driver.
 func TestInterface(t *testing.T) {
-
 	// Create a new database to run tests against.
 	dbPath := filepath.Join(os.TempDir(), "ffldb-interfacetest")
 	_ = os.RemoveAll(dbPath)

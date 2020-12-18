@@ -378,7 +378,6 @@ func (sm *SyncManager) startSync() {
 
 // isSyncCandidate returns true if a peer is a candidate to sync from
 func (sm *SyncManager) isSyncCandidate(peer *peerpkg.Peer) bool {
-
 	// The peer is not a candidate if it's not actually connected.
 	if !peer.Connected() {
 		return false
@@ -1457,7 +1456,6 @@ func (sm *SyncManager) handleBlockchainNotification(notification *blockchain.Not
 		// Register block with the fee estimator, if it exists.
 		if sm.feeEstimator != nil {
 			err := sm.feeEstimator.RegisterBlock(block)
-
 			// If an error is somehow generated then the fee estimator
 			// has entered an invalid state. Since it doesn't know how
 			// to recover, create a new one.

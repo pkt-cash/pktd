@@ -216,7 +216,6 @@ func TestAddSha256Witnesses(t *testing.T) {
 // correctness of specialized witness adding methods.
 func (w *WitnessCache) legacyAddWitnesses(wType WitnessType,
 	witnesses ...[]byte) er.R {
-
 	// Optimistically compute the witness keys before attempting to start
 	// the db transaction.
 	entries := make([]witnessEntry, 0, len(witnesses))

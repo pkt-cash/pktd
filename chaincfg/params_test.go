@@ -20,7 +20,6 @@ func TestInvalidHashStr(t *testing.T) {
 // TestMustRegisterPanic ensures the mustRegister function panics when used to
 // register an invalid network.
 func TestMustRegisterPanic(t *testing.T) {
-
 	// Setup a defer to catch the expected panic to ensure it actually
 	// paniced.
 	defer func() {

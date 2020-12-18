@@ -13,12 +13,10 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/wtxmgr"
 )
 
-var (
-	// bucketTxLabels is the name of the label sub bucket of the wtxmgr
-	// top level bucket that stores the mapping between a txid and a
-	// user-defined transaction label.
-	bucketTxLabels = []byte("l")
-)
+// bucketTxLabels is the name of the label sub bucket of the wtxmgr
+// top level bucket that stores the mapping between a txid and a
+// user-defined transaction label.
+var bucketTxLabels = []byte("l")
 
 // DropTransactionHistory completely removes and re-creates the transaction
 // manager namespace from the given wallet database. This can be used to force
@@ -97,7 +95,6 @@ func DropTransactionHistory(db walletdb.DB, keepLabels bool) er.R {
 // fetchAllLabels returns a map of hex-encoded txid to label.
 func fetchAllLabels(tx walletdb.ReadWriteTx) (map[chainhash.Hash]string,
 	er.R) {
-
 	// Get our top level bucket, if it does not exist we just exit.
 	txBucket := tx.ReadBucket(wtxmgrNamespaceKey)
 	if txBucket == nil {
@@ -137,7 +134,6 @@ func fetchAllLabels(tx walletdb.ReadWriteTx) (map[chainhash.Hash]string,
 // if there are any labels present.
 func putTxLabels(ns walletdb.ReadWriteBucket,
 	labels map[chainhash.Hash]string) er.R {
-
 	// If there are no labels, exit early.
 	if len(labels) == 0 {
 		return nil

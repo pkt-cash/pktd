@@ -6,8 +6,8 @@ package rpcclient
 
 import (
 	"encoding/hex"
-	"github.com/json-iterator/go"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/pkt-cash/pktd/btcutil/er"
 
 	"github.com/pkt-cash/pktd/btcjson"
@@ -85,7 +85,6 @@ func (r FutureSubmitBlockResult) Receive() er.R {
 	}
 
 	return nil
-
 }
 
 // SubmitBlockAsync returns an instance of a type that can be used to get the

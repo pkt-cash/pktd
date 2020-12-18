@@ -38,7 +38,6 @@ var normalizedTestGraphCentrality = []float64{
 // buildTestGraph builds a test graph from a passed graph desriptor.
 func buildTestGraph(t *testing.T,
 	graph testGraph, desc testGraphDesc) map[int]*btcec.PublicKey {
-
 	nodes := make(map[int]*btcec.PublicKey)
 
 	for i := 0; i < desc.nodes; i++ {

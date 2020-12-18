@@ -138,7 +138,6 @@ type Observation struct {
 // NewObservation creates an observation.
 func NewObservation(name string, check func() er.R, interval,
 	timeout, backoff time.Duration, attempts int) *Observation {
-
 	return &Observation{
 		Name:     name,
 		Check:    CreateCheck(check),

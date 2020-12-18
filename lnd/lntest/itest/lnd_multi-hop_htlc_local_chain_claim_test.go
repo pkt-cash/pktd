@@ -23,7 +23,6 @@ import (
 // the HTLC success transaction in order to ensure we don't lose any funds.
 func testMultiHopHtlcLocalChainClaim(net *lntest.NetworkHarness, t *harnessTest,
 	alice, bob *lntest.HarnessNode, c commitType) {
-
 	ctxb := context.Background()
 
 	// First, we'll create a three hop network: Alice -> Bob -> Carol, with

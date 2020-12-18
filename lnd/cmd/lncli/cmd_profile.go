@@ -111,7 +111,7 @@ func profileAdd(ctx *cli.Context) er.R {
 	switch {
 	case errNoProfileFile.Is(err):
 		f = &profileFile{}
-		_ = os.MkdirAll(path.Dir(defaultProfileFile), 0700)
+		_ = os.MkdirAll(path.Dir(defaultProfileFile), 0o700)
 
 	case err != nil:
 		return err

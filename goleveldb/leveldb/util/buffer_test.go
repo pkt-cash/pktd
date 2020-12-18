@@ -12,9 +12,11 @@ import (
 	"testing"
 )
 
-const N = 10000      // make this bigger for a larger (and slower) test
-var data string      // test data for write tests
-var testBytes []byte // test data; same as data but as a slice.
+const N = 10000 // make this bigger for a larger (and slower) test
+var (
+	data      string // test data for write tests
+	testBytes []byte // test data; same as data but as a slice.
+)
 
 func init() {
 	testBytes = make([]byte, N)

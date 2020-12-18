@@ -96,7 +96,6 @@ type CommitmentKeyRing struct {
 func DeriveCommitmentKeys(commitPoint *btcec.PublicKey,
 	isOurCommit bool, chanType channeldb.ChannelType,
 	localChanCfg, remoteChanCfg *channeldb.ChannelConfig) *CommitmentKeyRing {
-
 	tweaklessCommit := chanType.IsTweakless()
 
 	// Depending on if this is our commit or not, we'll choose the correct
@@ -190,7 +189,6 @@ type ScriptInfo struct {
 // script, what must be satisfied in order to spend the output.
 func CommitScriptToRemote(chanType channeldb.ChannelType,
 	key *btcec.PublicKey) (*ScriptInfo, uint32, er.R) {
-
 	// If this channel type has anchors, we derive the delayed to_remote
 	// script.
 	if chanType.HasAnchors() {
@@ -258,7 +256,6 @@ func CommitWeight(chanType channeldb.ChannelType) int64 {
 // transaction based on the current fee rate.
 func HtlcTimeoutFee(chanType channeldb.ChannelType,
 	feePerKw chainfee.SatPerKWeight) btcutil.Amount {
-
 	if chanType.HasAnchors() {
 		return feePerKw.FeeForWeight(input.HtlcTimeoutWeightConfirmed)
 	}
@@ -270,7 +267,6 @@ func HtlcTimeoutFee(chanType channeldb.ChannelType,
 // transaction based on the current fee rate.
 func HtlcSuccessFee(chanType channeldb.ChannelType,
 	feePerKw chainfee.SatPerKWeight) btcutil.Amount {
-
 	if chanType.HasAnchors() {
 		return feePerKw.FeeForWeight(input.HtlcSuccessWeightConfirmed)
 	}
@@ -282,7 +278,6 @@ func HtlcSuccessFee(chanType channeldb.ChannelType,
 func CommitScriptAnchors(localChanCfg,
 	remoteChanCfg *channeldb.ChannelConfig) (*ScriptInfo,
 	*ScriptInfo, er.R) {
-
 	// Helper to create anchor ScriptInfo from key.
 	anchorScript := func(key *btcec.PublicKey) (*ScriptInfo, er.R) {
 		script, err := input.CommitScriptAnchor(key)
@@ -396,7 +391,6 @@ func (cb *CommitmentBuilder) createUnsignedCommitmentTx(ourBalance,
 	feePerKw chainfee.SatPerKWeight, height uint64,
 	filteredHTLCView *htlcView,
 	keyRing *CommitmentKeyRing) (*unsignedCommitmentTx, er.R) {
-
 	dustLimit := cb.chanState.LocalChanCfg.DustLimit
 	if !isOurs {
 		dustLimit = cb.chanState.RemoteChanCfg.DustLimit
@@ -580,7 +574,6 @@ func CreateCommitTx(chanType channeldb.ChannelType,
 	localChanCfg, remoteChanCfg *channeldb.ChannelConfig,
 	amountToLocal, amountToRemote btcutil.Amount,
 	numHTLCs int64) (*wire.MsgTx, er.R) {
-
 	// First, we create the script for the delayed "pay-to-self" output.
 	// This output has 2 main redemption clauses: either we can redeem the
 	// output after a relative block delay, or the remote node can claim
@@ -667,7 +660,6 @@ func CreateCommitTx(chanType channeldb.ChannelType,
 func CoopCloseBalance(chanType channeldb.ChannelType, isInitiator bool,
 	coopCloseFee btcutil.Amount, localCommit channeldb.ChannelCommitment) (
 	btcutil.Amount, btcutil.Amount, er.R) {
-
 	// Get both parties' balances from the latest commitment.
 	ourBalance := localCommit.LocalBalance.ToSatoshis()
 	theirBalance := localCommit.RemoteBalance.ToSatoshis()
@@ -709,7 +701,6 @@ func CoopCloseBalance(chanType channeldb.ChannelType, isInitiator bool,
 func genHtlcScript(chanType channeldb.ChannelType, isIncoming, ourCommit bool,
 	timeout uint32, rHash [32]byte,
 	keyRing *CommitmentKeyRing) ([]byte, []byte, er.R) {
-
 	var (
 		witnessScript []byte
 		err           er.R
@@ -785,7 +776,6 @@ func genHtlcScript(chanType channeldb.ChannelType, isIncoming, ourCommit bool,
 func addHTLC(commitTx *wire.MsgTx, ourCommit bool,
 	isIncoming bool, paymentDesc *PaymentDescriptor,
 	keyRing *CommitmentKeyRing, chanType channeldb.ChannelType) er.R {
-
 	timeout := paymentDesc.Timeout
 	rHash := paymentDesc.RHash
 

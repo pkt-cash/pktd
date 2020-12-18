@@ -36,7 +36,6 @@ func (l *linkTestContext) sendHtlcBobToAlice(htlc *lnwire.UpdateAddHTLC) {
 // The HTLC will be sent to Bob via Alice's message stream.
 func (l *linkTestContext) sendHtlcAliceToBob(htlcID int,
 	htlc *lnwire.UpdateAddHTLC) {
-
 	l.t.Helper()
 
 	circuitMap := l.aliceLink.(*channelLink).cfg.Switch.circuits
@@ -215,7 +214,6 @@ func (l *linkTestContext) receiveSettleAliceToBob() {
 // UpdateFulfillHTLC message to Alice's upstream inbox.
 func (l *linkTestContext) sendSettleBobToAlice(htlcID uint64,
 	preimage lntypes.Preimage) {
-
 	l.t.Helper()
 
 	err := l.bobChannel.SettleHTLC(preimage, htlcID, nil, nil, nil)

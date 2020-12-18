@@ -219,7 +219,6 @@ func (c *ChannelEventStore) Stop() {
 // channel.
 func (c *ChannelEventStore) addChannel(channelPoint wire.OutPoint,
 	peer route.Vertex) {
-
 	peerMonitor, err := c.getPeerMonitor(peer)
 	if err != nil {
 		log.Errorf("could not create monitor: %v", err)
@@ -235,7 +234,6 @@ func (c *ChannelEventStore) addChannel(channelPoint wire.OutPoint,
 // and falls back to creating a new monitor if it is not currently known.
 func (c *ChannelEventStore) getPeerMonitor(peer route.Vertex) (peerMonitor,
 	er.R) {
-
 	peerMonitor, ok := c.peers[peer]
 	if ok {
 		return peerMonitor, nil
@@ -276,7 +274,6 @@ func (c *ChannelEventStore) getPeerMonitor(peer route.Vertex) (peerMonitor,
 // between these closes and others.
 func (c *ChannelEventStore) closeChannel(channelPoint wire.OutPoint,
 	peer route.Vertex) {
-
 	peerMonitor, ok := c.peers[peer]
 	if !ok {
 		log.Warnf("peer not known to store: %v", peer)
@@ -428,7 +425,6 @@ type ChannelInfo struct {
 // GetChanInfo gets all the information we have on a channel in the event store.
 func (c *ChannelEventStore) GetChanInfo(channelPoint wire.OutPoint,
 	peer route.Vertex) (*ChannelInfo, er.R) {
-
 	request := channelInfoRequest{
 		peer:         peer,
 		channelPoint: channelPoint,
@@ -459,7 +455,6 @@ func (c *ChannelEventStore) GetChanInfo(channelPoint wire.OutPoint,
 // the full lifetime of the channel.
 func (c *ChannelEventStore) getChanInfo(req channelInfoRequest) (*ChannelInfo,
 	er.R) {
-
 	peerMonitor, ok := c.peers[req.peer]
 	if !ok {
 		return nil, ErrPeerNotFound.Default()
@@ -481,7 +476,6 @@ func (c *ChannelEventStore) getChanInfo(req channelInfoRequest) (*ChannelInfo,
 // timestamp will be nil.
 func (c *ChannelEventStore) FlapCount(peer route.Vertex) (int, *time.Time,
 	er.R) {
-
 	request := peerRequest{
 		peer:         peer,
 		responseChan: make(chan peerResponse),
@@ -513,7 +507,6 @@ func (c *ChannelEventStore) FlapCount(peer route.Vertex) (int, *time.Time,
 // time will be returned.
 func (c *ChannelEventStore) flapCount(peer route.Vertex) (int, *time.Time,
 	er.R) {
-
 	// First check whether we are tracking this peer in memory, because this
 	// record will have the most accurate flap count. We do not fail if we
 	// can't find the peer in memory, because we may have previously

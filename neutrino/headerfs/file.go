@@ -64,7 +64,6 @@ func (h *headerStore) readRaw(seekDist uint64) ([]byte, er.R) {
 // startHeight up to the end height, including the final header.
 func (h *blockHeaderStore) readHeaderRange(startHeight uint32,
 	endHeight uint32) ([]wire.BlockHeader, er.R) {
-
 	// Based on the defined header type, we'll determine the number of
 	// bytes that we need to read from the file.
 	headerReader, err := readHeadersFromFile(
@@ -137,7 +136,6 @@ func (f *FilterHeaderStore) readHeader(height uint32) (*chainhash.Hash, er.R) {
 // startHeight up to the end height, including the final header.
 func (f *FilterHeaderStore) readHeaderRange(startHeight uint32,
 	endHeight uint32) ([]chainhash.Hash, er.R) {
-
 	// Based on the defined header type, we'll determine the number of
 	// bytes that we need to read from the file.
 	headerReader, err := readHeadersFromFile(
@@ -167,7 +165,6 @@ func (f *FilterHeaderStore) readHeaderRange(startHeight uint32,
 // the given file, from startHeight to endHeight.
 func readHeadersFromFile(f *os.File, headerSize, startHeight,
 	endHeight uint32) (*bytes.Reader, er.R) {
-
 	// Each header is headerSize bytes, so using this information, we'll
 	// seek a distance to cover that height based on the size the headers.
 	seekDistance := uint64(startHeight) * uint64(headerSize)

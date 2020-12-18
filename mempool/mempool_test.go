@@ -104,7 +104,6 @@ func (s *fakeChain) SetMedianTimePast(mtp time.Time) {
 // transaction associated with the fake chain instance.
 func (s *fakeChain) CalcSequenceLock(tx *btcutil.Tx,
 	view *blockchain.UtxoViewpoint) (*blockchain.SequenceLock, er.R) {
-
 	return &blockchain.SequenceLock{
 		Seconds:     -1,
 		BlockHeight: -1,
@@ -195,7 +194,6 @@ func (p *poolHarness) CreateCoinbaseTx(blockHeight int32, numOutputs uint32) (*b
 func (p *poolHarness) CreateSignedTx(inputs []spendableOutput,
 	numOutputs uint32, fee btcutil.Amount,
 	signalsReplacement bool) (*btcutil.Tx, er.R) {
-
 	// Calculate the total input amount and split it amongst the requested
 	// number of outputs.
 	var totalInput btcutil.Amount
@@ -394,7 +392,6 @@ func (ctx *testContext) addCoinbaseTx(numOutputs uint32) *btcutil.Tx {
 func (ctx *testContext) addSignedTx(inputs []spendableOutput,
 	numOutputs uint32, fee btcutil.Amount,
 	signalsReplacement, confirmed bool) *btcutil.Tx {
-
 	ctx.t.Helper()
 
 	tx, err := ctx.harness.CreateSignedTx(
@@ -522,7 +519,6 @@ func TestSimpleOrphanChain(t *testing.T) {
 // TestOrphanReject ensures that orphans are properly rejected when the allow
 // orphans flag is not set on ProcessTransaction.
 func TestOrphanReject(t *testing.T) {
-
 	harness, outputs, err := newPoolHarness(&chaincfg.MainNetParams)
 	if err != nil {
 		t.Fatalf("unable to create test pool: %v", err)
@@ -575,7 +571,6 @@ func TestOrphanReject(t *testing.T) {
 // TestOrphanEviction ensures that exceeding the maximum number of orphans
 // evicts entries to make room for the new ones.
 func TestOrphanEviction(t *testing.T) {
-
 	harness, outputs, err := newPoolHarness(&chaincfg.MainNetParams)
 	if err != nil {
 		t.Fatalf("unable to create test pool: %v", err)
@@ -638,7 +633,6 @@ func TestOrphanEviction(t *testing.T) {
 // orphan that doesn't exist is removed  both when there is another orphan that
 // redeems it and when there is not.
 func TestBasicOrphanRemoval(t *testing.T) {
-
 	const maxOrphans = 4
 	harness, spendableOuts, err := newPoolHarness(&chaincfg.MainNetParams)
 	if err != nil {
@@ -712,7 +706,6 @@ func TestBasicOrphanRemoval(t *testing.T) {
 // TestOrphanChainRemoval ensure that orphan chains (orphans that spend outputs
 // from other orphans) are removed as expected.
 func TestOrphanChainRemoval(t *testing.T) {
-
 	const maxOrphans = 10
 	harness, spendableOuts, err := newPoolHarness(&chaincfg.MainNetParams)
 	if err != nil {
@@ -774,7 +767,6 @@ func TestOrphanChainRemoval(t *testing.T) {
 // TestMultiInputOrphanDoubleSpend ensures that orphans that spend from an
 // output that is spend by another transaction entering the pool are removed.
 func TestMultiInputOrphanDoubleSpend(t *testing.T) {
-
 	const maxOrphans = 4
 	harness, outputs, err := newPoolHarness(&chaincfg.MainNetParams)
 	if err != nil {
@@ -862,7 +854,6 @@ func TestMultiInputOrphanDoubleSpend(t *testing.T) {
 // TestCheckSpend tests that CheckSpend returns the expected spends found in
 // the mempool.
 func TestCheckSpend(t *testing.T) {
-
 	harness, outputs, err := newPoolHarness(&chaincfg.MainNetParams)
 	if err != nil {
 		t.Fatalf("unable to create test pool: %v", err)
@@ -930,7 +921,6 @@ func TestCheckSpend(t *testing.T) {
 // TestSignalsReplacement tests that transactions properly signal they can be
 // replaced using RBF.
 func TestSignalsReplacement(t *testing.T) {
-
 	testCases := []struct {
 		name               string
 		setup              func(ctx *testContext) *btcutil.Tx
@@ -1047,7 +1037,6 @@ func TestSignalsReplacement(t *testing.T) {
 // unconfirmed double spends in the case of replacement and non-replacement
 // transactions.
 func TestCheckPoolDoubleSpend(t *testing.T) {
-
 	testCases := []struct {
 		name          string
 		setup         func(ctx *testContext) *btcutil.Tx
@@ -1222,7 +1211,6 @@ func TestCheckPoolDoubleSpend(t *testing.T) {
 // TestConflicts ensures that the mempool can properly detect conflicts when
 // processing new incoming transactions.
 func TestConflicts(t *testing.T) {
-
 	testCases := []struct {
 		name string
 
@@ -1371,7 +1359,6 @@ func TestConflicts(t *testing.T) {
 // TestAncestorsDescendants ensures that we can properly retrieve the
 // unconfirmed ancestors and descendants of a transaction.
 func TestAncestorsDescendants(t *testing.T) {
-
 	// We'll start the test by initializing our mempool harness.
 	harness, outputs, err := newPoolHarness(&chaincfg.MainNetParams)
 	if err != nil {
@@ -1447,7 +1434,6 @@ func TestAncestorsDescendants(t *testing.T) {
 // TestRBF tests the different cases required for a transaction to properly
 // replace its conflicts given that they all signal replacement.
 func TestRBF(t *testing.T) {
-
 	defaultFee := btcutil.UnitsPerCoin()
 
 	testCases := []struct {

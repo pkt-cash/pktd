@@ -24,8 +24,10 @@ import (
 )
 
 var (
-	testAddr = &net.TCPAddr{IP: (net.IP)([]byte{0xA, 0x0, 0x0, 0x1}),
-		Port: 9000}
+	testAddr = &net.TCPAddr{
+		IP:   (net.IP)([]byte{0xA, 0x0, 0x0, 0x1}),
+		Port: 9000,
+	}
 	anotherAddr, _ = net.ResolveTCPAddr("tcp",
 		"[2001:db8:85a3:0:0:8a2e:370:7334]:80")
 	testAddrs = []net.Addr{testAddr, anotherAddr}
@@ -392,7 +394,6 @@ func TestEdgeInsertionDeletion(t *testing.T) {
 
 func createEdge(height, txIndex uint32, txPosition uint16, outPointIndex uint32,
 	node1, node2 *LightningNode) (ChannelEdgeInfo, lnwire.ShortChannelID) {
-
 	shortChanID := lnwire.ShortChannelID{
 		BlockHeight: height,
 		TxIndex:     txIndex,
@@ -578,7 +579,6 @@ func TestDisconnectBlockAtHeight(t *testing.T) {
 
 func assertEdgeInfoEqual(t *testing.T, e1 *ChannelEdgeInfo,
 	e2 *ChannelEdgeInfo) {
-
 	if e1.ChannelID != e2.ChannelID {
 		t.Fatalf("chan id's don't match: %v vs %v", e1.ChannelID,
 			e2.ChannelID)
@@ -640,7 +640,6 @@ func assertEdgeInfoEqual(t *testing.T, e1 *ChannelEdgeInfo,
 
 func createChannelEdge(db *DB, node1, node2 *LightningNode) (*ChannelEdgeInfo,
 	*ChannelEdgePolicy, *ChannelEdgePolicy) {
-
 	var (
 		firstNode  *LightningNode
 		secondNode *LightningNode
@@ -830,7 +829,6 @@ func randEdgePolicy(chanID uint64, op wire.OutPoint, db *DB) *ChannelEdgePolicy 
 
 func newEdgePolicy(chanID uint64, op wire.OutPoint, db *DB,
 	updateTime int64) *ChannelEdgePolicy {
-
 	return &ChannelEdgePolicy{
 		ChannelID:                 chanID,
 		LastUpdate:                time.Unix(updateTime, 0),
@@ -964,7 +962,6 @@ func TestGraphTraversal(t *testing.T) {
 	// properly been reached.
 	err = graph.ForEachChannel(func(ei *ChannelEdgeInfo, _ *ChannelEdgePolicy,
 		_ *ChannelEdgePolicy) er.R {
-
 		delete(chanIndex, ei.ChannelID)
 		return nil
 	})
@@ -980,7 +977,6 @@ func TestGraphTraversal(t *testing.T) {
 	numNodeChans := 0
 	err = firstNode.ForEachChannel(nil, func(_ kvdb.RTx, _ *ChannelEdgeInfo,
 		outEdge, inEdge *ChannelEdgePolicy) er.R {
-
 		// All channels between first and second node should have fully
 		// (both sides) specified policies.
 		if inEdge == nil || outEdge == nil {
@@ -1013,7 +1009,6 @@ func TestGraphTraversal(t *testing.T) {
 
 func assertPruneTip(t *testing.T, graph *ChannelGraph, blockHash *chainhash.Hash,
 	blockHeight uint32) {
-
 	pruneHash, pruneHeight, err := graph.PruneTip()
 	if err != nil {
 		_, _, line, _ := runtime.Caller(1)
@@ -1035,7 +1030,6 @@ func assertNumChans(t *testing.T, graph *ChannelGraph, n int) {
 	numChans := 0
 	if err := graph.ForEachChannel(func(*ChannelEdgeInfo, *ChannelEdgePolicy,
 		*ChannelEdgePolicy) er.R {
-
 		numChans++
 		return nil
 	}); err != nil {
@@ -1544,7 +1538,6 @@ func TestChanUpdatesInHorizon(t *testing.T) {
 		if len(resp) != len(queryCase.resp) {
 			t.Fatalf("expected %v chans, got %v chans",
 				len(queryCase.resp), len(resp))
-
 		}
 
 		for i := 0; i < len(resp); i++ {
@@ -1675,7 +1668,6 @@ func TestNodeUpdatesInHorizon(t *testing.T) {
 		if len(resp) != len(queryCase.resp) {
 			t.Fatalf("expected %v nodes, got %v nodes",
 				len(queryCase.resp), len(resp))
-
 		}
 
 		for i := 0; i < len(resp); i++ {
@@ -2101,7 +2093,6 @@ func TestIncompleteChannelPolicies(t *testing.T) {
 		calls := 0
 		err := node.ForEachChannel(nil, func(_ kvdb.RTx, _ *ChannelEdgeInfo,
 			outEdge, inEdge *ChannelEdgePolicy) er.R {
-
 			if !expectedOut && outEdge != nil {
 				t.Fatalf("Expected no outgoing policy")
 			}
@@ -2605,7 +2596,6 @@ func TestNodeIsPublic(t *testing.T) {
 	// given nodes are seen as public/private within the given graphs.
 	checkNodes := func(nodes []*LightningNode, graphs []*ChannelGraph,
 		public bool) {
-
 		t.Helper()
 
 		for _, node := range nodes {

@@ -174,7 +174,6 @@ func TestFundPsbt(t *testing.T) {
 			expectedInputs:  []wire.OutPoint{utxo1, utxo2},
 			additionalChecks: func(t *testing.T, packet *psbt.Packet,
 				changeIndex int32) {
-
 				// Check outputs, find index for each of the 3 expected.
 				txOuts := packet.UnsignedTx.TxOut
 				if len(txOuts) != 3 {
@@ -290,7 +289,6 @@ func TestFundPsbt(t *testing.T) {
 
 func assertTxInputs(t *testing.T, packet *psbt.Packet,
 	expected []wire.OutPoint) {
-
 	if len(packet.UnsignedTx.TxIn) != len(expected) {
 		t.Fatalf("expected %d inputs to be added, got %d",
 			len(expected), len(packet.UnsignedTx.TxIn))

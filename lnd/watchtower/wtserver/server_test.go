@@ -48,7 +48,6 @@ func randPubKey(t *testing.T) *btcec.PublicKey {
 // If the provided database is nil, a mock db will be used.
 func initServer(t *testing.T, db wtserver.DB,
 	timeout time.Duration) wtserver.Interface {
-
 	t.Helper()
 
 	if db == nil {
@@ -815,7 +814,6 @@ func TestServerDeleteSession(t *testing.T) {
 
 func connect(t *testing.T, s wtserver.Interface, peer *wtmock.MockPeer,
 	initMsg *wtwire.Init, timeout time.Duration) {
-
 	t.Helper()
 
 	s.InboundPeerConnected(peer)
@@ -826,7 +824,6 @@ func connect(t *testing.T, s wtserver.Interface, peer *wtmock.MockPeer,
 // sendMsg sends a wtwire.Message message via a wtmock.MockPeer.
 func sendMsg(t *testing.T, msg wtwire.Message,
 	peer *wtmock.MockPeer, timeout time.Duration) {
-
 	t.Helper()
 
 	var b bytes.Buffer
@@ -848,7 +845,6 @@ func sendMsg(t *testing.T, msg wtwire.Message,
 // StateUpdateReply.
 func recvReply(t *testing.T, name string, peer *wtmock.MockPeer,
 	timeout time.Duration) wtwire.Message {
-
 	t.Helper()
 
 	var (

@@ -116,7 +116,6 @@ func TestMessageStoreMessages(t *testing.T) {
 	// retrieve the correct set of messages for a given peer.
 	assertPeerMsgs := func(peerMsgs []lnwire.Message,
 		expected map[uint64]lnwire.MessageType) {
-
 		t.Helper()
 
 		if len(peerMsgs) != len(expected) {

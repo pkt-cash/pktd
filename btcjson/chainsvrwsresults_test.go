@@ -6,16 +6,15 @@
 package btcjson_test
 
 import (
-	"github.com/json-iterator/go"
 	"testing"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/pkt-cash/pktd/btcjson"
 )
 
 // TestChainSvrWsResults ensures any results that have custom marshaling
 // work as inteded.
 func TestChainSvrWsResults(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		result   interface{}

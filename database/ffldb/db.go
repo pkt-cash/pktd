@@ -141,7 +141,7 @@ func makeDbErr(c *er.ErrorCode, desc string, err er.R) er.R {
 func convertErr(desc string, ldbErr error) er.R {
 	// Use the driver-specific error code by default.  The code below will
 	// update this with the converted error if it's recognized.
-	var code = database.ErrDriverSpecific
+	code := database.ErrDriverSpecific
 
 	switch {
 	// Database corruption errors.
@@ -2051,7 +2051,7 @@ func openDB(dbPath string, network protocol.BitcoinNet, create bool) (database.D
 		// The error can be ignored here since the call to
 		// leveldb.OpenFile will fail if the directory couldn't be
 		// created.
-		_ = os.MkdirAll(dbPath, 0700)
+		_ = os.MkdirAll(dbPath, 0o700)
 	}
 
 	// Open the metadata database (will create it if needed).

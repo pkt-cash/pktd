@@ -53,7 +53,6 @@ type sphinxHopIterator struct {
 // router and converts it into an hop iterator for usage in the link.
 func makeSphinxHopIterator(ogPacket *sphinx.OnionPacket,
 	packet *sphinx.ProcessedPacket) *sphinxHopIterator {
-
 	return &sphinxHopIterator{
 		ogPacket:        ogPacket,
 		processedPacket: packet,
@@ -108,7 +107,6 @@ func (r *sphinxHopIterator) HopPayload() (*Payload, er.R) {
 // NOTE: Part of the HopIterator interface.
 func (r *sphinxHopIterator) ExtractErrorEncrypter(
 	extracter ErrorEncrypterExtracter) (ErrorEncrypter, lnwire.FailCode) {
-
 	return extracter(r.ogPacket.EphemeralKey)
 }
 
@@ -146,7 +144,6 @@ func (p *OnionProcessor) Stop() er.R {
 // MACs during the decoding process.
 func (p *OnionProcessor) DecodeHopIterator(r io.Reader, rHash []byte,
 	incomingCltv uint32) (Iterator, lnwire.FailCode) {
-
 	onionPkt := &sphinx.OnionPacket{}
 	if err := onionPkt.Decode(r); err != nil {
 		switch {
@@ -190,7 +187,6 @@ func (p *OnionProcessor) DecodeHopIterator(r io.Reader, rHash []byte,
 // MACs during the decoding process.
 func (p *OnionProcessor) ReconstructHopIterator(r io.Reader, rHash []byte) (
 	Iterator, er.R) {
-
 	onionPkt := &sphinx.OnionPacket{}
 	if err := onionPkt.Decode(r); err != nil {
 		return nil, err
@@ -243,7 +239,6 @@ func (r *DecodeHopIteratorResponse) Result() (Iterator, lnwire.FailCode) {
 // same id.
 func (p *OnionProcessor) DecodeHopIterators(id []byte,
 	reqs []DecodeHopIteratorRequest) ([]DecodeHopIteratorResponse, er.R) {
-
 	var (
 		batchSize = len(reqs)
 		onionPkts = make([]sphinx.OnionPacket, batchSize)
@@ -369,7 +364,6 @@ func (p *OnionProcessor) DecodeHopIterators(id []byte,
 // returned.
 func (p *OnionProcessor) ExtractErrorEncrypter(ephemeralKey *btcec.PublicKey) (
 	ErrorEncrypter, lnwire.FailCode) {
-
 	onionObfuscator, err := sphinx.NewOnionErrorEncrypter(
 		p.router, ephemeralKey,
 	)

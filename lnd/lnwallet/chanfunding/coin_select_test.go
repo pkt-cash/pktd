@@ -14,10 +14,8 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-var (
-	p2wkhScript, _ = util.DecodeHex(
-		"001411034bdcb6ccb7744fdfdeea958a6fb0b415a032",
-	)
+var p2wkhScript, _ = util.DecodeHex(
+	"001411034bdcb6ccb7744fdfdeea958a6fb0b415a032",
 )
 
 // fundingFee is a helper method that returns the fee estimate used for a tx
@@ -25,7 +23,6 @@ var (
 // the estimate done by the wallet.
 func fundingFee(feeRate chainfee.SatPerKWeight, numInput int, // nolint:unparam
 	change bool) btcutil.Amount {
-
 	var weightEstimate input.TxWeightEstimator
 
 	// All inputs.

@@ -62,10 +62,8 @@ func (g *dbRoutingTx) close() er.R {
 func (g *dbRoutingTx) forEachNodeChannel(nodePub route.Vertex,
 	cb func(*channeldb.ChannelEdgeInfo, *channeldb.ChannelEdgePolicy,
 		*channeldb.ChannelEdgePolicy) er.R) er.R {
-
 	txCb := func(_ kvdb.RTx, info *channeldb.ChannelEdgeInfo,
 		p1, p2 *channeldb.ChannelEdgePolicy) er.R {
-
 		return cb(info, p1, p2)
 	}
 
@@ -85,7 +83,6 @@ func (g *dbRoutingTx) sourceNode() route.Vertex {
 // NOTE: Part of the routingGraph interface.
 func (g *dbRoutingTx) fetchNodeFeatures(nodePub route.Vertex) (
 	*lnwire.FeatureVector, er.R) {
-
 	targetNode, err := g.graph.FetchLightningNode(g.tx, nodePub)
 	switch {
 

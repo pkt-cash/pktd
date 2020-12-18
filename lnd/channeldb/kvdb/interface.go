@@ -74,7 +74,7 @@ type ExtendedBackend interface {
 	// before the start of the transaction and can be used to reset
 	// intermediate state. As callers may expect retries of the f closure
 	// (depending on the database backend used), the reset function will be
-	//called before each retry respectively.
+	// called before each retry respectively.
 	View(f func(tx walletdb.ReadTx) er.R, reset func()) er.R
 
 	// Update opens a database read/write transaction and executes the

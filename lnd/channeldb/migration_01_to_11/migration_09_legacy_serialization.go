@@ -142,7 +142,7 @@ func (db *DB) fetchAllPayments() ([]*outgoingPayment, er.R) {
 //
 // NOTE: Deprecated. Kept around for migration purposes.
 func (db *DB) fetchPaymentStatus(paymentHash [32]byte) (PaymentStatus, er.R) {
-	var paymentStatus = StatusUnknown
+	paymentStatus := StatusUnknown
 	err := kvdb.View(db, func(tx kvdb.RTx) er.R {
 		var err er.R
 		paymentStatus, err = fetchPaymentStatusTx(tx, paymentHash)
@@ -165,7 +165,7 @@ func (db *DB) fetchPaymentStatus(paymentHash [32]byte) (PaymentStatus, er.R) {
 // NOTE: Deprecated. Kept around for migration purposes.
 func fetchPaymentStatusTx(tx kvdb.RTx, paymentHash [32]byte) (PaymentStatus, er.R) {
 	// The default status for all payments that aren't recorded in database.
-	var paymentStatus = StatusUnknown
+	paymentStatus := StatusUnknown
 
 	bucket := tx.ReadBucket(paymentStatusBucket)
 	if bucket == nil {
@@ -470,7 +470,6 @@ func fetchPaymentMigration9(bucket kvdb.RBucket) (*Payment, er.R) {
 	p.Info, err = deserializePaymentCreationInfo(r)
 	if err != nil {
 		return nil, err
-
 	}
 
 	// Get the PaymentAttemptInfo. This can be unset.

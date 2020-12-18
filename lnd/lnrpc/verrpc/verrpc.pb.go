@@ -6,17 +6,20 @@ package verrpc
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+var (
+	_ = proto.Marshal
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -40,15 +43,19 @@ func (*VersionRequest) Descriptor() ([]byte, []int) {
 func (m *VersionRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_VersionRequest.Unmarshal(m, b)
 }
+
 func (m *VersionRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_VersionRequest.Marshal(b, m, deterministic)
 }
+
 func (m *VersionRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VersionRequest.Merge(m, src)
 }
+
 func (m *VersionRequest) XXX_Size() int {
 	return xxx_messageInfo_VersionRequest.Size(m)
 }
+
 func (m *VersionRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_VersionRequest.DiscardUnknown(m)
 }
@@ -89,15 +96,19 @@ func (*Version) Descriptor() ([]byte, []int) {
 func (m *Version) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Version.Unmarshal(m, b)
 }
+
 func (m *Version) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Version.Marshal(b, m, deterministic)
 }
+
 func (m *Version) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_Version.Merge(m, src)
 }
+
 func (m *Version) XXX_Size() int {
 	return xxx_messageInfo_Version.Size(m)
 }
+
 func (m *Version) XXX_DiscardUnknown() {
 	xxx_messageInfo_Version.DiscardUnknown(m)
 }
@@ -198,8 +209,10 @@ var fileDescriptor_494312204cefa0e6 = []byte{
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
+var (
+	_ context.Context
+	_ grpc.ClientConn
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
@@ -210,8 +223,8 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type VersionerClient interface {
 	// lncli: `version`
-	//GetVersion returns the current version and build information of the running
-	//daemon.
+	// GetVersion returns the current version and build information of the running
+	// daemon.
 	GetVersion(ctx context.Context, in *VersionRequest, opts ...grpc.CallOption) (*Version, error)
 }
 
@@ -235,8 +248,8 @@ func (c *versionerClient) GetVersion(ctx context.Context, in *VersionRequest, op
 // VersionerServer is the server API for Versioner service.
 type VersionerServer interface {
 	// lncli: `version`
-	//GetVersion returns the current version and build information of the running
-	//daemon.
+	// GetVersion returns the current version and build information of the running
+	// daemon.
 	GetVersion(context.Context, *VersionRequest) (*Version, error)
 }
 

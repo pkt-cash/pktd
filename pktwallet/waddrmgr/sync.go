@@ -36,7 +36,6 @@ type syncState struct {
 
 // newSyncState returns a new sync state with the provided parameters.
 func newSyncState(startBlock, syncedTo *BlockStamp) *syncState {
-
 	return &syncState{
 		startBlock: *startBlock,
 		syncedTo:   *syncedTo,
@@ -87,7 +86,6 @@ func (m *Manager) SyncedTo() BlockStamp {
 // reorg is taking place and how far back it goes.
 func (m *Manager) BlockHash(ns walletdb.ReadBucket, height int32) (
 	*chainhash.Hash, er.R) {
-
 	return fetchBlockHash(ns, height)
 }
 
@@ -129,7 +127,6 @@ func (m *Manager) BirthdayBlock(ns walletdb.ReadBucket) (BlockStamp, bool, er.R)
 // exists a better candidate to prevent less block fetching.
 func (m *Manager) SetBirthdayBlock(ns walletdb.ReadWriteBucket,
 	block BlockStamp, verified bool) er.R {
-
 	if err := PutBirthdayBlock(ns, block); err != nil {
 		return err
 	}

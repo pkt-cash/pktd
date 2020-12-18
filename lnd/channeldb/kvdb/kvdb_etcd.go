@@ -5,6 +5,7 @@ package kvdb
 import (
 	"context"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/lnd/channeldb/kvdb/etcd"
 )
 
@@ -16,7 +17,6 @@ const TestBackend = EtcdBackendName
 // passed etcdConfig.
 func GetEtcdBackend(ctx context.Context, prefix string,
 	etcdConfig *EtcdConfig) (Backend, er.R) {
-
 	// Config translation is needed here in order to keep the
 	// etcd package fully independent from the rest of the source tree.
 	backendConfig := etcd.BackendConfig{

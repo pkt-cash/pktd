@@ -15,14 +15,16 @@ import (
 // contain characters from semanticAlphabet per the semantic versioning spec.
 var appBuild string
 
-var userAgentName = "unknown" // pktd, pktwallet, pktctl...
-var appMajor uint = 0
-var appMinor uint = 0
-var appPatch uint = 0
-var version = "0.0.0-custom"
-var custom = true
-var prerelease = false
-var dirty = false
+var (
+	userAgentName      = "unknown" // pktd, pktwallet, pktctl...
+	appMajor      uint = 0
+	appMinor      uint = 0
+	appPatch      uint = 0
+	version            = "0.0.0-custom"
+	custom             = true
+	prerelease         = false
+	dirty              = false
+)
 
 func init() {
 	if appBuild == "" {
@@ -61,9 +63,11 @@ func IsPrerelease() bool {
 func AppMajorVersion() uint {
 	return appMajor
 }
+
 func AppMinorVersion() uint {
 	return appMinor
 }
+
 func AppPatchVersion() uint {
 	return appPatch
 }

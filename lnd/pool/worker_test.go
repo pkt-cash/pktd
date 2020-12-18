@@ -144,7 +144,6 @@ func submitBlockingGeneric(t *testing.T, p interface{}, nWorkers int) {
 	// no more errors should come through.
 	pullSequntial(t, nBlocked, errChan, semChan)
 	pullNothing(t, errChan)
-
 }
 
 // submitPartialBlockingGeneric tests that so long as one worker is not blocked,
@@ -338,7 +337,6 @@ func submitGeneric(p interface{}, sem <-chan struct{}) er.R {
 			<-sem
 
 			return err
-
 		})
 
 	default:

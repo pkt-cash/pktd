@@ -28,8 +28,10 @@ func TestParseOpcode(t *testing.T) {
 	fakeArray[opcode.OP_PUSHDATA4] = opcode.Opcode{Value: opcode.OP_PUSHDATA4, Length: -8}
 
 	// This script would be fine if -8 was a valid length.
-	_, err := parsescript.ParseScriptTemplate([]byte{opcode.OP_PUSHDATA4, 0x1, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00}, fakeArray)
+	_, err := parsescript.ParseScriptTemplate([]byte{
+		opcode.OP_PUSHDATA4, 0x1, 0x00, 0x00,
+		0x00, 0x00, 0x00, 0x00, 0x00,
+	}, fakeArray)
 	if err == nil {
 		t.Errorf("no error with dodgy opcode array!")
 	}
@@ -3689,8 +3691,7 @@ func TestUnparsingInvalidOpcodes(t *testing.T) {
 // TestPushedData ensured the PushedData function extracts the expected data out
 // of various scripts.
 func TestPushedData(t *testing.T) {
-
-	var tests = []struct {
+	tests := []struct {
 		script string
 		out    [][]byte
 		valid  bool
@@ -3748,7 +3749,6 @@ func TestPushedData(t *testing.T) {
 
 // TestHasCanonicalPush ensures the canonicalPush function works as expected.
 func TestHasCanonicalPush(t *testing.T) {
-
 	for i := 0; i < 65535; i++ {
 		script, err := scriptbuilder.NewScriptBuilder().AddInt64(int64(i)).Script()
 		if err != nil {
@@ -3803,7 +3803,6 @@ func TestHasCanonicalPush(t *testing.T) {
 // TestGetPreciseSigOps ensures the more precise signature operation counting
 // mechanism which includes signatures in P2SH scripts works as expected.
 func TestGetPreciseSigOps(t *testing.T) {
-
 	tests := []struct {
 		name      string
 		scriptSig []byte
@@ -3845,7 +3844,6 @@ func TestGetPreciseSigOps(t *testing.T) {
 		if count != test.nSigOps {
 			t.Errorf("%s: expected count of %d, got %d", test.name,
 				test.nSigOps, count)
-
 		}
 	}
 }
@@ -3932,7 +3930,6 @@ func TestGetWitnessSigOpCount(t *testing.T) {
 		if count != test.numSigOps {
 			t.Errorf("%s: expected count of %d, got %d", test.name,
 				test.numSigOps, count)
-
 		}
 	}
 }
@@ -3940,7 +3937,6 @@ func TestGetWitnessSigOpCount(t *testing.T) {
 // TestRemoveOpcodes ensures that removing opcodes from scripts behaves as
 // expected.
 func TestRemoveOpcodes(t *testing.T) {
-
 	tests := []struct {
 		name   string
 		before string
@@ -4021,7 +4017,6 @@ func TestRemoveOpcodes(t *testing.T) {
 // TestRemoveOpcodeByData ensures that removing data carrying opcodes based on
 // the data they contain works as expected.
 func TestRemoveOpcodeByData(t *testing.T) {
-
 	tests := []struct {
 		name   string
 		before []byte
@@ -4169,7 +4164,6 @@ func TestRemoveOpcodeByData(t *testing.T) {
 // TestIsPayToScriptHash ensures the IsPayToScriptHash function returns the
 // expected results for all the scripts in scriptClassTests.
 func TestIsPayToScriptHash(t *testing.T) {
-
 	for _, test := range scriptClassTests {
 		script := mustParseShortForm(test.script)
 		shouldBe := (test.class == ScriptHashTy)
@@ -4184,7 +4178,6 @@ func TestIsPayToScriptHash(t *testing.T) {
 // TestIsPayToWitnessScriptHash ensures the IsPayToWitnessScriptHash function
 // returns the expected results for all the scripts in scriptClassTests.
 func TestIsPayToWitnessScriptHash(t *testing.T) {
-
 	for _, test := range scriptClassTests {
 		script := mustParseShortForm(test.script)
 		shouldBe := (test.class == WitnessV0ScriptHashTy)
@@ -4199,7 +4192,6 @@ func TestIsPayToWitnessScriptHash(t *testing.T) {
 // TestIsPayToWitnessPubKeyHash ensures the IsPayToWitnessPubKeyHash function
 // returns the expected results for all the scripts in scriptClassTests.
 func TestIsPayToWitnessPubKeyHash(t *testing.T) {
-
 	for _, test := range scriptClassTests {
 		script := mustParseShortForm(test.script)
 		shouldBe := (test.class == WitnessV0PubKeyHashTy)
@@ -4214,7 +4206,6 @@ func TestIsPayToWitnessPubKeyHash(t *testing.T) {
 // TestHasCanonicalPushes ensures the canonicalPush function properly determines
 // what is considered a canonical push for the purposes of removeOpcodeByData.
 func TestHasCanonicalPushes(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		script   string
@@ -4256,7 +4247,6 @@ func TestHasCanonicalPushes(t *testing.T) {
 // TestIsPushOnlyScript ensures the IsPushOnlyScript function returns the
 // expected results.
 func TestIsPushOnlyScript(t *testing.T) {
-
 	test := struct {
 		name     string
 		script   []byte
@@ -4277,7 +4267,6 @@ func TestIsPushOnlyScript(t *testing.T) {
 // TestIsUnspendable ensures the IsUnspendable function returns the expected
 // results.
 func TestIsUnspendable(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		pkScript []byte
@@ -4290,10 +4279,12 @@ func TestIsUnspendable(t *testing.T) {
 		},
 		{
 			// Spendable
-			pkScript: []byte{0x76, 0xa9, 0x14, 0x29, 0x95, 0xa0,
+			pkScript: []byte{
+				0x76, 0xa9, 0x14, 0x29, 0x95, 0xa0,
 				0xfe, 0x68, 0x43, 0xfa, 0x9b, 0x95, 0x45,
 				0x97, 0xf0, 0xdc, 0xa7, 0xa4, 0x4d, 0xf6,
-				0xfa, 0x0b, 0x5c, 0x88, 0xac},
+				0xfa, 0x0b, 0x5c, 0x88, 0xac,
+			},
 			expected: false,
 		},
 	}

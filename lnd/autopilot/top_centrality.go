@@ -54,7 +54,6 @@ func (g *TopCentrality) Name() string {
 func (g *TopCentrality) NodeScores(graph ChannelGraph, chans []LocalChannel,
 	chanSize btcutil.Amount, nodes map[NodeID]struct{}) (
 	map[NodeID]*NodeScore, er.R) {
-
 	// Calculate betweenness centrality for the whole graph.
 	if err := g.centralityMetric.Refresh(graph); err != nil {
 		return nil, err

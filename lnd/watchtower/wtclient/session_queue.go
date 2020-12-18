@@ -364,7 +364,6 @@ func (q *sessionQueue) drainBackups() {
 // commit or pending queue if the update is successfully acked.
 func (q *sessionQueue) nextStateUpdate() (*wtwire.StateUpdate, bool,
 	wtdb.BackupID, er.R) {
-
 	var (
 		seqNum    uint16
 		update    wtdb.CommittedUpdate
@@ -477,7 +476,6 @@ func (q *sessionQueue) nextStateUpdate() (*wtwire.StateUpdate, bool,
 func (q *sessionQueue) sendStateUpdate(conn wtserver.Peer,
 	stateUpdate *wtwire.StateUpdate, localInit *wtwire.Init,
 	sendInit, isPending bool) er.R {
-
 	// If this is the first message being sent to the tower, we must send an
 	// Init message to establish that server supports the features we
 	// require.
@@ -605,7 +603,6 @@ func (q *sessionQueue) reserveStatus() reserveStatus {
 	}
 
 	return reserveExhausted
-
 }
 
 // resetBackoff returns the connection backoff the minimum configured backoff.

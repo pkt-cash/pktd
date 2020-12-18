@@ -78,7 +78,7 @@ func (cmd *compacter) execute() (int64, int64, er.R) {
 
 	// Open source database. We open it in read only mode to avoid (and fix)
 	// possible freelist sync problems.
-	src, errr := bbolt.Open(cmd.srcPath, 0444, &bbolt.Options{
+	src, errr := bbolt.Open(cmd.srcPath, 0o444, &bbolt.Options{
 		ReadOnly: true,
 	})
 	if errr != nil {
@@ -222,7 +222,6 @@ func (cmd *compacter) walk(db *bbolt.DB, walkFn walkFunc) er.R {
 // walkBucket recursively walks through a bucket.
 func (cmd *compacter) walkBucket(b *bbolt.Bucket, keyPath [][]byte, k, v []byte,
 	seq uint64, fn walkFunc) er.R {
-
 	// Execute callback.
 	if err := fn(keyPath, k, v, seq); err != nil {
 		return err

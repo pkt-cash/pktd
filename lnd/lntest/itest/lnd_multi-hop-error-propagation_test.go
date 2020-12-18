@@ -416,7 +416,6 @@ func assertLinkFailure(t *harnessTest,
 	eventType routerrpc.HtlcEvent_EventType,
 	failureDetail routerrpc.FailureDetail,
 	client routerrpc.Router_SubscribeHtlcEventsClient) {
-
 	event := assertEventAndType(t, eventType, client)
 
 	linkFail, ok := event.Event.(*routerrpc.HtlcEvent_LinkFailEvent)

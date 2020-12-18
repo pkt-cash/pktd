@@ -24,16 +24,12 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-var (
-	// TrickleInterval is the interval at which the miner should trickle
-	// transactions to its peers. We'll set it small to ensure the miner
-	// propagates transactions quickly in the tests.
-	TrickleInterval = 10 * time.Millisecond
-)
+// TrickleInterval is the interval at which the miner should trickle
+// transactions to its peers. We'll set it small to ensure the miner
+// propagates transactions quickly in the tests.
+var TrickleInterval = 10 * time.Millisecond
 
-var (
-	NetParams = &chaincfg.RegressionNetParams
-)
+var NetParams = &chaincfg.RegressionNetParams
 
 // randPubKeyHashScript generates a P2PKH script that pays to the public key of
 // a randomly-generated private key.
@@ -115,7 +111,6 @@ func WaitForMempoolTx(miner *rpctest.Harness, txid *chainhash.Hash) er.R {
 // on.
 func CreateSpendableOutput(t *testing.T,
 	miner *rpctest.Harness) (*wire.OutPoint, *wire.TxOut, *btcec.PrivateKey) {
-
 	t.Helper()
 
 	// Create a transaction that only has one output, the one destined for
@@ -144,7 +139,6 @@ func CreateSpendableOutput(t *testing.T,
 // CreateSpendTx creates a transaction spending the specified output.
 func CreateSpendTx(t *testing.T, prevOutPoint *wire.OutPoint,
 	prevOutput *wire.TxOut, privKey *btcec.PrivateKey) *wire.MsgTx {
-
 	t.Helper()
 
 	spendingTx := wire.NewMsgTx(1)
@@ -167,7 +161,6 @@ func CreateSpendTx(t *testing.T, prevOutPoint *wire.OutPoint,
 // miner.
 func NewMiner(t *testing.T, extraArgs []string, createChain bool,
 	spendableOutputs uint32) (*rpctest.Harness, func()) {
-
 	t.Helper()
 
 	// Add the trickle interval argument to the extra args.

@@ -17,19 +17,17 @@ import (
 	"github.com/urfave/cli"
 )
 
-var (
-	// psbtCommand is a wallet subcommand that is responsible for PSBT
-	// operations.
-	psbtCommand = cli.Command{
-		Name: "psbt",
-		Usage: "Interact with partially signed bitcoin transactions " +
-			"(PSBTs).",
-		Subcommands: []cli.Command{
-			fundPsbtCommand,
-			finalizePsbtCommand,
-		},
-	}
-)
+// psbtCommand is a wallet subcommand that is responsible for PSBT
+// operations.
+var psbtCommand = cli.Command{
+	Name: "psbt",
+	Usage: "Interact with partially signed bitcoin transactions " +
+		"(PSBTs).",
+	Subcommands: []cli.Command{
+		fundPsbtCommand,
+		finalizePsbtCommand,
+	},
+}
 
 // walletCommands will return the set of commands to enable for walletrpc
 // builds.
@@ -91,7 +89,7 @@ func pendingSweeps(ctx *cli.Context) er.R {
 			resp.PendingSweeps[j].SatPerByte
 	})
 
-	var pendingSweepsResp = struct {
+	pendingSweepsResp := struct {
 		PendingSweeps []*PendingSweep `json:"pending_sweeps"`
 	}{
 		PendingSweeps: make([]*PendingSweep, 0, len(resp.PendingSweeps)),
@@ -303,7 +301,6 @@ func bumpCloseFee(ctx *cli.Context) er.R {
 func getWaitingCloseCommitments(client lnrpc.LightningClient,
 	channelPoint string) (*lnrpc.PendingChannelsResponse_Commitments,
 	error) {
-
 	ctxb := context.Background()
 
 	req := &lnrpc.PendingChannelsRequest{}

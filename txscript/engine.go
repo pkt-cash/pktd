@@ -832,7 +832,6 @@ func (vm *Engine) SetStack(data [][]byte) {
 // engine according to the description provided by each flag.
 func NewEngine(scriptPubKey []byte, tx *wire.MsgTx, txIdx int, flags ScriptFlags,
 	sigCache *SigCache, hashCache *TxSigHashes, inputAmount int64) (*Engine, er.R) {
-
 	// The provided transaction input index must refer to a valid input.
 	if txIdx < 0 || txIdx >= len(tx.TxIn) {
 		str := fmt.Sprintf("transaction input index %d is negative or "+
@@ -860,8 +859,10 @@ func NewEngine(scriptPubKey []byte, tx *wire.MsgTx, txIdx int, flags ScriptFlags
 	// it possible to have a situation where P2SH would not be a soft fork
 	// when it should be. The same goes for segwit which will pull in
 	// additional scripts for execution from the witness stack.
-	vm := Engine{flags: flags, sigCache: sigCache, hashCache: hashCache,
-		inputAmount: inputAmount}
+	vm := Engine{
+		flags: flags, sigCache: sigCache, hashCache: hashCache,
+		inputAmount: inputAmount,
+	}
 	if vm.hasFlag(ScriptVerifyCleanStack) && (!vm.hasFlag(ScriptBip16) &&
 		!vm.hasFlag(ScriptVerifyWitness)) {
 		return nil, txscripterr.ScriptError(txscripterr.ErrInvalidFlags,

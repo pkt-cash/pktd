@@ -282,7 +282,6 @@ func queryChainServiceBatch(
 
 	// options takes functional options for executing the query.
 	options ...QueryOption) {
-
 	// Starting with the set of default options, we'll apply any specified
 	// functional options to the query.
 	qo := defaultQueryOptions()
@@ -335,7 +334,6 @@ func queryChainServiceBatch(
 
 	peerGoroutine := func(sp *ServerPeer, quit <-chan struct{},
 		allDoneSignal chan struct{}) {
-
 		// Subscribe to messages from the peer.
 		sp.subscribeRecvMsg(subscription)
 		defer sp.unsubscribeRecvMsgs(subscription)
@@ -605,7 +603,6 @@ func (s *ChainService) queryAllPeers(
 
 	// options takes functional options for executing the query.
 	options ...QueryOption) {
-
 	// Starting with the set of default options, we'll apply any specified
 	// functional options to the query.
 	qo := defaultQueryOptions()
@@ -724,7 +721,6 @@ func queryChainServicePeers(
 
 	// options takes functional options for executing the query.
 	options ...QueryOption) {
-
 	// Starting with the set of default options, we'll apply any specified
 	// functional options to the query.
 	qo := defaultQueryOptions()
@@ -909,7 +905,6 @@ checkResponses:
 // exists, returning nil and error if it doesn't.
 func (s *ChainService) getFilterFromCache(blockHash *chainhash.Hash,
 	filterType filterdb.FilterType) (*gcs.Filter, er.R) {
-
 	cacheKey := cache.FilterCacheKey{BlockHash: *blockHash, FilterType: filterType}
 
 	filterValue, err := s.FilterCache.Get(cacheKey)
@@ -923,7 +918,6 @@ func (s *ChainService) getFilterFromCache(blockHash *chainhash.Hash,
 // putFilterToCache inserts a given filter in ChainService's FilterCache.
 func (s *ChainService) putFilterToCache(blockHash *chainhash.Hash,
 	filterType filterdb.FilterType, filter *gcs.Filter) (bool, er.R) {
-
 	cacheKey := cache.FilterCacheKey{BlockHash: *blockHash, FilterType: filterType}
 	return s.FilterCache.Put(cacheKey, &cache.CacheableFilter{Filter: filter})
 }
@@ -949,8 +943,10 @@ func (q *cfiltersQuery) queryMsg() wire.Message {
 	)
 }
 
-const filterPrefetchDistance = wire.MaxGetCFiltersReqRange * 5
-const filterBatchSize = wire.MaxGetCFiltersReqRange * 10
+const (
+	filterPrefetchDistance = wire.MaxGetCFiltersReqRange * 5
+	filterBatchSize        = wire.MaxGetCFiltersReqRange * 10
+)
 
 func (s *ChainService) prepareCFiltersQueries(
 	blockHash chainhash.Hash,
@@ -991,7 +987,6 @@ func (s *ChainService) prepareCFiltersQuery(
 	filterType wire.FilterType,
 	options ...QueryOption,
 ) (*cfiltersQuery, er.R) {
-
 	bestBlock, err := s.BestBlock()
 	if err != nil {
 		return nil, er.Errorf("unable to get best block: %v", err)
@@ -1118,7 +1113,6 @@ func (s *ChainService) prepareCFiltersQuery(
 // closes the quit chan if we're done
 func (s *ChainService) handleCFiltersResponse(q *cfiltersQuery,
 	resp wire.Message, quit chan<- struct{}) bool {
-
 	// We're only interested in "cfilter" messages.
 	response, ok := resp.(*wire.MsgCFilter)
 	if !ok {
@@ -1323,7 +1317,7 @@ func (s *ChainService) getMoreFiltersIfNeeded(
 		if bh, err := s.GetBlockHash(int64(tryHeight)); err != nil {
 			// Don't worry, it's only a prefetch
 		} else {
-			//log.Debugf("Prefetching filter headers starting at height [%d]", tryHeight)
+			// log.Debugf("Prefetching filter headers starting at height [%d]", tryHeight)
 			s.GetCFilter(*bh, ft, options...)
 		}
 	}()
@@ -1335,7 +1329,6 @@ func (s *ChainService) getMoreFiltersIfNeeded(
 // filter.
 func (s *ChainService) GetCFilter(blockHash chainhash.Hash,
 	filterType wire.FilterType, options ...QueryOption) (*gcs.Filter, er.R) {
-
 	// The only supported filter atm is the regular filter, so we'll reject
 	// all other filters.
 	if filterType != wire.GCSFilterRegular {
@@ -1423,7 +1416,6 @@ func (s *ChainService) GetCFilter(blockHash chainhash.Hash,
 // returned immediately.
 func (s *ChainService) GetBlock(blockHash chainhash.Hash,
 	options ...QueryOption) (*btcutil.Block, er.R) {
-
 	// Fetch the corresponding block header from the database. If this
 	// isn't found, then we don't have the header for this block so we
 	// can't request it.
@@ -1437,7 +1429,6 @@ func (s *ChainService) GetBlock(blockHash chainhash.Hash,
 
 func (s *ChainService) GetBlock0(blockHash chainhash.Hash, height uint32,
 	options ...QueryOption) (*btcutil.Block, er.R) {
-
 	// Starting with the set of default options, we'll apply any specified
 	// functional options to the query so that we can check what inv type
 	// to use.

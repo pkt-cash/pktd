@@ -98,7 +98,6 @@ func (s *subRPCServerConfigs) PopulateDependencies(cfg *Config,
 	towerClient wtclient.Client,
 	tcpResolver lncfg.TCPResolver,
 	genInvoiceFeatures func() *lnwire.FeatureVector) er.R {
-
 	// First, we'll use reflect to obtain a version of the config struct
 	// that allows us to programmatically inspect its fields.
 	selfVal := extractReflectValue(s)

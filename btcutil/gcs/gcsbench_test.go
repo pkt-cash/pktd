@@ -27,9 +27,7 @@ func genRandFilterElements(numElements uint) ([][]byte, er.R) {
 	return testContents, nil
 }
 
-var (
-	generatedFilter *gcs.Filter
-)
+var generatedFilter *gcs.Filter
 
 // BenchmarkGCSFilterBuild benchmarks building a filter.
 func BenchmarkGCSFilterBuild50000(b *testing.B) {
@@ -85,9 +83,7 @@ func BenchmarkGCSFilterBuild100000(b *testing.B) {
 	generatedFilter = localFilter
 }
 
-var (
-	match bool
-)
+var match bool
 
 // BenchmarkGCSFilterMatch benchmarks querying a filter for a single value.
 func BenchmarkGCSFilterMatch(b *testing.B) {

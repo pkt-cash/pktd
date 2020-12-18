@@ -225,7 +225,6 @@ func (msg *MsgVersion) MaxPayloadLength(pver uint32) uint32 {
 // fields.
 func NewMsgVersion(me *NetAddress, you *NetAddress, nonce uint64,
 	lastBlock int32) *MsgVersion {
-
 	// Limit the timestamp to one second precision since the protocol
 	// doesn't support better.
 	return &MsgVersion{
@@ -256,7 +255,6 @@ func validateUserAgent(userAgent string) er.R {
 // it is recommended to use the form "major.minor.revision" e.g. "2.6.41".
 func (msg *MsgVersion) AddUserAgent(name string, version string,
 	comments ...string) er.R {
-
 	newUserAgent := fmt.Sprintf("%s:%s", name, version)
 	if len(comments) != 0 {
 		newUserAgent = fmt.Sprintf("%s(%s)", newUserAgent,

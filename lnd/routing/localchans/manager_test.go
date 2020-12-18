@@ -42,7 +42,6 @@ func TestManager(t *testing.T) {
 
 	updateForwardingPolicies := func(
 		chanPolicies map[wire.OutPoint]htlcswitch.ForwardingPolicy) {
-
 		if len(chanPolicies) != 1 {
 			t.Fatal("unexpected number of policies to apply")
 		}
@@ -64,7 +63,6 @@ func TestManager(t *testing.T) {
 
 	propagateChanPolicyUpdate := func(
 		edgesToUpdate []discovery.EdgeWithInfo) er.R {
-
 		if len(edgesToUpdate) != 1 {
 			t.Fatal("unexpected number of edges to update")
 		}
@@ -91,7 +89,6 @@ func TestManager(t *testing.T) {
 
 	forAllOutgoingChannels := func(cb func(*channeldb.ChannelEdgeInfo,
 		*channeldb.ChannelEdgePolicy) er.R) er.R {
-
 		return cb(
 			&channeldb.ChannelEdgeInfo{
 				Capacity:     chanCap,
@@ -103,7 +100,6 @@ func TestManager(t *testing.T) {
 
 	fetchChannel := func(chanPoint wire.OutPoint) (*channeldb.OpenChannel,
 		er.R) {
-
 		constraints := channeldb.ChannelConstraints{
 			MaxPendingAmount: maxPendingAmount,
 			MinHTLC:          minHTLC,

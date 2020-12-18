@@ -13,7 +13,6 @@ import (
 // error.
 func createNewSubServer(configRegistry lnrpc.SubServerConfigDispatcher) (
 	lnrpc.SubServer, lnrpc.MacaroonPerms, er.R) {
-
 	// We'll attempt to look up the config that we expect, according to our
 	// subServerName name. If we can't find this, then we'll exit with an
 	// error, as we're unable to properly initialize ourselves without this

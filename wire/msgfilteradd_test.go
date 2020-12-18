@@ -82,7 +82,6 @@ func TestFilterAddCrossProtocol(t *testing.T) {
 	if bytes.Equal(msg.Data, readmsg.Data) {
 		t.Error("should not get same data for cross protocol")
 	}
-
 }
 
 // TestFilterAddMaxDataSize tests the MsgFilterAdd API maximum data size.

@@ -16,9 +16,7 @@ import (
 	"github.com/pkt-cash/pktd/goleveldb/leveldb/storage"
 )
 
-var (
-	errCompactionTransactExiting = errors.New("leveldb: compaction transact exiting")
-)
+var errCompactionTransactExiting = errors.New("leveldb: compaction transact exiting")
 
 type cStat struct {
 	duration time.Duration
@@ -527,7 +525,6 @@ func (b *tableCompactionBuilder) run(cnt *compactionTransactCounter) (err error)
 					if err := b.flush(b.stash(hasLastUkey, lastUkey, lastSeq, i)); err != nil {
 						return err
 					}
-
 				}
 
 				hasLastUkey = true

@@ -122,7 +122,6 @@ func NewControlTower(db *channeldb.PaymentControl) ControlTower {
 // state.
 func (p *controlTower) InitPayment(paymentHash lntypes.Hash,
 	info *channeldb.PaymentCreationInfo) er.R {
-
 	return p.db.InitPayment(paymentHash, info)
 }
 
@@ -130,7 +129,6 @@ func (p *controlTower) InitPayment(paymentHash lntypes.Hash,
 // DB.
 func (p *controlTower) RegisterAttempt(paymentHash lntypes.Hash,
 	attempt *channeldb.HTLCAttemptInfo) er.R {
-
 	p.paymentsMtx.Lock(paymentHash)
 	defer p.paymentsMtx.Unlock(paymentHash)
 
@@ -151,7 +149,6 @@ func (p *controlTower) RegisterAttempt(paymentHash lntypes.Hash,
 func (p *controlTower) SettleAttempt(paymentHash lntypes.Hash,
 	attemptID uint64, settleInfo *channeldb.HTLCSettleInfo) (
 	*channeldb.HTLCAttempt, er.R) {
-
 	p.paymentsMtx.Lock(paymentHash)
 	defer p.paymentsMtx.Unlock(paymentHash)
 
@@ -170,7 +167,6 @@ func (p *controlTower) SettleAttempt(paymentHash lntypes.Hash,
 func (p *controlTower) FailAttempt(paymentHash lntypes.Hash,
 	attemptID uint64, failInfo *channeldb.HTLCFailInfo) (
 	*channeldb.HTLCAttempt, er.R) {
-
 	p.paymentsMtx.Lock(paymentHash)
 	defer p.paymentsMtx.Unlock(paymentHash)
 
@@ -188,7 +184,6 @@ func (p *controlTower) FailAttempt(paymentHash lntypes.Hash,
 // FetchPayment fetches the payment corresponding to the given payment hash.
 func (p *controlTower) FetchPayment(paymentHash lntypes.Hash) (
 	*channeldb.MPPayment, er.R) {
-
 	return p.db.FetchPayment(paymentHash)
 }
 
@@ -198,7 +193,6 @@ func (p *controlTower) FetchPayment(paymentHash lntypes.Hash) (
 // subsequent payment.
 func (p *controlTower) Fail(paymentHash lntypes.Hash,
 	reason channeldb.FailureReason) er.R {
-
 	p.paymentsMtx.Lock(paymentHash)
 	defer p.paymentsMtx.Unlock(paymentHash)
 
@@ -223,7 +217,6 @@ func (p *controlTower) FetchInFlightPayments() ([]*channeldb.InFlightPayment, er
 // immediately.
 func (p *controlTower) SubscribePayment(paymentHash lntypes.Hash) (
 	*ControlTowerSubscriber, er.R) {
-
 	// Take lock before querying the db to prevent missing or duplicating an
 	// update.
 	p.paymentsMtx.Lock(paymentHash)
@@ -262,7 +255,6 @@ func (p *controlTower) SubscribePayment(paymentHash lntypes.Hash) (
 // guarantuee consistency of the notifications.
 func (p *controlTower) notifySubscribers(paymentHash lntypes.Hash,
 	event *channeldb.MPPayment) {
-
 	// Get all subscribers for this payment.
 	p.subscribersMtx.Lock()
 	list, ok := p.subscribers[paymentHash]

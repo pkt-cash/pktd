@@ -86,7 +86,8 @@ var (
 	}
 
 	keys = [][]byte{
-		{0x04, 0x11, 0xdb, 0x93, 0xe1, 0xdc, 0xdb, 0x8a,
+		{
+			0x04, 0x11, 0xdb, 0x93, 0xe1, 0xdc, 0xdb, 0x8a,
 			0x01, 0x6b, 0x49, 0x84, 0x0f, 0x8c, 0x53, 0xbc, 0x1e,
 			0xb6, 0x8a, 0x38, 0x2e, 0x97, 0xb1, 0x48, 0x2e, 0xca,
 			0xd7, 0xb1, 0x48, 0xa6, 0x90, 0x9a, 0x5c, 0xb2, 0xe0,
@@ -95,7 +96,8 @@ var (
 			0xd4, 0xc0, 0x3f, 0x99, 0x9b, 0x86, 0x43, 0xf6, 0x56,
 			0xb4, 0x12, 0xa3,
 		},
-		{0x07, 0x11, 0xdb, 0x93, 0xe1, 0xdc, 0xdb, 0x8a,
+		{
+			0x07, 0x11, 0xdb, 0x93, 0xe1, 0xdc, 0xdb, 0x8a,
 			0x01, 0x6b, 0x49, 0x84, 0x0f, 0x8c, 0x53, 0xbc, 0x1e,
 			0xb6, 0x8a, 0x38, 0x2e, 0x97, 0xb1, 0x48, 0x2e, 0xca,
 			0xd7, 0xb1, 0x48, 0xa6, 0x90, 0x9a, 0x5c, 0xb2, 0xe0,
@@ -104,7 +106,8 @@ var (
 			0xd4, 0xc0, 0x3f, 0x99, 0x9b, 0x86, 0x43, 0xf6, 0x56,
 			0xb4, 0x12, 0xa3,
 		},
-		{0x02, 0xce, 0x0b, 0x14, 0xfb, 0x84, 0x2b, 0x1b,
+		{
+			0x02, 0xce, 0x0b, 0x14, 0xfb, 0x84, 0x2b, 0x1b,
 			0xa5, 0x49, 0xfd, 0xd6, 0x75, 0xc9, 0x80, 0x75, 0xf1,
 			0x2e, 0x9c, 0x51, 0x0f, 0x8e, 0xf5, 0x2b, 0xd0, 0x21,
 			0xa9, 0xa1, 0xf4, 0x80, 0x9d, 0x3b, 0x4d,
@@ -414,7 +417,6 @@ type nurseryTestContext struct {
 
 func createNurseryTestContext(t *testing.T,
 	checkStartStop func(func()) bool) *nurseryTestContext {
-
 	// Create a temporary database and connect nurseryStore to it. The
 	// alternative, mocking nurseryStore, is not chosen because there is
 	// still considerable logic in the store.
@@ -512,7 +514,6 @@ func createNurseryTestContext(t *testing.T,
 			nurseryCfg.SweepInput = ctx.sweeper.sweepInput
 			ctx.nursery = newUtxoNursery(&nurseryCfg)
 			ctx.nursery.Start()
-
 		})
 	}
 
@@ -631,7 +632,6 @@ func createOutgoingRes(onLocalCommitment bool) *lnwallet.OutgoingHtlcResolution 
 
 func incubateTestOutput(t *testing.T, nursery *utxoNursery,
 	onLocalCommitment bool) *lnwallet.OutgoingHtlcResolution {
-
 	outgoingRes := createOutgoingRes(onLocalCommitment)
 
 	// Hand off to nursery.
@@ -695,7 +695,6 @@ func assertNurseryReportUnavailable(t *testing.T, nursery *utxoNursery) {
 // assert that the unit under test is recovering correctly from restarts.
 func testRestartLoop(t *testing.T, test func(*testing.T,
 	func(func()) bool)) {
-
 	// Start with running the test without any restarts (index zero)
 	restartIdx := 0
 
@@ -743,7 +742,6 @@ func TestNurseryOutgoingHtlcSuccessOnLocal(t *testing.T) {
 
 func testNurseryOutgoingHtlcSuccessOnLocal(t *testing.T,
 	checkStartStop func(func()) bool) {
-
 	ctx := createNurseryTestContext(t, checkStartStop)
 
 	outgoingRes := incubateTestOutput(t, ctx.nursery, true)
@@ -791,7 +789,6 @@ func TestNurseryOutgoingHtlcSuccessOnRemote(t *testing.T) {
 
 func testNurseryOutgoingHtlcSuccessOnRemote(t *testing.T,
 	checkStartStop func(func()) bool) {
-
 	ctx := createNurseryTestContext(t, checkStartStop)
 
 	outgoingRes := incubateTestOutput(t, ctx.nursery, false)
@@ -835,7 +832,6 @@ func testSweepHtlc(t *testing.T, ctx *nurseryTestContext) {
 
 func testSweep(t *testing.T, ctx *nurseryTestContext,
 	afterPublishAssert func()) {
-
 	// Wait for nursery to publish the sweep tx.
 	ctx.sweeper.expectSweep()
 
@@ -886,7 +882,6 @@ func newNurseryStoreInterceptor(ns NurseryStore) *nurseryStoreInterceptor {
 
 func (i *nurseryStoreInterceptor) Incubate(kidOutputs []kidOutput,
 	babyOutputs []babyOutput) er.R {
-
 	return i.ns.Incubate(kidOutputs, babyOutputs)
 }
 
@@ -900,7 +895,6 @@ func (i *nurseryStoreInterceptor) CribToKinder(babyOutput *babyOutput) er.R {
 
 func (i *nurseryStoreInterceptor) PreschoolToKinder(kidOutput *kidOutput,
 	lastGradHeight uint32) er.R {
-
 	err := i.ns.PreschoolToKinder(kidOutput, lastGradHeight)
 
 	i.preschoolToKinderChan <- struct{}{}
@@ -922,19 +916,16 @@ func (i *nurseryStoreInterceptor) FetchPreschools() ([]kidOutput, er.R) {
 
 func (i *nurseryStoreInterceptor) FetchClass(height uint32) (
 	[]kidOutput, []babyOutput, er.R) {
-
 	return i.ns.FetchClass(height)
 }
 
 func (i *nurseryStoreInterceptor) HeightsBelowOrEqual(height uint32) (
 	[]uint32, er.R) {
-
 	return i.ns.HeightsBelowOrEqual(height)
 }
 
 func (i *nurseryStoreInterceptor) ForChanOutputs(chanPoint *wire.OutPoint,
 	callback func([]byte, []byte) er.R, reset func()) er.R {
-
 	return i.ns.ForChanOutputs(chanPoint, callback, reset)
 }
 
@@ -944,7 +935,6 @@ func (i *nurseryStoreInterceptor) ListChannels() ([]wire.OutPoint, er.R) {
 
 func (i *nurseryStoreInterceptor) IsMatureChannel(chanPoint *wire.OutPoint) (
 	bool, er.R) {
-
 	return i.ns.IsMatureChannel(chanPoint)
 }
 
@@ -971,7 +961,6 @@ func newMockSweeper(t *testing.T) *mockSweeper {
 
 func (s *mockSweeper) sweepInput(input input.Input,
 	_ sweep.Params) (chan sweep.Result, er.R) {
-
 	log.Debugf("mockSweeper sweepInput called for %v", *input.OutPoint())
 
 	select {

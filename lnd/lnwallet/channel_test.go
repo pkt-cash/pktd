@@ -47,7 +47,6 @@ func createHTLC(id int, amount lnwire.MilliSatoshi) (*lnwire.UpdateAddHTLC, [32]
 
 func assertOutputExistsByValue(t *testing.T, commitTx *wire.MsgTx,
 	value btcutil.Amount) {
-
 	for _, txOut := range commitTx.TxOut {
 		if txOut.Value == int64(value) {
 			return
@@ -493,7 +492,6 @@ func TestCheckCommitTxSize(t *testing.T) {
 		if 0 > diff || BaseCommitmentTxSizeEstimationError < diff {
 			t.Fatalf("estimation is wrong, diff: %v", diff)
 		}
-
 	}
 
 	// Create a test channel which will be used for the duration of this
@@ -1446,7 +1444,6 @@ func TestHTLCSigNumber(t *testing.T) {
 	// adds HTLCs with the passed values to the channels.
 	createChanWithHTLC := func(htlcValues ...btcutil.Amount) (
 		*LightningChannel, *LightningChannel, func()) {
-
 		// Create a test channel funded evenly with Alice having 5 BTC,
 		// and Bob having 5 BTC. Alice's dustlimit is 200 sat, while
 		// Bob has 1300 sat.
@@ -2427,7 +2424,6 @@ func TestUpdateFeeFail(t *testing.T) {
 	if err == nil {
 		t.Fatalf("expected bob to fail receiving alice's signature")
 	}
-
 }
 
 // TestUpdateFeeConcurrentSig tests that the channel can properly handle a fee
@@ -2635,7 +2631,6 @@ func TestUpdateFeeSenderCommits(t *testing.T) {
 	if err != nil {
 		t.Fatalf("bob unable to process alice's revocation: %v", err)
 	}
-
 }
 
 // TestUpdateFeeReceiverCommits tests that the state machine progresses as
@@ -2990,7 +2985,6 @@ func TestAddHTLCNegativeBalance(t *testing.T) {
 // retransmit any new messages.
 func assertNoChanSyncNeeded(t *testing.T, aliceChannel *LightningChannel,
 	bobChannel *LightningChannel) {
-
 	_, _, line, _ := runtime.Caller(1)
 
 	aliceChanSyncMsg, err := aliceChannel.channelState.ChanSyncMsg()
@@ -5205,7 +5199,6 @@ func TestChanAvailableBalanceNearHtlcFee(t *testing.T) {
 	// Helper method to check the current reported balance.
 	checkBalance := func(t *testing.T, expBalanceAlice,
 		expBalanceBob lnwire.MilliSatoshi) {
-
 		t.Helper()
 		aliceBalance := aliceChannel.AvailableBalance()
 		if aliceBalance != expBalanceAlice {
@@ -6551,7 +6544,6 @@ func TestMaxPendingAmount(t *testing.T) {
 
 func assertChannelBalances(t *testing.T, alice, bob *LightningChannel,
 	aliceBalance, bobBalance btcutil.Amount) {
-
 	_, _, line, _ := runtime.Caller(1)
 
 	aliceSelfBalance := alice.channelState.LocalCommitment.LocalBalance.ToSatoshis()
@@ -7311,7 +7303,6 @@ func assertInLogs(t *testing.T, channel *LightningChannel, numAddsLocal,
 // expected state.
 func restoreAndAssert(t *testing.T, channel *LightningChannel, numAddsLocal,
 	numFailsLocal, numAddsRemote, numFailsRemote int) {
-
 	newChannel, err := NewLightningChannel(
 		channel.Signer, channel.channelState,
 		channel.sigPool,
@@ -7631,7 +7622,6 @@ func TestChannelRestoreCommitHeight(t *testing.T) {
 	restoreAndAssertCommitHeights := func(t *testing.T,
 		channel *LightningChannel, remoteLog bool, htlcIndex uint64,
 		expLocal, expRemote uint64) *LightningChannel {
-
 		newChannel, err := NewLightningChannel(
 			channel.Signer, channel.channelState, channel.sigPool,
 		)
@@ -8013,7 +8003,6 @@ func TestChannelMaxFeeRate(t *testing.T) {
 
 	assertMaxFeeRate := func(maxAlloc float64,
 		expFeeRate chainfee.SatPerKWeight) {
-
 		maxFeeRate := aliceChannel.MaxFeeRate(maxAlloc)
 		if maxFeeRate != expFeeRate {
 			t.Fatalf("expected max fee rate of %v with max "+
@@ -8668,7 +8657,6 @@ func TestEvaluateView(t *testing.T) {
 // htlcs we expect.
 func checkExpectedHtlcs(t *testing.T, actual []*PaymentDescriptor,
 	expected map[uint64]bool) {
-
 	if len(expected) != len(actual) {
 		t.Fatalf("expected: %v htlcs, got: %v",
 			len(expected), len(actual))
@@ -9263,13 +9251,11 @@ func TestProcessAddRemoveEntry(t *testing.T) {
 				EntryType:                test.updateType,
 			}
 
-			var (
-				// Start both parties off with an initial
-				// balance. Copy by value here so that we do
-				// not mutate the startBalance constant.
-				ourBalance, theirBalance = startBalance,
-					startBalance
-			)
+			// Start both parties off with an initial
+			// balance. Copy by value here so that we do
+			// not mutate the startBalance constant.
+			ourBalance, theirBalance := startBalance,
+				startBalance
 
 			// Choose the processing function we need based on the
 			// update type. Process remove is used for settles,

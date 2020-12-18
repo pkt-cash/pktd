@@ -147,7 +147,6 @@ type ExtendedKey struct {
 // other applications should just use NewMaster, Derive, or Neuter.
 func NewExtendedKey(version, key, chainCode, parentFP []byte, depth uint8,
 	childNum uint32, isPrivate bool) *ExtendedKey {
-
 	// NOTE: The pubKey field is intentionally left nil so it is only
 	// computed and memoized as required.
 	return &ExtendedKey{

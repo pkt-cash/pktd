@@ -30,7 +30,6 @@ type HtlcFailResolution struct {
 // NewFailResolution returns a htlc failure resolution.
 func NewFailResolution(key channeldb.CircuitKey,
 	acceptHeight int32, outcome FailResolutionResult) *HtlcFailResolution {
-
 	return &HtlcFailResolution{
 		circuitKey:   key,
 		AcceptHeight: acceptHeight,
@@ -67,7 +66,6 @@ type HtlcSettleResolution struct {
 func NewSettleResolution(preimage lntypes.Preimage,
 	key channeldb.CircuitKey, acceptHeight int32,
 	outcome SettleResolutionResult) *HtlcSettleResolution {
-
 	return &HtlcSettleResolution{
 		Preimage:     preimage,
 		circuitKey:   key,
@@ -109,7 +107,6 @@ type htlcAcceptResolution struct {
 // htlc accept.
 func newAcceptResolution(key channeldb.CircuitKey,
 	outcome acceptResolutionResult) *htlcAcceptResolution {
-
 	return &htlcAcceptResolution{
 		circuitKey: key,
 		outcome:    outcome,

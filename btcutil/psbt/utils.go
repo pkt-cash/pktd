@@ -52,7 +52,6 @@ func writePKHWitness(sig []byte, pub []byte) ([]byte, er.R) {
 // multisig, given a set of pubkeys for redemption.
 func checkIsMultiSigScript(pubKeys [][]byte, sigs [][]byte,
 	script []byte) bool {
-
 	// First insist that the script type is multisig.
 	if txscript.GetScriptClass(script) != txscript.MultiSigTy {
 		return false
@@ -81,7 +80,6 @@ func checkIsMultiSigScript(pubKeys [][]byte, sigs [][]byte,
 // scriptSig or scriptWitness in the correct order.
 func extractKeyOrderFromScript(script []byte, expectedPubkeys [][]byte,
 	sigs [][]byte) ([][]byte, er.R) {
-
 	// If this isn't a proper finalized multi-sig script, then we can't
 	// proceed.
 	if !checkIsMultiSigScript(expectedPubkeys, sigs, script) {
@@ -149,7 +147,6 @@ func extractKeyOrderFromScript(script []byte, expectedPubkeys [][]byte,
 // is used for both p2wsh and nested p2wsh multisig cases.
 func getMultisigScriptWitness(witnessScript []byte, pubKeys [][]byte,
 	sigs [][]byte) ([]byte, er.R) {
-
 	// First using the script as a guide, we'll properly order the sigs
 	// according to how their corresponding pubkeys appear in the
 	// witnessScript.
@@ -208,7 +205,6 @@ func serializeKVpair(w io.Writer, key []byte, value []byte) er.R {
 // a key.
 func serializeKVPairWithType(w io.Writer, kt uint8, keydata []byte,
 	value []byte) er.R {
-
 	// If the key has no data, then we write a blank slice.
 	if keydata == nil {
 		keydata = []byte{}
@@ -225,7 +221,6 @@ func serializeKVPairWithType(w io.Writer, kt uint8, keydata []byte,
 // of a separator byte which indicates the end of a given key-value pair list,
 // and the keydata as a byte slice or nil if none is present.
 func getKey(r io.Reader) (int, []byte, er.R) {
-
 	// For the key, we read the varint separately, instead of using the
 	// available ReadVarBytes, because we have a specific treatment of 0x00
 	// here:
@@ -261,7 +256,6 @@ func getKey(r io.Reader) (int, []byte, er.R) {
 	// Otherwise, we return the key, along with any data that it may
 	// contain.
 	return keyType, keyTypeAndData[1:], nil
-
 }
 
 // readTxOut is a limited version of wire.ReadTxOut, because the latter is not
@@ -390,7 +384,6 @@ func VerifyInputOutputLen(packet *Packet, needInputs, needOutputs bool) er.R {
 // one per input.
 func NewFromSignedTx(tx *wire.MsgTx) (*Packet, [][]byte,
 	[]wire.TxWitness, er.R) {
-
 	scriptSigs := make([][]byte, 0, len(tx.TxIn))
 	witnesses := make([]wire.TxWitness, 0, len(tx.TxIn))
 	tx2 := tx.Copy()

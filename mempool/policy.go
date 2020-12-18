@@ -293,7 +293,6 @@ func isDust(txOut *wire.TxOut, minRelayTxFee btcutil.Amount) bool {
 func checkTransactionStandard(tx *btcutil.Tx, height int32,
 	medianTimePast time.Time, minRelayTxFee btcutil.Amount,
 	maxTxVersion int32) er.R {
-
 	// The transaction must be a currently supported version.
 	msgTx := tx.MsgTx()
 	if msgTx.Version > maxTxVersion || msgTx.Version < 1 {

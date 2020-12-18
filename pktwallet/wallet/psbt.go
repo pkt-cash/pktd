@@ -36,7 +36,6 @@ import (
 // responsibility to lock the inputs before handing the partial transaction out.
 func (w *Wallet) FundPsbt(packet *psbt.Packet, account uint32,
 	feeSatPerKB btcutil.Amount) (int32, er.R) {
-
 	// Make sure the packet is well formed. We only require there to be at
 	// least one output but not necessarily any inputs.
 	err := psbt.VerifyInputOutputLen(packet, false, true)

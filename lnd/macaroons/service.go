@@ -79,10 +79,9 @@ type Service struct {
 // are registered automatically and don't need to be added.
 func NewService(dir, location string, statelessInit bool,
 	checks ...Checker) (*Service, er.R) {
-
 	// Ensure that the path to the directory exists.
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		if err := os.MkdirAll(dir, 0700); err != nil {
+		if err := os.MkdirAll(dir, 0o700); err != nil {
 			return nil, er.E(err)
 		}
 	}
@@ -154,7 +153,6 @@ func isRegistered(c *checkers.Checker, name string) bool {
 // satisfies all conditions.
 func (svc *Service) RegisterExternalValidator(fullMethod string,
 	validator MacaroonValidator) er.R {
-
 	if validator == nil {
 		return er.Errorf("validator cannot be nil")
 	}
@@ -173,11 +171,9 @@ func (svc *Service) RegisterExternalValidator(fullMethod string,
 // request is authorized by the included macaroons.
 func (svc *Service) UnaryServerInterceptor(
 	permissionMap map[string][]bakery.Op) grpc.UnaryServerInterceptor {
-
 	return func(ctx context.Context, req interface{},
 		info *grpc.UnaryServerInfo,
 		handler grpc.UnaryHandler) (interface{}, error) {
-
 		uriPermissions, ok := permissionMap[info.FullMethod]
 		if !ok {
 			return nil, er.Wrapped(er.Errorf("%s: unknown permissions "+
@@ -207,10 +203,8 @@ func (svc *Service) UnaryServerInterceptor(
 // request is authorized by the included macaroons.
 func (svc *Service) StreamServerInterceptor(
 	permissionMap map[string][]bakery.Op) grpc.StreamServerInterceptor {
-
 	return func(srv interface{}, ss grpc.ServerStream,
 		info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
-
 		uriPermissions, ok := permissionMap[info.FullMethod]
 		if !ok {
 			return er.Wrapped(er.Errorf("%s: unknown permissions required "+
@@ -242,7 +236,6 @@ func (svc *Service) StreamServerInterceptor(
 // "macaroon".
 func (svc *Service) ValidateMacaroon(ctx context.Context,
 	requiredPermissions []bakery.Op, fullMethod string) er.R {
-
 	// Get macaroon bytes from context and unmarshal into macaroon.
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
@@ -308,7 +301,6 @@ func (svc *Service) CreateUnlock(password *[]byte) er.R {
 func (svc *Service) NewMacaroon(
 	ctx context.Context, rootKeyID []byte,
 	ops ...bakery.Op) (*bakery.Macaroon, er.R) {
-
 	// Check rootKeyID is not called with nil or empty bytes. We want the
 	// caller to be aware the value of root key ID used, so we won't replace
 	// it with the DefaultRootKeyID if not specified.

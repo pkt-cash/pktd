@@ -42,12 +42,13 @@ type mockHintCache struct {
 	spendHints map[chainntnfs.SpendRequest]uint32
 }
 
-var _ chainntnfs.SpendHintCache = (*mockHintCache)(nil)
-var _ chainntnfs.ConfirmHintCache = (*mockHintCache)(nil)
+var (
+	_ chainntnfs.SpendHintCache   = (*mockHintCache)(nil)
+	_ chainntnfs.ConfirmHintCache = (*mockHintCache)(nil)
+)
 
 func (c *mockHintCache) CommitSpendHint(heightHint uint32,
 	spendRequests ...chainntnfs.SpendRequest) er.R {
-
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
@@ -83,7 +84,6 @@ func (c *mockHintCache) PurgeSpendHint(spendRequests ...chainntnfs.SpendRequest)
 
 func (c *mockHintCache) CommitConfirmHint(heightHint uint32,
 	confRequests ...chainntnfs.ConfRequest) er.R {
-
 	c.mu.Lock()
 	defer c.mu.Unlock()
 

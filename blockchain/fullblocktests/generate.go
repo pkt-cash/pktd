@@ -843,8 +843,10 @@ func Generate(includeLargeReorg bool) (tests [][]TestInstance, err er.R) {
 	// block to be the current tip of the block chain.
 	acceptBlock := func(blockName string, block *wire.MsgBlock, isMainChain, isOrphan bool) TestInstance {
 		blockHeight := g.blockHeights[blockName]
-		return AcceptedBlock{blockName, block, blockHeight, isMainChain,
-			isOrphan}
+		return AcceptedBlock{
+			blockName, block, blockHeight, isMainChain,
+			isOrphan,
+		}
 	}
 	rejectBlock := func(blockName string, block *wire.MsgBlock, code *er.ErrorCode) TestInstance {
 		blockHeight := g.blockHeights[blockName]
@@ -1298,8 +1300,10 @@ func Generate(includeLargeReorg bool) (tests [][]TestInstance, err er.R) {
 	// signature operations to be used in the next three blocks.
 	const redeemScriptSigOps = 9
 	redeemScript := pushDataScript(g.privKey.PubKey().SerializeCompressed())
-	redeemScript = append(redeemScript, bytes.Repeat([]byte{opcode.OP_2DUP,
-		opcode.OP_CHECKSIGVERIFY}, redeemScriptSigOps-1)...)
+	redeemScript = append(redeemScript, bytes.Repeat([]byte{
+		opcode.OP_2DUP,
+		opcode.OP_CHECKSIGVERIFY,
+	}, redeemScriptSigOps-1)...)
 	redeemScript = append(redeemScript, opcode.OP_CHECKSIG)
 	assertScriptSigOpsCount(redeemScript, redeemScriptSigOps)
 
@@ -1952,8 +1956,10 @@ func Generate(includeLargeReorg bool) (tests [][]TestInstance, err er.R) {
 	// Create block with an invalid opcode in a dead execution path.
 	//
 	//   ... -> b73(22) -> b74(23)
-	script := []byte{opcode.OP_IF, opcode.OP_INVALIDOPCODE,
-		opcode.OP_ELSE, opcode.OP_TRUE, opcode.OP_ENDIF}
+	script := []byte{
+		opcode.OP_IF, opcode.OP_INVALIDOPCODE,
+		opcode.OP_ELSE, opcode.OP_TRUE, opcode.OP_ENDIF,
+	}
 	g.nextBlock("b74", outs[23], replaceSpendScript(script), func(b *wire.MsgBlock) {
 		tx2 := b.Transactions[1]
 		tx3 := createSpendTxForTx(tx2, lowFee)

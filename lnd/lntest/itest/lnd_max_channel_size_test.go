@@ -96,8 +96,10 @@ func testMaxChannelSize(net *lntest.NetworkHarness, t *harnessTest) {
 	// We'll now make another wumbo node with appropriate maximum channel size
 	// to accept our wumbo channel funding.
 	wumboNode3, err := net.NewNode(
-		"wumbo3", []string{"--protocol.wumbo-channels",
-			fmt.Sprintf("--maxchansize=%v", int64(lnd.MaxBtcFundingAmountWumbo+1))},
+		"wumbo3", []string{
+			"--protocol.wumbo-channels",
+			fmt.Sprintf("--maxchansize=%v", int64(lnd.MaxBtcFundingAmountWumbo+1)),
+		},
 	)
 	if err != nil {
 		t.Fatalf("unable to create new node: %v", err)
@@ -116,5 +118,4 @@ func testMaxChannelSize(net *lntest.NetworkHarness, t *harnessTest) {
 		},
 	)
 	closeChannelAndAssert(ctxb, t, net, wumboNode, chanPoint, false)
-
 }

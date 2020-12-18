@@ -64,7 +64,6 @@ var _ AgentConstraints = (*agentConstraints)(nil)
 // NewConstraints returns a new AgentConstraints with the given limits.
 func NewConstraints(minChanSize, maxChanSize btcutil.Amount, chanLimit,
 	maxPendingOpens uint16, allocation float64) AgentConstraints {
-
 	return &agentConstraints{
 		minChanSize:     minChanSize,
 		maxChanSize:     maxChanSize,
@@ -84,7 +83,6 @@ func NewConstraints(minChanSize, maxChanSize btcutil.Amount, chanLimit,
 // Note: part of the AgentConstraints interface.
 func (h *agentConstraints) ChannelBudget(channels []LocalChannel,
 	funds btcutil.Amount) (btcutil.Amount, uint32) {
-
 	// If we're already over our maximum allowed number of channels, then
 	// we'll instruct the controller not to create any more channels.
 	if len(channels) >= int(h.chanLimit) {

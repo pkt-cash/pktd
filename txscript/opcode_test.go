@@ -20,8 +20,8 @@ import (
 // disabled opcodes result in a script execution failure when executed normally,
 // so the function is not called under normal circumstances.
 func TestOpcodeDisabled(t *testing.T) {
-
-	tests := []byte{opcode.OP_CAT, opcode.OP_SUBSTR, opcode.OP_LEFT, opcode.OP_RIGHT, opcode.OP_INVERT,
+	tests := []byte{
+		opcode.OP_CAT, opcode.OP_SUBSTR, opcode.OP_LEFT, opcode.OP_RIGHT, opcode.OP_INVERT,
 		opcode.OP_AND, opcode.OP_OR, opcode.OP_2MUL, opcode.OP_2DIV, opcode.OP_MUL, opcode.OP_DIV, opcode.OP_MOD,
 		opcode.OP_LSHIFT, opcode.OP_RSHIFT,
 	}
@@ -39,7 +39,6 @@ func TestOpcodeDisabled(t *testing.T) {
 // TestOpcodeDisasm tests the print function for all opcodes in both the oneline
 // and full modes to ensure it provides the expected disassembly.
 func TestOpcodeDisasm(t *testing.T) {
-
 	// First, test the oneline disassembly.
 
 	// The expected strings for the data push opcodes are replaced in the
@@ -48,7 +47,8 @@ func TestOpcodeDisasm(t *testing.T) {
 	// than manually listing them here.
 	oneBytes := []byte{0x01}
 	oneStr := "01"
-	expectedStrings := [256]string{0x00: "0", 0x4f: "-1",
+	expectedStrings := [256]string{
+		0x00: "0", 0x4f: "-1",
 		0x50: "OP_RESERVED", 0x61: "OP_NOP", 0x62: "OP_VER",
 		0x63: "OP_IF", 0x64: "OP_NOTIF", 0x65: "OP_VERIF",
 		0x66: "OP_VOTE", 0x67: "OP_ELSE", 0x68: "OP_ENDIF",

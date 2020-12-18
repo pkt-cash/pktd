@@ -135,9 +135,7 @@ func generateKey(keyType string, sharedKey *Hash256) [keyLen]byte {
 // intended to be used to encrypt a message using a one-time-pad like
 // construction.
 func generateCipherStream(key [keyLen]byte, numBytes uint) []byte {
-	var (
-		nonce [8]byte
-	)
+	var nonce [8]byte
 	cipher, err := chacha20.NewCipher(nonce[:], key[:])
 	if err != nil {
 		panic(err)
@@ -153,7 +151,6 @@ func generateCipherStream(key [keyLen]byte, numBytes uint) []byte {
 // sha-256(pubkey || sharedSecret).
 func computeBlindingFactor(hopPubKey *btcec.PublicKey,
 	hopSharedSecret []byte) Hash256 {
-
 	sha := sha256.New()
 	sha.Write(hopPubKey.SerializeCompressed())
 	sha.Write(hopSharedSecret)
@@ -226,7 +223,6 @@ const onionErrorLength = 2 + 2 + 256 + sha256.Size
 // sender.
 func (o *OnionErrorDecrypter) DecryptError(encryptedData []byte) (
 	*DecryptedError, er.R) {
-
 	// Ensure the error message length is as expected.
 	if len(encryptedData) != onionErrorLength {
 		return nil, er.Errorf("invalid error length: "+

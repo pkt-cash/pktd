@@ -162,12 +162,10 @@ const (
 	kgtnOutputConfTarget = 6
 )
 
-var (
-	// ErrContractNotFound is returned when the nursery is unable to
-	// retrieve information about a queried contract.
-	ErrContractNotFound = er.GenericErrorType.CodeWithDetail("ErrContractNotFound",
-		"unable to locate contract")
-)
+// ErrContractNotFound is returned when the nursery is unable to
+// retrieve information about a queried contract.
+var ErrContractNotFound = er.GenericErrorType.CodeWithDetail("ErrContractNotFound",
+	"unable to locate contract")
 
 // NurseryConfig abstracts the required subsystems used by the utxo nursery. An
 // instance of NurseryConfig is passed to newUtxoNursery during instantiation.
@@ -336,7 +334,6 @@ func (u *utxoNursery) IncubateOutputs(chanPoint wire.OutPoint,
 	outgoingHtlcs []lnwallet.OutgoingHtlcResolution,
 	incomingHtlcs []lnwallet.IncomingHtlcResolution,
 	broadcastHeight uint32) er.R {
-
 	// Add to wait group because nursery might shut down during execution of
 	// this function. Otherwise it could happen that nursery thinks it is
 	// shut down, but in this function new goroutines were started and stay
@@ -473,7 +470,6 @@ func (u *utxoNursery) IncubateOutputs(chanPoint wire.OutPoint,
 // chanPoint is unable to be constructed, then an error will be returned.
 func (u *utxoNursery) NurseryReport(
 	chanPoint *wire.OutPoint) (*contractMaturityReport, er.R) {
-
 	u.mu.Lock()
 	defer u.mu.Unlock()
 
@@ -774,7 +770,6 @@ func (u *utxoNursery) graduateClass(classHeight uint32) er.R {
 // relative), but are not mature enough to sweep into the wallet.
 func (u *utxoNursery) sweepMatureOutputs(classHeight uint32,
 	kgtnOutputs []kidOutput) er.R {
-
 	log.Infof("Sweeping %v CSV-delayed outputs with sweep tx for "+
 		"height %v", len(kgtnOutputs), classHeight)
 
@@ -804,7 +799,6 @@ func (u *utxoNursery) sweepMatureOutputs(classHeight uint32,
 // NOTE(conner): this method MUST be called as a go routine.
 func (u *utxoNursery) waitForSweepConf(classHeight uint32,
 	output *kidOutput, resultChan chan sweep.Result) {
-
 	defer u.wg.Done()
 
 	select {
@@ -888,7 +882,6 @@ func (u *utxoNursery) sweepCribOutput(classHeight uint32, baby *babyOutput) er.R
 // will be spawned that will transition the provided baby output into the
 // kindergarten state within the nursery store.
 func (u *utxoNursery) registerTimeoutConf(baby *babyOutput, heightHint uint32) er.R {
-
 	birthTxID := baby.timeoutTx.TxHash()
 
 	// Register for the confirmation of presigned htlc txn.
@@ -914,7 +907,6 @@ func (u *utxoNursery) registerTimeoutConf(baby *babyOutput, heightHint uint32) e
 // kindergarten bucket upon success.
 func (u *utxoNursery) waitForTimeoutConf(baby *babyOutput,
 	confChan *chainntnfs.ConfirmationEvent) {
-
 	defer u.wg.Done()
 
 	select {
@@ -993,7 +985,6 @@ func (u *utxoNursery) registerPreschoolConf(kid *kidOutput, heightHint uint32) e
 // the output incubation process.
 func (u *utxoNursery) waitForPreschoolConf(kid *kidOutput,
 	confChan *chainntnfs.ConfirmationEvent) {
-
 	defer u.wg.Done()
 
 	select {
@@ -1209,7 +1200,6 @@ type babyOutput struct {
 // reaches the delay and claim stage.
 func makeBabyOutput(chanPoint *wire.OutPoint,
 	htlcResolution *lnwallet.OutgoingHtlcResolution) babyOutput {
-
 	htlcOutpoint := htlcResolution.ClaimOutpoint
 	blocksToMaturity := htlcResolution.CsvDelay
 	witnessType := input.HtlcOfferedTimeoutSecondLevel
@@ -1295,7 +1285,6 @@ func makeKidOutput(outpoint, originChanPoint *wire.OutPoint,
 	blocksToMaturity uint32, witnessType input.StandardWitnessType,
 	signDescriptor *input.SignDescriptor,
 	absoluteMaturity uint32) kidOutput {
-
 	// This is an HTLC either if it's an incoming HTLC on our commitment
 	// transaction, or is an outgoing HTLC on the commitment transaction of
 	// the remote peer.

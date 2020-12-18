@@ -234,7 +234,6 @@ type FwdPkg struct {
 // should be used to create a package at the time we receive a revocation.
 func NewFwdPkg(source lnwire.ShortChannelID, height uint64,
 	addUpdates, settleFailUpdates []LogUpdate) *FwdPkg {
-
 	nAddUpdates := uint16(len(addUpdates))
 	nSettleFailUpdates := uint16(len(settleFailUpdates))
 
@@ -253,7 +252,7 @@ func NewFwdPkg(source lnwire.ShortChannelID, height uint64,
 // ID returns an unique identifier for this package, used to ensure that sphinx
 // replay processing of this batch is idempotent.
 func (f *FwdPkg) ID() []byte {
-	var id = make([]byte, 16)
+	id := make([]byte, 16)
 	byteOrder.PutUint64(id[:8], f.Source.ToUint64())
 	byteOrder.PutUint64(id[8:], f.Height)
 	return id
@@ -360,14 +359,12 @@ func NewSwitchPackager() *SwitchPackager {
 // or fail residing in the forwarding package of a link.
 func (*SwitchPackager) AckSettleFails(tx kvdb.RwTx,
 	settleFailRefs ...SettleFailRef) er.R {
-
 	return ackSettleFails(tx, settleFailRefs)
 }
 
 // LoadChannelFwdPkgs loads all forwarding packages for a particular channel.
 func (*SwitchPackager) LoadChannelFwdPkgs(tx kvdb.RTx,
 	source lnwire.ShortChannelID) ([]*FwdPkg, er.R) {
-
 	return loadChannelFwdPkgs(tx, source)
 }
 
@@ -546,7 +543,6 @@ func loadChannelFwdPkgs(tx kvdb.RTx, source lnwire.ShortChannelID) ([]*FwdPkg, e
 // appropriate FwdState.
 func loadFwdPkg(fwdPkgBkt kvdb.RBucket, source lnwire.ShortChannelID,
 	height uint64) (*FwdPkg, er.R) {
-
 	sourceKey := makeLogKey(source.ToUint64())
 	sourceBkt := fwdPkgBkt.NestedReadBucket(sourceKey[:])
 	if sourceBkt == nil {
@@ -677,7 +673,6 @@ func loadHtlcs(bkt kvdb.RBucket) ([]LogUpdate, er.R) {
 // outgoing link responsible for handling replays.
 func (p *ChannelPackager) SetFwdFilter(tx kvdb.RwTx, height uint64,
 	fwdFilter *PkgFilter) er.R {
-
 	fwdPkgBkt := tx.ReadWriteBucket(fwdPackagesKey)
 	if fwdPkgBkt == nil {
 		return ErrCorruptedFwdPkg.Default()
@@ -756,7 +751,6 @@ func (p *ChannelPackager) AckAddHtlcs(tx kvdb.RwTx, addRefs ...AddRef) er.R {
 // with a list of indexes, writing the resulting filter back in its place.
 func ackAddHtlcsAtHeight(sourceBkt kvdb.RwBucket, height uint64,
 	indexes []uint16) er.R {
-
 	heightKey := makeLogKey(height)
 	heightBkt := sourceBkt.NestedReadWriteBucket(heightKey[:])
 	if heightBkt == nil {
@@ -858,7 +852,6 @@ func ackSettleFails(tx kvdb.RwTx, settleFailRefs []SettleFailRef) er.R {
 // at particular a height by updating the settle fail filter.
 func ackSettleFailsAtHeight(destBkt kvdb.RwBucket, height uint64,
 	indexes []uint16) er.R {
-
 	heightKey := makeLogKey(height)
 	heightBkt := destBkt.NestedReadWriteBucket(heightKey[:])
 	if heightBkt == nil {

@@ -196,7 +196,6 @@ type mailboxContext struct {
 
 func newMailboxContext(t *testing.T, startTime time.Time,
 	expiry time.Duration) *mailboxContext {
-
 	ctx := &mailboxContext{
 		t:        t,
 		clock:    clock.NewTestClock(startTime),
@@ -220,7 +219,6 @@ func newMailboxContext(t *testing.T, startTime time.Time,
 
 func (c *mailboxContext) forward(_ chan struct{},
 	pkts ...*htlcPacket) er.R {
-
 	for _, pkt := range pkts {
 		c.forwards <- pkt
 	}

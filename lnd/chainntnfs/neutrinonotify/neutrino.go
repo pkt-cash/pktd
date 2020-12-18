@@ -87,7 +87,6 @@ var _ chainntnfs.ChainNotifier = (*NeutrinoNotifier)(nil)
 // being passed into this function.
 func New(node *neutrino.ChainService, spendHintCache chainntnfs.SpendHintCache,
 	confirmHintCache chainntnfs.ConfirmHintCache) *NeutrinoNotifier {
-
 	return &NeutrinoNotifier{
 		notificationCancels:  make(chan interface{}),
 		notificationRegistry: make(chan interface{}),
@@ -239,7 +238,6 @@ type rescanFilterUpdate struct {
 // connected to the end of the main chain.
 func (n *NeutrinoNotifier) onFilteredBlockConnected(height int32,
 	header *wire.BlockHeader, txns []*btcutil.Tx) {
-
 	// Append this new chain update to the end of the queue of new chain
 	// updates.
 	select {
@@ -257,7 +255,6 @@ func (n *NeutrinoNotifier) onFilteredBlockConnected(height int32,
 // block has been disconnected from the end of the mainchain due to a re-org.
 func (n *NeutrinoNotifier) onFilteredBlockDisconnected(height int32,
 	header *wire.BlockHeader) {
-
 	// Append this new chain update to the end of the queue of new chain
 	// disconnects.
 	select {
@@ -516,7 +513,6 @@ out:
 // returns details about said block.
 func (n *NeutrinoNotifier) historicalConfDetails(confRequest chainntnfs.ConfRequest,
 	startHeight, endHeight uint32) (*chainntnfs.TxConfirmation, er.R) {
-
 	// Starting from the height hint, we'll walk forwards in the chain to
 	// see if this transaction/output script has already been confirmed.
 	for scanHeight := endHeight; scanHeight >= startHeight && scanHeight > 0; scanHeight-- {
@@ -548,7 +544,7 @@ func (n *NeutrinoNotifier) historicalConfDetails(confRequest chainntnfs.ConfRequ
 			neutrino.NumRetries(5),
 			neutrino.OptimisticReverseBatch(),
 			// TODO(cjd): Maybe we want to implement MaxBatchSize in neutrino?
-			//neutrino.MaxBatchSize(int64(scanHeight-startHeight+1)),
+			// neutrino.MaxBatchSize(int64(scanHeight-startHeight+1)),
 		)
 		if err != nil {
 			return nil, er.Errorf("unable to retrieve regular filter for "+
@@ -657,7 +653,6 @@ func (n *NeutrinoNotifier) notifyBlockEpochs(newHeight int32, newSha *chainhash.
 // about a specific block.
 func (n *NeutrinoNotifier) notifyBlockEpochClient(epochClient *blockEpochRegistration,
 	height int32, sha *chainhash.Hash) {
-
 	epoch := &chainntnfs.BlockEpoch{
 		Height: height,
 		Hash:   sha,
@@ -680,7 +675,6 @@ func (n *NeutrinoNotifier) notifyBlockEpochClient(epochClient *blockEpochRegistr
 // sent across the 'Spend' channel.
 func (n *NeutrinoNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 	pkScript []byte, heightHint uint32) (*chainntnfs.SpendEvent, er.R) {
-
 	// Register the conf notification with the TxNotifier. A non-nil value
 	// for `dispatch` will be returned if we are required to perform a
 	// manual scan for the confirmation. Otherwise the notifier will begin
@@ -828,7 +822,6 @@ func (n *NeutrinoNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 func (n *NeutrinoNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	pkScript []byte,
 	numConfs, heightHint uint32) (*chainntnfs.ConfirmationEvent, er.R) {
-
 	// Register the conf notification with the TxNotifier. A non-nil value
 	// for `dispatch` will be returned if we are required to perform a
 	// manual scan for the confirmation. Otherwise the notifier will begin
@@ -929,7 +922,6 @@ type epochCancel struct {
 // for the current tip of the chain upon a successful registration.
 func (n *NeutrinoNotifier) RegisterBlockEpochNtfn(
 	bestBlock *chainntnfs.BlockEpoch) (*chainntnfs.BlockEpochEvent, er.R) {
-
 	reg := &blockEpochRegistration{
 		epochQueue: queue.NewConcurrentQueue(20),
 		epochChan:  make(chan *chainntnfs.BlockEpoch, 20),
@@ -1023,7 +1015,6 @@ func (n *NeutrinoChainConn) GetBlockHeader(blockHash *chainhash.Hash) (*wire.Blo
 // result only contains the height with a nil hash.
 func (n *NeutrinoChainConn) GetBlockHeaderVerbose(blockHash *chainhash.Hash) (
 	*btcjson.GetBlockHeaderVerboseResult, er.R) {
-
 	height, err := n.p2pNode.GetBlockHeight(blockHash)
 	if err != nil {
 		return nil, err

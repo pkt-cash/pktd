@@ -47,7 +47,8 @@ func NewRevocationProducer(root chainhash.Hash) *RevocationProducer {
 		root: &element{
 			index: rootIndex,
 			hash:  root,
-		}}
+		},
+	}
 }
 
 // NewRevocationProducerFromBytes deserializes an instance of a

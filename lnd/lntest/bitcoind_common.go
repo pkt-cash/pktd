@@ -3,7 +3,6 @@
 package lntest
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -11,6 +10,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/rpcclient"
 )
@@ -72,13 +72,12 @@ func (b BitcoindBackendConfig) Name() string {
 // a BitcoindBackendConfig for that node.
 func newBackend(miner string, netParams *chaincfg.Params, extraArgs []string) (
 	*BitcoindBackendConfig, func() error, er.R) {
-
 	baseLogDir := fmt.Sprintf(logDirPattern, GetLogDir())
 	if netParams != &chaincfg.RegressionNetParams {
 		return nil, nil, er.Errorf("only regtest supported")
 	}
 
-	if err := os.MkdirAll(baseLogDir, 0700); err != nil {
+	if err := os.MkdirAll(baseLogDir, 0o700); err != nil {
 		return nil, nil, err
 	}
 

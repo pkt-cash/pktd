@@ -17,7 +17,6 @@ func CreateChanAnnouncement(chanProof *channeldb.ChannelAuthProof,
 	chanInfo *channeldb.ChannelEdgeInfo,
 	e1, e2 *channeldb.ChannelEdgePolicy) (*lnwire.ChannelAnnouncement,
 	*lnwire.ChannelUpdate, *lnwire.ChannelUpdate, er.R) {
-
 	// First, using the parameters of the channel, along with the channel
 	// authentication chanProof, we'll create re-create the original
 	// authenticated channel announcement.

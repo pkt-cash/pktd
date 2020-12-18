@@ -9,9 +9,7 @@ import (
 	"github.com/pkt-cash/pktd/lnd/lnwire"
 )
 
-var (
-	ErrUnknownEncrypterType = Err.Code("ErrUnknownEncrypterType")
-)
+var ErrUnknownEncrypterType = Err.Code("ErrUnknownEncrypterType")
 
 // ClearTextError is an interface which is implemented by errors that occur
 // when we know the underlying wire failure message. These errors are the
@@ -53,7 +51,6 @@ func NewLinkError(msg lnwire.FailureMessage) *LinkError {
 // a failure detail.
 func NewDetailedLinkError(msg lnwire.FailureMessage,
 	detail FailureDetail) *LinkError {
-
 	return &LinkError{
 		msg:           msg,
 		FailureDetail: detail,
@@ -121,7 +118,6 @@ func (f *ForwardingError) Error() string {
 // with additional metadata.
 func NewForwardingError(failure lnwire.FailureMessage,
 	index int) *ForwardingError {
-
 	return &ForwardingError{
 		FailureSourceIdx: index,
 		msg:              failure,
@@ -171,7 +167,6 @@ type SphinxErrorDecrypter struct {
 // NOTE: Part of the ErrorDecrypter interface.
 func (s *SphinxErrorDecrypter) DecryptError(reason lnwire.OpaqueReason) (
 	*ForwardingError, er.R) {
-
 	failure, err := s.OnionErrorDecrypter.DecryptError(reason)
 	if err != nil {
 		return nil, err

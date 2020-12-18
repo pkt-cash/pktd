@@ -20,11 +20,9 @@ const (
 	defaultBlockInterval = 10 * time.Minute
 )
 
-var (
-	// chainParams are the chain parameters used throughout the wallet
-	// tests.
-	chainParams = chaincfg.MainNetParams
-)
+// chainParams are the chain parameters used throughout the wallet
+// tests.
+var chainParams = chaincfg.MainNetParams
 
 // mockChainConn is a mock in-memory implementation of the chainConn interface
 // that will be used for the birthday block sanity check tests. The struct is
@@ -43,7 +41,6 @@ var _ chainConn = (*mockChainConn)(nil)
 // the previous block's timestamp.
 func createMockChainConn(genesis *wire.MsgBlock, n uint32,
 	blockInterval time.Duration) *mockChainConn {
-
 	c := &mockChainConn{
 		chainTip:    n,
 		blockHashes: make(map[uint32]chainhash.Hash),
@@ -141,7 +138,6 @@ func (s *mockBirthdayStore) SetBirthdayBlock(block waddrmgr.BlockStamp) er.R {
 // TestBirthdaySanityCheckEmptyBirthdayBlock ensures that a sanity check is not
 // done if the birthday block does not exist in the first place.
 func TestBirthdaySanityCheckEmptyBirthdayBlock(t *testing.T) {
-
 	chainConn := &mockChainConn{}
 
 	// Our birthday store will reflect that we don't have a birthday block
@@ -162,7 +158,6 @@ func TestBirthdaySanityCheckEmptyBirthdayBlock(t *testing.T) {
 // TestBirthdaySanityCheckVerifiedBirthdayBlock ensures that a sanity check is
 // not performed if the birthday block has already been verified.
 func TestBirthdaySanityCheckVerifiedBirthdayBlock(t *testing.T) {
-
 	const chainTip = 5000
 	chainConn := createMockChainConn(
 		genesis.Block(chainParams.GenesisHash), chainTip, defaultBlockInterval,
@@ -203,7 +198,6 @@ func TestBirthdaySanityCheckVerifiedBirthdayBlock(t *testing.T) {
 // better birthday block candidate if our estimate happens to be too far back in
 // the chain.
 func TestBirthdaySanityCheckLowerEstimate(t *testing.T) {
-
 	// We'll start by defining our birthday timestamp to be around the
 	// timestamp of the 1337th block.
 	genesisTimestamp := genesis.Block(chainParams.GenesisHash).Header.Timestamp
@@ -255,7 +249,6 @@ func TestBirthdaySanityCheckLowerEstimate(t *testing.T) {
 // better birthday block candidate if our estimate happens to be too far in the
 // chain.
 func TestBirthdaySanityCheckHigherEstimate(t *testing.T) {
-
 	// We'll start by defining our birthday timestamp to be around the
 	// timestamp of the 1337th block.
 	genesisTimestamp := genesis.Block(chainParams.GenesisHash).Header.Timestamp

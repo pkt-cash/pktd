@@ -226,7 +226,6 @@ func TestHtlcTimeoutResolver(t *testing.T) {
 					*lnwallet.OutgoingHtlcResolution,
 					*lnwallet.IncomingHtlcResolution,
 					uint32) er.R {
-
 					incubateChan <- struct{}{}
 					return nil
 				},
@@ -243,7 +242,6 @@ func TestHtlcTimeoutResolver(t *testing.T) {
 			},
 			PutResolverReport: func(_ kvdb.RwTx,
 				_ *channeldb.ResolverReport) er.R {
-
 				return nil
 			},
 		}
@@ -252,7 +250,6 @@ func TestHtlcTimeoutResolver(t *testing.T) {
 			ChannelArbitratorConfig: chainCfg,
 			Checkpoint: func(_ ContractResolver,
 				reports ...*channeldb.ResolverReport) er.R {
-
 				checkPointChan <- struct{}{}
 
 				// Send all of our reports into the channel.

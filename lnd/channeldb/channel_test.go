@@ -112,7 +112,6 @@ type testChannelOption func(params *testChannelParams)
 // balances on the local or remote commit.
 func channelCommitmentOption(height uint64, localBalance,
 	remoteBalance lnwire.MilliSatoshi, local bool) testChannelOption {
-
 	return func(params *testChannelParams) {
 		if local {
 			params.channel.LocalCommitment.CommitHeight = height
@@ -194,7 +193,6 @@ var channelIDOption = func(chanID lnwire.ShortChannelID) testChannelOption {
 // a pending channel that was broadcast at height 100.
 func createTestChannel(t *testing.T, cdb *DB,
 	opts ...testChannelOption) *OpenChannel {
-
 	// Create a default set of parameters.
 	params := &testChannelParams{
 		channel:       createTestChannelState(t, cdb),
@@ -377,7 +375,8 @@ func TestOpenChannelPutGetDelete(t *testing.T) {
 	// Create the test channel state, with additional htlcs on the local
 	// and remote commitment.
 	localHtlcs := []HTLC{
-		{Signature: testSig.Serialize(),
+		{
+			Signature:     testSig.Serialize(),
 			Incoming:      true,
 			Amt:           10,
 			RHash:         key,
@@ -1421,7 +1420,6 @@ func TestBalanceAtHeight(t *testing.T) {
 	// are not our current height.
 	putRevokedState := func(c *OpenChannel, height uint64, local,
 		remote lnwire.MilliSatoshi) er.R {
-
 		err := kvdb.Update(c.Db, func(tx kvdb.RwTx) er.R {
 			chanBucket, err := fetchChanBucketRw(
 				tx, c.IdentityPub, &c.FundingOutpoint,

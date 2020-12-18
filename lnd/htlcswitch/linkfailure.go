@@ -1,9 +1,7 @@
 package htlcswitch
 
-var (
-	// ErrLinkShuttingDown signals that the link is shutting down.
-	ErrLinkShuttingDown = Err.CodeWithDetail("ErrLinkShuttingDown", "link shutting down")
-)
+// ErrLinkShuttingDown signals that the link is shutting down.
+var ErrLinkShuttingDown = Err.CodeWithDetail("ErrLinkShuttingDown", "link shutting down")
 
 // errorCode encodes the possible types of errors that will make us fail the
 // current link.

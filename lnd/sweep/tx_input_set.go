@@ -132,7 +132,6 @@ func dustLimit(relayFee chainfee.SatPerKWeight) btcutil.Amount {
 // newTxInputSet constructs a new, empty input set.
 func newTxInputSet(wallet Wallet, feePerKW,
 	relayFee chainfee.SatPerKWeight, maxInputs int) *txInputSet {
-
 	dustLimit := dustLimit(relayFee)
 
 	state := txInputSetState{

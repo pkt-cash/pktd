@@ -22,7 +22,6 @@ func makeFakePackedMulti() (PackedMulti, er.R) {
 
 func assertBackupMatches(t *testing.T, filePath string,
 	currentBackup PackedMulti) {
-
 	t.Helper()
 
 	packedBackup, err := ioutil.ReadFile(filePath)
@@ -173,7 +172,6 @@ func TestUpdateAndSwap(t *testing.T) {
 }
 
 func assertMultiEqual(t *testing.T, a, b *Multi) {
-
 	if len(a.StaticBackups) != len(b.StaticBackups) {
 		t.Fatalf("expected %v backups, got %v", len(a.StaticBackups),
 			len(b.StaticBackups))

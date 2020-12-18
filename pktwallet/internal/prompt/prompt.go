@@ -202,7 +202,6 @@ func PrivatePass(reader *bufio.Reader, legacyKeyStore *keystore.Store) ([]byte, 
 // prompts are repeated until the user enters a valid response.
 func PublicPass(reader *bufio.Reader, privPass []byte,
 	defaultPubPassphrase, configPubPassphrase []byte) ([]byte, er.R) {
-
 	pubPass := defaultPubPassphrase
 	usePubPass, err := promptListBool(reader, "Do you want "+
 		"to add an additional layer of encryption for public "+

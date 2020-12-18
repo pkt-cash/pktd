@@ -30,11 +30,9 @@ var (
 	flapCountKey = []byte("flap-count")
 )
 
-var (
-	// ErrNoPeerBucket is returned when we try to read entries for a peer
-	// that is not tracked.
-	ErrNoPeerBucket = Err.CodeWithDetail("ErrNoPeerBucket", "peer bucket not found")
-)
+// ErrNoPeerBucket is returned when we try to read entries for a peer
+// that is not tracked.
+var ErrNoPeerBucket = Err.CodeWithDetail("ErrNoPeerBucket", "peer bucket not found")
 
 // FlapCount contains information about a peer's flap count.
 type FlapCount struct {

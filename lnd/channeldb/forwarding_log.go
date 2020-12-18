@@ -12,14 +12,12 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
 )
 
-var (
-	// forwardingLogBucket is the bucket that we'll use to store the
-	// forwarding log. The forwarding log contains a time series database
-	// of the forwarding history of a lightning daemon. Each key within the
-	// bucket is a timestamp (in nano seconds since the unix epoch), and
-	// the value a slice of a forwarding event for that timestamp.
-	forwardingLogBucket = []byte("circuit-fwd-log")
-)
+// forwardingLogBucket is the bucket that we'll use to store the
+// forwarding log. The forwarding log contains a time series database
+// of the forwarding history of a lightning daemon. Each key within the
+// bucket is a timestamp (in nano seconds since the unix epoch), and
+// the value a slice of a forwarding event for that timestamp.
+var forwardingLogBucket = []byte("circuit-fwd-log")
 
 const (
 	// forwardingEventSize is the size of a forwarding event. The breakdown
@@ -141,7 +139,6 @@ func (f *ForwardingLog) AddForwardingEvents(events []ForwardingEvent) er.R {
 // slot is found.
 func storeEvent(bucket walletdb.ReadWriteBucket, event ForwardingEvent,
 	timestampScratchSpace []byte) er.R {
-
 	// First, we'll serialize this timestamp into our
 	// timestamp buffer.
 	byteOrder.PutUint64(

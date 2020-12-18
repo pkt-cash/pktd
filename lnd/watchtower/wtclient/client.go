@@ -40,13 +40,11 @@ const (
 	DefaultForceQuitDelay = 10 * time.Second
 )
 
-var (
-	// activeSessionFilter is a filter that ignored any sessions which are
-	// not active.
-	activeSessionFilter = func(s *wtdb.ClientSession) bool {
-		return s.Status == wtdb.CSessionActive
-	}
-)
+// activeSessionFilter is a filter that ignored any sessions which are
+// not active.
+var activeSessionFilter = func(s *wtdb.ClientSession) bool {
+	return s.Status == wtdb.CSessionActive
+}
 
 // RegisteredTower encompasses information about a registered watchtower with
 // the client.
@@ -342,7 +340,6 @@ func New(config *Config) (*TowerClient, er.R) {
 func getClientSessions(db DB, keyRing ECDHKeyRing, forTower *wtdb.TowerID,
 	passesFilter func(*wtdb.ClientSession) bool) (
 	map[wtdb.SessionID]*wtdb.ClientSession, er.R) {
-
 	sessions, err := db.ListClientSessions(forTower)
 	if err != nil {
 		return nil, err
@@ -593,7 +590,6 @@ func (c *TowerClient) RegisterChannel(chanID lnwire.ChannelID) er.R {
 //    rate.
 func (c *TowerClient) BackupState(chanID *lnwire.ChannelID,
 	breachInfo *lnwallet.BreachRetribution, isTweakless bool) er.R {
-
 	// Retrieve the cached sweep pkscript used for this channel.
 	c.backupMu.Lock()
 	summary, ok := c.summaries[*chanID]
@@ -904,7 +900,6 @@ func (c *TowerClient) taskRejected(task *backupTask, curStatus reserveStatus) {
 // the address for either Tor or clear net connections.
 func (c *TowerClient) dial(localKey keychain.SingleKeyECDH,
 	addr *lnwire.NetAddress) (wtserver.Peer, er.R) {
-
 	return c.cfg.AuthDial(localKey, addr, c.cfg.Dial)
 }
 
@@ -1234,8 +1229,8 @@ func (c *TowerClient) Policy() wtpolicy.Policy {
 // using directional prepositions to signal whether the message was sent or
 // received.
 func logMessage(peer wtserver.Peer, msg wtwire.Message, read bool) {
-	var action = "Received"
-	var preposition = "from"
+	action := "Received"
+	preposition := "from"
 	if !read {
 		action = "Sending"
 		preposition = "to"

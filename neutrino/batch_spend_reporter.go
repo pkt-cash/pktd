@@ -83,7 +83,6 @@ func (b *batchSpendReporter) notifyRequests(
 	requests []*GetUtxoRequest,
 	report *SpendReport,
 	err er.R) {
-
 	delete(b.requests, *outpoint)
 	delete(b.initialTxns, *outpoint)
 	delete(b.outpoints, *outpoint)
@@ -101,7 +100,6 @@ func (b *batchSpendReporter) notifyRequests(
 // the next block.
 func (b *batchSpendReporter) ProcessBlock(blk *wire.MsgBlock,
 	newReqs []*GetUtxoRequest, height uint32) {
-
 	// If any requests want the UTXOs at this height, scan the block to find
 	// the original outputs that might be spent from.
 	if len(newReqs) > 0 {
@@ -155,7 +153,6 @@ func (b *batchSpendReporter) addNewRequests(reqs []*GetUtxoRequest) {
 // UTXO was not found.
 func (b *batchSpendReporter) findInitialTransactions(block *wire.MsgBlock,
 	newReqs []*GetUtxoRequest, height uint32) map[wire.OutPoint]*SpendReport {
-
 	// First, construct  a reverse index from txid to all a list of requests
 	// whose outputs share the same txid.
 	txidReverseIndex := make(map[chainhash.Hash][]*GetUtxoRequest)
@@ -232,7 +229,6 @@ func (b *batchSpendReporter) findInitialTransactions(block *wire.MsgBlock,
 // from the reporter's internal state.
 func (b *batchSpendReporter) notifySpends(block *wire.MsgBlock,
 	height uint32) map[wire.OutPoint]*SpendReport {
-
 	spends := make(map[wire.OutPoint]*SpendReport)
 	for _, tx := range block.Transactions {
 		// Check each input to see if this transaction spends one of our

@@ -25,7 +25,6 @@ type headerProgressLogger struct {
 //  {progressAction} {numProcessed} {blocks|block} in the last {timePeriod}
 //  ({numTxs}, height {lastBlockHeight}, {lastBlockTimeStamp})
 func newBlockProgressLogger(progressMessage string, entityType string) *headerProgressLogger {
-
 	return &headerProgressLogger{
 		entityType:       entityType,
 		lastBlockLogTime: time.Now(),

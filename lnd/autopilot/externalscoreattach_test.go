@@ -97,5 +97,4 @@ func TestSetNodeScores(t *testing.T) {
 	if applied {
 		t.Fatalf("scores were applied")
 	}
-
 }

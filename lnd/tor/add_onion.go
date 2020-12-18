@@ -8,11 +8,9 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/er"
 )
 
-var (
-	// ErrNoPrivateKey is an error returned by the OnionStore.PrivateKey
-	// method when a private key hasn't yet been stored.
-	ErrNoPrivateKey = er.GenericErrorType.CodeWithDetail("ErrNoPrivateKey", "private key not found")
-)
+// ErrNoPrivateKey is an error returned by the OnionStore.PrivateKey
+// method when a private key hasn't yet been stored.
+var ErrNoPrivateKey = er.GenericErrorType.CodeWithDetail("ErrNoPrivateKey", "private key not found")
 
 // OnionType denotes the type of the onion service.
 type OnionType int

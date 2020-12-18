@@ -149,7 +149,7 @@ func (r *SharedLRU) evict(n *Node) {
 	rn.h.Release()
 }
 
-//nodeNS optional.
+// nodeNS optional.
 func (r *SharedLRU) evictMulti(lruNS byte, nodeNS *uint64) {
 	var evicted []*lruNode
 

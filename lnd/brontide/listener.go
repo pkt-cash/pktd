@@ -35,7 +35,6 @@ var _ net.Listener = (*Listener)(nil)
 // during both initial connection establishment and data transfer.
 func NewListener(localStatic keychain.SingleKeyECDH,
 	listenAddr string) (*Listener, er.R) {
-
 	addr, err := net.ResolveTCPAddr("tcp", listenAddr)
 	if err != nil {
 		return nil, er.E(err)

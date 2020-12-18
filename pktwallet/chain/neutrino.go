@@ -28,7 +28,6 @@ type NeutrinoClient struct {
 // ChainService.
 func NewNeutrinoClient(chainParams *chaincfg.Params,
 	chainService *neutrino.ChainService) *NeutrinoClient {
-
 	return &NeutrinoClient{
 		CS:          chainService,
 		stop:        make(chan struct{}),
@@ -141,7 +140,6 @@ func (s *NeutrinoClient) SendRawTransaction(tx *wire.MsgTx, allowHighFees bool) 
 // blocks requested, the returned response will be nil.
 func (s *NeutrinoClient) FilterBlocks(
 	req *FilterBlocksRequest) (*FilterBlocksResponse, er.R) {
-
 	blockFilterer := NewBlockFilterer(s.chainParams, req)
 
 	// Construct the watchlist using the addresses and outpoints contained

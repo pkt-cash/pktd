@@ -70,7 +70,6 @@ func (c *testCtx) RestartRouter() er.R {
 
 func createTestCtxFromGraphInstance(startingHeight uint32, graphInstance *testGraphInstance) (
 	*testCtx, func(), er.R) {
-
 	// We'll initialize an instance of the channel router with mock
 	// versions of the chain and channel notifier. As we don't need to test
 	// any p2p functionality, the peer send and switch send messages won't
@@ -238,7 +237,6 @@ func TestFindRoutesWithFeeLimit(t *testing.T) {
 	}
 
 	if hops[0].PubKeyBytes != ctx.aliases["songoku"] {
-
 		t.Fatalf("expected first hop through songoku, got %s",
 			getAliasFromPubKey(hops[0].PubKeyBytes,
 				ctx.aliases))
@@ -279,7 +277,6 @@ func TestSendPaymentRouteFailureFallback(t *testing.T) {
 	// the more costly path (through pham nuwen).
 	ctx.router.cfg.Payer.(*mockPaymentAttemptDispatcher).setPaymentResult(
 		func(firstHop lnwire.ShortChannelID) ([32]byte, er.R) {
-
 			roasbeefSongoku := lnwire.NewShortChanIDFromInt(12345)
 			if firstHop == roasbeefSongoku {
 				return [32]byte{}, er.E(htlcswitch.NewForwardingError(
@@ -314,7 +311,6 @@ func TestSendPaymentRouteFailureFallback(t *testing.T) {
 
 	// The route should have pham nuwen as the first hop.
 	if route.Hops[0].PubKeyBytes != ctx.aliases["phamnuwen"] {
-
 		t.Fatalf("route should go through phamnuwen as first hop, "+
 			"instead passes through: %v",
 			getAliasFromPubKey(route.Hops[0].PubKeyBytes,
@@ -534,7 +530,6 @@ func TestSendPaymentErrorRepeatedFeeInsufficient(t *testing.T) {
 	// it should only cause the edge to be pruned after the second attempt.
 	ctx.router.cfg.Payer.(*mockPaymentAttemptDispatcher).setPaymentResult(
 		func(firstHop lnwire.ShortChannelID) ([32]byte, er.R) {
-
 			roasbeefSongoku := lnwire.NewShortChanIDFromInt(chanID)
 			if firstHop == roasbeefSongoku {
 				return [32]byte{}, er.E(htlcswitch.NewForwardingError(
@@ -572,7 +567,6 @@ func TestSendPaymentErrorRepeatedFeeInsufficient(t *testing.T) {
 
 	// The route should have pham nuwen as the first hop.
 	if route.Hops[0].PubKeyBytes != ctx.aliases["phamnuwen"] {
-
 		t.Fatalf("route should go through satoshi as first hop, "+
 			"instead passes through: %v",
 			getAliasFromPubKey(route.Hops[0].PubKeyBytes,
@@ -638,7 +632,6 @@ func TestSendPaymentErrorNonFinalTimeLockErrors(t *testing.T) {
 	// only channel to Sophon.
 	ctx.router.cfg.Payer.(*mockPaymentAttemptDispatcher).setPaymentResult(
 		func(firstHop lnwire.ShortChannelID) ([32]byte, er.R) {
-
 			if firstHop == roasbeefSongoku {
 				return [32]byte{}, er.E(htlcswitch.NewForwardingError(
 					&lnwire.FailExpiryTooSoon{
@@ -668,7 +661,6 @@ func TestSendPaymentErrorNonFinalTimeLockErrors(t *testing.T) {
 
 		// The route should have satoshi as the first hop.
 		if route.Hops[0].PubKeyBytes != ctx.aliases["phamnuwen"] {
-
 			t.Fatalf("route should go through phamnuwen as first hop, "+
 				"instead passes through: %v",
 				getAliasFromPubKey(route.Hops[0].PubKeyBytes,
@@ -691,7 +683,6 @@ func TestSendPaymentErrorNonFinalTimeLockErrors(t *testing.T) {
 	// around the faulty Son Goku node.
 	ctx.router.cfg.Payer.(*mockPaymentAttemptDispatcher).setPaymentResult(
 		func(firstHop lnwire.ShortChannelID) ([32]byte, er.R) {
-
 			if firstHop == roasbeefSongoku {
 				return [32]byte{}, er.E(htlcswitch.NewForwardingError(
 					&lnwire.FailIncorrectCltvExpiry{
@@ -750,7 +741,6 @@ func TestSendPaymentErrorPathPruning(t *testing.T) {
 	// with an UnknownNextPeer.
 	ctx.router.cfg.Payer.(*mockPaymentAttemptDispatcher).setPaymentResult(
 		func(firstHop lnwire.ShortChannelID) ([32]byte, er.R) {
-
 			if firstHop == roasbeefSongoku {
 				// We'll first simulate an error from the first
 				// hop to simulate the channel from songoku to
@@ -816,7 +806,6 @@ func TestSendPaymentErrorPathPruning(t *testing.T) {
 	// connection between songoku and isn't up.
 	ctx.router.cfg.Payer.(*mockPaymentAttemptDispatcher).setPaymentResult(
 		func(firstHop lnwire.ShortChannelID) ([32]byte, er.R) {
-
 			if firstHop == roasbeefSongoku {
 				failure := htlcswitch.NewForwardingError(
 					&lnwire.FailUnknownNextPeer{}, 1,
@@ -845,7 +834,6 @@ func TestSendPaymentErrorPathPruning(t *testing.T) {
 			preImage[:], paymentPreImage[:])
 	}
 	if rt.Hops[0].PubKeyBytes != ctx.aliases["phamnuwen"] {
-
 		t.Fatalf("route should go through phamnuwen as first hop, "+
 			"instead passes through: %v",
 			getAliasFromPubKey(rt.Hops[0].PubKeyBytes,
@@ -859,7 +847,6 @@ func TestSendPaymentErrorPathPruning(t *testing.T) {
 	// again cause us to instead go via the satoshi route.
 	ctx.router.cfg.Payer.(*mockPaymentAttemptDispatcher).setPaymentResult(
 		func(firstHop lnwire.ShortChannelID) ([32]byte, er.R) {
-
 			if firstHop == roasbeefSongoku {
 				// We'll first simulate an error from the first
 				// outgoing link to simulate the channel from luo ji to
@@ -894,7 +881,6 @@ func TestSendPaymentErrorPathPruning(t *testing.T) {
 
 	// The route should have satoshi as the first hop.
 	if rt.Hops[0].PubKeyBytes != ctx.aliases["phamnuwen"] {
-
 		t.Fatalf("route should go through phamnuwen as first hop, "+
 			"instead passes through: %v",
 			getAliasFromPubKey(rt.Hops[0].PubKeyBytes,
@@ -2520,7 +2506,6 @@ func TestUnknownErrorSource(t *testing.T) {
 	// channel.
 	ctx.router.cfg.Payer.(*mockPaymentAttemptDispatcher).setPaymentResult(
 		func(firstHop lnwire.ShortChannelID) ([32]byte, er.R) {
-
 			// If channel a->b is used, return an error without
 			// source and message. The sender won't know the origin
 			// of the error.
@@ -2545,7 +2530,6 @@ func TestUnknownErrorSource(t *testing.T) {
 	// Next we modify payment result to return an unknown failure.
 	ctx.router.cfg.Payer.(*mockPaymentAttemptDispatcher).setPaymentResult(
 		func(firstHop lnwire.ShortChannelID) ([32]byte, er.R) {
-
 			// If channel a->b is used, simulate that the failure
 			// couldn't be decoded (FailureMessage is nil).
 			if firstHop.ToUint64() == 2 {
@@ -2570,7 +2554,6 @@ func TestUnknownErrorSource(t *testing.T) {
 // graph out of the set of all channels.
 func assertChannelsPruned(t *testing.T, graph *channeldb.ChannelGraph,
 	channels []*testChannel, prunedChanIDs ...uint64) {
-
 	t.Helper()
 
 	pruned := make(map[uint64]struct{}, len(channels))
@@ -2788,7 +2771,6 @@ func TestSendToRouteMultiShardSend(t *testing.T) {
 
 	ctx.router.cfg.Payer.(*mockPaymentAttemptDispatcher).setPaymentResult(
 		func(firstHop lnwire.ShortChannelID) ([32]byte, er.R) {
-
 			// Signal that the shard has been initiated and is
 			// waiting for a result.
 			waitForResultSignal <- struct{}{}

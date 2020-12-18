@@ -16,10 +16,8 @@ import (
 	"gopkg.in/macaroon.v2"
 )
 
-var (
-	errNoProfileFile = er.GenericErrorType.CodeWithDetail("errNoProfileFile",
-		"no profile file found")
-)
+var errNoProfileFile = er.GenericErrorType.CodeWithDetail("errNoProfileFile",
+	"no profile file found")
 
 // profileEntry is a struct that represents all settings for one specific
 // profile.
@@ -53,7 +51,6 @@ func (e *profileEntry) cert() (*x509.CertPool, er.R) {
 // profile exists, the global options from the command line are returned as an
 // ephemeral profile entry.
 func getGlobalOptions(ctx *cli.Context, skipMacaroons bool) (*profileEntry, er.R) {
-
 	var profileName string
 
 	// Try to load the default profile file and depending on its existence
@@ -112,7 +109,6 @@ func getGlobalOptions(ctx *cli.Context, skipMacaroons bool) (*profileEntry, er.R
 // set in the CLI context.
 func profileFromContext(ctx *cli.Context, store, skipMacaroons bool) (
 	*profileEntry, er.R) {
-
 	// Parse the paths of the cert and macaroon. This will validate the
 	// chain and network value as well.
 	tlsCertPath, macPath, err := extractPathArgs(ctx)
@@ -225,7 +221,7 @@ func saveProfileFile(file string, f *profileFile) er.R {
 	if err != nil {
 		return er.Errorf("could not marshal profile: %v", err)
 	}
-	return er.E(ioutil.WriteFile(file, content, 0644))
+	return er.E(ioutil.WriteFile(file, content, 0o644))
 }
 
 // profileFile is a struct that represents the whole content of a profile file.

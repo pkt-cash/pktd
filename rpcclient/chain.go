@@ -389,7 +389,6 @@ func (r FutureGetCFilterHeaderResult) Receive() (*wire.MsgCFHeaders, er.R) {
 	// Assign the hash to a headers message and return it.
 	msgCFHeaders := wire.MsgCFHeaders{PrevFilterHeader: *headerHash}
 	return &msgCFHeaders, nil
-
 }
 
 // GetCFilterHeaderAsync returns an instance of a type that can be used to get

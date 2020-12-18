@@ -24,7 +24,6 @@ import (
 // a byte slice.  It is used to force errors when reading messages.
 func makeHeader(btcnet protocol.BitcoinNet, command string,
 	payloadLen uint32, checksum uint32) []byte {
-
 	// The length of a bitcoin message header is 24 bytes.
 	// 4 byte magic number of the bitcoin network + 12 byte command + 4 byte
 	// payload length + 4 byte checksum.

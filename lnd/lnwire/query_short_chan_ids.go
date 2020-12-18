@@ -93,7 +93,6 @@ type QueryShortChanIDs struct {
 // NewQueryShortChanIDs creates a new QueryShortChanIDs message.
 func NewQueryShortChanIDs(h chainhash.Hash, e ShortChanIDEncoding,
 	s []ShortChannelID) *QueryShortChanIDs {
-
 	return &QueryShortChanIDs{
 		ChainHash:    h,
 		EncodingType: e,
@@ -301,7 +300,6 @@ func (q *QueryShortChanIDs) Encode(w io.Writer, pver uint32) er.R {
 // io.Writer, respecting the specified encoding type.
 func encodeShortChanIDs(w io.Writer, encodingType ShortChanIDEncoding,
 	shortChanIDs []ShortChannelID, noSort bool) er.R {
-
 	// For both of the current encoding types, the channel ID's are to be
 	// sorted in place, so we'll do that now. The sorting is applied unless
 	// we were specifically requested not to for testing purposes.

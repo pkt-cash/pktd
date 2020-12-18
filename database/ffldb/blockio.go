@@ -56,10 +56,8 @@ const (
 	blockMetadataSize = 12
 )
 
-var (
-	// castagnoli houses the Catagnoli polynomial used for CRC-32 checksums.
-	castagnoli = crc32.MakeTable(crc32.Castagnoli)
-)
+// castagnoli houses the Catagnoli polynomial used for CRC-32 checksums.
+var castagnoli = crc32.MakeTable(crc32.Castagnoli)
 
 // filer is an interface which acts very similar to a *os.File and is typically
 // implemented by it.  It exists so the test code can provide mock files for
@@ -231,7 +229,7 @@ func (s *blockStore) openWriteFile(fileNum uint32) (filer, er.R) {
 	// append to it.  Also, it shouldn't be part of the least recently used
 	// file.
 	filePath := blockFilePath(s.basePath, fileNum)
-	file, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0666)
+	file, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0o666)
 	if err != nil {
 		str := fmt.Sprintf("failed to open file %q for writing", filePath)
 		return nil, makeDbErr(database.ErrDriverSpecific, str, er.E(err))

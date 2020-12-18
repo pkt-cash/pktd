@@ -6,18 +6,21 @@ package invoicesrpc
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	lnrpc "github.com/pkt-cash/pktd/lnd/lnrpc"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+var (
+	_ = proto.Marshal
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -43,15 +46,19 @@ func (*CancelInvoiceMsg) Descriptor() ([]byte, []int) {
 func (m *CancelInvoiceMsg) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CancelInvoiceMsg.Unmarshal(m, b)
 }
+
 func (m *CancelInvoiceMsg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CancelInvoiceMsg.Marshal(b, m, deterministic)
 }
+
 func (m *CancelInvoiceMsg) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_CancelInvoiceMsg.Merge(m, src)
 }
+
 func (m *CancelInvoiceMsg) XXX_Size() int {
 	return xxx_messageInfo_CancelInvoiceMsg.Size(m)
 }
+
 func (m *CancelInvoiceMsg) XXX_DiscardUnknown() {
 	xxx_messageInfo_CancelInvoiceMsg.DiscardUnknown(m)
 }
@@ -81,15 +88,19 @@ func (*CancelInvoiceResp) Descriptor() ([]byte, []int) {
 func (m *CancelInvoiceResp) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CancelInvoiceResp.Unmarshal(m, b)
 }
+
 func (m *CancelInvoiceResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CancelInvoiceResp.Marshal(b, m, deterministic)
 }
+
 func (m *CancelInvoiceResp) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_CancelInvoiceResp.Merge(m, src)
 }
+
 func (m *CancelInvoiceResp) XXX_Size() int {
 	return xxx_messageInfo_CancelInvoiceResp.Size(m)
 }
+
 func (m *CancelInvoiceResp) XXX_DiscardUnknown() {
 	xxx_messageInfo_CancelInvoiceResp.DiscardUnknown(m)
 }
@@ -147,15 +158,19 @@ func (*AddHoldInvoiceRequest) Descriptor() ([]byte, []int) {
 func (m *AddHoldInvoiceRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AddHoldInvoiceRequest.Unmarshal(m, b)
 }
+
 func (m *AddHoldInvoiceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AddHoldInvoiceRequest.Marshal(b, m, deterministic)
 }
+
 func (m *AddHoldInvoiceRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_AddHoldInvoiceRequest.Merge(m, src)
 }
+
 func (m *AddHoldInvoiceRequest) XXX_Size() int {
 	return xxx_messageInfo_AddHoldInvoiceRequest.Size(m)
 }
+
 func (m *AddHoldInvoiceRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_AddHoldInvoiceRequest.DiscardUnknown(m)
 }
@@ -253,15 +268,19 @@ func (*AddHoldInvoiceResp) Descriptor() ([]byte, []int) {
 func (m *AddHoldInvoiceResp) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AddHoldInvoiceResp.Unmarshal(m, b)
 }
+
 func (m *AddHoldInvoiceResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AddHoldInvoiceResp.Marshal(b, m, deterministic)
 }
+
 func (m *AddHoldInvoiceResp) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_AddHoldInvoiceResp.Merge(m, src)
 }
+
 func (m *AddHoldInvoiceResp) XXX_Size() int {
 	return xxx_messageInfo_AddHoldInvoiceResp.Size(m)
 }
+
 func (m *AddHoldInvoiceResp) XXX_DiscardUnknown() {
 	xxx_messageInfo_AddHoldInvoiceResp.DiscardUnknown(m)
 }
@@ -294,15 +313,19 @@ func (*SettleInvoiceMsg) Descriptor() ([]byte, []int) {
 func (m *SettleInvoiceMsg) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SettleInvoiceMsg.Unmarshal(m, b)
 }
+
 func (m *SettleInvoiceMsg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SettleInvoiceMsg.Marshal(b, m, deterministic)
 }
+
 func (m *SettleInvoiceMsg) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SettleInvoiceMsg.Merge(m, src)
 }
+
 func (m *SettleInvoiceMsg) XXX_Size() int {
 	return xxx_messageInfo_SettleInvoiceMsg.Size(m)
 }
+
 func (m *SettleInvoiceMsg) XXX_DiscardUnknown() {
 	xxx_messageInfo_SettleInvoiceMsg.DiscardUnknown(m)
 }
@@ -332,15 +355,19 @@ func (*SettleInvoiceResp) Descriptor() ([]byte, []int) {
 func (m *SettleInvoiceResp) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SettleInvoiceResp.Unmarshal(m, b)
 }
+
 func (m *SettleInvoiceResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SettleInvoiceResp.Marshal(b, m, deterministic)
 }
+
 func (m *SettleInvoiceResp) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SettleInvoiceResp.Merge(m, src)
 }
+
 func (m *SettleInvoiceResp) XXX_Size() int {
 	return xxx_messageInfo_SettleInvoiceResp.Size(m)
 }
+
 func (m *SettleInvoiceResp) XXX_DiscardUnknown() {
 	xxx_messageInfo_SettleInvoiceResp.DiscardUnknown(m)
 }
@@ -365,15 +392,19 @@ func (*SubscribeSingleInvoiceRequest) Descriptor() ([]byte, []int) {
 func (m *SubscribeSingleInvoiceRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SubscribeSingleInvoiceRequest.Unmarshal(m, b)
 }
+
 func (m *SubscribeSingleInvoiceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SubscribeSingleInvoiceRequest.Marshal(b, m, deterministic)
 }
+
 func (m *SubscribeSingleInvoiceRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SubscribeSingleInvoiceRequest.Merge(m, src)
 }
+
 func (m *SubscribeSingleInvoiceRequest) XXX_Size() int {
 	return xxx_messageInfo_SubscribeSingleInvoiceRequest.Size(m)
 }
+
 func (m *SubscribeSingleInvoiceRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_SubscribeSingleInvoiceRequest.DiscardUnknown(m)
 }
@@ -437,8 +468,10 @@ var fileDescriptor_090ab9c4958b987d = []byte{
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
+var (
+	_ context.Context
+	_ grpc.ClientConn
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
@@ -564,12 +597,15 @@ type UnimplementedInvoicesServer struct {
 func (*UnimplementedInvoicesServer) SubscribeSingleInvoice(req *SubscribeSingleInvoiceRequest, srv Invoices_SubscribeSingleInvoiceServer) error {
 	return status.Errorf(codes.Unimplemented, "method SubscribeSingleInvoice not implemented")
 }
+
 func (*UnimplementedInvoicesServer) CancelInvoice(ctx context.Context, req *CancelInvoiceMsg) (*CancelInvoiceResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelInvoice not implemented")
 }
+
 func (*UnimplementedInvoicesServer) AddHoldInvoice(ctx context.Context, req *AddHoldInvoiceRequest) (*AddHoldInvoiceResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddHoldInvoice not implemented")
 }
+
 func (*UnimplementedInvoicesServer) SettleInvoice(ctx context.Context, req *SettleInvoiceMsg) (*SettleInvoiceResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SettleInvoice not implemented")
 }

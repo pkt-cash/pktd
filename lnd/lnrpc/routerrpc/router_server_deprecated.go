@@ -69,7 +69,6 @@ func (i *legacyTrackPaymentServer) Send(p *lnrpc.Payment) error {
 // closed when the payment completes.
 func (s *Server) TrackPayment(request *TrackPaymentRequest,
 	stream Router_TrackPaymentServer) error {
-
 	legacyStream := legacyTrackPaymentServer{
 		Router_TrackPaymentServer: stream,
 	}
@@ -83,7 +82,6 @@ func (s *Server) TrackPayment(request *TrackPaymentRequest,
 // pre-image, along with the final route will be returned.
 func (s *Server) SendPayment(request *SendPaymentRequest,
 	stream Router_SendPaymentServer) error {
-
 	if request.MaxParts > 1 {
 		return er.Native(er.New("for multi-part payments, use SendPaymentV2"))
 	}
@@ -98,7 +96,6 @@ func (s *Server) SendPayment(request *SendPaymentRequest,
 // call contains structured error information.
 func (s *Server) SendToRoute(ctx context.Context,
 	req *SendToRouteRequest) (*SendToRouteResponse, error) {
-
 	resp, err := s.SendToRouteV2(ctx, req)
 	if err != nil {
 		return nil, err

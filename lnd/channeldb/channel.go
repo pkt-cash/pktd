@@ -779,7 +779,6 @@ func (c *OpenChannel) RefreshShortChanID() er.R {
 // and the chainhash that the channel resides on.
 func fetchChanBucket(tx kvdb.RTx, nodeKey *btcec.PublicKey,
 	outPoint *wire.OutPoint, chainHash chainhash.Hash) (kvdb.RBucket, er.R) {
-
 	// First fetch the top level bucket which stores all data related to
 	// current, active channels.
 	openChanBucket := tx.ReadBucket(openChannelBucket)
@@ -825,7 +824,6 @@ func fetchChanBucket(tx kvdb.RTx, nodeKey *btcec.PublicKey,
 // fetchChanBucket in that it returns a writeable bucket.
 func fetchChanBucketRw(tx kvdb.RwTx, nodeKey *btcec.PublicKey, // nolint:interfacer
 	outPoint *wire.OutPoint, chainHash chainhash.Hash) (kvdb.RwBucket, er.R) {
-
 	readBucket, err := fetchChanBucket(tx, nodeKey, outPoint, chainHash)
 	if err != nil {
 		return nil, err
@@ -1096,7 +1094,6 @@ func (c *OpenChannel) isBorked(chanBucket kvdb.RBucket) (bool, er.R) {
 // handle the case where a different tx actually hits the chain.
 func (c *OpenChannel) MarkCommitmentBroadcasted(closeTx *wire.MsgTx,
 	locallyInitiated bool) er.R {
-
 	return c.markBroadcasted(
 		ChanStatusCommitBroadcasted, forceCloseTxKey, closeTx,
 		locallyInitiated,
@@ -1112,7 +1109,6 @@ func (c *OpenChannel) MarkCommitmentBroadcasted(closeTx *wire.MsgTx,
 // actually hits the chain.
 func (c *OpenChannel) MarkCoopBroadcasted(closeTx *wire.MsgTx,
 	locallyInitiated bool) er.R {
-
 	return c.markBroadcasted(
 		ChanStatusCoopBroadcasted, coopCloseTxKey, closeTx,
 		locallyInitiated,
@@ -1125,7 +1121,6 @@ func (c *OpenChannel) MarkCoopBroadcasted(closeTx *wire.MsgTx,
 // indicates the party that initiated the channel close.
 func (c *OpenChannel) markBroadcasted(status ChannelStatus, key []byte,
 	closeTx *wire.MsgTx, locallyInitiated bool) er.R {
-
 	c.Lock()
 	defer c.Unlock()
 
@@ -1201,7 +1196,6 @@ func (c *OpenChannel) getClosingTx(key []byte) (*wire.MsgTx, er.R) {
 // extra information together with the new status.
 func (c *OpenChannel) putChanStatus(status ChannelStatus,
 	fs ...func(kvdb.RwBucket) er.R) er.R {
-
 	if err := kvdb.Update(c.Db, func(tx kvdb.RwTx) er.R {
 		chanBucket, err := fetchChanBucketRw(
 			tx, c.IdentityPub, &c.FundingOutpoint, c.ChainHash,
@@ -1313,7 +1307,6 @@ func putOpenChannel(chanBucket kvdb.RwBucket, channel *OpenChannel) er.R {
 // sensitive) the complete channel currently active with the passed nodeID.
 func fetchOpenChannel(chanBucket kvdb.RBucket,
 	chanPoint *wire.OutPoint) (*OpenChannel, er.R) {
-
 	channel := &OpenChannel{
 		FundingOutpoint: *chanPoint,
 	}
@@ -1415,7 +1408,6 @@ func syncNewChannel(tx kvdb.RwTx, c *OpenChannel, addrs []net.Addr) er.R {
 // state.
 func (c *OpenChannel) UpdateCommitment(newCommitment *ChannelCommitment,
 	unsignedAckedUpdates []LogUpdate) er.R {
-
 	c.Lock()
 	defer c.Unlock()
 
@@ -1523,7 +1515,6 @@ func (c *OpenChannel) UpdateCommitment(newCommitment *ChannelCommitment,
 // anchor outputs.
 func (c *OpenChannel) BalancesAtHeight(height uint64) (lnwire.MilliSatoshi,
 	lnwire.MilliSatoshi, er.R) {
-
 	if height > c.LocalCommitment.CommitHeight &&
 		height > c.RemoteCommitment.CommitHeight {
 
@@ -1760,7 +1751,7 @@ func (k *CircuitKey) SetBytes(bs []byte) er.R {
 
 // Bytes returns the serialized bytes for this circuit key.
 func (k CircuitKey) Bytes() []byte {
-	var bs = make([]byte, 16)
+	bs := make([]byte, 16)
 	binary.BigEndian.PutUint64(bs[:8], k.ChanID.ToUint64())
 	binary.BigEndian.PutUint64(bs[8:], k.HtlcID)
 	return bs
@@ -2189,7 +2180,6 @@ func (c *OpenChannel) InsertNextRevocation(revKey *btcec.PublicKey) er.R {
 // We store this set of updates in case we go down.
 func (c *OpenChannel) AdvanceCommitChainTail(fwdPkg *FwdPkg,
 	updates []LogUpdate) er.R {
-
 	c.Lock()
 	defer c.Unlock()
 
@@ -2700,7 +2690,6 @@ type ChannelCloseSummary struct {
 // These statuses are used to record close initiators.
 func (c *OpenChannel) CloseChannel(summary *ChannelCloseSummary,
 	statuses ...ChannelStatus) er.R {
-
 	c.Lock()
 	defer c.Unlock()
 
@@ -2943,7 +2932,6 @@ func (c *OpenChannel) AbsoluteThawHeight() (uint32, er.R) {
 
 func putChannelCloseSummary(tx kvdb.RwTx, chanID []byte,
 	summary *ChannelCloseSummary, lastChanState *OpenChannel) er.R {
-
 	closedChanBucket, err := tx.CreateTopLevelBucket(closedChannelBucket)
 	if err != nil {
 		return err
@@ -3187,7 +3175,6 @@ func putOptionalUpfrontShutdownScript(chanBucket kvdb.RwBucket, key []byte,
 // function returns with no error if the key is not present.
 func getOptionalUpfrontShutdownScript(chanBucket kvdb.RBucket, key []byte,
 	script *lnwire.DeliveryAddress) er.R {
-
 	// Return early if the bucket does not exit, a shutdown script was not set.
 	bs := chanBucket.Get(key)
 	if bs == nil {
@@ -3219,7 +3206,6 @@ func serializeChanCommit(w io.Writer, c *ChannelCommitment) er.R {
 
 func putChanCommitment(chanBucket kvdb.RwBucket, c *ChannelCommitment,
 	local bool) er.R {
-
 	var commitKey []byte
 	if local {
 		commitKey = append(chanCommitmentKey, byte(0x00))
@@ -3255,7 +3241,6 @@ func putChanCommitments(chanBucket kvdb.RwBucket, channel *OpenChannel) er.R {
 }
 
 func putChanRevocationState(chanBucket kvdb.RwBucket, channel *OpenChannel) er.R {
-
 	var b bytes.Buffer
 	err := WriteElements(
 		&b, channel.RemoteCurrentRevocation, channel.RevocationProducer,
@@ -3421,7 +3406,6 @@ func fetchChanRevocationState(chanBucket kvdb.RBucket, channel *OpenChannel) er.
 }
 
 func deleteOpenChannel(chanBucket kvdb.RwBucket) er.R {
-
 	if err := chanBucket.Delete(chanInfoKey); err != nil {
 		return err
 	}
@@ -3444,7 +3428,6 @@ func deleteOpenChannel(chanBucket kvdb.RwBucket) er.R {
 	}
 
 	return nil
-
 }
 
 // makeLogKey converts a uint64 into an 8 byte array.
@@ -3456,7 +3439,6 @@ func makeLogKey(updateNum uint64) [8]byte {
 
 func appendChannelLogEntry(log kvdb.RwBucket,
 	commit *ChannelCommitment) er.R {
-
 	var b bytes.Buffer
 	if err := serializeChanCommit(&b, commit); err != nil {
 		return err
@@ -3468,7 +3450,6 @@ func appendChannelLogEntry(log kvdb.RwBucket,
 
 func fetchChannelLogEntry(log kvdb.RBucket,
 	updateNum uint64) (ChannelCommitment, er.R) {
-
 	logEntrykey := makeLogKey(updateNum)
 	commitBytes := log.Get(logEntrykey[:])
 	if commitBytes == nil {

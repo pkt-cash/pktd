@@ -27,9 +27,7 @@ import (
 	pktwalletLegal "go4.org/legal"
 )
 
-var (
-	cfg *config
-)
+var cfg *config
 
 func main() {
 	version.SetUserAgentName("pktwallet")

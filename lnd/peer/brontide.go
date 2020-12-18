@@ -561,7 +561,6 @@ func (p *Brontide) Start() er.R {
 // initGossipSync initializes either a gossip syncer or an initial routing
 // dump, depending on the negotiated synchronization method.
 func (p *Brontide) initGossipSync() {
-
 	// If the remote peer knows of the new gossip queries feature, then
 	// we'll create a new gossipSyncer in the AuthenticatedGossiper for it.
 	if p.remoteFeatures.HasFeature(lnwire.GossipQueriesOptional) {
@@ -597,7 +596,6 @@ func (p *Brontide) QuitSignal() <-chan struct{} {
 // channels that haven't been closed yet.
 func (p *Brontide) loadActiveChannels(chans []*channeldb.OpenChannel) (
 	[]lnwire.Message, er.R) {
-
 	// Return a slice of messages to send to the peers in case the channel
 	// cannot be loaded normally.
 	var msgs []lnwire.Message
@@ -735,13 +733,11 @@ func (p *Brontide) addLink(chanPoint *wire.OutPoint,
 	forwardingPolicy *htlcswitch.ForwardingPolicy,
 	chainEvents *contractcourt.ChainEventSubscription,
 	syncStates bool) er.R {
-
 	// onChannelFailure will be called by the link in case the channel
 	// fails for some reason.
 	onChannelFailure := func(chanID lnwire.ChannelID,
 		shortChanID lnwire.ShortChannelID,
 		linkErr htlcswitch.LinkFailureError) {
-
 		failure := linkFailureReport{
 			chanPoint:   *chanPoint,
 			chanID:      chanID,
@@ -965,7 +961,6 @@ type msgStream struct {
 // unbounded amount of memory to be allocated to buffer incoming messages.
 func newMsgStream(p *Brontide, startMsg, stopMsg string, bufSize uint32,
 	apply func(lnwire.Message)) *msgStream {
-
 	stream := &msgStream{
 		peer:         p,
 		apply:        apply,
@@ -1096,7 +1091,6 @@ func (ms *msgStream) AddMsg(msg lnwire.Message) {
 // an ActiveLinkEvent which is emitted by the link when it first starts up.
 func waitUntilLinkActive(p *Brontide,
 	cid lnwire.ChannelID) htlcswitch.ChannelLink {
-
 	// Subscribe to receive channel events.
 	//
 	// NOTE: If the link is already active by SubscribeChannelEvents, then
@@ -1163,7 +1157,6 @@ func waitUntilLinkActive(p *Brontide,
 // channel this stream forwards to his held in scope to prevent unnecessary
 // lookups.
 func newChanMsgStream(p *Brontide, cid lnwire.ChannelID) *msgStream {
-
 	var chanLink htlcswitch.ChannelLink
 
 	apply := func(msg lnwire.Message) {
@@ -1964,7 +1957,6 @@ func (p *Brontide) queueMsgLazy(msg lnwire.Message, errChan chan er.R) {
 // failed to write, and nil otherwise.
 func (p *Brontide) queue(priority bool, msg lnwire.Message,
 	errChan chan er.R) {
-
 	select {
 	case p.outgoingQueue <- outgoingMsg{priority, msg, errChan}:
 	case <-p.quit:
@@ -2267,7 +2259,6 @@ func (p *Brontide) reenableActiveChannels() {
 // will be created.
 func (p *Brontide) fetchActiveChanCloser(chanID lnwire.ChannelID) (
 	*chancloser.ChanCloser, er.R) {
-
 	// First, we'll ensure that we actually know of the target channel. If
 	// not, we'll ignore this message.
 	p.activeChanMtx.RLock()
@@ -2351,7 +2342,6 @@ func (p *Brontide) fetchActiveChanCloser(chanID lnwire.ChannelID) (
 // set. If both scripts are set, this function will error if they do not match.
 func chooseDeliveryScript(upfront,
 	requested lnwire.DeliveryAddress) (lnwire.DeliveryAddress, er.R) {
-
 	// If no upfront upfront shutdown script was provided, return the user
 	// requested address (which may be nil).
 	if len(upfront) == 0 {
@@ -2613,7 +2603,6 @@ func (p *Brontide) finalizeChanClosure(chanCloser *chancloser.ChanCloser) {
 
 	go WaitForChanToClose(chanCloser.NegotiationHeight(), notifier, errChan,
 		chanPoint, &closingTxid, closingTx.TxOut[0].PkScript, func() {
-
 			// Respond to the local subsystem which requested the
 			// channel closure.
 			if closeReq != nil {
@@ -2633,7 +2622,6 @@ func (p *Brontide) finalizeChanClosure(chanCloser *chancloser.ChanCloser) {
 func WaitForChanToClose(bestHeight uint32, notifier chainntnfs.ChainNotifier,
 	errChan chan er.R, chanPoint *wire.OutPoint,
 	closingTxID *chainhash.Hash, closeScript []byte, cb func()) {
-
 	log.Infof("Waiting for confirmation of cooperative close of "+
 		"ChannelPoint(%v) with txid: %v", chanPoint,
 		closingTxID)
@@ -2885,7 +2873,6 @@ func (p *Brontide) Address() net.Addr {
 // NOTE: Part of the lnpeer.Peer interface.
 func (p *Brontide) AddNewChannel(channel *channeldb.OpenChannel,
 	cancel <-chan struct{}) er.R {
-
 	errChan := make(chan er.R, 1)
 	newChanMsg := &newChannelMsg{
 		channel: channel,

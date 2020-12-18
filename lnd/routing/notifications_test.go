@@ -23,8 +23,10 @@ import (
 )
 
 var (
-	testAddr = &net.TCPAddr{IP: (net.IP)([]byte{0xA, 0x0, 0x0, 0x1}),
-		Port: 9000}
+	testAddr = &net.TCPAddr{
+		IP:   (net.IP)([]byte{0xA, 0x0, 0x0, 0x1}),
+		Port: 9000,
+	}
 	testAddrs = []net.Addr{testAddr}
 
 	testFeatures = lnwire.NewFeatureVector(nil, lnwire.Features)
@@ -36,7 +38,7 @@ var (
 		0x6a, 0x49, 0x18, 0x83, 0x31, 0x98, 0x47, 0x53,
 	}
 
-	testTime = time.Date(2018, time.January, 9, 14, 00, 00, 0, time.UTC)
+	testTime = time.Date(2018, time.January, 9, 14, 0o0, 0o0, 0, time.UTC)
 
 	priv1, _    = btcec.NewPrivateKey(btcec.S256())
 	bitcoinKey1 = priv1.PubKey()
@@ -70,7 +72,6 @@ func createTestNode() (*channeldb.LightningNode, er.R) {
 
 func randEdgePolicy(chanID *lnwire.ShortChannelID,
 	node *channeldb.LightningNode) *channeldb.ChannelEdgePolicy {
-
 	return &channeldb.ChannelEdgePolicy{
 		SigBytes:                  testSig.Serialize(),
 		ChannelID:                 chanID.ToUint64(),
@@ -87,7 +88,6 @@ func randEdgePolicy(chanID *lnwire.ShortChannelID,
 func createChannelEdge(ctx *testCtx, bitcoinKey1, bitcoinKey2 []byte,
 	chanValue btcutil.Amount, fundingHeight uint32) (*wire.MsgTx, *wire.OutPoint,
 	*lnwire.ShortChannelID, er.R) {
-
 	fundingTx := wire.NewMsgTx(2)
 	_, tx, err := input.GenFundingPkScript(
 		bitcoinKey1,
@@ -179,6 +179,7 @@ func (m *mockChain) addUtxo(op wire.OutPoint, out *wire.TxOut) {
 	m.utxos[op] = *out
 	m.Unlock()
 }
+
 func (m *mockChain) GetUtxo(op *wire.OutPoint, _ []byte, _ uint32,
 	_ <-chan struct{}) (*wire.TxOut, er.R) {
 	m.RLock()
@@ -200,6 +201,7 @@ func (m *mockChain) addBlock(block *wire.MsgBlock, height uint32, nonce uint32) 
 	m.blockIndex[height] = hash
 	m.Unlock()
 }
+
 func (m *mockChain) GetBlock(blockHash *chainhash.Hash) (*wire.MsgBlock, er.R) {
 	m.RLock()
 	defer m.RUnlock()
@@ -259,7 +261,6 @@ func (m *mockChainView) UpdateFilter(ops []channeldb.EdgePoint, updateHeight uin
 
 func (m *mockChainView) notifyBlock(hash chainhash.Hash, height uint32,
 	txns []*wire.MsgTx) {
-
 	m.RLock()
 	defer m.RUnlock()
 
@@ -276,7 +277,6 @@ func (m *mockChainView) notifyBlock(hash chainhash.Hash, height uint32,
 
 func (m *mockChainView) notifyStaleBlock(hash chainhash.Hash, height uint32,
 	txns []*wire.MsgTx) {
-
 	m.RLock()
 	defer m.RUnlock()
 
@@ -300,7 +300,6 @@ func (m *mockChainView) DisconnectedBlocks() <-chan *chainview.FilteredBlock {
 }
 
 func (m *mockChainView) FilterBlock(blockHash *chainhash.Hash) (*chainview.FilteredBlock, er.R) {
-
 	block, err := m.chain.GetBlock(blockHash)
 	if err != nil {
 		return nil, err
@@ -460,7 +459,7 @@ func TestEdgeUpdateNotification(t *testing.T) {
 
 	// Create lookup map for notifications we are intending to receive. Entries
 	// are removed from the map when the anticipated notification is received.
-	var waitingFor = map[route.Vertex]int{
+	waitingFor := map[route.Vertex]int{
 		route.Vertex(node1.PubKeyBytes): 1,
 		route.Vertex(node2.PubKeyBytes): 2,
 	}
@@ -608,7 +607,6 @@ func TestNodeUpdateNotification(t *testing.T) {
 
 	assertNodeNtfnCorrect := func(t *testing.T, ann *channeldb.LightningNode,
 		nodeUpdate *NetworkNodeUpdate) {
-
 		nodeKey, _ := ann.PubKey()
 
 		// The notification received should directly map the
@@ -634,7 +632,7 @@ func TestNodeUpdateNotification(t *testing.T) {
 
 	// Create lookup map for notifications we are intending to receive. Entries
 	// are removed from the map when the anticipated notification is received.
-	var waitingFor = map[route.Vertex]int{
+	waitingFor := map[route.Vertex]int{
 		route.Vertex(node1.PubKeyBytes): 1,
 		route.Vertex(node2.PubKeyBytes): 2,
 	}
@@ -932,7 +930,7 @@ func TestChannelCloseNotification(t *testing.T) {
 // TestEncodeHexColor tests that the string used to represent a node color is
 // correctly encoded.
 func TestEncodeHexColor(t *testing.T) {
-	var colorTestCases = []struct {
+	colorTestCases := []struct {
 		R       uint8
 		G       uint8
 		B       uint8

@@ -262,6 +262,7 @@ var CODES_1_1 = [...]OpCode{
 	OpCode_BSWAP16,
 	OpCode_BSWAP32,
 }
+
 var CODES_2_1 = [...]OpCode{
 
 	OpCode_ADD8, OpCode_ADD16, OpCode_ADD32,
@@ -276,6 +277,7 @@ var CODES_2_1 = [...]OpCode{
 	OpCode_OR,
 	OpCode_XOR,
 }
+
 var CODES_2_2 = [...]OpCode{
 
 	OpCode_ADD8C, OpCode_ADD16C, OpCode_ADD32C,
@@ -284,6 +286,7 @@ var CODES_2_2 = [...]OpCode{
 	OpCode_MULSU8C, OpCode_MULSU16C, OpCode_MULSU32C,
 	OpCode_MULU8C, OpCode_MULU16C, OpCode_MULU32C,
 }
+
 var CODES_4_2 = [...]OpCode{
 
 	OpCode_ADD64,
@@ -295,6 +298,7 @@ var CODES_4_2 = [...]OpCode{
 	OpCode_ROTR64,
 	OpCode_MUL64,
 }
+
 var CODES_4_4 = [...]OpCode{
 
 	OpCode_ADD64C,

@@ -133,13 +133,11 @@ func TestFetchChannelWriteBucket(t *testing.T) {
 
 	createChainHashBucket := func(reports kvdb.RwBucket) (kvdb.RwBucket,
 		er.R) {
-
 		return reports.CreateBucketIfNotExists(testChainHash[:])
 	}
 
 	createChannelBucket := func(chainHash kvdb.RwBucket) (kvdb.RwBucket,
 		er.R) {
-
 		var chanPointBuf bytes.Buffer
 		err := writeOutpoint(&chanPointBuf, &testChanPoint1)
 		util.RequireNoErr(t, err)

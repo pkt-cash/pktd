@@ -101,7 +101,6 @@ func standardCoinbaseScript(nextBlockHeight int32, extraNonce uint64) ([]byte, e
 func createCoinbaseTx(coinbaseScript []byte, nextBlockHeight int32,
 	addr btcutil.Address, mineTo []wire.TxOut,
 	net *chaincfg.Params) (*btcutil.Tx, er.R) {
-
 	// Create the script to pay to the provided payment address.
 	pkScript, err := txscript.PayToAddrScript(addr)
 	if err != nil {
@@ -138,7 +137,6 @@ func createCoinbaseTx(coinbaseScript []byte, nextBlockHeight int32,
 func CreateBlock(prevBlock *btcutil.Block, inclusionTxs []*btcutil.Tx,
 	blockVersion int32, blockTime time.Time, miningAddr btcutil.Address,
 	mineTo []wire.TxOut, net *chaincfg.Params) (*btcutil.Block, er.R) {
-
 	var (
 		prevHash      *chainhash.Hash
 		blockHeight   int32

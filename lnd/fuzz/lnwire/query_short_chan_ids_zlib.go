@@ -12,7 +12,6 @@ import (
 
 // Fuzz_query_short_chan_ids_zlib is used by go-fuzz.
 func Fuzz_query_short_chan_ids_zlib(data []byte) int {
-
 	var buf bytes.Buffer
 	zlibWriter := zlib.NewWriter(&buf)
 	_, err := zlibWriter.Write(data)

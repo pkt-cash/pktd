@@ -27,7 +27,6 @@ func NewMockBackend() *MockBackend {
 
 func (m *MockBackend) RegisterBlockEpochNtfn(*chainntnfs.BlockEpoch) (
 	*chainntnfs.BlockEpochEvent, er.R) {
-
 	return &chainntnfs.BlockEpochEvent{
 		Epochs: m.blocks,
 	}, nil
@@ -47,7 +46,6 @@ func (m *MockBackend) GetBlock(hash *chainhash.Hash) (*wire.MsgBlock, er.R) {
 
 func (m *MockBackend) ConnectEpoch(epoch *chainntnfs.BlockEpoch,
 	block *wire.MsgBlock) {
-
 	m.mu.Lock()
 	m.epochs[*epoch.Hash] = block
 	m.mu.Unlock()

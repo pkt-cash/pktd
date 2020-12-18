@@ -38,7 +38,6 @@ func MakeDB() (kvdb.Backend, func(), er.R) {
 func ApplyMigration(t *testing.T,
 	beforeMigration, afterMigration, migrationFunc func(tx kvdb.RwTx) er.R,
 	shouldFail bool) {
-
 	cdb, cleanUp, err := MakeDB()
 	defer cleanUp()
 	if err != nil {

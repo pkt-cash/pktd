@@ -125,7 +125,6 @@ func createLogFunc(name string, channelID lnwire.ChannelID) messageInterceptor {
 // indicated to be intercepted.
 func createInterceptorFunc(prefix, receiver string, messages []expectedMessage,
 	chanID lnwire.ChannelID, debug bool) messageInterceptor {
-
 	// Filter message which should be received with given peer name.
 	var expectToReceive []expectedMessage
 	for _, message := range messages {
@@ -290,7 +289,6 @@ func TestChannelLinkMultiHopPayment(t *testing.T) {
 
 func testChannelLinkMultiHopPayment(t *testing.T,
 	bobOutgoingCltvRejectDelta uint32) {
-
 	t.Parallel()
 
 	channels, cleanUp, _, err := createClusterChannels(
@@ -1624,9 +1622,11 @@ func (m *mockPeer) SendMessage(sync bool, msgs ...lnwire.Message) er.R {
 	}
 	return nil
 }
+
 func (m *mockPeer) SendMessageLazy(sync bool, msgs ...lnwire.Message) er.R {
 	return m.SendMessage(sync, msgs...)
 }
+
 func (m *mockPeer) AddNewChannel(_ *channeldb.OpenChannel,
 	_ <-chan struct{}) er.R {
 	return nil
@@ -1635,15 +1635,19 @@ func (m *mockPeer) WipeChannel(*wire.OutPoint) {}
 func (m *mockPeer) PubKey() [33]byte {
 	return [33]byte{}
 }
+
 func (m *mockPeer) IdentityKey() *btcec.PublicKey {
 	return nil
 }
+
 func (m *mockPeer) Address() net.Addr {
 	return nil
 }
+
 func (m *mockPeer) LocalFeatures() *lnwire.FeatureVector {
 	return nil
 }
+
 func (m *mockPeer) RemoteFeatures() *lnwire.FeatureVector {
 	return nil
 }
@@ -1651,7 +1655,6 @@ func (m *mockPeer) RemoteFeatures() *lnwire.FeatureVector {
 func newSingleLinkTestHarness(chanAmt, chanReserve btcutil.Amount) (
 	ChannelLink, *lnwallet.LightningChannel, chan time.Time, func() er.R,
 	func(), func() (*lnwallet.LightningChannel, er.R), er.R) {
-
 	var chanIDBytes [8]byte
 	if _, err := util.ReadFull(rand.Reader, chanIDBytes[:]); err != nil {
 		return nil, nil, nil, nil, nil, nil, err
@@ -1757,7 +1760,6 @@ func newSingleLinkTestHarness(chanAmt, chanReserve btcutil.Amount) (
 
 func assertLinkBandwidth(t *testing.T, link ChannelLink,
 	expected lnwire.MilliSatoshi) {
-
 	currentBandwidth := link.Bandwidth()
 	_, _, line, _ := runtime.Caller(1)
 	if currentBandwidth != expected {
@@ -2352,7 +2354,6 @@ func TestChannelLinkBandwidthConsistency(t *testing.T) {
 // corresponding circuits. The provided `htlc` is used in all test packets.
 func genAddsAndCircuits(numHtlcs int, htlc *lnwire.UpdateAddHTLC) (
 	[]*htlcPacket, []*PaymentCircuit) {
-
 	addPkts := make([]*htlcPacket, 0, numHtlcs)
 	circuits := make([]*PaymentCircuit, 0, numHtlcs)
 	for i := 0; i < numHtlcs; i++ {
@@ -3480,7 +3481,6 @@ func TestChannelRetransmission(t *testing.T) {
 			break
 		}
 	}
-
 }
 
 // TestShouldAdjustCommitFee tests the shouldAdjustCommitFee pivot function to
@@ -3773,7 +3773,6 @@ func TestChannelLinkUpdateCommitFee(t *testing.T) {
 	// update was triggered and completed properly.
 	triggerFeeUpdate := func(feeEstimate, newFeeRate chainfee.SatPerKWeight,
 		shouldUpdate bool) {
-
 		t.Helper()
 
 		// Record the fee rates before the links process the fee update
@@ -4039,7 +4038,6 @@ func newPersistentLinkHarness(t *testing.T, link ChannelLink,
 	batchTicker chan time.Time,
 	restore func() (*lnwallet.LightningChannel,
 		er.R)) *persistentLinkHarness {
-
 	coreLink := link.(*channelLink)
 
 	return &persistentLinkHarness{
@@ -4065,7 +4063,6 @@ func newPersistentLinkHarness(t *testing.T, link ChannelLink,
 // method. If none are provided, the mask will be extracted as hodl.MaskNone.
 func (h *persistentLinkHarness) restart(restartSwitch bool,
 	hodlFlags ...hodl.Flag) func() {
-
 	// First, remove the link from the switch.
 	h.coreLink.cfg.Switch.RemoveLink(h.link.ChanID())
 
@@ -4134,7 +4131,6 @@ func (h *persistentLinkHarness) commitCircuits(circuits []*PaymentCircuit) *Circ
 
 func (h *persistentLinkHarness) assertNumPendingNumOpenCircuits(
 	wantPending, wantOpen int) {
-
 	_, _, line, _ := runtime.Caller(1)
 
 	numPending := h.coreLink.cfg.Switch.circuits.NumPending()
@@ -4169,7 +4165,6 @@ func (h *persistentLinkHarness) restartLink(
 	aliceChannel *lnwallet.LightningChannel, restartSwitch bool,
 	hodlFlags []hodl.Flag) (
 	ChannelLink, chan time.Time, func(), er.R) {
-
 	var (
 		decoder    = newMockIteratorDecoder()
 		obfuscator = NewMockObfuscator()
@@ -4264,7 +4259,6 @@ func (h *persistentLinkHarness) restartLink(
 // gnerateHtlc generates a simple payment from Bob to Alice.
 func generateHtlc(t *testing.T, coreLink *channelLink,
 	id uint64) *lnwire.UpdateAddHTLC {
-
 	t.Helper()
 
 	htlc, invoice := generateHtlcAndInvoice(t, id)
@@ -4285,7 +4279,6 @@ func generateHtlc(t *testing.T, coreLink *channelLink,
 // the receiver.
 func generateHtlcAndInvoice(t *testing.T,
 	id uint64) (*lnwire.UpdateAddHTLC, *channeldb.Invoice) {
-
 	t.Helper()
 
 	htlcAmt := lnwire.NewMSatFromSatoshis(10000)
@@ -4418,7 +4411,6 @@ func TestChannelLinkNoMoreUpdates(t *testing.T) {
 // match the expected status of expOk.
 func checkHasPreimages(t *testing.T, coreLink *channelLink,
 	htlcs []*lnwire.UpdateAddHTLC, expOk bool) {
-
 	t.Helper()
 
 	err := wait.NoError(func() er.R {
@@ -5205,7 +5197,6 @@ func TestChannelLinkFail(t *testing.T) {
 			func(c *channelLink) {
 			},
 			func(t *testing.T, c *channelLink, remoteChannel *lnwallet.LightningChannel) {
-
 				// Generate an HTLC and send to the link.
 				htlc1 := generateHtlc(t, c, 0)
 				ctx := linkTestContext{
@@ -5243,7 +5234,6 @@ func TestChannelLinkFail(t *testing.T) {
 			func(c *channelLink) {
 			},
 			func(t *testing.T, c *channelLink, remoteChannel *lnwallet.LightningChannel) {
-
 				// Generate an HTLC and send to the link.
 				htlc1 := generateHtlc(t, c, 0)
 				ctx := linkTestContext{
@@ -5460,10 +5450,8 @@ func TestForwardingAsymmetricTimeLockPolicies(t *testing.T) {
 // TestCheckHtlcForward tests that a link is properly enforcing the HTLC
 // forwarding policy.
 func TestCheckHtlcForward(t *testing.T) {
-
 	fetchLastChannelUpdate := func(lnwire.ShortChannelID) (
 		*lnwire.ChannelUpdate, er.R) {
-
 		return &lnwire.ChannelUpdate{}, nil
 	}
 
@@ -5539,7 +5527,6 @@ func TestCheckHtlcForward(t *testing.T) {
 		if _, ok := result.WireMessage().(*lnwire.FailIncorrectCltvExpiry); !ok {
 			t.Fatalf("expected FailIncorrectCltvExpiry failure code")
 		}
-
 	})
 
 	t.Run("cltv expiry too far in the future", func(t *testing.T) {
@@ -6210,7 +6197,6 @@ func TestPendingCommitTicker(t *testing.T) {
 	linkErrs := make(chan LinkFailureError)
 	coreLink.cfg.OnChannelFailure = func(_ lnwire.ChannelID,
 		_ lnwire.ShortChannelID, linkErr LinkFailureError) {
-
 		linkErrs <- linkErr
 	}
 

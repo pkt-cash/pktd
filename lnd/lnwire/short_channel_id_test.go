@@ -10,7 +10,7 @@ import (
 func TestShortChannelIDEncoding(t *testing.T) {
 	t.Parallel()
 
-	var testCases = []ShortChannelID{
+	testCases := []ShortChannelID{
 		{
 			BlockHeight: (1 << 24) - 1,
 			TxIndex:     (1 << 24) - 1,

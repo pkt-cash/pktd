@@ -66,7 +66,6 @@ type DecayedLog struct {
 // from the given notifier.
 func NewDecayedLog(dbPath, dbFileName string, boltCfg *kvdb.BoltConfig,
 	notifier chainntnfs.ChainNotifier) *DecayedLog {
-
 	cfg := &kvdb.BoltBackendConfig{
 		DBPath:            dbPath,
 		DBFileName:        dbFileName,

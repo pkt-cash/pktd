@@ -9,13 +9,11 @@ import (
 	"github.com/pkt-cash/pktd/pktwallet/walletdb"
 )
 
-var (
-	// ErrReversion is an error returned when an attempt to revert to a
-	// previous version is detected. This is done to provide safety to users
-	// as some upgrades may not be backwards-compatible.
-	ErrReversion = er.GenericErrorType.CodeWithDetail("migration.ErrReversion",
-		"reverting to a previous version is not supported")
-)
+// ErrReversion is an error returned when an attempt to revert to a
+// previous version is detected. This is done to provide safety to users
+// as some upgrades may not be backwards-compatible.
+var ErrReversion = er.GenericErrorType.CodeWithDetail("migration.ErrReversion",
+	"reverting to a previous version is not supported")
 
 // Version denotes the version number of the database. A migration can be used
 // to bring a previous version of the database to a later one.

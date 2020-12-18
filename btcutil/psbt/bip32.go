@@ -42,7 +42,6 @@ func (s Bip32Sorter) Less(i, j int) bool {
 // little endian encodings of uint32 values, the first of which is the
 // masterkeyfingerprint and the remainder of which are the derivation path.
 func readBip32Derivation(path []byte) (uint32, []uint32, er.R) {
-
 	if len(path)%4 != 0 || len(path)/4-1 < 1 {
 		return 0, nil, ErrInvalidPsbtFormat.Default()
 	}
@@ -63,7 +62,6 @@ func readBip32Derivation(path []byte) (uint32, []uint32, er.R) {
 // master key fingerprint (4) || child index (4) || child index (4) || ....
 func SerializeBIP32Derivation(masterKeyFingerprint uint32,
 	bip32Path []uint32) []byte {
-
 	var masterKeyBytes [4]byte
 	binary.LittleEndian.PutUint32(masterKeyBytes[:], masterKeyFingerprint)
 

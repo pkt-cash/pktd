@@ -7,8 +7,10 @@ import (
 	"github.com/pkt-cash/pktd/lnd/ticker"
 )
 
-const interval = 50 * time.Millisecond
-const numActiveTicks = 3
+const (
+	interval       = 50 * time.Millisecond
+	numActiveTicks = 3
+)
 
 var tickers = []struct {
 	name   string

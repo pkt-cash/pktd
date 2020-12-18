@@ -29,7 +29,6 @@ func hexToBytes(s string) []byte {
 // TestScriptNumBytes ensures that converting from integral script numbers to
 // byte representations works as expected.
 func TestScriptNumBytes(t *testing.T) {
-
 	tests := []struct {
 		num        scriptnum.ScriptNum
 		serialized []byte
@@ -92,7 +91,6 @@ func TestScriptNumBytes(t *testing.T) {
 // TestMakeScriptNum ensures that converting from byte representations to
 // integral script numbers works as expected.
 func TestMakeScriptNum(t *testing.T) {
-
 	// Errors used in the tests below defined here for convenience and to
 	// keep the horizontal test size shorter.
 	errNumTooBig := txscripterr.ScriptError(txscripterr.ErrNumberTooBig, "")
@@ -216,7 +214,6 @@ func TestMakeScriptNum(t *testing.T) {
 // TestScriptNumInt32 ensures that the Int32 function on script number behaves
 // as expected.
 func TestScriptNumInt32(t *testing.T) {
-
 	tests := []struct {
 		in   scriptnum.ScriptNum
 		want int32

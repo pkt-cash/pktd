@@ -80,7 +80,6 @@ func (h *clientDBHarness) nextKeyIndex(id wtdb.TowerID, expErr *er.ErrorCode) ui
 
 func (h *clientDBHarness) createTower(lnAddr *lnwire.NetAddress,
 	expErr *er.ErrorCode) *wtdb.Tower {
-
 	h.t.Helper()
 
 	tower, err := h.db.CreateTower(lnAddr)
@@ -103,7 +102,6 @@ func (h *clientDBHarness) createTower(lnAddr *lnwire.NetAddress,
 
 func (h *clientDBHarness) removeTower(pubKey *btcec.PublicKey, addr net.Addr,
 	hasSessions bool, expErr *er.ErrorCode) {
-
 	h.t.Helper()
 
 	err := h.db.RemoveTower(pubKey, addr)
@@ -180,7 +178,6 @@ func (h *clientDBHarness) fetchChanSummaries() map[lnwire.ChannelID]wtdb.ClientC
 
 func (h *clientDBHarness) registerChan(chanID lnwire.ChannelID,
 	sweepPkScript []byte, expErr *er.ErrorCode) {
-
 	h.t.Helper()
 
 	err := h.db.RegisterChannel(chanID, sweepPkScript)
@@ -189,7 +186,6 @@ func (h *clientDBHarness) registerChan(chanID lnwire.ChannelID,
 
 func (h *clientDBHarness) commitUpdate(id *wtdb.SessionID,
 	update *wtdb.CommittedUpdate, expErr *er.ErrorCode) uint16 {
-
 	h.t.Helper()
 
 	lastApplied, err := h.db.CommitUpdate(id, update)
@@ -200,7 +196,6 @@ func (h *clientDBHarness) commitUpdate(id *wtdb.SessionID,
 
 func (h *clientDBHarness) ackUpdate(id *wtdb.SessionID, seqNum uint16,
 	lastApplied uint16, expErr *er.ErrorCode) {
-
 	h.t.Helper()
 
 	err := h.db.AckUpdate(id, seqNum, lastApplied)
@@ -695,7 +690,6 @@ func testAckUpdate(h *clientDBHarness) {
 // expUpdates provided.
 func checkCommittedUpdates(t *testing.T, session *wtdb.ClientSession,
 	expUpdates []wtdb.CommittedUpdate) {
-
 	t.Helper()
 
 	// We promote nil expUpdates to an initialized slice since the database
@@ -715,7 +709,6 @@ func checkCommittedUpdates(t *testing.T, session *wtdb.ClientSession,
 // expUpdates provided.
 func checkAckedUpdates(t *testing.T, session *wtdb.ClientSession,
 	expUpdates map[uint16]wtdb.BackupID) {
-
 	// We promote nil expUpdates to an initialized map since the database
 	// should never return a nil map. This promotion is done purely out of
 	// convenience for the testing framework.

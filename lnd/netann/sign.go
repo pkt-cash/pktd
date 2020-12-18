@@ -12,7 +12,6 @@ import (
 // network.
 func SignAnnouncement(signer lnwallet.MessageSigner, pubKey *btcec.PublicKey,
 	msg lnwire.Message) (input.Signature, er.R) {
-
 	var (
 		data []byte
 		err  er.R

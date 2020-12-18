@@ -16,10 +16,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var (
-	defaultRootKeyIDContext = macaroons.ContextWithRootKeyID(
-		context.Background(), macaroons.DefaultRootKeyID,
-	)
+var defaultRootKeyIDContext = macaroons.ContextWithRootKeyID(
+	context.Background(), macaroons.DefaultRootKeyID,
 )
 
 // newTestStore creates a new bolt DB in a temporary directory and then
@@ -41,7 +39,6 @@ func newTestStore(t *testing.T) (string, func(), *macaroons.RootKeyStorage) {
 // storage for that DB.
 func openTestStore(t *testing.T, tempDir string) (func(),
 	*macaroons.RootKeyStorage) {
-
 	db, err := kvdb.Create(
 		kvdb.BoltBackendName, path.Join(tempDir, "weks.db"), true,
 	)

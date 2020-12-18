@@ -24,14 +24,12 @@ import (
 
 const (
 	dbName           = "channel.db"
-	dbFilePermission = 0600
+	dbFilePermission = 0o600
 )
 
-var (
-	// ErrDryRunMigrationOK signals that a migration executed successful,
-	// but we intentionally did not commit the result.
-	ErrDryRunMigrationOK = Err.CodeWithDetail("ErrDryRunMigrationOK", "dry run migration successful")
-)
+// ErrDryRunMigrationOK signals that a migration executed successful,
+// but we intentionally did not commit the result.
+var ErrDryRunMigrationOK = Err.CodeWithDetail("ErrDryRunMigrationOK", "dry run migration successful")
 
 // migration is a function which takes a prior outdated version of the database
 // instances and mutates the key/bucket structure to arrive at a more
@@ -417,7 +415,6 @@ func (d *DB) FetchOpenChannels(nodeID *btcec.PublicKey) ([]*OpenChannel, er.R) {
 // node, then a zero-length slice is returned.
 func (db *DB) fetchOpenChannels(tx kvdb.RTx,
 	nodeID *btcec.PublicKey) ([]*OpenChannel, er.R) {
-
 	// Get the bucket dedicated to storing the metadata for open channels.
 	openChanBucket := tx.ReadBucket(openChannelBucket)
 	if openChanBucket == nil {
@@ -469,7 +466,6 @@ func (db *DB) fetchOpenChannels(tx kvdb.RTx,
 // which is under a node's dedicated channel bucket. This function is typically
 // used to fetch all the active channels related to a particular node.
 func (db *DB) fetchNodeChannels(chainBucket kvdb.RBucket) ([]*OpenChannel, er.R) {
-
 	var channels []*OpenChannel
 
 	// A node may have channels on several chains, so for each known chain,
@@ -756,7 +752,6 @@ func fetchChannels(d *DB, filters ...fetchChannelsFilter) ([]*OpenChannel, er.R)
 				}
 				return nil
 			})
-
 		})
 	}, func() {
 		channels = nil
@@ -851,7 +846,6 @@ func (d *DB) FetchClosedChannel(chanID *wire.OutPoint) (*ChannelCloseSummary, er
 // channel ID of the channel in question.
 func (d *DB) FetchClosedChannelForID(cid lnwire.ChannelID) (
 	*ChannelCloseSummary, er.R) {
-
 	var chanSummary *ChannelCloseSummary
 	if err := kvdb.View(d, func(tx kvdb.RTx) er.R {
 		closeBucket := tx.ReadBucket(closedChannelBucket)
@@ -1254,7 +1248,6 @@ func getMigrationsToApply(versions []version, version uint32) ([]migration, []ui
 // ErrNoHistoricalBucket is returned.
 func fetchHistoricalChanBucket(tx kvdb.RTx,
 	outPoint *wire.OutPoint) (kvdb.RBucket, er.R) {
-
 	// First fetch the top level bucket which stores all data related to
 	// historically stored channels.
 	historicalChanBucket := tx.ReadBucket(historicalChannelBucket)

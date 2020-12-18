@@ -9,9 +9,7 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-var (
-	endian = binary.BigEndian
-)
+var endian = binary.BigEndian
 
 const (
 	// sweepConfTarget is the default number of blocks that we'll use as a
@@ -106,9 +104,7 @@ func newContractResolverKit(cfg ResolverConfig) *contractResolverKit {
 	}
 }
 
-var (
-	// errResolverShuttingDown is returned when the resolver stops
-	// progressing because it received the quit signal.
-	errResolverShuttingDown = er.GenericErrorType.CodeWithDetail("errResolverShuttingDown",
-		"resolver shutting down")
-)
+// errResolverShuttingDown is returned when the resolver stops
+// progressing because it received the quit signal.
+var errResolverShuttingDown = er.GenericErrorType.CodeWithDetail("errResolverShuttingDown",
+	"resolver shutting down")

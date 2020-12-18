@@ -349,20 +349,24 @@ func TestVarIntNonCanonical(t *testing.T) {
 		pver uint32 // Protocol version for wire encoding
 	}{
 		{
-			"0 encoded with 3 bytes", []byte{0xfd, 0x00, 0x00},
+			"0 encoded with 3 bytes",
+			[]byte{0xfd, 0x00, 0x00},
 			pver,
 		},
 		{
 			"max single-byte value encoded with 3 bytes",
-			[]byte{0xfd, 0xfc, 0x00}, pver,
+			[]byte{0xfd, 0xfc, 0x00},
+			pver,
 		},
 		{
 			"0 encoded with 5 bytes",
-			[]byte{0xfe, 0x00, 0x00, 0x00, 0x00}, pver,
+			[]byte{0xfe, 0x00, 0x00, 0x00, 0x00},
+			pver,
 		},
 		{
 			"max three-byte value encoded with 5 bytes",
-			[]byte{0xfe, 0xff, 0xff, 0x00, 0x00}, pver,
+			[]byte{0xfe, 0xff, 0xff, 0x00, 0x00},
+			pver,
 		},
 		{
 			"0 encoded with 9 bytes",
@@ -540,10 +544,14 @@ func TestVarStringOverflowErrors(t *testing.T) {
 		pver uint32 // Protocol version for wire encoding
 		err  er.R   // Expected error
 	}{
-		{[]byte{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
-			pver, MessageError.Default()},
-		{[]byte{0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01},
-			pver, MessageError.Default()},
+		{
+			[]byte{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
+			pver, MessageError.Default(),
+		},
+		{
+			[]byte{0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01},
+			pver, MessageError.Default(),
+		},
 	}
 
 	t.Logf("Running %d tests", len(tests))
@@ -557,7 +565,6 @@ func TestVarStringOverflowErrors(t *testing.T) {
 			continue
 		}
 	}
-
 }
 
 // TestVarBytesWire tests wire encode and decode for variable length byte array.
@@ -672,10 +679,14 @@ func TestVarBytesOverflowErrors(t *testing.T) {
 		pver uint32 // Protocol version for wire encoding
 		err  er.R   // Expected error
 	}{
-		{[]byte{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
-			pver, MessageError.Default()},
-		{[]byte{0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01},
-			pver, MessageError.Default()},
+		{
+			[]byte{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
+			pver, MessageError.Default(),
+		},
+		{
+			[]byte{0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01},
+			pver, MessageError.Default(),
+		},
 	}
 
 	t.Logf("Running %d tests", len(tests))
@@ -690,5 +701,4 @@ func TestVarBytesOverflowErrors(t *testing.T) {
 			continue
 		}
 	}
-
 }

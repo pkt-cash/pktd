@@ -195,7 +195,6 @@ func (m *ClientDB) MarkBackupIneligible(chanID lnwire.ChannelID, commitHeight ui
 // response that do not correspond to this tower.
 func (m *ClientDB) ListClientSessions(
 	tower *wtdb.TowerID) (map[wtdb.SessionID]*wtdb.ClientSession, er.R) {
-
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	return m.listClientSessions(tower)
@@ -206,7 +205,6 @@ func (m *ClientDB) ListClientSessions(
 // response that do not correspond to this tower.
 func (m *ClientDB) listClientSessions(
 	tower *wtdb.TowerID) (map[wtdb.SessionID]*wtdb.ClientSession, er.R) {
-
 	sessions := make(map[wtdb.SessionID]*wtdb.ClientSession)
 	for _, session := range m.activeSessions {
 		session := session
@@ -286,7 +284,6 @@ func (m *ClientDB) NextSessionKeyIndex(towerID wtdb.TowerID) (uint32, er.R) {
 // seqNum). This allows the client to retransmit this update on startup.
 func (m *ClientDB) CommitUpdate(id *wtdb.SessionID,
 	update *wtdb.CommittedUpdate) (uint16, er.R) {
-
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -396,7 +393,6 @@ func (m *ClientDB) FetchChanSummaries() (wtdb.ChannelSummaries, er.R) {
 // states to be backed up under the client's active policy.
 func (m *ClientDB) RegisterChannel(chanID lnwire.ChannelID,
 	sweepPkScript []byte) er.R {
-
 	m.mu.Lock()
 	defer m.mu.Unlock()
 

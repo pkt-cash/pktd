@@ -24,7 +24,6 @@ type invoiceExpiryWatcherTest struct {
 // and sets up the test environment.
 func newInvoiceExpiryWatcherTest(t *testing.T, now time.Time,
 	numExpiredInvoices, numPendingInvoices int) *invoiceExpiryWatcherTest {
-
 	test := &invoiceExpiryWatcherTest{
 		watcher: NewInvoiceExpiryWatcher(clock.NewTestClock(testTime)),
 		testData: generateInvoiceExpiryTestData(
@@ -36,14 +35,12 @@ func newInvoiceExpiryWatcherTest(t *testing.T, now time.Time,
 
 	err := test.watcher.Start(func(paymentHash lntypes.Hash,
 		force bool) er.R {
-
 		test.canceledInvoices = append(
 			test.canceledInvoices, paymentHash,
 		)
 		test.wg.Done()
 		return nil
 	})
-
 	if err != nil {
 		t.Fatalf("cannot start InvoiceExpiryWatcher: %v", err)
 	}

@@ -86,7 +86,6 @@ func newHeaderIndex(db walletdb.DB, indexType HeaderType) (*headerIndex, er.R) {
 	err := walletdb.Update(db, func(tx walletdb.ReadWriteTx) er.R {
 		_, err := tx.CreateTopLevelBucket(indexBucket)
 		return err
-
 	})
 	if err != nil && !walletdb.ErrBucketExists.Is(err) {
 		return nil, err

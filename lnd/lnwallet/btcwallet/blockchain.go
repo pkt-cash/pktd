@@ -39,7 +39,6 @@ func (b *BtcWallet) GetBestBlock() (*chainhash.Hash, int32, er.R) {
 // This method is a part of the lnwallet.BlockChainIO interface.
 func (b *BtcWallet) GetUtxo(op *wire.OutPoint, pkScript []byte,
 	heightHint uint32, cancel <-chan struct{}) (*wire.TxOut, er.R) {
-
 	switch backend := b.chain.(type) {
 
 	case *chain.NeutrinoClient:

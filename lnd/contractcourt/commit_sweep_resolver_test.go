@@ -27,7 +27,6 @@ type commitSweepResolverTestContext struct {
 
 func newCommitSweepResolverTestContext(t *testing.T,
 	resolution *lnwallet.CommitOutputResolution) *commitSweepResolverTestContext {
-
 	notifier := &mock.ChainNotifier{
 		EpochChan: make(chan *chainntnfs.BlockEpoch),
 		SpendChan: make(chan *chainntnfs.SpendDetail),
@@ -45,7 +44,6 @@ func newCommitSweepResolverTestContext(t *testing.T,
 		},
 		PutResolverReport: func(_ kvdb.RwTx,
 			_ *channeldb.ResolverReport) er.R {
-
 			return nil
 		},
 	}
@@ -54,7 +52,6 @@ func newCommitSweepResolverTestContext(t *testing.T,
 		ChannelArbitratorConfig: chainCfg,
 		Checkpoint: func(_ ContractResolver,
 			_ ...*channeldb.ResolverReport) er.R {
-
 			checkPointChan <- struct{}{}
 			return nil
 		},
@@ -120,7 +117,6 @@ func newMockSweeper() *mockSweeper {
 
 func (s *mockSweeper) SweepInput(input input.Input, params sweep.Params) (
 	chan sweep.Result, er.R) {
-
 	s.sweptInputs <- input
 
 	var e er.R
@@ -138,7 +134,6 @@ func (s *mockSweeper) SweepInput(input input.Input, params sweep.Params) (
 
 func (s *mockSweeper) CreateSweepTx(inputs []input.Input, feePref sweep.FeePreference,
 	currentBlockHeight uint32) (*wire.MsgTx, er.R) {
-
 	return nil, nil
 }
 
@@ -148,7 +143,6 @@ func (s *mockSweeper) RelayFeePerKW() chainfee.SatPerKWeight {
 
 func (s *mockSweeper) UpdateParams(input wire.OutPoint,
 	params sweep.ParamsUpdate) (chan sweep.Result, er.R) {
-
 	s.updatedInputs <- input
 
 	result := make(chan sweep.Result, 1)
@@ -183,7 +177,6 @@ func TestCommitSweepResolverNoDelay(t *testing.T) {
 	reportChan := make(chan *channeldb.ResolverReport)
 	ctx.resolver.Checkpoint = func(_ ContractResolver,
 		reports ...*channeldb.ResolverReport) er.R {
-
 		// Send all of our reports into the channel.
 		for _, report := range reports {
 			reportChan <- report
@@ -247,7 +240,6 @@ func testCommitSweepResolverDelay(t *testing.T, sweepErr *er.ErrorCode) {
 	reportChan := make(chan *channeldb.ResolverReport)
 	ctx.resolver.Checkpoint = func(_ ContractResolver,
 		reports ...*channeldb.ResolverReport) er.R {
-
 		// Send all of our reports into the channel.
 		for _, report := range reports {
 			reportChan <- report
@@ -341,7 +333,6 @@ func testCommitSweepResolverDelay(t *testing.T, sweepErr *er.ErrorCode) {
 		t.Fatalf("unexpected resolver report. want=%v got=%v",
 			expectedReport, report)
 	}
-
 }
 
 // TestCommitSweepResolverDelay tests resolution of a direct commitment output

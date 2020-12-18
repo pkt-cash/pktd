@@ -13,8 +13,10 @@ import (
 )
 
 // smallBufferSize is an initial allocation minimal capacity.
-const smallBufferSize = 64
-const maxInt = int(^uint(0) >> 1)
+const (
+	smallBufferSize = 64
+	maxInt          = int(^uint(0) >> 1)
+)
 
 // A Buffer is a variable-sized buffer of bytes with Read and Write methods.
 // The zero value for Buffer is an empty buffer ready to use.

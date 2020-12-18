@@ -50,7 +50,6 @@ func (i invoiceUpdateCtx) failRes(outcome FailResolutionResult) *HtlcFailResolut
 // the settle resolution result provided.
 func (i invoiceUpdateCtx) settleRes(preimage lntypes.Preimage,
 	outcome SettleResolutionResult) *HtlcSettleResolution {
-
 	return NewSettleResolution(
 		preimage, i.circuitKey, i.currentHeight, outcome,
 	)
@@ -68,7 +67,6 @@ func (i invoiceUpdateCtx) acceptRes(outcome acceptResolutionResult) *htlcAcceptR
 // outcome of the update was.
 func updateInvoice(ctx *invoiceUpdateCtx, inv *channeldb.Invoice) (
 	*channeldb.InvoiceUpdateDesc, HtlcResolution, er.R) {
-
 	// Don't update the invoice when this is a replayed htlc.
 	htlc, ok := inv.Htlcs[ctx.circuitKey]
 	if ok {
@@ -102,7 +100,6 @@ func updateInvoice(ctx *invoiceUpdateCtx, inv *channeldb.Invoice) (
 func updateMpp(ctx *invoiceUpdateCtx,
 	inv *channeldb.Invoice) (*channeldb.InvoiceUpdateDesc,
 	HtlcResolution, er.R) {
-
 	// Start building the accept descriptor.
 	acceptDesc := &channeldb.HtlcAcceptDesc{
 		Amt:           ctx.amtPaid,
@@ -208,7 +205,6 @@ func updateMpp(ctx *invoiceUpdateCtx,
 // settlement logic for legacy payments.
 func updateLegacy(ctx *invoiceUpdateCtx,
 	inv *channeldb.Invoice) (*channeldb.InvoiceUpdateDesc, HtlcResolution, er.R) {
-
 	// If the invoice is already canceled, there is no further
 	// checking to do.
 	if inv.State == channeldb.ContractCanceled {

@@ -320,7 +320,6 @@ type LightningWallet struct {
 // If the wallet has never been created (according to the passed dataDir), first-time
 // setup is executed.
 func NewLightningWallet(Cfg Config) (*LightningWallet, er.R) {
-
 	return &LightningWallet{
 		Cfg:              Cfg,
 		SecretKeyRing:    Cfg.SecretKeyRing,
@@ -467,7 +466,6 @@ out:
 // commitment transaction is valid.
 func (l *LightningWallet) InitChannelReservation(
 	req *InitFundingReserveMsg) (*ChannelReservation, er.R) {
-
 	req.resp = make(chan *ChannelReservation, 1)
 	req.err = make(chan er.R, 1)
 
@@ -487,7 +485,6 @@ func (l *LightningWallet) InitChannelReservation(
 // be negotiated outside the regular funding protocol.
 func (l *LightningWallet) RegisterFundingIntent(expectedID [32]byte,
 	shimIntent chanfunding.Intent) er.R {
-
 	l.intentMtx.Lock()
 	defer l.intentMtx.Unlock()
 
@@ -506,7 +503,6 @@ func (l *LightningWallet) RegisterFundingIntent(expectedID [32]byte,
 // passed PSBT.
 func (l *LightningWallet) PsbtFundingVerify(pid [32]byte,
 	packet *psbt.Packet) er.R {
-
 	l.intentMtx.Lock()
 	defer l.intentMtx.Unlock()
 
@@ -532,7 +528,6 @@ func (l *LightningWallet) PsbtFundingVerify(pid [32]byte,
 // passed PSBT.
 func (l *LightningWallet) PsbtFundingFinalize(pid [32]byte, packet *psbt.Packet,
 	rawTx *wire.MsgTx) er.R {
-
 	l.intentMtx.Lock()
 	defer l.intentMtx.Unlock()
 
@@ -757,7 +752,6 @@ func (l *LightningWallet) handleFundingReserveRequest(req *InitFundingReserveMsg
 func (l *LightningWallet) initOurContribution(reservation *ChannelReservation,
 	fundingIntent chanfunding.Intent, nodeAddr net.Addr,
 	nodeID *btcec.PublicKey, keyRing keychain.KeyRing) er.R {
-
 	// Grab the mutex on the ChannelReservation to ensure thread-safety
 	reservation.Lock()
 	defer reservation.Unlock()
@@ -906,7 +900,6 @@ func CreateCommitmentTxns(localBalance, remoteBalance btcutil.Amount,
 	localCommitPoint, remoteCommitPoint *btcec.PublicKey,
 	fundingTxIn wire.TxIn, chanType channeldb.ChannelType) (
 	*wire.MsgTx, *wire.MsgTx, er.R) {
-
 	localCommitmentKeys := DeriveCommitmentKeys(
 		localCommitPoint, true, chanType, ourChanCfg, theirChanCfg,
 	)
@@ -949,7 +942,6 @@ func CreateCommitmentTxns(localBalance, remoteBalance btcutil.Amount,
 // both versions of the commitment transaction, and our signature for their
 // version of the commitment transaction.
 func (l *LightningWallet) handleContributionMsg(req *addContributionMsg) {
-
 	l.limboMtx.Lock()
 	pendingReservation, ok := l.fundingLimbo[req.pendingFundingID]
 	l.limboMtx.Unlock()
@@ -1293,7 +1285,6 @@ func (l *LightningWallet) handleSingleContribution(req *addSingleContributionMsg
 // transaction.
 func (l *LightningWallet) verifyFundingInputs(fundingTx *wire.MsgTx,
 	remoteInputScripts []*input.Script) er.R {
-
 	sigIndex := 0
 	fundingHashCache := txscript.NewTxSigHashes(fundingTx)
 	inputScripts := remoteInputScripts
@@ -1689,7 +1680,6 @@ func DeriveStateHintObfuscator(key1, key2 *btcec.PublicKey) [StateHintSize]byte 
 // transactions using the passed obfuscator.
 func initStateHints(commit1, commit2 *wire.MsgTx,
 	obfuscator [StateHintSize]byte) er.R {
-
 	if err := SetStateNumHint(commit1, 0, obfuscator); err != nil {
 		return err
 	}
@@ -1705,7 +1695,6 @@ func initStateHints(commit1, commit2 *wire.MsgTx,
 // an error, then the mined channel is invalid, and shouldn't be used.
 func (l *LightningWallet) ValidateChannel(channelState *channeldb.OpenChannel,
 	fundingTx *wire.MsgTx) er.R {
-
 	// First, we'll obtain a fully signed commitment transaction so we can
 	// pass into it on the chanvalidate package for verification.
 	channel, err := NewLightningChannel(l.Cfg.Signer, channelState, nil)
@@ -1770,7 +1759,6 @@ func NewCoinSource(w *LightningWallet) *CoinSource {
 // minConfs and maxConfs number of confirmations.
 func (c *CoinSource) ListCoins(minConfs int32,
 	maxConfs int32) ([]chanfunding.Coin, er.R) {
-
 	utxos, err := c.wallet.ListUnspentWitness(minConfs, maxConfs)
 	if err != nil {
 		return nil, err

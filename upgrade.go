@@ -76,7 +76,7 @@ func upgradeDBPathNet(oldDbPath, netName string) er.R {
 		newDbPath := filepath.Join(newDbRoot, newDbName)
 
 		// Create the new path if needed.
-		errr := os.MkdirAll(newDbRoot, 0700)
+		errr := os.MkdirAll(newDbRoot, 0o700)
 		if errr != nil {
 			return er.E(errr)
 		}
@@ -122,7 +122,7 @@ func upgradeDataPaths() er.R {
 		// Create the new path.
 		log.Infof("Migrating application home path from '%s' to '%s'",
 			oldHomePath, newHomePath)
-		errr := os.MkdirAll(newHomePath, 0700)
+		errr := os.MkdirAll(newHomePath, 0o700)
 		if errr != nil {
 			return er.E(errr)
 		}

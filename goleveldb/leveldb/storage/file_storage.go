@@ -97,7 +97,7 @@ func OpenFile(path string, readOnly bool) (Storage, error) {
 			return nil, fmt.Errorf("leveldb/storage: open %s: not a directory", path)
 		}
 	} else if os.IsNotExist(err) && !readOnly {
-		if err := os.MkdirAll(path, 0755); err != nil {
+		if err := os.MkdirAll(path, 0o755); err != nil {
 			return nil, err
 		}
 	} else {
@@ -120,7 +120,7 @@ func OpenFile(path string, readOnly bool) (Storage, error) {
 		logSize int64
 	)
 	if !readOnly {
-		logw, err = os.OpenFile(filepath.Join(path, "LOG"), os.O_WRONLY|os.O_CREATE, 0644)
+		logw, err = os.OpenFile(filepath.Join(path, "LOG"), os.O_WRONLY|os.O_CREATE, 0o644)
 		if err != nil {
 			return nil, err
 		}
@@ -193,7 +193,7 @@ func (fs *fileStorage) doLog(t time.Time, str string) {
 	}
 	if fs.logw == nil {
 		var err error
-		fs.logw, err = os.OpenFile(filepath.Join(fs.path, "LOG"), os.O_WRONLY|os.O_CREATE, 0644)
+		fs.logw, err = os.OpenFile(filepath.Join(fs.path, "LOG"), os.O_WRONLY|os.O_CREATE, 0o644)
 		if err != nil {
 			return
 		}
@@ -251,7 +251,7 @@ func (fs *fileStorage) setMeta(fd FileDesc) error {
 			// Content not changed, do nothing.
 			return nil
 		}
-		if err := writeFileSynced(currentPath+".bak", b, 0644); err != nil {
+		if err := writeFileSynced(currentPath+".bak", b, 0o644); err != nil {
 			fs.log(fmt.Sprintf("backup CURRENT: %v", err))
 			return err
 		}
@@ -259,7 +259,7 @@ func (fs *fileStorage) setMeta(fd FileDesc) error {
 		return err
 	}
 	path := fmt.Sprintf("%s.%d", filepath.Join(fs.path, "CURRENT"), fd.Num)
-	if err := writeFileSynced(path, []byte(content), 0644); err != nil {
+	if err := writeFileSynced(path, []byte(content), 0o644); err != nil {
 		fs.log(fmt.Sprintf("create CURRENT.%d: %v", fd.Num, err))
 		return err
 	}
@@ -501,7 +501,7 @@ func (fs *fileStorage) Create(fd FileDesc) (Writer, error) {
 	if fs.open < 0 {
 		return nil, ErrClosed
 	}
-	of, err := os.OpenFile(filepath.Join(fs.path, fsGenName(fd)), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	of, err := os.OpenFile(filepath.Join(fs.path, fsGenName(fd)), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o644)
 	if err != nil {
 		return nil, err
 	}

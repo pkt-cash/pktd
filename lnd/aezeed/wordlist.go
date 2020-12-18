@@ -4,10 +4,8 @@ import (
 	"strings"
 )
 
-var (
-	// reverseWordMap maps a word to its position within the default word list.
-	reverseWordMap map[string]int
-)
+// reverseWordMap maps a word to its position within the default word list.
+var reverseWordMap map[string]int
 
 func init() {
 	reverseWordMap = make(map[string]int)

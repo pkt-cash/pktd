@@ -144,7 +144,6 @@ func (c *chanEventStoreTestCtx) stop() {
 // does not add it to the test event store, it just creates mocked values.
 func (c *chanEventStoreTestCtx) newChannel() (route.Vertex, *btcec.PublicKey,
 	wire.OutPoint) {
-
 	// Create a pubkey for our channel peer.
 	pubKey := &btcec.PublicKey{
 		X:     big.NewInt(int64(c.testVarIdx)),
@@ -173,7 +172,6 @@ func (c *chanEventStoreTestCtx) newChannel() (route.Vertex, *btcec.PublicKey,
 // been created and returns the peer vertex, pubkey and channel point.
 func (c *chanEventStoreTestCtx) createChannel() (route.Vertex, *btcec.PublicKey,
 	wire.OutPoint) {
-
 	vertex, pubKey, chanPoint := c.newChannel()
 	c.sendChannelOpenedUpdate(pubKey, chanPoint)
 
@@ -183,7 +181,6 @@ func (c *chanEventStoreTestCtx) createChannel() (route.Vertex, *btcec.PublicKey,
 // closeChannel sends a close channel event to our subscribe server.
 func (c *chanEventStoreTestCtx) closeChannel(channel wire.OutPoint,
 	peer *btcec.PublicKey) {
-
 	update := channelnotifier.ClosedChannelEvent{
 		CloseSummary: &channeldb.ChannelCloseSummary{
 			ChanPoint: channel,
@@ -223,7 +220,6 @@ func (c *chanEventStoreTestCtx) peerEvent(peer route.Vertex, online bool) {
 // been opened.
 func (c *chanEventStoreTestCtx) sendChannelOpenedUpdate(pubkey *btcec.PublicKey,
 	channel wire.OutPoint) {
-
 	update := channelnotifier.OpenChannelEvent{
 		Channel: &channeldb.OpenChannel{
 			FundingOutpoint: channel,

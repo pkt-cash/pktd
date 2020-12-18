@@ -86,8 +86,10 @@ func TestBtcAddressSerializer(t *testing.T) {
 
 func TestScriptAddressSerializer(t *testing.T) {
 	fakeWallet := &Store{net: (*netParams)(tstNetParams)}
-	script := []byte{opcode.OP_TRUE, opcode.OP_DUP,
-		opcode.OP_DROP}
+	script := []byte{
+		opcode.OP_TRUE, opcode.OP_DUP,
+		opcode.OP_DROP,
+	}
 	addr, err := newScriptAddress(fakeWallet, script, makeBS(0))
 	if err != nil {
 		t.Error(err)
@@ -841,7 +843,6 @@ func TestImportPrivateKey(t *testing.T) {
 		t.Error("original and deserialized private keys do not match.")
 		return
 	}
-
 }
 
 func TestImportScript(t *testing.T) {
@@ -866,8 +867,10 @@ func TestImportScript(t *testing.T) {
 		return
 	}
 
-	script := []byte{opcode.OP_TRUE, opcode.OP_DUP,
-		opcode.OP_DROP}
+	script := []byte{
+		opcode.OP_TRUE, opcode.OP_DUP,
+		opcode.OP_DROP,
+	}
 	importHeight := int32(50)
 	stamp := makeBS(importHeight)
 	address, err := w.ImportScript(script, stamp)

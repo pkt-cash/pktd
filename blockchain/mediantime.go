@@ -25,12 +25,10 @@ const (
 	similarTimeSecs = 5 * 60 // 5 minutes
 )
 
-var (
-	// maxMedianTimeEntries is the maximum number of entries allowed in the
-	// median time data.  This is a variable as opposed to a constant so the
-	// test code can modify it.
-	maxMedianTimeEntries = 200
-)
+// maxMedianTimeEntries is the maximum number of entries allowed in the
+// median time data.  This is a variable as opposed to a constant so the
+// test code can modify it.
+var maxMedianTimeEntries = 200
 
 // MedianTimeSource provides a mechanism to add several time samples which are
 // used to determine a median time which is then used as an offset to the local

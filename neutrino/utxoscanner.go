@@ -173,7 +173,6 @@ batchShutdown:
 // Enqueue takes a GetUtxoRequest and adds it to the next applicable batch.
 func (s *UtxoScanner) Enqueue(input *InputWithScript,
 	birthHeight uint32) (*GetUtxoRequest, er.R) {
-
 	log.Debugf("Enqueuing request for %s with birth height %d",
 		input.OutPoint.String(), birthHeight)
 

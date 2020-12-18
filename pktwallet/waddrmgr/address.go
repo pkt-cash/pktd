@@ -349,7 +349,6 @@ func (a *managedAddress) DerivationInfo() (KeyScope, DerivationPath, bool) {
 func newManagedAddressWithoutPrivKey(m *ScopedKeyManager,
 	derivationPath DerivationPath, pubKey *btcec.PublicKey, compressed bool,
 	addrType AddressType) (*managedAddress, er.R) {
-
 	// Create a pay-to-pubkey-hash address from the public key.
 	var pubKeyHash []byte
 	if compressed {
@@ -440,7 +439,6 @@ func newManagedAddressWithoutPrivKey(m *ScopedKeyManager,
 func newManagedAddress(s *ScopedKeyManager, derivationPath DerivationPath,
 	privKey *btcec.PrivateKey, compressed bool,
 	addrType AddressType) (*managedAddress, er.R) {
-
 	// Encrypt the private key.
 	//
 	// NOTE: The privKeyBytes here are set into the managed address which
@@ -473,7 +471,6 @@ func newManagedAddress(s *ScopedKeyManager, derivationPath DerivationPath,
 func newManagedAddressFromExtKey(s *ScopedKeyManager,
 	derivationPath DerivationPath, key *hdkeychain.ExtendedKey,
 	addrType AddressType) (*managedAddress, er.R) {
-
 	// Create a new managed address based on the public or private key
 	// depending on whether the generated key is private.
 	var managedAddr *managedAddress
@@ -651,7 +648,6 @@ func (a *scriptAddress) Script() ([]byte, er.R) {
 // newScriptAddress initializes and returns a new pay-to-script-hash address.
 func newScriptAddress(m *ScopedKeyManager, account uint32, scriptHash,
 	scriptEncrypted []byte) (*scriptAddress, er.R) {
-
 	address, err := btcutil.NewAddressScriptHashFromHash(
 		scriptHash, m.rootManager.chainParams,
 	)
@@ -670,7 +666,6 @@ func newScriptAddress(m *ScopedKeyManager, account uint32, scriptHash,
 
 func newWitnessScriptAddress(m *ScopedKeyManager, account uint32,
 	scriptHash256, scriptEncrypted []byte) (*scriptAddress, er.R) {
-
 	address, err := btcutil.NewAddressWitnessScriptHash(scriptHash256, m.rootManager.chainParams)
 	if err != nil {
 		return nil, err

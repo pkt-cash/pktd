@@ -31,12 +31,10 @@ const (
 	RegularFilter FilterType = iota
 )
 
-var (
-	// ErrFilterNotFound is returned when a filter for a target block hash is
-	// unable to be located.
-	ErrFilterNotFound = er.GenericErrorType.CodeWithDetail("filterdb.ErrFilterNotFound",
-		"unable to find filter")
-)
+// ErrFilterNotFound is returned when a filter for a target block hash is
+// unable to be located.
+var ErrFilterNotFound = er.GenericErrorType.CodeWithDetail("filterdb.ErrFilterNotFound",
+	"unable to find filter")
 
 // FilterDatabase is an interface which represents an object that is capable of
 // storing and retrieving filters according to their corresponding block hash and
@@ -112,7 +110,6 @@ func New(db walletdb.DB, params chaincfg.Params) (*FilterStore, er.R) {
 // passed filter type.
 func putFilter(bucket walletdb.ReadWriteBucket, hash *chainhash.Hash,
 	filter *gcs.Filter) er.R {
-
 	if filter == nil {
 		return bucket.Put(hash[:], nil)
 	}
@@ -131,7 +128,6 @@ func putFilter(bucket walletdb.ReadWriteBucket, hash *chainhash.Hash,
 // NOTE: This method is a part of the FilterDatabase interface.
 func (f *FilterStore) PutFilter(hash *chainhash.Hash,
 	filter *gcs.Filter, fType FilterType) er.R {
-
 	return walletdb.Update(f.db, func(tx walletdb.ReadWriteTx) er.R {
 		filters := tx.ReadWriteBucket(filterBucket)
 
@@ -162,7 +158,6 @@ func (f *FilterStore) PutFilter(hash *chainhash.Hash,
 // NOTE: This method is a part of the FilterDatabase interface.
 func (f *FilterStore) FetchFilter(blockHash *chainhash.Hash,
 	filterType FilterType) (*gcs.Filter, er.R) {
-
 	var filter *gcs.Filter
 
 	err := walletdb.View(f.db, func(tx walletdb.ReadTx) er.R {

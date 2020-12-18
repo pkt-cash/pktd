@@ -43,12 +43,10 @@ const (
 	hashUpdateSecs = 15
 )
 
-var (
-	// defaultNumWorkers is the default number of workers to use for mining
-	// and is based on the number of processor cores.  This helps ensure the
-	// system stays reasonably responsive under heavy load.
-	defaultNumWorkers = uint32(runtime.NumCPU())
-)
+// defaultNumWorkers is the default number of workers to use for mining
+// and is based on the number of processor cores.  This helps ensure the
+// system stays reasonably responsive under heavy load.
+var defaultNumWorkers = uint32(runtime.NumCPU())
 
 // Config is a descriptor containing the cpu miner configuration.
 type Config struct {
@@ -215,7 +213,6 @@ func (m *CPUMiner) submitBlock(block *btcutil.Block) bool {
 // new transactions and enough time has elapsed without finding a solution.
 func (m *CPUMiner) solveBlock(msgBlock *wire.MsgBlock, blockHeight int32,
 	ticker *time.Ticker, quit chan struct{}) bool {
-
 	// Choose a random extra nonce offset for this block template and
 	// worker.
 	enOffset, err := wire.RandomUint64()

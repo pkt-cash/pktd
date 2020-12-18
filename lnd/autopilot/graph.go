@@ -87,7 +87,6 @@ func (d dbNode) Addrs() []net.Addr {
 func (d dbNode) ForEachChannel(cb func(ChannelEdge) er.R) er.R {
 	return d.node.ForEachChannel(d.tx, func(tx kvdb.RTx,
 		ei *channeldb.ChannelEdgeInfo, ep, _ *channeldb.ChannelEdgePolicy) er.R {
-
 		// Skip channels for which no outgoing edge policy is available.
 		//
 		// TODO(joostjager): Ideally the case where channels have a nil
@@ -139,7 +138,6 @@ func (d *databaseChannelGraph) ForEachNode(cb func(Node) er.R) er.R {
 // the exercise the autopilot package.
 func (d *databaseChannelGraph) addRandChannel(node1, node2 *btcec.PublicKey,
 	capacity btcutil.Amount) (*ChannelEdge, *ChannelEdge, er.R) {
-
 	fetchNode := func(pub *btcec.PublicKey) (*channeldb.LightningNode, er.R) {
 		if pub != nil {
 			vertex, err := route.NewVertexFromBytes(
@@ -301,7 +299,6 @@ func (d *databaseChannelGraph) addRandNode() (*btcec.PublicKey, er.R) {
 	}
 
 	return nodeKey, nil
-
 }
 
 // memChannelGraph is an implementation of the autopilot.ChannelGraph backed by
@@ -358,7 +355,6 @@ func randKey() (*btcec.PublicKey, er.R) {
 // the exercise the autopilot package.
 func (m *memChannelGraph) addRandChannel(node1, node2 *btcec.PublicKey,
 	capacity btcutil.Amount) (*ChannelEdge, *ChannelEdge, er.R) {
-
 	var (
 		vertex1, vertex2 *memNode
 		ok               bool

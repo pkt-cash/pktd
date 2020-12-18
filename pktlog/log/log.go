@@ -167,8 +167,10 @@ func (l Level) String() string {
 	return levelStrs[l]
 }
 
-const defaultFlags = Lshortfile | Lcolor
-const defaultLevel = LevelDebug
+const (
+	defaultFlags = Lshortfile | Lcolor
+	defaultLevel = LevelDebug
+)
 
 // newBackend creates a logger backend from a Writer.
 func newBackend(w io.Writer) *backend {
@@ -326,7 +328,6 @@ func Int(num int) string {
 // If either of the Lshortfile or Llongfile flags are specified, the file named
 // and line number are included after the tag and before the final colon.
 func formatHeader(flags uint32, buf *[]byte, t time.Time, lvl Level, file string, line int) bool {
-
 	hasColor := false
 	if flags&Lcolor == Lcolor {
 		hasColor = true

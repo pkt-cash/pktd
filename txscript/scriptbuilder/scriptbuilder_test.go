@@ -15,7 +15,6 @@ import (
 // TestScriptBuilderAddOp tests that pushing opcodes to a script via the
 // ScriptBuilder API works as expected.
 func TestScriptBuilderAddOp(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		opcodes  []byte
@@ -77,13 +76,11 @@ func TestScriptBuilderAddOp(t *testing.T) {
 			continue
 		}
 	}
-
 }
 
 // TestScriptBuilderAddInt64 tests that pushing signed integers to a script via
 // the ScriptBuilder API works as expected.
 func TestScriptBuilderAddInt64(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		val      int64
@@ -151,7 +148,6 @@ func TestScriptBuilderAddInt64(t *testing.T) {
 // TestScriptBuilderAddData tests that pushing data to a script via the
 // ScriptBuilder API works as expected and conforms to BIP0062.
 func TestScriptBuilderAddData(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		data     []byte
@@ -287,7 +283,6 @@ func TestScriptBuilderAddData(t *testing.T) {
 // to add data to a script don't allow the script to exceed the max allowed
 // size.
 func TestExceedMaxScriptSize(t *testing.T) {
-
 	// Start off by constructing a max size script.
 	builder := NewScriptBuilder()
 	builder.Reset().AddFullData(make([]byte, params.MaxScriptSize-3))
@@ -338,7 +333,6 @@ func TestExceedMaxScriptSize(t *testing.T) {
 // TestErroredScript ensures that all of the functions that can be used to add
 // data to a script don't modify the script once an error has happened.
 func TestErroredScript(t *testing.T) {
-
 	// Start off by constructing a near max size script that has enough
 	// space left to add each data type without an error and force an
 	// initial error condition.

@@ -1,6 +1,9 @@
 package healthcheck
 
-import "golang.org/x/sys/unix"
+import (
+	"github.com/pkt-cash/pktd/btcutil/er"
+	"golang.org/x/sys/unix"
+)
 
 // AvailableDiskSpaceRatio returns ratio of available disk space to total
 // capacity for netbsd.

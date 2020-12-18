@@ -406,6 +406,6 @@ func openDB(dbPath string, create, noFreeListSync bool) (walletdb.DB, er.R) {
 		return nil, walletdb.ErrDbDoesNotExist.Default()
 	}
 
-	boltDB, err := bbolt.Open(dbPath, 0600, nil)
+	boltDB, err := bbolt.Open(dbPath, 0o600, nil)
 	return (*db)(boltDB), convertErr(err)
 }

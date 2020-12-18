@@ -27,7 +27,6 @@ func (w *Wallet) ComputeInputScript(tx *wire.MsgTx, output *wire.TxOut,
 	inputIndex int, sigHashes *txscript.TxSigHashes,
 	hashType params.SigHashType, tweaker PrivKeyTweaker) (wire.TxWitness,
 	[]byte, er.R) {
-
 	// First make sure we can sign for the input by making sure the script
 	// in the UTXO belongs to our wallet and we have the private key for it.
 	walletAddr, err := w.fetchOutputAddr(output.PkScript)

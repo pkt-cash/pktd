@@ -56,7 +56,6 @@ func TestHtlcOutgoingResolverRemoteClaim(t *testing.T) {
 	reportChan := make(chan *channeldb.ResolverReport)
 	ctx.resolver.Checkpoint = func(_ ContractResolver,
 		reports ...*channeldb.ResolverReport) er.R {
-
 		// Send all of our reports into the channel.
 		for _, report := range reports {
 			reportChan <- report
@@ -154,7 +153,6 @@ func newOutgoingResolverTestContext(t *testing.T) *outgoingResolverTestContext {
 		},
 		PutResolverReport: func(_ kvdb.RwTx,
 			_ *channeldb.ResolverReport) er.R {
-
 			return nil
 		},
 	}
@@ -170,7 +168,6 @@ func newOutgoingResolverTestContext(t *testing.T) *outgoingResolverTestContext {
 		ChannelArbitratorConfig: chainCfg,
 		Checkpoint: func(_ ContractResolver,
 			_ ...*channeldb.ResolverReport) er.R {
-
 			checkPointChan <- struct{}{}
 			return nil
 		},

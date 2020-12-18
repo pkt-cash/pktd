@@ -26,7 +26,6 @@ func (r *mockRegistry) NotifyExitHopHtlc(payHash lntypes.Hash,
 	paidAmount lnwire.MilliSatoshi, expiry uint32, currentHeight int32,
 	circuitKey channeldb.CircuitKey, hodlChan chan<- interface{},
 	payload invoices.Payload) (invoices.HtlcResolution, er.R) {
-
 	r.notifyChan <- notifyExitHopData{
 		hodlChan:      hodlChan,
 		payHash:       payHash,
@@ -47,6 +46,5 @@ func (r *mockRegistry) HodlUnsubscribeAll(subscriber chan<- interface{}) {}
 
 func (r *mockRegistry) LookupInvoice(lntypes.Hash) (channeldb.Invoice,
 	er.R) {
-
 	return channeldb.Invoice{}, channeldb.ErrInvoiceNotFound.Default()
 }

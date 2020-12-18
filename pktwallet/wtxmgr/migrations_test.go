@@ -13,7 +13,6 @@ import (
 func applyMigration(t *testing.T,
 	beforeMigration, afterMigration func(walletdb.ReadWriteBucket, *Store) er.R,
 	migration func(walletdb.ReadWriteBucket) er.R, shouldFail bool) {
-
 	t.Helper()
 
 	// We'll start by setting up our transaction store backed by a database.
@@ -70,13 +69,11 @@ func applyMigration(t *testing.T,
 // TestMigrationDropTransactionHistory ensures that a transaction store is reset
 // to a clean state after dropping its transaction history.
 func TestMigrationDropTransactionHistory(t *testing.T) {
-
 	// checkTransactions is a helper function that will assert the correct
 	// state of the transaction store based on whether the migration has
 	// completed or not.
 	checkTransactions := func(ns walletdb.ReadWriteBucket, s *Store,
 		afterMigration bool) er.R {
-
 		// We should see one confirmed unspent output before the
 		// migration, and none after.
 		utxos, err := s.GetUnspentOutputs(ns)

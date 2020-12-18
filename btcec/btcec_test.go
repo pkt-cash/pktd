@@ -352,7 +352,7 @@ func TestAddAffine(t *testing.T) {
 		rx, ry := S256().Add(x1, y1, x2, y2)
 
 		// Ensure result matches expected.
-		if rx.Cmp(x3) != 00 || ry.Cmp(y3) != 0 {
+		if rx.Cmp(x3) != 0o0 || ry.Cmp(y3) != 0 {
 			t.Errorf("#%d wrong result\ngot: (%x, %x)\n"+
 				"want: (%x, %x)", i, rx, ry, x3, y3)
 			continue
@@ -507,7 +507,7 @@ func TestDoubleAffine(t *testing.T) {
 		rx, ry := S256().Double(x1, y1)
 
 		// Ensure result matches expected.
-		if rx.Cmp(x3) != 00 || ry.Cmp(y3) != 0 {
+		if rx.Cmp(x3) != 0o0 || ry.Cmp(y3) != 0 {
 			t.Errorf("#%d wrong result\ngot: (%x, %x)\n"+
 				"want: (%x, %x)", i, rx, ry, x3, y3)
 			continue
@@ -527,7 +527,7 @@ type baseMultTest struct {
 	x, y string
 }
 
-//TODO: add more test vectors
+// TODO: add more test vectors
 var s256BaseMultTests = []baseMultTest{
 	{
 		"AA5E28D6A97A2479A65527F7290311A3624D4CC0FA1578598EE3C2613BF99522",
@@ -556,7 +556,7 @@ var s256BaseMultTests = []baseMultTest{
 	},
 }
 
-//TODO: test different curves as well?
+// TODO: test different curves as well?
 func TestBaseMult(t *testing.T) {
 	s256 := S256()
 	for i, e := range s256BaseMultTests {

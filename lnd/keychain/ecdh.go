@@ -79,5 +79,7 @@ func (p *PrivKeyECDH) ECDH(pub *btcec.PublicKey) ([32]byte, er.R) {
 	return sha256.Sum256(s.SerializeCompressed()), nil
 }
 
-var _ SingleKeyECDH = (*PubKeyECDH)(nil)
-var _ SingleKeyECDH = (*PrivKeyECDH)(nil)
+var (
+	_ SingleKeyECDH = (*PubKeyECDH)(nil)
+	_ SingleKeyECDH = (*PrivKeyECDH)(nil)
+)

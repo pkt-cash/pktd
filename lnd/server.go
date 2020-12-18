@@ -330,7 +330,6 @@ func parseAddr(address string, netCfg tor.Net) (net.Addr, er.R) {
 // function by returning a closure which includes the server's identity key.
 func noiseDial(idKey keychain.SingleKeyECDH,
 	netCfg tor.Net, timeout time.Duration) func(net.Addr) (net.Conn, er.R) {
-
 	return func(a net.Addr) (net.Conn, er.R) {
 		lnAddr := a.(*lnwire.NetAddress)
 		return brontide.Dial(idKey, lnAddr, timeout, netCfg.Dial)
@@ -346,7 +345,6 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 	chansToRestore walletunlocker.ChannelsToRecover,
 	chanPredicate chanacceptor.ChannelAcceptor,
 	torController *tor.Controller) (*server, er.R) {
-
 	var (
 		err           er.R
 		nodeKeyECDH   = keychain.NewPubKeyECDH(*nodeKeyDesc, cc.KeyRing)
@@ -482,7 +480,6 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 		DB: remoteChanDB,
 		LocalChannelClose: func(pubKey []byte,
 			request *htlcswitch.ChanClose) {
-
 			peer, err := s.FindPeerByPubStr(string(pubKey))
 			if err != nil {
 				log.Errorf("unable to close channel, peer"+
@@ -898,7 +895,6 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 			outHtlcRes *lnwallet.OutgoingHtlcResolution,
 			inHtlcRes *lnwallet.IncomingHtlcResolution,
 			broadcastHeight uint32) er.R {
-
 			var (
 				inRes  []lnwallet.IncomingHtlcResolution
 				outRes []lnwallet.OutgoingHtlcResolution
@@ -1000,7 +996,6 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 		FeeEstimator: cc.FeeEstimator,
 		SignMessage: func(pubKey *btcec.PublicKey,
 			msg []byte) (input.Signature, er.R) {
-
 			if pubKey.IsEqual(nodeKeyECDH.PubKey()) {
 				return s.nodeSigner.SignMessage(pubKey, msg)
 			}
@@ -1012,7 +1007,6 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 		},
 		SendAnnouncement: func(msg lnwire.Message,
 			optionalFields ...discovery.OptionalMsgField) chan er.R {
-
 			return s.authGossiper.ProcessLocalAnnouncement(
 				msg, nodeKeyECDH.PubKey(), optionalFields...,
 			)
@@ -1021,7 +1015,6 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 		TempChanIDSeed:   chanIDSeed,
 		FindChannel: func(chanID lnwire.ChannelID) (
 			*channeldb.OpenChannel, er.R) {
-
 			dbChannels, err := remoteChanDB.FetchAllChannels()
 			if err != nil {
 				return nil, err
@@ -1118,7 +1111,6 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 		},
 		WatchNewChannel: func(channel *channeldb.OpenChannel,
 			peerKey *btcec.PublicKey) er.R {
-
 			// First, we'll mark this new peer as a persistent peer
 			// for re-connection purposes. If the peer is not yet
 			// tracked or the user hasn't requested it to be perm,
@@ -1142,7 +1134,6 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 		},
 		RequiredRemoteChanReserve: func(chanAmt,
 			dustLimit btcutil.Amount) btcutil.Amount {
-
 			// By default, we'll require the remote peer to maintain
 			// at least 1% of the total channel capacity at all
 			// times. If this value ends up dipping below the dust
@@ -1246,7 +1237,6 @@ func newServer(cfg *Config, listenAddrs []net.Addr,
 		authDial := func(localKey keychain.SingleKeyECDH,
 			netAddr *lnwire.NetAddress,
 			dialer tor.DialFunc) (wtserver.Peer, er.R) {
-
 			return brontide.Dial(
 				localKey, netAddr, cfg.ConnectionTimeout, dialer,
 			)
@@ -1939,7 +1929,6 @@ func initNetworkBootstrappers(s *server) ([]discovery.NetworkPeerBootstrapper, e
 // as soon as possible.
 func (s *server) peerBootstrapper(numTargetPeers uint32,
 	bootstrappers []discovery.NetworkPeerBootstrapper) {
-
 	defer s.wg.Done()
 
 	// ignore is a set used to keep track of peers already retrieved from
@@ -2080,7 +2069,6 @@ const bootstrapBackOffCeiling = time.Minute * 5
 // receive an up to date network view as soon as possible.
 func (s *server) initialPeerBootstrap(ignore map[autopilot.NodeID]struct{},
 	numTargetPeers uint32, bootstrappers []discovery.NetworkPeerBootstrapper) {
-
 	// We'll start off by waiting 2 seconds between failed attempts, then
 	// double each time we fail until we hit the bootstrapBackOffCeiling.
 	var delaySignal <-chan time.Time
@@ -2200,7 +2188,7 @@ func (s *server) createNewHiddenService() er.R {
 	onionCfg := tor.AddOnionConfig{
 		VirtualPort: defaultPeerPort,
 		TargetPorts: listenPorts,
-		Store:       tor.NewOnionFile(s.cfg.Tor.PrivateKeyPath, 0600),
+		Store:       tor.NewOnionFile(s.cfg.Tor.PrivateKeyPath, 0o600),
 	}
 
 	switch {
@@ -2253,7 +2241,6 @@ func (s *server) createNewHiddenService() er.R {
 // will be updated in order to ensure it propagates through the network.
 func (s *server) genNodeAnnouncement(refresh bool,
 	modifiers ...netann.NodeAnnModifier) (lnwire.NodeAnnouncement, er.R) {
-
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -2327,7 +2314,6 @@ func (s *server) establishPersistentConnections() er.R {
 		tx kvdb.RTx,
 		chanInfo *channeldb.ChannelEdgeInfo,
 		policy, _ *channeldb.ChannelEdgePolicy) er.R {
-
 		// If the remote party has announced the channel to us, but we
 		// haven't yet, then we won't have a policy. However, we don't
 		// need this to connect to the peer, so we'll log it and move on.
@@ -2511,7 +2497,6 @@ func (s *server) prunePersistentPeerConnection(compressedPubKey [33]byte) {
 // NOTE: This function is safe for concurrent access.
 func (s *server) BroadcastMessage(skips map[route.Vertex]struct{},
 	msgs ...lnwire.Message) er.R {
-
 	log.Debugf("Broadcasting %v messages", len(msgs))
 
 	// Filter out peers found in the skips map. We synchronize access to
@@ -2560,7 +2545,6 @@ func (s *server) BroadcastMessage(skips map[route.Vertex]struct{},
 // NOTE: This function is safe for concurrent access.
 func (s *server) NotifyWhenOnline(peerKey [33]byte,
 	peerChan chan<- lnpeer.Peer) {
-
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -2658,7 +2642,6 @@ func (s *server) findPeerByPubStr(pubStr string) (*peer.Brontide, er.R) {
 // returned.
 func (s *server) nextPeerBackoff(pubStr string,
 	startTime time.Time) time.Duration {
-
 	// Now, determine the appropriate backoff to use for the retry.
 	backoff, ok := s.persistentPeersBackoff[pubStr]
 	if !ok {
@@ -2969,7 +2952,6 @@ func (s *server) cancelConnReqs(pubStr string, skip *uint64) {
 // boolean should be true if the peer initiated the connection to us.
 func (s *server) peerConnected(conn net.Conn, connReq *connmgr.ConnReq,
 	inbound bool) {
-
 	brontideConn := conn.(*brontide.Conn)
 	addr := conn.RemoteAddr()
 	pubKey := brontideConn.RemotePub()
@@ -3465,7 +3447,6 @@ type openChanReq struct {
 // NOTE: This function is safe for concurrent access.
 func (s *server) ConnectToPeer(addr *lnwire.NetAddress,
 	perm bool, timeout time.Duration) er.R {
-
 	targetPub := string(addr.IdentityKey.SerializeCompressed())
 
 	// Acquire mutex, but use explicit unlocking instead of defer for
@@ -3541,7 +3522,6 @@ func (s *server) ConnectToPeer(addr *lnwire.NetAddress,
 // closed.
 func (s *server) connectToPeer(addr *lnwire.NetAddress,
 	errChan chan<- er.R, timeout time.Duration) {
-
 	conn, err := brontide.Dial(
 		s.identityECDH, addr, timeout, s.cfg.net.Dial,
 	)
@@ -3603,7 +3583,6 @@ func (s *server) DisconnectPeer(pubKey *btcec.PublicKey) er.R {
 // NOTE: This function is safe for concurrent access.
 func (s *server) OpenChannel(
 	req *openChanReq) (chan *lnrpc.OpenStatusUpdate, chan er.R) {
-
 	// The updateChan will have a buffer of 2, since we expect a ChanPending
 	// + a ChanOpen update, and we want to make sure the funding process is
 	// not blocked if the caller is not reading the updates.
@@ -3747,7 +3726,6 @@ func (s *server) fetchNodeAdvertisedAddr(pub *btcec.PublicKey) (net.Addr, er.R) 
 // channel update for a target channel.
 func (s *server) fetchLastChanUpdate() func(lnwire.ShortChannelID) (
 	*lnwire.ChannelUpdate, er.R) {
-
 	ourPubKey := s.identityECDH.PubKey().SerializeCompressed()
 	return func(cid lnwire.ShortChannelID) (*lnwire.ChannelUpdate, er.R) {
 		info, edge1, edge2, err := s.chanRouter.GetChannelByID(cid)
@@ -3780,7 +3758,6 @@ func (s *server) applyChannelUpdate(update *lnwire.ChannelUpdate) er.R {
 // (p2wkh) output.
 func newSweepPkScriptGen(
 	wallet lnwallet.WalletController) func() ([]byte, er.R) {
-
 	return func() ([]byte, er.R) {
 		sweepAddr, err := wallet.NewAddress(lnwallet.WitnessPubKey, false)
 		if err != nil {

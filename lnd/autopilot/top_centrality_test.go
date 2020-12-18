@@ -14,7 +14,6 @@ import (
 // calculated score set matches it.
 func testTopCentrality(t *testing.T, graph testGraph,
 	graphNodes map[int]*btcec.PublicKey, channelsWith []int) {
-
 	topCentrality := NewTopCentrality()
 
 	var channels []LocalChannel

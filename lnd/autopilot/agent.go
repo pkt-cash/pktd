@@ -359,7 +359,6 @@ func (a *Agent) OnHeuristicUpdate(h AttachmentHeuristic) {
 // attempt to open any "duplicate" channels to the same node.
 func mergeNodeMaps(c map[NodeID]LocalChannel,
 	skips ...map[NodeID]struct{}) map[NodeID]struct{} {
-
 	numNodes := len(c)
 	for _, skip := range skips {
 		numNodes += len(skip)
@@ -383,7 +382,6 @@ func mergeNodeMaps(c map[NodeID]LocalChannel,
 // the prescribed channel limit or fund allocation limit.
 func mergeChanState(pendingChans map[NodeID]LocalChannel,
 	activeChans channelState) []LocalChannel {
-
 	numChans := len(pendingChans) + len(activeChans)
 	totalChans := make([]LocalChannel, 0, numChans)
 
@@ -551,7 +549,6 @@ func (a *Agent) controller() {
 // attempts to open channels to them.
 func (a *Agent) openChans(availableFunds btcutil.Amount, numChans uint32,
 	totalChans []LocalChannel) er.R {
-
 	// As channel size we'll use the maximum channel size available.
 	chanSize := a.cfg.Constraints.MaxChanSize()
 	if availableFunds < chanSize {

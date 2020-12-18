@@ -47,7 +47,6 @@ type Manager struct {
 // active links.
 func (r *Manager) UpdatePolicy(newSchema routing.ChannelPolicy,
 	chanPoints ...wire.OutPoint) er.R {
-
 	r.policyUpdateLock.Lock()
 	defer r.policyUpdateLock.Unlock()
 
@@ -69,7 +68,6 @@ func (r *Manager) UpdatePolicy(newSchema routing.ChannelPolicy,
 	err := r.ForAllOutgoingChannels(func(
 		info *channeldb.ChannelEdgeInfo,
 		edge *channeldb.ChannelEdgePolicy) er.R {
-
 		// If we have a channel filter, and this channel isn't a part
 		// of it, then we'll skip it.
 		_, ok := chansToUpdate[info.ChannelPoint]
@@ -127,7 +125,6 @@ func (r *Manager) UpdatePolicy(newSchema routing.ChannelPolicy,
 func (r *Manager) updateEdge(chanPoint wire.OutPoint,
 	edge *channeldb.ChannelEdgePolicy,
 	newSchema routing.ChannelPolicy) er.R {
-
 	// Update forwarding fee scheme and required time lock delta.
 	edge.FeeBaseMSat = newSchema.BaseFee
 	edge.FeeProportionalMillionths = lnwire.MilliSatoshi(
@@ -197,7 +194,6 @@ func (r *Manager) updateEdge(chanPoint wire.OutPoint,
 // constraints.
 func (r *Manager) getHtlcAmtLimits(chanPoint wire.OutPoint) (
 	lnwire.MilliSatoshi, lnwire.MilliSatoshi, er.R) {
-
 	ch, err := r.FetchChannel(chanPoint)
 	if err != nil {
 		return 0, 0, err

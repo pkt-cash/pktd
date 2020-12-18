@@ -484,7 +484,6 @@ func assertActiveGossipTimestampRange(t *testing.T, peer *mockPeer) {
 // assertSyncerExistence asserts that a GossipSyncer exists for the given peer.
 func assertSyncerExistence(t *testing.T, syncMgr *SyncManager,
 	peer *mockPeer) *GossipSyncer {
-
 	t.Helper()
 
 	s, ok := syncMgr.GossipSyncer(peer.PubKey())
@@ -499,7 +498,6 @@ func assertSyncerExistence(t *testing.T, syncMgr *SyncManager,
 // the expected sync state and type.
 func assertSyncerStatus(t *testing.T, s *GossipSyncer, syncState syncerState,
 	syncType SyncerType) {
-
 	t.Helper()
 
 	// We'll check the status of our syncer within a WaitPredicate as some
@@ -566,7 +564,6 @@ func assertTransitionToChansSynced(t *testing.T, s *GossipSyncer, peer *mockPeer
 // assertPassiveSyncerTransition asserts that a gossip syncer goes through all
 // of its expected steps when transitioning from passive to active.
 func assertPassiveSyncerTransition(t *testing.T, s *GossipSyncer, peer *mockPeer) {
-
 	t.Helper()
 
 	assertActiveGossipTimestampRange(t, peer)

@@ -45,7 +45,6 @@ type channelAcceptorCtx struct {
 
 func newChanAcceptorCtx(t *testing.T, acceptCallCount int,
 	responses map[[32]byte]*lnrpc.ChannelAcceptResponse) *channelAcceptorCtx {
-
 	testCtx := &channelAcceptorCtx{
 		t:           t,
 		extRequests: make(chan []byte, acceptCallCount),
@@ -77,7 +76,6 @@ func (c *channelAcceptorCtx) sendRequest(request *lnrpc.ChannelAcceptRequest) er
 // receiveResponse mocks sending of a response from the channel acceptor.
 func (c *channelAcceptorCtx) receiveResponse() (*lnrpc.ChannelAcceptResponse,
 	error) {
-
 	select {
 	case id := <-c.extRequests:
 		scratch := [32]byte{}

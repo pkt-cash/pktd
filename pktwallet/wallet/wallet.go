@@ -367,7 +367,6 @@ func (w *Wallet) activeData(dbtx walletdb.ReadWriteTx) ([]btcutil.Address, []wtx
 // finished. The birthday block can be passed in, if set, to ensure we can
 // properly detect if it gets rolled back.
 func (w *Wallet) syncWithChain(birthdayStamp *waddrmgr.BlockStamp) er.R {
-
 	if err := walletdb.Update(w.db, func(dbtx walletdb.ReadWriteTx) er.R {
 		b := dbtx.ReadWriteBucket(wtxmgrNamespaceKey)
 		if txns, err := w.TxStore.UnminedTxs(b); err != nil {
@@ -457,7 +456,7 @@ func (w *Wallet) syncWithChain(birthdayStamp *waddrmgr.BlockStamp) er.R {
 	// Finally, we'll trigger a wallet rescan and request notifications for
 	// transactions sending to all wallet addresses and spending all wallet
 	// UTXOs.
-	//func (w *Wallet) activeData(dbtx walletdb.ReadTx) ([]btcutil.Address, []wtxmgr.Credit, er.R) {
+	// func (w *Wallet) activeData(dbtx walletdb.ReadTx) ([]btcutil.Address, []wtxmgr.Credit, er.R) {
 	var addrs []btcutil.Address
 	var credits []wtxmgr.Credit
 	if err := walletdb.Update(w.db, func(dbtx walletdb.ReadWriteTx) er.R {
@@ -517,7 +516,6 @@ func (w *Wallet) waitUntilBackendSynced(chainClient chain.Interface) er.R {
 // days in the past of the actual timestamp.
 func locateBirthdayBlock(chainClient chainConn,
 	birthday time.Time) (*waddrmgr.BlockStamp, er.R) {
-
 	// Retrieve the lookup range for our block.
 	startHeight := int32(0)
 	_, bestHeight, err := chainClient.GetBestBlock()
@@ -876,7 +874,6 @@ func (w *Wallet) ChangePrivatePassphrase(oldPass, newPass []byte) er.R {
 // atomically.
 func (w *Wallet) ChangePassphrases(publicOld, publicNew, privateOld,
 	privateNew []byte) er.R {
-
 	err := make(chan er.R, 1)
 	w.changePassphrases <- changePassphrasesRequest{
 		publicOld:  publicOld,
@@ -1082,7 +1079,6 @@ func (w *Wallet) PubKeyForAddress(a btcutil.Address) (*btcec.PublicKey, er.R) {
 // a label and the overwrite boolean is not set.
 func (w *Wallet) LabelTransaction(hash chainhash.Hash, label string,
 	overwrite bool) er.R {
-
 	// Check that the transaction is known to the wallet, and fail if it is
 	// unknown. If the transaction is known, check whether it already has
 	// a label.
@@ -1259,7 +1255,6 @@ func RecvCategory(details *wtxmgr.TxDetails, syncHeight int32, net *chaincfg.Par
 // TODO: This should be moved to the legacyrpc package.
 func listTransactions(tx walletdb.ReadTx, details *wtxmgr.TxDetails, addrMgr *waddrmgr.Manager,
 	syncHeight int32, net *chaincfg.Params) []btcjson.ListTransactionsResult {
-
 	addrmgrNs := tx.ReadBucket(waddrmgrNamespaceKey)
 
 	var (
@@ -1684,7 +1679,6 @@ func (w *Wallet) GetTransactions(
 // transaction an empty array will be returned.
 func (w *Wallet) ListUnspent(minconf, maxconf int32,
 	addresses map[string]struct{}) ([]*btcjson.ListUnspentResult, er.R) {
-
 	var results []*btcjson.ListUnspentResult
 	err := walletdb.View(w.db, func(tx walletdb.ReadTx) er.R {
 		addrmgrNs := tx.ReadBucket(waddrmgrNamespaceKey)
@@ -1697,7 +1691,6 @@ func (w *Wallet) ListUnspent(minconf, maxconf int32,
 
 		results = make([]*btcjson.ListUnspentResult, 0)
 		w.TxStore.ForEachUnspentOutput(txmgrNs, nil, func(key []byte, output *wtxmgr.Credit) er.R {
-
 			// Only mature coinbase outputs are included.
 			immature := false
 			if output.FromCoinBase {
@@ -1853,7 +1846,6 @@ func (w *Wallet) DumpWIFPrivateKey(addr btcutil.Address) (string, er.R) {
 // set to the genesis block of the corresponding chain.
 func (w *Wallet) ImportPrivateKey(scope waddrmgr.KeyScope, wif *btcutil.WIF,
 	bs *waddrmgr.BlockStamp, rescan bool) (string, er.R) {
-
 	if rescan {
 		w.rescanJLock.Lock()
 		defer w.rescanJLock.Unlock()
@@ -2064,7 +2056,6 @@ func (w *Wallet) SortedActivePaymentAddresses() ([]string, er.R) {
 // NewAddress returns the next external chained address for a wallet.
 func (w *Wallet) NewAddress(account uint32,
 	scope waddrmgr.KeyScope) (btcutil.Address, er.R) {
-
 	var addr btcutil.Address
 	err := walletdb.Update(w.db, func(tx walletdb.ReadWriteTx) er.R {
 		addrmgrNs := tx.ReadWriteBucket(waddrmgrNamespaceKey)
@@ -2084,7 +2075,6 @@ func (w *Wallet) NewAddress(account uint32,
 
 func (w *Wallet) newAddress(addrmgrNs walletdb.ReadWriteBucket, account uint32,
 	scope waddrmgr.KeyScope) (btcutil.Address, *waddrmgr.AccountProperties, er.R) {
-
 	manager, err := w.Manager.FetchScopedKeyManager(scope)
 	if err != nil {
 		return nil, nil, err
@@ -2174,7 +2164,6 @@ func (w *Wallet) TotalReceivedForAddr(addr btcutil.Address, minConf int32) (btcu
 // SendOutputs creates and sends payment transactions. It returns the
 // transaction upon success.
 func (w *Wallet) SendOutputs(txr CreateTxReq) (*txauthor.AuthoredTx, er.R) {
-
 	// Ensure the outputs to be created adhere to the network's consensus
 	// rules.
 	hasSweep := false
@@ -2241,7 +2230,6 @@ func (w *Wallet) SignTransaction(tx *wire.MsgTx, hashType params.SigHashType,
 	additionalKeysByAddress map[string]*btcutil.WIF,
 	p2shRedeemScriptsByAddress map[string][]byte,
 ) ([]SignatureError, er.R) {
-
 	hashCache := txscript.NewTxSigHashes(tx)
 	if len(tx.Additional) == 0 {
 		tx.Additional = make([]wire.TxInAdditional, len(tx.TxIn))
@@ -2544,7 +2532,6 @@ func (w *Wallet) ChainParams() *chaincfg.Params {
 // recommended length is generated.
 func Create(db walletdb.DB, pubPass, privPass []byte, seedInput []byte, seedBirthday time.Time,
 	seedx *seedwords.Seed, params *chaincfg.Params) er.R {
-
 	// If a seed was provided, ensure that it is of valid length. Otherwise,
 	// we generate a random seed for the wallet with the recommended seed
 	// length.
@@ -2852,11 +2839,11 @@ func rescanStep(
 				}
 				return err
 			}
-			var knownTx = make(map[chainhash.Hash]struct{})
+			knownTx := make(map[chainhash.Hash]struct{})
 			for _, txd := range txDetails {
 				knownTx[txd.Hash] = struct{}{}
 			}
-			var newTransactions = make([]*wire.MsgTx, 0)
+			newTransactions := make([]*wire.MsgTx, 0)
 			for _, tx := range res.RelevantTxns {
 				detail, shouldReload := existsTxEntry(tx, header, txDetails)
 				if detail == nil {
@@ -3227,7 +3214,6 @@ func (w *Wallet) goMainLoop() {
 // Open loads an already-created wallet from the passed database and namespaces.
 func Open(db walletdb.DB, pubPass []byte, cbs *waddrmgr.OpenCallbacks,
 	params *chaincfg.Params, recoveryWindow uint32) (*Wallet, er.R) {
-
 	var (
 		addrMgr *waddrmgr.Manager
 		txMgr   *wtxmgr.Store

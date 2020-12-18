@@ -107,7 +107,7 @@ func main() {
 	conf.buildargs = append(conf.buildargs, "-trimpath")
 	conf.buildargs = append(conf.buildargs, "-ldflags="+ldflags())
 
-	assertNil(os.MkdirAll(conf.bindir, 0755), "mkdir bin")
+	assertNil(os.MkdirAll(conf.bindir, 0o755), "mkdir bin")
 	build("pktd", &conf)
 	build("pktwallet", &conf)
 	build("pktctl", &conf)

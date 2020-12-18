@@ -4,6 +4,7 @@
 package lntest
 
 import (
+	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/chaincfg"
 )
 
@@ -11,7 +12,6 @@ import (
 // BitoindBackendConfig for that node.
 func NewBackend(miner string, netParams *chaincfg.Params) (
 	*BitcoindBackendConfig, func() error, er.R) {
-
 	extraArgs := []string{
 		"-debug",
 		"-regtest",

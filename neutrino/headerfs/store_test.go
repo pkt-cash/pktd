@@ -456,7 +456,6 @@ func TestFilterHeaderStoreRecovery(t *testing.T) {
 // the ancestors of a particular block, going from a set distance back to the
 // target block.
 func TestBlockHeadersFetchHeaderAncestors(t *testing.T) {
-
 	cleanUp, _, _, bhs, err := createTestBlockHeaderStore()
 	if cleanUp != nil {
 		defer cleanUp()
@@ -518,7 +517,6 @@ func TestBlockHeadersFetchHeaderAncestors(t *testing.T) {
 // delete the current on disk filter header state if a headerStateAssertion is
 // passed in during initialization.
 func TestFilterHeaderStateAssertion(t *testing.T) {
-
 	const chainTip = 10
 	filterHeaderChain := createTestFilterHeaderChain(chainTip)
 

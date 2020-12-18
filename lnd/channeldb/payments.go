@@ -306,7 +306,6 @@ func fetchPayment(bucket kvdb.RBucket) (*MPPayment, er.R) {
 	creationInfo, err := fetchCreationInfo(bucket)
 	if err != nil {
 		return nil, err
-
 	}
 
 	var htlcs []HTLCAttempt
@@ -532,7 +531,6 @@ func (db *DB) QueryPayments(query PaymentsQuery) (PaymentsResponse, er.R) {
 		// they meet the criteria of our query. It returns the number
 		// of payments that were added.
 		accumulatePayments := func(sequenceKey, hash []byte) (bool, er.R) {
-
 			r := bytes.NewReader(hash)
 			paymentHash, err := deserializePaymentIndex(r)
 			if err != nil {
@@ -604,7 +602,6 @@ func (db *DB) QueryPayments(query PaymentsQuery) (PaymentsResponse, er.R) {
 // pointing to a single payment; we want to retrieve the correct one.
 func fetchPaymentWithSequenceNumber(tx kvdb.RTx, paymentHash lntypes.Hash,
 	sequenceNumber []byte) (*MPPayment, er.R) {
-
 	// We can now lookup the payment keyed by its hash in
 	// the payments root bucket.
 	bucket, err := fetchPaymentBucket(tx, paymentHash)

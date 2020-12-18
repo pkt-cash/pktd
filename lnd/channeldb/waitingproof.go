@@ -1,12 +1,10 @@
 package channeldb
 
 import (
-	"encoding/binary"
-	"sync"
-
-	"io"
-
 	"bytes"
+	"encoding/binary"
+	"io"
+	"sync"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/btcutil/util"
@@ -125,7 +123,6 @@ func (s *WaitingProofStore) Remove(key WaitingProofKey) er.R {
 // ForAll iterates thought all waiting proofs and passing the waiting proof
 // in the given callback.
 func (s *WaitingProofStore) ForAll(cb func(*WaitingProof) er.R, reset func()) er.R {
-
 	return kvdb.View(s.db, func(tx kvdb.RTx) er.R {
 		bucket := tx.ReadBucket(waitingProofsBucketKey)
 		if bucket == nil {

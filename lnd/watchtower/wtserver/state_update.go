@@ -13,11 +13,10 @@ import (
 // particular update.
 func (s *Server) handleStateUpdates(peer Peer, id *wtdb.SessionID,
 	update *wtwire.StateUpdate) er.R {
-
 	// Set the current update to the first update read off the wire.
 	// Additional updates will be read if this value is set to nil after
 	// processing the first.
-	var curUpdate = update
+	curUpdate := update
 	for {
 		// If this is not the first update, read the next state update
 		// from the peer.
@@ -66,7 +65,6 @@ func (s *Server) handleStateUpdates(peer Peer, id *wtdb.SessionID,
 // using a StateUpdateReply message.
 func (s *Server) handleStateUpdate(peer Peer, id *wtdb.SessionID,
 	update *wtwire.StateUpdate) er.R {
-
 	var (
 		lastApplied uint16
 		failCode    wtwire.ErrorCode
@@ -132,7 +130,6 @@ func (s *Server) handleStateUpdate(peer Peer, id *wtdb.SessionID,
 // communication with the client.
 func (s *Server) replyStateUpdate(peer Peer, id *wtdb.SessionID,
 	code wtwire.StateUpdateCode, lastApplied uint16) er.R {
-
 	msg := &wtwire.StateUpdateReply{
 		Code:        code,
 		LastApplied: lastApplied,

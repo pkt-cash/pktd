@@ -130,7 +130,6 @@ func (c *WatchtowerClient) RegisterWithRootServer(grpcServer *grpc.Server) er.R 
 // NOTE: This is part of the lnrpc.SubServer interface.
 func (c *WatchtowerClient) RegisterWithRestServer(ctx context.Context,
 	mux *runtime.ServeMux, dest string, opts []grpc.DialOption) er.R {
-
 	// We make sure that we register it with the main REST server to ensure
 	// all our methods are routed properly.
 	err := RegisterWatchtowerClientHandlerFromEndpoint(ctx, mux, dest, opts)
@@ -156,7 +155,6 @@ func (c *WatchtowerClient) isActive() er.R {
 // backups.
 func (c *WatchtowerClient) AddTower(ctx context.Context,
 	req *AddTowerRequest) (*AddTowerResponse, error) {
-
 	if err := c.isActive(); err != nil {
 		return nil, er.Native(err)
 	}
@@ -190,7 +188,6 @@ func (c *WatchtowerClient) AddTower(ctx context.Context,
 // removing the address from the watchtower instead.
 func (c *WatchtowerClient) RemoveTower(ctx context.Context,
 	req *RemoveTowerRequest) (*RemoveTowerResponse, error) {
-
 	if err := c.isActive(); err != nil {
 		return nil, er.Native(err)
 	}
@@ -222,7 +219,6 @@ func (c *WatchtowerClient) RemoveTower(ctx context.Context,
 // ListTowers returns the list of watchtowers registered with the client.
 func (c *WatchtowerClient) ListTowers(ctx context.Context,
 	req *ListTowersRequest) (*ListTowersResponse, error) {
-
 	if err := c.isActive(); err != nil {
 		return nil, er.Native(err)
 	}
@@ -244,7 +240,6 @@ func (c *WatchtowerClient) ListTowers(ctx context.Context,
 // GetTowerInfo retrieves information for a registered watchtower.
 func (c *WatchtowerClient) GetTowerInfo(ctx context.Context,
 	req *GetTowerInfoRequest) (*Tower, error) {
-
 	if err := c.isActive(); err != nil {
 		return nil, er.Native(err)
 	}
@@ -265,7 +260,6 @@ func (c *WatchtowerClient) GetTowerInfo(ctx context.Context,
 // Stats returns the in-memory statistics of the client since startup.
 func (c *WatchtowerClient) Stats(ctx context.Context,
 	req *StatsRequest) (*StatsResponse, error) {
-
 	if err := c.isActive(); err != nil {
 		return nil, er.Native(err)
 	}
@@ -283,7 +277,6 @@ func (c *WatchtowerClient) Stats(ctx context.Context,
 // Policy returns the active watchtower client policy configuration.
 func (c *WatchtowerClient) Policy(ctx context.Context,
 	req *PolicyRequest) (*PolicyResponse, error) {
-
 	if err := c.isActive(); err != nil {
 		return nil, er.Native(err)
 	}

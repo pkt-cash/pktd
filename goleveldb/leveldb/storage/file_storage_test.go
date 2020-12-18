@@ -239,7 +239,7 @@ func TestFileStorage_Meta(t *testing.T) {
 			if cur.corrupt {
 				content = content[:len(content)-1-rand.Intn(3)]
 			}
-			if err := ioutil.WriteFile(filepath.Join(temp, curName), []byte(content), 0644); err != nil {
+			if err := ioutil.WriteFile(filepath.Join(temp, curName), []byte(content), 0o644); err != nil {
 				t.Fatal(err)
 			}
 			if cur.manifest {

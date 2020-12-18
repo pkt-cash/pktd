@@ -284,7 +284,6 @@ func (b *JusticeKit) Encrypt(key BreachKey) ([]byte, er.R) {
 // then deserialized using the given encoding version.
 func Decrypt(key BreachKey, ciphertext []byte,
 	blobType Type) (*JusticeKit, er.R) {
-
 	// Fail if the blob's overall length is less than required for the nonce
 	// and expansion factor.
 	if len(ciphertext) < NonceSize+CiphertextExpansion {

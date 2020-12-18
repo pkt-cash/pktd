@@ -25,16 +25,16 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = descriptor.ForMessage
-
 var (
-	filter_WalletKit_ListUnspent_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = descriptor.ForMessage
 )
+
+var filter_WalletKit_ListUnspent_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_WalletKit_ListUnspent_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListUnspentRequest
@@ -49,7 +49,6 @@ func request_WalletKit_ListUnspent_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.ListUnspent(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_ListUnspent_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -62,7 +61,6 @@ func local_request_WalletKit_ListUnspent_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.ListUnspent(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_LeaseOutput_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -79,7 +77,6 @@ func request_WalletKit_LeaseOutput_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.LeaseOutput(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_LeaseOutput_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -96,7 +93,6 @@ func local_request_WalletKit_LeaseOutput_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.LeaseOutput(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_ReleaseOutput_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -113,7 +109,6 @@ func request_WalletKit_ReleaseOutput_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.ReleaseOutput(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_ReleaseOutput_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -130,7 +125,6 @@ func local_request_WalletKit_ReleaseOutput_0(ctx context.Context, marshaler runt
 
 	msg, err := server.ReleaseOutput(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_DeriveNextKey_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -147,7 +141,6 @@ func request_WalletKit_DeriveNextKey_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.DeriveNextKey(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_DeriveNextKey_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -164,7 +157,6 @@ func local_request_WalletKit_DeriveNextKey_0(ctx context.Context, marshaler runt
 
 	msg, err := server.DeriveNextKey(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_DeriveKey_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -181,7 +173,6 @@ func request_WalletKit_DeriveKey_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.DeriveKey(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_DeriveKey_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -198,7 +189,6 @@ func local_request_WalletKit_DeriveKey_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.DeriveKey(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_NextAddr_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -215,7 +205,6 @@ func request_WalletKit_NextAddr_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.NextAddr(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_NextAddr_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -232,7 +221,6 @@ func local_request_WalletKit_NextAddr_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.NextAddr(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_PublishTransaction_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -249,7 +237,6 @@ func request_WalletKit_PublishTransaction_0(ctx context.Context, marshaler runti
 
 	msg, err := client.PublishTransaction(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_PublishTransaction_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -266,7 +253,6 @@ func local_request_WalletKit_PublishTransaction_0(ctx context.Context, marshaler
 
 	msg, err := server.PublishTransaction(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_SendOutputs_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -283,7 +269,6 @@ func request_WalletKit_SendOutputs_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.SendOutputs(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_SendOutputs_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -300,7 +285,6 @@ func local_request_WalletKit_SendOutputs_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.SendOutputs(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_EstimateFee_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -327,7 +311,6 @@ func request_WalletKit_EstimateFee_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.EstimateFee(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_EstimateFee_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -354,7 +337,6 @@ func local_request_WalletKit_EstimateFee_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.EstimateFee(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_PendingSweeps_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -363,7 +345,6 @@ func request_WalletKit_PendingSweeps_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.PendingSweeps(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_PendingSweeps_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -372,7 +353,6 @@ func local_request_WalletKit_PendingSweeps_0(ctx context.Context, marshaler runt
 
 	msg, err := server.PendingSweeps(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_BumpFee_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -389,7 +369,6 @@ func request_WalletKit_BumpFee_0(ctx context.Context, marshaler runtime.Marshale
 
 	msg, err := client.BumpFee(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_BumpFee_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -406,12 +385,9 @@ func local_request_WalletKit_BumpFee_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := server.BumpFee(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_WalletKit_ListSweeps_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_WalletKit_ListSweeps_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_WalletKit_ListSweeps_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListSweepsRequest
@@ -426,7 +402,6 @@ func request_WalletKit_ListSweeps_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.ListSweeps(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_ListSweeps_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -439,7 +414,6 @@ func local_request_WalletKit_ListSweeps_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.ListSweeps(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_LabelTransaction_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -456,7 +430,6 @@ func request_WalletKit_LabelTransaction_0(ctx context.Context, marshaler runtime
 
 	msg, err := client.LabelTransaction(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_LabelTransaction_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -473,7 +446,6 @@ func local_request_WalletKit_LabelTransaction_0(ctx context.Context, marshaler r
 
 	msg, err := server.LabelTransaction(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_FundPsbt_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -490,7 +462,6 @@ func request_WalletKit_FundPsbt_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.FundPsbt(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_FundPsbt_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -507,7 +478,6 @@ func local_request_WalletKit_FundPsbt_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.FundPsbt(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_WalletKit_FinalizePsbt_0(ctx context.Context, marshaler runtime.Marshaler, client WalletKitClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -524,7 +494,6 @@ func request_WalletKit_FinalizePsbt_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.FinalizePsbt(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_WalletKit_FinalizePsbt_0(ctx context.Context, marshaler runtime.Marshaler, server WalletKitServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -541,14 +510,12 @@ func local_request_WalletKit_FinalizePsbt_0(ctx context.Context, marshaler runti
 
 	msg, err := server.FinalizePsbt(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 // RegisterWalletKitHandlerServer registers the http handlers for service WalletKit to "mux".
 // UnaryRPC     :call WalletKitServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, server WalletKitServer) error {
-
 	mux.Handle("POST", pattern_WalletKit_ListUnspent_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -566,7 +533,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_ListUnspent_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_LeaseOutput_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -586,7 +552,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_LeaseOutput_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_ReleaseOutput_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -606,7 +571,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_ReleaseOutput_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_DeriveNextKey_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -626,7 +590,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_DeriveNextKey_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_DeriveKey_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -646,7 +609,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_DeriveKey_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_NextAddr_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -666,7 +628,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_NextAddr_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_PublishTransaction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -686,7 +647,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_PublishTransaction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_SendOutputs_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -706,7 +666,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_SendOutputs_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_WalletKit_EstimateFee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -726,7 +685,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_EstimateFee_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_WalletKit_PendingSweeps_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -746,7 +704,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_PendingSweeps_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_BumpFee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -766,7 +723,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_BumpFee_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_WalletKit_ListSweeps_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -786,7 +742,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_ListSweeps_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_LabelTransaction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -806,7 +761,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_LabelTransaction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_FundPsbt_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -826,7 +780,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_FundPsbt_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_FinalizePsbt_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -846,7 +799,6 @@ func RegisterWalletKitHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_FinalizePsbt_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
@@ -889,7 +841,6 @@ func RegisterWalletKitHandler(ctx context.Context, mux *runtime.ServeMux, conn *
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "WalletKitClient" to call the correct interceptors.
 func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, client WalletKitClient) error {
-
 	mux.Handle("POST", pattern_WalletKit_ListUnspent_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -907,7 +858,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_ListUnspent_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_LeaseOutput_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -927,7 +877,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_LeaseOutput_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_ReleaseOutput_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -947,7 +896,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_ReleaseOutput_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_DeriveNextKey_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -967,7 +915,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_DeriveNextKey_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_DeriveKey_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -987,7 +934,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_DeriveKey_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_NextAddr_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1007,7 +953,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_NextAddr_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_PublishTransaction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1027,7 +972,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_PublishTransaction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_SendOutputs_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1047,7 +991,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_SendOutputs_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_WalletKit_EstimateFee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1067,7 +1010,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_EstimateFee_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_WalletKit_PendingSweeps_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1087,7 +1029,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_PendingSweeps_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_BumpFee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1107,7 +1048,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_BumpFee_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_WalletKit_ListSweeps_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1127,7 +1067,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_ListSweeps_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_LabelTransaction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1147,7 +1086,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_LabelTransaction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_FundPsbt_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1167,7 +1105,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_FundPsbt_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_WalletKit_FinalizePsbt_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1187,7 +1124,6 @@ func RegisterWalletKitHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		}
 
 		forward_WalletKit_FinalizePsbt_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil

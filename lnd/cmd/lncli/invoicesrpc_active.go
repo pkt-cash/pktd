@@ -4,11 +4,10 @@ package main
 
 import (
 	"context"
-	"encoding/hex"
-	"fmt"
-
 	"strconv"
 
+	"github.com/pkt-cash/pktd/btcutil/er"
+	"github.com/pkt-cash/pktd/btcutil/util"
 	"github.com/pkt-cash/pktd/lnd/lnrpc/invoicesrpc"
 	"github.com/urfave/cli"
 )

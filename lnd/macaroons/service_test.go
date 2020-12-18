@@ -98,7 +98,7 @@ func TestNewService(t *testing.T) {
 
 	// Finally, check if the service has been initialized correctly and
 	// the checker has been added.
-	var checkerFound = false
+	checkerFound := false
 	checker := service.Checker.FirstPartyCaveatChecker.(*checkers.Checker)
 	for _, info := range checker.Info() {
 		if info.Name == "ipaddr" &&

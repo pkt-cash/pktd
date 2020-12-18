@@ -33,7 +33,7 @@ func testChannelBackupRestore(net *lntest.NetworkHarness, t *harnessTest) {
 
 	ctxb := context.Background()
 
-	var testCases = []chanRestoreTestCase{
+	testCases := []chanRestoreTestCase{
 		// Restore from backups obtained via the RPC interface. Dave
 		// was the initiator, of the non-advertised channel.
 		{
@@ -44,7 +44,6 @@ func testChannelBackupRestore(net *lntest.NetworkHarness, t *harnessTest) {
 			restoreMethod: func(oldNode *lntest.HarnessNode,
 				backupFilePath string,
 				mnemonic []string) (nodeRestorer, er.R) {
-
 				// For this restoration method, we'll grab the
 				// current multi-channel backup from the old
 				// node, and use it to restore a new node
@@ -78,7 +77,6 @@ func testChannelBackupRestore(net *lntest.NetworkHarness, t *harnessTest) {
 			restoreMethod: func(oldNode *lntest.HarnessNode,
 				backupFilePath string,
 				mnemonic []string) (nodeRestorer, er.R) {
-
 				// Read the entire Multi backup stored within
 				// this node's channels.backup file.
 				multi, errr := ioutil.ReadFile(backupFilePath)
@@ -104,7 +102,6 @@ func testChannelBackupRestore(net *lntest.NetworkHarness, t *harnessTest) {
 			restoreMethod: func(oldNode *lntest.HarnessNode,
 				backupFilePath string,
 				mnemonic []string) (nodeRestorer, er.R) {
-
 				// First, fetch the current backup state as is,
 				// to obtain our latest Multi.
 				chanBackup, err := oldNode.ExportAllChannelBackups(
@@ -139,7 +136,6 @@ func testChannelBackupRestore(net *lntest.NetworkHarness, t *harnessTest) {
 			restoreMethod: func(oldNode *lntest.HarnessNode,
 				backupFilePath string,
 				mnemonic []string) (nodeRestorer, er.R) {
-
 				// First, fetch the current backup state as is,
 				// to obtain our latest Multi.
 				chanBackup, err := oldNode.ExportAllChannelBackups(
@@ -187,7 +183,6 @@ func testChannelBackupRestore(net *lntest.NetworkHarness, t *harnessTest) {
 			restoreMethod: func(oldNode *lntest.HarnessNode,
 				backupFilePath string,
 				mnemonic []string) (nodeRestorer, er.R) {
-
 				// Read the entire Multi backup stored within
 				// this node's channels.backup file.
 				multi, errr := ioutil.ReadFile(backupFilePath)
@@ -255,7 +250,6 @@ func testChannelBackupRestore(net *lntest.NetworkHarness, t *harnessTest) {
 			restoreMethod: func(oldNode *lntest.HarnessNode,
 				backupFilePath string,
 				mnemonic []string) (nodeRestorer, er.R) {
-
 				// Read the entire Multi backup stored within
 				// this node's channels.backup file.
 				multi, errr := ioutil.ReadFile(backupFilePath)
@@ -293,7 +287,6 @@ func testChannelBackupRestore(net *lntest.NetworkHarness, t *harnessTest) {
 			restoreMethod: func(oldNode *lntest.HarnessNode,
 				backupFilePath string,
 				mnemonic []string) (nodeRestorer, er.R) {
-
 				// For this restoration method, we'll grab the
 				// current multi-channel backup from the old
 				// node. The channel should be included, even if
@@ -342,7 +335,6 @@ func testChannelBackupRestore(net *lntest.NetworkHarness, t *harnessTest) {
 			restoreMethod: func(oldNode *lntest.HarnessNode,
 				backupFilePath string,
 				mnemonic []string) (nodeRestorer, er.R) {
-
 				// Read the entire Multi backup stored within
 				// this node's channels.backup file.
 				multi, errr := ioutil.ReadFile(backupFilePath)
@@ -783,7 +775,6 @@ type chanRestoreTestCase struct {
 // whole.
 func testChanRestoreScenario(t *harnessTest, net *lntest.NetworkHarness,
 	testCase *chanRestoreTestCase, password []byte) {
-
 	const (
 		chanAmt = btcutil.Amount(10000000)
 		pushAmt = btcutil.Amount(5000000)
@@ -1049,7 +1040,6 @@ func testChanRestoreScenario(t *harnessTest, net *lntest.NetworkHarness,
 func chanRestoreViaRPC(net *lntest.NetworkHarness,
 	password []byte, mnemonic []string,
 	multi []byte) (nodeRestorer, er.R) {
-
 	backup := &lnrpc.RestoreChanBackupRequest_MultiChanBackup{
 		MultiChanBackup: multi,
 	}

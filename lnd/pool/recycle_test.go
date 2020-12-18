@@ -177,7 +177,6 @@ func dirtyGeneric(t *testing.T, i interface{}) {
 	default:
 		t.Fatalf("unknown item type: %T", i)
 	}
-
 }
 
 func dirtySlice(slice []byte) {

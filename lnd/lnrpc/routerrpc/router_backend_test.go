@@ -123,7 +123,6 @@ func testQueryRoutes(t *testing.T, useMissionControl bool, useMsat bool) {
 		_ record.CustomSet,
 		routeHints map[route.Vertex][]*channeldb.ChannelEdgePolicy,
 		finalExpiry uint16) (*route.Route, er.R) {
-
 		if int64(amt) != amtSat*1000 {
 			t.Fatal("unexpected amount")
 		}
@@ -191,13 +190,11 @@ func testQueryRoutes(t *testing.T, useMissionControl bool, useMsat bool) {
 		SelfNode:  route.Vertex{1, 2, 3},
 		FetchChannelCapacity: func(chanID uint64) (
 			btcutil.Amount, er.R) {
-
 			return 1, nil
 		},
 		MissionControl: &mockMissionControl{},
 		FetchChannelEndpoints: func(chanID uint64) (route.Vertex,
 			route.Vertex, er.R) {
-
 			if chanID != 555 {
 				t.Fatal("expected endpoints to be fetched for "+
 					"channel 555, but got %v instead",
@@ -221,7 +218,6 @@ type mockMissionControl struct {
 
 func (m *mockMissionControl) GetProbability(fromNode, toNode route.Vertex,
 	amt lnwire.MilliSatoshi) float64 {
-
 	return testMissionControlProb
 }
 
@@ -235,7 +231,6 @@ func (m *mockMissionControl) GetHistorySnapshot() *routing.MissionControlSnapsho
 
 func (m *mockMissionControl) GetPairHistorySnapshot(fromNode,
 	toNode route.Vertex) routing.TimedPairResult {
-
 	return routing.TimedPairResult{}
 }
 

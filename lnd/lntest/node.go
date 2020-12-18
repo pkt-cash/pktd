@@ -340,9 +340,11 @@ type HarnessNode struct {
 }
 
 // Assert *HarnessNode implements the lnrpc.LightningClient interface.
-var _ lnrpc.LightningClient = (*HarnessNode)(nil)
-var _ lnrpc.WalletUnlockerClient = (*HarnessNode)(nil)
-var _ invoicesrpc.InvoicesClient = (*HarnessNode)(nil)
+var (
+	_ lnrpc.LightningClient      = (*HarnessNode)(nil)
+	_ lnrpc.WalletUnlockerClient = (*HarnessNode)(nil)
+	_ invoicesrpc.InvoicesClient = (*HarnessNode)(nil)
+)
 
 // newNode creates a new test lightning node instance from the passed config.
 func newNode(cfg NodeConfig) (*HarnessNode, er.R) {
@@ -395,7 +397,6 @@ func newNode(cfg NodeConfig) (*HarnessNode, er.R) {
 func NewMiner(logDir, logFilename string, netParams *chaincfg.Params,
 	handler *rpcclient.NotificationHandlers) (*rpctest.Harness,
 	func() er.R, er.R) {
-
 	args := []string{
 		"--rejectnonstd",
 		"--txindex",
@@ -505,7 +506,7 @@ func (hn *HarnessNode) start(lndBinary string, lndError chan<- er.R) er.R {
 
 	// Make sure the log file cleanup function is initialized, even
 	// if no log file is created.
-	var finalizeLogfile = func() {
+	finalizeLogfile := func() {
 		if hn.logFile != nil {
 			hn.logFile.Close()
 		}
@@ -555,7 +556,7 @@ func (hn *HarnessNode) start(lndBinary string, lndError chan<- er.R) er.R {
 
 		// Create file if not exists, otherwise append.
 		file, errr := os.OpenFile(fileName,
-			os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+			os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0o666)
 		if errr != nil {
 			return er.E(errr)
 		}
@@ -647,7 +648,6 @@ func (hn *HarnessNode) initClientWhenReady() er.R {
 // LightningClient and subscribes the HarnessNode to topology changes.
 func (hn *HarnessNode) Init(ctx context.Context,
 	initReq *lnrpc.InitWalletRequest) (*lnrpc.InitWalletResponse, er.R) {
-
 	ctxt, cancel := context.WithTimeout(ctx, DefaultTimeout)
 	defer cancel()
 	response, errr := hn.InitWallet(ctxt, initReq)
@@ -691,7 +691,6 @@ func (hn *HarnessNode) Init(ctx context.Context,
 func (hn *HarnessNode) InitChangePassword(ctx context.Context,
 	chngPwReq *lnrpc.ChangePasswordRequest) (*lnrpc.ChangePasswordResponse,
 	er.R) {
-
 	ctxt, cancel := context.WithTimeout(ctx, DefaultTimeout)
 	defer cancel()
 	response, errr := hn.ChangePassword(ctxt, chngPwReq)
@@ -733,7 +732,6 @@ func (hn *HarnessNode) InitChangePassword(ctx context.Context,
 // accept normal gRPC requests and harness command.
 func (hn *HarnessNode) Unlock(ctx context.Context,
 	unlockReq *lnrpc.UnlockWalletRequest) er.R {
-
 	ctxt, _ := context.WithTimeout(ctx, DefaultTimeout)
 
 	// Otherwise, we'll need to unlock the node before it's able to start
@@ -872,7 +870,6 @@ func (hn *HarnessNode) writePidFile() er.R {
 // macaroon and returned.
 func (hn *HarnessNode) ReadMacaroon(macPath string, timeout time.Duration) (
 	*macaroon.Macaroon, er.R) {
-
 	// Wait until macaroon file is created and has valid content before
 	// using it.
 	var mac *macaroon.Macaroon
@@ -899,7 +896,6 @@ func (hn *HarnessNode) ReadMacaroon(macPath string, timeout time.Duration) (
 // create a gRPC client connection.
 func (hn *HarnessNode) ConnectRPCWithMacaroon(mac *macaroon.Macaroon) (
 	*grpc.ClientConn, er.R) {
-
 	// Wait until TLS certificate is created and has valid content before
 	// using it, up to 30 sec.
 	var tlsCreds credentials.TransportCredentials
@@ -1201,7 +1197,6 @@ func (hn *HarnessNode) lightningNetworkWatcher(subscribed chan er.R) {
 // advertised within the test Lightning Network.
 func (hn *HarnessNode) WaitForNetworkChannelOpen(ctx context.Context,
 	op *lnrpc.ChannelPoint) er.R {
-
 	eventChan := make(chan struct{})
 
 	txidHash, err := getChanPointFundingTxid(op)
@@ -1236,7 +1231,6 @@ func (hn *HarnessNode) WaitForNetworkChannelOpen(ctx context.Context,
 // confirmed block.
 func (hn *HarnessNode) WaitForNetworkChannelClose(ctx context.Context,
 	op *lnrpc.ChannelPoint) er.R {
-
 	eventChan := make(chan struct{})
 
 	txidHash, err := getChanPointFundingTxid(op)

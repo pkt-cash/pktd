@@ -30,7 +30,7 @@ var (
 		},
 	}
 
-	mcTestTime  = time.Date(2018, time.January, 9, 14, 00, 00, 0, time.UTC)
+	mcTestTime  = time.Date(2018, time.January, 9, 14, 0o0, 0o0, 0, time.UTC)
 	mcTestSelf  = route.Vertex{10}
 	mcTestNode1 = mcTestRoute.Hops[0].PubKeyBytes
 	mcTestNode2 = mcTestRoute.Hops[1].PubKeyBytes
@@ -113,7 +113,6 @@ func (ctx *mcTestContext) expectP(amt lnwire.MilliSatoshi, expected float64) {
 // reportFailure reports a failure by using a test route.
 func (ctx *mcTestContext) reportFailure(amt lnwire.MilliSatoshi,
 	failure lnwire.FailureMessage) {
-
 	mcTestRoute.Hops[0].AmtToForward = amt
 
 	errorSourceIdx := 1
@@ -139,7 +138,7 @@ func TestMissionControl(t *testing.T) {
 
 	ctx.now = testTime
 
-	testTime := time.Date(2018, time.January, 9, 14, 00, 00, 0, time.UTC)
+	testTime := time.Date(2018, time.January, 9, 14, 0o0, 0o0, 0, time.UTC)
 
 	// For local channels, we expect a higher probability than our a prior
 	// test probability.

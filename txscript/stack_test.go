@@ -18,7 +18,6 @@ import (
 // same type (either both nil or both of type Error) and their error codes
 // match when not nil.
 func tstCheckScriptError(gotErr, wantErr er.R) er.R {
-
 	// Ensure the want error type is a script error.
 	if wantErr != nil && !txscripterr.Err.Is(wantErr) {
 		return er.Errorf("unexpected test error type %T", wantErr)
@@ -35,7 +34,6 @@ func tstCheckScriptError(gotErr, wantErr er.R) er.R {
 
 // TestStack tests that all of the stack operations work as expected.
 func TestStack(t *testing.T) {
-
 	tests := []struct {
 		name      string
 		before    [][]byte

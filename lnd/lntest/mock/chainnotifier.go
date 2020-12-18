@@ -20,7 +20,6 @@ type ChainNotifier struct {
 func (c *ChainNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	pkScript []byte, numConfs, heightHint uint32) (*chainntnfs.ConfirmationEvent,
 	er.R) {
-
 	return &chainntnfs.ConfirmationEvent{
 		Confirmed: c.ConfChan,
 		Cancel:    func() {},
@@ -31,7 +30,6 @@ func (c *ChainNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 // details will go over.
 func (c *ChainNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 	pkScript []byte, heightHint uint32) (*chainntnfs.SpendEvent, er.R) {
-
 	return &chainntnfs.SpendEvent{
 		Spend:  c.SpendChan,
 		Cancel: func() {},
@@ -42,7 +40,6 @@ func (c *ChainNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 // block epochs will go over.
 func (c *ChainNotifier) RegisterBlockEpochNtfn(blockEpoch *chainntnfs.BlockEpoch) (
 	*chainntnfs.BlockEpochEvent, er.R) {
-
 	return &chainntnfs.BlockEpochEvent{
 		Epochs: c.EpochChan,
 		Cancel: func() {},

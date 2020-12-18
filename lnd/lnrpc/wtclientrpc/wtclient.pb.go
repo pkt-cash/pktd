@@ -6,17 +6,20 @@ package wtclientrpc
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+var (
+	_ = proto.Marshal
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -44,15 +47,19 @@ func (*AddTowerRequest) Descriptor() ([]byte, []int) {
 func (m *AddTowerRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AddTowerRequest.Unmarshal(m, b)
 }
+
 func (m *AddTowerRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AddTowerRequest.Marshal(b, m, deterministic)
 }
+
 func (m *AddTowerRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_AddTowerRequest.Merge(m, src)
 }
+
 func (m *AddTowerRequest) XXX_Size() int {
 	return xxx_messageInfo_AddTowerRequest.Size(m)
 }
+
 func (m *AddTowerRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_AddTowerRequest.DiscardUnknown(m)
 }
@@ -89,15 +96,19 @@ func (*AddTowerResponse) Descriptor() ([]byte, []int) {
 func (m *AddTowerResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AddTowerResponse.Unmarshal(m, b)
 }
+
 func (m *AddTowerResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AddTowerResponse.Marshal(b, m, deterministic)
 }
+
 func (m *AddTowerResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_AddTowerResponse.Merge(m, src)
 }
+
 func (m *AddTowerResponse) XXX_Size() int {
 	return xxx_messageInfo_AddTowerResponse.Size(m)
 }
+
 func (m *AddTowerResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_AddTowerResponse.DiscardUnknown(m)
 }
@@ -127,15 +138,19 @@ func (*RemoveTowerRequest) Descriptor() ([]byte, []int) {
 func (m *RemoveTowerRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RemoveTowerRequest.Unmarshal(m, b)
 }
+
 func (m *RemoveTowerRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_RemoveTowerRequest.Marshal(b, m, deterministic)
 }
+
 func (m *RemoveTowerRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_RemoveTowerRequest.Merge(m, src)
 }
+
 func (m *RemoveTowerRequest) XXX_Size() int {
 	return xxx_messageInfo_RemoveTowerRequest.Size(m)
 }
+
 func (m *RemoveTowerRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_RemoveTowerRequest.DiscardUnknown(m)
 }
@@ -172,15 +187,19 @@ func (*RemoveTowerResponse) Descriptor() ([]byte, []int) {
 func (m *RemoveTowerResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RemoveTowerResponse.Unmarshal(m, b)
 }
+
 func (m *RemoveTowerResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_RemoveTowerResponse.Marshal(b, m, deterministic)
 }
+
 func (m *RemoveTowerResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_RemoveTowerResponse.Merge(m, src)
 }
+
 func (m *RemoveTowerResponse) XXX_Size() int {
 	return xxx_messageInfo_RemoveTowerResponse.Size(m)
 }
+
 func (m *RemoveTowerResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_RemoveTowerResponse.DiscardUnknown(m)
 }
@@ -207,15 +226,19 @@ func (*GetTowerInfoRequest) Descriptor() ([]byte, []int) {
 func (m *GetTowerInfoRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_GetTowerInfoRequest.Unmarshal(m, b)
 }
+
 func (m *GetTowerInfoRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_GetTowerInfoRequest.Marshal(b, m, deterministic)
 }
+
 func (m *GetTowerInfoRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_GetTowerInfoRequest.Merge(m, src)
 }
+
 func (m *GetTowerInfoRequest) XXX_Size() int {
 	return xxx_messageInfo_GetTowerInfoRequest.Size(m)
 }
+
 func (m *GetTowerInfoRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_GetTowerInfoRequest.DiscardUnknown(m)
 }
@@ -266,15 +289,19 @@ func (*TowerSession) Descriptor() ([]byte, []int) {
 func (m *TowerSession) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TowerSession.Unmarshal(m, b)
 }
+
 func (m *TowerSession) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_TowerSession.Marshal(b, m, deterministic)
 }
+
 func (m *TowerSession) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_TowerSession.Merge(m, src)
 }
+
 func (m *TowerSession) XXX_Size() int {
 	return xxx_messageInfo_TowerSession.Size(m)
 }
+
 func (m *TowerSession) XXX_DiscardUnknown() {
 	xxx_messageInfo_TowerSession.DiscardUnknown(m)
 }
@@ -335,15 +362,19 @@ func (*Tower) Descriptor() ([]byte, []int) {
 func (m *Tower) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Tower.Unmarshal(m, b)
 }
+
 func (m *Tower) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Tower.Marshal(b, m, deterministic)
 }
+
 func (m *Tower) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_Tower.Merge(m, src)
 }
+
 func (m *Tower) XXX_Size() int {
 	return xxx_messageInfo_Tower.Size(m)
 }
+
 func (m *Tower) XXX_DiscardUnknown() {
 	xxx_messageInfo_Tower.DiscardUnknown(m)
 }
@@ -403,15 +434,19 @@ func (*ListTowersRequest) Descriptor() ([]byte, []int) {
 func (m *ListTowersRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ListTowersRequest.Unmarshal(m, b)
 }
+
 func (m *ListTowersRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ListTowersRequest.Marshal(b, m, deterministic)
 }
+
 func (m *ListTowersRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ListTowersRequest.Merge(m, src)
 }
+
 func (m *ListTowersRequest) XXX_Size() int {
 	return xxx_messageInfo_ListTowersRequest.Size(m)
 }
+
 func (m *ListTowersRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_ListTowersRequest.DiscardUnknown(m)
 }
@@ -443,15 +478,19 @@ func (*ListTowersResponse) Descriptor() ([]byte, []int) {
 func (m *ListTowersResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ListTowersResponse.Unmarshal(m, b)
 }
+
 func (m *ListTowersResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ListTowersResponse.Marshal(b, m, deterministic)
 }
+
 func (m *ListTowersResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ListTowersResponse.Merge(m, src)
 }
+
 func (m *ListTowersResponse) XXX_Size() int {
 	return xxx_messageInfo_ListTowersResponse.Size(m)
 }
+
 func (m *ListTowersResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_ListTowersResponse.DiscardUnknown(m)
 }
@@ -481,15 +520,19 @@ func (*StatsRequest) Descriptor() ([]byte, []int) {
 func (m *StatsRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_StatsRequest.Unmarshal(m, b)
 }
+
 func (m *StatsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_StatsRequest.Marshal(b, m, deterministic)
 }
+
 func (m *StatsRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_StatsRequest.Merge(m, src)
 }
+
 func (m *StatsRequest) XXX_Size() int {
 	return xxx_messageInfo_StatsRequest.Size(m)
 }
+
 func (m *StatsRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_StatsRequest.DiscardUnknown(m)
 }
@@ -528,15 +571,19 @@ func (*StatsResponse) Descriptor() ([]byte, []int) {
 func (m *StatsResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_StatsResponse.Unmarshal(m, b)
 }
+
 func (m *StatsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_StatsResponse.Marshal(b, m, deterministic)
 }
+
 func (m *StatsResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_StatsResponse.Merge(m, src)
 }
+
 func (m *StatsResponse) XXX_Size() int {
 	return xxx_messageInfo_StatsResponse.Size(m)
 }
+
 func (m *StatsResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_StatsResponse.DiscardUnknown(m)
 }
@@ -594,15 +641,19 @@ func (*PolicyRequest) Descriptor() ([]byte, []int) {
 func (m *PolicyRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PolicyRequest.Unmarshal(m, b)
 }
+
 func (m *PolicyRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_PolicyRequest.Marshal(b, m, deterministic)
 }
+
 func (m *PolicyRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_PolicyRequest.Merge(m, src)
 }
+
 func (m *PolicyRequest) XXX_Size() int {
 	return xxx_messageInfo_PolicyRequest.Size(m)
 }
+
 func (m *PolicyRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_PolicyRequest.DiscardUnknown(m)
 }
@@ -633,15 +684,19 @@ func (*PolicyResponse) Descriptor() ([]byte, []int) {
 func (m *PolicyResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PolicyResponse.Unmarshal(m, b)
 }
+
 func (m *PolicyResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_PolicyResponse.Marshal(b, m, deterministic)
 }
+
 func (m *PolicyResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_PolicyResponse.Merge(m, src)
 }
+
 func (m *PolicyResponse) XXX_Size() int {
 	return xxx_messageInfo_PolicyResponse.Size(m)
 }
+
 func (m *PolicyResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_PolicyResponse.DiscardUnknown(m)
 }
@@ -728,8 +783,10 @@ var fileDescriptor_b5f4e7d95a641af2 = []byte{
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
+var (
+	_ context.Context
+	_ grpc.ClientConn
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
@@ -854,18 +911,23 @@ type UnimplementedWatchtowerClientServer struct {
 func (*UnimplementedWatchtowerClientServer) AddTower(ctx context.Context, req *AddTowerRequest) (*AddTowerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddTower not implemented")
 }
+
 func (*UnimplementedWatchtowerClientServer) RemoveTower(ctx context.Context, req *RemoveTowerRequest) (*RemoveTowerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveTower not implemented")
 }
+
 func (*UnimplementedWatchtowerClientServer) ListTowers(ctx context.Context, req *ListTowersRequest) (*ListTowersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTowers not implemented")
 }
+
 func (*UnimplementedWatchtowerClientServer) GetTowerInfo(ctx context.Context, req *GetTowerInfoRequest) (*Tower, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTowerInfo not implemented")
 }
+
 func (*UnimplementedWatchtowerClientServer) Stats(ctx context.Context, req *StatsRequest) (*StatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Stats not implemented")
 }
+
 func (*UnimplementedWatchtowerClientServer) Policy(ctx context.Context, req *PolicyRequest) (*PolicyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Policy not implemented")
 }

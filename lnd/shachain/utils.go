@@ -36,7 +36,6 @@ func getPrefix(index index, position uint8) uint64 {
 func countTrailingZeros(index index) uint8 {
 	var zeros uint8
 	for ; zeros < maxHeight; zeros++ {
-
 		if getBit(index, zeros) != 0 {
 			break
 		}

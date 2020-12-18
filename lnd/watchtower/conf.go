@@ -30,7 +30,6 @@ type Conf struct {
 // those fields will be not be modified.
 func (c *Conf) Apply(cfg *Config,
 	normalizer AddressNormalizer) (*Config, er.R) {
-
 	// Set the Config's listening addresses if they are empty.
 	if cfg.ListenAddrs == nil {
 		// Without a network, we will be unable to resolve the listening

@@ -32,19 +32,17 @@ const (
 	CoinbaseWitnessPkScriptLength = 38
 )
 
-var (
-	// WitnessMagicBytes is the prefix marker within the public key script
-	// of a coinbase output to indicate that this output holds the witness
-	// commitment for a block.
-	WitnessMagicBytes = []byte{
-		opcode.OP_RETURN,
-		opcode.OP_DATA_36,
-		0xaa,
-		0x21,
-		0xa9,
-		0xed,
-	}
-)
+// WitnessMagicBytes is the prefix marker within the public key script
+// of a coinbase output to indicate that this output holds the witness
+// commitment for a block.
+var WitnessMagicBytes = []byte{
+	opcode.OP_RETURN,
+	opcode.OP_DATA_36,
+	0xaa,
+	0x21,
+	0xa9,
+	0xed,
+}
 
 // nextPowerOfTwo returns the next highest power of two from a given number if
 // it is not already a power of two.  This is a helper function used during the
@@ -129,7 +127,6 @@ func BuildMerkleTreeStore(transactions []*btcutil.Tx, witness bool) []*chainhash
 		default:
 			merkles[i] = tx.Hash()
 		}
-
 	}
 
 	// Start the array offset after the last transaction and adjusted to the

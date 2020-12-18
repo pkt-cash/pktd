@@ -103,7 +103,6 @@ func (c *ChanSeries) HighestChanID(chain chainhash.Hash) (*lnwire.ShortChannelID
 // NOTE: This is part of the ChannelGraphTimeSeries interface.
 func (c *ChanSeries) UpdatesInHorizon(chain chainhash.Hash,
 	startTime time.Time, endTime time.Time) ([]lnwire.Message, er.R) {
-
 	var updates []lnwire.Message
 
 	// First, we'll query for all the set of channels that have an update
@@ -183,7 +182,6 @@ func (c *ChanSeries) UpdatesInHorizon(chain chainhash.Hash,
 // NOTE: This is part of the ChannelGraphTimeSeries interface.
 func (c *ChanSeries) FilterKnownChanIDs(chain chainhash.Hash,
 	superSet []lnwire.ShortChannelID) ([]lnwire.ShortChannelID, er.R) {
-
 	chanIDs := make([]uint64, 0, len(superSet))
 	for _, chanID := range superSet {
 		chanIDs = append(chanIDs, chanID.ToUint64())
@@ -211,7 +209,6 @@ func (c *ChanSeries) FilterKnownChanIDs(chain chainhash.Hash,
 // NOTE: This is part of the ChannelGraphTimeSeries interface.
 func (c *ChanSeries) FilterChannelRange(chain chainhash.Hash,
 	startHeight, endHeight uint32) ([]lnwire.ShortChannelID, er.R) {
-
 	chansInRange, err := c.graph.FilterChannelRange(startHeight, endHeight)
 	if err != nil {
 		return nil, err
@@ -236,7 +233,6 @@ func (c *ChanSeries) FilterChannelRange(chain chainhash.Hash,
 // NOTE: This is part of the ChannelGraphTimeSeries interface.
 func (c *ChanSeries) FetchChanAnns(chain chainhash.Hash,
 	shortChanIDs []lnwire.ShortChannelID) ([]lnwire.Message, er.R) {
-
 	chanIDs := make([]uint64, 0, len(shortChanIDs))
 	for _, chanID := range shortChanIDs {
 		chanIDs = append(chanIDs, chanID.ToUint64())
@@ -316,7 +312,6 @@ func (c *ChanSeries) FetchChanAnns(chain chainhash.Hash,
 // NOTE: This is part of the ChannelGraphTimeSeries interface.
 func (c *ChanSeries) FetchChanUpdates(chain chainhash.Hash,
 	shortChanID lnwire.ShortChannelID) ([]*lnwire.ChannelUpdate, er.R) {
-
 	chanInfo, e1, e2, err := c.graph.FetchChannelEdgesByID(
 		shortChanID.ToUint64(),
 	)

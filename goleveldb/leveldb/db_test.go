@@ -904,7 +904,6 @@ func TestDB_RecoverWithEmptyJournal(t *testing.T) {
 
 func TestDB_RecoverDuringMemtableCompaction(t *testing.T) {
 	truno(t, &opt.Options{DisableLargeBatchTransaction: true, WriteBuffer: 1000000}, func(h *dbHarness) {
-
 		h.stor.Stall(testutil.ModeSync, storage.TypeTable)
 		h.put("big1", strings.Repeat("x", 10000000))
 		h.put("big2", strings.Repeat("y", 1000))

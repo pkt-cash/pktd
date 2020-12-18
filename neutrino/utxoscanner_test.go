@@ -77,7 +77,6 @@ func makeTestInputWithScript() *InputWithScript {
 		},
 		PkScript: pkScript,
 	}
-
 }
 
 // TestFindSpends tests that findSpends properly returns spend reports.

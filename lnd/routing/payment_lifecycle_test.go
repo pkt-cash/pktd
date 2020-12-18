@@ -21,7 +21,6 @@ const stepTimeout = 5 * time.Second
 // createTestRoute builds a route a->b->c paying the given amt to c.
 func createTestRoute(amt lnwire.MilliSatoshi,
 	aliasMap map[string]route.Vertex) (*route.Route, er.R) {
-
 	hopFee := lnwire.NewMSatFromSatoshis(3)
 	hop1 := aliasMap["b"]
 	hop2 := aliasMap["c"]
@@ -570,7 +569,6 @@ func TestRouterPaymentStateMachine(t *testing.T) {
 	// the desired configuration for this test.
 	setupRouter := func() (*ChannelRouter, chan er.R,
 		chan *htlcswitch.PaymentResult, chan er.R) {
-
 		chain := newMockChain(startingBlockHeight)
 		chainView := newMockChainView(chain)
 

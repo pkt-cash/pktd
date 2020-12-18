@@ -30,14 +30,12 @@ type DummySigner struct{}
 // SignOutputRaw returns a dummy signature.
 func (d *DummySigner) SignOutputRaw(tx *wire.MsgTx,
 	signDesc *input.SignDescriptor) (input.Signature, er.R) {
-
 	return &DummySignature{}, nil
 }
 
 // ComputeInputScript returns nil for both values.
 func (d *DummySigner) ComputeInputScript(tx *wire.MsgTx,
 	signDesc *input.SignDescriptor) (*input.Script, er.R) {
-
 	return &input.Script{}, nil
 }
 
@@ -51,7 +49,6 @@ type SingleSigner struct {
 // stored private key.
 func (s *SingleSigner) SignOutputRaw(tx *wire.MsgTx,
 	signDesc *input.SignDescriptor) (input.Signature, er.R) {
-
 	amt := signDesc.Output.Value
 	witnessScript := signDesc.WitnessScript
 	privKey := s.Privkey
@@ -83,7 +80,6 @@ func (s *SingleSigner) SignOutputRaw(tx *wire.MsgTx,
 // given a transaction and a SignDescriptor.
 func (s *SingleSigner) ComputeInputScript(tx *wire.MsgTx,
 	signDesc *input.SignDescriptor) (*input.Script, er.R) {
-
 	privKey := s.Privkey
 
 	switch {
@@ -111,7 +107,6 @@ func (s *SingleSigner) ComputeInputScript(tx *wire.MsgTx,
 // with the stored private key if the public key matches the private key.
 func (s *SingleSigner) SignMessage(pubKey *btcec.PublicKey,
 	msg []byte) (input.Signature, er.R) {
-
 	if !pubKey.IsEqual(s.Privkey.PubKey()) {
 		return nil, er.Errorf("unknown public key")
 	}

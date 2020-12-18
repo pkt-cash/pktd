@@ -25,7 +25,6 @@ func randAddr(t *testing.T) net.Addr {
 	var port [2]byte
 	if _, err := rand.Read(port[:]); err != nil {
 		t.Fatal(err)
-
 	}
 	return &net.TCPAddr{
 		IP:   net.IP(ip[:]),
@@ -59,7 +58,6 @@ func copyTower(tower *wtdb.Tower) *wtdb.Tower {
 
 func assertActiveCandidate(t *testing.T, i TowerCandidateIterator,
 	c *wtdb.Tower, active bool) {
-
 	isCandidate := i.IsActive(c.ID)
 	if isCandidate && !active {
 		t.Fatalf("expected tower %v to no longer be an active candidate",

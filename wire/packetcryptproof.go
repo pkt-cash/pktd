@@ -54,11 +54,13 @@ func (c *PcCoinbaseCommit) Magic() uint32 {
 	return binary.LittleEndian.Uint32(c.Bytes[:4])
 }
 
-const endType = 0
-const pcpType = 1
-const signaturesType = 2
-const contentProofsType = 3
-const versionType = 4
+const (
+	endType           = 0
+	pcpType           = 1
+	signaturesType    = 2
+	contentProofsType = 3
+	versionType       = 4
+)
 
 // PacketCryptProof is the in-memory representation of the proof which sits between the header and
 // the block content
@@ -270,7 +272,6 @@ func readPacketCryptProof(r io.Reader, pver uint32, enc MessageEncoding, pcp *Pa
 }
 
 func writePacketCryptProof(w io.Writer, pver uint32, enc MessageEncoding, pcp *PacketCryptProof) er.R {
-
 	if err := WriteVarInt(w, 0, pcpType); err != nil {
 		return err
 	}

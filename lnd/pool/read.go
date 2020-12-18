@@ -19,7 +19,6 @@ type Read struct {
 // recycle buffer.Read objects across the lifetime of the Read pool's workers.
 func NewRead(readBufferPool *ReadBuffer, numWorkers int,
 	workerTimeout time.Duration) *Read {
-
 	r := &Read{
 		bufferPool: readBufferPool,
 	}

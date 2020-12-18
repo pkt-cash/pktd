@@ -220,7 +220,6 @@ func (a *ChannelUpdate) MaxPayloadLength(pver uint32) uint32 {
 // DataToSign is used to retrieve part of the announcement message which should
 // be signed.
 func (a *ChannelUpdate) DataToSign() ([]byte, er.R) {
-
 	// We should not include the signatures itself.
 	var w bytes.Buffer
 	err := WriteElements(&w,

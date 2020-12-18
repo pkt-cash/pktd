@@ -181,7 +181,6 @@ func (s *ChainService) ConnectedCount() int32 {
 	case <-s.quit:
 		return 0
 	}
-
 }
 
 // OutboundGroupCount returns the number of peers connected to the given

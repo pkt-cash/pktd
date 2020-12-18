@@ -134,7 +134,6 @@ func (t *towerListIterator) AddCandidate(candidate *wtdb.Tower) {
 // iterator.
 func (t *towerListIterator) RemoveCandidate(candidate wtdb.TowerID,
 	addr net.Addr) er.R {
-
 	t.mu.Lock()
 	defer t.mu.Unlock()
 

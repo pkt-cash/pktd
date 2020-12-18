@@ -13,7 +13,7 @@ import (
 
 const (
 	dbName           = "channel.db"
-	dbFilePermission = 0600
+	dbFilePermission = 0o600
 )
 
 // migration is a function which takes a prior outdated version of the database
@@ -21,11 +21,9 @@ const (
 // up-to-date version of the database.
 type migration func(tx kvdb.RwTx) er.R
 
-var (
-	// Big endian is the preferred byte order, due to cursor scans over
-	// integer keys iterating in order.
-	byteOrder = binary.BigEndian
-)
+// Big endian is the preferred byte order, due to cursor scans over
+// integer keys iterating in order.
+var byteOrder = binary.BigEndian
 
 // DB is the primary datastore for the lnd daemon. The database stores
 // information related to nodes, routing data, open/closed channels, fee
@@ -78,7 +76,7 @@ func Open(dbPath string, modifiers ...OptionModifier) (*DB, er.R) {
 // within the database are created.
 func createChannelDB(dbPath string) er.R {
 	if !fileExists(dbPath) {
-		if err := os.MkdirAll(dbPath, 0700); err != nil {
+		if err := os.MkdirAll(dbPath, 0o700); err != nil {
 			return er.E(err)
 		}
 	}

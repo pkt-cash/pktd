@@ -105,7 +105,6 @@ func testNamePrefix(tc *testContext) string {
 // are checked to ensure they return the correct error.
 func testManagedPubKeyAddress(tc *testContext, prefix string,
 	gotAddr ManagedPubKeyAddress, wantAddr *expectedAddr) bool {
-
 	// Ensure pubkey is the expected value for the managed address.
 	var gpubBytes []byte
 	if gotAddr.Compressed() {
@@ -226,7 +225,6 @@ func testManagedPubKeyAddress(tc *testContext, prefix string,
 // are checked to ensure they return the correct error.
 func testManagedScriptAddress(tc *testContext, prefix string,
 	gotAddr ManagedScriptAddress, wantAddr *expectedAddr) bool {
-
 	// Ensure script is the expected value for the managed address.
 	// Ensure script is the expected value for the managed address.  Since
 	// this is only available when the manager is unlocked, also check for
@@ -271,7 +269,6 @@ func testManagedScriptAddress(tc *testContext, prefix string,
 // are checked to ensure they return the correct error.
 func testAddress(tc *testContext, prefix string, gotAddr ManagedAddress,
 	wantAddr *expectedAddr) bool {
-
 	if gotAddr.Account() != tc.account {
 		tc.t.Errorf("ManagedAddress.Account: unexpected account - got "+
 			"%d, want %d", gotAddr.Account(), tc.account)
@@ -1601,7 +1598,7 @@ func testWatchingOnly(tc *testContext) bool {
 	// watching only.
 	woMgrName := "mgrtestwo.bin"
 	_ = os.Remove(woMgrName)
-	fi, errr := os.OpenFile(woMgrName, os.O_CREATE|os.O_RDWR, 0600)
+	fi, errr := os.OpenFile(woMgrName, os.O_CREATE|os.O_RDWR, 0o600)
 	if errr != nil {
 		tc.t.Errorf("%v", errr)
 		return false

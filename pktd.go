@@ -33,9 +33,7 @@ const (
 	blockDbNamePrefix = "blocks"
 )
 
-var (
-	cfg *config
-)
+var cfg *config
 
 // winServiceMain is only invoked on Windows.  It detects when pktd is running
 // as a service and reacts accordingly.
@@ -47,7 +45,6 @@ var winServiceMain func() (bool, er.R)
 // notified with the server once it is setup so it can gracefully stop it when
 // requested from the service control manager.
 func pktdMain(serverChan chan<- *server) er.R {
-
 	// Unconditionally show the version informatin at startup.
 	log.Infof("Version %s", version.Version())
 
@@ -318,7 +315,7 @@ func loadBlockDB() (database.DB, er.R) {
 		}
 
 		// Create the db if it does not exist.
-		errr := os.MkdirAll(cfg.DataDir, 0700)
+		errr := os.MkdirAll(cfg.DataDir, 0o700)
 		if errr != nil {
 			return nil, er.E(errr)
 		}

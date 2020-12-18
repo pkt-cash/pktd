@@ -104,7 +104,6 @@ func (b *missionControlStore) fetchAll() ([]*paymentResult, er.R) {
 
 			return nil
 		})
-
 	}, func() {
 		results = nil
 	})

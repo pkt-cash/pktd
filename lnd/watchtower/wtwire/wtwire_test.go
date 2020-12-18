@@ -163,7 +163,6 @@ func TestWatchtowerWireProtocol(t *testing.T) {
 				test.msgType, err)
 		}
 	}
-
 }
 
 func init() {

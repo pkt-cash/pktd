@@ -123,7 +123,6 @@ func (r *forwardInterceptor) onIntercept(p htlcswitch.InterceptedForward) bool {
 
 func (r *forwardInterceptor) readClientResponses(
 	resolutionChan chan *ForwardHtlcInterceptResponse, errChan chan er.R) {
-
 	defer r.wg.Done()
 	for {
 		resp, err := r.stream.Recv()
@@ -147,7 +146,6 @@ func (r *forwardInterceptor) readClientResponses(
 // holdAndForwardToClient forwards the intercepted htlc to the client.
 func (r *forwardInterceptor) holdAndForwardToClient(
 	forward htlcswitch.InterceptedForward) er.R {
-
 	htlc := forward.Packet()
 	inKey := htlc.IncomingCircuit
 
@@ -174,7 +172,6 @@ func (r *forwardInterceptor) holdAndForwardToClient(
 // resolveFromClient handles a resolution arrived from the client.
 func (r *forwardInterceptor) resolveFromClient(
 	in *ForwardHtlcInterceptResponse) er.R {
-
 	circuitKey := channeldb.CircuitKey{
 		ChanID: lnwire.NewShortChanIDFromInt(in.IncomingCircuitKey.ChanId),
 		HtlcID: in.IncomingCircuitKey.HtlcId,

@@ -358,7 +358,6 @@ func testMultiHopPayments(net *lntest.NetworkHarness, t *harnessTest) {
 func assertHtlcEvents(t *harnessTest, fwdCount, fwdFailCount, settleCount int,
 	userType routerrpc.HtlcEvent_EventType,
 	client routerrpc.Router_SubscribeHtlcEventsClient) {
-
 	var forwards, forwardFails, settles int
 
 	numEvents := fwdCount + fwdFailCount + settleCount

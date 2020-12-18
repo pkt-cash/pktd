@@ -107,7 +107,7 @@ func testNestedReadWriteBucket(tc *testContext, testBucket walletdb.ReadWriteBuc
 func testReadWriteBucketInterface(tc *testContext, bucket walletdb.ReadWriteBucket) bool {
 	// keyValues holds the keys and values to use when putting
 	// values into the bucket.
-	var keyValues = map[string]string{
+	keyValues := map[string]string{
 		"bucketkey1": "foo1",
 		"bucketkey2": "foo2",
 		"bucketkey3": "foo3",
@@ -394,7 +394,7 @@ func testManualTxInterface(tc *testContext, bucketKey []byte) bool {
 
 	// keyValues holds the keys and values to use when putting values
 	// into a bucket.
-	var keyValues = map[string]string{
+	keyValues := map[string]string{
 		"umtxkey1": "foo1",
 		"umtxkey2": "foo2",
 		"umtxkey3": "foo3",
@@ -465,7 +465,7 @@ func testNamespaceAndTxInterfaces(tc *testContext, namespaceKey string) bool {
 
 	// keyValues holds the keys and values to use when putting values
 	// into a bucket.
-	var keyValues = map[string]string{
+	keyValues := map[string]string{
 		"mtxkey1": "foo1",
 		"mtxkey2": "foo2",
 		"mtxkey3": "foo3",

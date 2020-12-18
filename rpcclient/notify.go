@@ -482,7 +482,6 @@ func (e wrongNumParams) Error() string {
 // of blockconnected and blockdisconnected notifications.
 func parseChainNtfnParams(params []jsoniter.RawMessage) (*chainhash.Hash,
 	int32, time.Time, er.R) {
-
 	if len(params) != 3 {
 		return nil, 0, time.Time{}, er.E(wrongNumParams(len(params)))
 	}
@@ -527,7 +526,6 @@ func parseChainNtfnParams(params []jsoniter.RawMessage) (*chainhash.Hash,
 // and requires a websocket connection.
 func parseFilteredBlockConnectedParams(params []jsoniter.RawMessage) (int32,
 	*wire.BlockHeader, []*btcutil.Tx, er.R) {
-
 	if len(params) < 3 {
 		return 0, nil, nil, er.E(wrongNumParams(len(params)))
 	}
@@ -635,7 +633,6 @@ func parseRelevantTxAcceptedParams(params []jsoniter.RawMessage) (transaction []
 // notifications.
 func parseChainTxNtfnParams(params []jsoniter.RawMessage) (*btcutil.Tx,
 	*btcjson.BlockDetails, er.R) {
-
 	if len(params) == 0 || len(params) > 2 {
 		return nil, nil, er.E(wrongNumParams(len(params)))
 	}
@@ -715,7 +712,6 @@ func parseRescanProgressParams(params []jsoniter.RawMessage) (*chainhash.Hash, i
 // from the parameters of a txaccepted notification.
 func parseTxAcceptedNtfnParams(params []jsoniter.RawMessage) (*chainhash.Hash,
 	btcutil.Amount, er.R) {
-
 	if len(params) != 2 {
 		return nil, 0, er.E(wrongNumParams(len(params)))
 	}
@@ -753,7 +749,6 @@ func parseTxAcceptedNtfnParams(params []jsoniter.RawMessage) (*chainhash.Hash,
 // from the parameters of a txacceptedverbose notification.
 func parseTxAcceptedVerboseNtfnParams(params []jsoniter.RawMessage) (*btcjson.TxRawResult,
 	er.R) {
-
 	if len(params) != 1 {
 		return nil, er.E(wrongNumParams(len(params)))
 	}
@@ -793,7 +788,6 @@ func parseBtcdConnectedNtfnParams(params []jsoniter.RawMessage) (bool, er.R) {
 // parameters of an accountbalance notification.
 func parseAccountBalanceNtfnParams(params []jsoniter.RawMessage) (account string,
 	balance btcutil.Amount, confirmed bool, err er.R) {
-
 	if len(params) != 3 {
 		return "", 0, false, er.E(wrongNumParams(len(params)))
 	}
@@ -830,7 +824,6 @@ func parseAccountBalanceNtfnParams(params []jsoniter.RawMessage) (account string
 // state of an account from the parameters of a walletlockstate notification.
 func parseWalletLockStateNtfnParams(params []jsoniter.RawMessage) (account string,
 	locked bool, err er.R) {
-
 	if len(params) != 2 {
 		return "", false, er.E(wrongNumParams(len(params)))
 	}
@@ -1105,7 +1098,6 @@ func (r FutureRescanResult) Receive() er.R {
 func (c *Client) RescanAsync(startBlock *chainhash.Hash,
 	addresses []btcutil.Address,
 	outpoints []*wire.OutPoint) FutureRescanResult {
-
 	// Not supported in HTTP POST mode.
 	if c.config.HTTPPostMode {
 		return newFutureError(ErrWebsocketsRequired.Default())
@@ -1170,7 +1162,6 @@ func (c *Client) RescanAsync(startBlock *chainhash.Hash,
 func (c *Client) Rescan(startBlock *chainhash.Hash,
 	addresses []btcutil.Address,
 	outpoints []*wire.OutPoint) er.R {
-
 	return c.RescanAsync(startBlock, addresses, outpoints).Receive()
 }
 
@@ -1201,7 +1192,6 @@ func (r FutureLoadTxFilterResult) Receive() er.R {
 // and requires a websocket connection.
 func (c *Client) LoadTxFilterAsync(reload bool, addresses []btcutil.Address,
 	outPoints []wire.OutPoint) FutureLoadTxFilterResult {
-
 	addrStrs := make([]string, len(addresses))
 	for i, a := range addresses {
 		addrStrs[i] = a.EncodeAddress()

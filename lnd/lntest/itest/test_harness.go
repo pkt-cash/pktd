@@ -96,7 +96,6 @@ func (h *harnessTest) Fatalf(format string, a ...interface{}) {
 // RunTestCase executes a harness test case. Any errors or panics will be
 // represented as fatal.
 func (h *harnessTest) RunTestCase(testCase *testCase) {
-
 	h.testCase = testCase
 	defer func() {
 		h.testCase = nil
@@ -156,7 +155,6 @@ type testCase struct {
 // the given timeout.
 func waitForTxInMempool(miner *rpcclient.Client,
 	timeout time.Duration) (*chainhash.Hash, er.R) {
-
 	txs, err := waitForNTxsInMempool(miner, 1, timeout)
 	if err != nil {
 		return nil, err
@@ -170,7 +168,6 @@ func waitForTxInMempool(miner *rpcclient.Client,
 // met after the given timeout.
 func waitForNTxsInMempool(miner *rpcclient.Client, n int,
 	timeout time.Duration) ([]*chainhash.Hash, er.R) {
-
 	breakTimeout := time.After(timeout)
 	ticker := time.NewTicker(50 * time.Millisecond)
 	defer ticker.Stop()
@@ -200,7 +197,6 @@ func waitForNTxsInMempool(miner *rpcclient.Client, n int,
 // (excluding the coinbase) we expect to be included in the first mined block.
 func mineBlocks(t *harnessTest, net *lntest.NetworkHarness,
 	num uint32, numTxs int) []*wire.MsgBlock {
-
 	// If we expect transactions to be included in the blocks we'll mine,
 	// we wait here until they are seen in the miner's mempool.
 	var txids []*chainhash.Hash

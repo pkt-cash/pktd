@@ -139,7 +139,6 @@ type BaseInput struct {
 func MakeBaseInput(outpoint *wire.OutPoint, witnessType WitnessType,
 	signDescriptor *SignDescriptor, heightHint uint32,
 	unconfParent *TxInfo) BaseInput {
-
 	return BaseInput{
 		inputKit{
 			outpoint:     *outpoint,
@@ -155,7 +154,6 @@ func MakeBaseInput(outpoint *wire.OutPoint, witnessType WitnessType,
 // construct a sweep transaction.
 func NewBaseInput(outpoint *wire.OutPoint, witnessType WitnessType,
 	signDescriptor *SignDescriptor, heightHint uint32) *BaseInput {
-
 	input := MakeBaseInput(
 		outpoint, witnessType, signDescriptor, heightHint, nil,
 	)
@@ -168,7 +166,6 @@ func NewBaseInput(outpoint *wire.OutPoint, witnessType WitnessType,
 func NewCsvInput(outpoint *wire.OutPoint, witnessType WitnessType,
 	signDescriptor *SignDescriptor, heightHint uint32,
 	blockToMaturity uint32) *BaseInput {
-
 	return &BaseInput{
 		inputKit{
 			outpoint:        *outpoint,
@@ -186,7 +183,6 @@ func NewCsvInput(outpoint *wire.OutPoint, witnessType WitnessType,
 // method support spending p2wkh, p2wsh, and also nested p2sh outputs.
 func (bi *BaseInput) CraftInputScript(signer Signer, txn *wire.MsgTx,
 	hashCache *txscript.TxSigHashes, txinIdx int) (*Script, er.R) {
-
 	witnessFunc := bi.witnessType.WitnessGenerator(signer, bi.SignDesc())
 
 	return witnessFunc(txn, hashCache, txinIdx)
@@ -206,7 +202,6 @@ type HtlcSucceedInput struct {
 func MakeHtlcSucceedInput(outpoint *wire.OutPoint,
 	signDescriptor *SignDescriptor, preimage []byte, heightHint,
 	blocksToMaturity uint32) HtlcSucceedInput {
-
 	return HtlcSucceedInput{
 		inputKit: inputKit{
 			outpoint:        *outpoint,
@@ -225,7 +220,6 @@ func MakeHtlcSucceedInput(outpoint *wire.OutPoint,
 // method support spending p2wkh, p2wsh, and also nested p2sh outputs.
 func (h *HtlcSucceedInput) CraftInputScript(signer Signer, txn *wire.MsgTx,
 	hashCache *txscript.TxSigHashes, txinIdx int) (*Script, er.R) {
-
 	desc := h.signDesc
 	desc.SigHashes = hashCache
 	desc.InputIndex = txinIdx
@@ -244,5 +238,7 @@ func (h *HtlcSucceedInput) CraftInputScript(signer Signer, txn *wire.MsgTx,
 
 // Compile-time constraints to ensure each input struct implement the Input
 // interface.
-var _ Input = (*BaseInput)(nil)
-var _ Input = (*HtlcSucceedInput)(nil)
+var (
+	_ Input = (*BaseInput)(nil)
+	_ Input = (*HtlcSucceedInput)(nil)
+)

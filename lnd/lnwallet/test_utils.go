@@ -105,7 +105,6 @@ var (
 // channels will use the new format, otherwise the legacy format.
 func CreateTestChannels(chanType channeldb.ChannelType) (
 	*LightningChannel, *LightningChannel, func(), er.R) {
-
 	channelCapacity, err := btcutil.NewAmount(10)
 	if err != nil {
 		return nil, nil, nil, err
@@ -439,7 +438,6 @@ func privkeyFromHex(keyHex string) (*btcec.PrivateKey, er.R) {
 	}
 	key, _ := btcec.PrivKeyFromBytes(btcec.S256(), bytes)
 	return key, nil
-
 }
 
 // blockFromHex parses a full Bitcoin block from a hex encoded string.

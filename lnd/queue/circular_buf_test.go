@@ -179,7 +179,7 @@ func TestLatest(t *testing.T) {
 		test := test
 
 		t.Run(test.name, func(t *testing.T) {
-			//t.Parallel()
+			// t.Parallel()
 
 			buffer, err := NewCircularBuffer(test.size)
 			if err != nil {

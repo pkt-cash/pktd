@@ -108,7 +108,7 @@ var (
 // TestMigrateMpp asserts that the database is properly migrated to the mpp
 // payment structure.
 func TestMigrateMpp(t *testing.T) {
-	var paymentsRootBucket = []byte("payments-root-bucket")
+	paymentsRootBucket := []byte("payments-root-bucket")
 
 	migtest.ApplyMigration(
 		t,

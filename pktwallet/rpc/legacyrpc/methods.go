@@ -698,7 +698,7 @@ func getTransaction(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
 		Time:            details.Received.Unix(),
 		TimeReceived:    details.Received.Unix(),
 		WalletConflicts: []string{}, // Not saved
-		//Generated:     blockchain.IsCoinBaseTx(&details.MsgTx),
+		// Generated:     blockchain.IsCoinBaseTx(&details.MsgTx),
 	}
 
 	if details.Block.Height != -1 {
@@ -814,8 +814,10 @@ func getTransaction(icmd interface{}, w *wallet.Wallet) (interface{}, er.R) {
 //go:generate go run ../../internal/rpchelp/genrpcserverhelp.go legacyrpc
 //go:generate gofmt -w rpcserverhelp.go
 
-var helpDescs map[string]string
-var helpDescsMu sync.Mutex // Help may execute concurrently, so synchronize access.
+var (
+	helpDescs   map[string]string
+	helpDescsMu sync.Mutex // Help may execute concurrently, so synchronize access.
+)
 
 // helpWithChainRPC handles the help request when the RPC server has been
 // associated with a consensus RPC client.  The additional RPC client is used to
@@ -1075,7 +1077,6 @@ func listAddressTransactions(icmd interface{}, w *wallet.Wallet) (interface{}, e
 	if cmd.Account != nil && *cmd.Account != "*" {
 		return nil, btcjson.ErrRPCInvalidParameter.New(
 			"Listing transactions for addresses may only be done for all accounts", nil)
-
 	}
 
 	// Decode addresses.
@@ -1252,7 +1253,6 @@ func sendOutputs(
 // All errors are returned in btcjson.RPCError format
 func sendPairs(w *wallet.Wallet, amounts map[string]btcutil.Amount,
 	fromAddressses *[]string, minconf int32, feeSatPerKb btcutil.Amount, maxInputs, inputMinHeight int) (string, er.R) {
-
 	vote, err := w.NetworkStewardVote(0, waddrmgr.KeyScopeBIP0044)
 	if err != nil {
 		return "", err
@@ -1870,7 +1870,6 @@ func walletPassphraseChange(icmd interface{}, w *wallet.Wallet) (interface{}, er
 		[]byte(cmd.NewPassphrase))
 	if waddrmgr.ErrWrongPassphrase.Is(err) {
 		return nil, btcjson.ErrRPCWalletPassphraseIncorrect.Default()
-
 	}
 	return nil, err
 }

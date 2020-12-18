@@ -191,7 +191,6 @@ func InvoiceRefByHash(payHash lntypes.Hash) InvoiceRef {
 // the payment address is unknown.
 func InvoiceRefByHashAndAddr(payHash lntypes.Hash,
 	payAddr [32]byte) InvoiceRef {
-
 	return InvoiceRef{
 		payHash: payHash,
 		payAddr: &payAddr,
@@ -494,7 +493,6 @@ func (i *Invoice) IsPending() bool {
 // AddIndex on newInvoice.
 func (d *DB) AddInvoice(newInvoice *Invoice, paymentHash lntypes.Hash) (
 	uint64, er.R) {
-
 	if err := validateInvoice(newInvoice, paymentHash); err != nil {
 		return 0, err
 	}
@@ -687,7 +685,6 @@ func (d *DB) LookupInvoice(ref InvoiceRef) (Invoice, er.R) {
 // error is returned if the invoice is not found.
 func fetchInvoiceNumByRef(invoiceIndex, payAddrIndex kvdb.RBucket,
 	ref InvoiceRef) ([]byte, er.R) {
-
 	payHash := ref.PayHash()
 	payAddr := ref.PayAddr()
 
@@ -733,7 +730,6 @@ func fetchInvoiceNumByRef(invoiceIndex, payAddrIndex kvdb.RBucket,
 // to signal if the kvdb.View transaction has been retried.
 func (d *DB) ScanInvoices(
 	scanFunc func(lntypes.Hash, *Invoice) er.R, reset func()) er.R {
-
 	return kvdb.View(d, func(tx kvdb.RTx) er.R {
 		invoices := tx.ReadBucket(invoiceBucket)
 		if invoices == nil {
@@ -915,7 +911,6 @@ func (d *DB) QueryInvoices(q InvoiceQuery) (InvoiceSlice, er.R) {
 // supplied callback.
 func (d *DB) UpdateInvoice(ref InvoiceRef,
 	callback InvoiceUpdateCallback) (*Invoice, er.R) {
-
 	var updatedInvoice *Invoice
 	err := kvdb.Update(d, func(tx kvdb.RwTx) er.R {
 		invoices, err := tx.CreateTopLevelBucket(invoiceBucket)
@@ -943,7 +938,6 @@ func (d *DB) UpdateInvoice(ref InvoiceRef,
 		)
 		if errr != nil {
 			return errr
-
 		}
 		payHash := ref.PayHash()
 		updatedInvoice, errr = d.updateInvoice(
@@ -1025,7 +1019,6 @@ func (d *DB) InvoicesSettledSince(sinceSettleIndex uint64) ([]Invoice, er.R) {
 func putInvoice(invoices, invoiceIndex, payAddrIndex, addIndex kvdb.RwBucket,
 	i *Invoice, invoiceNum uint32, paymentHash lntypes.Hash) (
 	uint64, er.R) {
-
 	// Create the invoice key which is just the big-endian representation
 	// of the invoice number.
 	var invoiceKey [4]byte
@@ -1470,7 +1463,6 @@ func copyInvoice(src *Invoice) *Invoice {
 // callback and applies the updates in a single db transaction.
 func (d *DB) updateInvoice(hash lntypes.Hash, invoices, settleIndex kvdb.RwBucket,
 	invoiceNum []byte, callback InvoiceUpdateCallback) (*Invoice, er.R) {
-
 	invoice, err := fetchInvoice(invoiceNum, invoices)
 	if err != nil {
 		return nil, err
@@ -1606,7 +1598,6 @@ func (d *DB) updateInvoice(hash lntypes.Hash, invoices, settleIndex kvdb.RwBucke
 // updateInvoiceState validates and processes an invoice state update.
 func updateInvoiceState(invoice *Invoice, hash lntypes.Hash,
 	update InvoiceStateUpdateDesc) er.R {
-
 	// Returning to open is never allowed from any state.
 	if update.NewState == ContractOpen {
 		return ErrInvoiceCannotOpen.Default()
@@ -1663,7 +1654,6 @@ func updateInvoiceState(invoice *Invoice, hash lntypes.Hash,
 // cancelSingleHtlc validates cancelation of a single htlc and update its state.
 func cancelSingleHtlc(resolveTime time.Time, htlc *InvoiceHTLC,
 	invState ContractState) er.R {
-
 	// It is only possible to cancel individual htlcs on an open invoice.
 	if invState != ContractOpen {
 		return er.Errorf("htlc canceled on invoice in "+
@@ -1685,7 +1675,6 @@ func cancelSingleHtlc(resolveTime time.Time, htlc *InvoiceHTLC,
 // updateHtlc aligns the state of an htlc with the given invoice state.
 func updateHtlc(resolveTime time.Time, htlc *InvoiceHTLC,
 	invState ContractState) er.R {
-
 	switch invState {
 
 	case ContractSettled:
@@ -1723,7 +1712,6 @@ func updateHtlc(resolveTime time.Time, htlc *InvoiceHTLC,
 // invoice.
 func setSettleMetaFields(settleIndex kvdb.RwBucket, invoiceNum []byte,
 	invoice *Invoice, now time.Time) er.R {
-
 	// Now that we know the invoice hasn't already been settled, we'll
 	// update the settle index so we can place this settle event in the
 	// proper location within our time series.

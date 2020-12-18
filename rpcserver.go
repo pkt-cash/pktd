@@ -116,6 +116,7 @@ type commandHandler func(*rpcServer, interface{}, <-chan struct{}) (interface{},
 // This is set by init because help references rpcHandlers and thus causes
 // a dependency loop.
 var rpcHandlers map[string]commandHandler
+
 var rpcHandlersBeforeInit = map[string]commandHandler{
 	"addnode":                handleAddNode,
 	"configureminingpayouts": handleConfigureMiningPayouts,
@@ -652,7 +653,6 @@ func createVoutList(mtx *wire.MsgTx, chainParams *chaincfg.Params, filterAddrMap
 func createTxRawResult(chainParams *chaincfg.Params, mtx *wire.MsgTx,
 	txHash string, blkHeader *wire.BlockHeader, blkHash string,
 	blkHeight int32, chainHeight int32) (*btcjson.TxRawResult, er.R) {
-
 	mtxHex, err := messageToHex(mtx)
 	if err != nil {
 		return nil, err
@@ -825,7 +825,6 @@ func handleEstimateFee(s *rpcServer, cmd interface{}, closeChan <-chan struct{})
 	}
 
 	feeRate, err := s.cfg.FeeEstimator.EstimateFee(uint32(c.NumBlocks))
-
 	if err != nil {
 		return -1.0, err
 	}
@@ -1159,7 +1158,7 @@ func handleGetBlock(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (i
 		retargetEstimate = &re
 	}
 
-	//ComputeNextTarget
+	// ComputeNextTarget
 
 	blockReply := btcjson.GetBlockVerboseResult{
 		Hash:                c.Hash,
@@ -2062,7 +2061,6 @@ func handleGetBlockTemplateRequest(s *rpcServer, request *btcjson.TemplateReques
 }
 
 func handleGetRawBlockTemplate(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (interface{}, er.R) {
-
 	if len(cfg.miningAddrs) == 0 {
 		return nil, btcjson.NewRPCError(
 			btcjson.ErrRPCInternal,
@@ -4190,7 +4188,6 @@ func (s *rpcServer) jsonRPCReq(
 	closeChan chan struct{},
 	isAdmin bool,
 ) (*btcjson.Response, er.R) {
-
 	var jsonErr er.R
 	var result interface{}
 
@@ -4424,7 +4421,7 @@ func (s *rpcServer) Start() {
 		}
 
 		// Attempt to upgrade the connection to a websocket connection.
-		var upgrader = websocket.Upgrader{
+		upgrader := websocket.Upgrader{
 			EnableCompression: true,
 			ReadBufferSize:    1024,
 			WriteBufferSize:   1024,
@@ -4466,10 +4463,10 @@ func genCertPair(certFile, keyFile string) er.R {
 	}
 
 	// Write cert and key files.
-	if errr := ioutil.WriteFile(certFile, cert, 0666); errr != nil {
+	if errr := ioutil.WriteFile(certFile, cert, 0o666); errr != nil {
 		return er.E(errr)
 	}
-	if errr := ioutil.WriteFile(keyFile, key, 0600); errr != nil {
+	if errr := ioutil.WriteFile(keyFile, key, 0o600); errr != nil {
 		perr := os.Remove(certFile)
 		if perr != nil {
 			panic("genCertPair: os.Remove failure")

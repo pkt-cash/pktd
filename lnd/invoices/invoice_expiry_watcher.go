@@ -74,7 +74,6 @@ func NewInvoiceExpiryWatcher(clock clock.Clock) *InvoiceExpiryWatcher {
 // invoices by their payment hash.
 func (ew *InvoiceExpiryWatcher) Start(
 	cancelInvoice func(lntypes.Hash, bool) er.R) er.R {
-
 	ew.Lock()
 	defer ew.Unlock()
 
@@ -109,7 +108,6 @@ func (ew *InvoiceExpiryWatcher) Stop() {
 // expiry time.
 func makeInvoiceExpiry(paymentHash lntypes.Hash,
 	invoice *channeldb.Invoice) *invoiceExpiry {
-
 	if invoice.State != channeldb.ContractOpen {
 		log.Debugf("Invoice not added to expiry watcher: %v",
 			paymentHash)

@@ -24,12 +24,14 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = descriptor.ForMessage
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = descriptor.ForMessage
+)
 
 func request_Router_SendPaymentV2_0(ctx context.Context, marshaler runtime.Marshaler, client RouterClient, req *http.Request, pathParams map[string]string) (Router_SendPaymentV2Client, runtime.ServerMetadata, error) {
 	var protoReq SendPaymentRequest
@@ -53,12 +55,9 @@ func request_Router_SendPaymentV2_0(ctx context.Context, marshaler runtime.Marsh
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
-var (
-	filter_Router_TrackPaymentV2_0 = &utilities.DoubleArray{Encoding: map[string]int{"payment_hash": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
-)
+var filter_Router_TrackPaymentV2_0 = &utilities.DoubleArray{Encoding: map[string]int{"payment_hash": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 
 func request_Router_TrackPaymentV2_0(ctx context.Context, marshaler runtime.Marshaler, client RouterClient, req *http.Request, pathParams map[string]string) (Router_TrackPaymentV2Client, runtime.ServerMetadata, error) {
 	var protoReq TrackPaymentRequest
@@ -99,7 +98,6 @@ func request_Router_TrackPaymentV2_0(ctx context.Context, marshaler runtime.Mars
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 func request_Router_EstimateRouteFee_0(ctx context.Context, marshaler runtime.Marshaler, client RouterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -116,7 +114,6 @@ func request_Router_EstimateRouteFee_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.EstimateRouteFee(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Router_EstimateRouteFee_0(ctx context.Context, marshaler runtime.Marshaler, server RouterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -133,7 +130,6 @@ func local_request_Router_EstimateRouteFee_0(ctx context.Context, marshaler runt
 
 	msg, err := server.EstimateRouteFee(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Router_SendToRouteV2_0(ctx context.Context, marshaler runtime.Marshaler, client RouterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -150,7 +146,6 @@ func request_Router_SendToRouteV2_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.SendToRouteV2(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Router_SendToRouteV2_0(ctx context.Context, marshaler runtime.Marshaler, server RouterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -167,7 +162,6 @@ func local_request_Router_SendToRouteV2_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.SendToRouteV2(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Router_ResetMissionControl_0(ctx context.Context, marshaler runtime.Marshaler, client RouterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -184,7 +178,6 @@ func request_Router_ResetMissionControl_0(ctx context.Context, marshaler runtime
 
 	msg, err := client.ResetMissionControl(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Router_ResetMissionControl_0(ctx context.Context, marshaler runtime.Marshaler, server RouterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -201,7 +194,6 @@ func local_request_Router_ResetMissionControl_0(ctx context.Context, marshaler r
 
 	msg, err := server.ResetMissionControl(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Router_QueryMissionControl_0(ctx context.Context, marshaler runtime.Marshaler, client RouterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -210,7 +202,6 @@ func request_Router_QueryMissionControl_0(ctx context.Context, marshaler runtime
 
 	msg, err := client.QueryMissionControl(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Router_QueryMissionControl_0(ctx context.Context, marshaler runtime.Marshaler, server RouterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -219,7 +210,6 @@ func local_request_Router_QueryMissionControl_0(ctx context.Context, marshaler r
 
 	msg, err := server.QueryMissionControl(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Router_QueryProbability_0(ctx context.Context, marshaler runtime.Marshaler, client RouterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -268,7 +258,6 @@ func request_Router_QueryProbability_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.QueryProbability(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Router_QueryProbability_0(ctx context.Context, marshaler runtime.Marshaler, server RouterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -317,7 +306,6 @@ func local_request_Router_QueryProbability_0(ctx context.Context, marshaler runt
 
 	msg, err := server.QueryProbability(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Router_BuildRoute_0(ctx context.Context, marshaler runtime.Marshaler, client RouterClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -334,7 +322,6 @@ func request_Router_BuildRoute_0(ctx context.Context, marshaler runtime.Marshale
 
 	msg, err := client.BuildRoute(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Router_BuildRoute_0(ctx context.Context, marshaler runtime.Marshaler, server RouterServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -351,7 +338,6 @@ func local_request_Router_BuildRoute_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := server.BuildRoute(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Router_SubscribeHtlcEvents_0(ctx context.Context, marshaler runtime.Marshaler, client RouterClient, req *http.Request, pathParams map[string]string) (Router_SubscribeHtlcEventsClient, runtime.ServerMetadata, error) {
@@ -368,14 +354,12 @@ func request_Router_SubscribeHtlcEvents_0(ctx context.Context, marshaler runtime
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 // RegisterRouterHandlerServer registers the http handlers for service Router to "mux".
 // UnaryRPC     :call RouterServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 func RegisterRouterHandlerServer(ctx context.Context, mux *runtime.ServeMux, server RouterServer) error {
-
 	mux.Handle("POST", pattern_Router_SendPaymentV2_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -407,7 +391,6 @@ func RegisterRouterHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Router_EstimateRouteFee_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Router_SendToRouteV2_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -427,7 +410,6 @@ func RegisterRouterHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Router_SendToRouteV2_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Router_ResetMissionControl_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -447,7 +429,6 @@ func RegisterRouterHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Router_ResetMissionControl_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Router_QueryMissionControl_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -467,7 +448,6 @@ func RegisterRouterHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Router_QueryMissionControl_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Router_QueryProbability_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -487,7 +467,6 @@ func RegisterRouterHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Router_QueryProbability_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Router_BuildRoute_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -507,7 +486,6 @@ func RegisterRouterHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Router_BuildRoute_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Router_SubscribeHtlcEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -557,7 +535,6 @@ func RegisterRouterHandler(ctx context.Context, mux *runtime.ServeMux, conn *grp
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "RouterClient" to call the correct interceptors.
 func RegisterRouterHandlerClient(ctx context.Context, mux *runtime.ServeMux, client RouterClient) error {
-
 	mux.Handle("POST", pattern_Router_SendPaymentV2_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -575,7 +552,6 @@ func RegisterRouterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Router_SendPaymentV2_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Router_TrackPaymentV2_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -595,7 +571,6 @@ func RegisterRouterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Router_TrackPaymentV2_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Router_EstimateRouteFee_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -615,7 +590,6 @@ func RegisterRouterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Router_EstimateRouteFee_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Router_SendToRouteV2_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -635,7 +609,6 @@ func RegisterRouterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Router_SendToRouteV2_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Router_ResetMissionControl_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -655,7 +628,6 @@ func RegisterRouterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Router_ResetMissionControl_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Router_QueryMissionControl_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -675,7 +647,6 @@ func RegisterRouterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Router_QueryMissionControl_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Router_QueryProbability_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -695,7 +666,6 @@ func RegisterRouterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Router_QueryProbability_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Router_BuildRoute_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -715,7 +685,6 @@ func RegisterRouterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Router_BuildRoute_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("GET", pattern_Router_SubscribeHtlcEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -735,7 +704,6 @@ func RegisterRouterHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Router_SubscribeHtlcEvents_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil

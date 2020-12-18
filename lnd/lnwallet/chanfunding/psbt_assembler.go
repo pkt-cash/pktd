@@ -153,7 +153,6 @@ type PsbtIntent struct {
 // channel funding multisig output.
 func (i *PsbtIntent) BindKeys(localKey *keychain.KeyDescriptor,
 	remoteKey *btcec.PublicKey) {
-
 	i.localKey = localKey
 	i.remoteKey = remoteKey
 	i.State = PsbtOutputKnown
@@ -165,7 +164,6 @@ func (i *PsbtIntent) BindKeys(localKey *keychain.KeyDescriptor,
 // output that encodes the previous two parameters.
 func (i *PsbtIntent) FundingParams() (btcutil.Address, int64, *psbt.Packet,
 	er.R) {
-
 	if i.State != PsbtOutputKnown {
 		return nil, 0, nil, er.Errorf("invalid state, got %v "+
 			"expected %v", i.State, PsbtOutputKnown)
@@ -420,7 +418,6 @@ type PsbtAssembler struct {
 // creating a new one.
 func NewPsbtAssembler(fundingAmt btcutil.Amount, basePsbt *psbt.Packet,
 	netParams *chaincfg.Params, shouldPublish bool) *PsbtAssembler {
-
 	return &PsbtAssembler{
 		fundingAmt:    fundingAmt,
 		basePsbt:      basePsbt,

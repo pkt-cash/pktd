@@ -62,7 +62,6 @@ func newMockChannelNotifier() *mockChannelNotifier {
 
 func (m *mockChannelNotifier) SubscribeChans(chans map[wire.OutPoint]struct{}) (
 	*ChannelSubscription, er.R) {
-
 	if m.fail {
 		return nil, er.Errorf("fail")
 	}
@@ -95,7 +94,6 @@ func TestNewSubSwapperSubscribeFail(t *testing.T) {
 func assertExpectedBackupSwap(t *testing.T, swapper *mockSwapper,
 	subSwapper *SubSwapper, keyRing keychain.KeyRing,
 	expectedChanSet map[wire.OutPoint]Single) {
-
 	t.Helper()
 
 	select {

@@ -33,7 +33,6 @@ type mockPeerConnector struct {
 
 func (m *mockPeerConnector) ConnectPeer(node *btcec.PublicKey,
 	addrs []net.Addr) er.R {
-
 	if m.fail {
 		return er.Errorf("fail")
 	}

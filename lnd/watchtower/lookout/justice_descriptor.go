@@ -171,7 +171,6 @@ func (p *JusticeDescriptor) commitToRemoteInput() (*breachedInput, er.R) {
 // funds to their wallet and claims the watchtower's reward.
 func (p *JusticeDescriptor) assembleJusticeTxn(txWeight int64,
 	inputs ...*breachedInput) (*wire.MsgTx, er.R) {
-
 	justiceTxn := wire.NewMsgTx(2)
 
 	// First, construct add the breached inputs to our justice transaction
@@ -325,7 +324,6 @@ func (p *JusticeDescriptor) CreateJusticeTxn() (*wire.MsgTx, er.R) {
 // NOTE: The search stops after the first match is found.
 func findTxOutByPkScript(txn *wire.MsgTx,
 	pkScript []byte) (uint32, *wire.TxOut, er.R) {
-
 	found, index := input.FindScriptOutputIndex(txn, pkScript)
 	if !found {
 		return 0, nil, ErrOutputNotFound.Default()

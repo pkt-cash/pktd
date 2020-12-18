@@ -57,7 +57,6 @@ type commitSweepResolver struct {
 func newCommitSweepResolver(res lnwallet.CommitOutputResolution,
 	broadcastHeight uint32,
 	chanPoint wire.OutPoint, resCfg ResolverConfig) *commitSweepResolver {
-
 	r := &commitSweepResolver{
 		contractResolverKit: *newContractResolverKit(resCfg),
 		commitResolution:    res,
@@ -343,7 +342,6 @@ func (c *commitSweepResolver) Encode(w io.Writer) er.R {
 // ContractResolver instance.
 func newCommitSweepResolverFromReader(r io.Reader, resCfg ResolverConfig) (
 	*commitSweepResolver, er.R) {
-
 	c := &commitSweepResolver{
 		contractResolverKit: *newContractResolverKit(resCfg),
 	}

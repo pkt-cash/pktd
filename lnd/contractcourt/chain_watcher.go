@@ -297,7 +297,6 @@ func (c *chainWatcher) Stop() er.R {
 // require the subscription, they should call the Cancel() method to allow the
 // watcher to regain those committed resources.
 func (c *chainWatcher) SubscribeChannelEvents() *ChainEventSubscription {
-
 	c.Lock()
 	clientID := c.clientID
 	c.clientID++
@@ -334,7 +333,6 @@ func isOurCommitment(localChanCfg, remoteChanCfg channeldb.ChannelConfig,
 	commitSpend *chainntnfs.SpendDetail, broadcastStateNum uint64,
 	revocationProducer shachain.Producer,
 	chanType channeldb.ChannelType) (bool, er.R) {
-
 	// First, we'll re-derive our commitment point for this state since
 	// this is what we use to randomize each of the keys for this state.
 	commitSecret, err := revocationProducer.AtIndex(broadcastStateNum)
@@ -820,7 +818,6 @@ func (c *chainWatcher) dispatchCooperativeClose(commitSpend *chainntnfs.SpendDet
 func (c *chainWatcher) dispatchLocalForceClose(
 	commitSpend *chainntnfs.SpendDetail,
 	localCommit channeldb.ChannelCommitment, commitSet CommitSet) er.R {
-
 	log.Infof("Local unilateral close of ChannelPoint(%v) "+
 		"detected", c.cfg.chanState.FundingOutpoint)
 
@@ -910,7 +907,6 @@ func (c *chainWatcher) dispatchRemoteForceClose(
 	commitSpend *chainntnfs.SpendDetail,
 	remoteCommit channeldb.ChannelCommitment,
 	commitSet CommitSet, commitPoint *btcec.PublicKey) er.R {
-
 	log.Infof("Unilateral close of ChannelPoint(%v) "+
 		"detected", c.cfg.chanState.FundingOutpoint)
 
@@ -952,7 +948,6 @@ func (c *chainWatcher) dispatchRemoteForceClose(
 func (c *chainWatcher) dispatchContractBreach(spendEvent *chainntnfs.SpendDetail,
 	remoteCommit *channeldb.ChannelCommitment,
 	broadcastStateNum uint64) er.R {
-
 	log.Warnf("Remote peer has breached the channel contract for "+
 		"ChannelPoint(%v). Revoked state #%v was broadcast!!!",
 		c.cfg.chanState.FundingOutpoint, broadcastStateNum)

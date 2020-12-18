@@ -120,7 +120,6 @@ type Single struct {
 // connect to the channel peer.
 func NewSingle(channel *channeldb.OpenChannel,
 	nodeAddrs []net.Addr) Single {
-
 	// TODO(roasbeef): update after we start to store the KeyLoc for
 	// shachain root
 
@@ -465,7 +464,6 @@ func (s *Single) UnpackFromReader(r io.Reader, keyRing keychain.KeyRing) er.R {
 // root HD seed in order to ensure full determinism.
 func PackStaticChanBackups(backups []Single,
 	keyRing keychain.KeyRing) (map[wire.OutPoint][]byte, er.R) {
-
 	packedBackups := make(map[wire.OutPoint][]byte)
 	for _, chanBackup := range backups {
 		chanPoint := chanBackup.FundingOutpoint
@@ -493,7 +491,6 @@ type PackedSingles [][]byte
 // same HD seed as was used to encrypt the set of backups in the first place.
 // If we're unable to decrypt any of the back ups, then we'll return an error.
 func (p PackedSingles) Unpack(keyRing keychain.KeyRing) ([]Single, er.R) {
-
 	backups := make([]Single, len(p))
 	for i, encryptedBackup := range p {
 		var backup Single

@@ -25,12 +25,10 @@ import (
 	"sync"
 )
 
-var (
-	// fieldOne is simply the integer 1 in field representation.  It is
-	// used to avoid needing to create it multiple times during the internal
-	// arithmetic.
-	fieldOne = new(fieldVal).SetInt(1)
-)
+// fieldOne is simply the integer 1 in field representation.  It is
+// used to avoid needing to create it multiple times during the internal
+// arithmetic.
+var fieldOne = new(fieldVal).SetInt(1)
 
 // KoblitzCurve supports a koblitz curve implementation that fits the ECC Curve
 // interface from crypto/elliptic.
@@ -885,8 +883,10 @@ func (curve *KoblitzCurve) QPlus1Div4() *big.Int {
 	return curve.q
 }
 
-var initonce sync.Once
-var secp256k1 KoblitzCurve
+var (
+	initonce  sync.Once
+	secp256k1 KoblitzCurve
+)
 
 func initAll() {
 	initS256()

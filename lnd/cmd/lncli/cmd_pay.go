@@ -322,7 +322,6 @@ func sendPayment(ctx *cli.Context) er.R {
 
 func sendPaymentRequest(ctx *cli.Context,
 	req *routerrpc.SendPaymentRequest) er.R {
-
 	conn := getClientConn(ctx, false)
 	defer conn.Close()
 
@@ -501,7 +500,6 @@ func trackPayment(ctx *cli.Context) er.R {
 // terminates when the payment reaches a final state.
 func printLivePayment(stream routerrpc.Router_TrackPaymentV2Client,
 	client lnrpc.LightningClient, json bool) (*lnrpc.Payment, er.R) {
-
 	// Terminal escape codes aren't supported on Windows, fall back to json.
 	if !json && runtime.GOOS == "windows" {
 		json = true
@@ -609,8 +607,10 @@ func formatPayment(payment *lnrpc.Payment, aliases *aliasCache) string {
 	t.SetColumnConfigs([]table.ColumnConfig{
 		{Name: "ATTEMPT_TIME", Align: text.AlignRight},
 		{Name: "RESOLVE_TIME", Align: text.AlignRight},
-		{Name: "CHAN_OUT", Align: text.AlignLeft,
-			AlignHeader: text.AlignLeft},
+		{
+			Name: "CHAN_OUT", Align: text.AlignLeft,
+			AlignHeader: text.AlignLeft,
+		},
 	})
 
 	// Add all htlcs as rows.
@@ -655,7 +655,8 @@ func formatPayment(payment *lnrpc.Payment, aliases *aliasCache) string {
 			formatMsat(lastHop.AmtToForwardMsat),
 			formatMsat(route.TotalFeesMsat),
 			route.TotalTimeLock, route.Hops[0].ChanId,
-			strings.Join(hops, "->")},
+			strings.Join(hops, "->"),
+		},
 		)
 
 		if htlc.Status == lnrpc.HTLCAttempt_SUCCEEDED {

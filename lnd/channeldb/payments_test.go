@@ -185,7 +185,6 @@ func deletePayment(t *testing.T, db *DB, paymentHash lntypes.Hash, seqNr uint64)
 		indexes := tx.ReadWriteBucket(paymentsIndexBucket)
 		return indexes.Delete(key)
 	}, func() {})
-
 	if err != nil {
 		t.Fatalf("could not delete "+
 			"payment: %v", err)
@@ -613,7 +612,6 @@ func TestFetchPaymentWithSequenceNumber(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			err := kvdb.Update(db,
 				func(tx walletdb.ReadWriteTx) er.R {
-
 					var seqNrBytes [8]byte
 					byteOrder.PutUint64(
 						seqNrBytes[:], test.sequenceNumber,
@@ -636,7 +634,6 @@ func TestFetchPaymentWithSequenceNumber(t *testing.T) {
 // our current schema does not allow duplicates.
 func appendDuplicatePayment(t *testing.T, db *DB, paymentHash lntypes.Hash,
 	seqNr uint64) {
-
 	err := kvdb.Update(db, func(tx walletdb.ReadWriteTx) er.R {
 		bucket, err := fetchPaymentBucketUpdate(
 			tx, paymentHash,
@@ -677,7 +674,6 @@ func appendDuplicatePayment(t *testing.T, db *DB, paymentHash lntypes.Hash,
 // provided with the minimal information required for successful reading.
 func putDuplicatePayment(t *testing.T, duplicateBucket kvdb.RwBucket,
 	sequenceKey []byte, paymentHash lntypes.Hash) {
-
 	paymentBucket, err := duplicateBucket.CreateBucketIfNotExists(
 		sequenceKey,
 	)

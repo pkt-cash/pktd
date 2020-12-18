@@ -18,9 +18,7 @@ import (
 	"github.com/pkt-cash/pktd/lnd/watchtower/wtpolicy"
 )
 
-var (
-	testBlob = make([]byte, blob.Size(blob.TypeAltruistCommit))
-)
+var testBlob = make([]byte, blob.Size(blob.TypeAltruistCommit))
 
 // dbInit is a closure used to initialize a watchtower.DB instance and its
 // cleanup function.
@@ -65,7 +63,6 @@ func (h *towerDBHarness) insertSession(s *wtdb.SessionInfo, expErr *er.ErrorCode
 // returns expErr. If successful, the found session is returned.
 func (h *towerDBHarness) getSession(id *wtdb.SessionID,
 	expErr *er.ErrorCode) *wtdb.SessionInfo {
-
 	h.t.Helper()
 
 	session, err := h.db.GetSessionInfo(id)
@@ -79,7 +76,6 @@ func (h *towerDBHarness) getSession(id *wtdb.SessionID,
 // value is returned.
 func (h *towerDBHarness) insertUpdate(s *wtdb.SessionStateUpdate,
 	expErr *er.ErrorCode) uint16 {
-
 	h.t.Helper()
 
 	lastApplied, err := h.db.InsertStateUpdate(s)
@@ -786,7 +782,6 @@ func id(i int) *wtdb.SessionID {
 // levels of synchronicity between client and db.
 func updateFromInt(id *wtdb.SessionID, i int,
 	lastApplied uint16) *wtdb.SessionStateUpdate {
-
 	// Ensure the hint is unique.
 	var hint blob.BreachHint
 	copy(hint[:4], id[:4])

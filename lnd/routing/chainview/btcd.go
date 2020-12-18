@@ -153,7 +153,6 @@ func (b *BtcdFilteredChainView) Stop() er.R {
 // may not include any relevant transactions.
 func (b *BtcdFilteredChainView) onFilteredBlockConnected(height int32,
 	header *wire.BlockHeader, txns []*btcutil.Tx) {
-
 	mtxs := make([]*wire.MsgTx, len(txns))
 	b.filterMtx.Lock()
 	for i, tx := range txns {
@@ -197,7 +196,6 @@ func (b *BtcdFilteredChainView) onFilteredBlockConnected(height int32,
 // disconnected from the end of the main chain.
 func (b *BtcdFilteredChainView) onFilteredBlockDisconnected(height int32,
 	header *wire.BlockHeader) {
-
 	log.Debugf("got disconnected block at height %d: %v", height,
 		header.BlockHash())
 
@@ -291,7 +289,6 @@ func (b *BtcdFilteredChainView) chainFilterer() {
 		hash, err := chainhash.NewHashFromStr(block.Hash)
 		if err != nil {
 			return nil, err
-
 		}
 		txs := make([]*wire.MsgTx, 0, len(block.Transactions))
 		for _, str := range block.Transactions {
@@ -450,7 +447,6 @@ type filterUpdate struct {
 // NOTE: This is part of the FilteredChainView interface.
 func (b *BtcdFilteredChainView) UpdateFilter(ops []channeldb.EdgePoint,
 	updateHeight uint32) er.R {
-
 	newUtxos := make([]wire.OutPoint, len(ops))
 	for i, op := range ops {
 		newUtxos[i] = op.OutPoint

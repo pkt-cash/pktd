@@ -51,7 +51,7 @@ func TestSphinxHopIteratorForwardingInstructions(t *testing.T) {
 		t.Fatalf("unable to encode stream: %v", err)
 	}
 
-	var testCases = []struct {
+	testCases := []struct {
 		sphinxPacket    *sphinx.ProcessedPacket
 		expectedFwdInfo ForwardingInfo
 	}{

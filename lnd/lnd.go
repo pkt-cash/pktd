@@ -357,7 +357,6 @@ func Main(cfg *Config, lisCfg ListenerCfg, shutdownChan <-chan struct{}) er.R {
 	// server.
 	walletUnlockerListeners := func() ([]*ListenerWithSignal, func(),
 		er.R) {
-
 		// If we have chosen to start with a dedicated listener for the
 		// wallet unlocker, we return it directly.
 		if lisCfg.WalletUnlocker != nil {
@@ -829,7 +828,6 @@ func Main(cfg *Config, lisCfg ListenerCfg, shutdownChan <-chan struct{}) er.R {
 // and a proxy destination for the REST reverse proxy.
 func getTLSConfig(cfg *Config) ([]grpc.ServerOption, []grpc.DialOption,
 	func(net.Addr) (net.Listener, er.R), func(), er.R) {
-
 	// Ensure we create TLS key and certificate if they don't exist.
 	if !fileExists(cfg.TLSCertPath) && !fileExists(cfg.TLSKeyPath) {
 		log.Infof("Generating TLS certificates...")
@@ -953,7 +951,6 @@ func getTLSConfig(cfg *Config) ([]grpc.ServerOption, []grpc.DialOption,
 
 		getCertificate := func(h *tls.ClientHelloInfo) (
 			*tls.Certificate, error) {
-
 			lecert, err := manager.GetCertificate(h)
 			if err != nil {
 				log.Errorf("GetCertificate: %v", err)
@@ -1012,7 +1009,6 @@ func fileExists(name string) bool {
 // permissions then returns it binary serialized.
 func bakeMacaroon(ctx context.Context, svc *macaroons.Service,
 	permissions []bakery.Op) ([]byte, er.R) {
-
 	mac, err := svc.NewMacaroon(
 		ctx, macaroons.DefaultRootKeyID, permissions...,
 	)
@@ -1029,7 +1025,6 @@ func bakeMacaroon(ctx context.Context, svc *macaroons.Service,
 // granular macaroons.
 func genMacaroons(ctx context.Context, svc *macaroons.Service,
 	admFile, roFile, invoiceFile string) er.R {
-
 	// First, we'll generate a macaroon that only allows the caller to
 	// access invoice related calls. This is useful for merchants and other
 	// services to allow an isolated instance that can only query and
@@ -1038,7 +1033,7 @@ func genMacaroons(ctx context.Context, svc *macaroons.Service,
 	if err != nil {
 		return err
 	}
-	errr := ioutil.WriteFile(invoiceFile, invoiceMacBytes, 0644)
+	errr := ioutil.WriteFile(invoiceFile, invoiceMacBytes, 0o644)
 	if errr != nil {
 		_ = os.Remove(invoiceFile)
 		return er.E(errr)
@@ -1049,7 +1044,7 @@ func genMacaroons(ctx context.Context, svc *macaroons.Service,
 	if err != nil {
 		return err
 	}
-	if errr = ioutil.WriteFile(roFile, roBytes, 0644); errr != nil {
+	if errr = ioutil.WriteFile(roFile, roBytes, 0o644); errr != nil {
 		_ = os.Remove(roFile)
 		return er.E(errr)
 	}
@@ -1059,7 +1054,7 @@ func genMacaroons(ctx context.Context, svc *macaroons.Service,
 	if err != nil {
 		return err
 	}
-	if errr = ioutil.WriteFile(admFile, admBytes, 0600); errr != nil {
+	if errr = ioutil.WriteFile(admFile, admBytes, 0o600); errr != nil {
 		_ = os.Remove(admFile)
 		return er.E(errr)
 	}
@@ -1122,7 +1117,6 @@ func waitForWalletPassword(cfg *Config, restEndpoints []net.Addr,
 	serverOpts []grpc.ServerOption, restDialOpts []grpc.DialOption,
 	restProxyDest string, restListen func(net.Addr) (net.Listener, er.R),
 	getListeners rpcListeners) (*WalletUnlockParams, func(), er.R) {
-
 	chainConfig := cfg.Bitcoin
 	if cfg.registeredChains.PrimaryChain() == chainreg.LitecoinChain {
 		chainConfig = cfg.Litecoin
@@ -1344,7 +1338,6 @@ func waitForWalletPassword(cfg *Config, restEndpoints []net.Addr,
 // opened databases is also returned.
 func initializeDatabases(ctx context.Context,
 	cfg *Config) (*channeldb.DB, *channeldb.DB, func(), er.R) {
-
 	log.Infof("Opening the main database, this might take a few " +
 		"minutes...")
 
@@ -1463,7 +1456,6 @@ func initializeDatabases(ctx context.Context,
 // backend given a target chain directory to store the chain state.
 func initNeutrinoBackend(cfg *Config, chainDir string) (*neutrino.ChainService,
 	func(), er.R) {
-
 	// First we'll open the database file for neutrino, creating the
 	// database if needed. We append the normalized network name here to
 	// match the behavior of btcwallet.
@@ -1472,7 +1464,7 @@ func initNeutrinoBackend(cfg *Config, chainDir string) (*neutrino.ChainService,
 	)
 
 	// Ensure that the neutrino db path exists.
-	if errr := os.MkdirAll(dbPath, 0700); errr != nil {
+	if errr := os.MkdirAll(dbPath, 0o700); errr != nil {
 		return nil, nil, er.E(errr)
 	}
 

@@ -48,7 +48,6 @@ type chanDBRestorer struct {
 // insert this shell channel back into the database.
 func (c *chanDBRestorer) openChannelShell(backup chanbackup.Single) (
 	*channeldb.ChannelShell, er.R) {
-
 	// First, we'll also need to obtain the private key for the shachain
 	// root from the encoded public key.
 	//
@@ -279,7 +278,6 @@ func (s *server) ConnectPeer(nodePub *btcec.PublicKey, addrs []net.Addr) er.R {
 		errr := er.Wrapped(err)
 		if _, ok := errr.(*errPeerAlreadyConnected); ok {
 			return nil
-
 		} else if err != nil {
 			// Otherwise, something else happened, so we'll try the
 			// next address.

@@ -2,8 +2,10 @@ package sha1
 
 import "encoding/binary"
 
-const size = 20
-const blocksize = 64
+const (
+	size      = 20
+	blocksize = 64
+)
 
 // Sum computes a SHA1 hash
 func Sum(

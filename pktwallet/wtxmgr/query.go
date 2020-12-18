@@ -189,7 +189,6 @@ func (s *Store) unminedTxDetails(ns walletdb.ReadBucket, txHash *chainhash.Hash,
 // string and no error are returned.
 func (s *Store) TxLabel(ns walletdb.ReadBucket, txHash chainhash.Hash) (string,
 	er.R) {
-
 	label, err := FetchTxLabel(ns, txHash)
 	switch {
 	// If there are no saved labels yet (the bucket has not been created) or
@@ -240,7 +239,6 @@ func (s *Store) TxDetails(ns walletdb.ReadBucket, txHash *chainhash.Hash) (*TxDe
 // this case, a nil TxDetails is returned.
 func (s *Store) UniqueTxDetails(ns walletdb.ReadBucket, txHash *chainhash.Hash,
 	block *Block) (*TxDetails, er.R) {
-
 	if block == nil {
 		v := existsRawUnmined(ns, txHash[:])
 		if v == nil {
@@ -295,7 +293,6 @@ func (s *Store) rangeUnminedTransactions(ns walletdb.ReadBucket, f func([]TxDeta
 // f executes and returns true.
 func (s *Store) rangeBlockTransactions(ns walletdb.ReadBucket, begin, end int32,
 	f func([]TxDetails) (bool, er.R)) (bool, er.R) {
-
 	// Mempool height is considered a high bound.
 	if begin < 0 {
 		begin = int32(^uint32(0) >> 1)
@@ -417,7 +414,6 @@ func (s *Store) rangeBlockTransactions(ns walletdb.ReadBucket, begin, end int32,
 // use it after the loop iteration it was acquired.
 func (s *Store) RangeTransactions(ns walletdb.ReadBucket, begin, end int32,
 	f func([]TxDetails) (bool, er.R)) er.R {
-
 	var addedUnmined bool
 	if begin < 0 {
 		brk, err := s.rangeUnminedTransactions(ns, f)

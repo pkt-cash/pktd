@@ -24,12 +24,14 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = descriptor.ForMessage
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = descriptor.ForMessage
+)
 
 func request_Signer_SignOutputRaw_0(ctx context.Context, marshaler runtime.Marshaler, client SignerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq SignReq
@@ -45,7 +47,6 @@ func request_Signer_SignOutputRaw_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.SignOutputRaw(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Signer_SignOutputRaw_0(ctx context.Context, marshaler runtime.Marshaler, server SignerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -62,7 +63,6 @@ func local_request_Signer_SignOutputRaw_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.SignOutputRaw(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Signer_ComputeInputScript_0(ctx context.Context, marshaler runtime.Marshaler, client SignerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -79,7 +79,6 @@ func request_Signer_ComputeInputScript_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.ComputeInputScript(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Signer_ComputeInputScript_0(ctx context.Context, marshaler runtime.Marshaler, server SignerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -96,7 +95,6 @@ func local_request_Signer_ComputeInputScript_0(ctx context.Context, marshaler ru
 
 	msg, err := server.ComputeInputScript(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Signer_SignMessage_0(ctx context.Context, marshaler runtime.Marshaler, client SignerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -113,7 +111,6 @@ func request_Signer_SignMessage_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.SignMessage(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Signer_SignMessage_0(ctx context.Context, marshaler runtime.Marshaler, server SignerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -130,7 +127,6 @@ func local_request_Signer_SignMessage_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.SignMessage(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Signer_VerifyMessage_0(ctx context.Context, marshaler runtime.Marshaler, client SignerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -147,7 +143,6 @@ func request_Signer_VerifyMessage_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.VerifyMessage(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Signer_VerifyMessage_0(ctx context.Context, marshaler runtime.Marshaler, server SignerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -164,7 +159,6 @@ func local_request_Signer_VerifyMessage_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.VerifyMessage(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Signer_DeriveSharedKey_0(ctx context.Context, marshaler runtime.Marshaler, client SignerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -181,7 +175,6 @@ func request_Signer_DeriveSharedKey_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.DeriveSharedKey(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Signer_DeriveSharedKey_0(ctx context.Context, marshaler runtime.Marshaler, server SignerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -198,14 +191,12 @@ func local_request_Signer_DeriveSharedKey_0(ctx context.Context, marshaler runti
 
 	msg, err := server.DeriveSharedKey(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 // RegisterSignerHandlerServer registers the http handlers for service Signer to "mux".
 // UnaryRPC     :call SignerServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 func RegisterSignerHandlerServer(ctx context.Context, mux *runtime.ServeMux, server SignerServer) error {
-
 	mux.Handle("POST", pattern_Signer_SignOutputRaw_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -223,7 +214,6 @@ func RegisterSignerHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Signer_SignOutputRaw_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Signer_ComputeInputScript_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -243,7 +233,6 @@ func RegisterSignerHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Signer_ComputeInputScript_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Signer_SignMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -263,7 +252,6 @@ func RegisterSignerHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Signer_SignMessage_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Signer_VerifyMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -283,7 +271,6 @@ func RegisterSignerHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Signer_VerifyMessage_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Signer_DeriveSharedKey_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -303,7 +290,6 @@ func RegisterSignerHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Signer_DeriveSharedKey_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
@@ -346,7 +332,6 @@ func RegisterSignerHandler(ctx context.Context, mux *runtime.ServeMux, conn *grp
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "SignerClient" to call the correct interceptors.
 func RegisterSignerHandlerClient(ctx context.Context, mux *runtime.ServeMux, client SignerClient) error {
-
 	mux.Handle("POST", pattern_Signer_SignOutputRaw_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -364,7 +349,6 @@ func RegisterSignerHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Signer_SignOutputRaw_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Signer_ComputeInputScript_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -384,7 +368,6 @@ func RegisterSignerHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Signer_ComputeInputScript_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Signer_SignMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -404,7 +387,6 @@ func RegisterSignerHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Signer_SignMessage_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Signer_VerifyMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -424,7 +406,6 @@ func RegisterSignerHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Signer_VerifyMessage_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Signer_DeriveSharedKey_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -444,7 +425,6 @@ func RegisterSignerHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		}
 
 		forward_Signer_DeriveSharedKey_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil

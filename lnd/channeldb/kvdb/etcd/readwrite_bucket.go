@@ -139,7 +139,6 @@ func (b *readWriteBucket) assertNoValue(key []byte) er.R {
 // implementation.
 func (b *readWriteBucket) CreateBucket(key []byte) (
 	walletdb.ReadWriteBucket, er.R) {
-
 	if len(key) == 0 {
 		return nil, walletdb.ErrBucketNameRequired.Default()
 	}
@@ -176,7 +175,6 @@ func (b *readWriteBucket) CreateBucket(key []byte) (
 // backend.  Other errors are possible depending on the implementation.
 func (b *readWriteBucket) CreateBucketIfNotExists(key []byte) (
 	walletdb.ReadWriteBucket, er.R) {
-
 	if len(key) == 0 {
 		return nil, walletdb.ErrBucketNameRequired.Default()
 	}

@@ -198,7 +198,7 @@ func bakeMacaroon(ctx *cli.Context) er.R {
 	// a file or write to the standard output using hex encoding.
 	switch {
 	case savePath != "":
-		err := ioutil.WriteFile(savePath, macBytes, 0644)
+		err := ioutil.WriteFile(savePath, macBytes, 0o644)
 		if err != nil {
 			return er.E(err)
 		}

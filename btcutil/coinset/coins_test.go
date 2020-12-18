@@ -191,12 +191,12 @@ func TestMaxValueAgeSelector(t *testing.T) {
 
 var minPrioritySelectors = []coinset.MinPriorityCoinSelector{
 	{MaxInputs: 10, MinChangeAmount: 10000, MinAvgValueAgePerInput: 100000000},
-	{MaxInputs: 02, MinChangeAmount: 10000, MinAvgValueAgePerInput: 200000000},
-	{MaxInputs: 02, MinChangeAmount: 10000, MinAvgValueAgePerInput: 150000000},
-	{MaxInputs: 03, MinChangeAmount: 10000, MinAvgValueAgePerInput: 150000000},
+	{MaxInputs: 0o2, MinChangeAmount: 10000, MinAvgValueAgePerInput: 200000000},
+	{MaxInputs: 0o2, MinChangeAmount: 10000, MinAvgValueAgePerInput: 150000000},
+	{MaxInputs: 0o3, MinChangeAmount: 10000, MinAvgValueAgePerInput: 150000000},
 	{MaxInputs: 10, MinChangeAmount: 10000, MinAvgValueAgePerInput: 1000000000},
 	{MaxInputs: 10, MinChangeAmount: 10000, MinAvgValueAgePerInput: 175000000},
-	{MaxInputs: 02, MinChangeAmount: 10000, MinAvgValueAgePerInput: 125000000},
+	{MaxInputs: 0o2, MinChangeAmount: 10000, MinAvgValueAgePerInput: 125000000},
 }
 
 var connectedCoins = []coinset.Coin{coins[0], coins[1], coins[3]}

@@ -95,7 +95,6 @@ type headerStore struct {
 // file will be created as necessary.
 func newHeaderStore(db walletdb.DB, filePath string,
 	hType HeaderType) (*headerStore, er.R) {
-
 	var flatFileName string
 	switch hType {
 	case Block:
@@ -111,7 +110,7 @@ func newHeaderStore(db walletdb.DB, filePath string,
 	// We'll open the file, creating it if necessary and ensuring that all
 	// writes are actually appends to the end of the file.
 	fileFlags := os.O_RDWR | os.O_APPEND | os.O_CREATE
-	headerFile, errr := os.OpenFile(flatFileName, fileFlags, 0644)
+	headerFile, errr := os.OpenFile(flatFileName, fileFlags, 0o644)
 	if errr != nil {
 		return nil, er.E(errr)
 	}
@@ -149,7 +148,6 @@ var _ BlockHeaderStore = (*blockHeaderStore)(nil)
 // header will need to be inserted.
 func NewBlockHeaderStore(filePath string, db walletdb.DB,
 	netParams *chaincfg.Params) (BlockHeaderStore, er.R) {
-
 	hStore, err := newHeaderStore(db, filePath, Block)
 	if err != nil {
 		return nil, err
@@ -277,7 +275,6 @@ func (h *blockHeaderStore) FetchHeaderByHeight(height uint32) (*wire.BlockHeader
 // NOTE: Part of the BlockHeaderStore interface.
 func (h *blockHeaderStore) FetchHeaderAncestors(numHeaders uint32,
 	stopHash *chainhash.Hash) ([]wire.BlockHeader, uint32, er.R) {
-
 	// First, we'll find the final header in the range, this will be the
 	// ending height of our scan.
 	endHeight, err := h.heightFromHash(stopHash)
@@ -411,7 +408,6 @@ func (h *blockHeaderStore) WriteHeaders(hdrs ...BlockHeader) er.R {
 // TODO(roasbeef): make into single transaction.
 func (h *blockHeaderStore) blockLocatorFromHash(hash *chainhash.Hash) (
 	blockchain.BlockLocator, er.R) {
-
 	var locator blockchain.BlockLocator
 
 	// Append the initial hash
@@ -588,7 +584,6 @@ type FilterHeaderStore struct {
 func NewFilterHeaderStore(filePath string, db walletdb.DB,
 	filterType HeaderType, netParams *chaincfg.Params,
 	headerStateAssertion *FilterHeader) (*FilterHeaderStore, er.R) {
-
 	fStore, err := newHeaderStore(db, filePath, filterType)
 	if err != nil {
 		return nil, err
@@ -708,7 +703,6 @@ func NewFilterHeaderStore(filePath string, db walletdb.DB,
 // that header state was reset.
 func (f *FilterHeaderStore) maybeResetHeaderState(
 	headerStateAssertion *FilterHeader) (bool, er.R) {
-
 	// First, we'll attempt to locate the header at this height. If no such
 	// header is found, then we'll exit early.
 	assertedHeader, err := f.FetchHeaderByHeight(
@@ -771,7 +765,6 @@ func (f *FilterHeaderStore) FetchHeaderByHeight(height uint32) (*chainhash.Hash,
 // height of each header without knowing the height of the stop hash.
 func (f *FilterHeaderStore) FetchHeaderAncestors(numHeaders uint32,
 	stopHash *chainhash.Hash) ([]chainhash.Hash, uint32, er.R) {
-
 	// First, we'll find the final header in the range, this will be the
 	// ending height of our scan.
 	endHeight, err := f.heightFromHash(stopHash)

@@ -28,7 +28,6 @@ func NewNodeSigner(keySigner keychain.SingleKeyDigestSigner) *NodeSigner {
 // private key, then an error will be returned.
 func (n *NodeSigner) SignMessage(pubKey *btcec.PublicKey,
 	msg []byte) (input.Signature, er.R) {
-
 	// If this isn't our identity public key, then we'll exit early with an
 	// error as we can't sign with this key.
 	if !pubKey.IsEqual(n.keySigner.PubKey()) {

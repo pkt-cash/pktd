@@ -6,18 +6,21 @@ package routerrpc
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
 	proto "github.com/golang/protobuf/proto"
 	lnrpc "github.com/pkt-cash/pktd/lnd/lnrpc"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+var (
+	_ = proto.Marshal
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -336,15 +339,19 @@ func (*SendPaymentRequest) Descriptor() ([]byte, []int) {
 func (m *SendPaymentRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SendPaymentRequest.Unmarshal(m, b)
 }
+
 func (m *SendPaymentRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SendPaymentRequest.Marshal(b, m, deterministic)
 }
+
 func (m *SendPaymentRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SendPaymentRequest.Merge(m, src)
 }
+
 func (m *SendPaymentRequest) XXX_Size() int {
 	return xxx_messageInfo_SendPaymentRequest.Size(m)
 }
+
 func (m *SendPaymentRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_SendPaymentRequest.DiscardUnknown(m)
 }
@@ -507,15 +514,19 @@ func (*TrackPaymentRequest) Descriptor() ([]byte, []int) {
 func (m *TrackPaymentRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TrackPaymentRequest.Unmarshal(m, b)
 }
+
 func (m *TrackPaymentRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_TrackPaymentRequest.Marshal(b, m, deterministic)
 }
+
 func (m *TrackPaymentRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_TrackPaymentRequest.Merge(m, src)
 }
+
 func (m *TrackPaymentRequest) XXX_Size() int {
 	return xxx_messageInfo_TrackPaymentRequest.Size(m)
 }
+
 func (m *TrackPaymentRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_TrackPaymentRequest.DiscardUnknown(m)
 }
@@ -558,15 +569,19 @@ func (*RouteFeeRequest) Descriptor() ([]byte, []int) {
 func (m *RouteFeeRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RouteFeeRequest.Unmarshal(m, b)
 }
+
 func (m *RouteFeeRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_RouteFeeRequest.Marshal(b, m, deterministic)
 }
+
 func (m *RouteFeeRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_RouteFeeRequest.Merge(m, src)
 }
+
 func (m *RouteFeeRequest) XXX_Size() int {
 	return xxx_messageInfo_RouteFeeRequest.Size(m)
 }
+
 func (m *RouteFeeRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_RouteFeeRequest.DiscardUnknown(m)
 }
@@ -612,15 +627,19 @@ func (*RouteFeeResponse) Descriptor() ([]byte, []int) {
 func (m *RouteFeeResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RouteFeeResponse.Unmarshal(m, b)
 }
+
 func (m *RouteFeeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_RouteFeeResponse.Marshal(b, m, deterministic)
 }
+
 func (m *RouteFeeResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_RouteFeeResponse.Merge(m, src)
 }
+
 func (m *RouteFeeResponse) XXX_Size() int {
 	return xxx_messageInfo_RouteFeeResponse.Size(m)
 }
+
 func (m *RouteFeeResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_RouteFeeResponse.DiscardUnknown(m)
 }
@@ -661,15 +680,19 @@ func (*SendToRouteRequest) Descriptor() ([]byte, []int) {
 func (m *SendToRouteRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SendToRouteRequest.Unmarshal(m, b)
 }
+
 func (m *SendToRouteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SendToRouteRequest.Marshal(b, m, deterministic)
 }
+
 func (m *SendToRouteRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SendToRouteRequest.Merge(m, src)
 }
+
 func (m *SendToRouteRequest) XXX_Size() int {
 	return xxx_messageInfo_SendToRouteRequest.Size(m)
 }
+
 func (m *SendToRouteRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_SendToRouteRequest.DiscardUnknown(m)
 }
@@ -710,15 +733,19 @@ func (*SendToRouteResponse) Descriptor() ([]byte, []int) {
 func (m *SendToRouteResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SendToRouteResponse.Unmarshal(m, b)
 }
+
 func (m *SendToRouteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SendToRouteResponse.Marshal(b, m, deterministic)
 }
+
 func (m *SendToRouteResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SendToRouteResponse.Merge(m, src)
 }
+
 func (m *SendToRouteResponse) XXX_Size() int {
 	return xxx_messageInfo_SendToRouteResponse.Size(m)
 }
+
 func (m *SendToRouteResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_SendToRouteResponse.DiscardUnknown(m)
 }
@@ -755,15 +782,19 @@ func (*ResetMissionControlRequest) Descriptor() ([]byte, []int) {
 func (m *ResetMissionControlRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ResetMissionControlRequest.Unmarshal(m, b)
 }
+
 func (m *ResetMissionControlRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ResetMissionControlRequest.Marshal(b, m, deterministic)
 }
+
 func (m *ResetMissionControlRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ResetMissionControlRequest.Merge(m, src)
 }
+
 func (m *ResetMissionControlRequest) XXX_Size() int {
 	return xxx_messageInfo_ResetMissionControlRequest.Size(m)
 }
+
 func (m *ResetMissionControlRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_ResetMissionControlRequest.DiscardUnknown(m)
 }
@@ -786,15 +817,19 @@ func (*ResetMissionControlResponse) Descriptor() ([]byte, []int) {
 func (m *ResetMissionControlResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ResetMissionControlResponse.Unmarshal(m, b)
 }
+
 func (m *ResetMissionControlResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ResetMissionControlResponse.Marshal(b, m, deterministic)
 }
+
 func (m *ResetMissionControlResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ResetMissionControlResponse.Merge(m, src)
 }
+
 func (m *ResetMissionControlResponse) XXX_Size() int {
 	return xxx_messageInfo_ResetMissionControlResponse.Size(m)
 }
+
 func (m *ResetMissionControlResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_ResetMissionControlResponse.DiscardUnknown(m)
 }
@@ -817,15 +852,19 @@ func (*QueryMissionControlRequest) Descriptor() ([]byte, []int) {
 func (m *QueryMissionControlRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_QueryMissionControlRequest.Unmarshal(m, b)
 }
+
 func (m *QueryMissionControlRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_QueryMissionControlRequest.Marshal(b, m, deterministic)
 }
+
 func (m *QueryMissionControlRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryMissionControlRequest.Merge(m, src)
 }
+
 func (m *QueryMissionControlRequest) XXX_Size() int {
 	return xxx_messageInfo_QueryMissionControlRequest.Size(m)
 }
+
 func (m *QueryMissionControlRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryMissionControlRequest.DiscardUnknown(m)
 }
@@ -851,15 +890,19 @@ func (*QueryMissionControlResponse) Descriptor() ([]byte, []int) {
 func (m *QueryMissionControlResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_QueryMissionControlResponse.Unmarshal(m, b)
 }
+
 func (m *QueryMissionControlResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_QueryMissionControlResponse.Marshal(b, m, deterministic)
 }
+
 func (m *QueryMissionControlResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryMissionControlResponse.Merge(m, src)
 }
+
 func (m *QueryMissionControlResponse) XXX_Size() int {
 	return xxx_messageInfo_QueryMissionControlResponse.Size(m)
 }
+
 func (m *QueryMissionControlResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryMissionControlResponse.DiscardUnknown(m)
 }
@@ -895,15 +938,19 @@ func (*PairHistory) Descriptor() ([]byte, []int) {
 func (m *PairHistory) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PairHistory.Unmarshal(m, b)
 }
+
 func (m *PairHistory) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_PairHistory.Marshal(b, m, deterministic)
 }
+
 func (m *PairHistory) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_PairHistory.Merge(m, src)
 }
+
 func (m *PairHistory) XXX_Size() int {
 	return xxx_messageInfo_PairHistory.Size(m)
 }
+
 func (m *PairHistory) XXX_DiscardUnknown() {
 	xxx_messageInfo_PairHistory.DiscardUnknown(m)
 }
@@ -963,15 +1010,19 @@ func (*PairData) Descriptor() ([]byte, []int) {
 func (m *PairData) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PairData.Unmarshal(m, b)
 }
+
 func (m *PairData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_PairData.Marshal(b, m, deterministic)
 }
+
 func (m *PairData) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_PairData.Merge(m, src)
 }
+
 func (m *PairData) XXX_Size() int {
 	return xxx_messageInfo_PairData.Size(m)
 }
+
 func (m *PairData) XXX_DiscardUnknown() {
 	xxx_messageInfo_PairData.DiscardUnknown(m)
 }
@@ -1042,15 +1093,19 @@ func (*QueryProbabilityRequest) Descriptor() ([]byte, []int) {
 func (m *QueryProbabilityRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_QueryProbabilityRequest.Unmarshal(m, b)
 }
+
 func (m *QueryProbabilityRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_QueryProbabilityRequest.Marshal(b, m, deterministic)
 }
+
 func (m *QueryProbabilityRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryProbabilityRequest.Merge(m, src)
 }
+
 func (m *QueryProbabilityRequest) XXX_Size() int {
 	return xxx_messageInfo_QueryProbabilityRequest.Size(m)
 }
+
 func (m *QueryProbabilityRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryProbabilityRequest.DiscardUnknown(m)
 }
@@ -1098,15 +1153,19 @@ func (*QueryProbabilityResponse) Descriptor() ([]byte, []int) {
 func (m *QueryProbabilityResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_QueryProbabilityResponse.Unmarshal(m, b)
 }
+
 func (m *QueryProbabilityResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_QueryProbabilityResponse.Marshal(b, m, deterministic)
 }
+
 func (m *QueryProbabilityResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryProbabilityResponse.Merge(m, src)
 }
+
 func (m *QueryProbabilityResponse) XXX_Size() int {
 	return xxx_messageInfo_QueryProbabilityResponse.Size(m)
 }
+
 func (m *QueryProbabilityResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryProbabilityResponse.DiscardUnknown(m)
 }
@@ -1159,15 +1218,19 @@ func (*BuildRouteRequest) Descriptor() ([]byte, []int) {
 func (m *BuildRouteRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_BuildRouteRequest.Unmarshal(m, b)
 }
+
 func (m *BuildRouteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_BuildRouteRequest.Marshal(b, m, deterministic)
 }
+
 func (m *BuildRouteRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_BuildRouteRequest.Merge(m, src)
 }
+
 func (m *BuildRouteRequest) XXX_Size() int {
 	return xxx_messageInfo_BuildRouteRequest.Size(m)
 }
+
 func (m *BuildRouteRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_BuildRouteRequest.DiscardUnknown(m)
 }
@@ -1221,15 +1284,19 @@ func (*BuildRouteResponse) Descriptor() ([]byte, []int) {
 func (m *BuildRouteResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_BuildRouteResponse.Unmarshal(m, b)
 }
+
 func (m *BuildRouteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_BuildRouteResponse.Marshal(b, m, deterministic)
 }
+
 func (m *BuildRouteResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_BuildRouteResponse.Merge(m, src)
 }
+
 func (m *BuildRouteResponse) XXX_Size() int {
 	return xxx_messageInfo_BuildRouteResponse.Size(m)
 }
+
 func (m *BuildRouteResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_BuildRouteResponse.DiscardUnknown(m)
 }
@@ -1259,15 +1326,19 @@ func (*SubscribeHtlcEventsRequest) Descriptor() ([]byte, []int) {
 func (m *SubscribeHtlcEventsRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SubscribeHtlcEventsRequest.Unmarshal(m, b)
 }
+
 func (m *SubscribeHtlcEventsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SubscribeHtlcEventsRequest.Marshal(b, m, deterministic)
 }
+
 func (m *SubscribeHtlcEventsRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SubscribeHtlcEventsRequest.Merge(m, src)
 }
+
 func (m *SubscribeHtlcEventsRequest) XXX_Size() int {
 	return xxx_messageInfo_SubscribeHtlcEventsRequest.Size(m)
 }
+
 func (m *SubscribeHtlcEventsRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_SubscribeHtlcEventsRequest.DiscardUnknown(m)
 }
@@ -1326,15 +1397,19 @@ func (*HtlcEvent) Descriptor() ([]byte, []int) {
 func (m *HtlcEvent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_HtlcEvent.Unmarshal(m, b)
 }
+
 func (m *HtlcEvent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_HtlcEvent.Marshal(b, m, deterministic)
 }
+
 func (m *HtlcEvent) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_HtlcEvent.Merge(m, src)
 }
+
 func (m *HtlcEvent) XXX_Size() int {
 	return xxx_messageInfo_HtlcEvent.Size(m)
 }
+
 func (m *HtlcEvent) XXX_DiscardUnknown() {
 	xxx_messageInfo_HtlcEvent.DiscardUnknown(m)
 }
@@ -1480,15 +1555,19 @@ func (*HtlcInfo) Descriptor() ([]byte, []int) {
 func (m *HtlcInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_HtlcInfo.Unmarshal(m, b)
 }
+
 func (m *HtlcInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_HtlcInfo.Marshal(b, m, deterministic)
 }
+
 func (m *HtlcInfo) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_HtlcInfo.Merge(m, src)
 }
+
 func (m *HtlcInfo) XXX_Size() int {
 	return xxx_messageInfo_HtlcInfo.Size(m)
 }
+
 func (m *HtlcInfo) XXX_DiscardUnknown() {
 	xxx_messageInfo_HtlcInfo.DiscardUnknown(m)
 }
@@ -1541,15 +1620,19 @@ func (*ForwardEvent) Descriptor() ([]byte, []int) {
 func (m *ForwardEvent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ForwardEvent.Unmarshal(m, b)
 }
+
 func (m *ForwardEvent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ForwardEvent.Marshal(b, m, deterministic)
 }
+
 func (m *ForwardEvent) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ForwardEvent.Merge(m, src)
 }
+
 func (m *ForwardEvent) XXX_Size() int {
 	return xxx_messageInfo_ForwardEvent.Size(m)
 }
+
 func (m *ForwardEvent) XXX_DiscardUnknown() {
 	xxx_messageInfo_ForwardEvent.DiscardUnknown(m)
 }
@@ -1579,15 +1662,19 @@ func (*ForwardFailEvent) Descriptor() ([]byte, []int) {
 func (m *ForwardFailEvent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ForwardFailEvent.Unmarshal(m, b)
 }
+
 func (m *ForwardFailEvent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ForwardFailEvent.Marshal(b, m, deterministic)
 }
+
 func (m *ForwardFailEvent) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ForwardFailEvent.Merge(m, src)
 }
+
 func (m *ForwardFailEvent) XXX_Size() int {
 	return xxx_messageInfo_ForwardFailEvent.Size(m)
 }
+
 func (m *ForwardFailEvent) XXX_DiscardUnknown() {
 	xxx_messageInfo_ForwardFailEvent.DiscardUnknown(m)
 }
@@ -1610,15 +1697,19 @@ func (*SettleEvent) Descriptor() ([]byte, []int) {
 func (m *SettleEvent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SettleEvent.Unmarshal(m, b)
 }
+
 func (m *SettleEvent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SettleEvent.Marshal(b, m, deterministic)
 }
+
 func (m *SettleEvent) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SettleEvent.Merge(m, src)
 }
+
 func (m *SettleEvent) XXX_Size() int {
 	return xxx_messageInfo_SettleEvent.Size(m)
 }
+
 func (m *SettleEvent) XXX_DiscardUnknown() {
 	xxx_messageInfo_SettleEvent.DiscardUnknown(m)
 }
@@ -1652,15 +1743,19 @@ func (*LinkFailEvent) Descriptor() ([]byte, []int) {
 func (m *LinkFailEvent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_LinkFailEvent.Unmarshal(m, b)
 }
+
 func (m *LinkFailEvent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_LinkFailEvent.Marshal(b, m, deterministic)
 }
+
 func (m *LinkFailEvent) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_LinkFailEvent.Merge(m, src)
 }
+
 func (m *LinkFailEvent) XXX_Size() int {
 	return xxx_messageInfo_LinkFailEvent.Size(m)
 }
+
 func (m *LinkFailEvent) XXX_DiscardUnknown() {
 	xxx_messageInfo_LinkFailEvent.DiscardUnknown(m)
 }
@@ -1719,15 +1814,19 @@ func (*PaymentStatus) Descriptor() ([]byte, []int) {
 func (m *PaymentStatus) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PaymentStatus.Unmarshal(m, b)
 }
+
 func (m *PaymentStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_PaymentStatus.Marshal(b, m, deterministic)
 }
+
 func (m *PaymentStatus) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_PaymentStatus.Merge(m, src)
 }
+
 func (m *PaymentStatus) XXX_Size() int {
 	return xxx_messageInfo_PaymentStatus.Size(m)
 }
+
 func (m *PaymentStatus) XXX_DiscardUnknown() {
 	xxx_messageInfo_PaymentStatus.DiscardUnknown(m)
 }
@@ -1775,15 +1874,19 @@ func (*CircuitKey) Descriptor() ([]byte, []int) {
 func (m *CircuitKey) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CircuitKey.Unmarshal(m, b)
 }
+
 func (m *CircuitKey) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CircuitKey.Marshal(b, m, deterministic)
 }
+
 func (m *CircuitKey) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_CircuitKey.Merge(m, src)
 }
+
 func (m *CircuitKey) XXX_Size() int {
 	return xxx_messageInfo_CircuitKey.Size(m)
 }
+
 func (m *CircuitKey) XXX_DiscardUnknown() {
 	xxx_messageInfo_CircuitKey.DiscardUnknown(m)
 }
@@ -1845,15 +1948,19 @@ func (*ForwardHtlcInterceptRequest) Descriptor() ([]byte, []int) {
 func (m *ForwardHtlcInterceptRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ForwardHtlcInterceptRequest.Unmarshal(m, b)
 }
+
 func (m *ForwardHtlcInterceptRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ForwardHtlcInterceptRequest.Marshal(b, m, deterministic)
 }
+
 func (m *ForwardHtlcInterceptRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ForwardHtlcInterceptRequest.Merge(m, src)
 }
+
 func (m *ForwardHtlcInterceptRequest) XXX_Size() int {
 	return xxx_messageInfo_ForwardHtlcInterceptRequest.Size(m)
 }
+
 func (m *ForwardHtlcInterceptRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_ForwardHtlcInterceptRequest.DiscardUnknown(m)
 }
@@ -1953,15 +2060,19 @@ func (*ForwardHtlcInterceptResponse) Descriptor() ([]byte, []int) {
 func (m *ForwardHtlcInterceptResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ForwardHtlcInterceptResponse.Unmarshal(m, b)
 }
+
 func (m *ForwardHtlcInterceptResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ForwardHtlcInterceptResponse.Marshal(b, m, deterministic)
 }
+
 func (m *ForwardHtlcInterceptResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ForwardHtlcInterceptResponse.Merge(m, src)
 }
+
 func (m *ForwardHtlcInterceptResponse) XXX_Size() int {
 	return xxx_messageInfo_ForwardHtlcInterceptResponse.Size(m)
 }
+
 func (m *ForwardHtlcInterceptResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_ForwardHtlcInterceptResponse.DiscardUnknown(m)
 }
@@ -2195,8 +2306,10 @@ var fileDescriptor_7a0613f69d37b0a5 = []byte{
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
+var (
+	_ context.Context
+	_ grpc.ClientConn
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
@@ -2610,39 +2723,51 @@ type UnimplementedRouterServer struct {
 func (*UnimplementedRouterServer) SendPaymentV2(req *SendPaymentRequest, srv Router_SendPaymentV2Server) error {
 	return status.Errorf(codes.Unimplemented, "method SendPaymentV2 not implemented")
 }
+
 func (*UnimplementedRouterServer) TrackPaymentV2(req *TrackPaymentRequest, srv Router_TrackPaymentV2Server) error {
 	return status.Errorf(codes.Unimplemented, "method TrackPaymentV2 not implemented")
 }
+
 func (*UnimplementedRouterServer) EstimateRouteFee(ctx context.Context, req *RouteFeeRequest) (*RouteFeeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EstimateRouteFee not implemented")
 }
+
 func (*UnimplementedRouterServer) SendToRoute(ctx context.Context, req *SendToRouteRequest) (*SendToRouteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendToRoute not implemented")
 }
+
 func (*UnimplementedRouterServer) SendToRouteV2(ctx context.Context, req *SendToRouteRequest) (*lnrpc.HTLCAttempt, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendToRouteV2 not implemented")
 }
+
 func (*UnimplementedRouterServer) ResetMissionControl(ctx context.Context, req *ResetMissionControlRequest) (*ResetMissionControlResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetMissionControl not implemented")
 }
+
 func (*UnimplementedRouterServer) QueryMissionControl(ctx context.Context, req *QueryMissionControlRequest) (*QueryMissionControlResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryMissionControl not implemented")
 }
+
 func (*UnimplementedRouterServer) QueryProbability(ctx context.Context, req *QueryProbabilityRequest) (*QueryProbabilityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryProbability not implemented")
 }
+
 func (*UnimplementedRouterServer) BuildRoute(ctx context.Context, req *BuildRouteRequest) (*BuildRouteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BuildRoute not implemented")
 }
+
 func (*UnimplementedRouterServer) SubscribeHtlcEvents(req *SubscribeHtlcEventsRequest, srv Router_SubscribeHtlcEventsServer) error {
 	return status.Errorf(codes.Unimplemented, "method SubscribeHtlcEvents not implemented")
 }
+
 func (*UnimplementedRouterServer) SendPayment(req *SendPaymentRequest, srv Router_SendPaymentServer) error {
 	return status.Errorf(codes.Unimplemented, "method SendPayment not implemented")
 }
+
 func (*UnimplementedRouterServer) TrackPayment(req *TrackPaymentRequest, srv Router_TrackPaymentServer) error {
 	return status.Errorf(codes.Unimplemented, "method TrackPayment not implemented")
 }
+
 func (*UnimplementedRouterServer) HtlcInterceptor(srv Router_HtlcInterceptorServer) error {
 	return status.Errorf(codes.Unimplemented, "method HtlcInterceptor not implemented")
 }

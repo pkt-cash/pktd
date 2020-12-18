@@ -19,7 +19,6 @@ var errEtcdNotAvailable = er.GenericErrorType.CodeWithDetail(
 // GetEtcdBackend is a stub returning nil and errEtcdNotAvailable error.
 func GetEtcdBackend(ctx context.Context, prefix string,
 	etcdConfig *EtcdConfig) (Backend, er.R) {
-
 	return nil, errEtcdNotAvailable.Default()
 }
 

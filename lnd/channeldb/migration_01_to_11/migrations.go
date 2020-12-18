@@ -389,9 +389,10 @@ func MigrateEdgePolicies(tx kvdb.RwTx) er.R {
 			return err
 		}
 
-		for _, key := range [][]byte{edgeInfo.NodeKey1Bytes[:],
-			edgeInfo.NodeKey2Bytes[:]} {
-
+		for _, key := range [][]byte{
+			edgeInfo.NodeKey1Bytes[:],
+			edgeInfo.NodeKey2Bytes[:],
+		} {
 			if err := checkKey(edgeInfo.ChannelID, key); err != nil {
 				return err
 			}
@@ -399,7 +400,6 @@ func MigrateEdgePolicies(tx kvdb.RwTx) er.R {
 
 		return nil
 	})
-
 	if err != nil {
 		return er.Errorf("unable to update edge policies: %v", err)
 	}
@@ -702,7 +702,6 @@ func MigrateGossipMessageStoreKeys(tx kvdb.RwTx) er.R {
 		msgs[msgKey] = msg
 
 		return nil
-
 	})
 	if err != nil {
 		return err

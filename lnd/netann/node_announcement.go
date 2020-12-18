@@ -43,7 +43,6 @@ func NodeAnnSetTimestamp(nodeAnn *lnwire.NodeAnnouncement) {
 func SignNodeAnnouncement(signer lnwallet.MessageSigner,
 	pubKey *btcec.PublicKey, nodeAnn *lnwire.NodeAnnouncement,
 	mods ...NodeAnnModifier) er.R {
-
 	// Apply the requested changes to the node announcement.
 	for _, modifier := range mods {
 		modifier(nodeAnn)

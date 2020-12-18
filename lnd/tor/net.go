@@ -48,7 +48,6 @@ type ClearNet struct{}
 // Dial on the regular network uses net.Dial
 func (r *ClearNet) Dial(
 	network, address string, timeout time.Duration) (net.Conn, er.R) {
-
 	c, e := net.DialTimeout(network, address, timeout)
 	return c, er.E(e)
 }
@@ -62,7 +61,6 @@ func (r *ClearNet) LookupHost(host string) ([]string, er.R) {
 // LookupSRV for regular network uses net.LookupSRV function
 func (r *ClearNet) LookupSRV(service, proto, name string,
 	timeout time.Duration) (string, []*net.SRV, er.R) {
-
 	// Create a context with a timeout value.
 	ctxt, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
@@ -99,7 +97,6 @@ type ProxyNet struct {
 // Tor. Since Tor only supports TCP connections, only TCP networks are allowed.
 func (p *ProxyNet) Dial(network, address string,
 	timeout time.Duration) (net.Conn, er.R) {
-
 	switch network {
 	case "tcp", "tcp4", "tcp6":
 	default:
@@ -118,7 +115,6 @@ func (p *ProxyNet) LookupHost(host string) ([]string, er.R) {
 // over Tor.
 func (p *ProxyNet) LookupSRV(service, proto,
 	name string, timeout time.Duration) (string, []*net.SRV, er.R) {
-
 	return LookupSRV(
 		service, proto, name, p.SOCKS, p.DNS,
 		p.StreamIsolation, timeout,

@@ -20,7 +20,7 @@ import (
 )
 
 func TestParseHexColor(t *testing.T) {
-	var colorTestCases = []struct {
+	colorTestCases := []struct {
 		test  string
 		valid bool // If valid format
 		R     byte
@@ -99,11 +99,11 @@ func TestTLSAutoRegeneration(t *testing.T) {
 	}
 
 	// Write cert and key files.
-	errr = ioutil.WriteFile(tempDirPath+"/tls.cert", certBuf.Bytes(), 0644)
+	errr = ioutil.WriteFile(tempDirPath+"/tls.cert", certBuf.Bytes(), 0o644)
 	if errr != nil {
 		t.Fatalf("failed to write cert file: %v", errr)
 	}
-	errr = ioutil.WriteFile(tempDirPath+"/tls.key", keyBuf.Bytes(), 0600)
+	errr = ioutil.WriteFile(tempDirPath+"/tls.key", keyBuf.Bytes(), 0o600)
 	if errr != nil {
 		t.Fatalf("failed to write key file: %v", errr)
 	}

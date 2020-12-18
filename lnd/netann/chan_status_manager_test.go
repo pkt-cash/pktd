@@ -59,7 +59,6 @@ func createChannel(t *testing.T) *channeldb.OpenChannel {
 func createEdgePolicies(t *testing.T, channel *channeldb.OpenChannel,
 	pubkey *btcec.PublicKey, startEnabled bool) (*channeldb.ChannelEdgeInfo,
 	*channeldb.ChannelEdgePolicy, *channeldb.ChannelEdgePolicy) {
-
 	var (
 		pubkey1 [33]byte
 		pubkey2 [33]byte
@@ -124,7 +123,6 @@ type mockGraph struct {
 
 func newMockGraph(t *testing.T, numChannels int,
 	startActive, startEnabled bool, pubKey *btcec.PublicKey) *mockGraph {
-
 	g := &mockGraph{
 		channels:  make([]*channeldb.OpenChannel, 0, numChannels),
 		chanInfos: make(map[wire.OutPoint]*channeldb.ChannelEdgeInfo),
@@ -155,7 +153,6 @@ func (g *mockGraph) FetchAllOpenChannels() ([]*channeldb.OpenChannel, er.R) {
 func (g *mockGraph) FetchChannelEdgesByOutpoint(
 	op *wire.OutPoint) (*channeldb.ChannelEdgeInfo,
 	*channeldb.ChannelEdgePolicy, *channeldb.ChannelEdgePolicy, er.R) {
-
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
@@ -241,7 +238,6 @@ func (g *mockGraph) addChannel(channel *channeldb.OpenChannel) {
 func (g *mockGraph) addEdgePolicy(c *channeldb.OpenChannel,
 	info *channeldb.ChannelEdgeInfo,
 	pol1, pol2 *channeldb.ChannelEdgePolicy) {
-
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
@@ -303,7 +299,6 @@ func (s *mockSwitch) SetStatus(chanID lnwire.ChannelID, active bool) {
 
 func newManagerCfg(t *testing.T, numChannels int,
 	startEnabled bool) (*netann.ChanStatusConfig, *mockGraph, *mockSwitch) {
-
 	t.Helper()
 
 	privKey, err := btcec.NewPrivateKey(btcec.S256())
@@ -348,7 +343,6 @@ type testHarness struct {
 // the network, respectively.
 func newHarness(t *testing.T, numChannels int,
 	startActive, startEnabled bool) testHarness {
-
 	cfg, graph, htlcSwitch := newManagerCfg(t, numChannels, startEnabled)
 
 	mgr, err := netann.NewChanStatusManager(cfg)
@@ -459,7 +453,6 @@ func (h *testHarness) assertNoUpdates(duration time.Duration) {
 // is ignored if channels is nil.
 func (h *testHarness) assertUpdates(channels []*channeldb.OpenChannel,
 	expEnabled bool, duration time.Duration) {
-
 	h.t.Helper()
 
 	// Compute an index of the expected short channel ids for which we want
@@ -506,7 +499,6 @@ func (h *testHarness) assertUpdates(channels []*channeldb.OpenChannel,
 // provided in the list of OpenChannels.
 func sidsFromChans(
 	channels []*channeldb.OpenChannel) map[lnwire.ShortChannelID]struct{} {
-
 	sids := make(map[lnwire.ShortChannelID]struct{})
 	for _, channel := range channels {
 		sids[channel.ShortChanID()] = struct{}{}

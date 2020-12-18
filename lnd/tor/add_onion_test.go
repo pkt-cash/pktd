@@ -22,7 +22,7 @@ func TestOnionFile(t *testing.T) {
 
 	// Create a new file-based onion store. A private key should not exist
 	// yet.
-	onionFile := NewOnionFile(privateKeyPath, 0600)
+	onionFile := NewOnionFile(privateKeyPath, 0o600)
 	if _, err := onionFile.PrivateKey(V2); !ErrNoPrivateKey.Is(err) {
 		t.Fatalf("expected ErrNoPrivateKey, got \"%v\"", err)
 	}
