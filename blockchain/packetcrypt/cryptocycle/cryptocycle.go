@@ -11,7 +11,7 @@ import (
 
 	"github.com/aead/chacha20/chacha"
 
-	"github.com/johnsonjh/goc25519sm"
+	goc25519sm "github.com/johnsonjh/goc25519sm"
 	"golang.org/x/crypto/poly1305"
 
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/randhash/interpret"
