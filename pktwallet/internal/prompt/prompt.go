@@ -17,7 +17,7 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/hdkeychain"
 	"github.com/pkt-cash/pktd/pktwallet/internal/legacy/keystore"
 	"github.com/pkt-cash/pktd/pktwallet/wallet/seedwords"
-	"golang.org/x/crypto/ssh/terminal"
+	terminal "golang.org/x/term"
 )
 
 // ProvideSeed is used to prompt for the wallet seed which maybe required during

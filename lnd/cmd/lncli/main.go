@@ -20,7 +20,7 @@ import (
 	"github.com/pkt-cash/pktd/pktconfig/version"
 	"github.com/urfave/cli"
 
-	"golang.org/x/crypto/ssh/terminal"
+	terminal "golang.org/x/term"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
