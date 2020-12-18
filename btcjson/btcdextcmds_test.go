@@ -18,8 +18,8 @@ import (
 
 // TestBtcdExtCmds tests all of the pktd extended commands marshal and unmarshal
 // into valid results include handling of optional fields being omitted in the
-// marshalled command, while optional fields with defaults have the default
-// assigned on unmarshalled commands.
+// marshaled command, while optional fields with defaults have the default
+// assigned on unmarshaled commands.
 func TestBtcdExtCmds(t *testing.T) {
 
 	testID := int(1)
@@ -27,8 +27,8 @@ func TestBtcdExtCmds(t *testing.T) {
 		name         string
 		newCmd       func() (interface{}, er.R)
 		staticCmd    func() interface{}
-		marshalled   string
-		unmarshalled interface{}
+		marshaled   string
+		unmarshaled interface{}
 	}{
 		{
 			name: "debuglevel",
@@ -38,8 +38,8 @@ func TestBtcdExtCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewDebugLevelCmd("trace")
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"debuglevel","params":["trace"],"id":1}`,
-			unmarshalled: &btcjson.DebugLevelCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"debuglevel","params":["trace"],"id":1}`,
+			unmarshaled: &btcjson.DebugLevelCmd{
 				LevelSpec: "trace",
 			},
 		},
@@ -51,8 +51,8 @@ func TestBtcdExtCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewNodeCmd("remove", "1.1.1.1", nil)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"node","params":["remove","1.1.1.1"],"id":1}`,
-			unmarshalled: &btcjson.NodeCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"node","params":["remove","1.1.1.1"],"id":1}`,
+			unmarshaled: &btcjson.NodeCmd{
 				SubCmd: btcjson.NRemove,
 				Target: "1.1.1.1",
 			},
@@ -65,8 +65,8 @@ func TestBtcdExtCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewNodeCmd("disconnect", "1.1.1.1", nil)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"node","params":["disconnect","1.1.1.1"],"id":1}`,
-			unmarshalled: &btcjson.NodeCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"node","params":["disconnect","1.1.1.1"],"id":1}`,
+			unmarshaled: &btcjson.NodeCmd{
 				SubCmd: btcjson.NDisconnect,
 				Target: "1.1.1.1",
 			},
@@ -79,8 +79,8 @@ func TestBtcdExtCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewNodeCmd("connect", "1.1.1.1", btcjson.String("perm"))
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"node","params":["connect","1.1.1.1","perm"],"id":1}`,
-			unmarshalled: &btcjson.NodeCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"node","params":["connect","1.1.1.1","perm"],"id":1}`,
+			unmarshaled: &btcjson.NodeCmd{
 				SubCmd:        btcjson.NConnect,
 				Target:        "1.1.1.1",
 				ConnectSubCmd: btcjson.String("perm"),
@@ -94,8 +94,8 @@ func TestBtcdExtCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewNodeCmd("connect", "1.1.1.1", btcjson.String("temp"))
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"node","params":["connect","1.1.1.1","temp"],"id":1}`,
-			unmarshalled: &btcjson.NodeCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"node","params":["connect","1.1.1.1","temp"],"id":1}`,
+			unmarshaled: &btcjson.NodeCmd{
 				SubCmd:        btcjson.NConnect,
 				Target:        "1.1.1.1",
 				ConnectSubCmd: btcjson.String("temp"),
@@ -109,8 +109,8 @@ func TestBtcdExtCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewGenerateCmd(1)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"generate","params":[1],"id":1}`,
-			unmarshalled: &btcjson.GenerateCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"generate","params":[1],"id":1}`,
+			unmarshaled: &btcjson.GenerateCmd{
 				NumBlocks: 1,
 			},
 		},
@@ -122,8 +122,8 @@ func TestBtcdExtCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewGetBestBlockCmd()
 			},
-			marshalled:   `{"jsonrpc":"1.0","method":"getbestblock","params":[],"id":1}`,
-			unmarshalled: &btcjson.GetBestBlockCmd{},
+			marshaled:   `{"jsonrpc":"1.0","method":"getbestblock","params":[],"id":1}`,
+			unmarshaled: &btcjson.GetBestBlockCmd{},
 		},
 		{
 			name: "getcurrentnet",
@@ -133,8 +133,8 @@ func TestBtcdExtCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewGetCurrentNetCmd()
 			},
-			marshalled:   `{"jsonrpc":"1.0","method":"getcurrentnet","params":[],"id":1}`,
-			unmarshalled: &btcjson.GetCurrentNetCmd{},
+			marshaled:   `{"jsonrpc":"1.0","method":"getcurrentnet","params":[],"id":1}`,
+			unmarshaled: &btcjson.GetCurrentNetCmd{},
 		},
 		{
 			name: "getheaders",
@@ -147,8 +147,8 @@ func TestBtcdExtCmds(t *testing.T) {
 					"",
 				)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"getheaders","params":[[],""],"id":1}`,
-			unmarshalled: &btcjson.GetHeadersCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"getheaders","params":[[],""],"id":1}`,
+			unmarshaled: &btcjson.GetHeadersCmd{
 				BlockLocators: []string{},
 				HashStop:      "",
 			},
@@ -167,8 +167,8 @@ func TestBtcdExtCmds(t *testing.T) {
 					"000000000000000000ba33b33e1fad70b69e234fc24414dd47113bff38f523f7",
 				)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"getheaders","params":[["000000000000000001f1739002418e2f9a84c47a4fd2a0eb7a787a6b7dc12f16","0000000000000000026f4b7f56eef057b32167eb5ad9ff62006f1807b7336d10"],"000000000000000000ba33b33e1fad70b69e234fc24414dd47113bff38f523f7"],"id":1}`,
-			unmarshalled: &btcjson.GetHeadersCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"getheaders","params":[["000000000000000001f1739002418e2f9a84c47a4fd2a0eb7a787a6b7dc12f16","0000000000000000026f4b7f56eef057b32167eb5ad9ff62006f1807b7336d10"],"000000000000000000ba33b33e1fad70b69e234fc24414dd47113bff38f523f7"],"id":1}`,
+			unmarshaled: &btcjson.GetHeadersCmd{
 				BlockLocators: []string{
 					"000000000000000001f1739002418e2f9a84c47a4fd2a0eb7a787a6b7dc12f16",
 					"0000000000000000026f4b7f56eef057b32167eb5ad9ff62006f1807b7336d10",
@@ -184,8 +184,8 @@ func TestBtcdExtCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewVersionCmd()
 			},
-			marshalled:   `{"jsonrpc":"1.0","method":"version","params":[],"id":1}`,
-			unmarshalled: &btcjson.VersionCmd{},
+			marshaled:   `{"jsonrpc":"1.0","method":"version","params":[],"id":1}`,
+			unmarshaled: &btcjson.VersionCmd{},
 		},
 	}
 
@@ -193,17 +193,17 @@ func TestBtcdExtCmds(t *testing.T) {
 	for i, test := range tests {
 		// Marshal the command as created by the new static command
 		// creation function.
-		marshalled, err := btcjson.MarshalCmd(testID, test.staticCmd())
+		marshaled, err := btcjson.MarshalCmd(testID, test.staticCmd())
 		if err != nil {
 			t.Errorf("MarshalCmd #%d (%s) unexpected error: %v", i,
 				test.name, err)
 			continue
 		}
 
-		if !bytes.Equal(marshalled, []byte(test.marshalled)) {
-			t.Errorf("Test #%d (%s) unexpected marshalled data - "+
-				"got %s, want %s", i, test.name, marshalled,
-				test.marshalled)
+		if !bytes.Equal(marshaled, []byte(test.marshaled)) {
+			t.Errorf("Test #%d (%s) unexpected marshaled data - "+
+				"got %s, want %s", i, test.name, marshaled,
+				test.marshaled)
 			continue
 		}
 
@@ -217,24 +217,24 @@ func TestBtcdExtCmds(t *testing.T) {
 
 		// Marshal the command as created by the generic new command
 		// creation function.
-		marshalled, err = btcjson.MarshalCmd(testID, cmd)
+		marshaled, err = btcjson.MarshalCmd(testID, cmd)
 		if err != nil {
 			t.Errorf("MarshalCmd #%d (%s) unexpected error: %v", i,
 				test.name, err)
 			continue
 		}
 
-		if !bytes.Equal(marshalled, []byte(test.marshalled)) {
-			t.Errorf("Test #%d (%s) unexpected marshalled data - "+
-				"got %s, want %s", i, test.name, marshalled,
-				test.marshalled)
+		if !bytes.Equal(marshaled, []byte(test.marshaled)) {
+			t.Errorf("Test #%d (%s) unexpected marshaled data - "+
+				"got %s, want %s", i, test.name, marshaled,
+				test.marshaled)
 			continue
 		}
 
 		var request btcjson.Request
-		if err := jsoniter.Unmarshal(marshalled, &request); err != nil {
+		if err := jsoniter.Unmarshal(marshaled, &request); err != nil {
 			t.Errorf("Test #%d (%s) unexpected error while "+
-				"unmarshalling JSON-RPC request: %v", i,
+				"unmarshaling JSON-RPC request: %v", i,
 				test.name, err)
 			continue
 		}
@@ -246,11 +246,11 @@ func TestBtcdExtCmds(t *testing.T) {
 			continue
 		}
 
-		if !reflect.DeepEqual(cmd, test.unmarshalled) {
-			t.Errorf("Test #%d (%s) unexpected unmarshalled command "+
+		if !reflect.DeepEqual(cmd, test.unmarshaled) {
+			t.Errorf("Test #%d (%s) unexpected unmarshaled command "+
 				"- got %s, want %s", i, test.name,
 				fmt.Sprintf("(%T) %+[1]v", cmd),
-				fmt.Sprintf("(%T) %+[1]v\n", test.unmarshalled))
+				fmt.Sprintf("(%T) %+[1]v\n", test.unmarshaled))
 			continue
 		}
 	}

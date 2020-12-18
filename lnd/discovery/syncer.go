@@ -450,7 +450,7 @@ func (g *GossipSyncer) channelGraphSyncer() {
 		case waitingQueryRangeReply:
 			// We'll wait to either process a new message from the
 			// remote party, or exit due to the gossiper exiting,
-			// or us being signalled to do so.
+			// or us being signaled to do so.
 			select {
 			case msg := <-g.gossipMsgs:
 				// The remote peer is sending a response to our

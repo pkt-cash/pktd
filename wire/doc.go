@@ -9,7 +9,7 @@ For the complete details of the bitcoin protocol, see the official wiki entry
 at https://en.bitcoin.it/wiki/Protocol_specification.  The following only serves
 as a quick overview to provide information on how to use the package.
 
-At a high level, this package provides support for marshalling and unmarshalling
+At a high level, this package provides support for marshaling and unmarshaling
 supported bitcoin messages to and from the wire.  This package does not deal
 with the specifics of message handling such as what to do when a message is
 received.  This provides the caller with a high level of flexibility.
@@ -26,7 +26,7 @@ To accomplish this, there is a generic interface for bitcoin messages named
 Message which allows messages of any type to be read, written, or passed around
 through channels, functions, etc.  In addition, concrete implementations of most
 of the currently supported bitcoin messages are provided.  For these supported
-messages, all of the details of marshalling and unmarshalling to and from the
+messages, all of the details of marshaling and unmarshaling to and from the
 wire using bitcoin encoding are handled so the caller doesn't have to concern
 themselves with the specifics.
 
@@ -108,13 +108,13 @@ switch or type assertion.  An example of a type switch follows:
 
 Reading Messages
 
-In order to unmarshall bitcoin messages from the wire, use the ReadMessage
+In order to unmarshal bitcoin messages from the wire, use the ReadMessage
 function.  It accepts any io.Reader, but typically this will be a net.Conn to
 a remote node running a bitcoin peer.  Example syntax is:
 
 	// Reads and validates the next bitcoin message from conn using the
 	// protocol version pver and the bitcoin network btcnet.  The returns
-	// are a wire.Message, a []byte which contains the unmarshalled
+	// are a wire.Message, a []byte which contains the unmarshaled
 	// raw payload, and a possible error.
 	msg, rawPayload, err := wire.ReadMessage(conn, pver, btcnet)
 	if err != nil {
@@ -123,7 +123,7 @@ a remote node running a bitcoin peer.  Example syntax is:
 
 Writing Messages
 
-In order to marshall bitcoin messages to the wire, use the WriteMessage
+In order to marshal bitcoin messages to the wire, use the WriteMessage
 function.  It accepts any io.Writer, but typically this will be a net.Conn to
 a remote node running a bitcoin peer.  Example syntax to request addresses
 from a remote peer is:

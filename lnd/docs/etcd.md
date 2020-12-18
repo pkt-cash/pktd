@@ -14,14 +14,14 @@ on bitcoin mainnet.
 
 To create a dev build of LND with etcd support use the following command:
 
-```
+```shell
 make tags="kvdb_etcd"
 ```
 
 The important tag is the `kvdb_etcd`, without which the binary is built without
 the etcd driver.
 
-For development it is advised to set the `GOFLAGS` environment variable to 
+For development it is advised to set the `GOFLAGS` environment variable to
 `"-tags=test"` otherwise `gopls` won't work on code in `channeldb/kvdb/etcd`
 directory.
 
@@ -29,7 +29,7 @@ directory.
 
 To start your local etcd instance for testing run:
 
-```
+```text
 ./etcd \
     --auto-tls \
     --advertise-client-urls=https://127.0.0.1:2379 \
@@ -41,7 +41,7 @@ To start your local etcd instance for testing run:
 The large `max-txn-ops` and `max-request-bytes` values are currently required in
 case of running LND with the full graph in etcd. Upcoming versions will split
 the database to local and replicated parts and only essential parts will remain
-in the replicated database, removing the requirement for these additional 
+in the replicated database, removing the requirement for these additional
 settings. These parameters have been tested to work with testnet LND.
 
 ## Configuring LND to run on etcd
@@ -51,7 +51,7 @@ through command line flags or in `lnd.conf`.
 
 Sample command line:
 
-```
+```text
 ./lnd-debug \
     --db.backend=etcd \
     --db.etcd.host=127.0.0.1:2379 \
@@ -62,7 +62,7 @@ Sample command line:
 
 Sample `lnd.conf` (with other setting omitted):
 
-```
+```ini
 [db]
 backend=etcd
 etcd.host=127.0.0.1:2379
@@ -71,7 +71,7 @@ etcd.keyfile=/home/user/etcd/bin/default.etcd/fixtures/client/key.pem
 etcd.insecure_skip_verify=true
 ```
 
-Optionally users can specifiy `db.etcd.user` and `db.etcd.pass` for db user
+Optionally users can specify `db.etcd.user` and `db.etcd.pass` for db user
 authentication.
 
 ## Migrating existing channel.db to etcd

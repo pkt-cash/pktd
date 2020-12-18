@@ -475,7 +475,7 @@ func TestKeyClash(t *testing.T) {
 }
 
 // TestBucketCreateDelete tests that creating then deleting then creating a
-// bucket suceeds.
+// bucket succeeds.
 func TestBucketCreateDelete(t *testing.T) {
 	t.Parallel()
 	f := NewEtcdTestFixture(t)

@@ -141,12 +141,12 @@ func (r *RouterBackend) QueryRoutes(ctx context.Context,
 	// Currently, within the bootstrap phase of the network, we limit the
 	// largest payment size allotted to (2^32) - 1 mSAT or 4.29 million
 	// satoshis.
-	amt, err := lnrpc.UnmarshallAmt(in.Amt, in.AmtMsat)
+	amt, err := lnrpc.UnmarshalAmt(in.Amt, in.AmtMsat)
 	if err != nil {
 		return nil, err
 	}
 
-	// Unmarshall restrictions from request.
+	// Unmarshal restrictions from request.
 	feeLimit := lnrpc.CalculateFeeLimit(in.FeeLimit, amt)
 
 	ignoredNodes := make(map[route.Vertex]struct{})
@@ -269,7 +269,7 @@ func (r *RouterBackend) QueryRoutes(ctx context.Context,
 	}
 
 	// Convert route hints to an edge map.
-	routeHints, err := unmarshallRouteHints(in.RouteHints)
+	routeHints, err := unmarshalRouteHints(in.RouteHints)
 	if err != nil {
 		return nil, err
 	}
@@ -293,7 +293,7 @@ func (r *RouterBackend) QueryRoutes(ctx context.Context,
 
 	// For each valid route, we'll convert the result into the format
 	// required by the RPC system.
-	rpcRoute, err := r.MarshallRoute(route)
+	rpcRoute, err := r.MarshalRoute(route)
 	if err != nil {
 		return nil, err
 	}
@@ -353,8 +353,8 @@ func (r *RouterBackend) rpcEdgeToPair(e *lnrpc.EdgeLocator) (
 	return pair, nil
 }
 
-// MarshallRoute marshalls an internal route to an rpc route struct.
-func (r *RouterBackend) MarshallRoute(route *route.Route) (*lnrpc.Route, er.R) {
+// MarshalRoute marshals an internal route to an rpc route struct.
+func (r *RouterBackend) MarshalRoute(route *route.Route) (*lnrpc.Route, er.R) {
 	resp := &lnrpc.Route{
 		TotalTimeLock: route.TotalTimeLock,
 		TotalFees:     int64(route.TotalFees().ToSatoshis()),
@@ -410,9 +410,9 @@ func (r *RouterBackend) MarshallRoute(route *route.Route) (*lnrpc.Route, er.R) {
 	return resp, nil
 }
 
-// UnmarshallHopWithPubkey unmarshalls an rpc hop for which the pubkey has
+// UnmarshalHopWithPubkey unmarshals an rpc hop for which the pubkey has
 // already been extracted.
-func UnmarshallHopWithPubkey(rpcHop *lnrpc.Hop, pubkey route.Vertex) (*route.Hop, er.R) {
+func UnmarshalHopWithPubkey(rpcHop *lnrpc.Hop, pubkey route.Vertex) (*route.Hop, er.R) {
 
 	customRecords := record.CustomSet(rpcHop.CustomRecords)
 	if err := customRecords.Validate(); err != nil {
@@ -435,14 +435,14 @@ func UnmarshallHopWithPubkey(rpcHop *lnrpc.Hop, pubkey route.Vertex) (*route.Hop
 	}, nil
 }
 
-// UnmarshallHop unmarshalls an rpc hop that may or may not contain a node
+// UnmarshalHop unmarshals an rpc hop that may or may not contain a node
 // pubkey.
-func (r *RouterBackend) UnmarshallHop(rpcHop *lnrpc.Hop,
+func (r *RouterBackend) UnmarshalHop(rpcHop *lnrpc.Hop,
 	prevNodePubKey [33]byte) (*route.Hop, er.R) {
 
 	var pubKeyBytes [33]byte
 	if rpcHop.PubKey != "" {
-		// Unmarshall the provided hop pubkey.
+		// Unmarshal the provided hop pubkey.
 		pubKey, err := util.DecodeHex(rpcHop.PubKey)
 		if err != nil {
 			return nil, er.Errorf("cannot decode pubkey %s",
@@ -469,19 +469,19 @@ func (r *RouterBackend) UnmarshallHop(rpcHop *lnrpc.Hop,
 		}
 	}
 
-	return UnmarshallHopWithPubkey(rpcHop, pubKeyBytes)
+	return UnmarshalHopWithPubkey(rpcHop, pubKeyBytes)
 }
 
-// UnmarshallRoute unmarshalls an rpc route. For hops that don't specify a
+// UnmarshalRoute unmarshals an rpc route. For hops that don't specify a
 // pubkey, the channel graph is queried.
-func (r *RouterBackend) UnmarshallRoute(rpcroute *lnrpc.Route) (
+func (r *RouterBackend) UnmarshalRoute(rpcroute *lnrpc.Route) (
 	*route.Route, er.R) {
 
 	prevNodePubKey := r.SelfNode
 
 	hops := make([]*route.Hop, len(rpcroute.Hops))
 	for i, hop := range rpcroute.Hops {
-		routeHop, err := r.UnmarshallHop(hop, prevNodePubKey)
+		routeHop, err := r.UnmarshalHop(hop, prevNodePubKey)
 		if err != nil {
 			return nil, err
 		}
@@ -556,7 +556,7 @@ func (r *RouterBackend) extractIntentFromSendRequest(
 	payIntent.MaxParts = maxParts
 
 	// Take fee limit from request.
-	payIntent.FeeLimit, err = lnrpc.UnmarshallAmt(
+	payIntent.FeeLimit, err = lnrpc.UnmarshalAmt(
 		rpcPayReq.FeeLimitSat, rpcPayReq.FeeLimitMsat,
 	)
 	if err != nil {
@@ -578,7 +578,7 @@ func (r *RouterBackend) extractIntentFromSendRequest(
 		time.Duration(rpcPayReq.TimeoutSeconds)
 
 	// Route hints.
-	routeHints, err := unmarshallRouteHints(
+	routeHints, err := unmarshalRouteHints(
 		rpcPayReq.RouteHints,
 	)
 	if err != nil {
@@ -586,8 +586,8 @@ func (r *RouterBackend) extractIntentFromSendRequest(
 	}
 	payIntent.RouteHints = routeHints
 
-	// Unmarshall either sat or msat amount from request.
-	reqAmt, err := lnrpc.UnmarshallAmt(
+	// Unmarshal either sat or msat amount from request.
+	reqAmt, err := lnrpc.UnmarshalAmt(
 		rpcPayReq.Amt, rpcPayReq.AmtMsat,
 	)
 	if err != nil {
@@ -706,8 +706,8 @@ func (r *RouterBackend) extractIntentFromSendRequest(
 	return payIntent, nil
 }
 
-// unmarshallRouteHints unmarshalls a list of route hints.
-func unmarshallRouteHints(rpcRouteHints []*lnrpc.RouteHint) (
+// unmarshalRouteHints unmarshals a list of route hints.
+func unmarshalRouteHints(rpcRouteHints []*lnrpc.RouteHint) (
 	[][]zpay32.HopHint, er.R) {
 
 	routeHints := make([][]zpay32.HopHint, 0, len(rpcRouteHints))
@@ -716,7 +716,7 @@ func unmarshallRouteHints(rpcRouteHints []*lnrpc.RouteHint) (
 			[]zpay32.HopHint, 0, len(rpcRouteHint.HopHints),
 		)
 		for _, rpcHint := range rpcRouteHint.HopHints {
-			hint, err := unmarshallHopHint(rpcHint)
+			hint, err := unmarshalHopHint(rpcHint)
 			if err != nil {
 				return nil, err
 			}
@@ -729,8 +729,8 @@ func unmarshallRouteHints(rpcRouteHints []*lnrpc.RouteHint) (
 	return routeHints, nil
 }
 
-// unmarshallHopHint unmarshalls a single hop hint.
-func unmarshallHopHint(rpcHint *lnrpc.HopHint) (zpay32.HopHint, er.R) {
+// unmarshalHopHint unmarshals a single hop hint.
+func unmarshalHopHint(rpcHint *lnrpc.HopHint) (zpay32.HopHint, er.R) {
 	pubBytes, err := util.DecodeHex(rpcHint.NodeId)
 	if err != nil {
 		return zpay32.HopHint{}, err
@@ -846,7 +846,7 @@ func UnmarshalMPP(reqMPP *lnrpc.MPPRecord) (*record.MPP, er.R) {
 func (r *RouterBackend) MarshalHTLCAttempt(
 	htlc channeldb.HTLCAttempt) (*lnrpc.HTLCAttempt, er.R) {
 
-	route, err := r.MarshallRoute(&htlc.Route)
+	route, err := r.MarshalRoute(&htlc.Route)
 	if err != nil {
 		return nil, err
 	}
@@ -871,7 +871,7 @@ func (r *RouterBackend) MarshalHTLCAttempt(
 		)
 
 		var err er.R
-		rpcAttempt.Failure, err = marshallHtlcFailure(htlc.Failure)
+		rpcAttempt.Failure, err = marshalHtlcFailure(htlc.Failure)
 		if err != nil {
 			return nil, err
 		}
@@ -882,9 +882,9 @@ func (r *RouterBackend) MarshalHTLCAttempt(
 	return rpcAttempt, nil
 }
 
-// marshallHtlcFailure marshalls htlc fail info from the database to its rpc
+// marshalHtlcFailure marshals htlc fail info from the database to its rpc
 // representation.
-func marshallHtlcFailure(failure *channeldb.HTLCFailInfo) (*lnrpc.Failure, er.R) {
+func marshalHtlcFailure(failure *channeldb.HTLCFailInfo) (*lnrpc.Failure, er.R) {
 
 	rpcFailure := &lnrpc.Failure{
 		FailureSourceIndex: failure.FailureSourceIndex,
@@ -902,7 +902,7 @@ func marshallHtlcFailure(failure *channeldb.HTLCFailInfo) (*lnrpc.Failure, er.R)
 		rpcFailure.Code = lnrpc.Failure_INTERNAL_FAILURE
 
 	case channeldb.HTLCFailMessage:
-		err := marshallWireError(failure.Message, rpcFailure)
+		err := marshalWireError(failure.Message, rpcFailure)
 		if err != nil {
 			return nil, err
 		}
@@ -924,13 +924,13 @@ func MarshalTimeNano(t time.Time) int64 {
 	return t.UnixNano()
 }
 
-// marshallError marshall an error as received from the switch to rpc structs
+// marshalError marshal an error as received from the switch to rpc structs
 // suitable for returning to the caller of an rpc method.
 //
 // Because of difficulties with using protobuf oneof constructs in some
 // languages, the decision was made here to use a single message format for all
 // failure messages with some fields left empty depending on the failure type.
-func marshallError(sendError er.R) (*lnrpc.Failure, er.R) {
+func marshalError(sendError er.R) (*lnrpc.Failure, er.R) {
 	response := &lnrpc.Failure{}
 
 	if htlcswitch.ErrUnreadableFailureMessage.Is(sendError) {
@@ -943,7 +943,7 @@ func marshallError(sendError er.R) (*lnrpc.Failure, er.R) {
 		return nil, sendError
 	}
 
-	err := marshallWireError(rtErr.WireMessage(), response)
+	err := marshalWireError(rtErr.WireMessage(), response)
 	if err != nil {
 		return nil, err
 	}
@@ -962,13 +962,13 @@ func marshallError(sendError er.R) (*lnrpc.Failure, er.R) {
 	return response, nil
 }
 
-// marshallError marshall an error as received from the switch to rpc structs
+// marshalError marshal an error as received from the switch to rpc structs
 // suitable for returning to the caller of an rpc method.
 //
 // Because of difficulties with using protobuf oneof constructs in some
 // languages, the decision was made here to use a single message format for all
 // failure messages with some fields left empty depending on the failure type.
-func marshallWireError(msg lnwire.FailureMessage,
+func marshalWireError(msg lnwire.FailureMessage,
 	response *lnrpc.Failure) er.R {
 
 	switch onionErr := msg.(type) {
@@ -996,7 +996,7 @@ func marshallWireError(msg lnwire.FailureMessage,
 
 	case *lnwire.FailExpiryTooSoon:
 		response.Code = lnrpc.Failure_EXPIRY_TOO_SOON
-		response.ChannelUpdate = marshallChannelUpdate(&onionErr.Update)
+		response.ChannelUpdate = marshalChannelUpdate(&onionErr.Update)
 
 	case *lnwire.FailExpiryTooFar:
 		response.Code = lnrpc.Failure_EXPIRY_TOO_FAR
@@ -1015,27 +1015,27 @@ func marshallWireError(msg lnwire.FailureMessage,
 
 	case *lnwire.FailAmountBelowMinimum:
 		response.Code = lnrpc.Failure_AMOUNT_BELOW_MINIMUM
-		response.ChannelUpdate = marshallChannelUpdate(&onionErr.Update)
+		response.ChannelUpdate = marshalChannelUpdate(&onionErr.Update)
 		response.HtlcMsat = uint64(onionErr.HtlcMsat)
 
 	case *lnwire.FailFeeInsufficient:
 		response.Code = lnrpc.Failure_FEE_INSUFFICIENT
-		response.ChannelUpdate = marshallChannelUpdate(&onionErr.Update)
+		response.ChannelUpdate = marshalChannelUpdate(&onionErr.Update)
 		response.HtlcMsat = uint64(onionErr.HtlcMsat)
 
 	case *lnwire.FailIncorrectCltvExpiry:
 		response.Code = lnrpc.Failure_INCORRECT_CLTV_EXPIRY
-		response.ChannelUpdate = marshallChannelUpdate(&onionErr.Update)
+		response.ChannelUpdate = marshalChannelUpdate(&onionErr.Update)
 		response.CltvExpiry = onionErr.CltvExpiry
 
 	case *lnwire.FailChannelDisabled:
 		response.Code = lnrpc.Failure_CHANNEL_DISABLED
-		response.ChannelUpdate = marshallChannelUpdate(&onionErr.Update)
+		response.ChannelUpdate = marshalChannelUpdate(&onionErr.Update)
 		response.Flags = uint32(onionErr.Flags)
 
 	case *lnwire.FailTemporaryChannelFailure:
 		response.Code = lnrpc.Failure_TEMPORARY_CHANNEL_FAILURE
-		response.ChannelUpdate = marshallChannelUpdate(onionErr.Update)
+		response.ChannelUpdate = marshalChannelUpdate(onionErr.Update)
 
 	case *lnwire.FailRequiredNodeFeatureMissing:
 		response.Code = lnrpc.Failure_REQUIRED_NODE_FEATURE_MISSING
@@ -1062,15 +1062,15 @@ func marshallWireError(msg lnwire.FailureMessage,
 		response.Code = lnrpc.Failure_UNKNOWN_FAILURE
 
 	default:
-		return er.Errorf("cannot marshall failure %T", onionErr)
+		return er.Errorf("cannot marshal failure %T", onionErr)
 	}
 
 	return nil
 }
 
-// marshallChannelUpdate marshalls a channel update as received over the wire to
+// marshalChannelUpdate marshals a channel update as received over the wire to
 // the router rpc format.
-func marshallChannelUpdate(update *lnwire.ChannelUpdate) *lnrpc.ChannelUpdate {
+func marshalChannelUpdate(update *lnwire.ChannelUpdate) *lnrpc.ChannelUpdate {
 	if update == nil {
 		return nil
 	}
@@ -1091,8 +1091,8 @@ func marshallChannelUpdate(update *lnwire.ChannelUpdate) *lnrpc.ChannelUpdate {
 	}
 }
 
-// MarshallPayment marshall a payment to its rpc representation.
-func (r *RouterBackend) MarshallPayment(payment *channeldb.MPPayment) (
+// MarshalPayment marshal a payment to its rpc representation.
+func (r *RouterBackend) MarshalPayment(payment *channeldb.MPPayment) (
 	*lnrpc.Payment, er.R) {
 
 	// Fetch the payment's preimage and the total paid in fees.
@@ -1130,7 +1130,7 @@ func (r *RouterBackend) MarshallPayment(payment *channeldb.MPPayment) (
 	paymentHash := payment.Info.PaymentHash
 	creationTimeNS := MarshalTimeNano(payment.Info.CreationTime)
 
-	failureReason, err := marshallPaymentFailureReason(
+	failureReason, err := marshalPaymentFailureReason(
 		payment.FailureReason,
 	)
 	if err != nil {
@@ -1179,9 +1179,9 @@ func convertPaymentStatus(dbStatus channeldb.PaymentStatus) (
 	}
 }
 
-// marshallPaymentFailureReason marshalls the failure reason to the corresponding rpc
+// marshalPaymentFailureReason marshals the failure reason to the corresponding rpc
 // type.
-func marshallPaymentFailureReason(reason *channeldb.FailureReason) (
+func marshalPaymentFailureReason(reason *channeldb.FailureReason) (
 	lnrpc.PaymentFailureReason, er.R) {
 
 	if reason == nil {

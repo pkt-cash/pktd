@@ -803,7 +803,7 @@ func serializePaymentCreationInfo(w io.Writer, c *PaymentCreationInfo) er.R {
 		return err
 	}
 
-	if _, err := util.Write(w, c.PaymentRequest[:]); err != nil {
+	if _, err := util.Write(w, c.PaymentRequest); err != nil {
 		return err
 	}
 
@@ -910,7 +910,7 @@ func serializeHop(w io.Writer, h *route.Hop) er.R {
 		records = append(records, h.MPP.Record())
 	}
 
-	// Final sanity check to absolutely rule out custom records that are not
+	// Final integrity check to absolutely rule out custom records that are not
 	// custom and write into the standard range.
 	if err := h.CustomRecords.Validate(); err != nil {
 		return err

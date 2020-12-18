@@ -140,7 +140,7 @@ func TestSettleInvoice(t *testing.T) {
 	}
 
 	// Try to settle again with the same htlc id. We need this idempotent
-	// behaviour after a restart.
+	// behavior after a restart.
 	resolution, err = ctx.registry.NotifyExitHopHtlc(
 		testInvoicePaymentHash, amtPaid, testHtlcExpiry, testCurrentHeight,
 		getCircuitKey(0), hodlChan, testPayload,
@@ -159,7 +159,7 @@ func TestSettleInvoice(t *testing.T) {
 	}
 
 	// Try to settle again with a new higher-valued htlc. This payment
-	// should also be accepted, to prevent any change in behaviour for a
+	// should also be accepted, to prevent any change in behavior for a
 	// paid invoice that may open up a probe vector.
 	resolution, err = ctx.registry.NotifyExitHopHtlc(
 		testInvoicePaymentHash, amtPaid+600, testHtlcExpiry, testCurrentHeight,

@@ -283,7 +283,7 @@ the same format.
 
 #### Streaming Updates via `SubscribeChannelBackups`
 
-Using the gRPC interace directly, [a new call:
+Using the gRPC interacted directly, [a new call:
 `SubscribeChannelBackups`](https://api.lightning.community/#subscribechannelbackups).
 This call allows users to receive a new notification each time the underlying
 SCB state changes. This can be used to implement more complex backup

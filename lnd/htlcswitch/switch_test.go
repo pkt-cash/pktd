@@ -2564,7 +2564,7 @@ func TestSwitchGetPaymentResult(t *testing.T) {
 		t.Fatalf("unable to store result: %v", err)
 	}
 
-	// The result should be availble.
+	// The result should be available.
 	select {
 	case res, ok := <-resultChan:
 		if !ok {

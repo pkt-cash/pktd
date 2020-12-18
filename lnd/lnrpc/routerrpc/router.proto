@@ -103,7 +103,7 @@ service Router {
     HtlcInterceptor dispatches a bi-directional streaming RPC in which
     Forwarded HTLC requests are sent to the client and the client responds with
     a boolean that tells LND if this htlc should be intercepted.
-    In case of interception, the htlc can be either settled, cancelled or
+    In case of interception, the htlc can be either settled, canceled or
     resumed later by using the ResolveHoldForward endpoint.
     */
     rpc HtlcInterceptor (stream ForwardHtlcInterceptResponse)
@@ -557,7 +557,7 @@ enum PaymentState {
     FAILED_NO_ROUTE = 3;
 
     /*
-    A non-recoverable error has occured.
+    A non-recoverable error has occurred.
     */
     FAILED_ERROR = 4;
 

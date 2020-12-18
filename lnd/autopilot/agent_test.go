@@ -386,7 +386,7 @@ func (m *mockFailingChanController) CloseChannel(chanPoint *wire.OutPoint) er.R 
 var _ ChannelController = (*mockFailingChanController)(nil)
 
 // TestAgentChannelFailureSignal tests that if an autopilot channel fails to
-// open, the agent is signalled to make a new decision.
+// open, the agent is signaled to make a new decision.
 func TestAgentChannelFailureSignal(t *testing.T) {
 	t.Parallel()
 

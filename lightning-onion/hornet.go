@@ -18,7 +18,7 @@ const fSLength = 48
 //    with the same key allows an attacker to forge message or something like that
 
 // Size of a forwarding segment is 32 bytes, the MAC is 16 bytes, so c = 48 bytes
-//  * NOTE: this doesn't include adding R to the forwarding segment, and w/e esle
+//  * NOTE: this doesn't include adding R to the forwarding segment, and w/e else
 
 // Hmmm since each uses diff key, just use AES-CTR with blank nonce, given key,
 // encrypt plaintext of all zeros, this'll give us our len(plaintext) rand bytes.

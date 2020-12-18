@@ -130,7 +130,7 @@ const (
 	//routes to the destination at all.
 	PaymentState_FAILED_NO_ROUTE PaymentState = 3
 	//
-	//A non-recoverable error has occured.
+	//A non-recoverable error has occurred.
 	PaymentState_FAILED_ERROR PaymentState = 4
 	//
 	//Payment details incorrect (unknown hash, invalid amt or
@@ -2266,7 +2266,7 @@ type RouterClient interface {
 	//HtlcInterceptor dispatches a bi-directional streaming RPC in which
 	//Forwarded HTLC requests are sent to the client and the client responds with
 	//a boolean that tells LND if this htlc should be intercepted.
-	//In case of interception, the htlc can be either settled, cancelled or
+	//In case of interception, the htlc can be either settled, canceled or
 	//resumed later by using the ResolveHoldForward endpoint.
 	HtlcInterceptor(ctx context.Context, opts ...grpc.CallOption) (Router_HtlcInterceptorClient, error)
 }
@@ -2598,7 +2598,7 @@ type RouterServer interface {
 	//HtlcInterceptor dispatches a bi-directional streaming RPC in which
 	//Forwarded HTLC requests are sent to the client and the client responds with
 	//a boolean that tells LND if this htlc should be intercepted.
-	//In case of interception, the htlc can be either settled, cancelled or
+	//In case of interception, the htlc can be either settled, canceled or
 	//resumed later by using the ResolveHoldForward endpoint.
 	HtlcInterceptor(Router_HtlcInterceptorServer) error
 }

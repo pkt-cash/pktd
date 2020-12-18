@@ -37,7 +37,7 @@ type TopologyClient struct {
 // topologyClientUpdate is a message sent to the channel router to either
 // register a new topology client or re-register an existing client.
 type topologyClientUpdate struct {
-	// cancel indicates if the update to the client is cancelling an
+	// cancel indicates if the update to the client is canceling an
 	// existing client's notifications. If not then this update will be to
 	// register a new set of notifications.
 	cancel bool

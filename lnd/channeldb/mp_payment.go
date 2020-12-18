@@ -70,7 +70,7 @@ const (
 	// reason.
 	HTLCFailUnknown HTLCFailReason = 0
 
-	// HTLCFailUnknown is recorded for htlcs that had a failure message that
+	// HTLCFailUnreadable is recorded for htlcs that had a failure message that
 	// couldn't be decrypted.
 	HTLCFailUnreadable HTLCFailReason = 1
 

@@ -45,7 +45,7 @@ var (
 
 	// ErrUnknownAddressType describes an error where an address can not
 	// decoded as a specific address type due to the string encoding
-	// begining with an identifier byte unknown to any standard or
+	// beginning with an identifier byte unknown to any standard or
 	// registered (via chaincfg.Register) network.
 	ErrUnknownAddressType = errors.New("unknown address type")
 
@@ -138,7 +138,7 @@ type Address interface {
 // When the address does not encode the network, such as in the case of a raw
 // public key, the address will be associated with the passed defaultNet.
 func DecodeAddress(addr string, defaultNet *chaincfg.Params) (Address, er.R) {
-	// Addresses begining with "script:" are non-standard or otherwise unrecognized
+	// Addresses beginning with "script:" are non-standard or otherwise unrecognized
 	// address types.
 	if strings.HasPrefix(addr, "script:") {
 		b, errr := base64.StdEncoding.DecodeString(addr[7:])
@@ -321,7 +321,7 @@ func (a *AddressPubKeyHash) String() string {
 }
 
 // Hash160 returns the underlying array of the pubkey hash.  This can be useful
-// when an array is more appropiate than a slice (for example, when used as map
+// when an array is more appropriate than a slice (for example, when used as map
 // keys).
 func (a *AddressPubKeyHash) Hash160() *[Hash160Size]byte {
 	return &a.hash
@@ -388,7 +388,7 @@ func (a *AddressScriptHash) String() string {
 }
 
 // Hash160 returns the underlying array of the script hash.  This can be useful
-// when an array is more appropiate than a slice (for example, when used as map
+// when an array is more appropriate than a slice (for example, when used as map
 // keys).
 func (a *AddressScriptHash) Hash160() *[Hash160Size]byte {
 	return &a.hash

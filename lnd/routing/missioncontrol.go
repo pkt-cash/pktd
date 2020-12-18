@@ -97,7 +97,7 @@ type MissionControl struct {
 }
 
 // MissionControlConfig defines parameters that control mission control
-// behaviour.
+// behavior.
 type MissionControlConfig struct {
 	// PenaltyHalfLife defines after how much time a penalized node or
 	// channel is back at 50% probability.

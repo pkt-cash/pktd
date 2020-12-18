@@ -1117,7 +1117,7 @@ func (d *AuthenticatedGossiper) networkHandler() {
 					"announcements: %v", err)
 			}
 
-		// The gossiper has been signalled to exit, to we exit our
+		// The gossiper has been signaled to exit, to we exit our
 		// main loop so the wait group can be decremented.
 		case <-d.quit:
 			return

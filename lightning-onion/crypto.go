@@ -131,7 +131,7 @@ func generateKey(keyType string, sharedKey *Hash256) [keyLen]byte {
 	return key
 }
 
-// generateCipherStream generates a stream of cryptographic psuedo-random bytes
+// generateCipherStream generates a stream of cryptographic pseudo-random bytes
 // intended to be used to encrypt a message using a one-time-pad like
 // construction.
 func generateCipherStream(key [keyLen]byte, numBytes uint) []byte {

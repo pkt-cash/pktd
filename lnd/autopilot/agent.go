@@ -499,7 +499,7 @@ func (a *Agent) controller() {
 			log.Debugf("Heuristic %v updated, assessing need for "+
 				"more channels", upd.heuristic.Name())
 
-		// The agent has been signalled to exit, so we'll bail out
+		// The agent has been signaled to exit, so we'll bail out
 		// immediately.
 		case <-a.quit:
 			return

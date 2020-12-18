@@ -1009,7 +1009,7 @@ func fetchAccountNetworkStewardVote(ns walletdb.ReadBucket,
 	bucket := scopedBucket.NestedReadBucket(networkStewardVoteName)
 
 	if bucket == nil {
-		// definitely non-existant
+		// definitely non-existent
 		return nil, nil
 	}
 

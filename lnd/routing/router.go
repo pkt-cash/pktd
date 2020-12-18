@@ -1082,7 +1082,7 @@ func (r *ChannelRouter) networkHandler() {
 			})
 
 		// A new notification client update has arrived. We're either
-		// gaining a new client, or cancelling notifications for an
+		// gaining a new client, or canceling notifications for an
 		// existing client.
 		case ntfnUpdate := <-r.ntfnClientUpdates:
 			clientID := ntfnUpdate.clientID
@@ -1132,7 +1132,7 @@ func (r *ChannelRouter) networkHandler() {
 			}
 			r.stats.Reset()
 
-		// The router has been signalled to exit, to we exit our main
+		// The router has been signaled to exit, to we exit our main
 		// loop so the wait group can be decremented.
 		case <-r.quit:
 			return

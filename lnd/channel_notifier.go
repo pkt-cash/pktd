@@ -137,7 +137,7 @@ func (c *channelNotifier) SubscribeChans(startingChans map[wire.OutPoint]struct{
 					}
 				}
 
-			// The cancel method has been called, signalling us to
+			// The cancel method has been called, signaling us to
 			// exit
 			case <-quit:
 				return

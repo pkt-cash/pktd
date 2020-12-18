@@ -1224,7 +1224,7 @@ const (
 	HtlcClaimAction = 2
 
 	// HtlcFailNowAction indicates that we should fail an outgoing HTLC
-	// immediately by cancelling it backwards as it has no corresponding
+	// immediately by canceling it backwards as it has no corresponding
 	// output in our commitment transaction.
 	HtlcFailNowAction = 3
 
@@ -1323,7 +1323,7 @@ func (c *ChannelArbitrator) shouldGoOnChain(htlc channeldb.HTLC,
 	// without closing the channel. It is up to the user to force close the
 	// channel if the peer misbehaves and doesn't send the update_fail_htlc.
 	// It is useful when this node is most of the time not online and is
-	// likely to miss the time slot where the htlc may be cancelled.
+	// likely to miss the time slot where the htlc may be canceled.
 	isForwarded := c.cfg.IsForwardedHTLC(c.cfg.ShortChanID, htlc.HtlcIndex)
 	upTime := c.cfg.Clock.Now().Sub(c.startTimestamp)
 	return isForwarded || upTime > c.cfg.PaymentsExpirationGracePeriod
@@ -2008,7 +2008,7 @@ func (c *ChannelArbitrator) resolveContract(currentContract ContractResolver) {
 
 		select {
 
-		// If we've been signalled to quit, then we'll exit early.
+		// If we've been signaled to quit, then we'll exit early.
 		case <-c.quit:
 			return
 

@@ -93,7 +93,7 @@ message ConfEvent {
     oneof event {
         /*
         An event that includes the confirmation details of the request
-        (txid/ouput script).
+        (txid/output script).
         */
         ConfDetails conf = 1;
 

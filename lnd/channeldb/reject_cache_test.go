@@ -13,7 +13,7 @@ func TestRejectCache(t *testing.T) {
 	// Create a new reject cache with the configured max size.
 	c := newRejectCache(cacheSize)
 
-	// As a sanity check, assert that querying the empty cache does not
+	// As a integrity check, assert that querying the empty cache does not
 	// return an entry.
 	_, ok := c.get(0)
 	if ok {

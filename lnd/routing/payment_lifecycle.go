@@ -703,7 +703,7 @@ func (p *shardHandler) failAttempt(attempt *channeldb.HTLCAttemptInfo,
 	log.Warnf("Attempt %v for payment %v failed: %v", attempt.AttemptID,
 		p.paymentHash, sendError)
 
-	failInfo := marshallError(
+	failInfo := marshalError(
 		sendError,
 		p.router.cfg.Clock.Now(),
 	)
@@ -714,9 +714,9 @@ func (p *shardHandler) failAttempt(attempt *channeldb.HTLCAttemptInfo,
 	)
 }
 
-// marshallError marshall an error as received from the switch to a structure
+// marshalError marshal an error as received from the switch to a structure
 // that is suitable for database storage.
-func marshallError(sendError er.R, time time.Time) *channeldb.HTLCFailInfo {
+func marshalError(sendError er.R, time time.Time) *channeldb.HTLCFailInfo {
 	response := &channeldb.HTLCFailInfo{
 		FailTime: time,
 	}

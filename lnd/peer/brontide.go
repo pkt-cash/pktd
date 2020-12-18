@@ -1071,7 +1071,7 @@ func (ms *msgStream) AddMsg(msg lnwire.Message) {
 	// acts as a sempahore to prevent us from indefinitely buffering
 	// incoming items from the wire. Either the msg queue isn't full, and
 	// we'll not block, or the queue is full, and we'll block until either
-	// we're signalled to quit, or a slot is freed up.
+	// we're signaled to quit, or a slot is freed up.
 	select {
 	case <-ms.producerSema:
 	case <-ms.peer.quit:
@@ -2195,7 +2195,7 @@ out:
 			reenableTimeout = nil
 
 		case <-p.quit:
-			// As, we've been signalled to exit, we'll reset all
+			// As, we've been signaled to exit, we'll reset all
 			// our active channel back to their default state.
 			p.activeChanMtx.Lock()
 			for _, channel := range p.activeChannels {

@@ -3,13 +3,15 @@
 ## Setup and Installation
 
 First, you'll need to initialize a simple nodejs project:
-```
+
+```shell
 npm init (or npm init -f if you want to use the default values without prompt)
 ```
 
 Then you need to install the Javascript grpc and proto loader library
 dependencies:
-```
+
+```shell
 npm install grpc @grpc/proto-loader --save
 ```
 
@@ -74,7 +76,7 @@ lightning.getInfo({}, function(err, response) {
 
 You should get something like this in your console:
 
-```
+```json
 GetInfo: { identity_pubkey: '03c892e3f3f077ea1e381c081abb36491a2502bc43ed37ffb82e264224f325ff27',
   alias: '',
   num_pending_channels: 0,
@@ -106,20 +108,23 @@ call.on('data', function(invoice) {
 
 Now, create an invoice for your node at `localhost:10009`and send a payment to
 it from another node.
+
 ```bash
 $ lncli addinvoice --amt=100
 {
-	"r_hash": <RHASH>,
-	"pay_req": <PAYMENT_REQUEST>
+ "r_hash": <RHASH>,
+ "pay_req": <PAYMENT_REQUEST>
 }
 $ lncli sendpayment --pay_req=<PAYMENT_REQUEST>
 ```
+
 Your Javascript console should now display the details of the recently satisfied
 invoice.
 
 ### Bidirectional-streaming RPC
 
 This example has a few dependencies:
+
 ```shell
 npm install --save async lodash bytebuffer
 ```
@@ -171,8 +176,8 @@ async.series(payment_senders, function() {
 });
 
 ```
-This example will send a payment of 100 satoshis every 2 seconds.
 
+This example will send a payment of 100 satoshis every 2 seconds.
 
 ### Using Macaroons
 

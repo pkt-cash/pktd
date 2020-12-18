@@ -48,18 +48,18 @@ func newHTTPClient(cfg *config) (*http.Client, er.R) {
 	return &client, nil
 }
 
-// sendPostRequest sends the marshalled JSON-RPC command using HTTP-POST mode
+// sendPostRequest sends the marshaled JSON-RPC command using HTTP-POST mode
 // to the server described in the passed config struct.  It also attempts to
 // unmarshal the response as a JSON-RPC response and returns either the result
 // field or the error field depending on whether or not there is an error.
-func sendPostRequest(marshalledJSON []byte, cfg *config) (*btcjson.Response, er.R) {
+func sendPostRequest(marshaledJSON []byte, cfg *config) (*btcjson.Response, er.R) {
 	// Generate a request to the configured RPC server.
 	protocol := "http"
 	if cfg.TLS {
 		protocol = "https"
 	}
 	url := protocol + "://" + cfg.RPCServer
-	bodyReader := bytes.NewReader(marshalledJSON)
+	bodyReader := bytes.NewReader(marshaledJSON)
 	httpRequest, errr := http.NewRequest("POST", url, bodyReader)
 	if errr != nil {
 		return nil, er.E(errr)

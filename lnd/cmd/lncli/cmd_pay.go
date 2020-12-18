@@ -808,7 +808,7 @@ func sendToRoute(ctx *cli.Context) er.R {
 	case args.Present() && args.First() != "-":
 		jsonRoutes = args.First()
 
-	// The user is signalling that we should read stdin in order to parse
+	// The user is signaling that we should read stdin in order to parse
 	// the set of target routes.
 	case args.Present() && args.First() == "-":
 		b, err := ioutil.ReadAll(os.Stdin)

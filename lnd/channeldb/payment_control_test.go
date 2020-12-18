@@ -236,7 +236,7 @@ func TestPaymentControlSwitchDoubleSend(t *testing.T) {
 	// already been sent.
 	err = pControl.InitPayment(info.PaymentHash, info)
 	if !ErrPaymentInFlight.Is(err) {
-		t.Fatalf("payment control wrong behaviour: " +
+		t.Fatalf("payment control wrong behavior: " +
 			"double sending must trigger ErrPaymentInFlight error")
 	}
 
@@ -257,7 +257,7 @@ func TestPaymentControlSwitchDoubleSend(t *testing.T) {
 	// Sends base htlc message which initiate StatusInFlight.
 	err = pControl.InitPayment(info.PaymentHash, info)
 	if !ErrPaymentInFlight.Is(err) {
-		t.Fatalf("payment control wrong behaviour: " +
+		t.Fatalf("payment control wrong behavior: " +
 			"double sending must trigger ErrPaymentInFlight error")
 	}
 

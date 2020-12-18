@@ -1,5 +1,4 @@
-coinset
-=======
+# coinset
 
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org)
 
@@ -42,7 +41,7 @@ selector := &coinset.MaxValueAgeCoinSelector{
 }
 selectedCoins, err := selector.CoinSelect(targetAmount + bigFee, unspentCoins)
 if err != nil {
-	return err
+ return err
 }
 msgTx := coinset.NewMsgTxWithInputCoins(selectedCoins)
 ...

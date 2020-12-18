@@ -4,14 +4,17 @@
 This section enumerates what you need to do to write a client that communicates
 with lnd in Java. We'll be using Maven as our build tool.
 
-### Prerequisites
- - Maven
- - running lnd
- - running btcd
+## Prerequisites
+
+- Maven
+- running lnd
+- running btcd
 
 ### Setup and Installation
+
 #### Project Structure
-```
+
+```text
 .
 ├── pom.xml
 └── src
@@ -27,20 +30,24 @@ with lnd in Java. We'll be using Maven as our build tool.
               └── rpc.proto
 
 ```
+
 Note the ***proto*** folder, where all the proto files are kept.
 
- - [rpc.proto](https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto)
- - [annotations.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/third_party/googleapis/google/api/annotations.proto)
- - [http.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/third_party/googleapis/google/api/http.proto)
+- [rpc.proto](https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto)
+- [annotations.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/third_party/googleapis/google/api/annotations.proto)
+- [http.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/third_party/googleapis/google/api/http.proto)
 
 #### pom.xml
-```
+
+```xml
 <properties>
     <grpc.version>1.8.0</grpc.version>
 </properties>    
 ```
+
 The following dependencies are required.
-```
+
+```xml
 <dependencies>
     <dependency>
         <groupId>io.grpc</groupId>
@@ -69,8 +76,10 @@ The following dependencies are required.
     </dependency>
 </dependencies>
 ```
+
 In the build section,  we'll need to configure the following things :
-```
+
+```xml
 <build>
     <extensions>
         <extension>
@@ -101,7 +110,9 @@ In the build section,  we'll need to configure the following things :
     </plugins>
 </build>
 ```
+
 #### Main.java
+
 ```java
 import io.grpc.Attributes;
 import io.grpc.CallCredentials;
@@ -182,13 +193,18 @@ public class Main {
   }
 }
 ```
+
 #### Running the example
+
 Execute the following command in the directory where the **pom.xml** file is located.
-```
+
+```xml
 mvn compile exec:java -Dexec.mainClass="Main" -Dexec.cleanupDaemonThreads=false
 ```
+
 ##### Sample output
-```
+
+```text
 [INFO] Scanning for projects...
 [INFO] ------------------------------------------------------------------------
 [INFO] Detecting the operating system and CPU architecture
@@ -235,6 +251,7 @@ mvn compile exec:java -Dexec.mainClass="Main" -Dexec.cleanupDaemonThreads=false
 
 There are 2 options available that can be used in the *rpc.proto* file :
 
-* option java_multiple_files = true;
-* option java_package = "network.lightning.rpc";
+- option java_multiple_files = true;
+- option java_package = "network.lightning.rpc";
+
 >The package you want to use for your generated Java classes. If no explicit java_package option is given in the .proto file, then by default the proto package (specified using the "package" keyword in the .proto file) will be used. However, proto packages generally do not make good Java packages since proto packages are not expected to start with reverse domain names. If not generating Java code, this option has no effect.

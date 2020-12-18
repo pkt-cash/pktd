@@ -169,7 +169,7 @@ func NewRPCAcceptor(receive func() (*lnrpc.ChannelAcceptResponse, error),
 
 // Run is the main loop for the RPC Acceptor. This function will block until
 // it receives the signal that lnd is shutting down, or the rpc stream is
-// cancelled by the client.
+// canceled by the client.
 func (r *RPCAcceptor) Run() er.R {
 	// Wait for our goroutines to exit before we return.
 	defer r.wg.Wait()

@@ -841,16 +841,16 @@ func handleEstimateSmartFee(s *rpcServer, cmd interface{}, closeChan <-chan stru
 		return nil, er.New("Fee estimation disabled")
 	}
 
-	conservitive := true
+	conservative := true
 	if c.EstimateMode != nil && *c.EstimateMode == btcjson.EstimateModeEconomical {
-		conservitive = false
+		conservative = false
 	}
 
 	if c.ConfTarget <= 0 {
 		return -1.0, er.New("Parameter NumBlocks must be positive")
 	}
 
-	return s.cfg.FeeEstimator.EstimateSmartFee(uint32(c.ConfTarget), conservitive), nil
+	return s.cfg.FeeEstimator.EstimateSmartFee(uint32(c.ConfTarget), conservative), nil
 }
 
 // handleGenerate handles generate commands.
@@ -3799,7 +3799,7 @@ func verifyChain(s *rpcServer, level, depth int32) er.R {
 			return err
 		}
 
-		// Level 1 does basic chain sanity checks.
+		// Level 1 does basic chain integrity checks.
 		if level > 0 {
 			err := blockchain.CheckBlockSanity(block,
 				s.cfg.ChainParams.PowLimit, s.cfg.TimeSource)
@@ -4173,16 +4173,16 @@ func parseCmd(request *btcjson.Request) *parsedRPCCmd {
 	return &parsedCmd
 }
 
-func createMarshalledReply(id, result interface{}, jsonErr er.R) ([]byte, er.R) {
+func createMarshaledReply(id, result interface{}, jsonErr er.R) ([]byte, er.R) {
 	return btcjson.MarshalResponse(id, result, jsonErr)
 }
 
 func createResponse(id, result interface{}, jsonErr er.R) (*btcjson.Response, er.R) {
-	marshalledResult, errr := jsoniter.Marshal(result)
+	marshaledResult, errr := jsoniter.Marshal(result)
 	if errr != nil {
 		return nil, er.E(errr)
 	}
-	return btcjson.NewResponse(id, marshalledResult, jsonErr)
+	return btcjson.NewResponse(id, marshaledResult, jsonErr)
 }
 
 func (s *rpcServer) jsonRPCReq(
@@ -4362,7 +4362,7 @@ func (s *rpcServer) jsonRPCRead(w http.ResponseWriter, r *http.Request, isAdmin 
 		return
 	}
 	if _, err := buf.Write(msg); err != nil {
-		log.Errorf("Failed to write marshalled reply: %v", err)
+		log.Errorf("Failed to write marshaled reply: %v", err)
 	}
 
 	// Terminate with newline to maintain compatibility with Bitcoin Core.

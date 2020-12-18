@@ -128,7 +128,7 @@ func (e *macaroonEntry) storeMacaroon(mac *macaroon.Macaroon, pw []byte) er.R {
 // decryptMacaroon decrypts the cipher text macaroon by using the serialized
 // encryption key and the password.
 func decryptMacaroon(keyB64, dataB64 string, pw []byte) ([]byte, er.R) {
-	// Base64 decode both the marshalled encryption key and macaroon data.
+	// Base64 decode both the marshaled encryption key and macaroon data.
 	keyData, errr := base64.StdEncoding.DecodeString(keyB64)
 	if errr != nil {
 		return nil, er.Errorf("could not base64 decode encryption "+

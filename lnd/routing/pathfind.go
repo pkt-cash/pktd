@@ -27,7 +27,7 @@ const (
 	// The chosen value is based on the previous incorrect weight function
 	// 1 + timelock + fee * fee. In this function, the fee penalty
 	// diminishes the time lock penalty for all but the smallest amounts.
-	// To not change the behaviour of path finding too drastically, a
+	// To not change the behavior of path finding too drastically, a
 	// relatively small value is chosen which is still big enough to give
 	// some effect with smaller time lock values. The value may need
 	// tweaking and/or be made configurable in the future.

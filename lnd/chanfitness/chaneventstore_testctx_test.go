@@ -300,9 +300,9 @@ func (m *mockSubscription) Cancel() {
 func (m *mockSubscription) assertCancelled() {
 	select {
 	case _, open := <-m.updates:
-		require.False(m.t, open, "subscription not cancelled")
+		require.False(m.t, open, "subscription not canceled")
 
 	case <-time.After(timeout):
-		m.t.Fatalf("assert cancelled timeout")
+		m.t.Fatalf("assert canceled timeout")
 	}
 }

@@ -2781,7 +2781,7 @@ func TestSendToRouteMultiShardSend(t *testing.T) {
 
 	// Now we'll modify the SendToSwitch method again to wait until all
 	// three shards are initiated before returning a result. We do this by
-	// signalling when the method has been called, and then stop to wait
+	// signaling when the method has been called, and then stop to wait
 	// for the test to deliver the final result on the channel below.
 	waitForResultSignal := make(chan struct{}, numShards)
 	results := make(chan lntypes.Preimage, numShards)

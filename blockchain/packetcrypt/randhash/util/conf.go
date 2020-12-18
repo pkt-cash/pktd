@@ -51,7 +51,7 @@ func Conf_RandGen_LOOP_MAX_CYCLES(scopeDepth int) int {
 	return (7 + scopeDepth*29)
 }
 
-// Likelyhood in a scope that a loop or branch will be created.
+// Likelihood in a scope that a loop or branch will be created.
 // Loops have a flat 23 in 32 chance while branches become less likely as the
 // number of inctructions already emitted approaches the maximum. This helps
 // to stabilize the size of generated programs.
@@ -70,13 +70,13 @@ func Conf_RandGen_IF_BODY_BUDGET(budget int, scopes int) int {
 }
 
 // 50% chance that an if statement is completely unpredictable
-const Conf_RandGen_RANDOM_BRANCH_LIKELYHOOD = 2
+const Conf_RandGen_RANDOM_BRANCH_LIKELIHOOD = 2
 
 // 25% chance that an input variable will come from a higher scope
-const Conf_RandGen_HIGHER_SCOPE_LIKELYHOOD = 4
+const Conf_RandGen_HIGHER_SCOPE_LIKELIHOOD = 4
 
 // 12.5% chance that a variable used in an op is one which has been used before
-const Conf_RandGen_VAR_REUSE_LIKELYHOOD = 8
+const Conf_RandGen_VAR_REUSE_LIKELIHOOD = 8
 
 // 25% chance that an op uses an immediate input rather than a variable
-const Conf_RandGen_IMMEDIATE_LIKELYHOOD = 4
+const Conf_RandGen_IMMEDIATE_LIKELIHOOD = 4

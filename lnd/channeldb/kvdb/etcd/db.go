@@ -154,7 +154,7 @@ type BackendConfig struct {
 	// name spaces.
 	Prefix string
 
-	// CollectCommitStats indicates wheter to commit commit stats.
+	// CollectCommitStats indicates whether to commit commit stats.
 	CollectCommitStats bool
 }
 

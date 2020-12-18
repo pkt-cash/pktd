@@ -32,7 +32,7 @@ import (
 // maxHeight is the height we will generate filter headers up to.
 const maxHeight = 20 * uint32(wire.CFCheckptInterval)
 
-// setupBlockManager initialises a blockManager to be used in tests.
+// setupBlockManager initializes a blockManager to be used in tests.
 func setupBlockManager() (*blockManager, headerfs.BlockHeaderStore,
 	*headerfs.FilterHeaderStore, func(), er.R) {
 

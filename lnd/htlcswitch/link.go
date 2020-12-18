@@ -336,7 +336,7 @@ type channelLink struct {
 	shortChanID lnwire.ShortChannelID
 
 	// cfg is a structure which carries all dependable fields/handlers
-	// which may affect behaviour of the service.
+	// which may affect behavior of the service.
 	cfg ChannelLinkConfig
 
 	// mailBox is the main interface between the outside world and the

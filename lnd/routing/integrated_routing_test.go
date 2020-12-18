@@ -172,7 +172,7 @@ var mppTestCases = []mppSendTestCase{
 	// that all use the same route if the full amount cannot be sent in a
 	// single htlc. The sender is effectively probing the receiver's
 	// incoming channel to see if it has sufficient balance. In this test
-	// case, the endeavour fails.
+	// case, the endeavor fails.
 	{
 
 		name:             "one path split",

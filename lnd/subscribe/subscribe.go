@@ -61,7 +61,7 @@ type Server struct {
 // either register a new client for subscription or cancel an existing
 // subscription.
 type clientUpdate struct {
-	// cancel indicates if the update to the client is cancelling an
+	// cancel indicates if the update to the client is canceling an
 	// existing client's subscription. If not then this update will be to
 	// subscribe a new client.
 	cancel bool

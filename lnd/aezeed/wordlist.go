@@ -126,7 +126,7 @@ arrest
 arrive
 arrow
 art
-artefact
+artifact
 artist
 artwork
 ask

@@ -38,7 +38,7 @@ const (
 	// fails in a forwarding package.
 	DefaultAckInterval = 15 * time.Second
 
-	// DefaultHTLCExpiry is the duration after which Adds will be cancelled
+	// DefaultHTLCExpiry is the duration after which Adds will be canceled
 	// if they could not get added to an outgoing commitment.
 	DefaultHTLCExpiry = time.Minute
 )
@@ -188,7 +188,7 @@ type Config struct {
 	// Clock is a time source for the switch.
 	Clock clock.Clock
 
-	// HTLCExpiry is the interval after which Adds will be cancelled if they
+	// HTLCExpiry is the interval after which Adds will be canceled if they
 	// have not been yet been delivered to a link. The computed deadline
 	// will expiry this long after the Adds are added to a mailbox via
 	// AddPacket.
@@ -960,7 +960,7 @@ func (s *Switch) parseFailedPayment(deobfuscator ErrorDecrypter,
 
 // handlePacketForward is used in cases when we need forward the htlc update
 // from one channel link to another and be able to propagate the settle/fail
-// updates back. This behaviour is achieved by creation of payment circuits.
+// updates back. This behavior is achieved by creation of payment circuits.
 func (s *Switch) handlePacketForward(packet *htlcPacket) er.R {
 	switch htlc := packet.htlc.(type) {
 
@@ -1202,7 +1202,7 @@ func (s *Switch) handlePacketForward(packet *htlcPacket) er.R {
 
 // checkCircularForward checks whether a forward is circular (arrives and
 // departs on the same link) and returns a link error if the switch is
-// configured to disallow this behaviour.
+// configured to disallow this behavior.
 func checkCircularForward(incoming, outgoing lnwire.ShortChannelID,
 	allowCircular bool, paymentHash lntypes.Hash) *LinkError {
 
@@ -1491,7 +1491,7 @@ func (s *Switch) htlcForwarder() {
 	defer func() {
 		s.blockEpochStream.Cancel()
 
-		// Remove all links once we've been signalled for shutdown.
+		// Remove all links once we've been signaled for shutdown.
 		var linksToStop []ChannelLink
 		s.indexMtx.Lock()
 		for _, link := range s.linkIndex {
@@ -1599,7 +1599,7 @@ out:
 				isResolution:   true,
 			}
 
-			// Resolution messages will either be cancelling
+			// Resolution messages will either be canceling
 			// backwards an existing HTLC, or settling a previously
 			// outgoing HTLC. Based on this, we'll map the message
 			// to the proper htlcPacket.

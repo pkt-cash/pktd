@@ -96,7 +96,7 @@ func TestLocateBirthdayBlock(t *testing.T) {
 	}
 }
 
-// TestLabelTransaction tests labelling of transactions with invalid labels,
+// TestLabelTransaction tests labeling of transactions with invalid labels,
 // and failure to label a transaction when it already has a label.
 func TestLabelTransaction(t *testing.T) {
 	tests := []struct {

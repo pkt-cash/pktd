@@ -12,7 +12,7 @@ import (
 	"github.com/pkt-cash/pktd/wire"
 )
 
-// mockBackend simulates a chain backend for realistic behaviour in unit tests
+// mockBackend simulates a chain backend for realistic behavior in unit tests
 // around double spends.
 type mockBackend struct {
 	t *testing.T

@@ -10,7 +10,7 @@ import (
 )
 
 // Config is a struct which houses configuration parameters which modify the
-// behaviour of LightningWallet.
+// behavior of LightningWallet.
 //
 // NOTE: The passed channeldb, and ChainNotifier should already be fully
 // initialized/started before being passed as a function argument.

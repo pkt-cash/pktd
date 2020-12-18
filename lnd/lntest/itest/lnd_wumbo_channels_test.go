@@ -15,9 +15,9 @@ import (
 // inbound wumbo channel requests.
 func testWumboChannels(net *lntest.NetworkHarness, t *harnessTest) {
 	// With all the channel types exercised, we'll now make sure the wumbo
-	// signalling support works properly.
+	// signaling support works properly.
 	//
-	// We'll make two new nodes, with one of them signalling support for
+	// We'll make two new nodes, with one of them signaling support for
 	// wumbo channels while the other doesn't.
 	wumboNode, err := net.NewNode(
 		"wumbo", []string{"--protocol.wumbo-channels"},

@@ -38,7 +38,7 @@ func networkDir(dataDir string, chainParams *chaincfg.Params) string {
 
 	// For now, we must always name the testnet data directory as "testnet"
 	// and not "testnet3" or any other version, as the chaincfg testnet3
-	// paramaters will likely be switched to being named "testnet3" in the
+	// parameters will likely be switched to being named "testnet3" in the
 	// future.  This is done to future proof that change, and an upgrade
 	// plan to move the testnet3 data directory can be worked out later.
 	if chainParams.Net == protocol.TestNet3 {
@@ -128,7 +128,7 @@ func createWallet(cfg *config) er.R {
 	var legacyKeyStore *keystore.Store
 	_, errr := os.Stat(keystorePath)
 	if errr != nil && !os.IsNotExist(errr) {
-		// A stat error not due to a non-existant file should be
+		// A stat error not due to a non-existent file should be
 		// returned to the caller.
 		return er.E(errr)
 	} else if errr == nil {

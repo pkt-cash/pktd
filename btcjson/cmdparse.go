@@ -109,7 +109,7 @@ func populateDefaults(numParams int, info *methodInfo, rv reflect.Value) {
 }
 
 // UnmarshalCmd unmarshals a JSON-RPC request into a suitable concrete command
-// so long as the method type contained within the marshalled request is
+// so long as the method type contained within the marshaled request is
 // registered.
 func UnmarshalCmd(r *Request) (interface{}, er.R) {
 	registerLock.RLock()
@@ -513,7 +513,7 @@ func assignField(paramNum int, fieldName string, dest reflect.Value, src reflect
 //   - Conversion from string to any size float for everything
 //     strconv.ParseFloat recognizes
 //   - Conversion from string to arrays, slices, structs, and maps by treating
-//     the string as marshalled JSON and calling jsoniter.Unmarshal into the
+//     the string as marshaled JSON and calling jsoniter.Unmarshal into the
 //     destination field
 func NewCmd(method string, args ...interface{}) (interface{}, er.R) {
 	// Look up details about the provided method.  Any methods that aren't

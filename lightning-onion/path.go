@@ -190,7 +190,7 @@ func NewHopPayload(hopData *HopData, eob []byte) (HopPayload, er.R) {
 
 // NumBytes returns the number of bytes it will take to serialize the full
 // payload. Depending on the payload type, this may include some additional
-// signalling bytes.
+// signaling bytes.
 func (hp *HopPayload) NumBytes() int {
 	// The base size is the size of the raw payload, and the size of the
 	// HMAC.

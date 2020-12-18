@@ -1,4 +1,4 @@
-// Package chanfitness monitors the behaviour of channels to provide insight
+// Package chanfitness monitors the behavior of channels to provide insight
 // into the health and performance of a channel. This is achieved by maintaining
 // an event store which tracks events for each channel.
 //

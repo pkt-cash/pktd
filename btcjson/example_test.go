@@ -27,15 +27,15 @@ func ExampleMarshalCmd() {
 	// server.  Typically the client would increment the id here which is
 	// request so the response can be identified.
 	id := 1
-	marshalledBytes, err := btcjson.MarshalCmd(id, gbCmd)
+	marshaledBytes, err := btcjson.MarshalCmd(id, gbCmd)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	// Display the marshalled command.  Ordinarily this would be sent across
+	// Display the marshaled command.  Ordinarily this would be sent across
 	// the wire to the RPC server, but for this example, just display it.
-	fmt.Printf("%s\n", marshalledBytes)
+	fmt.Printf("%s\n", marshaledBytes)
 
 	// Output:
 	// {"jsonrpc":"1.0","method":"getblock","params":["000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",false],"id":1}
@@ -97,16 +97,16 @@ func ExampleUnmarshalCmd() {
 func ExampleMarshalResponse() {
 	// Marshal a new JSON-RPC response.  For example, this is a response
 	// to a getblockheight request.
-	marshalledBytes, err := btcjson.MarshalResponse(1, 350001, nil)
+	marshaledBytes, err := btcjson.MarshalResponse(1, 350001, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	// Display the marshalled response.  Ordinarily this would be sent
+	// Display the marshaled response.  Ordinarily this would be sent
 	// across the wire to the RPC client, but for this example, just display
 	// it.
-	fmt.Printf("%s\n", marshalledBytes)
+	fmt.Printf("%s\n", marshaledBytes)
 
 	// Output:
 	// {"result":350001,"error":null,"id":1}

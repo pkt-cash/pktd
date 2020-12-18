@@ -204,7 +204,7 @@ const (
 	// funded symmetrically or asymmetrically.
 	DualFunderBit ChannelType = 1 << 0
 
-	// SingleFunderTweakless is similar to the basic SingleFunder channel
+	// SingleFunderTweaklessBit is similar to the basic SingleFunder channel
 	// type, but it omits the tweak for one's key in the commitment
 	// transaction of the remote party.
 	SingleFunderTweaklessBit ChannelType = 1 << 1
@@ -1646,7 +1646,7 @@ func SerializeHtlcs(b io.Writer, htlcs ...HTLC) er.R {
 	for _, htlc := range htlcs {
 		if err := WriteElements(b,
 			htlc.Signature, htlc.RHash, htlc.Amt, htlc.RefundTimeout,
-			htlc.OutputIndex, htlc.Incoming, htlc.OnionBlob[:],
+			htlc.OutputIndex, htlc.Incoming, htlc.OnionBlob,
 			htlc.HtlcIndex, htlc.LogIndex,
 		); err != nil {
 			return err
@@ -1696,7 +1696,7 @@ func (h *HTLC) Copy() HTLC {
 		RefundTimeout: h.RefundTimeout,
 		OutputIndex:   h.OutputIndex,
 	}
-	copy(clone.Signature[:], h.Signature)
+	copy(clone.Signature, h.Signature)
 	copy(clone.RHash[:], h.RHash[:])
 
 	return clone

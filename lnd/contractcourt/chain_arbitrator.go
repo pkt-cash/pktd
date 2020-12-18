@@ -737,7 +737,7 @@ func (c *ChainArbitrator) dispatchBlocks(
 		case block, ok := <-blockEpoch.Epochs:
 			if !ok {
 				log.Trace("dispatchBlocks block epoch " +
-					"cancelled")
+					"canceled")
 				return
 			}
 
@@ -864,7 +864,7 @@ func (c *ChainArbitrator) rebroadcast(channel *channeldb.OpenChannel,
 }
 
 // Stop signals the ChainArbitrator to trigger a graceful shutdown. Any active
-// channel arbitrators will be signalled to exit, and this method will block
+// channel arbitrators will be signaled to exit, and this method will block
 // until they've all exited.
 func (c *ChainArbitrator) Stop() er.R {
 	if !atomic.CompareAndSwapInt32(&c.stopped, 0, 1) {

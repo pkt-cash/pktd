@@ -145,7 +145,7 @@ func (m *MockNotifier) RegisterBlockEpochNtfn(
 
 	// The real notifier returns a notification with the current block hash
 	// and height immediately if no best block hash or height is specified
-	// in the request. We want to emulate this behaviour as well for the
+	// in the request. We want to emulate this behavior as well for the
 	// mock.
 	switch {
 	case bestBlock == nil:
@@ -215,7 +215,7 @@ func (m *MockNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 	return &chainntnfs.SpendEvent{
 		Spend: channel,
 		Cancel: func() {
-			log.Infof("Cancelling RegisterSpendNtfn for %v",
+			log.Infof("Canceling RegisterSpendNtfn for %v",
 				outpoint)
 
 			m.mutex.Lock()

@@ -1,5 +1,4 @@
-treap
-=====
+# treap
 
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org)
 

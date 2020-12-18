@@ -91,7 +91,7 @@ func TestHtlcIncomingResolverFwdContestedTimeout(t *testing.T) {
 	ctx.notifyEpoch(testHtlcExpiry)
 
 	// Assert that we have a failure resolution because our invoice was
-	// cancelled.
+	// canceled.
 	assertResolverReport(t, reportChan, &channeldb.ResolverReport{
 		Amount:          lnwire.MilliSatoshi(testHtlcAmount).ToSatoshis(),
 		ResolverType:    channeldb.ResolverTypeIncomingHtlc,
@@ -206,7 +206,7 @@ func TestHtlcIncomingResolverExitTimeoutHodl(t *testing.T) {
 	ctx.notifyEpoch(testHtlcExpiry)
 
 	// Assert that we have a failure resolution because our invoice was
-	// cancelled.
+	// canceled.
 	assertResolverReport(t, reportChan, &channeldb.ResolverReport{
 		Amount:          lnwire.MilliSatoshi(testHtlcAmount).ToSatoshis(),
 		ResolverType:    channeldb.ResolverTypeIncomingHtlc,
@@ -246,7 +246,7 @@ func TestHtlcIncomingResolverExitCancelHodl(t *testing.T) {
 	)
 
 	// Assert that we have a failure resolution because our invoice was
-	// cancelled.
+	// canceled.
 	assertResolverReport(t, reportChan, &channeldb.ResolverReport{
 		Amount:          lnwire.MilliSatoshi(testHtlcAmount).ToSatoshis(),
 		ResolverType:    channeldb.ResolverTypeIncomingHtlc,

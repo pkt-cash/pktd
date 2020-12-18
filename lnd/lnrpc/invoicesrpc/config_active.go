@@ -33,7 +33,7 @@ type Config struct {
 	IsChannelActive func(chanID lnwire.ChannelID) bool
 
 	// ChainParams are required to properly decode invoice payment requests
-	// that are marshalled over rpc.
+	// that are marshaled over rpc.
 	ChainParams *chaincfg.Params
 
 	// NodeSigner is an implementation of the MessageSigner implementation

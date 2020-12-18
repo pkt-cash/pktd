@@ -41,7 +41,7 @@ type Net interface {
 	ResolveTCPAddr(network, address string) (*net.TCPAddr, er.R)
 }
 
-// ClearNet is an implementation of the Net interface that defines behaviour
+// ClearNet is an implementation of the Net interface that defines behavior
 // for regular network connections.
 type ClearNet struct{}
 
@@ -77,7 +77,7 @@ func (r *ClearNet) ResolveTCPAddr(network, address string) (*net.TCPAddr, er.R) 
 	return c, er.E(e)
 }
 
-// ProxyNet is an implementation of the Net interface that defines behaviour
+// ProxyNet is an implementation of the Net interface that defines behavior
 // for Tor network connections.
 type ProxyNet struct {
 	// SOCKS is the host:port which Tor's exposed SOCKS5 proxy is listening

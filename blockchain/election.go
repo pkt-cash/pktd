@@ -63,7 +63,7 @@ func (e *election) castBallot(pkScript []byte, value int64) {
 // tip of the best chain and the UtxoViewpoint, which is essentially a diff against
 // that tip. Note that this can be called for a block which is not building on the
 // chain tip, but the UtxoViewpoint should show as "spent" the transactions which
-// were non-existant at the time that this is being considered against.
+// were non-existent at the time that this is being considered against.
 //
 // First we try the easy way, take the winner and disapproval rating at the
 // current tip and then add/subtract the transactions which were created/spent

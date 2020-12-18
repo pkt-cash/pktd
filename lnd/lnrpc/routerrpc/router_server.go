@@ -308,7 +308,7 @@ func (s *Server) EstimateRouteFee(ctx context.Context,
 
 	// Pick a fee limit
 	//
-	// TODO: Change this into behaviour that makes more sense.
+	// TODO: Change this into behavior that makes more sense.
 	feeLimit := lnwire.NewMSatFromSatoshis(btcutil.UnitsPerCoin())
 
 	// Finally, we'll query for a route to the destination that can carry
@@ -343,7 +343,7 @@ func (s *Server) SendToRouteV2(ctx context.Context,
 		return nil, er.Native(er.Errorf("unable to send, no routes provided"))
 	}
 
-	route, err := s.cfg.RouterBackend.UnmarshallRoute(req.Route)
+	route, err := s.cfg.RouterBackend.UnmarshalRoute(req.Route)
 	if err != nil {
 		return nil, er.Native(err)
 	}
@@ -421,7 +421,7 @@ func (s *Server) QueryMissionControl(ctx context.Context,
 	return &response, nil
 }
 
-// toRPCPairData marshalls mission control pair data to the rpc struct.
+// toRPCPairData marshals mission control pair data to the rpc struct.
 func toRPCPairData(data *routing.TimedPairResult) *PairData {
 	rpcData := PairData{
 		FailAmtSat:     int64(data.FailAmt.ToSatoshis()),
@@ -519,7 +519,7 @@ func (s *Server) trackPayment(paymentHash lntypes.Hash,
 				continue
 			}
 
-			rpcPayment, err := router.MarshallPayment(result)
+			rpcPayment, err := router.MarshalPayment(result)
 			if err != nil {
 				return er.Native(err)
 			}
@@ -544,7 +544,7 @@ func (s *Server) trackPayment(paymentHash lntypes.Hash,
 func (s *Server) BuildRoute(ctx context.Context,
 	req *BuildRouteRequest) (*BuildRouteResponse, error) {
 
-	// Unmarshall hop list.
+	// Unmarshal hop list.
 	hops := make([]route.Vertex, len(req.HopPubkeys))
 	for i, pubkeyBytes := range req.HopPubkeys {
 		pubkey, err := route.NewVertexFromBytes(pubkeyBytes)
@@ -574,7 +574,7 @@ func (s *Server) BuildRoute(ctx context.Context,
 		return nil, er.Native(err)
 	}
 
-	rpcRoute, err := s.cfg.RouterBackend.MarshallRoute(route)
+	rpcRoute, err := s.cfg.RouterBackend.MarshalRoute(route)
 	if err != nil {
 		return nil, er.Native(err)
 	}
@@ -609,16 +609,16 @@ func (s *Server) SubscribeHtlcEvents(req *SubscribeHtlcEventsRequest,
 				return err
 			}
 
-		// If the stream's context is cancelled, return an error.
+		// If the stream's context is canceled, return an error.
 		case <-stream.Context().Done():
-			log.Debugf("htlc event stream cancelled")
+			log.Debugf("htlc event stream canceled")
 			return stream.Context().Err()
 
 		// If the subscribe client terminates, exit with an error.
 		case <-htlcClient.Quit():
 			return er.Native(er.New("htlc event subscription terminated"))
 
-		// If the server has been signalled to shut down, exit.
+		// If the server has been signaled to shut down, exit.
 		case <-s.quit:
 			return er.Native(errServerShuttingDown.Default())
 		}

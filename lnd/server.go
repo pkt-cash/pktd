@@ -276,7 +276,7 @@ type server struct {
 	// channelNotifier to be notified of newly opened and closed channels.
 	chanSubSwapper *chanbackup.SubSwapper
 
-	// chanEventStore tracks the behaviour of channels and their remote peers to
+	// chanEventStore tracks the behavior of channels and their remote peers to
 	// provide insights into their health and performance.
 	chanEventStore *chanfitness.ChannelEventStore
 

@@ -942,7 +942,7 @@ func (r *rpcServer) Stop() er.R {
 
 	close(r.quit)
 
-	// After we've signalled all of our active goroutines to exit, we'll
+	// After we've signaled all of our active goroutines to exit, we'll
 	// then do the same to signal a graceful shutdown of all the sub
 	// servers.
 	for _, subServer := range r.subServers {
@@ -1266,7 +1266,7 @@ func (r *rpcServer) SendCoins(ctx context.Context,
 			"with tx=%v", in.Addr, spew.Sdump(sweepTxPkg.SweepTx))
 
 		// As our sweep transaction was created, successfully, we'll
-		// now attempt to publish it, cancelling the sweep pkg to
+		// now attempt to publish it, canceling the sweep pkg to
 		// return all outputs if it fails.
 		err = wallet.PublishTransaction(sweepTxPkg.SweepTx, label)
 		if err != nil {
@@ -4087,7 +4087,7 @@ func (r *rpcServer) SendToRoute(stream lnrpc.Lightning_SendToRouteServer) error 
 				return nil, er.E(err)
 			}
 
-			return r.unmarshallSendToRouteRequest(req)
+			return r.unmarshalSendToRouteRequest(req)
 		},
 		send: func(r *lnrpc.SendResponse) er.R {
 			// Calling stream.Send concurrently is not safe.
@@ -4098,15 +4098,15 @@ func (r *rpcServer) SendToRoute(stream lnrpc.Lightning_SendToRouteServer) error 
 	}))
 }
 
-// unmarshallSendToRouteRequest unmarshalls an rpc sendtoroute request
-func (r *rpcServer) unmarshallSendToRouteRequest(
+// unmarshalSendToRouteRequest unmarshals an rpc sendtoroute request
+func (r *rpcServer) unmarshalSendToRouteRequest(
 	req *lnrpc.SendToRouteRequest) (*rpcPaymentRequest, er.R) {
 
 	if req.Route == nil {
 		return nil, er.Errorf("unable to send, no route provided")
 	}
 
-	route, err := r.routerBackend.UnmarshallRoute(req.Route)
+	route, err := r.routerBackend.UnmarshalRoute(req.Route)
 	if err != nil {
 		return nil, err
 	}
@@ -4241,7 +4241,7 @@ func (r *rpcServer) extractPaymentIntent(rpcPayReq *rpcPaymentRequest) (rpcPayme
 		// We override the amount to pay with the amount provided from
 		// the payment request.
 		if payReq.MilliSat == nil {
-			amt, err := lnrpc.UnmarshallAmt(
+			amt, err := lnrpc.UnmarshalAmt(
 				rpcPayReq.Amt, rpcPayReq.AmtMsat,
 			)
 			if err != nil {
@@ -4304,7 +4304,7 @@ func (r *rpcServer) extractPaymentIntent(rpcPayReq *rpcPaymentRequest) (rpcPayme
 	// Otherwise, If the payment request field was not specified
 	// (and a custom route wasn't specified), construct the payment
 	// from the other fields.
-	payIntent.msat, err = lnrpc.UnmarshallAmt(
+	payIntent.msat, err = lnrpc.UnmarshalAmt(
 		rpcPayReq.Amt, rpcPayReq.AmtMsat,
 	)
 	if err != nil {
@@ -4619,7 +4619,7 @@ sendLoop:
 				}
 
 				backend := r.routerBackend
-				marshalledRouted, err := backend.MarshallRoute(
+				marshaledRouted, err := backend.MarshalRoute(
 					resp.Route,
 				)
 				if err != nil {
@@ -4630,7 +4630,7 @@ sendLoop:
 				err = stream.send(&lnrpc.SendResponse{
 					PaymentHash:     payIntent.rHash[:],
 					PaymentPreimage: resp.Preimage[:],
-					PaymentRoute:    marshalledRouted,
+					PaymentRoute:    marshaledRouted,
 				})
 				if err != nil {
 					log.Errorf("Failed sending "+
@@ -4675,7 +4675,7 @@ func (r *rpcServer) SendToRouteSync(ctx context.Context,
 		return nil, er.Native(er.Errorf("unable to send, no routes provided"))
 	}
 
-	paymentRequest, err := r.unmarshallSendToRouteRequest(req)
+	paymentRequest, err := r.unmarshalSendToRouteRequest(req)
 	if err != nil {
 		return nil, er.Native(err)
 	}
@@ -4717,7 +4717,7 @@ func (r *rpcServer) sendPaymentSync(ctx context.Context,
 		}, nil
 	}
 
-	rpcRoute, err := r.routerBackend.MarshallRoute(resp.Route)
+	rpcRoute, err := r.routerBackend.MarshalRoute(resp.Route)
 	if err != nil {
 		return nil, err
 	}
@@ -4758,7 +4758,7 @@ func (r *rpcServer) AddInvoice0(ctx context.Context,
 		},
 	}
 
-	value, err := lnrpc.UnmarshallAmt(invoice.Value, invoice.ValueMsat)
+	value, err := lnrpc.UnmarshalAmt(invoice.Value, invoice.ValueMsat)
 	if err != nil {
 		return nil, err
 	}
@@ -5519,7 +5519,7 @@ func (r *rpcServer) SubscribeChannelGraph(req *lnrpc.GraphTopologySubscription,
 			// Convert the struct from the channel router into the
 			// form expected by the gRPC service then send it off
 			// to the client.
-			graphUpdate := marshallTopologyChange(topChange)
+			graphUpdate := marshalTopologyChange(topChange)
 			if err := updateStream.Send(graphUpdate); err != nil {
 				return er.Native(er.E(err))
 			}
@@ -5532,10 +5532,10 @@ func (r *rpcServer) SubscribeChannelGraph(req *lnrpc.GraphTopologySubscription,
 	}
 }
 
-// marshallTopologyChange performs a mapping from the topology change struct
+// marshalTopologyChange performs a mapping from the topology change struct
 // returned by the router to the form of notifications expected by the current
 // gRPC service.
-func marshallTopologyChange(topChange *routing.TopologyChange) *lnrpc.GraphTopologyUpdate {
+func marshalTopologyChange(topChange *routing.TopologyChange) *lnrpc.GraphTopologyUpdate {
 
 	// encodeKey is a simple helper function that converts a live public
 	// key into a hex-encoded version of the compressed serialization for
@@ -5639,7 +5639,7 @@ func (r *rpcServer) ListPayments(ctx context.Context,
 	for _, payment := range paymentsQuerySlice.Payments {
 		payment := payment
 
-		rpcPayment, err := r.routerBackend.MarshallPayment(payment)
+		rpcPayment, err := r.routerBackend.MarshalPayment(payment)
 		if err != nil {
 			return nil, er.Native(err)
 		}

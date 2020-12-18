@@ -136,18 +136,18 @@ func (sk *SecretKey) deriveKey(password *[]byte) er.R {
 	return nil
 }
 
-// Marshal returns the Parameters field marshalled into a format suitable for
+// Marshal returns the Parameters field marshaled into a format suitable for
 // storage.  This result of this can be stored in clear text.
 func (sk *SecretKey) Marshal() []byte {
 	params := &sk.Parameters
 
-	// The marshalled format for the the params is as follows:
+	// The marshaled format for the the params is as follows:
 	//   <salt><digest><N><R><P>
 	//
 	// KeySize + sha256.Size + N (8 bytes) + R (8 bytes) + P (8 bytes)
-	marshalled := make([]byte, KeySize+sha256.Size+24)
+	marshaled := make([]byte, KeySize+sha256.Size+24)
 
-	b := marshalled
+	b := marshaled
 	copy(b[:KeySize], params.Salt[:])
 	b = b[KeySize:]
 	copy(b[:sha256.Size], params.Digest[:])
@@ -158,34 +158,34 @@ func (sk *SecretKey) Marshal() []byte {
 	b = b[8:]
 	binary.LittleEndian.PutUint64(b[:8], uint64(params.P))
 
-	return marshalled
+	return marshaled
 }
 
-// Unmarshal unmarshalls the parameters needed to derive the secret key from a
+// Unmarshal unmarshals the parameters needed to derive the secret key from a
 // passphrase into sk.
-func (sk *SecretKey) Unmarshal(marshalled []byte) er.R {
+func (sk *SecretKey) Unmarshal(marshaled []byte) er.R {
 	if sk.Key == nil {
 		sk.Key = (*CryptoKey)(&[KeySize]byte{})
 	}
 
-	// The marshalled format for the the params is as follows:
+	// The marshaled format for the the params is as follows:
 	//   <salt><digest><N><R><P>
 	//
 	// KeySize + sha256.Size + N (8 bytes) + R (8 bytes) + P (8 bytes)
-	if len(marshalled) != KeySize+sha256.Size+24 {
+	if len(marshaled) != KeySize+sha256.Size+24 {
 		return ErrMalformed.New("wrong size secret key", nil)
 	}
 
 	params := &sk.Parameters
-	copy(params.Salt[:], marshalled[:KeySize])
-	marshalled = marshalled[KeySize:]
-	copy(params.Digest[:], marshalled[:sha256.Size])
-	marshalled = marshalled[sha256.Size:]
-	params.N = int(binary.LittleEndian.Uint64(marshalled[:8]))
-	marshalled = marshalled[8:]
-	params.R = int(binary.LittleEndian.Uint64(marshalled[:8]))
-	marshalled = marshalled[8:]
-	params.P = int(binary.LittleEndian.Uint64(marshalled[:8]))
+	copy(params.Salt[:], marshaled[:KeySize])
+	marshaled = marshaled[KeySize:]
+	copy(params.Digest[:], marshaled[:sha256.Size])
+	marshaled = marshaled[sha256.Size:]
+	params.N = int(binary.LittleEndian.Uint64(marshaled[:8]))
+	marshaled = marshaled[8:]
+	params.R = int(binary.LittleEndian.Uint64(marshaled[:8]))
+	marshaled = marshaled[8:]
+	params.P = int(binary.LittleEndian.Uint64(marshaled[:8]))
 
 	return nil
 }

@@ -410,7 +410,7 @@ func labelTransaction(ctx *cli.Context) er.R {
 		return err
 	}
 
-	fmt.Printf("Transaction: %v labelled with: %v\n", txid, label)
+	fmt.Printf("Transaction: %v labeled with: %v\n", txid, label)
 
 	return nil
 }

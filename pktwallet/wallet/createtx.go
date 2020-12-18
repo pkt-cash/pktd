@@ -164,7 +164,7 @@ func (w *Wallet) txToOutputs(txr CreateTxReq) (tx *txauthor.AuthoredTx, err er.R
 		}
 		addrStr = strings.Join(addrs, ", ")
 	}
-	log.Debugf("Found [%d] eligable inputs from addresses [%s], excluded [%d] (unconfirmed) "+
+	log.Debugf("Found [%d] eligible inputs from addresses [%s], excluded [%d] (unconfirmed) "+
 		"and [%d] (too many inputs for tx)",
 		len(eligibleOuts.credits), addrStr, eligibleOuts.unconfirmedCount, eligibleOuts.unusedCount)
 	for _, eo := range eligibleOuts.credits {

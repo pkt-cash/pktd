@@ -134,7 +134,7 @@
 <time> [ERR] NANN: Unable to sign update disabling channel(<chan_point>): edge not found
 <time> [ERR] NTFN: chain notifier shutting down
 <time> [ERR] NTFN: Error during rescan: rescan exited
-<time> [ERR] NTFN: Failed getting UTXO: get utxo request cancelled
+<time> [ERR] NTFN: Failed getting UTXO: get utxo request canceled
 <time> [ERR] NTFN: Rescan to determine the spend details of <chan_point> failed: the client has been shutdown
 <time> [ERR] NTFN: Unable to fetch block header: the client has been shutdown
 <time> [ERR] NTFN: unable to find blockhash for height=<height>: -1: Block number out of range
@@ -225,7 +225,7 @@
 <time> [ERR] RPCS: unable to open channel to NodeKey(<hex>): received funding error from <hex>: chan_id=<hex>, err=Number of pending channels exceed maximum
 <time> [ERR] RPCS: unable to open channel to NodeKey(<hex>): received funding error from <hex>: chan_id=<hex>, err=Synchronizing blockchain
 <time> [ERR] RPCS: [/walletrpc.WalletKit/LabelTransaction]: cannot label transaction with empty label
-<time> [ERR] RPCS: [/walletrpc.WalletKit/LabelTransaction]: transaction already labelled
+<time> [ERR] RPCS: [/walletrpc.WalletKit/LabelTransaction]: transaction already labeled
 <time> [ERR] RPCS: Websocket receive error from <ip>: read tcp4 <ip>-><ip>: use of closed network connection
 <time> [ERR] RPCS: Websocket receive error from <ip>: websocket: close 1006 unexpected EOF
 <time> [ERR] RPCS: WS: error closing upgraded conn: write tcp4 <ip>-><ip>: write: connection reset by peer

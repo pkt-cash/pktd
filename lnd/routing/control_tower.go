@@ -16,7 +16,7 @@ import (
 // restarts. Payments are transitioned through various payment states, and the
 // ControlTower interface provides access to driving the state transitions.
 type ControlTower interface {
-	// This method checks that no suceeded payment exist for this payment
+	// This method checks that no succeeded payment exist for this payment
 	// hash.
 	InitPayment(lntypes.Hash, *channeldb.PaymentCreationInfo) er.R
 
@@ -86,7 +86,7 @@ func newControlTowerSubscriber() *ControlTowerSubscriber {
 // Close signals that the subscriber is no longer interested in updates.
 func (s *ControlTowerSubscriber) Close() {
 	// Close quit channel so that any pending writes to the queue are
-	// cancelled.
+	// canceled.
 	close(s.quit)
 
 	// Stop the queue goroutine so that it won't leak.

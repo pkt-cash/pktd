@@ -287,7 +287,7 @@ func (s *Server) AddHoldInvoice(ctx context.Context,
 		return nil, err
 	}
 
-	value, err := lnrpc.UnmarshallAmt(invoice.Value, invoice.ValueMsat)
+	value, err := lnrpc.UnmarshalAmt(invoice.Value, invoice.ValueMsat)
 	if err != nil {
 		return nil, err
 	}

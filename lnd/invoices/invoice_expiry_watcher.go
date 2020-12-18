@@ -33,7 +33,7 @@ func (e invoiceExpiry) Less(other queue.PriorityQueueItem) bool {
 // invoice is added to the InvoiceRegistry, it'll be forarded to the
 // InvoiceExpiryWatcher and will end up in the watching queue as well.
 // If any of the watched invoices expire, they'll be removed from the watching
-// queue and will be cancelled through InvoiceRegistry.CancelInvoice().
+// queue and will be canceled through InvoiceRegistry.CancelInvoice().
 type InvoiceExpiryWatcher struct {
 	sync.Mutex
 	started bool

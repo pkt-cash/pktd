@@ -1,22 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
-#
 # This script should be run from the project root
 # e.g. ./contrib/docker/build.sh
-#
+
 # Install docker:
 # $ sudo apt install docker.io)
 # $ sudo systemctl start docker
 # install dep:
-# $ go get github.com/golang/dep
-# 
+# $ go get github.com/golang/dep 
 
 DOCKER_FILE_LOCATION=./contrib/docker/Dockerfile
 DOCKER_IMAGE_NAME=pktd
 
 ./do
 echo "Binary built. Building Docker image now."
-
 
 if which docker; then
 	fpm -n $RPM_PACKAGE_NAME -s dir -t rpm $BINARY_FOLDER
@@ -32,6 +29,3 @@ else
 	echo "docker not installed or not reachable"
 	exit 1
 fi
-
-
-

@@ -402,7 +402,7 @@ type testGraphInstance struct {
 	aliasMap map[string]route.Vertex
 
 	// privKeyMap maps a node alias to its private key. This is used to be
-	// able to mock a remote node's signing behaviour.
+	// able to mock a remote node's signing behavior.
 	privKeyMap map[string]*btcec.PrivateKey
 }
 

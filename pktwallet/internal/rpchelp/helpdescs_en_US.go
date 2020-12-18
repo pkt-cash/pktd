@@ -19,7 +19,7 @@ var helpDescsEnUS = map[string]string{
 	"addp2shscript-account":   "DEPRECATED -- Unused (all imported addresses belong to the imported account)",
 	"addp2shscript-segwit":    "If true then this will create a segwit address",
 	"addp2shscript-script":    "The redeem script to import",
-	"addp2shscript--result0":  "The address corrisponding to this script",
+	"addp2shscript--result0":  "The address corresponding to this script",
 
 	// CreateTransactionCmd help.
 	"createtransaction--synopsis":      "Create a transaction but do not send it to the chain",

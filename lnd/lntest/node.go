@@ -884,7 +884,7 @@ func (hn *HarnessNode) ReadMacaroon(macPath string, timeout time.Duration) (
 
 		newMac := &macaroon.Macaroon{}
 		if err = newMac.UnmarshalBinary(macBytes); err != nil {
-			return er.Errorf("error unmarshalling macaroon "+
+			return er.Errorf("error unmarshaling macaroon "+
 				"file: %v", err)
 		}
 		mac = newMac

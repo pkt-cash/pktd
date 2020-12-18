@@ -1,5 +1,4 @@
-bech32
-==========
+# bech32
 
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org)
 

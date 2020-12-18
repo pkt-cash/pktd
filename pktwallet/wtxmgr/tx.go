@@ -42,7 +42,7 @@ var (
 
 	// ErrNoLabelBucket is returned when the bucket holding optional
 	// transaction labels is not found. This occurs when no transactions
-	// have been labelled yet.
+	// have been labeled yet.
 	ErrNoLabelBucket = Err.CodeWithDetail("ErrNoLabelBucket", "labels bucket does not exist")
 
 	// ErrTxLabelNotFound is returned when no label is found for a
@@ -62,7 +62,7 @@ var (
 	// ErrOutputUnlockNotAllowed is an error returned when an output unlock
 	// is attempted with a different ID than the one which locked it.
 	ErrOutputUnlockNotAllowed = Err.CodeWithDetail("ErrOutputUnlockNotAllowed",
-		"output unlock not alowed")
+		"output unlock not allowed")
 )
 
 // Block contains the minimum amount of data to uniquely identify any block on

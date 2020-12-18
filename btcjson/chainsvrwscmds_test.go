@@ -19,8 +19,8 @@ import (
 
 // TestChainSvrWsCmds tests all of the chain server websocket-specific commands
 // marshal and unmarshal into valid results include handling of optional fields
-// being omitted in the marshalled command, while optional fields with defaults
-// have the default assigned on unmarshalled commands.
+// being omitted in the marshaled command, while optional fields with defaults
+// have the default assigned on unmarshaled commands.
 func TestChainSvrWsCmds(t *testing.T) {
 
 	testID := int(1)
@@ -28,8 +28,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 		name         string
 		newCmd       func() (interface{}, er.R)
 		staticCmd    func() interface{}
-		marshalled   string
-		unmarshalled interface{}
+		marshaled   string
+		unmarshaled interface{}
 	}{
 		{
 			name: "authenticate",
@@ -39,8 +39,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewAuthenticateCmd("user", "pass")
 			},
-			marshalled:   `{"jsonrpc":"1.0","method":"authenticate","params":["user","pass"],"id":1}`,
-			unmarshalled: &btcjson.AuthenticateCmd{Username: "user", Passphrase: "pass"},
+			marshaled:   `{"jsonrpc":"1.0","method":"authenticate","params":["user","pass"],"id":1}`,
+			unmarshaled: &btcjson.AuthenticateCmd{Username: "user", Passphrase: "pass"},
 		},
 		{
 			name: "notifyblocks",
@@ -50,8 +50,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewNotifyBlocksCmd()
 			},
-			marshalled:   `{"jsonrpc":"1.0","method":"notifyblocks","params":[],"id":1}`,
-			unmarshalled: &btcjson.NotifyBlocksCmd{},
+			marshaled:   `{"jsonrpc":"1.0","method":"notifyblocks","params":[],"id":1}`,
+			unmarshaled: &btcjson.NotifyBlocksCmd{},
 		},
 		{
 			name: "stopnotifyblocks",
@@ -61,8 +61,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewStopNotifyBlocksCmd()
 			},
-			marshalled:   `{"jsonrpc":"1.0","method":"stopnotifyblocks","params":[],"id":1}`,
-			unmarshalled: &btcjson.StopNotifyBlocksCmd{},
+			marshaled:   `{"jsonrpc":"1.0","method":"stopnotifyblocks","params":[],"id":1}`,
+			unmarshaled: &btcjson.StopNotifyBlocksCmd{},
 		},
 		{
 			name: "notifynewtransactions",
@@ -72,8 +72,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewNotifyNewTransactionsCmd(nil)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"notifynewtransactions","params":[],"id":1}`,
-			unmarshalled: &btcjson.NotifyNewTransactionsCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"notifynewtransactions","params":[],"id":1}`,
+			unmarshaled: &btcjson.NotifyNewTransactionsCmd{
 				Verbose: btcjson.Bool(false),
 			},
 		},
@@ -85,8 +85,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewNotifyNewTransactionsCmd(btcjson.Bool(true))
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"notifynewtransactions","params":[true],"id":1}`,
-			unmarshalled: &btcjson.NotifyNewTransactionsCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"notifynewtransactions","params":[true],"id":1}`,
+			unmarshaled: &btcjson.NotifyNewTransactionsCmd{
 				Verbose: btcjson.Bool(true),
 			},
 		},
@@ -98,8 +98,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewStopNotifyNewTransactionsCmd()
 			},
-			marshalled:   `{"jsonrpc":"1.0","method":"stopnotifynewtransactions","params":[],"id":1}`,
-			unmarshalled: &btcjson.StopNotifyNewTransactionsCmd{},
+			marshaled:   `{"jsonrpc":"1.0","method":"stopnotifynewtransactions","params":[],"id":1}`,
+			unmarshaled: &btcjson.StopNotifyNewTransactionsCmd{},
 		},
 		{
 			name: "notifyreceived",
@@ -109,8 +109,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewNotifyReceivedCmd([]string{"1Address"})
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"notifyreceived","params":[["1Address"]],"id":1}`,
-			unmarshalled: &btcjson.NotifyReceivedCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"notifyreceived","params":[["1Address"]],"id":1}`,
+			unmarshaled: &btcjson.NotifyReceivedCmd{
 				Addresses: []string{"1Address"},
 			},
 		},
@@ -122,8 +122,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 			staticCmd: func() interface{} {
 				return btcjson.NewStopNotifyReceivedCmd([]string{"1Address"})
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"stopnotifyreceived","params":[["1Address"]],"id":1}`,
-			unmarshalled: &btcjson.StopNotifyReceivedCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"stopnotifyreceived","params":[["1Address"]],"id":1}`,
+			unmarshaled: &btcjson.StopNotifyReceivedCmd{
 				Addresses: []string{"1Address"},
 			},
 		},
@@ -136,8 +136,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 				ops := []btcjson.OutPoint{{Hash: "123", Index: 0}}
 				return btcjson.NewNotifySpentCmd(ops)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"notifyspent","params":[[{"hash":"123","index":0}]],"id":1}`,
-			unmarshalled: &btcjson.NotifySpentCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"notifyspent","params":[[{"hash":"123","index":0}]],"id":1}`,
+			unmarshaled: &btcjson.NotifySpentCmd{
 				OutPoints: []btcjson.OutPoint{{Hash: "123", Index: 0}},
 			},
 		},
@@ -150,8 +150,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 				ops := []btcjson.OutPoint{{Hash: "123", Index: 0}}
 				return btcjson.NewStopNotifySpentCmd(ops)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"stopnotifyspent","params":[[{"hash":"123","index":0}]],"id":1}`,
-			unmarshalled: &btcjson.StopNotifySpentCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"stopnotifyspent","params":[[{"hash":"123","index":0}]],"id":1}`,
+			unmarshaled: &btcjson.StopNotifySpentCmd{
 				OutPoints: []btcjson.OutPoint{{Hash: "123", Index: 0}},
 			},
 		},
@@ -168,8 +168,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 				}}
 				return btcjson.NewRescanCmd("123", addrs, ops, nil)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"rescan","params":["123",["1Address"],[{"hash":"0000000000000000000000000000000000000000000000000000000000000123","index":0}]],"id":1}`,
-			unmarshalled: &btcjson.RescanCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"rescan","params":["123",["1Address"],[{"hash":"0000000000000000000000000000000000000000000000000000000000000123","index":0}]],"id":1}`,
+			unmarshaled: &btcjson.RescanCmd{
 				BeginBlock: "123",
 				Addresses:  []string{"1Address"},
 				OutPoints:  []btcjson.OutPoint{{Hash: "0000000000000000000000000000000000000000000000000000000000000123", Index: 0}},
@@ -186,8 +186,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 				ops := []btcjson.OutPoint{{Hash: "123", Index: 0}}
 				return btcjson.NewRescanCmd("123", addrs, ops, btcjson.String("456"))
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"rescan","params":["123",["1Address"],[{"hash":"123","index":0}],"456"],"id":1}`,
-			unmarshalled: &btcjson.RescanCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"rescan","params":["123",["1Address"],[{"hash":"123","index":0}],"456"],"id":1}`,
+			unmarshaled: &btcjson.RescanCmd{
 				BeginBlock: "123",
 				Addresses:  []string{"1Address"},
 				OutPoints:  []btcjson.OutPoint{{Hash: "123", Index: 0}},
@@ -207,8 +207,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 				}}
 				return btcjson.NewLoadTxFilterCmd(false, addrs, ops)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"loadtxfilter","params":[false,["1Address"],[{"hash":"0000000000000000000000000000000000000000000000000000000000000123","index":0}]],"id":1}`,
-			unmarshalled: &btcjson.LoadTxFilterCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"loadtxfilter","params":[false,["1Address"],[{"hash":"0000000000000000000000000000000000000000000000000000000000000123","index":0}]],"id":1}`,
+			unmarshaled: &btcjson.LoadTxFilterCmd{
 				Reload:    false,
 				Addresses: []string{"1Address"},
 				OutPoints: []btcjson.OutPoint{{Hash: "0000000000000000000000000000000000000000000000000000000000000123", Index: 0}},
@@ -223,8 +223,8 @@ func TestChainSvrWsCmds(t *testing.T) {
 				blockhashes := []string{"0000000000000000000000000000000000000000000000000000000000000123"}
 				return btcjson.NewRescanBlocksCmd(blockhashes)
 			},
-			marshalled: `{"jsonrpc":"1.0","method":"rescanblocks","params":[["0000000000000000000000000000000000000000000000000000000000000123"]],"id":1}`,
-			unmarshalled: &btcjson.RescanBlocksCmd{
+			marshaled: `{"jsonrpc":"1.0","method":"rescanblocks","params":[["0000000000000000000000000000000000000000000000000000000000000123"]],"id":1}`,
+			unmarshaled: &btcjson.RescanBlocksCmd{
 				BlockHashes: []string{"0000000000000000000000000000000000000000000000000000000000000123"},
 			},
 		},
@@ -234,17 +234,17 @@ func TestChainSvrWsCmds(t *testing.T) {
 	for i, test := range tests {
 		// Marshal the command as created by the new static command
 		// creation function.
-		marshalled, err := btcjson.MarshalCmd(testID, test.staticCmd())
+		marshaled, err := btcjson.MarshalCmd(testID, test.staticCmd())
 		if err != nil {
 			t.Errorf("MarshalCmd #%d (%s) unexpected error: %v", i,
 				test.name, err)
 			continue
 		}
 
-		if !bytes.Equal(marshalled, []byte(test.marshalled)) {
-			t.Errorf("Test #%d (%s) unexpected marshalled data - "+
-				"got %s, want %s", i, test.name, marshalled,
-				test.marshalled)
+		if !bytes.Equal(marshaled, []byte(test.marshaled)) {
+			t.Errorf("Test #%d (%s) unexpected marshaled data - "+
+				"got %s, want %s", i, test.name, marshaled,
+				test.marshaled)
 			continue
 		}
 
@@ -258,24 +258,24 @@ func TestChainSvrWsCmds(t *testing.T) {
 
 		// Marshal the command as created by the generic new command
 		// creation function.
-		marshalled, err = btcjson.MarshalCmd(testID, cmd)
+		marshaled, err = btcjson.MarshalCmd(testID, cmd)
 		if err != nil {
 			t.Errorf("MarshalCmd #%d (%s) unexpected error: %v", i,
 				test.name, err)
 			continue
 		}
 
-		if !bytes.Equal(marshalled, []byte(test.marshalled)) {
-			t.Errorf("Test #%d (%s) unexpected marshalled data - "+
-				"got %s, want %s", i, test.name, marshalled,
-				test.marshalled)
+		if !bytes.Equal(marshaled, []byte(test.marshaled)) {
+			t.Errorf("Test #%d (%s) unexpected marshaled data - "+
+				"got %s, want %s", i, test.name, marshaled,
+				test.marshaled)
 			continue
 		}
 
 		var request btcjson.Request
-		if err := jsoniter.Unmarshal(marshalled, &request); err != nil {
+		if err := jsoniter.Unmarshal(marshaled, &request); err != nil {
 			t.Errorf("Test #%d (%s) unexpected error while "+
-				"unmarshalling JSON-RPC request: %v", i,
+				"unmarshaling JSON-RPC request: %v", i,
 				test.name, err)
 			continue
 		}
@@ -287,11 +287,11 @@ func TestChainSvrWsCmds(t *testing.T) {
 			continue
 		}
 
-		if !reflect.DeepEqual(cmd, test.unmarshalled) {
-			t.Errorf("Test #%d (%s) unexpected unmarshalled command "+
+		if !reflect.DeepEqual(cmd, test.unmarshaled) {
+			t.Errorf("Test #%d (%s) unexpected unmarshaled command "+
 				"- got %s, want %s", i, test.name,
 				fmt.Sprintf("(%T) %+[1]v", cmd),
-				fmt.Sprintf("(%T) %+[1]v\n", test.unmarshalled))
+				fmt.Sprintf("(%T) %+[1]v\n", test.unmarshaled))
 			continue
 		}
 	}

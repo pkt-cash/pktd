@@ -639,7 +639,7 @@ func loadFwdPkg(fwdPkgBkt kvdb.RBucket, source lnwire.ShortChannelID,
 	fwdPkg.State = FwdStateProcessed
 
 	// If every add, settle, and fail has been fully acknowledged, we can
-	// safely set the package's state to FwdStateCompleted, signalling that
+	// safely set the package's state to FwdStateCompleted, signaling that
 	// it can be garbage collected.
 	if fwdPkg.AckFilter.IsFull() && fwdPkg.SettleFailFilter.IsFull() {
 		fwdPkg.State = FwdStateCompleted

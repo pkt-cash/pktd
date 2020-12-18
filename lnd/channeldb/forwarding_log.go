@@ -48,7 +48,7 @@ func (d *DB) ForwardingLog() *ForwardingLog {
 	}
 }
 
-// ForwardingLog is a time series database that logs the fulfilment of payment
+// ForwardingLog is a time series database that logs the fulfillment of payment
 // circuits by a lightning network daemon. The log contains a series of
 // forwarding events which map a timestamp to a forwarding event. A forwarding
 // event describes which channels were used to create+settle a circuit, and the

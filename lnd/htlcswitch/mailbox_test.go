@@ -363,7 +363,7 @@ func TestMailBoxFailAdd(t *testing.T) {
 	ctx.checkFails(thirdBatch)
 
 	// Finally, reset the link which should cause the second batch to be
-	// cancelled immediately.
+	// canceled immediately.
 	err = ctx.mailbox.ResetPackets()
 	if err != nil {
 		t.Fatalf("unable to reset packets: %v", err)

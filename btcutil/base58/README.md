@@ -1,5 +1,4 @@
-base58
-==========
+# base58
 
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org)
 

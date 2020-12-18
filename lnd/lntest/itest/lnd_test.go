@@ -669,7 +669,7 @@ func completePaymentRequests(ctx context.Context, client lnrpc.LightningClient,
 
 	// We are not waiting for feedback in the form of a response, but we
 	// should still wait long enough for the server to receive and handle
-	// the send before cancelling the request. We wait for the number of
+	// the send before canceling the request. We wait for the number of
 	// updates to one of our channels has increased before we return.
 	err := wait.Predicate(func() bool {
 		ctxt, _ = context.WithTimeout(ctx, defaultTimeout)
@@ -1447,7 +1447,7 @@ test:
 						daveCommitType)
 				}
 
-				// Check that the signalled type matches what we
+				// Check that the signaled type matches what we
 				// expect.
 				switch {
 				case expType == commitTypeAnchors &&
@@ -2939,7 +2939,7 @@ func testChannelFundingPersistence(net *lntest.NetworkHarness, t *harnessTest) {
 	// reached our required confirmations.
 	tx := findTxAtHeight(ctxt, t, height, fundingTxStr, net.Alice)
 
-	// At this stage, we expect the transaction to be labelled, but not with
+	// At this stage, we expect the transaction to be labeled, but not with
 	// our channel ID because our transaction has not yet confirmed.
 	label := labels.MakeLabel(labels.LabelTypeChannelOpen, nil)
 	require.Equal(t.t, label, tx.Label, "open channel label wrong")
@@ -13403,7 +13403,7 @@ func testSweepAllCoins(net *lntest.NetworkHarness, t *harnessTest) {
 		},
 	)
 	if errr == nil {
-		t.Fatalf("expected error for tx already labelled")
+		t.Fatalf("expected error for tx already labeled")
 	}
 
 	// Our error will be wrapped in a rpc error, so we check that it

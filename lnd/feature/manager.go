@@ -20,7 +20,7 @@ type Config struct {
 	// NoAnchors unsets any bits signaling support for anchor outputs.
 	NoAnchors bool
 
-	// NoWumbo unsets any bits signalling support for wumbo channels.
+	// NoWumbo unsets any bits signaling support for wumbo channels.
 	NoWumbo bool
 }
 

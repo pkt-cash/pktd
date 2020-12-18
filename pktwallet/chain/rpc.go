@@ -152,7 +152,7 @@ func (c *RPCClient) BlockStamp() (*waddrmgr.BlockStamp, er.R) {
 // FilterBlocks scans the blocks contained in the FilterBlocksRequest for any
 // addresses of interest. For each requested block, the corresponding compact
 // filter will first be checked for matches, skipping those that do not report
-// anything. If the filter returns a postive match, the full block will be
+// anything. If the filter returns a positive match, the full block will be
 // fetched and filtered. This method returns a FilterBlocksReponse for the first
 // block containing a matching address. If no matches are found in the range of
 // blocks requested, the returned response will be nil.

@@ -234,7 +234,7 @@ func (c *WatchtowerClient) ListTowers(ctx context.Context,
 
 	rpcTowers := make([]*Tower, 0, len(towers))
 	for _, tower := range towers {
-		rpcTower := marshallTower(tower, req.IncludeSessions)
+		rpcTower := marshalTower(tower, req.IncludeSessions)
 		rpcTowers = append(rpcTowers, rpcTower)
 	}
 
@@ -259,7 +259,7 @@ func (c *WatchtowerClient) GetTowerInfo(ctx context.Context,
 		return nil, er.Native(err)
 	}
 
-	return marshallTower(tower, req.IncludeSessions), nil
+	return marshalTower(tower, req.IncludeSessions), nil
 }
 
 // Stats returns the in-memory statistics of the client since startup.
@@ -295,9 +295,9 @@ func (c *WatchtowerClient) Policy(ctx context.Context,
 	}, nil
 }
 
-// marshallTower converts a client registered watchtower into its corresponding
+// marshalTower converts a client registered watchtower into its corresponding
 // RPC type.
-func marshallTower(tower *wtclient.RegisteredTower, includeSessions bool) *Tower {
+func marshalTower(tower *wtclient.RegisteredTower, includeSessions bool) *Tower {
 	rpcAddrs := make([]string, 0, len(tower.Addresses))
 	for _, addr := range tower.Addresses {
 		rpcAddrs = append(rpcAddrs, addr.String())

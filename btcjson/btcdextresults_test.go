@@ -12,7 +12,7 @@ import (
 	"github.com/pkt-cash/pktd/btcjson"
 )
 
-// TestBtcdExtCustomResults ensures any results that have custom marshalling
+// TestBtcdExtCustomResults ensures any results that have custom marshaling
 // work as inteded.
 // and unmarshal code of results are as expected.
 func TestBtcdExtCustomResults(t *testing.T) {
@@ -38,15 +38,15 @@ func TestBtcdExtCustomResults(t *testing.T) {
 
 	t.Logf("Running %d tests", len(tests))
 	for i, test := range tests {
-		marshalled, err := jsoniter.Marshal(test.result)
+		marshaled, err := jsoniter.Marshal(test.result)
 		if err != nil {
 			t.Errorf("Test #%d (%s) unexpected error: %v", i,
 				test.name, err)
 			continue
 		}
-		if string(marshalled) != test.expected {
+		if string(marshaled) != test.expected {
 			t.Errorf("Test #%d (%s) unexpected marhsalled data - "+
-				"got %s, want %s", i, test.name, marshalled,
+				"got %s, want %s", i, test.name, marshaled,
 				test.expected)
 			continue
 		}

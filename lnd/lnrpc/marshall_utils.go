@@ -47,8 +47,8 @@ func CalculateFeeLimit(feeLimit *FeeLimit,
 	}
 }
 
-// UnmarshallAmt returns a strong msat type for a sat/msat pair of rpc fields.
-func UnmarshallAmt(amtSat, amtMsat int64) (lnwire.MilliSatoshi, er.R) {
+// UnmarshalAmt returns a strong msat type for a sat/msat pair of rpc fields.
+func UnmarshalAmt(amtSat, amtMsat int64) (lnwire.MilliSatoshi, er.R) {
 	if amtSat != 0 && amtMsat != 0 {
 		return 0, ErrSatMsatMutualExclusive.Default()
 	}

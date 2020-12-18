@@ -91,7 +91,7 @@ type mailBoxConfig struct {
 	// clock is a time source for the mailbox.
 	clock clock.Clock
 
-	// expiry is the interval after which Adds will be cancelled if they
+	// expiry is the interval after which Adds will be canceled if they
 	// have not been yet been delivered. The computed deadline will expiry
 	// this long after the Adds are added via AddPacket.
 	expiry time.Duration
@@ -745,7 +745,7 @@ type mailOrchConfig struct {
 	// clock is a time source for the generated mailboxes.
 	clock clock.Clock
 
-	// expiry is the interval after which Adds will be cancelled if they
+	// expiry is the interval after which Adds will be canceled if they
 	// have not been yet been delivered. The computed deadline will expiry
 	// this long after the Adds are added to a mailbox via AddPacket.
 	expiry time.Duration

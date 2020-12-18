@@ -1864,7 +1864,7 @@ message ChanPointShim {
     */
     int64 amt = 1;
 
-    // The target channel point to refrence in created commitment transactions.
+    // The target channel point to reference in created commitment transactions.
     ChannelPoint chan_point = 2;
 
     // Our local key to use when creating the multi-sig output.
@@ -3050,7 +3050,7 @@ enum PaymentFailureReason {
     FAILURE_REASON_NO_ROUTE = 2;
 
     /*
-    A non-recoverable error has occured.
+    A non-recoverable error has occurred.
     */
     FAILURE_REASON_ERROR = 3;
 

@@ -42,7 +42,7 @@ Wallet clients can use one of two RPC servers:
   2. An experimental RPC server
 
      The RPC server uses a new API built for pktwallet, but, because the API is
-	 not stable, the server is feature gated behind a user configuratoin option
+	 not stable, the server is feature gated behind a user configurations option
 	 (`--experimentalrpclisten`).  If you a) don't mind applications breaking
 	 due to API changes, b) have issues with the legacy API, or c) need to get
 	 notifications for changes to the wallet, this is the RPC server to use.

@@ -1,15 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
-#
 # This script should be run from the project root
 # e.g. ./contrib/docker/build.sh
-#
+
 # Install docker:
 # $ sudo apt install docker.io)
 # $ sudo systemctl start docker
 # install dep:
 # $ go get github.com/golang/dep
-# 
 
 BINARY_NAME=pkt
 DEB_PACKAGE_NAME=pkt
@@ -34,12 +32,10 @@ BUILD_ARTIFACTS_DIR="./artifacts"
 version=`git rev-parse --short HEAD`
 VERSION_STRING="$(cat VERSION)-${version}"
 
-
 # check all the required environment variables are supplied
 [ -z "$BINARY_NAME" ] && echo "Need to set BINARY_NAME" && exit 1;
 [ -z "$DEB_PACKAGE_NAME" ] && echo "Need to set DEB_PACKAGE_NAME" && exit 1;
 [ -z "$DEB_PACKAGE_DESCRIPTION" ] && echo "Need to set DEB_PACKAGE_DESCRIPTION" && exit 1;
-
 
 docker build --build-arg \
     version_string=$VERSION_STRING \

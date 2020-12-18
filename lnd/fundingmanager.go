@@ -423,7 +423,7 @@ type fundingManager struct {
 	fundingRequests chan *initFundingMsg
 
 	// newChanBarriers is a map from a channel ID to a 'barrier' which will
-	// be signalled once the channel is fully open. This barrier acts as a
+	// be signaled once the channel is fully open. This barrier acts as a
 	// synchronization point for any incoming/outgoing HTLCs before the
 	// channel has been fully opened.
 	barrierMtx      sync.RWMutex
@@ -682,7 +682,7 @@ func (f *fundingManager) PendingChannels() ([]*pendingChannel, er.R) {
 // (and thus locked from coin selection), are properly freed.
 func (f *fundingManager) CancelPeerReservations(nodePub [33]byte) {
 
-	log.Debugf("Cancelling all reservations for peer %x", nodePub[:])
+	log.Debugf("Canceling all reservations for peer %x", nodePub[:])
 
 	f.resMtx.Lock()
 	defer f.resMtx.Unlock()
@@ -1122,7 +1122,7 @@ func (f *fundingManager) ProcessFundingMsg(msg lnwire.Message, peer lnpeer.Peer)
 func commitmentType(localFeatures,
 	remoteFeatures *lnwire.FeatureVector) lnwallet.CommitmentType {
 
-	// If both peers are signalling support for anchor commitments, this
+	// If both peers are signaling support for anchor commitments, this
 	// implicitly mean we'll create the channel of this type. Note that
 	// this also enables tweakless commitments, as anchor commitments are
 	// always tweakless.
@@ -2294,7 +2294,7 @@ func (f *fundingManager) waitForTimeout(completeChan *channeldb.OpenChannel,
 			if uint32(epoch.Height) >= maxHeight {
 				log.Warnf("Waited for %v blocks without "+
 					"seeing funding transaction confirmed,"+
-					" cancelling.",
+					" canceling.",
 					maxWaitNumBlocksFundingConf)
 
 				// Notify the caller of the timeout.
@@ -3388,7 +3388,7 @@ func (f *fundingManager) pruneZombieReservations() {
 func (f *fundingManager) cancelReservationCtx(peerKey *btcec.PublicKey,
 	pendingChanID [32]byte, byRemote bool) (*reservationWithCtx, er.R) {
 
-	log.Infof("Cancelling funding reservation for node_key=%x, "+
+	log.Infof("Canceling funding reservation for node_key=%x, "+
 		"chan_id=%x", peerKey.SerializeCompressed(), pendingChanID[:])
 
 	peerIDKey := newSerializedKey(peerKey)

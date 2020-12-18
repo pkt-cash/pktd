@@ -271,7 +271,7 @@ func (i *InvoiceRegistry) tickAt(t time.Time) <-chan time.Time {
 }
 
 // invoiceEventLoop is the dedicated goroutine responsible for accepting
-// new notification subscriptions, cancelling old subscriptions, and
+// new notification subscriptions, canceling old subscriptions, and
 // dispatching new invoice events.
 func (i *InvoiceRegistry) invoiceEventLoop() {
 	defer i.wg.Done()
@@ -304,7 +304,7 @@ func (i *InvoiceRegistry) invoiceEventLoop() {
 		// A client no longer wishes to receive invoice notifications.
 		// So we'll remove them from the set of active clients.
 		case clientID := <-i.subscriptionCancels:
-			log.Infof("Cancelling invoice subscription for "+
+			log.Infof("Canceling invoice subscription for "+
 				"client=%v", clientID)
 
 			delete(i.notificationClients, clientID)
@@ -644,7 +644,7 @@ func (i *InvoiceRegistry) cancelSingleHtlc(invoiceRef channeldb.InvoiceRef,
 			return nil, nil
 		}
 
-		log.Debugf("cancelSingleHtlc: cancelling htlc %v on invoice %v",
+		log.Debugf("cancelSingleHtlc: canceling htlc %v on invoice %v",
 			key, invoiceRef)
 
 		// Return an update descriptor that cancels htlc and keeps

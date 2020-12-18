@@ -2,14 +2,12 @@
 
 This section enumerates what you need to do to write a client that communicates with `lnd` in C#.
 
-
-### Prerequisites
+## Prerequisites
 
 * .Net Core [SDK](https://dotnet.microsoft.com/download)
 * If using Windows, a unix terminal such as [Cygwin](https://www.cygwin.com/)
 
-
-### Setup and Installation
+## Setup and Installation
 
 `lnd` uses the `gRPC` protocol for communication with clients like `lncli`.
 
@@ -36,7 +34,7 @@ dotnet add package Grpc.Core
 
 Add the `rpc.proto` file to the `.csproj` file in an ItemGroup. (In Visual Studio you can do this by unloading the project, editing the `.csproj` file and then reloading it)
 
-```
+```xml
 <ItemGroup>
    <Protobuf Include="Grpc\rpc.proto" GrpcServices="Client" />
 </ItemGroup>
@@ -44,7 +42,7 @@ Add the `rpc.proto` file to the `.csproj` file in an ItemGroup. (In Visual Studi
 
 You're done! Build the project and verify that it works.
 
-#### Imports and Client
+### Imports and Client
 
 Use the code below to set up a channel and client to connect to your `lnd` node:
 
@@ -100,6 +98,7 @@ using (var call = client.SubscribeInvoices(request))
 ```
 
 Now, create an invoice for your node at `localhost:10009` and send a payment to it from another node.
+
 ```bash
 $ lncli addinvoice --amt=100
 {
@@ -111,7 +110,7 @@ $ lncli sendpayment --pay_req=<PAY_REQ>
 
 Your console should now display the details of the recently satisfied invoice.
 
-#### Bidirectional-streaming RPC
+### Bidirectional-streaming RPC
 
 ```c#
 using (var call = client.SendPayment())
@@ -149,9 +148,10 @@ IEnumerable<SendRequest> SendPayment()
     }
 }
 ```
+
 This example will send a payment of 100 satoshis every 2 seconds.
 
-#### Using Macaroons
+### Using Macaroons
 
 To authenticate using macaroons you need to include the macaroon in the metadata of the request.
 
@@ -191,7 +191,6 @@ var client = new Lnrpc.Lightning.LightningClient(channel);
 // now every call will be made with the macaroon already included
 client.GetInfo(new GetInfoRequest());
 ```
-
 
 ### Conclusion
 

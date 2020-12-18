@@ -1,6 +1,6 @@
 # PKT Cash
 
-### A blockchain utilizing [PacketCrypt]((https://pkt.cash/PacketCrypt-2020-09-04.pdf)), a new *bandwidth-hard* proof-of-work algorithm.
+## A blockchain utilizing [PacketCrypt]((https://pkt.cash/PacketCrypt-2020-09-04.pdf)), a new *bandwidth-hard* proof-of-work algorithm
 
  [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org)
  [![PkgGoDev](https://pkg.go.dev/badge/github.com/pkt-cash/pktd)](https://pkg.go.dev/github.com/pkt-cash/pktd)
@@ -12,8 +12,7 @@
  [![CoverageStatus](https://coveralls.io/repos/pkt-cash/pktd/badge.svg?branch=develop)](https://coveralls.io/pkt-cash/pktd?branch=develop)
  [![TickgitTODOs](https://img.shields.io/endpoint?url=https://api.tickgit.com/badge?repo=github.com/pkt-cash/pktd)](https://www.tickgit.com/browse?repo=github.com/pkt-cash/pktd)
 
-
-## pktd
+### pktd
 
 `pktd` is the reference full node [*PKT Cash*](https://pkt.cash/)
 implementation, written in [Go](https://go.dev/).
@@ -21,7 +20,7 @@ implementation, written in [Go](https://go.dev/).
 `pktd` is the primary mainnet node software for the PKT blockchain. It is
 known to correctly download, validate, and serve the blockchain, using rules for
 block acceptance based primarily on Bitcoin Core, with the addition of
-[PacketCrypt proofs](https://pkt.cash/PacketCrypt-2020-09-04.pdf) to provide 
+[PacketCrypt proofs](https://pkt.cash/PacketCrypt-2020-09-04.pdf) to provide
 verification of the unique *bandwidth-hard* proof-of-work algorithm.
 
 The PKT blockchain provides for a [Network Steward](https://pkt.cash/network-steward/),
@@ -56,59 +55,56 @@ payments using `pktd` directly; this functionality is provided by the bundled,
 but separate, [pktwallet](https://github.com/pkt-cash/pktd/pktwallet) package.
 Additional alternative wallet packages are currently under active development.
 
-
-## Requirements
+### Requirements
 
 * [Go](http://golang.org) (*Golang*), release **1.14.1** or later, running on a supported **64-bit** platform.
 * A somewhat recent release of Git (*used to clone the repository, and by Go to download dependencies*).
 
-
-## Building pktd
+### Building pktd
 
 * Using `git`, clone the project from the repository:
-   * `git clone https://github.com/pkt-cash/pktd`
+  * `git clone https://github.com/pkt-cash/pktd`
 * Then, use the `do` script to build `pktd`, `pktwallet`, and `pktctl`:
-   * `cd pktd && ./do`
+  * `cd pktd && ./do`
 
 *Optionally*, run extended tests and generate code coverage reports:
+
 * Using `go get`, install the `gocov` and `gocov-html` tools into your `GOPATH`:
-   * `GO111MODULES=off go get -t -u github.com/axw/gocov/gocov`
-   * `GO111MODULES=off go get -t -u github.com/matm/gocov-html`  
+  * `GO111MODULES=off go get -t -u github.com/axw/gocov/gocov`
+  * `GO111MODULES=off go get -t -u github.com/matm/gocov-html`  
 * Then, run the coverage generation script: (*zsh, bash, ksh, or mksh required*.)
-   * `PATH=$(go env GOPATH)/bin:${PATH} ./cov_report.sh` 
+  * `PATH=$(go env GOPATH)/bin:${PATH} ./cov_report.sh`
 
-
-## Bug Reporting
+### Bug Reporting
 
 The **GitHub** [**Issue Tracker**](https://github.com/pkt-cash/pktd/issues) is used for this project.
 
-  * All users submitting a [new bug report](https://github.com/pkt-cash/pktd/issues/new/choose) should attach the output of:
-     * `go version`, `go env`
-     * `git describe --tags --always --abbrev=40`, `git status -s -b` 
+* All users submitting a [new bug report](https://github.com/pkt-cash/pktd/issues/new/choose) should attach the output of:
+  * `go version`, `go env`
+    * `git describe --tags --always --abbrev=40`, `git status -s -b`
   * macOS X users should attach the output of:
-     * `uname -a`, `sw_vers`
-     * `system_profiler -detailLevel mini`, `serverinfo --plist`. 
+    * `uname -a`, `sw_vers`
+    * `system_profiler -detailLevel mini`, `serverinfo --plist`.
   * Linux users should attach the output of:
-     * `uname -a`, `cat /etc/*elease`, `lsb_release -a`
+    * `uname -a`, `cat /etc/*elease`, `lsb_release -a`
   * Windows users should attach the *PowerShell* output of:
-     * `Get-CimInstance Win32_OperatingSystem | FL * | ?{$_ -notmatch 'SerialNumber'}`
+    * `Get-CimInstance Win32_OperatingSystem | FL * | ?{$_ -notmatch 'SerialNumber'}`
   * POSIX environment users (*including* Linux, OS X, WSL/WSL2, other UNIX systems, etc.) should attach the output of:
-     * `command -p getconf -a`
+    * `command -p getconf -a`
 
-This extra information is useful to identify potential operating system, distribution, or environment-specific issues. 
+This extra information is useful to identify potential operating system, distribution, or environment-specific issues.
 
-
-## Linux Distributions
+### Linux Distributions
 
 It is *highly* recommended to use the official Go toolchain distributed
 by Google, available for download from the [Go homepage](https://golang.org/dl).
 
-Software built and packaged for Linux distributions is often compiled with 
+Software built and packaged for Linux distributions is often compiled with
 different defaults and non-standard patches, often deviating significantly
 from the corresponding official upstream release. This usually done to meet
 distribution-specific policies and requirements, but presents a unique hazard
 for software software such as `pktd`, operating on distributed consensus. This
-class of software is unique, in that it must maintain *bug-for-bug* compatability
+class of software is unique, in that it must maintain *bug-for-bug* compatibility
 in consensus-critical codepaths. Nodes which incorporate their own changes, even
 well-intentioned *"fixes"*, may not be able to properly interoperate on the main
 network, and, in sufficient numbers, these nodes could, unintentionally, create an
@@ -127,8 +123,7 @@ compiled from unmodified source code, using the official toolchain. If you have
 any doubts about your installed Go software, Google provides an automated
 [Go installer for Linux](https://storage.googleapis.com/golang/getgo/installer_linux).
 
-
-## Documentation
+### Documentation
 
 Currently, documentation for `pktd`, `pktwallet`, and `pktctl` is a "work-in-progress".
 
@@ -145,13 +140,11 @@ which does not require a local copy of the source code, or the `godoc` tool inst
 There is also documentation in the [docs](https://github.com/pkt-cash/pktd/tree/develop/docs)
 directory of the source tree available for review.
 
-
-## Community
+### Community
 
 * [PKT.chat](https://pkt.chat) is a [Matterfoss](https://github.com/cjdelisle/Matterfoss) server providing real-time interaction for the PKT community.
 * Other options are available and listed on the [PKT.cash](https://pkt.cash/community/) web site.
 
-
-## License
+### License
 
 `pktd` is licensed under the [Copyfree](http://Copyfree.org) **ISC License**.

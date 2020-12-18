@@ -251,6 +251,6 @@ func (p *WaitingProof) Decode(r io.Reader) er.R {
 		return err
 	}
 
-	(*p).AnnounceSignatures = msg
+	p.AnnounceSignatures = msg
 	return nil
 }

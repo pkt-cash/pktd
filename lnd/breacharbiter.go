@@ -41,7 +41,7 @@ var (
 	justiceTxnBucket = []byte("justice-txn")
 
 	// errBrarShuttingDown is an error returned if the breacharbiter has
-	// been signalled to exit.
+	// been signaled to exit.
 	errBrarShuttingDown = Err.CodeWithDetail("errBrarShuttingDown",
 		"breacharbiter shutting down")
 )
@@ -342,7 +342,7 @@ func (b *breachArbiter) waitForSpendEvent(breachInfo *retributionInfo,
 	anySpend := make(chan struct{}, len(inputs))
 
 	// The allSpends channel will be used to pass spend events from all the
-	// goroutines that detects a spend before they are signalled to exit.
+	// goroutines that detects a spend before they are signaled to exit.
 	allSpends := make(chan spend, len(inputs))
 
 	// exit will be used to signal the goroutines that they can exit.
@@ -425,9 +425,9 @@ func (b *breachArbiter) waitForSpendEvent(breachInfo *retributionInfo,
 	}
 
 	// We'll wait for any of the outputs to be spent, or that we are
-	// signalled to exit.
+	// signaled to exit.
 	select {
-	// A goroutine have signalled that a spend occurred.
+	// A goroutine have signaled that a spend occurred.
 	case <-anySpend:
 		// Signal for the remaining goroutines to exit.
 		close(exit)

@@ -1722,7 +1722,7 @@ func testInsertMempoolDoubleSpendTx(t *testing.T, first bool) {
 
 	// Then, we'll confirm either the first or second spend, depending on
 	// the boolean passed, with a height deep enough that allows us to
-	// succesfully spend the coinbase output.
+	// successfully spend the coinbase output.
 	coinbaseMaturity := int32(chaincfg.TestNet3Params.CoinbaseMaturity)
 	bMaturity := BlockMeta{
 		Block: Block{Height: b100.Height + coinbaseMaturity},
@@ -1967,7 +1967,7 @@ func TestInsertConfirmedDoubleSpendTx(t *testing.T) {
 }
 
 // TestAddDuplicateCreditAfterConfirm aims to test the case where a duplicate
-// unconfirmed credit is added to the store after the intial credit has already
+// unconfirmed credit is added to the store after the initial credit has already
 // confirmed. This can lead to outputs being duplicated in the store, which can
 // lead to creating double spends when querying the wallet's UTXO set.
 func TestAddDuplicateCreditAfterConfirm(t *testing.T) {

@@ -3,41 +3,41 @@
 This section enumerates what you need to do to write a client that communicates
 with `lnd` in Ruby.
 
-### Introduction
+## Introduction
 
 `lnd` uses the `gRPC` protocol for communication with clients like `lncli`.
 
 `gRPC` is based on protocol buffers and as such, you will need to compile
 the `lnd` proto file in Ruby before you can use it to communicate with `lnd`.
 
-### Setup
+## Setup
 
 Install gRPC rubygems:
 
-```
+```shell
 $ gem install grpc
-$ gem install grpc-tools
+gem install grpc-tools
 ```
 
 Clone the Google APIs repository:
 
-```
-$ git clone https://github.com/googleapis/googleapis.git
+```shell
+git clone https://github.com/googleapis/googleapis.git
 ```
 
 Fetch the `rpc.proto` file (or copy it from your local source directory):
 
-```
-$ curl -o rpc.proto -s https://raw.githubusercontent.com/lightningnetwork/lnd/master/lnrpc/rpc.proto
+```shell
+curl -o rpc.proto -s https://raw.githubusercontent.com/lightningnetwork/lnd/master/lnrpc/rpc.proto
 ```
 
 Compile the proto file:
 
-```
-$ grpc_tools_ruby_protoc --proto_path googleapis:. --ruby_out=. --grpc_out=. rpc.proto
+```shell
+grpc_tools_ruby_protoc --proto_path googleapis:. --ruby_out=. --grpc_out=. rpc.proto
 ```
 
-Two files will be generated in the current directory: 
+Two files will be generated in the current directory:
 
 * `rpc_pb.rb`
 * `rpc_services_pb.rb`
@@ -101,15 +101,15 @@ Now, create an invoice on your node:
 ```bash
 $ lncli addinvoice --amt=590
 {
-	"r_hash": <R_HASH>,
-	"pay_req": <PAY_REQ>
+ "r_hash": <R_HASH>,
+ "pay_req": <PAY_REQ>
 }
 ```
 
 Next send a payment to it from another node:
 
-```
-$ lncli sendpayment --pay_req=<PAY_REQ>
+```shell
+lncli sendpayment --pay_req=<PAY_REQ>
 ```
 
 You should now see the details of the settled invoice appear.
@@ -163,9 +163,9 @@ macaroon_binary = File.read(File.expand_path("~/.lnd/data/chain/bitcoin/simnet/a
 macaroon = macaroon_binary.each_byte.map { |b| b.to_s(16).rjust(2,'0') }.join
 
 stub = Lnrpc::Lightning::Stub.new(
-	'localhost:10009',
-	credentials,
-	interceptors: [MacaroonInterceptor.new(macaroon)]
+ 'localhost:10009',
+ credentials,
+ interceptors: [MacaroonInterceptor.new(macaroon)]
 )
 
 # Now we don't need to pass the metadata on a request level

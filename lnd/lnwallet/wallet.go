@@ -140,8 +140,8 @@ type InitFundingReserveMsg struct {
 	resp chan *ChannelReservation
 }
 
-// fundingReserveCancelMsg is a message reserved for cancelling an existing
-// channel reservation identified by its reservation ID. Cancelling a reservation
+// fundingReserveCancelMsg is a message reserved for canceling an existing
+// channel reservation identified by its reservation ID. Canceling a reservation
 // frees its locked outputs up, for inclusion within further reservations.
 type fundingReserveCancelMsg struct {
 	pendingFundingID uint64

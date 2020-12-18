@@ -296,7 +296,7 @@ out:
 		case cancelMsg := <-b.notificationCancels:
 			switch msg := cancelMsg.(type) {
 			case *epochCancel:
-				log.Infof("Cancelling epoch "+
+				log.Infof("Canceling epoch "+
 					"notification, epoch_id=%v", msg.epochID)
 
 				// First, we'll lookup the original

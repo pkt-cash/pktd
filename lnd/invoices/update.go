@@ -112,7 +112,7 @@ func updateMpp(ctx *invoiceUpdateCtx,
 		CustomRecords: ctx.customRecords,
 	}
 
-	// Only accept payments to open invoices. This behaviour differs from
+	// Only accept payments to open invoices. This behavior differs from
 	// non-mpp payments that are accepted even after the invoice is settled.
 	// Because non-mpp payments don't have a payment address, this is needed
 	// to thwart probing.

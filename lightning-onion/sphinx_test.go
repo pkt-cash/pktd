@@ -456,13 +456,13 @@ func TestSphinxEncodeDecode(t *testing.T) {
 	}
 
 	// Encode the created onion packet into an empty buffer. This should
-	// succeeed without any errors.
+	// succeed without any errors.
 	var b bytes.Buffer
 	if err := fwdMsg.Encode(&b); err != nil {
 		t.Fatalf("unable to encode message: %v", err)
 	}
 
-	// Now decode the bytes encoded above. Again, this should succeeed
+	// Now decode the bytes encoded above. Again, this should succeed
 	// without any errors.
 	newFwdMsg := &OnionPacket{}
 	if err := newFwdMsg.Decode(&b); err != nil {

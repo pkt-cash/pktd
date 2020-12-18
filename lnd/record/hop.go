@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	// AmtOnionType is the type used in the onion to refrence the amount to
+	// AmtOnionType is the type used in the onion to reference the amount to
 	// send to the next hop.
 	AmtOnionType tlv.Type = 2
 

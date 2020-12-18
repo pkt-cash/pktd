@@ -720,7 +720,7 @@ func (c *chainWatcher) closeObserver(spendNtfn *chainntnfs.SpendEvent) {
 		// we'll exit immediately.
 		return
 
-	// The chainWatcher has been signalled to exit, so we'll do so now.
+	// The chainWatcher has been signaled to exit, so we'll do so now.
 	case <-c.quit:
 		return
 	}

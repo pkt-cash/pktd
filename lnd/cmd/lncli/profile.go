@@ -244,7 +244,7 @@ func (f *profileFile) unmarshalJSON(content []byte) er.R {
 func (f *profileFile) marshalJSON() ([]byte, er.R) {
 	b, err := json.Marshal(f)
 	if err != nil {
-		return nil, er.Errorf("error JSON marshalling profile: %v",
+		return nil, er.Errorf("error JSON marshaling profile: %v",
 			err)
 	}
 

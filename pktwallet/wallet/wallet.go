@@ -70,7 +70,7 @@ var (
 	// and an attempt has been made to label it without setting overwrite
 	// to true.
 	ErrTxLabelExists = Err.CodeWithDetail("ErrTxLabelExists",
-		"transaction already labelled")
+		"transaction already labeled")
 
 	// Namespace bucket keys.
 	waddrmgrNamespaceKey = []byte("waddrmgr")
@@ -701,7 +701,7 @@ type (
 
 	// heldUnlock is a tool to prevent the wallet from automatically
 	// locking after some timeout before an operation which needed
-	// the unlocked wallet has finished.  Any aquired heldUnlock
+	// the unlocked wallet has finished.  Any acquired heldUnlock
 	// *must* be released (preferably with a defer) or the wallet
 	// will forever remain unlocked.
 	heldUnlock chan struct{}
@@ -1095,7 +1095,7 @@ func (w *Wallet) LabelTransaction(hash chainhash.Hash, label string,
 		}
 
 		// If the transaction looked up is nil, it was not found. We
-		// do not allow labelling of unknown transactions so we fail.
+		// do not allow labeling of unknown transactions so we fail.
 		if dbTx == nil {
 			return ErrUnknownTransaction.Default()
 		}
@@ -1253,7 +1253,7 @@ func RecvCategory(details *wtxmgr.TxDetails, syncHeight int32, net *chaincfg.Par
 	return CreditReceive
 }
 
-// listTransactions creates a object that may be marshalled to a response result
+// listTransactions creates a object that may be marshaled to a response result
 // for a listtransactions RPC.
 //
 // TODO: This should be moved to the legacyrpc package.

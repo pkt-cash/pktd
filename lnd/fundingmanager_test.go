@@ -3029,7 +3029,7 @@ func TestFundingManagerMaxPendingChannels(t *testing.T) {
 	).(*lnwire.AcceptChannel)
 }
 
-// TestFundingManagerRejectPush checks behaviour of 'rejectpush'
+// TestFundingManagerRejectPush checks behavior of 'rejectpush'
 // option, namely that non-zero incoming push amounts are disabled.
 func TestFundingManagerRejectPush(t *testing.T) {
 	t.Parallel()

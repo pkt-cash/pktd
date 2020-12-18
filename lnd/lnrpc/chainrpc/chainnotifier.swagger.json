@@ -187,7 +187,7 @@
       "properties": {
         "conf": {
           "$ref": "#/definitions/chainrpcConfDetails",
-          "description": "An event that includes the confirmation details of the request\n(txid/ouput script)."
+          "description": "An event that includes the confirmation details of the request\n(txid/output script)."
         },
         "reorg": {
           "$ref": "#/definitions/chainrpcReorg",

@@ -336,7 +336,7 @@ func (w *WalletKit) LeaseOutput(ctx context.Context,
 		return nil, er.New("reserved id cannot be used")
 	}
 
-	op, err := unmarshallOutPoint(req.Outpoint)
+	op, err := unmarshalOutPoint(req.Outpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -369,7 +369,7 @@ func (w *WalletKit) ReleaseOutput(ctx context.Context,
 	var lockID wtxmgr.LockID
 	copy(lockID[:], req.Id)
 
-	op, err := unmarshallOutPoint(req.Outpoint)
+	op, err := unmarshalOutPoint(req.Outpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -640,9 +640,9 @@ func (w *WalletKit) PendingSweeps(ctx context.Context,
 	}, nil
 }
 
-// unmarshallOutPoint converts an outpoint from its lnrpc type to its canonical
+// unmarshalOutPoint converts an outpoint from its lnrpc type to its canonical
 // type.
-func unmarshallOutPoint(op *lnrpc.OutPoint) (*wire.OutPoint, er.R) {
+func unmarshalOutPoint(op *lnrpc.OutPoint) (*wire.OutPoint, er.R) {
 	if op == nil {
 		return nil, er.Errorf("empty outpoint provided")
 	}
@@ -684,7 +684,7 @@ func (w *WalletKit) BumpFee(ctx context.Context,
 	in *BumpFeeRequest) (*BumpFeeResponse, er.R) {
 
 	// Parse the outpoint from the request.
-	op, err := unmarshallOutPoint(in.Outpoint)
+	op, err := unmarshalOutPoint(in.Outpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -932,7 +932,7 @@ func (w *WalletKit) FundPsbt(_ context.Context,
 
 		txIn := make([]*wire.OutPoint, len(tpl.Inputs))
 		for idx, in := range tpl.Inputs {
-			op, err := unmarshallOutPoint(in)
+			op, err := unmarshalOutPoint(in)
 			if err != nil {
 				return nil, er.Errorf("error parsing "+
 					"outpoint: %v", err)

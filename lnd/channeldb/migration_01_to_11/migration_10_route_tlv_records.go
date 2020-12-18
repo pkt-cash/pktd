@@ -115,7 +115,7 @@ func migrateAttemptEncoding(tx kvdb.RwTx, payHashBucket kvdb.RwBucket) er.R {
 
 	// Now that we have the old attempts, we'll explicitly mark this as
 	// needing a legacy payload, since after this migration, the modern
-	// payload will be the default if signalled.
+	// payload will be the default if signaled.
 	for _, hop := range payAttempt.Route.Hops {
 		hop.LegacyPayload = true
 	}
