@@ -338,7 +338,7 @@ out:
 					log.Debugf("Reconnecting to %v",
 						connReq)
 					if connReq.Permanent {
-					pending[msg.id] = connReq
+						pending[msg.id] = connReq
 					} else {
 						delete(pending, msg.id)
 					}

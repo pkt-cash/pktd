@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
-	"github.com/pkt-cash/pktd/wire"
 	"github.com/pkt-cash/pktd/lnd/input"
+	"github.com/pkt-cash/pktd/wire"
 )
 
 var (

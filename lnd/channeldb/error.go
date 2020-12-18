@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	// Err ... 
+	// Err ...
 	Err = er.NewErrorType("lnd.channeldb")
 	// ErrNoChanDBExists is returned when a channel bucket hasn't been
 	// created.
@@ -157,8 +157,8 @@ var (
 	// database.
 	ErrChanAlreadyExists = Err.CodeWithDetail("ErrChanAlreadyExists",
 		"channel already exists")
-	
-	// ErrTooManyExtraOpaqueBytes ... 
+
+	// ErrTooManyExtraOpaqueBytes ...
 	ErrTooManyExtraOpaqueBytes = Err.CodeWithDetail("ErrTooManyExtraOpaqueBytes",
 		fmt.Sprintf("max allowed number of opaque bytes is %v", MaxAllowedExtraOpaqueBytes))
 )

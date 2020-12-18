@@ -32,7 +32,7 @@ your peer into only connecting to nodes they control.
 The address manager also understands reachability and tries hard to only
 return globally routeable addresses. In addition, it uses the information
 provided by the caller about connected, known good, and attempted addresses
-to periodically purge peers which no longer appear to be good peers as well 
+to periodically purge peers which no longer appear to be good peers as well
 as bias the selection toward known good peers.
 
 The general idea is to make a best effort at only providing usable addresses.

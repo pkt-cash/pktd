@@ -25,7 +25,7 @@ func Sum(
 		block(
 			&h,
 			data,
-	)
+		)
 		data = data[blocksize:]
 	}
 	tmp := make(

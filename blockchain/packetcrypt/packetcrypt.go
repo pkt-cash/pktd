@@ -13,12 +13,12 @@ import (
 	"github.com/pkt-cash/pktd/btcutil/er"
 
 	"github.com/dchest/blake2b"
+	ed25519 "github.com/hdevalence/ed25519consensus"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/announce"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/block"
 	"github.com/pkt-cash/pktd/blockchain/packetcrypt/pcutil"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/wire"
-	ed25519 "github.com/hdevalence/ed25519consensus"
 )
 
 func ValidatePcAnn(p *wire.PacketCryptAnn, parentBlockHash *chainhash.Hash, packetCryptVersion int) (*chainhash.Hash, er.R) {

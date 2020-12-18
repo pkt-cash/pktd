@@ -236,9 +236,9 @@ type GetPeerInfoResult struct {
 }
 
 type GetNetworkInfoNetworks struct {
-	Name                      string `json:"name"`
-	Limited                   bool   `json:"limited"`
-	Reachable                 bool   `json:"reachable"`
+	Name      string `json:"name"`
+	Limited   bool   `json:"limited"`
+	Reachable bool   `json:"reachable"`
 }
 
 type GetNetworkInfoResult struct {

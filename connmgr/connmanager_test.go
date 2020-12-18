@@ -676,4 +676,3 @@ func TestConnReqString(t *testing.T) {
 	cr2 := &ConnReq{}
 	_ = cr2.String()
 }
-

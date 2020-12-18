@@ -8,8 +8,8 @@ package txscript
 import (
 	"bytes"
 	"encoding/hex"
-	"github.com/json-iterator/go"
 	"fmt"
+	"github.com/json-iterator/go"
 	"io/ioutil"
 	"strconv"
 	"strings"

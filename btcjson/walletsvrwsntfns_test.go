@@ -6,8 +6,8 @@ package btcjson_test
 
 import (
 	"bytes"
-	"github.com/json-iterator/go"
 	"fmt"
+	"github.com/json-iterator/go"
 	"reflect"
 	"testing"
 
@@ -23,9 +23,9 @@ import (
 func TestWalletSvrWsNtfns(t *testing.T) {
 
 	tests := []struct {
-		name         string
-		newNtfn      func() (interface{}, er.R)
-		staticNtfn   func() interface{}
+		name        string
+		newNtfn     func() (interface{}, er.R)
+		staticNtfn  func() interface{}
 		marshaled   string
 		unmarshaled interface{}
 	}{

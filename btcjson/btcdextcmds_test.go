@@ -8,10 +8,10 @@ package btcjson_test
 import (
 	"bytes"
 	"fmt"
-	"reflect"
-	"testing"
 	"github.com/json-iterator/go"
 	"github.com/pkt-cash/pktd/btcutil/er"
+	"reflect"
+	"testing"
 
 	"github.com/pkt-cash/pktd/btcjson"
 )
@@ -24,9 +24,9 @@ func TestBtcdExtCmds(t *testing.T) {
 
 	testID := int(1)
 	tests := []struct {
-		name         string
-		newCmd       func() (interface{}, er.R)
-		staticCmd    func() interface{}
+		name        string
+		newCmd      func() (interface{}, er.R)
+		staticCmd   func() interface{}
 		marshaled   string
 		unmarshaled interface{}
 	}{

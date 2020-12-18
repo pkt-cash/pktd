@@ -938,13 +938,13 @@ type cryptoSource struct{}
 func (s cryptoSource) Seed(seed int64) {}
 
 func (s cryptoSource) Int63() int64 {
-    return int64(s.Uint64() & ^uint64(1<<63))
+	return int64(s.Uint64() & ^uint64(1<<63))
 }
 
 func (s cryptoSource) Uint64() (v uint64) {
-    err := binary.Read(crand.Reader, binary.BigEndian, &v)
-    if err != nil {
+	err := binary.Read(crand.Reader, binary.BigEndian, &v)
+	if err != nil {
 		panic("CSPRNG failure: Could not read random numbers")
-    }
-    return v
+	}
+	return v
 }

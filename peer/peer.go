@@ -22,12 +22,12 @@ import (
 	"github.com/pkt-cash/pktd/pktlog/log"
 	"github.com/pkt-cash/pktd/wire/protocol"
 
-	sfl "github.com/sony/sonyflake"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkt-cash/pktd/blockchain"
 	"github.com/pkt-cash/pktd/chaincfg"
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/wire"
+	sfl "github.com/sony/sonyflake"
 )
 
 var sf *sfl.Sonyflake
@@ -1071,12 +1071,12 @@ func (p *Peer) PushRejectMsg(command string, code wire.RejectCode, reason string
 func (p *Peer) handlePingMsg(msg *wire.MsgPing) {
 	// Only reply with pong if the message is from a new enough client.
 	if p.ProtocolVersion() > protocol.BIP0031Version {
-	    if !allowSelfConns && sentNonces.Exists(msg.Nonce) {
+		if !allowSelfConns && sentNonces.Exists(msg.Nonce) {
 			log.Warnf("Loop detected - disconnecting %v", p)
 			p.Disconnect()
 		} else {
-		// Include nonce from ping so pong can be identified.
-		p.QueueMessage(wire.NewMsgPong(msg.Nonce), nil)
+			// Include nonce from ping so pong can be identified.
+			p.QueueMessage(wire.NewMsgPong(msg.Nonce), nil)
 			sentNonces.Add(msg.Nonce)
 		}
 	}
@@ -1904,8 +1904,8 @@ out:
 		case <-pingTicker.C:
 			if sf != nil {
 				nonce, err = sf.NextID()
-			if err != nil {
-				continue
+				if err != nil {
+					continue
 				} else {
 					nonce = uint64(rand.Int63())
 				}
@@ -2125,7 +2125,7 @@ func (p *Peer) localVersionMsg() (*wire.MsgVersion, er.R) {
 	if err != nil {
 		log.Errorf("Failed to generate nonce for peer %v: %v", p, err)
 	} else {
-	sentNonces.Add(nonce)
+		sentNonces.Add(nonce)
 	}
 
 	// Version message.
@@ -2336,10 +2336,10 @@ func NewOutboundPeer(cfg *Config, addr string) (*Peer, er.R) {
 func sfrotate() {
 	var st sfl.Settings
 	st.MachineID = randMachineID
-		sf = sfl.NewSonyflake(st)
-		if sf == nil {
-			log.Errorf("sonyflake failed to initialize")
-		}
+	sf = sfl.NewSonyflake(st)
+	if sf == nil {
+		log.Errorf("sonyflake failed to initialize")
+	}
 }
 
 func init() {

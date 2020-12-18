@@ -372,7 +372,7 @@ func (k *ExtendedKey) IsAffectedByIssue172() bool {
 // 1-of-256 hardened derivations will be wrong.  See note in the Derive method
 // and IsAffectedByIssue172.
 func (k *ExtendedKey) DeriveNonStandard(i uint32) (*ExtendedKey, er.R) {
-		// Prevent derivation of children beyond the max allowed depth.
+	// Prevent derivation of children beyond the max allowed depth.
 	if k.depth == maxUint8 {
 		return nil, ErrDeriveBeyondMaxDepth.Default()
 	}

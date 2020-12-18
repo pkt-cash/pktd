@@ -5,9 +5,9 @@
 package cryptocycle
 
 import (
+	"encoding/binary"
 	"fmt"
 	"time"
-	"encoding/binary"
 
 	"github.com/aead/chacha20/chacha"
 

@@ -6,8 +6,8 @@ package btcjson_test
 
 import (
 	"bytes"
-	"github.com/json-iterator/go"
 	"fmt"
+	"github.com/json-iterator/go"
 	"reflect"
 	"testing"
 
@@ -24,9 +24,9 @@ func TestChainSvrCmds(t *testing.T) {
 
 	testID := int(1)
 	tests := []struct {
-		name         string
-		newCmd       func() (interface{}, er.R)
-		staticCmd    func() interface{}
+		name        string
+		newCmd      func() (interface{}, er.R)
+		staticCmd   func() interface{}
 		marshaled   string
 		unmarshaled interface{}
 	}{
@@ -1163,33 +1163,33 @@ func TestChainSvrCmds(t *testing.T) {
 // custom mashal and unmarshal are as expected.
 /*func TestChainSvrCmdErrors(t *testing.T) {
 
-	tests := []struct {
-		name       string
-		result     interface{}
-		marshaled string
-		err        er.R
-	}{
-		{
-			name:       "template request with invalid type",
-			result:     &btcjson.TemplateRequest{},
-			marshaled: `{"mode":1}`,
-			err:        er.E(&json.UnmarshalTypeError{}),
-		},
-		{
-			name:       "invalid template request sigoplimit field",
-			result:     &btcjson.TemplateRequest{},
-			marshaled: `{"sigoplimit":"invalid"}`,
-			err:        btcjson.ErrInvalidType.Default(),
-		},
-		{
-			name:       "invalid template request sizelimit field",
-			result:     &btcjson.TemplateRequest{},
-			marshaled: `{"sizelimit":"invalid"}`,
-			err:        btcjson.ErrInvalidType.Default(),
-		},
-	} XXX -trn */
+tests := []struct {
+	name       string
+	result     interface{}
+	marshaled string
+	err        er.R
+}{
+	{
+		name:       "template request with invalid type",
+		result:     &btcjson.TemplateRequest{},
+		marshaled: `{"mode":1}`,
+		err:        er.E(&json.UnmarshalTypeError{}),
+	},
+	{
+		name:       "invalid template request sigoplimit field",
+		result:     &btcjson.TemplateRequest{},
+		marshaled: `{"sigoplimit":"invalid"}`,
+		err:        btcjson.ErrInvalidType.Default(),
+	},
+	{
+		name:       "invalid template request sizelimit field",
+		result:     &btcjson.TemplateRequest{},
+		marshaled: `{"sizelimit":"invalid"}`,
+		err:        btcjson.ErrInvalidType.Default(),
+	},
+} XXX -trn */
 
-	/*t.Logf("Running %d tests", len(tests))
+/*t.Logf("Running %d tests", len(tests))
 	for i, test := range tests {
 		err := er.E(jsoniter.Unmarshal([]byte(test.marshaled), &test.result))
 		if !er.FuzzyEquals(err, test.err) {
@@ -1197,5 +1197,5 @@ func TestChainSvrCmds(t *testing.T) {
 				i, test.name, err, err, test.err)
 			continue
 		}
-	} XXX -trn 
+	} XXX -trn
 }*/

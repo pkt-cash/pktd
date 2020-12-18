@@ -157,8 +157,8 @@ type BlockChain struct {
 	//
 	// In addition, some of the fields are stored in the database so the
 	// chain state can be quickly reconstructed on load.
-	stateLock     sync.RWMutex
-	stateSnapshot *BestState
+	stateLock        sync.RWMutex
+	stateSnapshot    *BestState
 	notificationLock sync.Mutex
 
 	// The following caches are used to efficiently keep track of the

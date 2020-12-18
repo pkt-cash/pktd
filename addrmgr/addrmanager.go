@@ -740,16 +740,16 @@ func (a *AddrManager) HostToNetAddress(host string, port uint16, services protoc
 		host = "onion"
 	}
 	if host != "onion" {
-	if ip = net.ParseIP(host); ip == nil {
-		ips, err := a.lookupFunc(host)
-		if err != nil {
-			return nil, err
+		if ip = net.ParseIP(host); ip == nil {
+			ips, err := a.lookupFunc(host)
+			if err != nil {
+				return nil, err
+			}
+			if len(ips) == 0 {
+				return nil, er.Errorf("no addresses found for %s", host)
+			}
+			ip = ips[0]
 		}
-		if len(ips) == 0 {
-			return nil, er.Errorf("no addresses found for %s", host)
-		}
-		ip = ips[0]
-	}
 	}
 
 	return wire.NewNetAddressIPPort(ip, port, services), nil

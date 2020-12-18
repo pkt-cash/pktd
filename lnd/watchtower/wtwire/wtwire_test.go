@@ -8,8 +8,8 @@ import (
 	"testing/quick"
 	"time"
 
-	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 	"github.com/pkt-cash/pktd/lnd/lnwire"
 	"github.com/pkt-cash/pktd/lnd/watchtower/wtwire"
 )

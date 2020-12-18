@@ -4,9 +4,9 @@ import (
 	gosha1 "crypto/sha1"
 	csubtle "crypto/subtle"
 	x0 "encoding/hex"
+	gl "go.uber.org/goleak"
 	stest "testing"
 	tq "testing/quick"
-	gl "go.uber.org/goleak"
 )
 
 //go:generate go run asm.go -out sha1.s -stubs stub.go

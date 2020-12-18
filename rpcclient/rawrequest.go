@@ -58,11 +58,11 @@ func (c *Client) RawRequestAsync(method string, params []jsoniter.RawMessage) Fu
 	// Generate the request and send it along with a channel to respond on.
 	responseChan := make(chan *response, 1)
 	jReq := &jsonRequest{
-		id:             id,
-		method:         method,
-		cmd:            nil,
+		id:            id,
+		method:        method,
+		cmd:           nil,
 		marshaledJSON: marshaledJSON,
-		responseChan:   responseChan,
+		responseChan:  responseChan,
 	}
 	c.sendRequest(jReq)
 

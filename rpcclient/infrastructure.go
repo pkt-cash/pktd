@@ -5,7 +5,6 @@
 package rpcclient
 
 import (
-	"os"
 	"bytes"
 	"container/list"
 	"crypto/tls"
@@ -17,6 +16,7 @@ import (
 	"math"
 	"net"
 	"net/http"
+	"os"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -112,11 +112,11 @@ type sendPostDetails struct {
 // jsonRequest holds information about a json request that is used to properly
 // detect, interpret, and deliver a reply to it.
 type jsonRequest struct {
-	id             uint64
-	method         string
-	cmd            interface{}
+	id            uint64
+	method        string
+	cmd           interface{}
 	marshaledJSON []byte
-	responseChan   chan *response
+	responseChan  chan *response
 }
 
 // Client represents a Bitcoin RPC client which allows easy access to the
@@ -907,11 +907,11 @@ func (c *Client) sendCmd(cmd interface{}) chan *response {
 	// Generate the request and send it along with a channel to respond on.
 	responseChan := make(chan *response, 1)
 	jReq := &jsonRequest{
-		id:             id,
-		method:         method,
-		cmd:            cmd,
+		id:            id,
+		method:        method,
+		cmd:           cmd,
 		marshaledJSON: marshaledJSON,
-		responseChan:   responseChan,
+		responseChan:  responseChan,
 	}
 	c.sendRequest(jReq)
 
@@ -1085,7 +1085,7 @@ type ConnConfig struct {
 	// CookiePath is the path to a cookie file containing the username and
 	// passphrase to use to authenticate to the RPC server. It is used instead
 	// of the User and Pass, if non-empty. cookieLast* is used for caching.
-	CookiePath string
+	CookiePath          string
 	cookieLastCheckTime time.Time
 	cookieLastModTime   time.Time
 	cookieLastUser      string
@@ -1211,36 +1211,36 @@ func dial(config *ConnConfig) (*websocket.Conn, er.R) {
 // if the cookie path is configured; if not, it will be the user-configured
 // username and passphrase.
 func (config *ConnConfig) getAuth() (username, passphrase string, error er.R) {
-   // Try standard authorization first.
-   if config.Pass != "" {
-       return config.User, config.Pass, nil
-   }
+	// Try standard authorization first.
+	if config.Pass != "" {
+		return config.User, config.Pass, nil
+	}
 
-   // Now we try cookie auth
-   return config.retrieveCookie()
+	// Now we try cookie auth
+	return config.retrieveCookie()
 }
 
 // retrieveCookie returns the username and passphrase from the cookie
 func (config *ConnConfig) retrieveCookie() (username, passphrase string, err er.R) {
-   if !config.cookieLastCheckTime.IsZero() && time.Now().Before(config.cookieLastCheckTime.Add(30*time.Second)) {
-       return config.cookieLastUser, config.cookieLastPass, config.cookieLastErr
-   }
+	if !config.cookieLastCheckTime.IsZero() && time.Now().Before(config.cookieLastCheckTime.Add(30*time.Second)) {
+		return config.cookieLastUser, config.cookieLastPass, config.cookieLastErr
+	}
 
-   config.cookieLastCheckTime = time.Now()
-   st, errr := os.Stat(config.CookiePath)
-   if errr != nil {
-       err.AddMessage("Error reading pktcookie file")
-       config.cookieLastErr = er.E(errr)
-       return config.cookieLastUser, config.cookieLastPass, config.cookieLastErr
-   }
+	config.cookieLastCheckTime = time.Now()
+	st, errr := os.Stat(config.CookiePath)
+	if errr != nil {
+		err.AddMessage("Error reading pktcookie file")
+		config.cookieLastErr = er.E(errr)
+		return config.cookieLastUser, config.cookieLastPass, config.cookieLastErr
+	}
 
-   modTime := st.ModTime()
-   if !modTime.Equal(config.cookieLastModTime) {
-       config.cookieLastModTime = modTime
-       config.cookieLastUser, config.cookieLastPass, config.cookieLastErr = readCookieFile(config.CookiePath)
-   }
+	modTime := st.ModTime()
+	if !modTime.Equal(config.cookieLastModTime) {
+		config.cookieLastModTime = modTime
+		config.cookieLastUser, config.cookieLastPass, config.cookieLastErr = readCookieFile(config.CookiePath)
+	}
 
-   return config.cookieLastUser, config.cookieLastPass, config.cookieLastErr
+	return config.cookieLastUser, config.cookieLastPass, config.cookieLastErr
 }
 
 // New creates a new RPC client based on the provided connection configuration

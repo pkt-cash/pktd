@@ -1069,7 +1069,7 @@ func TestMaximumDepth(t *testing.T) {
 	}
 }
 
-// TestLeadingZero ensures that deriving children from keys with a leading zero byte is 
+// TestLeadingZero ensures that deriving children from keys with a leading zero byte is
 // actually done according to the BIP-32 standard and that the legacy method generates
 // a backwards-compatible result.
 func TestLeadingZero(t *testing.T) {

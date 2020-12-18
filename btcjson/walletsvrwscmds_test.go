@@ -6,8 +6,8 @@ package btcjson_test
 
 import (
 	"bytes"
-	"github.com/json-iterator/go"
 	"fmt"
+	"github.com/json-iterator/go"
 	"reflect"
 	"testing"
 
@@ -24,9 +24,9 @@ func TestWalletSvrWsCmds(t *testing.T) {
 
 	testID := int(1)
 	tests := []struct {
-		name         string
-		newCmd       func() (interface{}, er.R)
-		staticCmd    func() interface{}
+		name        string
+		newCmd      func() (interface{}, er.R)
+		staticCmd   func() interface{}
 		marshaled   string
 		unmarshaled interface{}
 	}{

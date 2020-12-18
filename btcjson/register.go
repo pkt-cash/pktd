@@ -5,8 +5,8 @@
 package btcjson
 
 import (
-	"github.com/json-iterator/go"
 	"fmt"
+	"github.com/json-iterator/go"
 	"reflect"
 	"sort"
 	"strconv"

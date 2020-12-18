@@ -6,8 +6,8 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/pkt-cash/pktd/btcec"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/pkt-cash/pktd/btcec"
 	"github.com/pkt-cash/pktd/lnd/brontide"
 	"github.com/pkt-cash/pktd/lnd/keychain"
 )

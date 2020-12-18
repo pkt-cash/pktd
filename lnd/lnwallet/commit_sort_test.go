@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/pkt-cash/pktd/wire"
 	"github.com/pkt-cash/pktd/lnd/lnwallet"
+	"github.com/pkt-cash/pktd/wire"
 )
 
 type commitSortTest struct {

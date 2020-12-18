@@ -692,4 +692,3 @@ func TestVarBytesOverflowErrors(t *testing.T) {
 	}
 
 }
-

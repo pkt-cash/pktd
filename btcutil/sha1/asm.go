@@ -16,7 +16,7 @@ func main() {
 				"h",
 			),
 			GP64(),
-		)
+		),
 	}
 	m := Mem{
 		Base: Load(
@@ -24,7 +24,7 @@ func main() {
 				"m",
 			).Base(),
 			GP64(),
-		)
+		),
 	}
 	w := AllocLocal(
 		64,
@@ -57,8 +57,8 @@ func main() {
 		b,
 		c,
 		d,
-		e
-	}{
+		e,
+	} {
 		MOVL(
 			hash[i],
 			r,
@@ -147,15 +147,15 @@ func main() {
 		)
 		ROLL(
 			U8(
-				(5)
+				(5),
 			),
 			t,
 		)
 		ADDL(
 			q.F(b,
-			c,
-			d,
-		),
+				c,
+				d,
+			),
 			t,
 		)
 		ADDL(
@@ -185,8 +185,8 @@ func main() {
 		b,
 		c,
 		d,
-		e
-	}{
+		e,
+	} {
 		ADDL(
 			r,
 			hash[i],
@@ -256,12 +256,12 @@ func majority(
 	d Register,
 ) Register {
 	t,
-	r := GP32(),
-	GP32(),
-	MOVL(
-		b,
-		t,
-	)
+		r := GP32(),
+		GP32(),
+		MOVL(
+			b,
+			t,
+		)
 	ORL(
 		c,
 		t,
