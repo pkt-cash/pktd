@@ -38,7 +38,7 @@ TESTF="-count=1 -cpu=1 -parallel=1 -covermode=atomic -trimpath" && export TESTF
 cleanUp || true
 GOTAR=$($STDBUF go list ./... | $STDBUF grep -v test | $STDBUF grep -v $LDBTEST | $STDBUF grep -v $LGTTEST | grep -v $LNDTEST | $STDBUF sort | $STDBUF uniq)
 # shellcheck disable=SC2090,SC2086
-($STDBUF gocov test -v -vet=off $TESTF $GOTAR 1>gocov_report_pktd.json) 2>&1 | $STDBUF tr '\t' ' ' | $STDBUF tr -s ' ' | $STDBUF sed 's/github.com\/pkt-cash\/pktd\///' | $STDBUF sed 's/github.com\/pkt-cash\///' | $STDBUF grep -v '\[no test files\]' | $STDBUF $CCZE
+($STDBUF gocov test -vet=off $TESTF $GOTAR 1>gocov_report_pktd.json) 2>&1 | $STDBUF tr '\t' ' ' | $STDBUF tr -s ' ' | $STDBUF sed 's/github.com\/pkt-cash\/pktd\///' | $STDBUF sed 's/github.com\/pkt-cash\///' | $STDBUF grep -v '\[no test files\]' | $STDBUF $CCZE
 $STDBUF gocov report <gocov_report_pktd.json >gocov_report_pktd.txt || {
 	printf '%s\n' "Error: gocov failed to complete."
 	exit 1
