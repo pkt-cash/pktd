@@ -28,7 +28,7 @@ func TestBufferPoolCloseByGC(t *testing.T) {
 	bpool := NewBufferPool(1024)
 	pool := bpool.pool // ref to check closed
 	buf := bpool.Get(1024)
-	if 1024 != len(buf) {
+	if len(buf) != 1024 {
 		t.Errorf("Get() return invalid length buffer, got(%v), expect(%v)", len(buf), 1024)
 	}
 	bpool.Put(buf)
