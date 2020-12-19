@@ -30,33 +30,33 @@ type MessageType uint16
 // Lightning protocol.
 const (
 	MsgInit                    MessageType = 16
-	MsgError                               = 17
-	MsgPing                                = 18
-	MsgPong                                = 19
-	MsgOpenChannel                         = 32
-	MsgAcceptChannel                       = 33
-	MsgFundingCreated                      = 34
-	MsgFundingSigned                       = 35
-	MsgFundingLocked                       = 36
-	MsgShutdown                            = 38
-	MsgClosingSigned                       = 39
-	MsgUpdateAddHTLC                       = 128
-	MsgUpdateFulfillHTLC                   = 130
-	MsgUpdateFailHTLC                      = 131
-	MsgCommitSig                           = 132
-	MsgRevokeAndAck                        = 133
-	MsgUpdateFee                           = 134
-	MsgUpdateFailMalformedHTLC             = 135
-	MsgChannelReestablish                  = 136
-	MsgChannelAnnouncement                 = 256
-	MsgNodeAnnouncement                    = 257
-	MsgChannelUpdate                       = 258
-	MsgAnnounceSignatures                  = 259
-	MsgQueryShortChanIDs                   = 261
-	MsgReplyShortChanIDsEnd                = 262
-	MsgQueryChannelRange                   = 263
-	MsgReplyChannelRange                   = 264
-	MsgGossipTimestampRange                = 265
+	MsgError                   MessageType = 17
+	MsgPing                    MessageType = 18
+	MsgPong                    MessageType = 19
+	MsgOpenChannel             MessageType = 32
+	MsgAcceptChannel           MessageType = 33
+	MsgFundingCreated          MessageType = 34
+	MsgFundingSigned           MessageType = 35
+	MsgFundingLocked           MessageType = 36
+	MsgShutdown                MessageType = 38
+	MsgClosingSigned           MessageType = 39
+	MsgUpdateAddHTLC           MessageType = 128
+	MsgUpdateFulfillHTLC       MessageType = 130
+	MsgUpdateFailHTLC          MessageType = 131
+	MsgCommitSig               MessageType = 132
+	MsgRevokeAndAck            MessageType = 133
+	MsgUpdateFee               MessageType = 134
+	MsgUpdateFailMalformedHTLC MessageType = 135
+	MsgChannelReestablish      MessageType = 136
+	MsgChannelAnnouncement     MessageType = 256
+	MsgNodeAnnouncement        MessageType = 257
+	MsgChannelUpdate           MessageType = 258
+	MsgAnnounceSignatures      MessageType = 259
+	MsgQueryShortChanIDs       MessageType = 261
+	MsgReplyShortChanIDsEnd    MessageType = 262
+	MsgQueryChannelRange       MessageType = 263
+	MsgReplyChannelRange       MessageType = 264
+	MsgGossipTimestampRange    MessageType = 265
 )
 
 // String return the string representation of message type.
