@@ -45,11 +45,7 @@ var _ BackendConfig = (*BtcdBackendConfig)(nil)
 func (b BtcdBackendConfig) GenArgs() []string {
 	var args []string
 	encodedCert := hex.EncodeToString(b.rpcConfig.Certificates)
-	args = append(args, "--bitcoin.node=btcd")
-	args = append(args, fmt.Sprintf("--btcd.rpchost=%v", b.rpcConfig.Host))
-	args = append(args, fmt.Sprintf("--btcd.rpcuser=%v", b.rpcConfig.User))
-	args = append(args, fmt.Sprintf("--btcd.rpcpass=%v", b.rpcConfig.Pass))
-	args = append(args, fmt.Sprintf("--btcd.rawrpccert=%v", encodedCert))
+	args = append(args, "--bitcoin.node=btcd", fmt.Sprintf("--btcd.rpchost=%v", b.rpcConfig.Host), fmt.Sprintf("--btcd.rpcuser=%v", b.rpcConfig.User), fmt.Sprintf("--btcd.rpcpass=%v", b.rpcConfig.Pass), fmt.Sprintf("--btcd.rawrpccert=%v", encodedCert))
 
 	return args
 }

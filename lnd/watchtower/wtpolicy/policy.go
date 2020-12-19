@@ -260,14 +260,7 @@ func (p *Policy) ComputeJusticeTxOuts(totalAmt btcutil.Amount, txWeight int64,
 		}
 
 		// Add the sweep and reward outputs to the list of txouts.
-		outputs = append(outputs, &wire.TxOut{
-			PkScript: sweepPkScript,
-			Value:    int64(sweepAmt),
-		})
-		outputs = append(outputs, &wire.TxOut{
-			PkScript: rewardPkScript,
-			Value:    int64(rewardAmt),
-		})
+		outputs = append(outputs, &wire.TxOut{PkScript: sweepPkScript, Value: int64(sweepAmt)}, &wire.TxOut{PkScript: rewardPkScript, Value: int64(rewardAmt)})
 	} else {
 		// Using the total input amount and the transaction's weight,
 		// compute the sweep amount, which corresponds to the amount
