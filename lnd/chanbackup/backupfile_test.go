@@ -13,7 +13,7 @@ import (
 
 func makeFakePackedMulti() (PackedMulti, er.R) {
 	newPackedMulti := make([]byte, 50)
-	if _, err := rand.Read(newPackedMulti[:]); err != nil {
+	if _, err := rand.Read(newPackedMulti); err != nil {
 		return nil, er.Errorf("unable to make test backup: %v", err)
 	}
 
@@ -31,7 +31,7 @@ func assertBackupMatches(t *testing.T, filePath string,
 
 	if !bytes.Equal(packedBackup, currentBackup) {
 		t.Fatalf("backups don't match after first swap: "+
-			"expected %x got %x", packedBackup[:],
+			"expected %x got %x", packedBackup,
 			currentBackup)
 	}
 }

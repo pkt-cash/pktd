@@ -1588,7 +1588,7 @@ func (d *DB) updateInvoice(hash lntypes.Hash, invoices, settleIndex kvdb.RwBucke
 		return nil, err
 	}
 
-	if err := invoices.Put(invoiceNum[:], buf.Bytes()); err != nil {
+	if err := invoices.Put(invoiceNum, buf.Bytes()); err != nil {
 		return nil, err
 	}
 

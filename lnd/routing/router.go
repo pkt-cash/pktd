@@ -1550,7 +1550,7 @@ func generateSphinxPacket(rt *route.Route, paymentHash []byte,
 	}
 
 	log.Tracef("Constructed per-hop payloads for payment_hash=%x: %v",
-		paymentHash[:], log.C(func() string {
+		paymentHash, log.C(func() string {
 			path := make([]sphinx.OnionHop, sphinxPath.TrueRouteLength())
 			for i := range path {
 				hopCopy := sphinxPath[i]

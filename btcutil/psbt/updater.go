@@ -192,7 +192,7 @@ func (p *Updater) addPartialSignature(inIndex int, sig []byte,
 				return err
 			}
 
-			if !bytes.Equal(script, witnessScriptHashScript[:]) {
+			if !bytes.Equal(script, witnessScriptHashScript) {
 				return ErrInvalidSignatureForInput.Default()
 			}
 		} else {

@@ -121,7 +121,7 @@ func CreateRPCInvoice(invoice *channeldb.Invoice,
 	}
 
 	rpcInvoice := &lnrpc.Invoice{
-		Memo:            string(invoice.Memo[:]),
+		Memo:            string(invoice.Memo),
 		RHash:           decoded.PaymentHash[:],
 		Value:           int64(satAmt),
 		ValueMsat:       int64(invoice.Terms.Value),

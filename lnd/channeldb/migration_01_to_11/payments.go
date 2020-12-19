@@ -361,7 +361,7 @@ func fetchPayment(bucket kvdb.RBucket) (*Payment, er.R) {
 	b = bucket.Get(paymentSettleInfoKey)
 	if b != nil {
 		var preimg lntypes.Preimage
-		copy(preimg[:], b[:])
+		copy(preimg[:], b)
 		p.PaymentPreimage = &preimg
 	}
 
@@ -397,7 +397,7 @@ func serializePaymentCreationInfo(w io.Writer, c *PaymentCreationInfo) er.R {
 		return err
 	}
 
-	if _, err := util.Write(w, c.PaymentRequest[:]); err != nil {
+	if _, err := util.Write(w, c.PaymentRequest); err != nil {
 		return err
 	}
 
@@ -430,7 +430,7 @@ func deserializePaymentCreationInfo(r io.Reader) (*PaymentCreationInfo, er.R) {
 	reqLen := uint32(byteOrder.Uint32(scratch[:4]))
 	payReq := make([]byte, reqLen)
 	if reqLen > 0 {
-		if _, err := util.ReadFull(r, payReq[:]); err != nil {
+		if _, err := util.ReadFull(r, payReq); err != nil {
 			return nil, err
 		}
 	}

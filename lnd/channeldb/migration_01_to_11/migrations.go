@@ -186,7 +186,7 @@ func MigrateInvoiceTimeSeries(tx kvdb.RwTx) er.R {
 		}
 		var seqNoBytes [8]byte
 		byteOrder.PutUint64(seqNoBytes[:], nextAddSeqNo)
-		err = addIndex.Put(seqNoBytes[:], invoiceNum[:])
+		err = addIndex.Put(seqNoBytes[:], invoiceNum)
 		if err != nil {
 			return err
 		}
@@ -273,7 +273,7 @@ func MigrateInvoiceTimeSeriesOutgoingPayments(tx kvdb.RwTx) er.R {
 	var paymentKeys [][]byte
 	var paymentValues [][]byte
 	err := payBucket.ForEach(func(payID, paymentBytes []byte) er.R {
-		log.Tracef("Migrating payment %x", payID[:])
+		log.Tracef("Migrating payment %x", payID)
 
 		// The internal invoices for each payment only contain a
 		// populated contract term, and creation date, as a result,
@@ -295,7 +295,7 @@ func MigrateInvoiceTimeSeriesOutgoingPayments(tx kvdb.RwTx) er.R {
 		// also add padding for the new 24 bytes of fields, and finally
 		// append the remainder of the outgoing payment.
 		paymentCopy := make([]byte, len(invoiceBytes))
-		copy(paymentCopy[:], invoiceBytes)
+		copy(paymentCopy, invoiceBytes)
 
 		padding := bytes.Repeat([]byte{0}, 24)
 		paymentCopy = append(paymentCopy, padding...)
@@ -446,7 +446,7 @@ func PaymentStatusesMigration(tx kvdb.RwTx) er.R {
 			paymentHash := v[payHashOffset : payHashOffset+32]
 
 			return paymentStatuses.Put(
-				paymentHash[:], StatusInFlight.Bytes(),
+				paymentHash, StatusInFlight.Bytes(),
 			)
 		})
 		if err != nil {
@@ -589,7 +589,7 @@ func MigratePruneEdgeUpdateIndex(tx kvdb.RwTx) er.R {
 
 		// Skip any entries with unknown policies as there will not be
 		// any entries for them in the edge update index.
-		if bytes.Equal(edgePolicyBytes[:], unknownPolicy) {
+		if bytes.Equal(edgePolicyBytes, unknownPolicy) {
 			continue
 		}
 
@@ -777,7 +777,7 @@ func MigrateOutgoingPayments(tx kvdb.RwTx) er.R {
 		if selfPub == nil {
 			return pub, ErrSourceNodeNotSet.Default()
 		}
-		copy(pub[:], selfPub[:])
+		copy(pub[:], selfPub)
 		return pub, nil
 	}
 

@@ -190,7 +190,7 @@ func (p *JusticeDescriptor) assembleJusticeTxn(txWeight int64,
 	// reward sweep, there will be two outputs, one of which pays back to
 	// the victim while the other gives a cut to the tower.
 	outputs, err := p.SessionInfo.Policy.ComputeJusticeTxOuts(
-		totalAmt, txWeight, p.JusticeKit.SweepAddress[:],
+		totalAmt, txWeight, p.JusticeKit.SweepAddress,
 		p.SessionInfo.RewardAddress,
 	)
 	if err != nil {

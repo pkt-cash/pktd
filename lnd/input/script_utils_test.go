@@ -198,7 +198,7 @@ func TestHTLCSenderSpendValidation(t *testing.T) {
 	// Generate a payment preimage to be used below.
 	paymentPreimage := revokePreimage
 	paymentPreimage[0] ^= 1
-	paymentHash := sha256.Sum256(paymentPreimage[:])
+	paymentHash := sha256.Sum256(paymentPreimage)
 
 	// We'll also need some tests keys for alice and bob, and metadata of
 	// the HTLC output.
@@ -600,7 +600,7 @@ func TestHTLCReceiverSpendValidation(t *testing.T) {
 	// Generate a payment preimage to be used below.
 	paymentPreimage := revokePreimage
 	paymentPreimage[0] ^= 1
-	paymentHash := sha256.Sum256(paymentPreimage[:])
+	paymentHash := sha256.Sum256(paymentPreimage)
 
 	// We'll also need some tests keys for alice and bob, and metadata of
 	// the HTLC output.

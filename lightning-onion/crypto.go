@@ -164,7 +164,7 @@ func computeBlindingFactor(hopPubKey *btcec.PublicKey,
 // blindGroupElement blinds the group element P by performing scalar
 // multiplication of the group element by blindingFactor: blindingFactor * P.
 func blindGroupElement(hopPubKey *btcec.PublicKey, blindingFactor []byte) *btcec.PublicKey {
-	newX, newY := btcec.S256().ScalarMult(hopPubKey.X, hopPubKey.Y, blindingFactor[:])
+	newX, newY := btcec.S256().ScalarMult(hopPubKey.X, hopPubKey.Y, blindingFactor)
 	return &btcec.PublicKey{btcec.S256(), newX, newY}
 }
 

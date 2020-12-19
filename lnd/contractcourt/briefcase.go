@@ -467,7 +467,7 @@ func (b *boltArbitratorLog) CommitState(s ArbitratorState) er.R {
 			return err
 		}
 
-		return scopeBucket.Put(stateKey[:], []byte{uint8(s)})
+		return scopeBucket.Put(stateKey, []byte{uint8(s)})
 	})
 }
 
@@ -919,7 +919,7 @@ func (b *boltArbitratorLog) WipeHistory() er.R {
 
 		// Once we have the main top-level bucket, we'll delete the key
 		// that stores the state of the arbitrator.
-		if err := scopeBucket.Delete(stateKey[:]); err != nil {
+		if err := scopeBucket.Delete(stateKey); err != nil {
 			return err
 		}
 

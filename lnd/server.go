@@ -3734,7 +3734,7 @@ func (s *server) fetchLastChanUpdate() func(lnwire.ShortChannelID) (
 		}
 
 		return netann.ExtractChannelUpdate(
-			ourPubKey[:], info, edge1, edge2,
+			ourPubKey, info, edge1, edge2,
 		)
 	}
 }

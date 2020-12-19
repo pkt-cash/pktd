@@ -7101,7 +7101,7 @@ func testInvoiceSubscriptions(net *lntest.NetworkHarness, t *harnessTest) {
 			t.Fatalf("should have only received add events")
 		}
 		originalInvoice := newInvoices[i]
-		rHash := sha256.Sum256(originalInvoice.RPreimage[:])
+		rHash := sha256.Sum256(originalInvoice.RPreimage)
 		if !bytes.Equal(invoiceUpdate.RHash, rHash[:]) {
 			t.Fatalf("invoices have mismatched payment hashes: "+
 				"expected %x, got %x", rHash[:],
@@ -7141,7 +7141,7 @@ func testInvoiceSubscriptions(net *lntest.NetworkHarness, t *harnessTest) {
 	// we'll use a map to assert that the proper set has been settled.
 	settledInvoices := make(map[[32]byte]struct{})
 	for _, invoice := range newInvoices {
-		rHash := sha256.Sum256(invoice.RPreimage[:])
+		rHash := sha256.Sum256(invoice.RPreimage)
 		settledInvoices[rHash] = struct{}{}
 	}
 	for i := 0; i < numInvoices; i++ {

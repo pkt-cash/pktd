@@ -250,7 +250,7 @@ func CraftSweepAllTx(feeRate chainfee.SatPerKWeight, dustLimit btcutil.Amount,
 			unlockOutputs()
 
 			return nil, er.Errorf("unable to sweep coins, "+
-				"unknown script: %x", pkScript[:])
+				"unknown script: %x", pkScript)
 		}
 
 		// Now that we've constructed the items required, we'll make an

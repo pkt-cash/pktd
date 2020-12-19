@@ -1247,7 +1247,7 @@ func lockOutput(ns walletdb.ReadWriteBucket, id LockID, op wire.OutPoint,
 	k := canonicalOutPoint(&op.Hash, op.Index)
 	v := serializeLockedOutput(id, expiry)
 
-	if err := lockedOutputs.Put(k, v[:]); err != nil {
+	if err := lockedOutputs.Put(k, v); err != nil {
 		str := fmt.Sprintf("%s: put failed for %v", bucketLockedOutputs,
 			op)
 		return storeError(ErrDatabase, str, err)
