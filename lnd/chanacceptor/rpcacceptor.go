@@ -378,7 +378,7 @@ func (r *RPCAcceptor) validateAcceptorResponse(dustLimit btcutil.Amount,
 		return false, errChannelRejected.Default(), nil, errCustomLength.Default()
 	}
 
-	haveCustomError := len(req.Error) != 0
+	haveCustomError := req.Error != ""
 
 	switch {
 	// If accept is true, but we also have an error specified, we fail

@@ -924,7 +924,7 @@ func (s *Store) Balance(ns walletdb.ReadBucket, minConf, syncHeight int32) (btcu
 // [2: +len] Label
 func (s *Store) PutTxLabel(ns walletdb.ReadWriteBucket, txid chainhash.Hash,
 	label string) er.R {
-	if len(label) == 0 {
+	if label == "" {
 		return ErrEmptyLabel.Default()
 	}
 

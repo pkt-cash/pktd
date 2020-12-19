@@ -388,7 +388,7 @@ func profileAddMacaroon(ctx *cli.Context) er.R {
 	if ctx.GlobalIsSet("profile") {
 		profileName = ctx.GlobalString("profile")
 	}
-	if len(strings.TrimSpace(profileName)) == 0 {
+	if strings.TrimSpace(profileName) == "" {
 		return er.Errorf("no profile specified and no default " +
 			"profile exists")
 	}

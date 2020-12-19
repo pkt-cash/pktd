@@ -726,7 +726,7 @@ func calcCompromiseFee(chanPoint wire.OutPoint, ourIdealFee, lastSentFee,
 // address, it returns a script that pays out to the address.
 func ParseUpfrontShutdownAddress(address string,
 	params *chaincfg.Params) (lnwire.DeliveryAddress, er.R) {
-	if len(address) == 0 {
+	if address == "" {
 		return nil, nil
 	}
 

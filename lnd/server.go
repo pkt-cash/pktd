@@ -1543,7 +1543,7 @@ func (s *server) Start() er.R {
 			result := make([][2]string, len(tuples))
 			for idx, tuple := range tuples {
 				tuple = strings.TrimSpace(tuple)
-				if len(tuple) == 0 {
+				if tuple == "" {
 					return
 				}
 

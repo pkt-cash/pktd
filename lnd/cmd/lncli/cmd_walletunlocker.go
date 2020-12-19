@@ -306,7 +306,7 @@ mnemonicCheck:
 
 			answer = strings.TrimSpace(answer)
 
-			if len(answer) == 0 {
+			if answer == "" {
 				recoveryWindow = defaultRecoveryWindow
 				break
 			}
