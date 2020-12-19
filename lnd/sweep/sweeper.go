@@ -157,7 +157,7 @@ type inputCluster struct {
 // attempting to sweep.
 type pendingSweepsReq struct {
 	respChan chan map[wire.OutPoint]*PendingInput
-	errChan  chan error
+	errChan  chan er.R
 }
 
 // PendingInput contains information about an input that is currently being
@@ -397,15 +397,15 @@ func (s *UtxoSweeper) Start() er.R {
 			select {
 			case inp := <-s.newInputs:
 				inp.resultChan <- Result{
-					Err: ErrSweeperShuttingDown,
+					Err: ErrSweeperShuttingDown.Default(),
 				}
 
 			case req := <-s.pendingSweepsReqs:
-				req.errChan <- ErrSweeperShuttingDown
+				req.errChan <- ErrSweeperShuttingDown.Default()
 
 			case req := <-s.updateReqs:
 				req.responseChan <- &updateResp{
-					err: ErrSweeperShuttingDown,
+					err: ErrSweeperShuttingDown.Default(),
 				}
 
 			case <-s.quit:
@@ -1313,7 +1313,7 @@ func (s *UtxoSweeper) waitForSpend(outpoint wire.OutPoint,
 // attempting to sweep.
 func (s *UtxoSweeper) PendingInputs() (map[wire.OutPoint]*PendingInput, er.R) {
 	respChan := make(chan map[wire.OutPoint]*PendingInput, 1)
-	errChan := make(chan error, 1)
+	errChan := make(chan er.R, 1)
 	select {
 	case s.pendingSweepsReqs <- &pendingSweepsReq{
 		respChan: respChan,

@@ -447,7 +447,7 @@ func NewChainControl(cfg *Config) (*ChainControl, er.R) {
 	case cfg.FeeURL == "" && cfg.Bitcoin.MainNet &&
 		homeChainConfig.Node == "neutrino":
 
-		return nil, fmt.Errorf("--feeurl parameter required when " +
+		return nil, er.Errorf("--feeurl parameter required when " +
 			"running neutrino on mainnet")
 
 	// Override default fee estimator if an external service is specified.

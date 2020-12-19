@@ -3315,6 +3315,52 @@ func (lc *LightningChannel) getUnsignedAckedUpdates() []channeldb.LogUpdate {
 	return logUpdates
 }
 
+// validateFlowControlLimits take a set of updates, and validates them against
+// the passed channel constraints.
+func validateFlowControlLimits(updates []*PaymentDescriptor,
+	constraints *channeldb.ChannelConfig) er.R {
+	// We keep track of the number of HTLCs in flight for the commitment,
+	// and the amount in flight.
+	var numInFlight uint16
+	var amtInFlight lnwire.MilliSatoshi
+
+	// Go through all updates, checking that they don't violate the channel
+	// constraints.
+	for _, entry := range updates {
+		if entry.EntryType == Add {
+			// An HTLC is being added, this will add to the number
+			// and amount in flight.
+			amtInFlight += entry.Amount
+			numInFlight++
+
+			// Check that the HTLC amount is positive.
+			if entry.Amount == 0 {
+				return ErrInvalidHTLCAmt.Default()
+			}
+
+			// Check that the value of the HTLC they added is above
+			// our minimum.
+			if entry.Amount < constraints.MinHTLC {
+				return ErrBelowMinHTLC.Default()
+			}
+		}
+	}
+
+	// Now that we know the total value of added HTLCs, we check that this
+	// satisfy the MaxPendingAmont contraint.
+	if amtInFlight > constraints.MaxPendingAmount {
+		return ErrMaxPendingAmount.Default()
+	}
+
+	// In this step, we verify that the total number of active HTLCs does
+	// not exceed the constraint of the maximum number of HTLCs in flight.
+	if numInFlight > constraints.MaxAcceptedHtlcs {
+		return ErrMaxHTLCNumber.Default()
+	}
+
+	return nil
+}
+
 // validateCommitmentSanity is used to validate the current state of the
 // commitment transaction in terms of the ChannelConstraints that we and our
 // remote peer agreed upon during the funding workflow. The
@@ -3395,56 +3441,9 @@ func (lc *LightningChannel) validateCommitmentSanity(theirLogCounter,
 		return ErrBelowChanReserve.Default()
 	}
 
-	// validateUpdates take a set of updates, and validates them against
-	// the passed channel constraints.
-	validateUpdates := func(updates []*PaymentDescriptor,
-		constraints *channeldb.ChannelConfig) er.R {
-		// We keep track of the number of HTLCs in flight for the
-		// commitment, and the amount in flight.
-		var numInFlight uint16
-		var amtInFlight lnwire.MilliSatoshi
-
-		// Go through all updates, checking that they don't violate the
-		// channel constraints.
-		for _, entry := range updates {
-			if entry.EntryType == Add {
-				// An HTLC is being added, this will add to the
-				// number and amount in flight.
-				amtInFlight += entry.Amount
-				numInFlight++
-
-				// Check that the HTLC amount is positive.
-				if entry.Amount == 0 {
-					return ErrInvalidHTLCAmt.Default()
-				}
-
-				// Check that the value of the HTLC they added
-				// is above our minimum.
-				if entry.Amount < constraints.MinHTLC {
-					return ErrBelowMinHTLC.Default()
-				}
-			}
-		}
-
-		// Now that we know the total value of added HTLCs, we check
-		// that this satisfy the MaxPendingAmont contraint.
-		if amtInFlight > constraints.MaxPendingAmount {
-			return ErrMaxPendingAmount.Default()
-		}
-
-		// In this step, we verify that the total number of active
-		// HTLCs does not exceed the constraint of the maximum number
-		// of HTLCs in flight.
-		if numInFlight > constraints.MaxAcceptedHtlcs {
-			return ErrMaxHTLCNumber.Default()
-		}
-
-		return nil
-	}
-
 	// First check that the remote updates won't violate it's channel
 	// constraints.
-	err = validateUpdates(
+	err = validateFlowControlLimits(
 		filteredView.theirUpdates, &lc.channelState.RemoteChanCfg,
 	)
 	if err != nil {
@@ -3453,7 +3452,7 @@ func (lc *LightningChannel) validateCommitmentSanity(theirLogCounter,
 
 	// Secondly check that our updates won't violate our channel
 	// constraints.
-	err = validateUpdates(
+	err = validateFlowControlLimits(
 		filteredView.ourUpdates, &lc.channelState.LocalChanCfg,
 	)
 	if err != nil {
@@ -6398,8 +6397,9 @@ func (lc *LightningChannel) availableBalance() (lnwire.MilliSatoshi, int64) {
 	// We'll grab the current set of log updates that the remote has
 	// ACKed.
 	remoteACKedIndex := lc.localCommitChain.tip().theirMessageIndex
-	htlcView := lc.fetchHTLCView(remoteACKedIndex,
-		lc.localUpdateLog.logIndex)
+	htlcView := lc.fetchHTLCView(
+		remoteACKedIndex, lc.localUpdateLog.logIndex,
+	)
 
 	// Calculate our available balance from our local commitment.
 	// TODO(halseth): could reuse parts validateCommitmentSanity to do this
@@ -6443,6 +6443,16 @@ func (lc *LightningChannel) availableCommitmentBalance(view *htlcView,
 	if err != nil {
 		log.Errorf("Unable to fetch available balance: %v", err)
 		return 0, 0
+	}
+
+	// If after evaluating this prospective view, we find out that we
+	// actually don't have any available slots left, then we'll just act as
+	// if there's no available balnace at all.
+	err = validateFlowControlLimits(
+		filteredView.ourUpdates, &lc.channelState.LocalChanCfg,
+	)
+	if err != nil {
+		return 0, commitWeight
 	}
 
 	// We can never spend from the channel reserve, so we'll subtract it

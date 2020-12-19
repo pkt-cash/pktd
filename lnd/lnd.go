@@ -1,6 +1,6 @@
 // Copyright (c) 2013-2017 The btcsuite developers
 // Copyright (c) 2015-2016 The Decred developers
-// Copyright (C) 2015-2017 The Lightning Network Developers
+// Copyright (C) 2015-2019 The Lightning Network Developers
 
 package lnd
 
@@ -20,6 +20,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	lndLegal "go4.org/legal"
 
 	proxy "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/pkt-cash/pktd/btcutil"
@@ -1573,4 +1575,11 @@ func parseHeaderStateAssertion(state string) (*headerfs.FilterHeader, er.R) {
 		Height:     uint32(height),
 		FilterHash: *hash,
 	}, nil
+}
+
+func init() {
+	// Register licensing
+	lndLegal.RegisterLicense(
+		"\nCopyright (C) 2015-2020 Lightning Labs and The Lightning Network Developers.\nCopyright (c) 2019 Caleb James DeLisle.\nCopyright (c) 2020 Anode LLC.\nCopyright (c) 2020 Jeffrey H. Johnson\nCopyright (c) 2020 Gridfinity, LLC.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.",
+	)
 }

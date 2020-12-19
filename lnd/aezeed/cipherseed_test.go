@@ -553,6 +553,22 @@ func TestDecipherUnknownMnenomicWord(t *testing.T) {
 	if !ErrUnknownMnenomicWord.Is(err) {
 		t.Fatalf("expected ErrUnknownMnenomicWord instead got %T", err)
 	}
+
+	// If the mnemonic includes a word that is not in the englishList
+	// it fails, even when it is a substring of a valid word
+	// Example: `heart` is in the list, `hear` is not
+	mnemonic[randIndex] = "hear"
+
+	// If we attempt to map back to the original cipher seed now, then we
+	// should get ErrUnknownMnenomicWord.
+	_, err = mnemonic.ToCipherSeed(pass)
+	if err == nil {
+		t.Fatalf("expected ErrUnknownMnenomicWord error")
+	}
+	/*ok = er.Equals(ErrUnknownMnenomicWord)
+	if !ok {
+		t.Fatalf("expected ErrUnknownMnenomicWord instead got %T", err)
+	} */ // TODO(jhj): Adapt test to new errors
 }
 
 // TestDecipherIncorrectMnemonic tests that if we obtain a cipherseed, but then

@@ -92,12 +92,12 @@ func buildStr() string {
 }
 
 func ldflags() string {
-	return "-X github.com/pkt-cash/pktd/pktconfig/version.appBuild=" + buildStr()
+	return "-w -s -buildid= -X github.com/pkt-cash/pktd/pktconfig/version.appBuild=" + buildStr()
 }
 
 func test() {
 	fmt.Println("Running tests")
-	exe(exeNoRedirect, "go", "test", "-count=1", "-cover", "-parallel=1", "./...", "-tags=dev")
+	exe(exeNoRedirect, "go", "test", "-count=1", "-cover", "-covermode=atomic", "-bench=.", "-parallel=1", "-cpu=2", "./...", "-tags=dev")
 }
 
 func main() {
@@ -106,12 +106,15 @@ func main() {
 	conf.bindir = "./bin"
 	conf.buildargs = append(conf.buildargs, "-trimpath")
 	conf.buildargs = append(conf.buildargs, "-ldflags="+ldflags())
+	os.Setenv("CGO_ENABLED", "0")
+	os.Setenv("GOMAXPROCS", "64")
 
 	assertNil(os.MkdirAll(conf.bindir, 0o755), "mkdir bin")
 	build("pktd", &conf)
 	build("pktwallet", &conf)
 	build("pktctl", &conf)
 	if strings.Contains(strings.Join(os.Args, "|"), "--test") {
+		os.Setenv("CGO_ENABLED", "1")
 		test()
 	} else {
 		fmt.Println("Pass the --test flag if you want to run the tests as well")

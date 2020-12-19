@@ -346,7 +346,7 @@ const (
 	//      - nil_length: 1 byte
 	//      - witness_script_length: 1 byte
 	//      - witness_script: (accepted_htlc_script)
-	AcceptedHtlcTimeoutWitnessSize = 1 + 1 + 73 + 1 + 1 + AcceptedHtlcScriptSize
+	AcceptedHtlcTimeoutWitnessSize = 3 + 1 + 1 + 73 + 1 + 1 + AcceptedHtlcScriptSize
 
 	// AcceptedHtlcTimeoutWitnessSizeConfirmed 220 bytes
 	AcceptedHtlcTimeoutWitnessSizeConfirmed = 1 + 1 + 73 + 1 + 1 +
@@ -360,7 +360,7 @@ const (
 	//      - revocation_key: 33 bytes
 	//      - witness_script_length: 1 byte
 	//      - witness_script (accepted_htlc_script)
-	AcceptedHtlcPenaltyWitnessSize = 1 + 1 + 73 + 1 + 33 + 1 + AcceptedHtlcScriptSize
+	AcceptedHtlcPenaltyWitnessSize = 3 + 1 + 1 + 73 + 1 + 33 + 1 + AcceptedHtlcScriptSize
 
 	// AcceptedHtlcPenaltyWitnessSizeConfirmed 253 bytes
 	AcceptedHtlcPenaltyWitnessSizeConfirmed = 1 + 1 + 73 + 1 + 33 + 1 +
@@ -379,7 +379,7 @@ const (
 	//      - witness_script (accepted_htlc_script)
 	//
 	// Input to second level success tx, spending non-delayed HTLC output.
-	AcceptedHtlcSuccessWitnessSize = 1 + 1 + 1 + 73 + 1 + 73 + 1 + 32 + 1 +
+	AcceptedHtlcSuccessWitnessSize = 3 + 1 + 1 + 1 + 73 + 1 + 73 + 1 + 32 + 1 +
 		AcceptedHtlcScriptSize
 
 	// AcceptedHtlcSuccessWitnessSizeConfirmed 327 bytes
@@ -423,7 +423,7 @@ const (
 	//              - OP_CSV: 1 byte	// present for the for the
 	//              - OP_DROP: 1 byte	// confirmed HTLC script types.
 	//      - OP_ENDIF: 1 byte
-	OfferedHtlcScriptSize = 3*1 + 20 + 5*1 + 33 + 10*1 + 33 + 5*1 + 20 + 4*1
+	OfferedHtlcScriptSize = 3*1 + 20 + 5*1 + 33 + 10*1 + 33 + 5*1 + 20 + 4*1 + 3
 
 	// OfferedHtlcScriptSizeConfirmed 136 bytes
 	OfferedHtlcScriptSizeConfirmed = OfferedHtlcScriptSize +

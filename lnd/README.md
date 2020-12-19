@@ -1,19 +1,16 @@
-## Lightning Network Daemon
+# Lightning Network Daemon
 
-[![Build Status](https://img.shields.io/travis/lightningnetwork/lnd.svg)](https://travis-ci.org/lightningnetwork/lnd)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/lightningnetwork/lnd/blob/master/LICENSE)
-[![Irc](https://img.shields.io/badge/chat-on%20freenode-brightgreen.svg)](https://webchat.freenode.net/?channels=lnd)
-[![Godoc](https://godoc.org/github.com/lightningnetwork/lnd?status.svg)](https://godoc.org/github.com/lightningnetwork/lnd)
 
 <img src="logo.png">
 
 The Lightning Network Daemon (`lnd`) - is a complete implementation of a
-[Lightning Network](https://lightning.network) node.  `lnd` has several pluggable back-end
-chain services including [`btcd`](https://github.com/btcsuite/btcd) (a
+[Lightning Network](https://lightning.network) node. `lnd` has several pluggable back-end
+chain services including [`pktd`](https://github.com/pkt-cash/pktd) (a
 full-node), [`bitcoind`](https://github.com/bitcoin/bitcoin), and
-[`neutrino`](https://github.com/pkt-cash/pktd/neutrino) (a new experimental light client). The project's codebase uses the
-[btcsuite](https://github.com/btcsuite/) set of Bitcoin libraries, and also
-exports a large set of isolated re-usable Lightning Network related libraries
+[`neutrino`](https://github.com/pkt-cash/pktd/neutrino) (a new experimental light client).
+The project's codebase uses the [btcsuite](https://github.com/btcsuite/) set of libraries,
+and also exports a large set of isolated re-usable Lightning Network related libraries
 within it.  In the current state `lnd` is capable of:
 * Creating channels.
 * Closing channels.
@@ -58,22 +55,6 @@ at [api.lightning.community](https://api.lightning.community). A set of develope
 resources including talks, articles, and example applications can be found at:
 [dev.lightning.community](https://dev.lightning.community).
 
-Finally, we also have an active
-[Slack](https://lightning.engineering/slack.html) where protocol developers, application developers, testers and users gather to
-discuss various aspects of `lnd` and also Lightning in general.
-
-## Installation
-  In order to build from source, please see [the installation
-  instructions](docs/INSTALL.md).
-
-## Docker
-  To run lnd from Docker, please see the main [Docker instructions](docs/DOCKER.md)
-
-## IRC
-  * irc.freenode.net
-  * channel #lnd
-  * [webchat](https://webchat.freenode.net/?channels=lnd)
-
 ## Safety
 
 When operating a mainnet `lnd` node, please refer to our [operational safety
@@ -83,12 +64,12 @@ loss of funds.
 
 ## Security
 
-The developers of `lnd` take security _very_ seriously. The disclosure of
-security vulnerabilities helps us secure the health of `lnd`, privacy of our
-users, and also the health of the Lightning Network as a whole.  If you find
-any issues regarding security or privacy, please disclose the information
-responsibly by sending an email to security at lightning dot engineering,
-preferably encrypted using our designated PGP key
+The **upstream** developers of `lnd` take security _very_ seriously. The
+disclosure of security vulnerabilities helps them secure the health of `lnd`,
+the privacy of our users, and also the health of the Lightning Network as a
+whole. If you find any issues regarding security or privacy, please disclose
+the information responsibly by sending an email to <mailto:security@lightning.engineering>,
+preferably encrypted using the Lightning Labs designated PGP key
 (`91FE464CD75101DA6B6BAB60555C6465E5BCB3AF`) which can be found
 [here](https://gist.githubusercontent.com/Roasbeef/6fb5b52886183239e4aa558f83d085d3/raw/5fa96010af201628bcfa61e9309d9b13d23d220f/security@lightning.engineering).
 
