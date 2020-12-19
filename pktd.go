@@ -7,7 +7,6 @@ package main
 import (
 	"crypto/sha256"
 	"fmt"
-	"io"
 	"net"
 	"net/http"
 	_ "net/http/pprof"
@@ -343,7 +342,6 @@ func main() {
 
 	// ASM-SHA256
 	shaWriter := sha256.New()
-	io.Copy(shaWriter, file)
 
 	// Up some limits.
 	if err := limits.SetLimits(); err != nil {
