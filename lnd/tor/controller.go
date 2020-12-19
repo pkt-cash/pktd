@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"crypto/hmac"
 	"crypto/rand"
-	"crypto/sha256"
 	"fmt"
 	"io/ioutil"
 	"net/textproto"
 	"strconv"
 	"strings"
 	"sync/atomic"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/btcutil/util"

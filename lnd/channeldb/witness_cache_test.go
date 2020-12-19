@@ -1,8 +1,9 @@
 package channeldb
 
 import (
-	"crypto/sha256"
 	"testing"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/lnd/lntypes"

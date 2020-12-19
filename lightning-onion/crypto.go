@@ -3,7 +3,8 @@ package sphinx
 import (
 	"bytes"
 	"crypto/hmac"
-	"crypto/sha256"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/aead/chacha20"
 	"github.com/pkt-cash/pktd/btcec"

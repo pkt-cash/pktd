@@ -2,7 +2,6 @@ package headerfs
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"encoding/binary"
 	"io/ioutil"
 	"math/rand"
@@ -11,6 +10,8 @@ import (
 	"reflect"
 	"testing"
 	"time"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkt-cash/pktd/btcutil/er"

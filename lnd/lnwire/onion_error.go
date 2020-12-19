@@ -3,10 +3,11 @@ package lnwire
 import (
 	"bufio"
 	"bytes"
-	"crypto/sha256"
 	"encoding/binary"
 	"fmt"
 	"io"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkt-cash/pktd/btcutil/er"

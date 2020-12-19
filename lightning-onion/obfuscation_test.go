@@ -2,9 +2,10 @@ package sphinx
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"reflect"
 	"testing"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcec"
 	"github.com/pkt-cash/pktd/btcutil/er"

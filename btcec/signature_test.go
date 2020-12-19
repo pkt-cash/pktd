@@ -7,11 +7,12 @@ package btcec
 import (
 	"bytes"
 	"crypto/rand"
-	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
 	"math/big"
 	"testing"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 )

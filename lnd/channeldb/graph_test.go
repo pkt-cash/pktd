@@ -2,7 +2,6 @@ package channeldb
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"image/color"
 	"math"
 	"math/big"
@@ -12,6 +11,8 @@ import (
 	"runtime"
 	"testing"
 	"time"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkt-cash/pktd/btcec"

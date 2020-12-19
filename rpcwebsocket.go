@@ -8,7 +8,6 @@ package main
 import (
 	"bytes"
 	"container/list"
-	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/base64"
 	"encoding/hex"
@@ -17,6 +16,8 @@ import (
 	"math"
 	"sync"
 	"time"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	jsoniter "github.com/json-iterator/go"
 

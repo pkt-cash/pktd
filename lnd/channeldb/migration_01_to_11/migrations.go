@@ -2,8 +2,9 @@ package migration_01_to_11
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"encoding/binary"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcec"
 	"github.com/pkt-cash/pktd/btcutil/er"

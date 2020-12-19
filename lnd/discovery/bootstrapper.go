@@ -3,13 +3,14 @@ package discovery
 import (
 	"bytes"
 	"crypto/rand"
-	"crypto/sha256"
 	"fmt"
 	prand "math/rand"
 	"net"
 	"strconv"
 	"strings"
 	"time"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/miekg/dns"

@@ -3,11 +3,12 @@ package lnwallet
 import (
 	"bytes"
 	"container/list"
-	"crypto/sha256"
 	"fmt"
 	"math"
 	"sort"
 	"sync"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkt-cash/pktd/blockchain"

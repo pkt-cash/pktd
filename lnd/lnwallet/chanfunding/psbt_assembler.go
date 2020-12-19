@@ -1,9 +1,10 @@
 package chanfunding
 
 import (
-	"crypto/sha256"
 	"fmt"
 	"sync"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcec"
 	"github.com/pkt-cash/pktd/btcutil"

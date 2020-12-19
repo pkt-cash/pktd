@@ -2,12 +2,13 @@ package migration_01_to_11
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"encoding/binary"
 	"math/rand"
 	"reflect"
 	"testing"
 	"time"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkt-cash/pktd/btcutil"

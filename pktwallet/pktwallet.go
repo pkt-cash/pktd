@@ -5,6 +5,8 @@
 package main
 
 import (
+	"crypto/sha256"
+	"io"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -39,6 +41,10 @@ func main() {
 	//  still leaks memory on occasion that causes
 	//  longer and longer GC runs.  ugh go.)
 	runtime.GOMAXPROCS(runtime.NumCPU() * 6)
+
+	// FastSHA-256
+	shaWriter := sha256.New()
+	io.Copy(shaWriter, file)
 
 	// Work around defer not working after os.Exit.
 	if err := walletMain(); err != nil {

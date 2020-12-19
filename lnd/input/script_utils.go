@@ -2,8 +2,9 @@ package input
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"math/big"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"golang.org/x/crypto/ripemd160"
 

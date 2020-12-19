@@ -5,7 +5,6 @@
 package legacyrpc
 
 import (
-	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/base64"
 	"fmt"
@@ -16,6 +15,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	jsoniter "github.com/json-iterator/go"
 

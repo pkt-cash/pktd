@@ -2,13 +2,14 @@ package htlcswitch
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"fmt"
 	"math"
 	prand "math/rand"
 	"sync"
 	"sync/atomic"
 	"time"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/go-errors/errors"

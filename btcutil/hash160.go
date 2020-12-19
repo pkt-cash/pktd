@@ -5,8 +5,9 @@
 package btcutil
 
 import (
-	"crypto/sha256"
 	"hash"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	//lint:ignore SA1019 ripemd160 may be deprecated but it is not going away.
 	"golang.org/x/crypto/ripemd160"

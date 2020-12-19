@@ -1,7 +1,7 @@
 package sphinx
 
 import (
-	"crypto/sha256"
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 )

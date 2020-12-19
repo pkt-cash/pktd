@@ -6,8 +6,9 @@ package treap
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"testing"
+
+	sha256 "github.com/minio/sha256-simd"
 )
 
 // TestMutableEmpty ensures calling functions on an empty mutable treap works as

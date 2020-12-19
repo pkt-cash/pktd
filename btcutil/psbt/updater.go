@@ -12,7 +12,8 @@ package psbt
 
 import (
 	"bytes"
-	"crypto/sha256"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcutil"
 	"github.com/pkt-cash/pktd/btcutil/er"

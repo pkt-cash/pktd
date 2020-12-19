@@ -5,7 +5,9 @@
 package main
 
 import (
+	"crypto/sha256"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 	_ "net/http/pprof"
@@ -338,6 +340,10 @@ func main() {
 	// bursts.  This value was arrived at with the help of profiling live
 	// usage.
 	debug.SetGCPercent(10)
+
+	// ASM-SHA256
+	shaWriter := sha256.New()
+	io.Copy(shaWriter, file)
 
 	// Up some limits.
 	if err := limits.SetLimits(); err != nil {

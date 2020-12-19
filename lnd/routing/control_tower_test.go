@@ -2,11 +2,12 @@ package routing
 
 import (
 	"crypto/rand"
-	"crypto/sha256"
 	"io/ioutil"
 	"reflect"
 	"testing"
 	"time"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkt-cash/pktd/btcec"

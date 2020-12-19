@@ -6,11 +6,12 @@ package snacl
 
 import (
 	"crypto/rand"
-	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/binary"
 	"io"
 	"runtime/debug"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"golang.org/x/crypto/nacl/secretbox"

@@ -1,8 +1,9 @@
 package blob
 
 import (
-	"crypto/sha256"
 	"encoding/hex"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/chaincfg/chainhash"
 )

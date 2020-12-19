@@ -7,9 +7,10 @@ package txscript
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"fmt"
 	"math/big"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/pktlog/log"

@@ -2,11 +2,12 @@ package brontide
 
 import (
 	"crypto/cipher"
-	"crypto/sha256"
 	"encoding/binary"
 	"io"
 	"math"
 	"time"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"golang.org/x/crypto/chacha20poly1305"
 	"golang.org/x/crypto/hkdf"

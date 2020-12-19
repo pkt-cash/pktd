@@ -3,9 +3,10 @@ package chanbackup
 import (
 	"bytes"
 	"crypto/rand"
-	"crypto/sha256"
 	"io"
 	"io/ioutil"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/btcutil/util"

@@ -1,9 +1,10 @@
 package htlcswitch
 
 import (
-	"crypto/sha256"
 	"testing"
 	"time"
+
+	sha256 "github.com/minio/sha256-simd"
 
 	"github.com/pkt-cash/pktd/lnd/lntypes"
 	"github.com/pkt-cash/pktd/lnd/lnwallet"
