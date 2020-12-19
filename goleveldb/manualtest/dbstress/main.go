@@ -626,7 +626,7 @@ func main() {
 
 	go func() {
 		sig := make(chan os.Signal)
-		signal.Notify(sig, os.Interrupt, os.Kill)
+		signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
 		log.Printf("Got signal: %v, exiting...", <-sig)
 		atomic.StoreUint32(&done, 1)
 	}()
