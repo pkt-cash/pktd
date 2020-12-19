@@ -259,7 +259,7 @@ func (s *latencyStats) record(n int) {
 	if s.mark.IsZero() {
 		panic("not started")
 	}
-	dur := time.Now().Sub(s.mark)
+	dur := time.Since(s.mark)
 	dur1 := dur / time.Duration(n)
 	if dur1 < s.min || s.min == 0 {
 		s.min = dur1
@@ -413,7 +413,7 @@ func main() {
 
 			log.Print("------------------------")
 
-			log.Printf("> Elapsed=%v", time.Now().Sub(startTime))
+			log.Printf("> Elapsed=%v", time.Since(startTime))
 			mu.Lock()
 			log.Printf("> GetLatencyMin=%v GetLatencyMax=%v GetLatencyAvg=%v GetRatePerSec=%d",
 				gGetStat.min, gGetStat.max, gGetStat.avg(), gGetStat.ratePerSec())
@@ -615,7 +615,7 @@ func main() {
 						} else {
 							writeAckAck <- struct{}{}
 						}
-						log.Printf("[%02d] SCANNER #%d Deleted=%d Time=%v", ns, i, delB.Len(), time.Now().Sub(t))
+						log.Printf("[%02d] SCANNER #%d Deleted=%d Time=%v", ns, i, delB.Len(), time.Since(t))
 					}
 
 					i++
