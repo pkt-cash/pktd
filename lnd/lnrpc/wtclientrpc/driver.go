@@ -45,10 +45,7 @@ func createNewSubServer(configRegistry lnrpc.SubServerConfigDispatcher) (
 func init() {
 	subServer := &lnrpc.SubServerDriver{
 		SubServerName: subServerName,
-		New: func(c lnrpc.SubServerConfigDispatcher) (lnrpc.SubServer,
-			lnrpc.MacaroonPerms, er.R) {
-			return createNewSubServer(c)
-		},
+		New:           createNewSubServer,
 	}
 
 	// If the build tag is active, then we'll register ourselves as a
