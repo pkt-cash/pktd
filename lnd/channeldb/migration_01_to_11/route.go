@@ -115,7 +115,7 @@ type Hop struct {
 func (h *Hop) PackHopPayload(w io.Writer, nextChanID uint64) er.R {
 	// If this is a legacy payload, then we'll exit here as this method
 	// shouldn't be called.
-	if h.LegacyPayload == true {
+	if h.LegacyPayload {
 		return er.Errorf("cannot pack hop payloads for legacy " +
 			"payloads")
 	}
