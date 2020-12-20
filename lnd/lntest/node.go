@@ -235,27 +235,7 @@ func (cfg NodeConfig) genArgs() []string {
 
 	backendArgs := cfg.BackendCfg.GenArgs()
 	args = append(args, backendArgs...)
-	args = append(args, "--bitcoin.active")
-	args = append(args, "--nobootstrap")
-	args = append(args, "--debuglevel=debug")
-	args = append(args, "--bitcoin.defaultchanconfs=1")
-	args = append(args, fmt.Sprintf("--bitcoin.defaultremotedelay=%v", DefaultCSV))
-	args = append(args, fmt.Sprintf("--rpclisten=%v", cfg.RPCAddr()))
-	args = append(args, fmt.Sprintf("--restlisten=%v", cfg.RESTAddr()))
-	args = append(args, fmt.Sprintf("--restcors=https://%v", cfg.RESTAddr()))
-	args = append(args, fmt.Sprintf("--listen=%v", cfg.P2PAddr()))
-	args = append(args, fmt.Sprintf("--externalip=%v", cfg.P2PAddr()))
-	args = append(args, fmt.Sprintf("--logdir=%v", cfg.LogDir))
-	args = append(args, fmt.Sprintf("--datadir=%v", cfg.DataDir))
-	args = append(args, fmt.Sprintf("--tlscertpath=%v", cfg.TLSCertPath))
-	args = append(args, fmt.Sprintf("--tlskeypath=%v", cfg.TLSKeyPath))
-	args = append(args, fmt.Sprintf("--configfile=%v", cfg.DataDir))
-	args = append(args, fmt.Sprintf("--adminmacaroonpath=%v", cfg.AdminMacPath))
-	args = append(args, fmt.Sprintf("--readonlymacaroonpath=%v", cfg.ReadMacPath))
-	args = append(args, fmt.Sprintf("--invoicemacaroonpath=%v", cfg.InvoiceMacPath))
-	args = append(args, fmt.Sprintf("--trickledelay=%v", trickleDelay))
-	args = append(args, fmt.Sprintf("--profile=%d", cfg.ProfilePort))
-	args = append(args, fmt.Sprintf("--protocol.legacy.no-gossip-throttle"))
+	args = append(args, "--bitcoin.active", "--nobootstrap", "--debuglevel=debug", "--bitcoin.defaultchanconfs=1", fmt.Sprintf("--bitcoin.defaultremotedelay=%v", DefaultCSV), fmt.Sprintf("--rpclisten=%v", cfg.RPCAddr()), fmt.Sprintf("--restlisten=%v", cfg.RESTAddr()), fmt.Sprintf("--restcors=https://%v", cfg.RESTAddr()), fmt.Sprintf("--listen=%v", cfg.P2PAddr()), fmt.Sprintf("--externalip=%v", cfg.P2PAddr()), fmt.Sprintf("--logdir=%v", cfg.LogDir), fmt.Sprintf("--datadir=%v", cfg.DataDir), fmt.Sprintf("--tlscertpath=%v", cfg.TLSCertPath), fmt.Sprintf("--tlskeypath=%v", cfg.TLSKeyPath), fmt.Sprintf("--configfile=%v", cfg.DataDir), fmt.Sprintf("--adminmacaroonpath=%v", cfg.AdminMacPath), fmt.Sprintf("--readonlymacaroonpath=%v", cfg.ReadMacPath), fmt.Sprintf("--invoicemacaroonpath=%v", cfg.InvoiceMacPath), fmt.Sprintf("--trickledelay=%v", trickleDelay), fmt.Sprintf("--profile=%d", cfg.ProfilePort), fmt.Sprintf("--protocol.legacy.no-gossip-throttle"))
 
 	if !cfg.HasSeed {
 		args = append(args, "--noseedbackup")
@@ -270,8 +250,7 @@ func (cfg NodeConfig) genArgs() []string {
 	}
 
 	if cfg.Etcd {
-		args = append(args, "--db.backend=etcd")
-		args = append(args, "--db.etcd.embedded")
+		args = append(args, "--db.backend=etcd", "--db.etcd.embedded")
 	}
 
 	if cfg.FeeURL != "" {

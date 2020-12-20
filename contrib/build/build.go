@@ -104,8 +104,7 @@ func main() {
 	chkdir()
 	conf := config{}
 	conf.bindir = "./bin"
-	conf.buildargs = append(conf.buildargs, "-trimpath")
-	conf.buildargs = append(conf.buildargs, "-ldflags="+ldflags())
+	conf.buildargs = append(conf.buildargs, "-trimpath", "-ldflags="+ldflags())
 	os.Setenv("CGO_ENABLED", "0")
 	os.Setenv("GOMAXPROCS", "64")
 
