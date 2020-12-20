@@ -38,7 +38,7 @@ func ValidateAPI(label string) (string, er.R) {
 
 	// If no label was provided by the user, add the generic user
 	// send label.
-	if len(label) == 0 {
+	if label == "" {
 		return External, nil
 	}
 

@@ -2400,7 +2400,7 @@ func (w *Wallet) reliablyPublishTransaction(tx *wire.MsgTx, label string) (*chai
 		}
 
 		// If the tx label is empty, we can return early.
-		if len(label) == 0 {
+		if label == "" {
 			return nil
 		}
 

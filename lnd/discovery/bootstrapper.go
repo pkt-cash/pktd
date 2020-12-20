@@ -452,7 +452,7 @@ search:
 
 			// If the host isn't correctly formatted, then we'll
 			// skip it.
-			if len(bechNodeHost) == 0 ||
+			if bechNodeHost == "" ||
 				!strings.Contains(bechNodeHost, ".") {
 
 				continue

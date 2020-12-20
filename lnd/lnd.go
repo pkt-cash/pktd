@@ -1551,7 +1551,7 @@ func initNeutrinoBackend(cfg *Config, chainDir string) (*neutrino.ChainService,
 // parseHeaderStateAssertion parses the user-specified neutrino header state
 // into a headerfs.FilterHeader.
 func parseHeaderStateAssertion(state string) (*headerfs.FilterHeader, er.R) {
-	if len(state) == 0 {
+	if state == "" {
 		return nil, nil
 	}
 

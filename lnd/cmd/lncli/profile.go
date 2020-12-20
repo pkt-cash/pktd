@@ -81,7 +81,7 @@ func getGlobalOptions(ctx *cli.Context, skipMacaroons bool) (*profileEntry, er.R
 	// There is a file, but no default profile is specified. The user also
 	// didn't specify a profile to use so we fall back to the default/old
 	// behavior.
-	case !ctx.GlobalIsSet("profile") && len(f.Default) == 0:
+	case !ctx.GlobalIsSet("profile") && f.Default == "":
 		return profileFromContext(ctx, false, skipMacaroons)
 
 	// The user didn't specify a profile but there is a default one defined.
