@@ -149,7 +149,7 @@ func New(chainDir string, params *chaincfg.Params, noFreelistSync bool,
 
 func (u *UnlockerService) GenSeed(_ context.Context,
 	in *lnrpc.GenSeedRequest) (*lnrpc.GenSeedResponse, error) {
-	res, err := u.GenSeed0(nil, in)
+	res, err := u.GenSeed0(context.TODO(), in)
 	return res, er.Native(err)
 }
 
