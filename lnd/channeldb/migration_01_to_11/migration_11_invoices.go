@@ -175,13 +175,13 @@ func deserializeInvoiceLegacy(r io.Reader) (Invoice, er.R) {
 // serializeInvoiceLegacy serializes an invoice in the format of the previous db
 // version.
 func serializeInvoiceLegacy(w io.Writer, i *Invoice) er.R {
-	if err := wire.WriteVarBytes(w, 0, i.Memo[:]); err != nil {
+	if err := wire.WriteVarBytes(w, 0, i.Memo); err != nil {
 		return err
 	}
-	if err := wire.WriteVarBytes(w, 0, i.Receipt[:]); err != nil {
+	if err := wire.WriteVarBytes(w, 0, i.Receipt); err != nil {
 		return err
 	}
-	if err := wire.WriteVarBytes(w, 0, i.PaymentRequest[:]); err != nil {
+	if err := wire.WriteVarBytes(w, 0, i.PaymentRequest); err != nil {
 		return err
 	}
 

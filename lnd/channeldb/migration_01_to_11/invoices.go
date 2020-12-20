@@ -298,13 +298,13 @@ func (d *DB) FetchAllInvoices(pendingOnly bool) ([]Invoice, er.R) {
 // would modify the on disk format, make a copy of the original code and store
 // it with the migration.
 func serializeInvoice(w io.Writer, i *Invoice) er.R {
-	if err := wire.WriteVarBytes(w, 0, i.Memo[:]); err != nil {
+	if err := wire.WriteVarBytes(w, 0, i.Memo); err != nil {
 		return err
 	}
-	if err := wire.WriteVarBytes(w, 0, i.Receipt[:]); err != nil {
+	if err := wire.WriteVarBytes(w, 0, i.Receipt); err != nil {
 		return err
 	}
-	if err := wire.WriteVarBytes(w, 0, i.PaymentRequest[:]); err != nil {
+	if err := wire.WriteVarBytes(w, 0, i.PaymentRequest); err != nil {
 		return err
 	}
 

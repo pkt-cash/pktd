@@ -487,7 +487,7 @@ func fetchPaymentMigration9(bucket kvdb.RBucket) (*Payment, er.R) {
 	b = bucket.Get(paymentSettleInfoKey)
 	if b != nil {
 		var preimg lntypes.Preimage
-		copy(preimg[:], b[:])
+		copy(preimg[:], b)
 		p.PaymentPreimage = &preimg
 	}
 

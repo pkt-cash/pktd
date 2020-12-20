@@ -250,7 +250,7 @@ func (r *RootKeyStorage) Get(_ context.Context, id []byte) ([]byte, error) {
 		}
 
 		rootKey = make([]byte, len(decKey))
-		copy(rootKey[:], decKey)
+		copy(rootKey, decKey)
 		return nil
 	}, func() {
 		rootKey = nil
@@ -300,7 +300,7 @@ func (r *RootKeyStorage) RootKey(ctx context.Context) ([]byte, []byte, error) {
 			}
 
 			rootKey = make([]byte, len(decKey))
-			copy(rootKey[:], decKey[:])
+			copy(rootKey, decKey)
 			return nil
 		}
 

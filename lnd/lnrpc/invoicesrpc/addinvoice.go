@@ -222,7 +222,7 @@ func AddInvoice(ctx context.Context, cfg *AddInvoiceConfig,
 	// If not, use the memo field as the payment request description.
 	if len(invoice.DescriptionHash) > 0 {
 		var descHash [32]byte
-		copy(descHash[:], invoice.DescriptionHash[:])
+		copy(descHash[:], invoice.DescriptionHash)
 		options = append(options, zpay32.DescriptionHash(descHash))
 	} else {
 		// Use the memo field as the description. If this is not set

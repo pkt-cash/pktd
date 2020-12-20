@@ -1199,7 +1199,7 @@ func TestAddEdgeUnknownVertexes(t *testing.T) {
 	)
 	node1Bytes := priv1.PubKey().SerializeCompressed()
 	node2Bytes := connectNode
-	if bytes.Compare(node1Bytes[:], node2Bytes[:]) == -1 {
+	if bytes.Compare(node1Bytes, node2Bytes[:]) == -1 {
 		pubKey1 = priv1.PubKey()
 		pubKey2 = connectNodeKey
 	} else {

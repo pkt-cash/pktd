@@ -468,7 +468,7 @@ func (b *Machine) GenActOne() ([ActOneSize]byte, er.R) {
 	if err != nil {
 		return actOne, err
 	}
-	b.mixKey(s[:])
+	b.mixKey(s)
 
 	authPayload := b.EncryptAndHash([]byte{})
 

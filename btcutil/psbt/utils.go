@@ -241,7 +241,7 @@ func getKey(r io.Reader) (int, []byte, er.R) {
 	// Next, we ready out the designated number of bytes, which may include
 	// a type, key, and optional data.
 	keyTypeAndData := make([]byte, count)
-	if _, err := io.ReadFull(r, keyTypeAndData[:]); err != nil {
+	if _, err := io.ReadFull(r, keyTypeAndData); err != nil {
 		return -1, nil, er.E(err)
 	}
 

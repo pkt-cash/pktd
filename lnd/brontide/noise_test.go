@@ -544,7 +544,7 @@ func TestBolt0008TestVectors(t *testing.T) {
 			}
 			if !bytes.Equal(buf.Bytes(), binaryVal) {
 				t.Fatalf("Ciphertext %x was not equal to expected %s",
-					buf.String()[:], val)
+					buf.String(), val)
 			}
 		}
 

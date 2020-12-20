@@ -274,7 +274,7 @@ func NewOnionPacket(paymentPath *PaymentPath, sessionKey *btcec.PrivateKey,
 		// Once the packet for this hop has been assembled, we'll
 		// re-encrypt the packet by XOR'ing with a stream of bytes
 		// generated using our shared secret.
-		xor(mixHeader[:], mixHeader[:], streamBytes[:])
+		xor(mixHeader[:], mixHeader[:], streamBytes)
 
 		// If this is the "last" hop, then we'll override the tail of
 		// the hop data.

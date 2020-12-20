@@ -723,7 +723,7 @@ func testCoopClose(t *testing.T, testCase *coopCloseTestCase) {
 	}
 	defer cleanUp()
 
-	aliceDeliveryScript := bobsPrivKey[:]
+	aliceDeliveryScript := bobsPrivKey
 	bobDeliveryScript := testHdSeed[:]
 
 	aliceFeeRate := chainfee.SatPerKWeight(
@@ -2191,7 +2191,7 @@ func TestCooperativeCloseDustAdherence(t *testing.T) {
 		bobChannel.channelState.LocalCommitment.RemoteBalance = aliceBalance
 	}
 
-	aliceDeliveryScript := bobsPrivKey[:]
+	aliceDeliveryScript := bobsPrivKey
 	bobDeliveryScript := testHdSeed[:]
 
 	// We'll start be initializing the limit of both Alice and Bob to 10k

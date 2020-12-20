@@ -282,7 +282,7 @@ func (hp *HopPayload) Decode(r io.Reader) er.R {
 	//
 	// TODO(roasbeef): can avoid all these copies
 	hp.Payload = make([]byte, payloadSize)
-	if _, err := io.ReadFull(bufReader, hp.Payload[:]); err != nil {
+	if _, err := io.ReadFull(bufReader, hp.Payload); err != nil {
 		return er.E(err)
 	}
 	if _, err := io.ReadFull(bufReader, hp.HMAC[:]); err != nil {

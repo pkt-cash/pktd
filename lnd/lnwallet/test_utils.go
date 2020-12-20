@@ -130,14 +130,14 @@ func CreateTestChannels(chanType channeldb.ChannelType) (
 	)
 	for i := 0; i < 5; i++ {
 		key := make([]byte, len(testWalletPrivKey))
-		copy(key[:], testWalletPrivKey[:])
+		copy(key, testWalletPrivKey)
 		key[0] ^= byte(i + 1)
 
 		aliceKey, _ := btcec.PrivKeyFromBytes(btcec.S256(), key)
 		aliceKeys = append(aliceKeys, aliceKey)
 
 		key = make([]byte, len(bobsPrivKey))
-		copy(key[:], bobsPrivKey)
+		copy(key, bobsPrivKey)
 		key[0] ^= byte(i + 1)
 
 		bobKey, _ := btcec.PrivKeyFromBytes(btcec.S256(), key)

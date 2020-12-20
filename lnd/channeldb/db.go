@@ -443,7 +443,7 @@ func (db *DB) fetchOpenChannels(tx kvdb.RTx,
 		chainBucket := nodeChanBucket.NestedReadBucket(chainHash)
 		if chainBucket == nil {
 			return er.Errorf("unable to read bucket for chain=%x",
-				chainHash[:])
+				chainHash)
 		}
 
 		// Finally, we both of the necessary buckets retrieved, fetch
@@ -452,7 +452,7 @@ func (db *DB) fetchOpenChannels(tx kvdb.RTx,
 		if err != nil {
 			return er.Errorf("unable to read channel for "+
 				"chain_hash=%x, node_key=%x: %v",
-				chainHash[:], pub, err)
+				chainHash, pub, err)
 		}
 
 		channels = append(channels, nodeChannels...)
@@ -560,7 +560,7 @@ func (d *DB) FetchChannel(chanPoint wire.OutPoint) (*OpenChannel, er.R) {
 				)
 				if chainBucket == nil {
 					return er.Errorf("unable to read "+
-						"bucket for chain=%x", chainHash[:])
+						"bucket for chain=%x", chainHash)
 				}
 
 				// Finally we reach the leaf bucket that stores
@@ -718,14 +718,14 @@ func fetchChannels(d *DB, filters ...fetchChannelsFilter) ([]*OpenChannel, er.R)
 				)
 				if chainBucket == nil {
 					return er.Errorf("unable to read "+
-						"bucket for chain=%x", chainHash[:])
+						"bucket for chain=%x", chainHash)
 				}
 
 				nodeChans, err := d.fetchNodeChannels(chainBucket)
 				if err != nil {
 					return er.Errorf("unable to read "+
 						"channel for chain_hash=%x, "+
-						"node_key=%x: %v", chainHash[:], k, err)
+						"node_key=%x: %v", chainHash, k, err)
 				}
 				for _, channel := range nodeChans {
 					// includeChannel indicates whether the channel

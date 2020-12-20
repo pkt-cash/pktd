@@ -413,7 +413,7 @@ func PayDescsFromRemoteLogUpdates(chanID lnwire.ShortChannelID, height uint64,
 				},
 			}
 			pd.OnionBlob = make([]byte, len(wireMsg.OnionBlob))
-			copy(pd.OnionBlob[:], wireMsg.OnionBlob[:])
+			copy(pd.OnionBlob, wireMsg.OnionBlob[:])
 
 		case *lnwire.UpdateFulfillHTLC:
 			pd = PaymentDescriptor{
@@ -734,7 +734,7 @@ func (c *commitment) toDiskCommit(ourCommit bool) *channeldb.ChannelCommitment {
 			Incoming:      false,
 		}
 		h.OnionBlob = make([]byte, len(htlc.OnionBlob))
-		copy(h.OnionBlob[:], htlc.OnionBlob)
+		copy(h.OnionBlob, htlc.OnionBlob)
 
 		if ourCommit && htlc.sig != nil {
 			h.Signature = htlc.sig.Serialize()
@@ -759,7 +759,7 @@ func (c *commitment) toDiskCommit(ourCommit bool) *channeldb.ChannelCommitment {
 			Incoming:      true,
 		}
 		h.OnionBlob = make([]byte, len(htlc.OnionBlob))
-		copy(h.OnionBlob[:], htlc.OnionBlob)
+		copy(h.OnionBlob, htlc.OnionBlob)
 
 		if ourCommit && htlc.sig != nil {
 			h.Signature = htlc.sig.Serialize()
@@ -1427,7 +1427,7 @@ func (lc *LightningChannel) logUpdateToPayDesc(logUpdate *channeldb.LogUpdate,
 			addCommitHeightRemote: commitHeight,
 		}
 		pd.OnionBlob = make([]byte, len(wireMsg.OnionBlob))
-		copy(pd.OnionBlob[:], wireMsg.OnionBlob[:])
+		copy(pd.OnionBlob, wireMsg.OnionBlob[:])
 
 		isDustRemote := htlcIsDust(
 			lc.channelState.ChanType, false, false, feeRate,
@@ -4200,7 +4200,7 @@ type InvalidCommitSigError struct {
 func (i *InvalidCommitSigError) Error() string {
 	return fmt.Sprintf("rejected commitment: commit_height=%v, "+
 		"invalid_commit_sig=%x, commit_tx=%x, sig_hash=%x", i.commitHeight,
-		i.commitSig[:], i.commitTx, i.sigHash[:])
+		i.commitSig, i.commitTx, i.sigHash)
 }
 
 // A compile time flag to ensure that InvalidCommitSigError implements the
@@ -4229,7 +4229,7 @@ type InvalidHtlcSigError struct {
 func (i *InvalidHtlcSigError) Error() string {
 	return fmt.Sprintf("rejected commitment: commit_height=%v, "+
 		"invalid_htlc_sig=%x, commit_tx=%x, sig_hash=%x", i.commitHeight,
-		i.htlcSig, i.commitTx, i.sigHash[:])
+		i.htlcSig, i.commitTx, i.sigHash)
 }
 
 // A compile time flag to ensure that InvalidCommitSigError implements the

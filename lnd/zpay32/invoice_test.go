@@ -122,7 +122,7 @@ var (
 )
 
 func init() {
-	copy(testDescriptionHash[:], testDescriptionHashSlice[:])
+	copy(testDescriptionHash[:], testDescriptionHashSlice)
 
 	// Initialize litecoin testnet and mainnet params by applying key fields
 	// to copies of bitcoin params.

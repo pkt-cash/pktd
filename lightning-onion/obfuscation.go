@@ -58,7 +58,7 @@ func (c *Circuit) Decode(r io.Reader) er.R {
 	}
 
 	sessionKeyData := make([]byte, uint8(keyLength[0]))
-	if _, err := r.Read(sessionKeyData[:]); err != nil {
+	if _, err := r.Read(sessionKeyData); err != nil {
 		return er.E(err)
 	}
 
