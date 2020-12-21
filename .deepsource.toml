@@ -1,12 +1,5 @@
 version = 1
 
-test_patterns = [
-    "*/test/**",
-    "*test*.go",
-    "/*test*.go",
-    "/*/test*go"
-]
-
 [[analyzers]]
 name = "go"
 enabled = true
@@ -19,7 +12,7 @@ name = "test-coverage"
 enabled = true
 
 [[analyzers]]
-name = "ruby"
+name = "docker"
 enabled = true
 
 [[analyzers]]
