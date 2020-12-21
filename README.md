@@ -3,14 +3,14 @@
 ## A blockchain utilizing [PacketCrypt]((https://pkt.cash/PacketCrypt-2020-09-04.pdf)), a new *bandwidth-hard* proof-of-work algorithm
 
  [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org)
- [![PkgGoDev](https://pkg.go.dev/badge/github.com/pkt-cash/pktd)](https://pkg.go.dev/github.com/pkt-cash/pktd)
- [![GoReport](https://goreportcard.com/badge/github.com/pkt-cash/pktd)](https://goreportcard.com/report/github.com/pkt-cash/pktd)
- [![GitHubRelease](https://img.shields.io/github/release/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd/releases/)
- [![GitHubTag](https://img.shields.io/github/tag/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd/tags/)
- [![LocCount](https://img.shields.io/tokei/lines/github/pkt-cash/pktd.svg)](https://github.com/XAMPPRocky/tokei)
- [![GitHubCodeSize](https://img.shields.io/github/languages/code-size/pkt-cash/pktd.svg)](https://github.com/pkt-cash/pktd)
- [![CoverageStatus](https://coveralls.io/repos/pkt-cash/pktd/badge.svg?branch=develop)](https://coveralls.io/pkt-cash/pktd?branch=develop)
- [![TickgitTODOs](https://img.shields.io/endpoint?url=https://api.tickgit.com/badge?repo=github.com/pkt-cash/pktd)](https://www.tickgit.com/browse?repo=github.com/pkt-cash/pktd)
+ [![PkgGoDev](https://pkg.go.dev/badge/github.com/gridfinity/pktd)](https://pkg.go.dev/github.com/gridfinity/pktd)
+ [![GoReport](https://goreportcard.com/badge/github.com/gridfinity/pktd)](https://goreportcard.com/report/github.com/gridfinity/pktd)
+ [![GitHubRelease](https://img.shields.io/github/release/gridfinity/pktd.svg)](https://github.com/gridfinity/pktd/releases/)
+ [![GitHubTag](https://img.shields.io/github/tag/gridfinity/pktd.svg)](https://github.com/gridfinity/pktd/tags/)
+ [![LocCount](https://img.shields.io/tokei/lines/github/gridfinity/pktd.svg)](https://github.com/XAMPPRocky/tokei)
+ [![GitHubCodeSize](https://img.shields.io/github/languages/code-size/gridfinity/pktd.svg)](https://github.com/gridfinity/pktd)
+ [![CoverageStatus](https://coveralls.io/repos/gridfinity/pktd/badge.svg?branch=develop)](https://coveralls.io/gridfinity/pktd?branch=develop)
+ [![TickgitTODOs](https://img.shields.io/endpoint?url=https://api.tickgit.com/badge?repo=github.com/gridfinity/pktd)](https://www.tickgit.com/browse?repo=github.com/gridfinity/pktd)
 
 ### pktd
 
@@ -52,7 +52,7 @@ Unlike most cryptocurrency software, `pktd` does *NOT* provide any "built-in"
 wallet capability. This intentional design decision was made to enhance overall
 security and software modularity. While this means you cannot make or receive
 payments using `pktd` directly; this functionality is provided by the bundled,
-but separate, [pktwallet](https://github.com/pkt-cash/pktd/pktwallet) package.
+but separate, [pktwallet](https://github.com/gridfinity/pktd/pktwallet) package.
 Additional alternative wallet packages are currently under active development.
 
 ### Requirements
@@ -63,7 +63,7 @@ Additional alternative wallet packages are currently under active development.
 ### Building pktd
 
 * Using `git`, clone the project from the repository:
-  * `git clone https://github.com/pkt-cash/pktd`
+  * `git clone https://github.com/gridfinity/pktd`
 * Then, use the `do` script to build `pktd`, `pktwallet`, and `pktctl`:
   * `cd pktd && ./do`
 
@@ -77,9 +77,9 @@ Additional alternative wallet packages are currently under active development.
 
 ### Bug Reporting
 
-The **GitHub** [**Issue Tracker**](https://github.com/pkt-cash/pktd/issues) is used for this project.
+The **GitHub** [**Issue Tracker**](https://github.com/gridfinity/pktd/issues) is used for this project.
 
-* All users submitting a [new bug report](https://github.com/pkt-cash/pktd/issues/new/choose) should attach the output of:
+* All users submitting a [new bug report](https://github.com/gridfinity/pktd/issues/new/choose) should attach the output of:
   * `go version`, `go env`
     * `git describe --tags --always --abbrev=40`, `git status -s -b`
   * macOS X users should attach the output of:
@@ -130,14 +130,14 @@ Currently, documentation for `pktd`, `pktwallet`, and `pktctl` is a "work-in-pro
 **GoDoc** documentation is provided, but is mostly developer-focused at this time.
 It can be viewed by running `godoc -http=:6543` in the directory containing the
 `pktd` source code tree, then loading
-[http://localhost:6543/pkg/github.com/pkt-cash/pktd/](http://localhost:6543/pkg/github.com/pkt-cash/pktd/)
+[http://localhost:6543/pkg/github.com/gridfinity/pktd/](http://localhost:6543/pkg/github.com/gridfinity/pktd/)
 in a web browser.
 
 The same **GoDoc** documentation is also available at
-[pkg.go.dev/github.com/pkt-cash/pktd](https://pkg.go.dev/github.com/pkt-cash/pktd),
+[pkg.go.dev/github.com/gridfinity/pktd](https://pkg.go.dev/github.com/gridfinity/pktd),
 which does not require a local copy of the source code, or the `godoc` tool installed.
 
-There is also documentation in the [docs](https://github.com/pkt-cash/pktd/tree/develop/docs)
+There is also documentation in the [docs](https://github.com/gridfinity/pktd/tree/develop/docs)
 directory of the source tree available for review.
 
 ### Community
