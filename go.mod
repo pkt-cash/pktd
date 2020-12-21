@@ -38,7 +38,7 @@ require (
 	github.com/gorilla/websocket v1.4.3-0.20200912193213-c3dd95aea977
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.1-0.20190118093823-f849b5445de4
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
-	github.com/grpc-ecosystem/grpc-gateway v1.14.3
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/hdevalence/ed25519consensus v0.0.0-20201207055737-7fde80a9d5ff
 	github.com/jackpal/gateway v1.0.7-0.20201119002851-2ba2a7cd5c7b
 	github.com/jackpal/go-nat-pmp v1.0.2
@@ -86,7 +86,7 @@ require (
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324
 	golang.org/x/tools v0.0.0-20201218024724-ae774e9781d2 // indirect
 	google.golang.org/genproto v0.0.0-20201214200347-8c77b98c765d // indirect
-	google.golang.org/grpc v1.29.1
+	google.golang.org/grpc v1.33.1
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/errgo.v1 v1.0.1 // indirect
 	gopkg.in/macaroon-bakery.v2 v2.0.1
