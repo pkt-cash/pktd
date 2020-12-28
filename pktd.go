@@ -15,7 +15,6 @@ import (
 	"runtime/debug"
 	"runtime/pprof"
 	"time"
-
 	"github.com/arl/statsviz"
 	"github.com/pkt-cash/pktd/blockchain/indexers"
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -31,6 +30,8 @@ const (
 	// database type is appended to this value to form the full block
 	// database name.
 	blockDbNamePrefix = "blocks"
+
+	
 )
 
 var cfg *config
@@ -45,8 +46,17 @@ var winServiceMain func() (bool, er.R)
 // notified with the server once it is setup so it can gracefully stop it when
 // requested from the service control manager.
 func pktdMain(serverChan chan<- *server) er.R {
-	// Unconditionally show the version informatin at startup.
-	log.Infof("Version %s", version.Version())
+	// Unconditionally, show version and system information at early startup.
+	log.Infof(
+		"Version %s\nBuilt with %v %v for %v/%v\n%v logical CPUs, %v goroutines available",
+		version.Version(),
+		runtime.Compiler,
+		runtime.Version(),
+		runtime.GOOS,
+		runtime.GOARCH,
+		runtime.NumCPU(),
+		runtime.GOMAXPROCS(-1),
+	)
 
 	// Load configuration and parse command line.  This function also
 	// initializes logging and configures it accordingly.
@@ -59,6 +69,15 @@ func pktdMain(serverChan chan<- *server) er.R {
 	// Warn if running a pre-released pktd
 	log.WarnIfPrerelease()
 
+	// Warn if not running on a 64-bit architecture
+	is64bit := uint64(^uintptr(0)) == ^uint64(0)
+	if !is64bit {
+		log.Warnf(
+			"UNSUPPORTED ARCHITECTURE: ONLY 64-BIT ARCHITECTURES ARE SUPPORTED",
+		)
+	}
+
+	// 
 	// Get a channel that will be closed when a shutdown signal has been
 	// triggered either from an OS signal such as SIGINT (Ctrl+C) or from
 	// another subsystem such as the RPC server.
@@ -108,17 +127,22 @@ func pktdMain(serverChan chan<- *server) er.R {
 	}
 
 	// Perform upgrades to pktd as new versions require it.
+	runtime.LockOSThread()
 	if err := doUpgrades(); err != nil {
 		log.Errorf("%v", err)
+		runtime.UnlockOSThread()
 		return err
 	}
 
 	// Return now if an interrupt signal was triggered.
+	runtime.UnlockOSThread()
 	if interruptRequested(interrupt) {
+		runtime.LockOSThread()
 		return nil
 	}
 
 	// Load the block database.
+	runtime.UnlockOSThread()
 	db, err := loadBlockDB()
 	if err != nil {
 		log.Errorf("%v", err)
@@ -127,11 +151,18 @@ func pktdMain(serverChan chan<- *server) er.R {
 	defer func() {
 		// Ensure the database is sync'd and closed on shutdown.
 		log.Infof("Gracefully shutting down the database...")
+		runtime.UnlockOSThread()
+		runtime.GC()
+		runtime.Gosched()
 		db.Close()
+		runtime.GC()
+		debug.FreeOSMemory()
 	}()
 
 	// Return now if an interrupt signal was triggered.
 	if interruptRequested(interrupt) {
+		runtime.GC()
+		debug.FreeOSMemory()
 		return nil
 	}
 
@@ -174,9 +205,14 @@ func pktdMain(serverChan chan<- *server) er.R {
 		return err
 	}
 	defer func() {
-		// Shut down in 2 minutes, or just pull the plug.
-		const shutdownTimeout = 2 * time.Minute
-		log.Infof("Attempting graceful shutdown (%s timeout)...", shutdownTimeout)
+		// Shut down in 5 minutes, or just pull the plug.
+		const shutdownTimeout = 5 * time.Minute
+		log.Infof("Preparing for shutdown...");
+		runtime.Gosched()
+		runtime.GC()
+		debug.FreeOSMemory()
+		log.Infof("Attempting graceful shutdown (%s timeout, %v active goroutines)...", shutdownTimeout, runtime.NumGoroutine())
+		runtime.Gosched()
 		server.Stop()
 		shutdownDone := make(chan struct{})
 		go func() {
@@ -187,9 +223,13 @@ func pktdMain(serverChan chan<- *server) er.R {
 		select {
 		case <-shutdownDone:
 		case <-time.Tick(shutdownTimeout):
-			log.Errorf("Graceful shutdown in %s failed - forcefully terminating in 5s...", shutdownTimeout)
-			time.Sleep(5 * time.Second)
+			log.Errorf("Graceful shutdown in %s failed - forcefully terminating process in 5s...", shutdownTimeout)
+			time.Sleep(3 * time.Second)
 			panic("Forcefully terminating the server process...")
+			time.Sleep(1 * time.Second)
+			runtime.Goexit()
+			time.Sleep(1 * time.Second)
+			throw("\nCowards die many times before their deaths\nThe valiant never taste of death but once.\n")
 		}
 		log.Infof("Server shutdown complete")
 	}()
@@ -334,7 +374,7 @@ func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU() * 6)
 
 	// Block and transaction processing can cause bursty allocations.  This
-	// limits the garbage collector from excessively overallocating during
+	// limits the garbage collector from excessively over-allocating during
 	// bursts.  This value was arrived at with the help of profiling live
 	// usage.
 	debug.SetGCPercent(10)
@@ -362,10 +402,15 @@ func main() {
 	// Work around defer not working after os.Exit()
 	if err := pktdMain(nil); err != nil {
 		os.Exit(1)
+		throw("time to die...")
 	}
 }
 
 func init() {
+	// Clean slate 
+	debug.FreeOSMemory()
+	debug.SetPanicOnFault(false)
+	debug.SetTraceback("all")
 	// Register licensing
 	pktdLegal.RegisterLicense(
 		"\nISC License\n\nCopyright (c) 2020 Anode LLC.\nCopyright (c) 2019-2020 Caleb James DeLisle.\nCopyright (c) 2020 Gridfinity, LLC.\nCopyright (c) 2020 Jeffrey H. Johnson.\nCopyright (c) 2020 Filippo Valsorda.\nCopyright (c) 2020 Frank Denis <j at pureftpd dot org>.\nCopyright (c) 2019 The Go Authors.\nCopyright (C) 2015-2020 Lightning Labs and The Lightning Network Developers.\nCopyright (C) 2015-2018 Lightning Labs.\nCopyright (c) 2013-2017 The btcsuite developers.\nCopyright (c) 2016-2017 The Lightning Network Developers.\nCopyright (c) 2015-2016 The Decred developers.\nCopyright (c) 2015 Google, Inc.\n\nPermission to use, copy, modify, and distribute this software for any\npurpose with or without fee is hereby granted, provided that the above\ncopyright notice and this permission notice appear in all copies.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES\nWITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF\nMERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR\nANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES\nWHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN\nACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF\nOR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.\n",

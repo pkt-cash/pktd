@@ -457,3 +457,6 @@ func Cis(code *ErrorCode, e R) bool {
 	}
 	return code.Is(e)
 }
+
+func init() {
+}

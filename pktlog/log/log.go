@@ -434,7 +434,7 @@ func init() {
 	pktlog := os.Getenv("PKTLOG")
 	if pktlog != "" {
 		if err := SetLogLevels(pktlog); err != nil {
-			Errorf("Error setting log parame: ", err.String())
+			Errorf("Error setting log param: ", err.String())
 		}
 	}
 }
@@ -545,8 +545,12 @@ func C(c func() string) logClosure {
 
 func WarnIfPrerelease() {
 	if version.IsCustom() || version.IsDirty() {
-		Warnf("THIS IS A DEVELOPMENT VERSION, THINGS MAY BREAK")
+		Warnf(
+			"THIS IS A DEVELOPMENT VERSION, THINGS MAY BREAK",
+		)
 	} else if version.IsPrerelease() {
-		Infof("This is a pre-release version")
+		Infof(
+				"This is a pre-release version",
+		)
 	}
 }
