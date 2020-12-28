@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"regexp"
 	"strings"
 )
 
@@ -65,10 +66,14 @@ type config struct {
 	bindir    string
 }
 
-func build(name string, conf *config) {
+func build(name string, pkg string, conf *config) {
+	if os.Getenv("GOOS") == "windows" {
+		name = name + ".exe"
+	}
 	fmt.Printf("Building %s\n", name)
 	args := append([]string{"build", "-o", conf.bindir + "/" + name}, conf.buildargs...)
-	exe(exeNoRedirect, "go", args...)
+	args = append(args, pkg)
+	exe(exeNoRedirect|exeEcho, "go", args...)
 }
 
 func chkdir() {
@@ -100,6 +105,8 @@ func test() {
 	exe(exeNoRedirect, "go", "test", "-count=1", "-cover", "-covermode=atomic", "-bench=.", "-parallel=1", "-cpu=2", "./...", "-tags=dev")
 }
 
+var regex = regexp.MustCompile("[A-Z0-9_]+=.*")
+
 func main() {
 	chkdir()
 	conf := config{}
@@ -109,9 +116,23 @@ func main() {
 	os.Setenv("GOMAXPROCS", "64")
 
 	assertNil(os.MkdirAll(conf.bindir, 0o755), "mkdir bin")
-	build("pktd", &conf)
-	build("pktwallet", &conf)
-	build("pktctl", &conf)
+
+	
+   for _, a := range os.Args {
+       if !regex.MatchString(a) {
+           continue
+       }
+       i := strings.IndexRune(a, '=')
+       fmt.Printf("env %s=%s\n", a[0:i], a[i+1:])
+       os.Setenv(a[0:i], a[i+1:])
+   }
+
+
+
+   build("pktd", ".", &conf)
+   build("pktwallet", "./pktwallet", &conf)
+   build("pktctl", "./cmd/pktctl", &conf)
+
 	if strings.Contains(strings.Join(os.Args, "|"), "--test") {
 		os.Setenv("CGO_ENABLED", "1")
 		test()

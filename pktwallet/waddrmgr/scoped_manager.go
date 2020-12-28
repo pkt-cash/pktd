@@ -1534,12 +1534,6 @@ func (s *ScopedKeyManager) ImportPrivateKey(ns walletdb.ReadWriteBucket,
 	// Prevent duplicates.
 	serializedPubKey := wif.SerializePubKey()
 	pubKeyHash := btcutil.Hash160(serializedPubKey)
-	alreadyExists := s.existsAddress(ns, pubKeyHash)
-	if alreadyExists {
-		str := fmt.Sprintf("address for public key %x already exists",
-			serializedPubKey)
-		return nil, managerError(ErrDuplicateAddress, str, nil)
-	}
 
 	// Encrypt public key.
 	encryptedPubKey, err := s.rootManager.cryptoKeyPub.Encrypt(

@@ -134,6 +134,7 @@ type ImportPrivKeyCmd struct {
 	PrivKey string
 	Label   *string
 	Rescan  *bool `jsonrpcdefault:"true"`
+	Legacy  *bool `jsonrpcdefault:"false"`
 }
 
 // NewImportPrivKeyCmd returns a new instance which can be used to issue a

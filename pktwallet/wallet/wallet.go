@@ -473,6 +473,9 @@ func (w *Wallet) syncWithChain(birthdayStamp *waddrmgr.BlockStamp) er.R {
 			Addr:        txscript.PkScriptToAddress(c.PkScript, w.chainParams),
 		})
 	}
+	for _, a := range addrs {
+		log.Debugf("Watching address [%s]", a.String())
+	}
 	w.watch.WatchAddrs(addrs)
 	w.watch.WatchOutpoints(ao)
 
@@ -1887,28 +1890,7 @@ func (w *Wallet) ImportPrivateKey(scope waddrmgr.KeyScope, wif *btcutil.WIF,
 			return err
 		}
 		addr = maddr.Address()
-
-		// We'll only update our birthday with the new one if it is
-		// before our current one. Otherwise, if we do, we can
-		// potentially miss detecting relevant chain events that
-		// occurred between them while rescanning.
-		birthdayBlock, _, err := w.Manager.BirthdayBlock(addrmgrNs)
-		if err != nil {
-			return err
-		}
-		if bs.Height >= birthdayBlock.Height {
-			return nil
-		}
-
-		err = w.Manager.SetBirthday(addrmgrNs, bs.Timestamp)
-		if err != nil {
-			return err
-		}
-
-		// To ensure this birthday block is correct, we'll mark it as
-		// unverified to prompt a sanity check at the next restart to
-		// ensure it is correct as it was provided by the caller.
-		return w.Manager.SetBirthdayBlock(addrmgrNs, *bs, false)
+		return nil
 	})
 	if err != nil {
 		return "", err
@@ -1921,7 +1903,7 @@ func (w *Wallet) ImportPrivateKey(scope waddrmgr.KeyScope, wif *btcutil.WIF,
 		// Do not block on finishing the rescan.  The rescan success
 		// or failure is logged elsewhere, and the channel is not
 		// required to be read, so discard the return value.
-		name := fmt.Sprintf("import-%s-rescan", addr.EncodeAddress())
+		name := fmt.Sprintf("import-%s-resync", addr.EncodeAddress())
 		watch := watcher.New()
 		watch.WatchAddr(addr)
 		w.rescanJ = &rescanJob{
@@ -1930,9 +1912,8 @@ func (w *Wallet) ImportPrivateKey(scope waddrmgr.KeyScope, wif *btcutil.WIF,
 			stopHeight: -1,
 			watch:      &watch,
 		}
-	} else {
-		w.watch.WatchAddr(addr)
 	}
+	w.watch.WatchAddr(addr)
 
 	addrStr := addr.EncodeAddress()
 	log.Infof("Imported payment address %s", addrStr)
@@ -2909,6 +2890,7 @@ func (w *Wallet) connectBlocks(blks []SyncerResp, isRescan bool) er.R {
 			if isRescan {
 				continue
 			}
+			log.Debugf("Syncing %s @ %d", b.header.BlockHash(), b.height)
 			addrmgrNs := dbtx.ReadWriteBucket(waddrmgrNamespaceKey)
 			hash := b.header.BlockHash()
 			bs = waddrmgr.BlockStamp{
