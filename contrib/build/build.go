@@ -66,7 +66,7 @@ type config struct {
 	bindir    string
 }
 
-func build(name string, pkg string, conf *config) {
+func build(name, pkg string, conf *config) {
 	if os.Getenv("GOOS") == "windows" {
 		name = name + ".exe"
 	}
@@ -117,21 +117,18 @@ func main() {
 
 	assertNil(os.MkdirAll(conf.bindir, 0o755), "mkdir bin")
 
-	
-   for _, a := range os.Args {
-       if !regex.MatchString(a) {
-           continue
-       }
-       i := strings.IndexRune(a, '=')
-       fmt.Printf("env %s=%s\n", a[0:i], a[i+1:])
-       os.Setenv(a[0:i], a[i+1:])
-   }
+	for _, a := range os.Args {
+		if !regex.MatchString(a) {
+			continue
+		}
+		i := strings.IndexRune(a, '=')
+		fmt.Printf("env %s=%s\n", a[0:i], a[i+1:])
+		os.Setenv(a[0:i], a[i+1:])
+	}
 
-
-
-   build("pktd", ".", &conf)
-   build("pktwallet", "./pktwallet", &conf)
-   build("pktctl", "./cmd/pktctl", &conf)
+	build("pktd", ".", &conf)
+	build("pktwallet", "./pktwallet", &conf)
+	build("pktctl", "./cmd/pktctl", &conf)
 
 	if strings.Contains(strings.Join(os.Args, "|"), "--test") {
 		os.Setenv("CGO_ENABLED", "1")

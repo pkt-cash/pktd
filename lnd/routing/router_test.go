@@ -2871,7 +2871,6 @@ func TestSendToRouteMaxHops(t *testing.T) {
 	var hops []*route.Hop
 	for i := 0; i < 15; i++ {
 		hops = append(hops, &route.Hop{ChannelID: 1, PubKeyBytes: hopB, AmtToForward: payAmt, LegacyPayload: true}, &route.Hop{ChannelID: 1, PubKeyBytes: hopA, AmtToForward: payAmt, LegacyPayload: true})
-
 	}
 
 	rt, err := route.NewRouteFromHops(payAmt, 100, ctx.aliases["a"], hops)

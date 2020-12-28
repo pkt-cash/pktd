@@ -550,7 +550,7 @@ func WarnIfPrerelease() {
 		)
 	} else if version.IsPrerelease() {
 		Infof(
-				"This is a pre-release version",
+			"This is a pre-release version",
 		)
 	}
 }

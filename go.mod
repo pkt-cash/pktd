@@ -5,7 +5,7 @@ go 1.14
 replace (
 	git.schwanenlied.me/yawning/bsaes.git => github.com/Yawning/bsaes v0.0.0-20180720073208-c0276d75487e
 	github.com/coreos/bbolt v1.3.5 => go.etcd.io/bbolt v1.3.6-0.20200807205753-f6be82302843
-	google.golang.org/grpc v1.29.1 => google.golang.org/grpc v1.29.0
+	google.golang.org/grpc v1.34.0 => google.golang.org/grpc v1.29.1
 )
 
 require (
@@ -34,7 +34,6 @@ require (
 	github.com/go-openapi/strfmt v0.19.11 // indirect
 	github.com/golang/protobuf v1.4.3
 	github.com/golang/snappy v0.0.3-0.20201103224600-674baa8c7fc3
-	github.com/google/uuid v1.1.2 // indirect
 	github.com/gorilla/websocket v1.4.3-0.20200912193213-c3dd95aea977
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.1-0.20190118093823-f849b5445de4
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
@@ -47,7 +46,6 @@ require (
 	github.com/johnsonjh/goc25519sm v1.4.5-0.20201217171032-0b745b266201
 	github.com/jonboulle/clockwork v0.2.2 // indirect
 	github.com/json-iterator/go v1.1.11-0.20201118013158-e6b9536d3649
-	github.com/juju/testing v0.0.0-20201216035041-2be42bba85f3 // indirect
 	github.com/kkdai/bstream v1.0.0
 	github.com/lightninglabs/protobuf-hex-display v1.3.3-0.20191212020323-b444784ce75d
 	github.com/ltcsuite/ltcd v0.20.1-beta.0.20201210074626-c807bfe31ef0
@@ -78,9 +76,9 @@ require (
 	go.uber.org/zap v1.16.1-0.20201211181745-a68efdbdd15b // indirect
 	go4.org v0.0.0-20201209231011-d4a079459e60
 	golang.org/x/crypto v0.0.0-20201217014255-9d1352758620
-	golang.org/x/net v0.0.0-20201216054612-986b41b23924
+	golang.org/x/net v0.0.0-20201224014010-6772e930b67b
 	golang.org/x/sync v0.0.0-20201207232520-09787c993a3a // indirect
-	golang.org/x/sys v0.0.0-20201218084310-7d0127a74742
+	golang.org/x/sys v0.0.0-20201223074533-0d417f636930
 	golang.org/x/term v0.0.0-20201210144234-2321bbc49cbf
 	golang.org/x/text v0.3.5-0.20201208001344-75a595aef632 // indirect
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324
@@ -88,7 +86,6 @@ require (
 	google.golang.org/genproto v0.0.0-20201214200347-8c77b98c765d // indirect
 	google.golang.org/grpc v1.34.0
 	google.golang.org/protobuf v1.25.0 // indirect
-	gopkg.in/errgo.v1 v1.0.1 // indirect
 	gopkg.in/macaroon-bakery.v2 v2.2.0
 	gopkg.in/macaroon.v2 v2.1.0
 	gopkg.in/yaml.v2 v2.4.0 // indirect

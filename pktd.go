@@ -15,6 +15,7 @@ import (
 	"runtime/debug"
 	"runtime/pprof"
 	"time"
+
 	"github.com/arl/statsviz"
 	"github.com/pkt-cash/pktd/blockchain/indexers"
 	"github.com/pkt-cash/pktd/btcutil/er"
@@ -30,8 +31,6 @@ const (
 	// database type is appended to this value to form the full block
 	// database name.
 	blockDbNamePrefix = "blocks"
-
-	
 )
 
 var cfg *config
@@ -77,7 +76,7 @@ func pktdMain(serverChan chan<- *server) er.R {
 		)
 	}
 
-	// 
+	//
 	// Get a channel that will be closed when a shutdown signal has been
 	// triggered either from an OS signal such as SIGINT (Ctrl+C) or from
 	// another subsystem such as the RPC server.
@@ -207,7 +206,7 @@ func pktdMain(serverChan chan<- *server) er.R {
 	defer func() {
 		// Shut down in 5 minutes, or just pull the plug.
 		const shutdownTimeout = 5 * time.Minute
-		log.Infof("Preparing for shutdown...");
+		log.Infof("Preparing for shutdown...")
 		runtime.Gosched()
 		runtime.GC()
 		debug.FreeOSMemory()
@@ -407,7 +406,7 @@ func main() {
 }
 
 func init() {
-	// Clean slate 
+	// Clean slate
 	debug.FreeOSMemory()
 	debug.SetPanicOnFault(false)
 	debug.SetTraceback("all")
