@@ -4,12 +4,8 @@
     "title": "routerrpc/router.proto",
     "version": "version not set"
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/v2/router/htlcevents": {
       "get": {
@@ -38,9 +34,7 @@
             }
           }
         },
-        "tags": [
-          "Router"
-        ]
+        "tags": ["Router"]
       }
     },
     "/v2/router/mc": {
@@ -61,9 +55,7 @@
             }
           }
         },
-        "tags": [
-          "Router"
-        ]
+        "tags": ["Router"]
       }
     },
     "/v2/router/mc/probability/{from_node}/{to_node}/{amt_msat}": {
@@ -110,9 +102,7 @@
             "format": "int64"
           }
         ],
-        "tags": [
-          "Router"
-        ]
+        "tags": ["Router"]
       }
     },
     "/v2/router/mc/reset": {
@@ -143,9 +133,7 @@
             }
           }
         ],
-        "tags": [
-          "Router"
-        ]
+        "tags": ["Router"]
       }
     },
     "/v2/router/route": {
@@ -176,9 +164,7 @@
             }
           }
         ],
-        "tags": [
-          "Router"
-        ]
+        "tags": ["Router"]
       }
     },
     "/v2/router/route/estimatefee": {
@@ -209,9 +195,7 @@
             }
           }
         ],
-        "tags": [
-          "Router"
-        ]
+        "tags": ["Router"]
       }
     },
     "/v2/router/route/send": {
@@ -242,9 +226,7 @@
             }
           }
         ],
-        "tags": [
-          "Router"
-        ]
+        "tags": ["Router"]
       }
     },
     "/v2/router/send": {
@@ -284,9 +266,7 @@
             }
           }
         ],
-        "tags": [
-          "Router"
-        ]
+        "tags": ["Router"]
       }
     },
     "/v2/router/track/{payment_hash}": {
@@ -334,9 +314,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "Router"
-        ]
+        "tags": ["Router"]
       }
     }
   },
@@ -377,11 +355,7 @@
     },
     "HTLCAttemptHTLCStatus": {
       "type": "string",
-      "enum": [
-        "IN_FLIGHT",
-        "SUCCEEDED",
-        "FAILED"
-      ],
+      "enum": ["IN_FLIGHT", "SUCCEEDED", "FAILED"],
       "default": "IN_FLIGHT"
     },
     "lnrpcChannelUpdate": {
@@ -737,12 +711,7 @@
     },
     "lnrpcPaymentPaymentStatus": {
       "type": "string",
-      "enum": [
-        "UNKNOWN",
-        "IN_FLIGHT",
-        "SUCCEEDED",
-        "FAILED"
-      ],
+      "enum": ["UNKNOWN", "IN_FLIGHT", "SUCCEEDED", "FAILED"],
       "default": "UNKNOWN"
     },
     "lnrpcRoute": {
@@ -1001,12 +970,7 @@
     },
     "routerrpcHtlcEventEventType": {
       "type": "string",
-      "enum": [
-        "UNKNOWN",
-        "SEND",
-        "RECEIVE",
-        "FORWARD"
-      ],
+      "enum": ["UNKNOWN", "SEND", "RECEIVE", "FORWARD"],
       "default": "UNKNOWN"
     },
     "routerrpcHtlcInfo": {
@@ -1179,11 +1143,7 @@
     },
     "routerrpcResolveHoldForwardAction": {
       "type": "string",
-      "enum": [
-        "SETTLE",
-        "FAIL",
-        "RESUME"
-      ],
+      "enum": ["SETTLE", "FAIL", "RESUME"],
       "default": "SETTLE"
     },
     "routerrpcRouteFeeRequest": {

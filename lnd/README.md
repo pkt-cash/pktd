@@ -11,18 +11,20 @@ full-node), [`bitcoind`](https://github.com/bitcoin/bitcoin), and
 [`neutrino`](https://github.com/pkt-cash/pktd/neutrino) (a new experimental light client).
 The project's codebase uses the [btcsuite](https://github.com/btcsuite/) set of libraries,
 and also exports a large set of isolated re-usable Lightning Network related libraries
-within it.  In the current state `lnd` is capable of:
-* Creating channels.
-* Closing channels.
-* Completely managing all channel states (including the exceptional ones!).
-* Maintaining a fully authenticated+validated channel graph.
-* Performing path finding within the network, passively forwarding incoming payments.
-* Sending outgoing [onion-encrypted payments](https://github.com/lightningnetwork/lightning-onion)
-through the network.
-* Updating advertised fee schedules.
-* Automatic channel management ([`autopilot`](https://github.com/lightningnetwork/lnd/tree/master/autopilot)).
+within it. In the current state `lnd` is capable of:
+
+- Creating channels.
+- Closing channels.
+- Completely managing all channel states (including the exceptional ones!).
+- Maintaining a fully authenticated+validated channel graph.
+- Performing path finding within the network, passively forwarding incoming payments.
+- Sending outgoing [onion-encrypted payments](https://github.com/lightningnetwork/lightning-onion)
+  through the network.
+- Updating advertised fee schedules.
+- Automatic channel management ([`autopilot`](https://github.com/lightningnetwork/lnd/tree/master/autopilot)).
 
 ## Lightning Network Specification Compliance
+
 `lnd` _fully_ conforms to the [Lightning Network specification
 (BOLTs)](https://github.com/lightningnetwork/lightning-rfc). BOLT stands for:
 Basis of Lightning Technology. The specifications are currently being drafted
@@ -31,16 +33,16 @@ developers of `lnd`. The set of specification documents as well as our
 implementation of the specification are still a work-in-progress. With that
 said, the current status of `lnd`'s BOLT compliance is:
 
-  - [X] BOLT 1: Base Protocol
-  - [X] BOLT 2: Peer Protocol for Channel Management
-  - [X] BOLT 3: Bitcoin Transaction and Script Formats
-  - [X] BOLT 4: Onion Routing Protocol
-  - [X] BOLT 5: Recommendations for On-chain Transaction Handling
-  - [X] BOLT 7: P2P Node and Channel Discovery
-  - [X] BOLT 8: Encrypted and Authenticated Transport
-  - [X] BOLT 9: Assigned Feature Flags
-  - [X] BOLT 10: DNS Bootstrap and Assisted Node Location
-  - [X] BOLT 11: Invoice Protocol for Lightning Payments
+- [x] BOLT 1: Base Protocol
+- [x] BOLT 2: Peer Protocol for Channel Management
+- [x] BOLT 3: Bitcoin Transaction and Script Formats
+- [x] BOLT 4: Onion Routing Protocol
+- [x] BOLT 5: Recommendations for On-chain Transaction Handling
+- [x] BOLT 7: P2P Node and Channel Discovery
+- [x] BOLT 8: Encrypted and Authenticated Transport
+- [x] BOLT 9: Assigned Feature Flags
+- [x] BOLT 10: DNS Bootstrap and Assisted Node Location
+- [x] BOLT 11: Invoice Protocol for Lightning Payments
 
 ## Developer Resources
 
@@ -74,5 +76,6 @@ preferably encrypted using the Lightning Labs designated PGP key
 [here](https://gist.githubusercontent.com/Roasbeef/6fb5b52886183239e4aa558f83d085d3/raw/5fa96010af201628bcfa61e9309d9b13d23d220f/security@lightning.engineering).
 
 ## Further reading
-* [Step-by-step send payment guide with docker](https://github.com/lightningnetwork/lnd/tree/master/docker)
-* [Contribution guide](https://github.com/lightningnetwork/lnd/blob/master/docs/code_contribution_guidelines.md)
+
+- [Step-by-step send payment guide with docker](https://github.com/lightningnetwork/lnd/tree/master/docker)
+- [Contribution guide](https://github.com/lightningnetwork/lnd/blob/master/docs/code_contribution_guidelines.md)

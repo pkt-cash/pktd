@@ -4,7 +4,7 @@
 
 Package rpctest provides a pktd-specific RPC testing harness crafting and
 executing integration tests by driving the `pktd` instance via the `RPC`
-interface.  Each instance of an active harness comes equipped with a simple
+interface. Each instance of an active harness comes equipped with a simple
 in-memory HD wallet capable of properly syncing to the generated chain,
 creating new addresses, and crafting fully signed transactions paying to an
 arbitrary set of outputs.

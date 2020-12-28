@@ -17,7 +17,7 @@ However, this package could be extremely useful for any applications requiring
 Bitcoin block storage capabilities.
 
 The default backend, ffldb, has a strong focus on speed, efficiency, and
-robustness.  It makes use of GoLevelDB for the metadata, flat files for
+robustness. It makes use of GoLevelDB for the metadata, flat files for
 block storage, and checksums in key areas to ensure data integrity.
 
 ## Feature Overview

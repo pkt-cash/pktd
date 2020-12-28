@@ -1,6 +1,6 @@
 # Wallet Account Recovery
 
-The use of accounts with the wallet is *unsupported*, in case you have accidentally created a wallet with accounts and are now unable to access funds in an account, this procedure will recover the funds.
+The use of accounts with the wallet is _unsupported_, in case you have accidentally created a wallet with accounts and are now unable to access funds in an account, this procedure will recover the funds.
 
 First, you must determine what account address(es) have received funds which must be recovered. Get the list of addresses which need to be recovered.
 
@@ -12,7 +12,7 @@ btcctl -u x -P x --wallet dumpprivkey myaccount
 
 You may need to use walletpassphrase to unlock your wallet first.
 
-Now that you have the private key(s), you will need to stop the pktwallet daemon and create a new wallet. Once pktwallet daemon is stopped, you should *move* your wallet to safety, for example:
+Now that you have the private key(s), you will need to stop the pktwallet daemon and create a new wallet. Once pktwallet daemon is stopped, you should _move_ your wallet to safety, for example:
 
 ```sh
 # Linux
@@ -34,7 +34,7 @@ After you have followed all of the steps, you then launch the pktwallet daemon:
 pktwallet -u x -P x
 ```
 
-Now that the daemon is launched, you need to *import* the private keys which you exported earlier:
+Now that the daemon is launched, you need to _import_ the private keys which you exported earlier:
 
 ```sh
 # Repeat this for each of your private keys
@@ -53,4 +53,4 @@ After that is complete, use getbalance to check that the coins are present.
 btcctl -u x -P x --wallet getbalance
 ```
 
-Now you will be able to spend your coins using this wallet, however because the address in this wallet is *imported*, it is not derived from the seed and is therefore at risk in case of a loss of the wallet, so it is recommended that you migrate the funds to a more reliable wallet as soon as possible.
+Now you will be able to spend your coins using this wallet, however because the address in this wallet is _imported_, it is not derived from the seed and is therefore at risk in case of a loss of the wallet, so it is recommended that you migrate the funds to a more reliable wallet as soon as possible.

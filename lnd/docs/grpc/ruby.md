@@ -39,8 +39,8 @@ grpc_tools_ruby_protoc --proto_path googleapis:. --ruby_out=. --grpc_out=. rpc.p
 
 Two files will be generated in the current directory:
 
-* `rpc_pb.rb`
-* `rpc_services_pb.rb`
+- `rpc_pb.rb`
+- `rpc_services_pb.rb`
 
 ### Examples
 

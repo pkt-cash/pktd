@@ -6,22 +6,22 @@ The `fuzz` package is organized into subpackages which are named after the `lnd`
 
 This section will cover setup and installation of `go-fuzz` and fuzzing binaries.
 
-* First, we must get `go-fuzz`.
+- First, we must get `go-fuzz`.
 
 ```shell
 go get -u github.com/dvyukov/go-fuzz/...
 ```
 
-* The following is a command to build all fuzzing harnesses for a specific package.
+- The following is a command to build all fuzzing harnesses for a specific package.
 
 ```shell
 cd fuzz/<package>
 $ find * -maxdepth 1 -regex '[A-Za-z0-9\-_.]'* -not -name fuzz_utils.go | sed 's/\.go$//1' | xargs -I % sh -c 'go-fuzz-build -func Fuzz_% -o <package>-%-fuzz.zip github.com/lightningnetwork/lnd/fuzz/<package>'
 ```
 
-* This may take a while since this will create zip files associated with each fuzzing target.
+- This may take a while since this will create zip files associated with each fuzzing target.
 
-* Now, run `go-fuzz` with `workdir` set as below!
+- Now, run `go-fuzz` with `workdir` set as below!
 
 ```shell
 go-fuzz -bin=<.zip archive here> -workdir=<harness> -procs=<num workers>
@@ -29,7 +29,7 @@ go-fuzz -bin=<.zip archive here> -workdir=<harness> -procs=<num workers>
 
 Now `go-fuzz` will print out log lines every couple of seconds. Example output:
 
-```text
+````text
 2017/09/19 17:44:23 workers: 8, corpus: 23 (3s ago), crashers: 1, restarts: 1/748, execs: 400690 (16694/sec), cover: 394, uptime: 24s
 ```text
 Corpus is the number of items in the corpus. `go-fuzz` may add valid inputs to
@@ -53,13 +53,13 @@ If you take a look at the test harnesses that are used, you will see that they a
 
 ```go
 func Fuzz(data []byte) int
-```
+````
 
 If:
 
-* `-1` is returned, the fuzzing input is ignored
-( `0` is returned, `go-fuzz` will add the input to the corpus and deprioritize it in future mutations.
-( `1` is returned, `go-fuzz` will add the input to the corpus and prioritize it in future mutations.
+- `-1` is returned, the fuzzing input is ignored
+  ( `0` is returned, `go-fuzz` will add the input to the corpus and deprioritize it in future mutations.
+  ( `1` is returned, `go-fuzz` will add the input to the corpus and prioritize it in future mutations.
 
 ### Conclusion
 

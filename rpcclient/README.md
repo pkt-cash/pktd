@@ -1,5 +1,4 @@
-rpcclient
-=========
+# rpcclient
 
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://Copyfree.org)
 
@@ -16,24 +15,24 @@ implement and the API is not stable yet.
 
 ## Major Features
 
-* Supports Websockets (pktd/pktwallet) and HTTP POST mode (Bitcoin Core)
-* Provides callback and registration functions for pktd/pktwallet notifications
-* Supports btcd/pktd extensions
-* Translates to and from higher-level and easier to use Go types
-* Offers a synchronous (blocking) and asynchronous API
-* When running in Websockets mode (the default):
-  * Automatic reconnect handling (can be disabled)
-  * Outstanding commands are automatically reissued
-  * Registered notifications are automatically reregistered
-  * Back-off support on reconnect attempts
+- Supports Websockets (pktd/pktwallet) and HTTP POST mode (Bitcoin Core)
+- Provides callback and registration functions for pktd/pktwallet notifications
+- Supports btcd/pktd extensions
+- Translates to and from higher-level and easier to use Go types
+- Offers a synchronous (blocking) and asynchronous API
+- When running in Websockets mode (the default):
+  - Automatic reconnect handling (can be disabled)
+  - Outstanding commands are automatically reissued
+  - Registered notifications are automatically reregistered
+  - Back-off support on reconnect attempts
 
 ## Original Contributors
 
-* Dave Collins <davec@conformal.com>
-* Geert-Johan Riemer <geertjohan.riemer@gmail.com>
-* Josh Rickmar <jrick@conformal.com>
-* Michalis Kargakis <michaliskargakis@gmail.com>
-* Ruben de Vries <ruben@rubensayshi.com>
+- Dave Collins <davec@conformal.com>
+- Geert-Johan Riemer <geertjohan.riemer@gmail.com>
+- Josh Rickmar <jrick@conformal.com>
+- Michalis Kargakis <michaliskargakis@gmail.com>
+- Ruben de Vries <ruben@rubensayshi.com>
 
 ## License
 

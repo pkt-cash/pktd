@@ -4,12 +4,8 @@
     "title": "walletrpc/walletkit.proto",
     "version": "version not set"
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/v2/wallet/address/next": {
       "post": {
@@ -39,9 +35,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/bumpfee": {
@@ -73,9 +67,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/estimatefee/{conf_target}": {
@@ -106,9 +98,7 @@
             "format": "int32"
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/key": {
@@ -139,9 +129,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/key/next": {
@@ -172,9 +160,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/psbt/finalize": {
@@ -206,9 +192,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/psbt/fund": {
@@ -240,9 +224,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/send": {
@@ -273,9 +255,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/sweeps": {
@@ -306,9 +286,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/sweeps/pending": {
@@ -330,9 +308,7 @@
             }
           }
         },
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/tx": {
@@ -363,9 +339,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/tx/label": {
@@ -396,9 +370,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/utxos": {
@@ -419,9 +391,7 @@
             }
           }
         },
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/utxos/lease": {
@@ -452,9 +422,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     },
     "/v2/wallet/utxos/release": {
@@ -485,9 +453,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletKit"
-        ]
+        "tags": ["WalletKit"]
       }
     }
   },

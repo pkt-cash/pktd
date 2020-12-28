@@ -4,8 +4,8 @@ This section enumerates what you need to do to write a client that communicates 
 
 ## Prerequisites
 
-* .Net Core [SDK](https://dotnet.microsoft.com/download)
-* If using Windows, a unix terminal such as [Cygwin](https://www.cygwin.com/)
+- .Net Core [SDK](https://dotnet.microsoft.com/download)
+- If using Windows, a unix terminal such as [Cygwin](https://www.cygwin.com/)
 
 ## Setup and Installation
 
@@ -59,7 +59,7 @@ using Lnrpc;
 // we need to use that cipher suite otherwise there will be a handshake
 // error when we communicate with the lnd rpc server.
 System.Environment.SetEnvironmentVariable("GRPC_SSL_CIPHER_SUITES", "HIGH+ECDSA");
-            
+
 // Lnd cert is at AppData/Local/Lnd/tls.cert on Windows
 // ~/.lnd/tls.cert on Linux and ~/Library/Application Support/Lnd/tls.cert on Mac
 var cert = File.ReadAllText(<Tls_Cert_Location>);

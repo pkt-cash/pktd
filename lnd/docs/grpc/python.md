@@ -11,43 +11,53 @@ file in Python before you can use it to communicate with lnd.
 
 1. Create a virtual environment for your project
 
-    ```shell
-    virtualenv lnd
-    ```shell
+   ````shell
+   virtualenv lnd
+   ```shell
+
+   ````
 
 2. Activate the virtual environment
 
-    ```shell
-    source lnd/bin/activate
-    ```shell
+   ````shell
+   source lnd/bin/activate
+   ```shell
+
+   ````
 
 3. Install dependencies (googleapis-common-protos is required due to the use of
-  google/api/annotations.proto)
+   google/api/annotations.proto)
 
-    ```shell
-    (lnd)$ pip install grpcio grpcio-tools googleapis-common-protos
-    ```shell
+   ````shell
+   (lnd)$ pip install grpcio grpcio-tools googleapis-common-protos
+   ```shell
+
+   ````
 
 4. Clone the google api's repository (required due to the use of
-  google/api/annotations.proto)
+   google/api/annotations.proto)
 
-    ```shell
-    (lnd)$ git clone https://github.com/googleapis/googleapis.git
-    ```shell
+   ````shell
+   (lnd)$ git clone https://github.com/googleapis/googleapis.git
+   ```shell
+
+   ````
 
 5. Copy the lnd rpc.proto file (you'll find this at
-  [lnrpc/rpc.proto](https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto))
-  or just download it
+   [lnrpc/rpc.proto](https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto))
+   or just download it
 
-    ```shell
-    (lnd)$ curl -o rpc.proto -s https://raw.githubusercontent.com/lightningnetwork/lnd/master/lnrpc/rpc.proto
-    ```shell
+   ````shell
+   (lnd)$ curl -o rpc.proto -s https://raw.githubusercontent.com/lightningnetwork/lnd/master/lnrpc/rpc.proto
+   ```shell
+
+   ````
 
 6. Compile the proto file
 
-    ```shell
-    (lnd)$ python -m grpc_tools.protoc --proto_path=googleapis:. --python_out=. --grpc_python_out=. rpc.proto
-    ```
+   ```shell
+   (lnd)$ python -m grpc_tools.protoc --proto_path=googleapis:. --python_out=. --grpc_python_out=. rpc.proto
+   ```
 
 After following these steps, two files `rpc_pb2.py` and `rpc_pb2_grpc.py` will
 be generated. These files will be imported in your project anytime you use

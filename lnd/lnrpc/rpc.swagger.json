@@ -4,12 +4,8 @@
     "title": "rpc.proto",
     "version": "version not set"
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/v1/balance/blockchain": {
       "get": {
@@ -29,9 +25,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/balance/channels": {
@@ -52,9 +46,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels": {
@@ -113,9 +105,7 @@
             "format": "byte"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       },
       "post": {
         "summary": "OpenChannelSync is a synchronous version of the OpenChannel RPC call. This\ncall is meant to be consumed by clients to the REST proxy. As with all\nother sync calls, all byte slices are intended to be populated as hex\nencoded strings.",
@@ -144,9 +134,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/abandon/{channel_point.funding_txid_str}/{channel_point.output_index}": {
@@ -199,9 +187,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/backup": {
@@ -222,9 +208,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/backup/restore": {
@@ -255,9 +239,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/backup/subscribe": {
@@ -287,9 +269,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/backup/verify": {
@@ -320,9 +300,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/backup/{chan_point.funding_txid_str}/{chan_point.output_index}": {
@@ -368,9 +346,7 @@
             "format": "byte"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/closed": {
@@ -435,9 +411,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/pending": {
@@ -458,9 +432,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/stream": {
@@ -500,9 +472,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/subscribe": {
@@ -532,9 +502,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/transactions": {
@@ -565,9 +533,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/transactions/route": {
@@ -598,9 +564,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/channels/{channel_point.funding_txid_str}/{channel_point.output_index}": {
@@ -686,9 +650,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/chanpolicy": {
@@ -719,9 +681,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/debuglevel": {
@@ -752,9 +712,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/fees": {
@@ -775,9 +733,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/funding/step": {
@@ -808,9 +764,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/getinfo": {
@@ -831,9 +785,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/getrecoveryinfo": {
@@ -854,9 +806,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/graph": {
@@ -887,9 +837,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/graph/edge/{chan_id}": {
@@ -920,9 +868,7 @@
             "format": "uint64"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/graph/info": {
@@ -943,9 +889,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/graph/node/{pub_key}": {
@@ -983,9 +927,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/graph/nodemetrics": {
@@ -1015,17 +957,12 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "UNKNOWN",
-                "BETWEENNESS_CENTRALITY"
-              ]
+              "enum": ["UNKNOWN", "BETWEENNESS_CENTRALITY"]
             },
             "collectionFormat": "multi"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/graph/routes/{pub_key}/{amt}": {
@@ -1185,9 +1122,7 @@
             "collectionFormat": "multi"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/graph/subscribe": {
@@ -1217,9 +1152,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/invoice/{r_hash_str}": {
@@ -1257,9 +1190,7 @@
             "format": "byte"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/invoices": {
@@ -1314,9 +1245,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       },
       "post": {
         "summary": "lncli: `addinvoice`\nAddInvoice attempts to add a new invoice to the invoice database. Any\nduplicated invoices are rejected, therefore all invoices *must* have a\nunique payment preimage.",
@@ -1345,9 +1274,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/invoices/subscribe": {
@@ -1395,9 +1322,7 @@
             "format": "uint64"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/macaroon": {
@@ -1428,9 +1353,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/macaroon/ids": {
@@ -1451,9 +1374,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/macaroon/permissions": {
@@ -1474,9 +1395,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/macaroon/{root_key_id}": {
@@ -1507,9 +1426,7 @@
             "format": "uint64"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/newaddress": {
@@ -1546,9 +1463,7 @@
             "default": "WITNESS_PUBKEY_HASH"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/payments": {
@@ -1603,9 +1518,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       },
       "delete": {
         "summary": "DeleteAllPayments deletes all outgoing payments from DB.",
@@ -1624,9 +1537,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/payreq/{pay_req}": {
@@ -1656,9 +1567,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/peers": {
@@ -1689,9 +1598,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       },
       "post": {
         "summary": "lncli: `connect`\nConnectPeer attempts to establish a connection to a remote peer. This is at\nthe networking level, and is used for communication between nodes. This is\ndistinct from establishing a channel with a peer.",
@@ -1720,9 +1627,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/peers/subscribe": {
@@ -1752,9 +1657,7 @@
             }
           }
         },
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/peers/{pub_key}": {
@@ -1784,9 +1687,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/signmessage": {
@@ -1817,9 +1718,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/stop": {
@@ -1850,9 +1749,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/switch": {
@@ -1884,9 +1781,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/transactions": {
@@ -1925,9 +1820,7 @@
             "format": "int32"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       },
       "post": {
         "summary": "lncli: `sendcoins`\nSendCoins executes a request to send coins to a particular address. Unlike\nSendMany, this RPC call only allows creating a single output at a time. If\nneither target_conf, or sat_per_byte are set, then the internal wallet will\nconsult its fee model to determine a fee for the default confirmation\ntarget.",
@@ -1956,9 +1849,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/transactions/fee": {
@@ -1990,9 +1881,7 @@
             "format": "int32"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/transactions/many": {
@@ -2023,9 +1912,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/transactions/subscribe": {
@@ -2073,9 +1960,7 @@
             "format": "int32"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/utxos": {
@@ -2115,9 +2000,7 @@
             "format": "int32"
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     },
     "/v1/verifymessage": {
@@ -2148,9 +2031,7 @@
             }
           }
         ],
-        "tags": [
-          "Lightning"
-        ]
+        "tags": ["Lightning"]
       }
     }
   },
@@ -2214,57 +2095,32 @@
     },
     "ForceClosedChannelAnchorState": {
       "type": "string",
-      "enum": [
-        "LIMBO",
-        "RECOVERED",
-        "LOST"
-      ],
+      "enum": ["LIMBO", "RECOVERED", "LOST"],
       "default": "LIMBO"
     },
     "HTLCAttemptHTLCStatus": {
       "type": "string",
-      "enum": [
-        "IN_FLIGHT",
-        "SUCCEEDED",
-        "FAILED"
-      ],
+      "enum": ["IN_FLIGHT", "SUCCEEDED", "FAILED"],
       "default": "IN_FLIGHT"
     },
     "InvoiceInvoiceState": {
       "type": "string",
-      "enum": [
-        "OPEN",
-        "SETTLED",
-        "CANCELED",
-        "ACCEPTED"
-      ],
+      "enum": ["OPEN", "SETTLED", "CANCELED", "ACCEPTED"],
       "default": "OPEN"
     },
     "PaymentPaymentStatus": {
       "type": "string",
-      "enum": [
-        "UNKNOWN",
-        "IN_FLIGHT",
-        "SUCCEEDED",
-        "FAILED"
-      ],
+      "enum": ["UNKNOWN", "IN_FLIGHT", "SUCCEEDED", "FAILED"],
       "default": "UNKNOWN"
     },
     "PeerEventEventType": {
       "type": "string",
-      "enum": [
-        "PEER_ONLINE",
-        "PEER_OFFLINE"
-      ],
+      "enum": ["PEER_ONLINE", "PEER_OFFLINE"],
       "default": "PEER_ONLINE"
     },
     "PeerSyncType": {
       "type": "string",
-      "enum": [
-        "UNKNOWN_SYNC",
-        "ACTIVE_SYNC",
-        "PASSIVE_SYNC"
-      ],
+      "enum": ["UNKNOWN_SYNC", "ACTIVE_SYNC", "PASSIVE_SYNC"],
       "default": "UNKNOWN_SYNC",
       "description": " - UNKNOWN_SYNC: Denotes that we cannot determine the peer's current sync type.\n - ACTIVE_SYNC: Denotes that we are actively receiving new graph updates from the peer.\n - PASSIVE_SYNC: Denotes that we are not receiving new graph updates from the peer."
     },
@@ -4146,11 +4002,7 @@
     },
     "lnrpcInvoiceHTLCState": {
       "type": "string",
-      "enum": [
-        "ACCEPTED",
-        "SETTLED",
-        "CANCELED"
-      ],
+      "enum": ["ACCEPTED", "SETTLED", "CANCELED"],
       "default": "ACCEPTED"
     },
     "lnrpcKeyDescriptor": {
@@ -4486,10 +4338,7 @@
     },
     "lnrpcNodeMetricType": {
       "type": "string",
-      "enum": [
-        "UNKNOWN",
-        "BETWEENNESS_CENTRALITY"
-      ],
+      "enum": ["UNKNOWN", "BETWEENNESS_CENTRALITY"],
       "default": "UNKNOWN"
     },
     "lnrpcNodeMetricsResponse": {

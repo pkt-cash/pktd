@@ -293,7 +293,7 @@ a PSBT. That means, `lnd` can have a wallet balance of `0` and is still able to
 open a channel. We'll jump into an example right away.
 
 The new funding flow has a small caveat: _Time matters_.
-  
+
 When opening a channel using the PSBT flow, we start the negotiation
 with the remote peer immediately so we can obtain their multisig key they are
 going to use for the channel. Then we pause the whole process until we get a
@@ -358,7 +358,7 @@ $ bitcoin-cli walletcreatefundedpsbt [] '[{"bcrt1qh33ghvgjj3ef625nl9jxz6nnrz2z9e
 ```
 
 We see that `bitcoind` has given us a transaction that would pay `3060` satoshi
-in fees. Fee estimation/calculation can be changed with parameters of the 
+in fees. Fee estimation/calculation can be changed with parameters of the
 `walletcreatefundedpsbt` command. To see all options, use
 `bitcoin-cli help walletcreatefundedpsbt`.
 
@@ -550,16 +550,19 @@ However, the `bitcoin-cli` examples from the command line can be combined into
 a single command. For example:
 
 Channel 1:
+
 ```shell script
 $ bitcoin-cli walletcreatefundedpsbt [] '[{"tb1qywvazres587w9wyy8uw03q8j9ek6gc9crwx4jvhqcmew4xzsvqcq3jjdja":0.01000000}]'
 ```
 
 Channel 2:
+
 ```shell script
 $ bitcoin-cli walletcreatefundedpsbt [] '[{"tb1q53626fcwwtcdc942zaf4laqnr3vg5gv4g0hakd2h7fw2pmz6428sk3ezcx":0.01000000}]'
 ```
 
 Combined command to get batch PSBT:
+
 ```shell script
 $ bitcoin-cli walletcreatefundedpsbt [] '[{"tb1q53626fcwwtcdc942zaf4laqnr3vg5gv4g0hakd2h7fw2pmz6428sk3ezcx":0.01000000},{"tb1qywvazres587w9wyy8uw03q8j9ek6gc9crwx4jvhqcmew4xzsvqcq3jjdja":0.01000000}]'
 ```

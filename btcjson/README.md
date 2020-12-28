@@ -17,14 +17,14 @@ package.
 
 ## Original Contributors
 
-* John C. Vernaleo <jcv@conformal.com>
-* Dave Collins <davec@conformal.com>
-* Owain G. Ainsworth <oga@conformal.com>
-* David Hill <dhill@conformal.com>
-* Josh Rickmar <jrick@conformal.com>
-* Andreas Metsälä <andreas.metsala@gmail.com>
-* Francis Lam <flam@alum.mit.edu>
-* Geert-Johan Riemer <geertjohan.riemer@gmail.com>
+- John C. Vernaleo <jcv@conformal.com>
+- Dave Collins <davec@conformal.com>
+- Owain G. Ainsworth <oga@conformal.com>
+- David Hill <dhill@conformal.com>
+- Josh Rickmar <jrick@conformal.com>
+- Andreas Metsälä <andreas.metsala@gmail.com>
+- Francis Lam <flam@alum.mit.edu>
+- Geert-Johan Riemer <geertjohan.riemer@gmail.com>
 
 ## License
 

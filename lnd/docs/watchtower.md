@@ -27,10 +27,10 @@ watchtower-related features are nearly complete or have meaningful progress, and
 we will continue to ship them as they receive further testing and become safe to
 release.
 
-Note: *For now, watchtowers will only backup the `to_local` and `to_remote` outputs
+Note: _For now, watchtowers will only backup the `to_local` and `to_remote` outputs
 from revoked commitments; backing up HTLC outputs is slated to be deployed in a
 future release, as the protocol can be extended to include the extra signature
-data in the encrypted blobs.*
+data in the encrypted blobs._
 
 ## Configuring a Watchtower
 
@@ -55,7 +55,7 @@ Retrieving information about your tower’s configurations can be done using
 }
 ```
 
-The entire set of watchtower configuration options can be found using 
+The entire set of watchtower configuration options can be found using
 `lnd -h`:
 
 ```
@@ -81,7 +81,7 @@ properly configured to point to an active listener.
 
 Additionally, users can specify their tower’s external IP address(es) using
 `watchtower.externalip=`, which will expose the full tower URIs
-(pubkey@host:port) over RPC or `lncli tower info`: 
+(pubkey@host:port) over RPC or `lncli tower info`:
 
 ```
         ...
@@ -98,9 +98,10 @@ tower with the following command:
 ```
 
 If the watchtower's clients will need remote access, be sure to either:
- - Open port 9911 or a port chosen via `watchtower.listen`.
- - Use a proxy to direct traffic from an open port to the watchtower's listening
-   address.
+
+- Open port 9911 or a port chosen via `watchtower.listen`.
+- Use a proxy to direct traffic from an open port to the watchtower's listening
+  address.
 
 ### Tor Hidden Services
 
@@ -120,11 +121,11 @@ The onion address is then shown in the "uris" field when queried with `lncli tow
 ]
 ```
 
-Note: *The watchtower’s public key is distinct from `lnd`’s node public key. For
+Note: _The watchtower’s public key is distinct from `lnd`’s node public key. For
 now this acts as a soft whitelist as it requires clients to know the tower’s
 public key in order to use it for backups before more advanced whitelisting
 features are implemented. We recommend NOT disclosing this public key openly,
-unless you are prepared to open your tower up to the entire Internet.*
+unless you are prepared to open your tower up to the entire Internet._
 
 ### Watchtower Database Directory
 
