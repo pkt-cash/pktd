@@ -228,7 +228,7 @@ func pktdMain(serverChan chan<- *server) er.R {
 			time.Sleep(1 * time.Second)
 			runtime.Goexit()
 			time.Sleep(1 * time.Second)
-			throw("\nCowards die many times before their deaths\nThe valiant never taste of death but once.\n")
+			panic("\nCowards die many times before their deaths\nThe valiant never taste of death but once.\n")
 		}
 		log.Infof("Server shutdown complete")
 	}()
@@ -401,7 +401,7 @@ func main() {
 	// Work around defer not working after os.Exit()
 	if err := pktdMain(nil); err != nil {
 		os.Exit(1)
-		throw("time to die...")
+		panic("time to die...")
 	}
 }
 
