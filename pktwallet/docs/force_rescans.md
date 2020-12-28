@@ -1,16 +1,16 @@
 # Rebuilding transaction history
 
 It is unlikely, but possible and unfortunate, that transaction history in the
-wallet database may not represent reality.  This may be due to a programming
-mistake or the transaction database becoming corrupted.  Thankfully, all
+wallet database may not represent reality. This may be due to a programming
+mistake or the transaction database becoming corrupted. Thankfully, all
 transactions are publicly recorded on the blockchain, and transactions
-necessary for a fully functional wallet can be recovered.  This process is
+necessary for a fully functional wallet can be recovered. This process is
 called rescanning, and the following guide will demonstrate how to force such a
 rescan.
 
 Rescans are automatically performed each time the wallet syncs to the network.
 These are used to "catch up" the wallet to the newest best block in the block
-chain.  For example, the following log messages at startup indicate that an
+chain. For example, the following log messages at startup indicate that an
 out-of-sync wallet started a rescan for all addresses and unspent outputs since
 some block.
 
@@ -21,11 +21,11 @@ some block.
 ```
 
 During the rescan, relevant transactions from previously unseen blocks are added
-to the wallet database and spend tracking is updated accordingly.  After the
+to the wallet database and spend tracking is updated accordingly. After the
 rescan at startup finishes, a wallet is marked in sync with the chain.
 
 When wallet is started without any transaction history, a rescan is performed
-for all blocks since the creation date of the wallet's first address.  There are
+for all blocks since the creation date of the wallet's first address. There are
 two situations when this holds true:
 
 1. The wallet is newly created or was recreated from the seed
@@ -34,7 +34,7 @@ two situations when this holds true:
 The second case is how a forced rescan is performed.
 
 pktwallet will not drop transaction history by itself, as this is something that
-should not be necessary under normal wallet operation.  However, a tool,
+should not be necessary under normal wallet operation. However, a tool,
 `dropwtxmgr`, is provided in the `cmd/dropwtxmgr` directory which may be used to
 drop the wallet transaction manager (wtxmgr) history from a wallet database.
 The tool may already be installed in your PATH, but if not, installing it is easy:

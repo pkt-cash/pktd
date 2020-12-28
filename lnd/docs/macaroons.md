@@ -19,7 +19,7 @@ A macaroon is similar: it's a small bit of data that a client (like `lncli`)
 can send to a service (like `lnd`) to assert that it's allowed to perform an
 action. The service looks up the macaroon ID and verifies that the macaroon was
 initially signed with the service's root key. However, unlike a cookie, you can
-*delegate* a macaroon, or create a version of it that has more limited
+_delegate_ a macaroon, or create a version of it that has more limited
 capabilities, and then send it to someone else to use.
 
 Just like a cookie, a macaroon should be sent over a secure channel (such as a
@@ -40,19 +40,19 @@ documentation, but the [README in the macaroons package](../macaroons/README.md)
 or the macaroon paper linked above describe it in more detail. The
 user must remember several things:
 
-* Sharing a macaroon allows anyone in possession of that macaroon to use it to
+- Sharing a macaroon allows anyone in possession of that macaroon to use it to
   access the service (in our case, `lnd`) to do anything permitted by the
   macaroon. There is a specific type of restriction, called a "third party
   caveat," that requires an external service to verify the request; however,
   `lnd` doesn't currently implement those.
 
-* If you add a caveat to a macaroon and share the resulting macaroon, the
+- If you add a caveat to a macaroon and share the resulting macaroon, the
   person receiving it cannot remove the caveat.
 
 This is used in `lnd` in an interesting way. By default, when `lnd` starts, it
 creates three files which contain macaroons: a file called `admin.macaroon`,
 which contains a macaroon with no caveats, a file called `readonly.macaroon`,
-which is the *same* macaroon but with an additional caveat, that permits only
+which is the _same_ macaroon but with an additional caveat, that permits only
 methods that don't change the state of `lnd`, and `invoice.macaroon`, which
 only has access to invoice related methods.
 
@@ -67,16 +67,14 @@ to using only read-only methods and the `invoice.macaroon` also has an
 additional caveat which restricts the caller to using only invoice related
 methods. This means a few important things:
 
-* You can delete the `admin.macaroon` and be left with only the
+- You can delete the `admin.macaroon` and be left with only the
   `readonly.macaroon`, which can sometimes be useful (for example, if you want
   your `lnd` instance to run in autopilot mode and don't want to accidentally
   change its state).
 
-* If you delete the data directory which contains the `macaroons.db` file, this
+- If you delete the data directory which contains the `macaroons.db` file, this
   invalidates the `admin.macaroon`, `readonly.macaroon` and `invoice.macaroon`
-  files. Invalid macaroon files give you errors like `cannot get macaroon: root
-  key with id 0 doesn't exist` or `verification failed: signature mismatch
-  after caveat verification`.
+  files. Invalid macaroon files give you errors like `cannot get macaroon: root key with id 0 doesn't exist` or `verification failed: signature mismatch after caveat verification`.
 
 You can also run `lnd` with the `--no-macaroons` option, which skips the
 creation of the macaroon files and all macaroon checks within the RPC server.
@@ -85,6 +83,7 @@ it won't be checked for validity. Note that disabling authentication of a server
 that's listening on a public interface is not allowed. This means the
 `--no-macaroons` option is only permitted when the RPC server is in a private
 network. In CIDR notation, the following IPs are considered private,
+
 - [`169.254.0.0/16` and `fe80::/10`](https://en.wikipedia.org/wiki/Link-local_address).
 - [`224.0.0.0/4` and `ff00::/8`](https://en.wikipedia.org/wiki/Multicast_address).
 - [`10.0.0.0/8`, `172.16.0.0/12` and `192.168.0.0/16`](https://tools.ietf.org/html/rfc1918).
@@ -121,36 +120,37 @@ are not encrypted (unlike the wallet file and the macaroon database file that
 contains the [root key](../macaroons/README.md), these are always encrypted,
 even if no password is used).
 
-To avoid leaking the macaroon information, `lnd` supports the so called 
+To avoid leaking the macaroon information, `lnd` supports the so called
 `stateless initialization` mode:
-* The three startup commands `create`, `unlock` and `changepassword` of `lncli`
+
+- The three startup commands `create`, `unlock` and `changepassword` of `lncli`
   all have a flag called `--stateless_init` that instructs the daemon **not**
   to create `*.macaroon` files.
-* The two operations `create` and `changepassword` that actually create/update
+- The two operations `create` and `changepassword` that actually create/update
   the macaroon database will return the admin macaroon in the RPC call.
   Assuming the daemon and the `lncli` are not used on the same machine, this
   will leave no unencrypted information on the machine where `lnd` runs on.
-  * To be more precise: By default, when using the `changepassword` command, the
+  - To be more precise: By default, when using the `changepassword` command, the
     macaroon root key in the macaroon DB is just re-encrypted with the new
     password. But the key remains the same and therefore the macaroons issued
     before the `changepassword` command still remain valid. If a user wants to
     invalidate all previously created macaroons, the `--new_mac_root_key` flag
-    of the `changepassword` command should be used! 
-* An user of `lncli` will see the returned admin macaroon printed to the screen
+    of the `changepassword` command should be used!
+- An user of `lncli` will see the returned admin macaroon printed to the screen
   or saved to a file if the parameter `--save_to=some_file.macaroon` is used.
-* **Important:** By default, `lnd` will create the macaroon files during the
+- **Important:** By default, `lnd` will create the macaroon files during the
   `unlock` phase, if the `--stateless_init` flag is not used. So to avoid
   leakage of the macaroon information, use the stateless initialization flag
   for all three startup commands of the wallet unlocker service!
 
 Examples:
 
-* Create a new wallet stateless (first run):
-  * `lncli create --stateless_init --save_to=/safe/location/admin.macaroon`
-* Unlock a wallet that has previously been initialized stateless:
-  * `lncli unlock --stateless_init`
-* Use the created macaroon:
-  * `lncli --macaroonpath=/safe/location/admin.macaroon getinfo`
+- Create a new wallet stateless (first run):
+  - `lncli create --stateless_init --save_to=/safe/location/admin.macaroon`
+- Unlock a wallet that has previously been initialized stateless:
+  - `lncli unlock --stateless_init`
+- Use the created macaroon:
+  - `lncli --macaroonpath=/safe/location/admin.macaroon getinfo`
 
 ## Using Macaroons with GRPC clients
 
@@ -180,22 +180,22 @@ The existing macaroon implementation in `lnd` and `lncli` lays the groundwork
 for future improvements in functionality and security. We will add features
 such as:
 
-* Improved replay protection for securing RPC calls
+- Improved replay protection for securing RPC calls
 
-* Macaroon database encryption
+- Macaroon database encryption
 
-* Root key rotation and possibly macaroon invalidation/rotation
+- Root key rotation and possibly macaroon invalidation/rotation
 
-* Additional restrictions, such as limiting payments to use (or not use)
+- Additional restrictions, such as limiting payments to use (or not use)
   specific routes, channels, nodes, etc.
 
-* Accounting-based macaroons, which can make an instance of `lnd` act almost
+- Accounting-based macaroons, which can make an instance of `lnd` act almost
   like a bank for apps: for example, an app that pays to consume APIs whose
   budget is limited to the money it receives by providing an API/service
 
-* Support for third-party caveats, which allows external plugins for
+- Support for third-party caveats, which allows external plugins for
   authorization and authentication
 
 With this new feature, we've started laying the groundwork for flexible
 authentication and authorization for RPC calls to `lnd`. We look forward to
-expanding its functionality to make it easy to develop secure apps.  
+expanding its functionality to make it easy to develop secure apps.

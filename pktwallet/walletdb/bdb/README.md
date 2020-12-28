@@ -1,13 +1,12 @@
-bdb
-===
+# bdb
 
 Package bdb implements an driver for walletdb that uses bboltdb for the
-backing datastore.  Package bdb is licensed under the Copyfree ISC license.
+backing datastore. Package bdb is licensed under the Copyfree ISC license.
 
 ## Usage
 
 This package is only a driver to the walletdb package and provides the database
-type of "bdb".  The only parameter the Open and Create functions take is the
+type of "bdb". The only parameter the Open and Create functions take is the
 database path as a string:
 
 ```Go

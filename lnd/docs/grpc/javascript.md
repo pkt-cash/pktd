@@ -27,14 +27,14 @@ Every time you work with Javascript gRPC, you will have to import `grpc`, load
 `rpc.proto`, and create a connection to your client like so:
 
 ```js
-const grpc = require('grpc');
-const protoLoader = require('@grpc/proto-loader');
+const grpc = require("grpc");
+const protoLoader = require("@grpc/proto-loader");
 const fs = require("fs");
 
 // Due to updated ECDSA generated tls.cert we need to let gprc know that
 // we need to use that cipher suite otherwise there will be a handhsake
 // error when we communicate with the lnd rpc server.
-process.env.GRPC_SSL_CIPHER_SUITES = 'HIGH+ECDSA'
+process.env.GRPC_SSL_CIPHER_SUITES = "HIGH+ECDSA";
 
 // We need to give the proto loader some extra options, otherwise the code won't
 // fully work with lnd.
@@ -43,9 +43,9 @@ const loaderOptions = {
   longs: String,
   enums: String,
   defaults: true,
-  oneofs: true
+  oneofs: true,
 };
-const packageDefinition = protoLoader.loadSync('rpc.proto', loaderOptions);
+const packageDefinition = protoLoader.loadSync("rpc.proto", loaderOptions);
 
 //  Lnd cert is at ~/.lnd/tls.cert on Linux and
 //  ~/Library/Application Support/Lnd/tls.cert on Mac
@@ -53,7 +53,7 @@ let lndCert = fs.readFileSync("~/.lnd/tls.cert");
 let credentials = grpc.credentials.createSsl(lndCert);
 let lnrpcDescriptor = grpc.loadPackageDefinition(packageDefinition);
 let lnrpc = lnrpcDescriptor.lnrpc;
-let lightning = new lnrpc.Lightning('localhost:10009', credentials);
+let lightning = new lnrpc.Lightning("localhost:10009", credentials);
 ```
 
 ## Examples
@@ -66,11 +66,11 @@ two nodes.
 ### Simple RPC
 
 ```js
-lightning.getInfo({}, function(err, response) {
+lightning.getInfo({}, function (err, response) {
   if (err) {
-    console.log('Error: ' + err);
+    console.log("Error: " + err);
   }
-  console.log('GetInfo:', response);
+  console.log("GetInfo:", response);
 });
 ```
 
@@ -94,16 +94,17 @@ GetInfo: { identity_pubkey: '03c892e3f3f077ea1e381c081abb36491a2502bc43ed37ffb82
 
 ```js
 let call = lightning.subscribeInvoices({});
-call.on('data', function(invoice) {
+call
+  .on("data", function (invoice) {
     console.log(invoice);
-})
-.on('end', function() {
-  // The server has finished sending
-})
-.on('status', function(status) {
-  // Process status
-  console.log("Current status" + status);
-});
+  })
+  .on("end", function () {
+    // The server has finished sending
+  })
+  .on("status", function (status) {
+    // Process status
+    console.log("Current status" + status);
+  });
 ```
 
 Now, create an invoice for your node at `localhost:10009`and send a payment to
@@ -187,31 +188,33 @@ of each request.
 The following snippet will add the macaroon to every request automatically:
 
 ```js
-const fs = require('fs');
-const grpc = require('grpc');
-const protoLoader = require('@grpc/proto-loader');
+const fs = require("fs");
+const grpc = require("grpc");
+const protoLoader = require("@grpc/proto-loader");
 const loaderOptions = {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
-  oneofs: true
+  oneofs: true,
 };
-const packageDefinition = protoLoader.loadSync('rpc.proto', loaderOptions);
+const packageDefinition = protoLoader.loadSync("rpc.proto", loaderOptions);
 
-process.env.GRPC_SSL_CIPHER_SUITES = 'HIGH+ECDSA'
+process.env.GRPC_SSL_CIPHER_SUITES = "HIGH+ECDSA";
 
 // Lnd admin macaroon is at ~/.lnd/data/chain/bitcoin/simnet/admin.macaroon on Linux and
 // ~/Library/Application Support/Lnd/data/chain/bitcoin/simnet/admin.macaroon on Mac
-let m = fs.readFileSync('~/.lnd/data/chain/bitcoin/simnet/admin.macaroon');
-let macaroon = m.toString('hex');
+let m = fs.readFileSync("~/.lnd/data/chain/bitcoin/simnet/admin.macaroon");
+let macaroon = m.toString("hex");
 
 // build meta data credentials
-let metadata = new grpc.Metadata()
-metadata.add('macaroon', macaroon)
-let macaroonCreds = grpc.credentials.createFromMetadataGenerator((_args, callback) => {
-  callback(null, metadata);
-});
+let metadata = new grpc.Metadata();
+metadata.add("macaroon", macaroon);
+let macaroonCreds = grpc.credentials.createFromMetadataGenerator(
+  (_args, callback) => {
+    callback(null, metadata);
+  }
+);
 
 // build ssl credentials using the cert the same as before
 let lndCert = fs.readFileSync("~/.lnd/tls.cert");
@@ -219,18 +222,21 @@ let sslCreds = grpc.credentials.createSsl(lndCert);
 
 // combine the cert credentials and the macaroon auth credentials
 // such that every call is properly encrypted and authenticated
-let credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds);
+let credentials = grpc.credentials.combineChannelCredentials(
+  sslCreds,
+  macaroonCreds
+);
 
 // Pass the crendentials when creating a channel
 let lnrpcDescriptor = grpc.loadPackageDefinition(packageDefinition);
 let lnrpc = lnrpcDescriptor.lnrpc;
-let client = new lnrpc.Lightning('some.address:10009', credentials);
+let client = new lnrpc.Lightning("some.address:10009", credentials);
 
 client.getInfo({}, (err, response) => {
   if (err) {
-    console.log('Error: ' + err);
+    console.log("Error: " + err);
   }
-  console.log('GetInfo:', response);
+  console.log("GetInfo:", response);
 });
 ```
 

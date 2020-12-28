@@ -4,12 +4,8 @@
     "title": "walletunlocker.proto",
     "version": "version not set"
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/v1/changepassword": {
       "post": {
@@ -39,9 +35,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletUnlocker"
-        ]
+        "tags": ["WalletUnlocker"]
       }
     },
     "/v1/genseed": {
@@ -81,9 +75,7 @@
             "format": "byte"
           }
         ],
-        "tags": [
-          "WalletUnlocker"
-        ]
+        "tags": ["WalletUnlocker"]
       }
     },
     "/v1/initwallet": {
@@ -115,9 +107,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletUnlocker"
-        ]
+        "tags": ["WalletUnlocker"]
       }
     },
     "/v1/unlockwallet": {
@@ -148,9 +138,7 @@
             }
           }
         ],
-        "tags": [
-          "WalletUnlocker"
-        ]
+        "tags": ["WalletUnlocker"]
       }
     }
   },

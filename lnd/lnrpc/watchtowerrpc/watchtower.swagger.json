@@ -4,12 +4,8 @@
     "title": "watchtowerrpc/watchtower.proto",
     "version": "version not set"
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/v2/watchtower/server": {
       "get": {
@@ -29,9 +25,7 @@
             }
           }
         },
-        "tags": [
-          "Watchtower"
-        ]
+        "tags": ["Watchtower"]
       }
     }
   },

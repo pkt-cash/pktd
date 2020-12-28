@@ -1,19 +1,18 @@
-walletdb
-========
+# walletdb
 
 Package walletdb provides a namespaced database interface for pktwallet.
 
 A wallet essentially consists of a multitude of stored data such as private
 and public keys, key derivation bits, pay-to-script-hash scripts, and various
-metadata.  One of the issues with many wallets is they are tightly integrated.
+metadata. One of the issues with many wallets is they are tightly integrated.
 Designing a wallet with loosely coupled components that provide specific
 functionality is ideal, however it presents a challenge in regards to data
 storage since each component needs to store its own data without knowing the
 internals of other components or breaking atomicity.
 
 This package solves this issue by providing a namespaced database interface that
-is intended to be used by the main wallet daemon.  This allows the potential for
-any backend database type with a suitable driver.  Each component, which will
+is intended to be used by the main wallet daemon. This allows the potential for
+any backend database type with a suitable driver. Each component, which will
 typically be a package, can then implement various functionality such as address
 management, voting pools, and colored coin metadata in their own namespace
 without having to worry about conflicts with other packages even though they are

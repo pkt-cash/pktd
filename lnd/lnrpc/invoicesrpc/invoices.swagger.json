@@ -4,12 +4,8 @@
     "title": "invoicesrpc/invoices.proto",
     "version": "version not set"
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/v2/invoices/cancel": {
       "post": {
@@ -39,9 +35,7 @@
             }
           }
         ],
-        "tags": [
-          "Invoices"
-        ]
+        "tags": ["Invoices"]
       }
     },
     "/v2/invoices/hodl": {
@@ -72,9 +66,7 @@
             }
           }
         ],
-        "tags": [
-          "Invoices"
-        ]
+        "tags": ["Invoices"]
       }
     },
     "/v2/invoices/settle": {
@@ -105,9 +97,7 @@
             }
           }
         ],
-        "tags": [
-          "Invoices"
-        ]
+        "tags": ["Invoices"]
       }
     },
     "/v2/invoices/subscribe/{r_hash}": {
@@ -147,21 +137,14 @@
             "format": "byte"
           }
         ],
-        "tags": [
-          "Invoices"
-        ]
+        "tags": ["Invoices"]
       }
     }
   },
   "definitions": {
     "InvoiceInvoiceState": {
       "type": "string",
-      "enum": [
-        "OPEN",
-        "SETTLED",
-        "CANCELED",
-        "ACCEPTED"
-      ],
+      "enum": ["OPEN", "SETTLED", "CANCELED", "ACCEPTED"],
       "default": "OPEN"
     },
     "invoicesrpcAddHoldInvoiceRequest": {
@@ -490,11 +473,7 @@
     },
     "lnrpcInvoiceHTLCState": {
       "type": "string",
-      "enum": [
-        "ACCEPTED",
-        "SETTLED",
-        "CANCELED"
-      ],
+      "enum": ["ACCEPTED", "SETTLED", "CANCELED"],
       "default": "ACCEPTED"
     },
     "lnrpcRouteHint": {

@@ -1,5 +1,4 @@
-wtxmgr
-======
+# wtxmgr
 
 Package wtxmgr provides storage and spend tracking of wallet transactions and
 their relevant input and outputs.
@@ -18,7 +17,7 @@ their relevant input and outputs.
   - Programmatically detectable errors, including encapsulation of errors from
     packages it relies on
   - Operates under its own walletdb namespace
- 
+
 ## License
 
 Package wtxmgr is licensed under the [Copyfree](http://Copyfree.org) ISC

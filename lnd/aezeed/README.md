@@ -65,38 +65,38 @@ then the string “aezeed” will be used.
 To encipher a plaintext seed (19 bytes) to arrive at an enciphered
 cipher seed (33 bytes), we apply the following operations:
 
-* First we take the external version and append it to our buffer. The
-external version describes how we encipher. For the first version
-(version 0), we’ll use scrypt(n=32768, r=8, p=1) and aezeed.
-* Next, we’ll use scrypt (with the version 9 params) to generate a
-strong key for encryption. We’ll generate a 32-byte key using 5 bytes
-as a salt. The usage of the salt is meant to make the creation of
-rainbow tables infeasible.
-* Next, the enciphering process. We use aez, modern AEAD with
-nonce-misuse resistance properties. The important trait we exploit is
-that it’s an arbitrary input length block cipher. Additionally, it
-has what’s essentially a configurable MAC size. In our scheme we’ll use
-a value of 8, which acts as a 64-bit checksum. We’ll encrypt with our
-generated seed, and use an AD of (version || salt).
-* Finally, we’ll encode this 33-byte cipher text using the default
-word list of BIP 39 to produce 24 English words.
+- First we take the external version and append it to our buffer. The
+  external version describes how we encipher. For the first version
+  (version 0), we’ll use scrypt(n=32768, r=8, p=1) and aezeed.
+- Next, we’ll use scrypt (with the version 9 params) to generate a
+  strong key for encryption. We’ll generate a 32-byte key using 5 bytes
+  as a salt. The usage of the salt is meant to make the creation of
+  rainbow tables infeasible.
+- Next, the enciphering process. We use aez, modern AEAD with
+  nonce-misuse resistance properties. The important trait we exploit is
+  that it’s an arbitrary input length block cipher. Additionally, it
+  has what’s essentially a configurable MAC size. In our scheme we’ll use
+  a value of 8, which acts as a 64-bit checksum. We’ll encrypt with our
+  generated seed, and use an AD of (version || salt).
+- Finally, we’ll encode this 33-byte cipher text using the default
+  word list of BIP 39 to produce 24 English words.
 
 ## Properties of the aezeed cipher seed
 
 The aezeed cipher seed scheme has a few cool properties, notably:
 
-* The mnemonic itself is a cipher text, meaning leaving it in
-plaintext is advisable if the user also sets a passphrase. This is in
-contrast to BIP 39 where the mnemonic alone (without a passphrase) may
-be sufficient to steal funds.
-* A cipherseed can be modified to change the passphrase. This
-means that if the users wants a stronger passphrase, they can decipher
-(with the old passphrase), then encipher (with a new passphrase).
-Compared to BIP 39, where if the users used a passphrase, since the
-mapping is one way, they can’t change the passphrase of their existing
-HD key chain.
-* A cipher seed can be upgraded. Since we have an external version,
-offline tools can be provided to decipher using the old params, and
-encipher using the new params. In the future if we change ciphers,
-change scrypt, or just the parameters of scrypt, then users can easily
-upgrade their seed with an offline tool.
+- The mnemonic itself is a cipher text, meaning leaving it in
+  plaintext is advisable if the user also sets a passphrase. This is in
+  contrast to BIP 39 where the mnemonic alone (without a passphrase) may
+  be sufficient to steal funds.
+- A cipherseed can be modified to change the passphrase. This
+  means that if the users wants a stronger passphrase, they can decipher
+  (with the old passphrase), then encipher (with a new passphrase).
+  Compared to BIP 39, where if the users used a passphrase, since the
+  mapping is one way, they can’t change the passphrase of their existing
+  HD key chain.
+- A cipher seed can be upgraded. Since we have an external version,
+  offline tools can be provided to decipher using the old params, and
+  encipher using the new params. In the future if we change ciphers,
+  change scrypt, or just the parameters of scrypt, then users can easily
+  upgrade their seed with an offline tool.

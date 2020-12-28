@@ -1,8 +1,8 @@
-Makefile
-========
+# Makefile
 
 To build, verify, and install `lnd` from source, use the following
 commands:
+
 ```
 make
 make check
@@ -13,11 +13,11 @@ The command `make check` requires `bitcoind` (almost any version should do) to
 be available in the system's `$PATH` variable. Otherwise some of the tests will
 fail.
 
-Developers
-==========
+# Developers
 
 This document specifies all commands available from `lnd`'s `Makefile`.
 The commands included handle:
+
 - Installation of all go-related dependencies.
 - Compilation and installation of `lnd` and `lncli`.
 - Compilation and installation of `btcd` and `btcctl`.
@@ -25,8 +25,7 @@ The commands included handle:
 - Testing, debugging, and flake hunting.
 - Formatting and linting.
 
-Commands
-========
+# Commands
 
 - [`all`](#scratch)
 - [`btcd`](#btcd)
@@ -49,85 +48,89 @@ Commands
 - [`unit-cover`](#unit-cover)
 - [`unit-race`](#unit-race)
 
-`all`
------
-Compiles, tests, and installs `lnd` and `lncli`. Equivalent to 
+## `all`
+
+Compiles, tests, and installs `lnd` and `lncli`. Equivalent to
 [`scratch`](#scratch) [`check`](#check) [`install`](#install).
 
-`btcd`
-------
+## `btcd`
+
 Ensures that the [`github.com/btcsuite/btcd`][btcd] repository is checked out
-locally. Lastly, installs the version of 
+locally. Lastly, installs the version of
 [`github.com/btcsuite/btcd`][btcd] specified in `Gopkg.toml`
 
-`build`
--------
+## `build`
+
 Compiles the current source and vendor trees, creating `./lnd` and
 `./lncli`.
 
-`check`
--------
+## `check`
+
 Installs the version of [`github.com/btcsuite/btcd`][btcd] specified
 in `Gopkg.toml`, then runs the unit tests followed by the integration
 tests.
 
 Related: [`unit`](#unit) [`itest`](#itest)
 
-`clean`
--------
+## `clean`
+
 Removes compiled versions of both `./lnd` and `./lncli`, and removes the
 `vendor` tree.
 
-`default`
----------
+## `default`
+
 Alias for [`scratch`](#scratch).
 
-`flake-unit`
-------------
+## `flake-unit`
+
 Runs the unit test endlessly until a failure is detected.
 
 Arguments:
-- `pkg=<package>` 
+
+- `pkg=<package>`
 - `case=<testcase>`
 - `timeout=<timeout>`
 
 Related: [`unit`](#unit)
 
-`flakehunter`
--------------
+## `flakehunter`
+
 Runs the itegration test suite endlessly until a failure is detected.
 
 Arguments:
+
 - `icase=<itestcase>`
 - `timeout=<timeout>`
 
 Related: [`itest`](#itest)
 
-`fmt`
------
-Runs `go fmt` on the entire project. 
+## `fmt`
 
-`install`
----------
+Runs `go fmt` on the entire project.
+
+## `install`
+
 Copies the compiled `lnd` and `lncli` binaries into `$GOPATH/bin`.
 
-`itest`
--------
+## `itest`
+
 Installs the version of [`github.com/btcsuite/btcd`][btcd] specified in
 `Gopkg.toml`, builds the `./lnd` and `./lncli` binaries, then runs the
 integration test suite.
 
 Arguments:
+
 - `icase=<itestcase>` (the snake_case version of the testcase name field in the testCases slice (i.e. sweep_coins), not the test func name)
 - `timeout=<timeout>`
 
-`itest-parallel`
-------
+## `itest-parallel`
+
 Does the same as `itest` but splits the total set of tests into
 `NUM_ITEST_TRANCHES` tranches (currently set to 6 by default, can be overwritten
 by setting `tranches=Y`) and runs them in parallel.
 
 Arguments:
+
 - `icase=<itestcase>`: The snake_case version of the testcase name field in the
   testCases slice (i.e. `sweep_coins`, not the test func name) or any regular
   expression describing a set of tests.
@@ -137,53 +140,56 @@ Arguments:
 - `parallel=<number_of_threads>`: The number of threads to run in parallel. Must
   be greater or equal to `tranches`, otherwise undefined behavior is expected.
 
-`flakehunter-parallel`
-------
+## `flakehunter-parallel`
+
 Runs the test specified by `icase` simultaneously `parallel` (default=6) times
 until an error occurs. Useful for hunting flakes.
 
 Example:
+
 ```shell
 $ make flakehunter-parallel icase='(data_loss_protection|channel_backup)' backend=neutrino
 ```
 
-`lint`
-------
+## `lint`
+
 Ensures that [`gopkg.in/alecthomas/gometalinter.v1`][gometalinter] is
 installed, then lints the project.
 
-`list`
-------
+## `list`
+
 Lists all known make targets.
 
-`rpc`
------
+## `rpc`
+
 Compiles the `lnrpc` proto files.
 
-`scratch`
----------
+## `scratch`
+
 Compiles all dependencies and builds the `./lnd` and `./lncli` binaries.
 Equivalent to [`lint`](#lint) [`btcd`](#btcd)
 [`unit-race`](#unit-race).
 
-`unit`
-------
+## `unit`
+
 Runs the unit test suite. By default, this will run all known unit tests.
 
 Arguments:
-- `pkg=<package>` 
+
+- `pkg=<package>`
 - `case=<testcase>`
 - `timeout=<timeout>`
 - `log="stdlog[ <log-level>]"` prints logs to stdout
   - `<log-level>` can be `info` (default), `debug`, `trace`, `warn`, `error`, `critical`, or `off`
 
-`unit-cover`
-------------
+## `unit-cover`
+
 Runs the unit test suite with test coverage, compiling the statisitics in
 `profile.cov`.
 
 Arguments:
-- `pkg=<package>` 
+
+- `pkg=<package>`
 - `case=<testcase>`
 - `timeout=<timeout>`
 - `log="stdlog[ <log-level>]"` prints logs to stdout
@@ -191,12 +197,13 @@ Arguments:
 
 Related: [`unit`](#unit)
 
-`unit-race`
------------
+## `unit-race`
+
 Runs the unit test suite with go's race detector.
 
 Arguments:
-- `pkg=<package>` 
+
+- `pkg=<package>`
 - `case=<testcase>`
 - `timeout=<timeout>`
 - `log="stdlog[ <log-level>]"` prints logs to stdout
@@ -204,6 +211,6 @@ Arguments:
 
 Related: [`unit`](#unit)
 
-[btcd]: https://github.com/btcsuite/btcd (github.com/btcsuite/btcd")
-[gometalinter]: https://gopkg.in/alecthomas/gometalinter.v1 (gopkg.in/alecthomas/gometalinter.v1)
-[goveralls]: https://github.com/mattn/goveralls (github.com/mattn/goveralls)
+[btcd]: https://github.com/btcsuite/btcd 'github.com/btcsuite/btcd"'
+[gometalinter]: https://gopkg.in/alecthomas/gometalinter.v1 "gopkg.in/alecthomas/gometalinter.v1"
+[goveralls]: https://github.com/mattn/goveralls "github.com/mattn/goveralls"

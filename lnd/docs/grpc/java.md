@@ -1,4 +1,3 @@
-
 # How to write a Java gRPC client for the Lightning Network Daemon
 
 This section enumerates what you need to do to write a client that communicates
@@ -31,7 +30,7 @@ with lnd in Java. We'll be using Maven as our build tool.
 
 ```
 
-Note the ***proto*** folder, where all the proto files are kept.
+Note the **_proto_** folder, where all the proto files are kept.
 
 - [rpc.proto](https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto)
 - [annotations.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/master/third_party/googleapis/google/api/annotations.proto)
@@ -42,7 +41,7 @@ Note the ***proto*** folder, where all the proto files are kept.
 ```xml
 <properties>
     <grpc.version>1.8.0</grpc.version>
-</properties>    
+</properties>
 ```
 
 The following dependencies are required.
@@ -77,7 +76,7 @@ The following dependencies are required.
 </dependencies>
 ```
 
-In the build section,  we'll need to configure the following things :
+In the build section, we'll need to configure the following things :
 
 ```xml
 <build>
@@ -249,9 +248,9 @@ mvn compile exec:java -Dexec.mainClass="Main" -Dexec.cleanupDaemonThreads=false
 
 ### Java proto options
 
-There are 2 options available that can be used in the *rpc.proto* file :
+There are 2 options available that can be used in the _rpc.proto_ file :
 
 - option java_multiple_files = true;
 - option java_package = "network.lightning.rpc";
 
->The package you want to use for your generated Java classes. If no explicit java_package option is given in the .proto file, then by default the proto package (specified using the "package" keyword in the .proto file) will be used. However, proto packages generally do not make good Java packages since proto packages are not expected to start with reverse domain names. If not generating Java code, this option has no effect.
+> The package you want to use for your generated Java classes. If no explicit java_package option is given in the .proto file, then by default the proto package (specified using the "package" keyword in the .proto file) will be used. However, proto packages generally do not make good Java packages since proto packages are not expected to start with reverse domain names. If not generating Java code, this option has no effect.

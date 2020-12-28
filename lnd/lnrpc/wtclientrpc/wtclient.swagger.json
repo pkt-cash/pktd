@@ -4,12 +4,8 @@
     "title": "wtclientrpc/wtclient.proto",
     "version": "version not set"
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/v2/watchtower/client": {
       "get": {
@@ -39,9 +35,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "WatchtowerClient"
-        ]
+        "tags": ["WatchtowerClient"]
       },
       "post": {
         "summary": "AddTower adds a new watchtower reachable at the given address and\nconsiders it for new sessions. If the watchtower already exists, then\nany new addresses included will be considered when dialing it for\nsession negotiations and backups.",
@@ -70,9 +64,7 @@
             }
           }
         ],
-        "tags": [
-          "WatchtowerClient"
-        ]
+        "tags": ["WatchtowerClient"]
       }
     },
     "/v2/watchtower/client/info/{pubkey}": {
@@ -111,9 +103,7 @@
             "format": "boolean"
           }
         ],
-        "tags": [
-          "WatchtowerClient"
-        ]
+        "tags": ["WatchtowerClient"]
       }
     },
     "/v2/watchtower/client/policy": {
@@ -134,9 +124,7 @@
             }
           }
         },
-        "tags": [
-          "WatchtowerClient"
-        ]
+        "tags": ["WatchtowerClient"]
       }
     },
     "/v2/watchtower/client/stats": {
@@ -157,9 +145,7 @@
             }
           }
         },
-        "tags": [
-          "WatchtowerClient"
-        ]
+        "tags": ["WatchtowerClient"]
       }
     },
     "/v2/watchtower/client/{pubkey}": {
@@ -197,9 +183,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "WatchtowerClient"
-        ]
+        "tags": ["WatchtowerClient"]
       }
     }
   },

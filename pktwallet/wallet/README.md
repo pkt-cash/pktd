@@ -1,5 +1,4 @@
-wallet
-======
+# wallet
 
 ## License
 

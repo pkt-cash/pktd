@@ -6,7 +6,7 @@ binaries are now reproducible, allowing developers to build the binary on
 distinct machines, and end up with a byte-for-byte identical binary. However,
 this wasn't _fully_ solved in `go1.13`, as the build system still includes the
 directory the binary is built into the binary itself. As a result, our scripts
-utilize a work around needed until `go1.13.2`.  
+utilize a work around needed until `go1.13.2`.
 
 ## Building a New Release
 
@@ -42,12 +42,11 @@ Once done, verifiers can proceed with the following steps:
 1. Acquire the archive containing the release binaries for one's specific
    operating system and architecture, and the manifest file along with its
    signature.
-2. Verify the signature of the manifest file with `gpg --verify
-   manifest-<TAG>.txt.sig`. This will require obtaining the PGP keys which
+2. Verify the signature of the manifest file with `gpg --verify manifest-<TAG>.txt.sig`. This will require obtaining the PGP keys which
    signed the manifest file, which are included in the release notes.
 3. Recompute the `SHA256` hash of the archive with `shasum -a 256 <filename>`,
    locate the corresponding one in the manifest file, and ensure they match
-   __exactly__.
+   **exactly**.
 
 At this point, verifiers can use the release binaries acquired if they trust
 the integrity of the release manager(s). Otherwise, one can proceed with the
@@ -57,14 +56,13 @@ and `go` (matching the same version used in the release):
 4. Extract the release binaries contained within the archive, compute their
    hashes as done above, and note them down.
 5. Ensure `go` is installed, matching the same version as noted in the release
-   notes. 
-6. Obtain a copy of `lnd`'s source code with `git clone
-   https://github.com/lightningnetwork/lnd` and checkout the source code of the
+   notes.
+6. Obtain a copy of `lnd`'s source code with `git clone https://github.com/lightningnetwork/lnd` and checkout the source code of the
    release with `git checkout <TAG>`.
 7. Proceed to verify the tag with `git verify-tag <TAG>` and compile the
    binaries from source for the intended operating system and architecture with
    `make release sys=OS-ARCH tag=<TAG>`.
 8. Extract the archive found in the `lnd-<TAG>` directory created by the
    release script and recompute the `SHA256` hash of the release binaries (lnd
-   and lncli) with `shasum -a 256 <filename>`. These should match __exactly__
+   and lncli) with `shasum -a 256 <filename>`. These should match **exactly**
    as the ones noted above.

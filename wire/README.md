@@ -29,7 +29,7 @@ concern themselves with the specifics.
 
 In order to unmarshal bitcoin messages from the wire, use the `ReadMessage`
 function. It accepts any `io.Reader`, but typically this will be a `net.Conn`
-to a remote node running a bitcoin peer.  
+to a remote node running a bitcoin peer.
 
 ## Messages
 
