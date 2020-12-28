@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	goc25519sm "github.com/johnsonjh/goc25519sm"
+	goc25519sm "go.gridfinity.dev/goc25519sm"
 )
 
 func benchmarkOldScalarBaseMult(

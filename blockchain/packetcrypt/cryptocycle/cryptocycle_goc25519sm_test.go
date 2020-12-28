@@ -14,8 +14,8 @@ import (
 	"fmt"
 	"testing"
 
-	goc25519sm "github.com/johnsonjh/goc25519sm"
 	u "github.com/pkt-cash/pktd/blockchain/packetcrypt/cryptocycle/testutil"
+	goc25519sm "go.gridfinity.dev/goc25519sm"
 )
 
 const (

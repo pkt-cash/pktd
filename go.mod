@@ -43,7 +43,6 @@ require (
 	github.com/jackpal/go-nat-pmp v1.0.2
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
 	github.com/jessevdk/go-flags v1.4.1-0.20200711081900-c17162fe8fd7
-	github.com/johnsonjh/goc25519sm v1.4.5-0.20201217171032-0b745b266201
 	github.com/jonboulle/clockwork v0.2.2 // indirect
 	github.com/json-iterator/go v1.1.11-0.20201118013158-e6b9536d3649
 	github.com/kkdai/bstream v1.0.0
@@ -70,19 +69,21 @@ require (
 	gitlab.com/NebulousLabs/fastrand v0.0.0-20181126182046-603482d69e40 // indirect
 	gitlab.com/NebulousLabs/go-upnp v0.0.0-20181011194642-3a71999ed0d3 // indirect
 	go.etcd.io/bbolt v1.3.5
+	go.gridfinity.dev/goc25519sm v1.6.1-0.20201228173948-c117065107f0
+	go.gridfinity.dev/leaktestfe v0.0.0-20201225053922-7b9c85e25216 // indirect
 	go.mongodb.org/mongo-driver v1.4.4 // indirect
 	go.uber.org/goleak v1.1.11-0.20200902203756-89d54f0adef2
 	go.uber.org/multierr v1.6.1-0.20201124182017-e015acf18bb3 // indirect
 	go.uber.org/zap v1.16.1-0.20201211181745-a68efdbdd15b // indirect
 	go4.org v0.0.0-20201209231011-d4a079459e60
-	golang.org/x/crypto v0.0.0-20201217014255-9d1352758620
+	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
 	golang.org/x/net v0.0.0-20201224014010-6772e930b67b
 	golang.org/x/sync v0.0.0-20201207232520-09787c993a3a // indirect
 	golang.org/x/sys v0.0.0-20201223074533-0d417f636930
 	golang.org/x/term v0.0.0-20201210144234-2321bbc49cbf
 	golang.org/x/text v0.3.5-0.20201208001344-75a595aef632 // indirect
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324
-	golang.org/x/tools v0.0.0-20201218024724-ae774e9781d2 // indirect
+	golang.org/x/tools v0.0.0-20201228204837-84d76fe3206d // indirect
 	google.golang.org/genproto v0.0.0-20201214200347-8c77b98c765d // indirect
 	google.golang.org/grpc v1.34.0
 	google.golang.org/protobuf v1.25.0 // indirect

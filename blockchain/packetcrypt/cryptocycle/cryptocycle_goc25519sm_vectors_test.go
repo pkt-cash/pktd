@@ -11,7 +11,7 @@
 package cryptocycle_test
 
 import (
-	goc25519sm "github.com/johnsonjh/goc25519sm"
+	goc25519sm "go.gridfinity.dev/goc25519sm"
 )
 
 // testVectors from BoringSSL
