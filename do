@@ -13,6 +13,7 @@ fi
 PKTD_LDFLAGS="-X github.com/pkt-cash/pktd/pktconfig/version.appBuild=${PKTD_GIT_ID}"
 
 mkdir -p ./bin
+go get
 echo "Building pktd"
 go build -ldflags="${PKTD_LDFLAGS}" -o ./bin/pktd || die "failed to build pktd"
 echo "Building wallet"

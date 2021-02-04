@@ -11,7 +11,7 @@ import (
 	"io"
 	"sort"
 
-	"github.com/aead/siphash"
+	"github.com/dchest/siphash"
 	"github.com/kkdai/bstream"
 	"github.com/pkt-cash/pktd/btcutil/er"
 	"github.com/pkt-cash/pktd/wire"
